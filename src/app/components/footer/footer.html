@@ -1,0 +1,44 @@
+<footer class="site-footer">
+  <div class="site-footer__content">
+    <button
+      type="button"
+      class="site-footer__accessibility"
+      (click)="toggleAccessibilityStatement()"
+      [attr.aria-expanded]="accessibilityStatementOpen"
+      aria-controls="accessibility-statement"
+    >
+      <span aria-hidden="true">♿</span>
+      <span>Committed to Accessibility</span>
+    </button>
+
+    <p class="site-footer__copyright">
+      &copy; {{ currentYear }} D. James Poer. All rights reserved.
+    </p>
+  </div>
+
+  @if (accessibilityStatementOpen) {
+    <section
+      id="accessibility-statement"
+      class="site-footer__statement"
+      aria-labelledby="accessibility-statement-heading"
+    >
+      <h2 id="accessibility-statement-heading">Accessibility Statement</h2>
+
+      <p>
+        D. James Poer is committed to making djamespoer.com accessible to everyone, including people
+        with disabilities.
+      </p>
+
+      <p>
+        Accessibility is treated as a core design and development requirement rather than a
+        post-development accommodation. This site is evaluated using automated testing, manual
+        testing, keyboard navigation, and assistive-technology considerations.
+      </p>
+
+      <p>
+        Accessibility is an ongoing process. If you encounter a barrier while using this site,
+        please contact me so I can investigate and correct it.
+      </p>
+    </section>
+  }
+</footer>
