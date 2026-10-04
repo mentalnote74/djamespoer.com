@@ -1,21 +1,46 @@
 <section class="hero" aria-labelledby="hero-heading">
-  <h1 id="hero-heading">D. James Poer</h1>
-  <h2>Welcome to my personal website</h2>
-  <h3>Under Construction, so check back later</h3>
-  <h4 class="hero__updated">Last updated: {{ lastUpdated }}</h4>
-  <p>
-    <a href="mailto:djamespoer@djamespoer.com"> djamespoer@djamespoer.com </a>
-  </p>
-  <div class="hero__actions">
-    <p>
-      <a class="button button--secondary" href="mailto:djamespoer@djamespoer.com"> Contact Me </a>
-    </p>
+  <div class="hero__art" aria-hidden="true">
+    <img
+      class="hero__scene"
+      src="/images/tiny/construction-master.png"
+      alt=""
+      width="1672"
+      height="941"
+      fetchpriority="high"
+    />
+
+    <div id="hero-particles" class="hero__particles"></div>
+
+    <div class="hero__shade"></div>
   </div>
-  <div>
-    <p>
-      <a class="button button--primary" href="/assets/resume/d-james-poer-resume.pdf" download>
-        Download Résumé
-      </a>
-    </p>
+
+  <div class="hero__content">
+    <div class="visually-hidden">
+      <p>UX Engineer &bull; Front-End Architect</p>
+
+      <h1 id="hero-heading">D. James Poer</h1>
+
+      <h2>Building something better.</h2>
+
+      <p>Under construction &mdash; check back soon.</p>
+    </div>
+
+    <div class="hero__utility">
+      <p class="hero__updated">Last updated: {{ lastUpdated }}</p>
+
+      <div class="hero__actions">
+        <a class="hero__button hero__button--secondary" href="mailto:djamespoer@djamespoer.com">
+          Contact Me
+        </a>
+
+        <a
+          class="hero__button hero__button--primary"
+          href="/assets/resume/d-james-poer-resume.pdf"
+          download
+        >
+          Download Résumé
+        </a>
+      </div>
+    </div>
   </div>
 </section>

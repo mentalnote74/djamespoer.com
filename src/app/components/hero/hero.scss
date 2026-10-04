@@ -1,29 +1,231 @@
+:host {
+  display: block;
+}
+
 .hero {
-  width: min(100% - 4rem, 75rem);
-  min-height: 60vh;
-  margin-inline: auto;
-  padding-block: 4rem;
+  position: relative;
+  isolation: isolate;
+  min-height: 78svh;
+  overflow: hidden;
+  background: #06101a;
+  color: #fff;
 
-  h1 {
+  &__art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  &__scene {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /*
+   * Temporary particle window positioned over the center
+   * of the donut hole.
+   *
+   * We'll fine-tune these four dimensions visually.
+   */
+  &__particles {
+    position: absolute;
+    z-index: 3;
+
+    top: 15%;
+    left: 34%;
+    width: 32%;
+    height: 64%;
+
+    overflow: hidden;
+    pointer-events: none;
+
+    clip-path: ellipse(46% 43% at 50% 50%);
+
+    opacity: 1;
+  }
+
+  /*
+   * Very light global shade.
+   * The previous gradients were killing the sunset.
+   */
+  &__shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    background: rgba(0, 0, 0, 0.12);
+
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 4;
+
+    width: 100%;
+    min-height: 78svh;
+  }
+
+  /*
+   * Bottom-right utility area.
+   * Keeps our live controls away from the artwork's
+   * baked-in center content.
+   */
+  &__utility {
+    position: absolute;
+
+    right: clamp(1.5rem, 4vw, 4rem);
+    bottom: clamp(1.5rem, 4vw, 3rem);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+  }
+
+  &__updated {
     margin: 0;
-    font-size: clamp(2.5rem, 7vw, 5rem);
-    line-height: 1;
-  }
 
-  h2 {
-    margin-top: 1rem;
-    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-size: 0.875rem;
     font-weight: 400;
-  }
 
-  h3 {
-    margin-top: 2rem;
+    color: rgba(255, 255, 255, 0.82);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
   }
 
   &__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2rem;
+    justify-content: flex-end;
+    gap: 0.875rem;
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 3rem;
+    padding: 0.7rem 1.2rem;
+
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 0.35rem;
+
+    font-weight: 600;
+    line-height: 1;
+
+    text-decoration: none;
+
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      transform 150ms ease;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 4px;
+    }
+
+    &--primary {
+      background: rgba(255, 255, 255, 0.94);
+      color: #111;
+
+      &:hover {
+        background: #fff;
+      }
+    }
+
+    &--secondary {
+      background: rgba(0, 0, 0, 0.42);
+      color: #fff;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.6);
+      }
+    }
+  }
+}
+
+/*
+ * Semantic content remains available to screen readers,
+ * while the artwork supplies the visible construction copy.
+ */
+.visually-hidden {
+  position: absolute !important;
+
+  width: 1px !important;
+  height: 1px !important;
+
+  padding: 0 !important;
+  margin: -1px !important;
+
+  overflow: hidden !important;
+
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+
+  white-space: nowrap !important;
+
+  border: 0 !important;
+}
+
+@media (max-width: 48rem) {
+  .hero {
+    min-height: 72svh;
+
+    &__content {
+      min-height: 72svh;
+    }
+
+    /*
+     * Until the layer system becomes responsive,
+     * hide particles on narrow screens rather than
+     * letting them escape the donut hole.
+     */
+    &__particles {
+      display: none;
+    }
+
+    &__utility {
+      right: 1rem;
+      bottom: 1rem;
+      left: 1rem;
+
+      align-items: stretch;
+    }
+
+    &__updated {
+      text-align: right;
+    }
+
+    &__actions {
+      justify-content: flex-end;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    &__particles {
+      display: none;
+    }
+
+    &__button {
+      transition: none;
+
+      &:hover {
+        transform: none;
+      }
+    }
   }
 }
