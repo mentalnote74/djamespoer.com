@@ -1,0 +1,10 @@
+# D. James Poer — UX Engineer & Front-End Architect
+
+> Professional portfolio of D. James Poer, a UX Engineer and Front-End Architect specializing in accessible enterprise applications, Angular, TypeScript, UX/UI, and AI-enabled product development.
+
+This site documents James Poer's professional experience, technical work, portfolio projects, accessibility expertise, and product development work.
+
+## Site
+
+- [D. James Poer Portfolio](https://djamespoer.com/)
+- [GitHub](https://github.com/mentalnote74)
