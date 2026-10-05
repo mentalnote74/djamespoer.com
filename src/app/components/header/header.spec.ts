@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
+import { routes } from '../../app.routes';
 import { Header } from './header';
 
 describe('Header', () => {
@@ -9,7 +10,7 @@ describe('Header', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Header],
-      providers: [provideRouter([])],
+      providers: [provideRouter(routes)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Header);
@@ -60,5 +61,12 @@ describe('Header', () => {
     expect(navigation?.contains(linkedin ?? null)).toBe(false);
     expect(linkedin?.getAttribute('target')).toBe('_blank');
     expect(linkedin?.getAttribute('rel')).toBe('noopener noreferrer');
+
+    await TestBed.inject(Router).navigateByUrl('/engineering');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(home?.hasAttribute('aria-current')).toBe(false);
+    expect(navigationLinks[0]?.getAttribute('aria-current')).toBe('page');
   });
 });

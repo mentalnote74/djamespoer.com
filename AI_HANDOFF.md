@@ -14,7 +14,7 @@ The implementation sequence is:
 4. Build the homepage carousel shell.
 5. Move and integrate the existing construction hero experience into the carousel.
 
-Steps 1 and 2 are complete. The next task is step 3, `SCRUM-21` — Scaffold six proof-of-value routes. Do not begin a later step without direction from James.
+Steps 1 through 3 are complete. The next task is step 4, `SCRUM-22` — Build accessible six-slide carousel shell. Do not begin a later step without direction from James.
 
 ## Current Repository State
 
@@ -25,7 +25,8 @@ Steps 1 and 2 are complete. The next task is step 3, `SCRUM-21` — Scaffold six
 - `src/app/components/footer` is an implemented site footer containing a `<footer>` landmark, copyright text, and a button-controlled accessibility statement rendered as a labelled `<section>`. Its open state is currently a plain boolean.
 - `src/app/components/hero` is the implemented construction experience. It renders a labelled `<section>`, decorative artwork, a visually hidden `h1` and supporting copy, contact and résumé links, a generated build timestamp, and particle behavior that is skipped when reduced motion is preferred.
 - `src/app/layout/page` owns the single `<main id="main-content" tabindex="-1">` landmark and its router outlet. Routed content therefore renders between the header and footer.
-- The `/` route lazy-loads the existing `Hero`. The primary navigation points to `/engineering`, `/ux-product`, `/accessibility`, `/ai`, `/creative`, and `/impact`; those route definitions and pages intentionally remain for `SCRUM-21`.
+- The `/` route lazy-loads the existing `Hero`. `/engineering`, `/ux-product`, `/accessibility`, `/ai`, `/creative`, and `/impact` lazy-load one shared `ProofPage` shell driven by static route data. Each route supplies its approved heading, browser title, and description metadata while retaining a clear path to a dedicated component when its content later diverges.
+- `PageMetadataStrategy` extends Angular's `TitleStrategy` to apply the active route's browser title and description metadata, including restoration of Home metadata after client-side navigation.
 - The obsolete, never-imported `src/app/layout/header` and `src/app/layout/footer` placeholders have been removed. The implemented header and footer remain under `src/app/components`.
 - `src/styles.scss` is a single global baseline with box sizing, base typography and colors, inherited form fonts, link treatment, and shared focus-visible outlines. `src/app/app.scss` contains the skip-link presentation.
 - Component presentation remains colocated. `src/styles/layout` now provides a modern Sass module containing the shared `.layout-container` primitive, an `80rem` shell maximum custom property, and a fluid `1rem`–`2rem` inline-gutter custom property. Header and footer inner content use it while their landmarks remain full width; the hero remains full bleed.
@@ -53,17 +54,20 @@ Steps 1 and 2 are complete. The next task is step 3, `SCRUM-21` — Scaffold six
 - The reusable Page routed-content boundary and shared layout container are implemented. Duplicate unused layout header/footer scaffolds are removed.
 - `SCRUM-20` adds semantic primary navigation to the active Header with RouterLink/RouterLinkActive, accessible current-page state, keyboard-sized links, visible active treatment, and CSS-only responsive reflow.
 - Header tests verify the Home/current-page behavior, approved link order and paths, named navigation landmark, and LinkedIn placement outside the nav.
-- `npm test -- --watch=false` passes all 3 test files and 5 tests.
-- `npm run build` passes. The build emits the hero as a lazy chunk and stays within configured budgets.
+- `SCRUM-21` configures all six approved proof-of-value routes. Their restrained shared shell renders one route-specific `h1` and temporary copy inside the existing Page-owned main landmark and shared layout container.
+- Route tests verify every approved path and heading, one main landmark, Home Hero preservation, navigation/route alignment, active `aria-current`, and route-specific title and description metadata.
+- Cloudflare's `wrangler.jsonc` serves `dist/djamespoer/browser` with `not_found_handling` set to `single-page-application`, so direct requests and browser refreshes on the six client routes fall back to the Angular entry point.
+- `npm test -- --watch=false` passes all 3 test files and 12 tests.
+- `npm run build` passes. The build emits separate lazy chunks for the Hero and shared proof page and stays within configured budgets.
 
 ## Next Engineering Task
 
-Implement `SCRUM-21` — Scaffold six proof-of-value routes using the approved labels and paths. Preserve the application shell, navigation, single main landmark, lazy Home route, and shared layout container. Do not begin the carousel unless James expands the scope.
+Implement `SCRUM-22` — Build accessible six-slide carousel shell. Preserve the application shell, six proof-of-value routes, navigation, single main landmark, lazy Home route, and shared layout container. Do not write final POV content or fabricate career evidence.
 
 ## Open Questions / Decisions Needed
 
-No navigation decision remains unresolved. Until `SCRUM-21`, the six approved POV links intentionally target routes that are not yet configured.
+No architectural decision from `SCRUM-21` remains unresolved. The proof-page text is intentionally temporary; substantive content and career evidence remain future product work.
 
 ## Verification
 
-Latest verification for `SCRUM-20`: `npm test -- --watch=false` passed 3 test files and 5 tests; `npm run build` completed successfully with a lazy hero chunk and no budget warnings. The prebuild temporarily changed `BUILD_TIME` from `2026-10-04T22:50:56.705Z` to `2026-10-05T18:40:03.408Z`; the tracked value was restored so generated timestamp churn is not part of the implementation diff. No browser, axe, or visual audit was run.
+Latest verification for `SCRUM-21`: the targeted app/header run passed 2 test files and 11 tests; `npm test -- --watch=false` passed all 3 test files and 12 tests; `npm run build` completed successfully with lazy Hero and proof-page chunks and no budget warnings. Prettier and `git diff --check` pass. The prebuild temporarily changed `BUILD_TIME` from `2026-10-04T22:50:56.705Z` to `2026-10-05T18:55:42.117Z`; the tracked value was restored so generated timestamp churn is not part of the implementation diff. Cloudflare's configured SPA fallback provides direct-route refresh handling. No browser, axe, or visual audit was run.

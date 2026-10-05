@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.proof-page {
+  padding-block: clamp(3rem, 8vw, 7rem);
+
+  h1 {
+    max-inline-size: 20ch;
+    margin-block: 0 1rem;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.1;
+  }
+
+  p {
+    max-inline-size: 65ch;
+    margin: 0;
+  }
+}
