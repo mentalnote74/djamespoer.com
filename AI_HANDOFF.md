@@ -14,21 +14,21 @@ The implementation sequence is:
 4. Build the homepage carousel shell.
 5. Move and integrate the existing construction hero experience into the carousel.
 
-Work is currently at step 1. Do not begin a later step without direction from James.
+Step 1 is complete. The next task is step 2, primary navigation. Do not begin a later step without direction from James.
 
 ## Current Repository State
 
 - The repository contains one Angular 22 standalone application. `src/main.ts` bootstraps `App` with providers from `src/app/app.config.ts`.
 - `src/app` contains the root app files, `components/`, `layout/`, and generated build information. Component templates and SCSS are colocated with their TypeScript files.
-- The active root app imports `Header`, `Hero`, and `Footer` from `src/app/components`, plus `RouterOutlet`.
+- The root `App` is the application shell. It renders the skip link, active `Header`, `Page`, and active `Footer` in that order.
 - `src/app/components/header` is an implemented site header containing a `<header>` landmark and a LinkedIn link.
 - `src/app/components/footer` is an implemented site footer containing a `<footer>` landmark, copyright text, and a button-controlled accessibility statement rendered as a labelled `<section>`. Its open state is currently a plain boolean.
 - `src/app/components/hero` is the implemented construction experience. It renders a labelled `<section>`, decorative artwork, a visually hidden `h1` and supporting copy, contact and résumé links, a generated build timestamp, and particle behavior that is skipped when reduced motion is preferred.
-- `src/app/layout/header`, `src/app/layout/footer`, and `src/app/layout/page` also exist. They are unused placeholders with “works” templates and empty SCSS files. The layout header and footer reuse the same `app-header` and `app-footer` selectors as the implemented components.
-- `src/app/app.routes.ts` exports an empty route array. The router is configured, but no portfolio routes exist. The root template places an empty `<router-outlet>` after the footer.
-- The root template currently renders a skip link targeting `#main-content`, the active header, one `<main id="main-content" tabindex="-1">` containing the hero, the active footer, and then the router outlet.
+- `src/app/layout/page` owns the single `<main id="main-content" tabindex="-1">` landmark and its router outlet. Routed content therefore renders between the header and footer.
+- The `/` route lazy-loads the existing `Hero`. No navigation or portfolio POV routes exist yet.
+- The obsolete, never-imported `src/app/layout/header` and `src/app/layout/footer` placeholders have been removed. The implemented header and footer remain under `src/app/components`.
 - `src/styles.scss` is a single global baseline with box sizing, base typography and colors, inherited form fonts, link treatment, and shared focus-visible outlines. `src/app/app.scss` contains the skip-link presentation.
-- Component presentation is colocated in component SCSS. No shared `src/styles/` Sass module tree, `@use`/`@forward` entry point, container primitive, or shared layout token layer exists yet.
+- Component presentation remains colocated. `src/styles/layout` now provides a modern Sass module containing the shared `.layout-container` primitive, an `80rem` shell maximum custom property, and a fluid `1rem`–`2rem` inline-gutter custom property. Header and footer inner content use it while their landmarks remain full width; the hero remains full bleed.
 - The build copies `public/` as static assets. `npm run build` first regenerates `src/app/generated/build-info.ts`.
 
 ## Architecture Decisions
@@ -46,25 +46,21 @@ Work is currently at step 1. Do not begin a later step without direction from Ja
 
 ## Completed / Verified
 
-- Angular bootstrap, router provider configuration, active header/hero/footer composition, the skip-link target, and the current landmark structure are present in source.
-- Header and footer creation specs exist. The root app spec also exists, but source inspection shows its title assertion still expects generated starter content that the current template does not render.
+- Angular bootstrap, router provider configuration, the coherent application shell, skip-link target, single main landmark, and routed hero composition are present in source.
+- The root app test verifies the skip-link target, one header/main/footer, main focus target, routed hero placement inside main, and Page-before-Footer order. Header and footer creation specs remain in place.
 - The hero source includes reduced-motion handling for particles, and global styles include visible focus treatment for links and buttons.
-- The reusable layout directories have been scaffolded, but their page/container behavior is not implemented and they are not used by the root app.
-- The repository and documentation state were inspected for this handoff. No application test, build, browser, axe, or visual audit was run for the documentation-only work.
+- The reusable Page routed-content boundary and shared layout container are implemented. Duplicate unused layout header/footer scaffolds are removed.
+- `npm test -- --watch=false` passes all 3 test files and 4 tests.
+- `npm run build` passes. The build emits the hero as a lazy chunk and stays within configured budgets.
 
 ## Next Engineering Task
 
-Inspect and finish the reusable page/container and semantic landmark architecture before implementing navigation.
-
-Resolve from the repository whether the duplicate `components/` and `layout/` header/footer structures are obsolete files, transitional scaffolding, or an intentional separation. Determine which layer owns the single `<main>` landmark, skip-link focus target, routed content projection, and reusable container behavior. Do not delete or reorganize the duplicate files until that intent is established from the code and James's direction.
+Implement primary navigation within the established application shell. Preserve the single main landmark, current skip-link behavior, full-width header/footer landmarks, lazy home route, and shared layout container. Do not scaffold the six POV routes or begin the carousel unless James expands the scope.
 
 ## Open Questions / Decisions Needed
 
-- Should the active header/footer implementations move into the layout layer, should the unused layout placeholders be removed later, or are the two directories intended to serve different responsibilities?
-- Should the root app own the single `<main>` landmark while the page component provides inner page structure, or should the page component own `<main>` and the skip-link target?
-- Should the reusable container be an Angular projection component, a shared Sass/CSS primitive, or a small combination of both based on semantic and layout needs?
-- Where should the router outlet sit once page landmark ownership is established? It currently renders after the footer, although the route array is empty.
+No unresolved architectural decision currently blocks primary navigation. Navigation labels, destinations, responsive interaction, and visual treatment require James's direction if they are not supplied with that task.
 
 ## Verification
 
-Latest verification for this state is source inspection plus `git diff --check` for the documentation changes. Documentation-only changes do not require application tests unless they affect executable configuration. After implementation work, run and report the relevant unit tests and production build; do not infer runtime, accessibility, or visual results from source inspection alone.
+Latest verification: `npm test -- --watch=false` passed 3 test files and 4 tests; `npm run build` completed successfully with a lazy hero chunk. The prebuild temporarily changed `BUILD_TIME` from `2026-10-04T22:50:56.705Z` to `2026-10-05T16:52:16.669Z`; the tracked value was restored so generated timestamp churn is not part of the implementation diff. No browser, axe, or visual audit was run. Documentation-only changes do not require application tests unless they affect executable configuration.

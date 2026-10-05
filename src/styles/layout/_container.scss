@@ -1,0 +1,12 @@
+:root {
+  --layout-shell-max-inline-size: 80rem;
+  --layout-gutter-inline: clamp(1rem, 4vw, 2rem);
+}
+
+.layout-container {
+  inline-size: min(
+    calc(100% - var(--layout-gutter-inline) - var(--layout-gutter-inline)),
+    var(--layout-shell-max-inline-size)
+  );
+  margin-inline: auto;
+}
