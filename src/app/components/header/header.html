@@ -1,6 +1,81 @@
 <header class="site-header">
   <div class="site-header__content layout-container">
-    <p>
+    <a
+      class="site-header__home"
+      routerLink="/"
+      routerLinkActive="site-header__home--active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      ariaCurrentWhenActive="page"
+    >
+      D. James Poer
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      <ul class="site-header__nav-list">
+        <li>
+          <a
+            class="site-header__nav-link"
+            routerLink="/engineering"
+            routerLinkActive="site-header__nav-link--active"
+            ariaCurrentWhenActive="page"
+          >
+            Engineering
+          </a>
+        </li>
+        <li>
+          <a
+            class="site-header__nav-link"
+            routerLink="/ux-product"
+            routerLinkActive="site-header__nav-link--active"
+            ariaCurrentWhenActive="page"
+          >
+            UX &amp; Product
+          </a>
+        </li>
+        <li>
+          <a
+            class="site-header__nav-link"
+            routerLink="/accessibility"
+            routerLinkActive="site-header__nav-link--active"
+            ariaCurrentWhenActive="page"
+          >
+            Accessibility
+          </a>
+        </li>
+        <li>
+          <a
+            class="site-header__nav-link"
+            routerLink="/ai"
+            routerLinkActive="site-header__nav-link--active"
+            ariaCurrentWhenActive="page"
+          >
+            AI &amp; Innovation
+          </a>
+        </li>
+        <li>
+          <a
+            class="site-header__nav-link"
+            routerLink="/creative"
+            routerLinkActive="site-header__nav-link--active"
+            ariaCurrentWhenActive="page"
+          >
+            Creative
+          </a>
+        </li>
+        <li>
+          <a
+            class="site-header__nav-link"
+            routerLink="/impact"
+            routerLinkActive="site-header__nav-link--active"
+            ariaCurrentWhenActive="page"
+          >
+            Impact
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="site-header__utility">
       Follow Me on
       <a href="https://www.linkedin.com/in/djamespoer" target="_blank" rel="noopener noreferrer">
         LinkedIn
