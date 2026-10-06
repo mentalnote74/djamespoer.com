@@ -66,7 +66,10 @@ describe('App', () => {
     expect(compiled.querySelectorAll('footer')).toHaveLength(1);
     expect(main?.id).toBe('main-content');
     expect(main?.getAttribute('tabindex')).toBe('-1');
+    expect(main?.querySelector('app-home')).not.toBeNull();
     expect(main?.querySelector('app-hero')).not.toBeNull();
+    expect(main?.querySelector('app-carousel')).not.toBeNull();
+    expect(main?.querySelectorAll('.carousel__slide')).toHaveLength(6);
     expect(compiled.querySelector('app-page + app-footer')).not.toBeNull();
     expect(document.title).toBe('D. James Poer | UX Engineer & Front-End Architect');
   });
@@ -87,6 +90,7 @@ describe('App', () => {
 
     expect(router.url).toBe('/');
     expect(compiled.querySelector('main app-hero')).not.toBeNull();
+    expect(compiled.querySelector('main app-carousel')).not.toBeNull();
     expect(compiled.querySelector('.site-header__home')?.getAttribute('aria-current')).toBe('page');
     expect(document.title).toBe('D. James Poer | UX Engineer & Front-End Architect');
     expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toContain(

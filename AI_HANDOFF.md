@@ -14,7 +14,7 @@ The implementation sequence is:
 4. Build the homepage carousel shell.
 5. Move and integrate the existing construction hero experience into the carousel.
 
-Steps 1 through 3 are complete. The next task is step 4, `SCRUM-22` — Build accessible six-slide carousel shell. Do not begin a later step without direction from James.
+Steps 1 through 4 are complete. The next task is step 5, `SCRUM-23` — Place existing construction Hero into carousel. Do not begin a later step without direction from James.
 
 ## Current Repository State
 
@@ -25,7 +25,8 @@ Steps 1 through 3 are complete. The next task is step 4, `SCRUM-22` — Build ac
 - `src/app/components/footer` is an implemented site footer containing a `<footer>` landmark, copyright text, and a button-controlled accessibility statement rendered as a labelled `<section>`. Its open state is currently a plain boolean.
 - `src/app/components/hero` is the implemented construction experience. It renders a labelled `<section>`, decorative artwork, a visually hidden `h1` and supporting copy, contact and résumé links, a generated build timestamp, and particle behavior that is skipped when reduced motion is preferred.
 - `src/app/layout/page` owns the single `<main id="main-content" tabindex="-1">` landmark and its router outlet. Routed content therefore renders between the header and footer.
-- The `/` route lazy-loads the existing `Hero`. `/engineering`, `/ux-product`, `/accessibility`, `/ai`, `/creative`, and `/impact` lazy-load one shared `ProofPage` shell driven by static route data. Each route supplies its approved heading, browser title, and description metadata while retaining a clear path to a dedicated component when its content later diverges.
+- The `/` route lazy-loads `Home`, which currently composes the unchanged `Hero` followed by the temporary six-slide carousel shell. `/engineering`, `/ux-product`, `/accessibility`, `/ai`, `/creative`, and `/impact` lazy-load one shared `ProofPage` shell driven by static route data. Each route supplies its approved heading, browser title, and description metadata while retaining a clear path to a dedicated component when its content later diverges.
+- `Carousel` owns the active index, automatic rotation, manual controls, accessibility state, and reduced-motion response. Six projected `CarouselSlide` templates keep slide content separate from mechanics so SCRUM-23 can place the Hero into slide one without rewriting the carousel.
 - `PageMetadataStrategy` extends Angular's `TitleStrategy` to apply the active route's browser title and description metadata, including restoration of Home metadata after client-side navigation.
 - The obsolete, never-imported `src/app/layout/header` and `src/app/layout/footer` placeholders have been removed. The implemented header and footer remain under `src/app/components`.
 - `src/styles.scss` is a single global baseline with box sizing, base typography and colors, inherited form fonts, link treatment, and shared focus-visible outlines. `src/app/app.scss` contains the skip-link presentation.
@@ -56,18 +57,20 @@ Steps 1 through 3 are complete. The next task is step 4, `SCRUM-22` — Build ac
 - Header tests verify the Home/current-page behavior, approved link order and paths, named navigation landmark, and LinkedIn placement outside the nav.
 - `SCRUM-21` configures all six approved proof-of-value routes. Their restrained shared shell renders one route-specific `h1` and temporary copy inside the existing Page-owned main landmark and shared layout container.
 - Route tests verify every approved path and heading, one main landmark, Home Hero preservation, navigation/route alignment, active `aria-current`, and route-specific title and description metadata.
+- `SCRUM-22` adds the six-slide carousel shell with an approximately five-second interval, sequential wrapping, Previous/Next/direct selection, and Pause/Play. Any manual selection leaves rotation paused until explicit Play.
+- Reduced-motion preference prevents automatic rotation and disables Play while preserving Previous, Next, and direct selection. Inactive projected content uses the native `hidden` state, automatic changes use `aria-live="off"`, and manually controlled changes use polite updates without moving focus.
 - Cloudflare's `wrangler.jsonc` serves `dist/djamespoer/browser` with `not_found_handling` set to `single-page-application`, so direct requests and browser refreshes on the six client routes fall back to the Angular entry point.
-- `npm test -- --watch=false` passes all 3 test files and 12 tests.
-- `npm run build` passes. The build emits separate lazy chunks for the Hero and shared proof page and stays within configured budgets.
+- `npm test -- --watch=false` passes all 4 test files and 23 tests.
+- `npm run build` passes. The build emits separate lazy chunks for Home and the shared proof page and stays within configured budgets.
 
 ## Next Engineering Task
 
-Implement `SCRUM-22` — Build accessible six-slide carousel shell. Preserve the application shell, six proof-of-value routes, navigation, single main landmark, lazy Home route, and shared layout container. Do not write final POV content or fabricate career evidence.
+Implement `SCRUM-23` — Place existing construction Hero into carousel. Preserve the application shell, six proof-of-value routes, navigation, single main landmark, carousel accessibility behavior, and shared layout container. Do not redesign the Hero or create final content beyond the approved scope.
 
 ## Open Questions / Decisions Needed
 
-No architectural decision from `SCRUM-21` remains unresolved. The proof-page text is intentionally temporary; substantive content and career evidence remain future product work.
+No architectural or accessibility decision from `SCRUM-22` remains unresolved. The six slide labels and proof-page text are intentionally temporary; substantive content and career evidence remain future product work.
 
 ## Verification
 
-Latest verification for `SCRUM-21`: the targeted app/header run passed 2 test files and 11 tests; `npm test -- --watch=false` passed all 3 test files and 12 tests; `npm run build` completed successfully with lazy Hero and proof-page chunks and no budget warnings. Prettier and `git diff --check` pass. The prebuild temporarily changed `BUILD_TIME` from `2026-10-04T22:50:56.705Z` to `2026-10-05T18:55:42.117Z`; the tracked value was restored so generated timestamp churn is not part of the implementation diff. Cloudflare's configured SPA fallback provides direct-route refresh handling. No browser, axe, or visual audit was run.
+Latest verification for `SCRUM-22`: the focused carousel/Home run passed 2 test files and 20 tests; `npm test -- --watch=false` passed all 4 test files and 23 tests; `npm run build` completed successfully with lazy Home and proof-page chunks and no budget warnings. The local development server also compiled successfully. Prettier and `git diff --check` pass. The prebuild temporarily changed `BUILD_TIME` from `2026-10-04T22:50:56.705Z` to `2026-10-05T19:10:13.067Z`; the tracked value was restored so generated timestamp churn is not part of the implementation diff. No browser, axe, or visual audit was available in the session.

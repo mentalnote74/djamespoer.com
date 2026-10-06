@@ -1,0 +1,78 @@
+<section
+  class="carousel"
+  aria-labelledby="portfolio-carousel-heading"
+  aria-roledescription="carousel"
+>
+  <div class="carousel__content layout-container">
+    <div class="carousel__heading">
+      <h2 id="portfolio-carousel-heading">Portfolio perspectives</h2>
+      <p class="carousel__position">Slide {{ currentPosition() }} of {{ slides().length }}</p>
+    </div>
+
+    <div
+      class="carousel__viewport"
+      [attr.aria-live]="isPlaying() ? 'off' : 'polite'"
+      aria-atomic="false"
+    >
+      @for (slide of slides(); track slide; let index = $index) {
+        <section
+          class="carousel__slide"
+          role="group"
+          aria-roledescription="slide"
+          [attr.aria-label]="
+            'Slide ' + (index + 1) + ' of ' + slides().length + ': ' + slide.label()
+          "
+          [attr.aria-hidden]="index === currentIndex() ? null : 'true'"
+          [hidden]="index !== currentIndex()"
+        >
+          <ng-container [ngTemplateOutlet]="slide.template" />
+        </section>
+      }
+    </div>
+
+    <div class="carousel__controls" aria-label="Carousel controls" role="group">
+      <button type="button" aria-label="Previous slide" (click)="showPreviousSlide()">
+        Previous
+      </button>
+
+      <button
+        type="button"
+        aria-describedby="carousel-rotation-status"
+        [attr.aria-label]="
+          isPlaying() ? 'Pause automatic slide rotation' : 'Play automatic slide rotation'
+        "
+        [disabled]="prefersReducedMotion()"
+        (click)="toggleRotation()"
+      >
+        {{ isPlaying() ? 'Pause' : 'Play' }}
+      </button>
+
+      <button type="button" aria-label="Next slide" (click)="showNextSlide()">Next</button>
+    </div>
+
+    <div class="carousel__indicators" aria-label="Choose a slide" role="group">
+      @for (slide of slides(); track slide; let index = $index) {
+        <button
+          type="button"
+          [attr.aria-current]="index === currentIndex() ? 'true' : null"
+          [attr.aria-label]="'Show slide ' + (index + 1) + ': ' + slide.label()"
+          (click)="showSlide(index)"
+        >
+          {{ index + 1 }}
+        </button>
+      }
+    </div>
+
+    <p id="carousel-rotation-status" class="carousel__status">
+      @if (prefersReducedMotion()) {
+        Automatic rotation is off because reduced motion is enabled.
+      } @else if (isPlaying()) {
+        Slides advance automatically every five seconds.
+      } @else {
+        Automatic rotation is paused.
+      }
+    </p>
+  </div>
+
+  <ng-content />
+</section>
