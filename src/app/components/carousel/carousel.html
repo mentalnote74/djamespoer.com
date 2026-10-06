@@ -30,44 +30,54 @@
       }
     </div>
 
-    <div class="carousel__controls" aria-label="Carousel controls" role="group">
-      <button type="button" aria-label="Previous slide" (click)="showPreviousSlide()">
-        Previous
-      </button>
+    @if (showPreviousNext() || showPausePlay()) {
+      <div class="carousel__controls" aria-label="Carousel controls" role="group">
+        @if (showPreviousNext()) {
+          <button type="button" aria-label="Previous slide" (click)="showPreviousSlide()">
+            Previous
+          </button>
+        }
+        @if (showPausePlay()) {
+          <button
+            type="button"
+            aria-describedby="carousel-rotation-status"
+            [attr.aria-label]="
+              isPlaying() ? 'Pause automatic slide rotation' : 'Play automatic slide rotation'
+            "
+            [disabled]="prefersReducedMotion() || slides().length < 2"
+            (click)="toggleRotation()"
+          >
+            {{ isPlaying() ? 'Pause' : 'Play' }}
+          </button>
+        }
+        @if (showPreviousNext()) {
+          <button type="button" aria-label="Next slide" (click)="showNextSlide()">Next</button>
+        }
+      </div>
+    }
 
-      <button
-        type="button"
-        aria-describedby="carousel-rotation-status"
-        [attr.aria-label]="
-          isPlaying() ? 'Pause automatic slide rotation' : 'Play automatic slide rotation'
-        "
-        [disabled]="prefersReducedMotion()"
-        (click)="toggleRotation()"
-      >
-        {{ isPlaying() ? 'Pause' : 'Play' }}
-      </button>
-
-      <button type="button" aria-label="Next slide" (click)="showNextSlide()">Next</button>
-    </div>
-
-    <div class="carousel__indicators" aria-label="Choose a slide" role="group">
-      @for (slide of slides(); track slide; let index = $index) {
-        <button
-          type="button"
-          [attr.aria-current]="index === currentIndex() ? 'true' : null"
-          [attr.aria-label]="'Show slide ' + (index + 1) + ': ' + slide.label()"
-          (click)="showSlide(index)"
-        >
-          {{ index + 1 }}
-        </button>
-      }
-    </div>
+    @if (showSlideNavigation()) {
+      <div class="carousel__indicators" aria-label="Choose a slide" role="group">
+        @for (slide of slides(); track slide; let index = $index) {
+          <button
+            type="button"
+            [attr.aria-current]="index === currentIndex() ? 'true' : null"
+            [attr.aria-label]="'Show slide ' + (index + 1) + ': ' + slide.label()"
+            (click)="showSlide(index)"
+          >
+            {{ index + 1 }}
+          </button>
+        }
+      </div>
+    }
 
     <p id="carousel-rotation-status" class="carousel__status">
       @if (prefersReducedMotion()) {
         Automatic rotation is off because reduced motion is enabled.
+      } @else if (slides().length === 1) {
+        Only one slide. Automatic rotation is off.
       } @else if (isPlaying()) {
-        Slides advance automatically every five seconds.
+        Slides advance automatically every {{ rotationInterval() / 1000 }} seconds.
       } @else {
         Automatic rotation is paused.
       }

@@ -3,6 +3,8 @@ import { provideRouter, Router, TitleStrategy, withComponentInputBinding } from 
 import { App } from './app';
 import { routes } from './app.routes';
 import { PageMetadataStrategy } from './services/page-metadata-strategy';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 const proofPages = [
   { path: '/engineering', heading: 'Engineering' },
@@ -15,6 +17,20 @@ const proofPages = [
 
 describe('App', () => {
   afterEach(() => {
+    TestBed.inject(HttpTestingController)
+      .match('/data/deployment-history.json')
+      .forEach((request) => {
+        request.flush(
+          JSON.stringify({
+            schemaVersion: 4,
+            checkedAt: '2026-10-06T16:08:56.989Z',
+            generatedAt: '2026-10-06T16:08:56.989Z',
+            refreshStatus: 'ok',
+            rows: [],
+          }),
+        );
+      });
+    TestBed.inject(HttpTestingController).verify();
     vi.unstubAllGlobals();
   });
 
@@ -36,6 +52,8 @@ describe('App', () => {
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
         provideRouter(routes, withComponentInputBinding()),
         { provide: TitleStrategy, useExisting: PageMetadataStrategy },
       ],
@@ -68,7 +86,35 @@ describe('App', () => {
     expect(main?.getAttribute('tabindex')).toBe('-1');
     expect(main?.querySelector('app-home')).not.toBeNull();
     expect(main?.querySelector('app-hero')).not.toBeNull();
+    expect(main?.querySelectorAll('app-deployment-history')).toHaveLength(1);
+    expect(
+      main?.querySelector('app-home > app-hero + section.home-history + app-carousel'),
+    ).not.toBeNull();
+    expect(main?.querySelector('app-hero app-deployment-history')).toBeNull();
+    expect(main?.querySelector('.hero__updated')?.textContent).toContain('Last updated:');
+    expect(main?.querySelector('.home-history')?.getAttribute('aria-labelledby')).toBe(
+      'build-deployment-history-heading',
+    );
+    expect(main?.querySelector('#build-deployment-history-heading')?.textContent).toBe(
+      'Build & Deployment History',
+    );
+    const request = TestBed.inject(HttpTestingController).expectOne(
+      '/data/deployment-history.json',
+    );
+    request.flush(
+      JSON.stringify({
+        schemaVersion: 4,
+        checkedAt: '2026-10-06T16:08:56.989Z',
+        generatedAt: '2026-10-06T16:08:56.989Z',
+        refreshStatus: 'ok',
+        rows: [],
+      }),
+    );
+    fixture.detectChanges();
+    expect(main?.querySelector('caption')?.textContent?.trim()).toBe('Pipeline attempts');
     expect(main?.querySelector('app-carousel')).not.toBeNull();
+    expect(main?.querySelector('app-carousel .carousel__indicators')).toBeNull();
+    expect(main?.querySelectorAll('app-carousel .carousel__controls button')).toHaveLength(3);
     expect(main?.querySelectorAll('.carousel__slide')).toHaveLength(6);
     expect(compiled.querySelector('app-page + app-footer')).not.toBeNull();
     expect(document.title).toBe('D. James Poer | UX Engineer & Front-End Architect');

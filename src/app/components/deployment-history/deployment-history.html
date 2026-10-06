@@ -5,11 +5,7 @@
     </p>
   }
   <app-smart-grid
-    [caption]="
-      sampleData()
-        ? 'Sample Build & Deployment History (development data)'
-        : 'Build & Deployment History'
-    "
+    [caption]="sampleData() ? 'Sample pipeline attempts (development data)' : 'Pipeline attempts'"
     [rows]="rows()"
     [loading]="loading()"
     [error]="error()"

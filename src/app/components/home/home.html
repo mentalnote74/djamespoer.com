@@ -1,6 +1,19 @@
 <app-hero />
 
-<app-carousel>
+<section class="home-history" aria-labelledby="build-deployment-history-heading">
+  <div class="home-history__content layout-container">
+    <h2 id="build-deployment-history-heading">Build &amp; Deployment History</h2>
+    <app-deployment-history />
+  </div>
+</section>
+
+<app-carousel
+  [showPreviousNext]="true"
+  [showPausePlay]="true"
+  [showSlideNavigation]="false"
+  [autoRotate]="true"
+  [rotationInterval]="5000"
+>
   <ng-template appCarouselSlide label="Engineering">
     <h3>Engineering</h3>
   </ng-template>

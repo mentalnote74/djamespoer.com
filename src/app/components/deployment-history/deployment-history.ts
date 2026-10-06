@@ -39,8 +39,8 @@ export class DeploymentHistory {
     return null;
   });
   // Preserve the approved initial client-pagination size.
-  readonly pagination = signal<SmartGridPagination>({ mode: 'client', pageIndex: 0, pageSize: 2 });
-  readonly pageSizes: readonly number[] = [2, 5, 10];
+  readonly pagination = signal<SmartGridPagination>({ mode: 'client', pageIndex: 0, pageSize: 5 });
+  readonly pageSizes: readonly number[] = [5, 10];
   readonly rowKey = (row: BuildDeploymentHistoryRow): string => row.id;
 
   private readonly dateFormatter = new Intl.DateTimeFormat('en-US', {

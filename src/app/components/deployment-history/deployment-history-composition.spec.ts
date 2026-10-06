@@ -72,7 +72,7 @@ describe('DeploymentHistory snapshot composition', () => {
     expect(grid.loading()).toBe(true);
     expect(grid.rows()).toEqual([]);
     expect(component.freshness()).toBeNull();
-    expect(grid.caption()).toBe('Build & Deployment History');
+    expect(grid.caption()).toBe('Pipeline attempts');
     expect(root.querySelector('[role="status"]')?.textContent).toBe('Loading results.');
     expect(root.textContent).not.toMatch(/Sample:|sample-attempt|Development sample/);
     fixture.destroy();
@@ -85,7 +85,7 @@ describe('DeploymentHistory snapshot composition', () => {
     expect(grid.loading()).toBe(false);
     expect(grid.error()).toBeNull();
     expect(grid.rows()).toEqual(rows);
-    expect(root.querySelectorAll('tbody tr')).toHaveLength(2);
+    expect(root.querySelectorAll('tbody tr')).toHaveLength(3);
     expect(root.querySelector('tbody')?.textContent).toContain('Fixture change A');
     expect(root.querySelector('tbody')?.textContent).toContain('Succeeded');
     expect(root.querySelector('tbody')?.textContent).toContain('Oct 5, 2026, 10:00 AM UTC');
@@ -147,9 +147,26 @@ describe('DeploymentHistory snapshot composition', () => {
     expect(request.cancelled).toBe(true);
   });
 
+  it('shows five of nineteen attempts on the first of four pages', () => {
+    const { fixture, request, grid, root } = setup();
+    const attempts = Array.from({ length: 19 }, (_, index) => ({
+      ...rows[0]!,
+      id: 'attempt-' + index.toString(16).padStart(64, '0'),
+    }));
+    request.flush(JSON.stringify({ ...snapshot, rows: attempts }));
+    fixture.detectChanges();
+    expect(grid.rows()).toHaveLength(19);
+    expect(root.querySelectorAll('tbody tr')).toHaveLength(5);
+    expect(grid.pageCount()).toBe(4);
+    expect(root.querySelector<HTMLSelectElement>('select')!.value).toBe('5');
+  });
+
   it('keeps controlled pagination after snapshot rows arrive', () => {
     const { fixture, request, component, grid, root } = setup();
     request.flush(JSON.stringify(snapshot));
+    fixture.detectChanges();
+    expect(component.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 5 });
+    component.changePage({ pageIndex: 0, pageSize: 2 });
     fixture.detectChanges();
     root.querySelectorAll<HTMLButtonElement>('.smart-grid__pager button')[1]!.click();
     fixture.detectChanges();

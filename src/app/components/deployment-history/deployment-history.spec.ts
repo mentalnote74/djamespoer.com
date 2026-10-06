@@ -68,11 +68,11 @@ describe('DeploymentHistory consumer foundation', () => {
     expect(grid.rows()).toBe(component.rows());
     expect(grid.columns()).toBe(component.columns);
     expect(grid.rowKey()).toBe(component.rowKey);
-    expect(grid.caption()).toBe('Sample Build & Deployment History (development data)');
+    expect(grid.caption()).toBe('Sample pipeline attempts (development data)');
     expect(root.textContent).toContain('not actual pipeline attempts');
-    expect(root.querySelectorAll('tbody tr')).toHaveLength(2);
+    expect(root.querySelectorAll('tbody tr')).toHaveLength(3);
     expect(root.querySelector('tbody')?.textContent).toContain(component.rows()[0]!.summary!);
-    expect(root.querySelector('tbody')?.textContent).not.toContain(component.rows()[2]!.summary!);
+    expect(root.querySelector('tbody')?.textContent).toContain(component.rows()[2]!.summary!);
   });
 
   it('identifies attempts independently of status, revision, and row position', async () => {
@@ -111,7 +111,10 @@ describe('DeploymentHistory consumer foundation', () => {
 
   it('commits grid pagination requests through consumer state without slicing the input rows', async () => {
     const { fixture, states, component, grid, root } = await setup();
-    expect(grid.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 2 });
+    expect(grid.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 5 });
+    expect(component.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 5 });
+    component.changePage({ pageIndex: 0, pageSize: 2 });
+    fixture.detectChanges();
     root.querySelectorAll<HTMLButtonElement>('.smart-grid__pager button')[1]!.click();
     fixture.detectChanges();
     expect(component.pagination()).toEqual({ mode: 'client', pageIndex: 1, pageSize: 2 });
@@ -150,7 +153,7 @@ describe('DeploymentHistory consumer foundation', () => {
     fixture.detectChanges();
     expect(grid.error()).toBeNull();
     expect(grid.rows()).toHaveLength(3);
-    expect(root.querySelectorAll('tbody tr')).toHaveLength(2);
+    expect(root.querySelectorAll('tbody tr')).toHaveLength(3);
   });
 
   it('distinguishes empty history from malformed history', async () => {
@@ -159,7 +162,7 @@ describe('DeploymentHistory consumer foundation', () => {
     fixture.componentRef.setInput('sampleData', false);
     fixture.detectChanges();
     expect(grid.error()).toBeNull();
-    expect(grid.caption()).toBe('Build & Deployment History');
+    expect(grid.caption()).toBe('Pipeline attempts');
     expect(root.textContent).not.toContain('Development sample');
     expect(root.querySelector('[role="status"]')?.textContent).toBe(
       'No pipeline attempts to display.',

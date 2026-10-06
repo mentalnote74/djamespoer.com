@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.home-history {
+  padding-block: clamp(2rem, 5vw, 4rem);
+
+  &__content {
+    min-inline-size: 0;
+  }
+
+  h2 {
+    margin-block: 0 1.5rem;
+  }
+}

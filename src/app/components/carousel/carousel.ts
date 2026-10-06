@@ -6,13 +6,14 @@ import {
   DestroyRef,
   effect,
   inject,
+  input,
+  linkedSignal,
   signal,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { CarouselSlide } from './carousel-slide';
 
 export const CAROUSEL_INTERVAL_MS = 5_000;
-const REQUIRED_SLIDE_COUNT = 6;
 
 @Component({
   imports: [NgTemplateOutlet],
@@ -24,11 +25,30 @@ export class Carousel implements AfterContentInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  readonly showPreviousNext = input(true);
+  readonly showPausePlay = input(true);
+  readonly autoRotate = input(true);
+  /** Milliseconds; reject values that cannot safely schedule a browser timer. */
+  readonly rotationInterval = input(CAROUSEL_INTERVAL_MS, {
+    transform: (value: number) => {
+      if (!Number.isInteger(value) || value <= 0 || value > 2_147_483_647) {
+        throw new RangeError('Carousel rotationInterval must be a positive timer-safe integer.');
+      }
+      return value;
+    },
+  });
+  readonly showSlideNavigation = input(true);
   readonly slides = contentChildren(CarouselSlide);
-  readonly currentIndex = signal(0);
+  readonly currentIndex = linkedSignal<number, number>({
+    source: () => this.slides().length,
+    computation: (count, previous) => Math.max(0, Math.min(previous?.value ?? 0, count - 1)),
+  });
   readonly prefersReducedMotion = signal(this.motionPreference.matches);
-  readonly isPlaying = signal(!this.motionPreference.matches);
-  readonly currentPosition = computed(() => this.currentIndex() + 1);
+  private readonly rotationRequested = linkedSignal(() => this.autoRotate());
+  readonly isPlaying = computed(
+    () => this.rotationRequested() && !this.prefersReducedMotion() && this.slides().length > 1,
+  );
+  readonly currentPosition = computed(() => (this.slides().length ? this.currentIndex() + 1 : 0));
 
   private readonly rotationEffect = effect((onCleanup) => {
     const slideCount = this.slides().length;
@@ -37,7 +57,7 @@ export class Carousel implements AfterContentInit {
       return;
     }
 
-    const timer = window.setInterval(() => this.advance(), CAROUSEL_INTERVAL_MS);
+    const timer = window.setInterval(() => this.advance(), this.rotationInterval());
     onCleanup(() => window.clearInterval(timer));
   });
 
@@ -49,14 +69,15 @@ export class Carousel implements AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    if (this.slides().length !== REQUIRED_SLIDE_COUNT) {
-      throw new Error(`Carousel requires exactly ${REQUIRED_SLIDE_COUNT} slides.`);
+    if (this.slides().length === 0) {
+      throw new Error('Carousel requires at least one slide.');
     }
   }
 
   showPreviousSlide(): void {
     this.pause();
-    this.currentIndex.update((index) => (index - 1 + REQUIRED_SLIDE_COUNT) % REQUIRED_SLIDE_COUNT);
+    const count = this.slides().length;
+    if (count) this.currentIndex.update((index) => (index - 1 + count) % count);
   }
 
   showNextSlide(): void {
@@ -65,7 +86,7 @@ export class Carousel implements AfterContentInit {
   }
 
   showSlide(index: number): void {
-    if (index < 0 || index >= REQUIRED_SLIDE_COUNT) {
+    if (!Number.isInteger(index) || index < 0 || index >= this.slides().length) {
       return;
     }
 
@@ -79,8 +100,8 @@ export class Carousel implements AfterContentInit {
       return;
     }
 
-    if (!this.prefersReducedMotion()) {
-      this.isPlaying.set(true);
+    if (!this.prefersReducedMotion() && this.slides().length > 1) {
+      this.rotationRequested.set(true);
     }
   }
 
@@ -93,10 +114,11 @@ export class Carousel implements AfterContentInit {
   };
 
   private pause(): void {
-    this.isPlaying.set(false);
+    this.rotationRequested.set(false);
   }
 
   private advance(): void {
-    this.currentIndex.update((index) => (index + 1) % REQUIRED_SLIDE_COUNT);
+    const count = this.slides().length;
+    if (count) this.currentIndex.update((index) => (index + 1) % count);
   }
 }
