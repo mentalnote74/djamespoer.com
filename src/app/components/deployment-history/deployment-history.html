@@ -1,0 +1,23 @@
+<div class="deployment-history">
+  @if (sampleData()) {
+    <p>
+      Development sample data only. These entries are illustrative, not actual pipeline attempts.
+    </p>
+  }
+  <app-smart-grid
+    [caption]="
+      sampleData()
+        ? 'Sample Build & Deployment History (development data)'
+        : 'Build & Deployment History'
+    "
+    [rows]="rows()"
+    [loading]="loading()"
+    [error]="error()"
+    [columns]="columns"
+    [rowKey]="rowKey"
+    [pagination]="pagination()"
+    [pageSizes]="pageSizes"
+    emptyMessage="No pipeline attempts to display."
+    (pageChange)="changePage($event)"
+  />
+</div>

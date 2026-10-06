@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 4,
+  "checkedAt": "2026-10-06T16:08:56.989Z",
+  "generatedAt": "2026-10-06T16:08:56.989Z",
+  "refreshStatus": "ok",
+  "rows": [
+    {
+      "id": "attempt-86c705f6058b027bcc6610fc9b08fe1b4988253314eedd485003f56010c87e58",
+      "revision": "b4384a5",
+      "createdAt": "2026-10-06T15:27:23.915Z",
+      "environment": "production",
+      "status": "succeeded",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-e27d324f64bf9895347a228c1b54e95793898273c52f8bfc81f0f585d88f7b8b",
+      "revision": "b4384a5",
+      "createdAt": "2026-10-06T03:13:23.922Z",
+      "environment": "production",
+      "status": "failed",
+      "summary": "Build reusable accessible Smart Grid"
+    },
+    {
+      "id": "attempt-d4a7b62b4d4549a2efed4ecc9b2381b8f04cc9a768d4215aedabd89fbb405da2",
+      "revision": "a1e82e3",
+      "createdAt": "2026-10-06T02:30:19.064Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Complete proof routes and accessible carousel shell",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-2032b265e04481e2014b6e26abe638c67e48ea59433f0b1cce84bfb08a93642f",
+      "revision": "82d2777",
+      "createdAt": "2026-10-05T19:01:05.395Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "SCRUM-21 Scaffold six proof-of-value routes",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-b70ca34b6d3a03501f4e931cd33a5002333c5ec2f016aaca9cc40f4585d75487",
+      "revision": "08380b1",
+      "createdAt": "2026-10-05T18:46:44.788Z",
+      "environment": "production",
+      "status": "terminated",
+      "summary": "SCRUM-20 Build accessible primary navigation"
+    },
+    {
+      "id": "attempt-592e258df206db40e7b9a6b56ae7dd203293602b55601d2f7d3aa4a1024dc4c3",
+      "revision": "86e1775",
+      "createdAt": "2026-10-05T16:55:56.032Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Build routed page and container architecture",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-6bf7f4bc2182e347ce635f57243d258ef30d991966bacffc0863bc27b7e9ffff",
+      "revision": "49847d2",
+      "createdAt": "2026-10-05T16:41:30.331Z",
+      "environment": "production",
+      "status": "failed",
+      "summary": "Add AI engineering workflow and Sass architecture"
+    },
+    {
+      "id": "attempt-8a6a6789cd56a175e5561cacb6ea151bc4f5236e68afc6b48e4d9fb93388b010",
+      "revision": "b8e7272",
+      "createdAt": "2026-10-05T15:17:57.926Z",
+      "environment": "production",
+      "status": "failed",
+      "summary": "Exclude private career truth archive"
+    },
+    {
+      "id": "attempt-2e9df2ec7d4949a47d3f70c2c089d83d8c0d1c6fb900def3d70a0e3713c83987",
+      "revision": "529f1f4",
+      "createdAt": "2026-10-04T22:54:17.720Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Compress construction hero image",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-e97b76dbb1dfc79d4e988d6cbff6c8ba50c1b6804111fd2bfbfa94a71cd088cf",
+      "revision": "7d0ff6a",
+      "createdAt": "2026-10-04T22:36:26.751Z",
+      "environment": "production",
+      "status": "succeeded",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-094e80e5ddfdd552e9df4d3c87e5a536d3746e89cac467fbe95fc7db859b3403",
+      "revision": "7d0ff6a",
+      "createdAt": "2026-10-04T22:23:09.105Z",
+      "environment": "production",
+      "status": "failed",
+      "summary": "Optimize construction hero image"
+    },
+    {
+      "id": "attempt-8a21b4e45647180791dd7f70ad598ae6ac5eba4a399f24014061e5b7234e719a",
+      "revision": "9478254",
+      "createdAt": "2026-10-04T21:06:44.758Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Style construction hero and add particles",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-34c1b94906fb33a6d098cb1e0a4c284ce83a4ec4d963dc41822e437d3bf37ef8",
+      "revision": "b72caa3",
+      "createdAt": "2026-10-04T19:57:12.542Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Add branded favicon set",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-317cab40b9965eac0b3ea62cea0e7920ab8c2fadbd76a6fb5be9794452395142",
+      "revision": "2695184",
+      "createdAt": "2026-10-04T18:59:39.334Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Add deployment timestamp to construction page",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-1adfe0331d5c26a388f4ebe7fb943446ce69ff54397a5e3d6079462af1c7c3b8",
+      "revision": "7795cd8",
+      "createdAt": "2026-10-04T18:38:10.756Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Build accessible portfolio shell and add resume",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-ade09716a18dab656b390a4833955c6d6dbae183a1437fb215fb4ce4bb3ee330",
+      "revision": "6831ec7",
+      "createdAt": "2026-10-04T15:26:28.885Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Add llms.txt for agentic browsing",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-045edd321a865e7cbedc91836fb591911233f5d4cc56b69f8d1537787bca877e",
+      "revision": "2f74068",
+      "createdAt": "2026-10-04T15:11:16.327Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Add explicit robots meta directive",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-85f060df428eb941bc5d2382455376a63926216eec33de9957c799125a802e67",
+      "revision": "8d11430",
+      "createdAt": "2026-10-04T15:08:55.535Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Add SEO metadata and robots directives",
+      "stage": "deployed"
+    },
+    {
+      "id": "attempt-a08f63855217afa7e407074efa4efa2c20502a7504c3406e06d6eafb2fbf8f3d",
+      "createdAt": "2026-10-03T21:25:55.795Z",
+      "environment": "production",
+      "status": "succeeded",
+      "stage": "deployed"
+    }
+  ]
+}
