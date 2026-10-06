@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+.smart-grid {
+  &__viewport {
+    overflow-x: auto;
+  }
+  table {
+    inline-size: 100%;
+    border-collapse: collapse;
+  }
+  caption {
+    text-align: start;
+    font-weight: 700;
+    padding-block: 0.75rem;
+  }
+  th,
+  td {
+    text-align: start;
+    padding: 0.75rem;
+    border-block-end: 1px solid #767676;
+    overflow-wrap: anywhere;
+  }
+  &__pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  button,
+  select {
+    min-block-size: 2.75rem;
+    padding-inline: 0.75rem;
+  }
+  button[aria-disabled='true'] {
+    color: #595959;
+    cursor: default;
+  }
+  select:focus-visible,
+  &__viewport:focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 4px;
+  }
+  &__viewport:focus-visible {
+    outline-offset: -3px;
+  }
+}

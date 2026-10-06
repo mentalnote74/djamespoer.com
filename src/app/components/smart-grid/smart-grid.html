@@ -1,0 +1,86 @@
+<div class="smart-grid">
+  <div
+    #viewport
+    class="smart-grid__viewport"
+    tabindex="0"
+    role="region"
+    [attr.aria-label]="caption() + ' table scroll area'"
+    [attr.aria-busy]="loading()"
+  >
+    <table>
+      <caption>
+        {{
+          caption()
+        }}
+      </caption>
+      <thead>
+        <tr>
+          @for (column of columns(); track column.id) {
+            <th scope="col">{{ column.header }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @if (!loading() && !error()) {
+          @for (row of visibleRows(); track rowKey()(row)) {
+            <tr>
+              @for (column of columns(); track column.id) {
+                @if (column.rowHeader) {
+                  <th scope="row">
+                    <ng-container
+                      [ngTemplateOutlet]="cellContent"
+                      [ngTemplateOutletContext]="{ $implicit: row, column: column }"
+                    />
+                  </th>
+                } @else {
+                  <td>
+                    <ng-container
+                      [ngTemplateOutlet]="cellContent"
+                      [ngTemplateOutletContext]="{ $implicit: row, column: column }"
+                    />
+                  </td>
+                }
+              }
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+  <p role="status" aria-atomic="true">{{ status() }}</p>
+  <div class="smart-grid__pager" role="group" [attr.aria-label]="caption() + ' pagination'">
+    <!-- aria-disabled keeps boundary controls focusable after a page transition. -->
+    <button
+      type="button"
+      [attr.aria-disabled]="loading() || pageIndex() === 0"
+      (click)="requestPage(pageIndex() - 1)"
+    >
+      Previous
+    </button>
+    <button
+      type="button"
+      [attr.aria-disabled]="loading() || pageIndex() + 1 >= pageCount()"
+      (click)="requestPage(pageIndex() + 1)"
+    >
+      Next
+    </button>
+    <label
+      >Items per page
+      <select [value]="page().pageSize" [disabled]="loading()" (change)="changePageSize($event)">
+        @for (size of sizes(); track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </label>
+  </div>
+</div>
+<ng-template #cellContent let-row let-column="column">
+  @if (column.cell) {
+    <ng-container
+      [ngTemplateOutlet]="column.cell"
+      [ngTemplateOutletContext]="{ $implicit: row, column: column }"
+    />
+  } @else {
+    {{ column.text?.(row) ?? '' }}
+  }
+</ng-template>

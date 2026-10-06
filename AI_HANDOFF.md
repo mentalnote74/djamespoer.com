@@ -14,7 +14,7 @@ The implementation sequence is:
 4. Build the homepage carousel shell.
 5. Move and integrate the existing construction hero experience into the carousel.
 
-Steps 1 through 4 are complete. The next task is step 5, `SCRUM-23` — Place existing construction Hero into carousel. Do not begin a later step without direction from James.
+Steps 1 through 4 are complete. James explicitly reprioritized `SCRUM-39` — Build reusable accessible paginated Smart Grid — and has reviewed and approved its implementation. `SCRUM-23` remains pending and has not been cancelled. Do not begin `SCRUM-40` or deployment-history behavior.
 
 ## Current Repository State
 
@@ -65,7 +65,7 @@ Steps 1 through 4 are complete. The next task is step 5, `SCRUM-23` — Place ex
 
 ## Next Engineering Task
 
-Implement `SCRUM-23` — Place existing construction Hero into carousel. Preserve the application shell, six proof-of-value routes, navigation, single main landmark, carousel accessibility behavior, and shared layout container. Do not redesign the Hero or create final content beyond the approved scope.
+`SCRUM-39` implementation and automated verification are complete. James has reviewed and approved the implementation. No commit or push was made. `SCRUM-23` remains pending and has not been cancelled. Do not begin `SCRUM-40` or another story without direction.
 
 ## Open Questions / Decisions Needed
 
@@ -74,3 +74,13 @@ No architectural or accessibility decision from `SCRUM-22` remains unresolved. T
 ## Verification
 
 Latest verification for `SCRUM-22`: the focused carousel/Home run passed 2 test files and 20 tests; `npm test -- --watch=false` passed all 4 test files and 23 tests; `npm run build` completed successfully with lazy Home and proof-page chunks and no budget warnings. The local development server also compiled successfully. Prettier and `git diff --check` pass. The prebuild temporarily changed `BUILD_TIME` from `2026-10-04T22:50:56.705Z` to `2026-10-05T19:10:13.067Z`; the tracked value was restored so generated timestamp churn is not part of the implementation diff. No browser, axe, or visual audit was available in the session.
+
+## SCRUM-39 — Approved Implementation
+
+- Added standalone `SmartGrid<T>` under `src/app/components/smart-grid`, with colocated native-table template/SCSS, typed text or consumer-template columns, stable row identity, controlled client/external pagination, loading/error/empty messaging, and consumer documentation. No new dependencies or route integration.
+- Consumers own data acquisition, domain meaning, business rules, cell actions/presentation, and committed pagination. Grid owns generic rendering, client slicing, pager intents, native semantics, status announcements, and focus recovery. No deployment-history behavior, sorting, filtering, selection, editing, or virtualization.
+- Synthetic book and sensor-reading consumers demonstrate generic rendering and consumer actions. Nine permanent tests cover pagination boundaries, page sizes, shrinking/empty data, external pages, loading/errors, stable keys, multiple instances, validation, and removed-action focus recovery.
+- Verification: focused tests passed 9/9; full suite passed 32/32 in five files; production build passed with no budget warnings (242.21 kB initial). A temporary strict TypeScript/Angular template compilation passed; an intentional invalid cell field correctly failed with TS2339. Repository compiler settings remain unchanged.
+- Temporary axe-core 4.10.3 WCAG DOM audits passed for populated, paginated, empty, loading, and error states. Color contrast was excluded because the test environment is jsdom; no real-browser, screen-reader, visual, zoom/reflow, or contrast audit was performed. Temporary audit source/test and type-check files were removed; no packages installed or servers started.
+- Initial launcher attempts were blocked by PowerShell script policy; `.cmd` launchers resolved it. Sandboxed Angular compilation failed on workspace parent-directory access; approved execution outside the sandbox passed. One initial test assertion failed on caption whitespace and was corrected to compare trimmed text.
+- Prettier and `git diff --check` passed. Generated build timestamp was restored to its prebuild tracked value.
