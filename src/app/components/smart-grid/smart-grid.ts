@@ -14,6 +14,8 @@ import {
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { SmartGridColumn, SmartGridPage, SmartGridPagination } from './smart-grid.types';
 
+let nextGridId = 0;
+
 @Component({
   selector: 'app-smart-grid',
   imports: [NgTemplateOutlet],
@@ -22,6 +24,22 @@ import { SmartGridColumn, SmartGridPage, SmartGridPagination } from './smart-gri
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SmartGrid<T> {
+  // Internal IDs keep header references isolated across grid instances.
+  readonly headerPrefix = `smart-grid-${nextGridId++}`;
+  columnHeaderId(index: number): string {
+    return `${this.headerPrefix}-column-${index}`;
+  }
+  rowHeaderId(rowIndex: number, columnIndex: number): string {
+    return `${this.headerPrefix}-row-${rowIndex}-column-${columnIndex}`;
+  }
+  cellHeaders(rowIndex: number, columnIndex: number): string {
+    return [
+      this.columnHeaderId(columnIndex),
+      ...this.columns().flatMap((column, index) =>
+        column.rowHeader ? [this.rowHeaderId(rowIndex, index)] : [],
+      ),
+    ].join(' ');
+  }
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly document = inject(DOCUMENT);
   private readonly injector = inject(Injector);

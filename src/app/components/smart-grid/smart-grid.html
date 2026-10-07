@@ -7,7 +7,8 @@
     [attr.aria-label]="caption() + ' table scroll area'"
     [attr.aria-busy]="loading()"
   >
-    <table>
+    <!-- Reinforce only the table: narrow CSS changes its display; descendants retain native semantics. -->
+    <table role="table">
       <caption>
         {{
           caption()
@@ -15,25 +16,37 @@
       </caption>
       <thead>
         <tr>
-          @for (column of columns(); track column.id) {
-            <th scope="col">{{ column.header }}</th>
+          @for (column of columns(); track column.id; let columnIndex = $index) {
+            <th scope="col" [id]="columnHeaderId(columnIndex)">
+              {{ column.header }}
+            </th>
           }
         </tr>
       </thead>
       <tbody>
         @if (!loading() && !error()) {
-          @for (row of visibleRows(); track rowKey()(row)) {
+          @for (row of visibleRows(); track rowKey()(row); let rowIndex = $index) {
             <tr>
-              @for (column of columns(); track column.id) {
+              @for (column of columns(); track column.id; let columnIndex = $index) {
                 @if (column.rowHeader) {
-                  <th scope="row">
+                  <th
+                    scope="row"
+                    [id]="rowHeaderId(rowIndex, columnIndex)"
+                    [attr.headers]="columnHeaderId(columnIndex)"
+                  >
+                    <span class="smart-grid__cell-label" aria-hidden="true">{{
+                      column.header
+                    }}</span>
                     <ng-container
                       [ngTemplateOutlet]="cellContent"
                       [ngTemplateOutletContext]="{ $implicit: row, column: column }"
                     />
                   </th>
                 } @else {
-                  <td>
+                  <td [attr.headers]="cellHeaders(rowIndex, columnIndex)">
+                    <span class="smart-grid__cell-label" aria-hidden="true">{{
+                      column.header
+                    }}</span>
                     <ng-container
                       [ngTemplateOutlet]="cellContent"
                       [ngTemplateOutletContext]="{ $implicit: row, column: column }"

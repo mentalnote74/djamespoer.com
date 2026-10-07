@@ -115,6 +115,57 @@ describe('SmartGrid', () => {
     expect(host.page().pageIndex).toBe(0);
   });
 
+  it('associates card values with column and optional row headers without announcing visual labels twice', async () => {
+    const { root } = await setup();
+    const allIds = Array.from(root.querySelectorAll('[id]'), (element) => element.id);
+    expect(new Set(allIds).size).toBe(allIds.length);
+    for (const table of root.querySelectorAll('table')) {
+      expect(table.getAttribute('role')).toBe('table');
+      expect(
+        table.querySelector('thead[role], tbody[role], tr[role], th[role], td[role]'),
+      ).toBeNull();
+      const columns = table.querySelectorAll('thead th');
+      for (const column of columns) expect(column.getAttribute('scope')).toBe('col');
+      for (const row of table.querySelectorAll('tbody tr')) {
+        const rowHeader = row.querySelector('th[scope="row"]');
+        Array.from(row.children).forEach((cell, index) => {
+          const label = cell.querySelector('.smart-grid__cell-label');
+          expect(label?.textContent?.trim()).toBe(columns[index]!.textContent?.trim());
+          expect(label?.getAttribute('aria-hidden')).toBe('true');
+          expect(cell.closest('[aria-hidden="true"]')).toBeNull();
+          expect(cell.querySelector('button')?.closest('[aria-hidden="true"]')).toBeFalsy();
+          const headers = cell.getAttribute('headers')!.split(' ');
+          expect(headers[0]).toBe(columns[index]!.id);
+          for (const id of headers) expect(table.querySelector(`[id="${id}"]`)).not.toBeNull();
+          if (cell.tagName === 'TD') {
+            if (rowHeader) expect(headers).toContain(rowHeader.id);
+            else expect(headers).toHaveLength(1);
+          } else {
+            expect(cell.getAttribute('scope')).toBe('row');
+          }
+        });
+      }
+    }
+  });
+
+  it('keeps header references valid after pagination and retains focusable consumer actions', async () => {
+    const { fixture, grid, next, host } = await setup();
+    const columnId = grid.querySelector('thead th')!.id;
+    next.click();
+    fixture.detectChanges();
+    expect(grid.querySelector('thead th')!.id).toBe(columnId);
+    const rowHeader = grid.querySelector('tbody th')!;
+    expect(rowHeader.textContent).toContain('Third');
+    expect(grid.querySelector('tbody td')!.getAttribute('headers')!.split(' ')).toContain(
+      rowHeader.id,
+    );
+    const action = grid.querySelector<HTMLButtonElement>('tbody button')!;
+    action.focus();
+    expect(document.activeElement).toBe(action);
+    action.click();
+    expect(host.chosen()).toBe('c');
+  });
+
   it('resets the requested page when page size changes and includes the current size', async () => {
     const { fixture, grid, host, next } = await setup();
     next.click();

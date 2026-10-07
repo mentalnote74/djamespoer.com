@@ -5,6 +5,9 @@
   min-inline-size: 0;
 }
 .smart-grid {
+  &__cell-label {
+    display: none;
+  }
   &__viewport {
     overflow-x: auto;
   }
@@ -38,5 +41,56 @@
   &__viewport:focus-visible {
     outline: foundation.$focus-width solid currentColor;
     outline-offset: -3px;
+  }
+}
+
+@include foundation.at-or-below('content-stack') {
+  .smart-grid {
+    table,
+    caption,
+    tbody,
+    tbody tr,
+    tbody th,
+    tbody td {
+      display: block;
+    }
+
+    // Keep column headers in the accessibility tree; never display:none/visibility:hidden.
+    thead {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      margin-block-end: 0.75rem;
+      border: 1px solid #767676;
+      border-radius: 0.35rem;
+    }
+
+    tbody th,
+    tbody td {
+      min-inline-size: 0;
+      overflow-wrap: break-word;
+      &:last-child {
+        border-block-end: 0;
+      }
+    }
+
+    &__cell-label {
+      display: block;
+      margin-block-end: 0.25rem;
+      font-weight: foundation.$heading-weight;
+    }
+
+    &__pager label {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
   }
 }
