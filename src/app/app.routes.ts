@@ -28,22 +28,29 @@ export const routes: Routes = [
     path: 'work',
     title: 'Work | D. James Poer',
     data: {
-      heading: 'Work',
-      caseStudy: false,
       description: 'Case studies and supporting portfolio evidence.',
     },
     loadComponent: () => import('./components/work/work').then(({ Work }) => Work),
   },
-  ...[
-    ['exl', 'EXL / LifePRO'],
-    ['ips', 'IPS / PowerSchool'],
-    ['tcc', 'TCC Software Solutions'],
-    ['dr', 'D&R'],
-  ].map(([path, heading]): Route => ({
+  ...(
+    [
+      ['exl', 'EXL / LifePRO'],
+      ['ips', 'IPS / PowerSchool'],
+      ['tcc', 'TCC Software Solutions'],
+      ['dr', 'D&R'],
+    ] as const
+  ).map(([path, heading]): Route => ({
     path: `work/${path}`,
     title: `${heading} | D. James Poer`,
-    data: { heading, caseStudy: true, description: `${heading} case-study scaffold.` },
-    loadComponent: () => import('./components/work/work').then(({ Work }) => Work),
+    data: { description: `${heading} case-study scaffold.` },
+    resolve: {
+      study: () =>
+        import('./components/case-study/case-study.content').then(
+          ({ CASE_STUDIES }) => CASE_STUDIES[path],
+        ),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
   })),
   {
     path: 'about',

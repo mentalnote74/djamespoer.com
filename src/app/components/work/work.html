@@ -1,25 +1,14 @@
 <div class="work-page layout-container">
-  <h1>{{ heading() }}</h1>
-  @if (caseStudy()) {
-    <p><a routerLink="/work">All Work</a></p>
-    <p>Case-study scaffold. Supporting content and evidence have not yet been added.</p>
-    @for (section of sections; track section) {
-      <section>
-        <h2>{{ section }}</h2>
-        <p>Content pending.</p>
-      </section>
+  <h1>Work</h1>
+  <p>Case studies and supporting evidence, distinct from the Perspectives on how James works.</p>
+  <ul class="work-page__cards">
+    @for (project of projects; track project.path) {
+      <li>
+        <a [routerLink]="project.path"
+          ><h2>{{ project.name }}</h2>
+          <p>View case-study scaffold</p></a
+        >
+      </li>
     }
-  } @else {
-    <p>Case studies and supporting evidence, distinct from the Perspectives on how James works.</p>
-    <ul class="work-page__cards">
-      @for (project of projects; track project.path) {
-        <li>
-          <a [routerLink]="project.path"
-            ><h2>{{ project.name }}</h2>
-            <p>View case-study scaffold</p></a
-          >
-        </li>
-      }
-    </ul>
-  }
+  </ul>
 </div>

@@ -50,6 +50,8 @@ describe('Work routes', () => {
     const harness = await RouterTestingHarness.create(`/work/${path}`);
     const root = harness.routeNativeElement!;
     expect(root.querySelector('h1')?.textContent).toBe(heading);
+    expect(root.querySelector('article')).not.toBeNull();
+    expect(root.querySelectorAll('h1')).toHaveLength(1);
     expect(root.querySelectorAll('section h2')).toHaveLength(6);
     expect(root.textContent).toContain('Supporting content and evidence have not yet been added');
     expect(root.querySelector('[href="/work"]')).not.toBeNull();

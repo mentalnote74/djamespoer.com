@@ -1,0 +1,45 @@
+<article class="case-study layout-container">
+  <h1>{{ study().title }}</h1>
+  <p><a routerLink="/work">All Work</a></p>
+  @if (study().introduction; as introduction) {
+    <p>{{ introduction }}</p>
+  }
+  @for (section of study().sections; track $index) {
+    <section>
+      <h2>{{ section.heading }}</h2>
+      @for (paragraph of section.paragraphs ?? []; track $index) {
+        <p>{{ paragraph }}</p>
+      }
+      @if (section.items?.length) {
+        <ul>
+          @for (item of section.items; track $index) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      }
+      @for (evidence of section.evidence ?? []; track $index) {
+        @switch (evidence.kind) {
+          @case ('link') {
+            <p>
+              <a [href]="evidence.href">{{ evidence.label }}</a>
+            </p>
+          }
+          @case ('image') {
+            <figure>
+              <img
+                [src]="evidence.src"
+                [alt]="evidence.alt"
+                [attr.width]="evidence.width"
+                [attr.height]="evidence.height"
+                loading="lazy"
+              />
+              @if (evidence.caption) {
+                <figcaption>{{ evidence.caption }}</figcaption>
+              }
+            </figure>
+          }
+        }
+      }
+    </section>
+  }
+</article>

@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+.case-study {
+  padding-block: clamp(2rem, 5vw, 4rem);
+  section {
+    margin-block-start: 2rem;
+  }
+  p,
+  li,
+  figcaption {
+    max-inline-size: 65ch;
+    overflow-wrap: anywhere;
+  }
+  figure {
+    margin-inline: 0;
+  }
+  img {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+  }
+}
