@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { compileString } from 'sass';
+import { compileString, compile as compileFile } from 'sass';
 import { fileURLToPath } from 'node:url';
 
 const loadPaths = [fileURLToPath(new URL('../src/styles', import.meta.url))];
@@ -46,4 +46,22 @@ test('private policy cannot be accessed through the public module', () => {
     () => compile(`${use}.example { width: foundation.$-breakpoints; }`),
     /Private members can't be accessed/,
   );
+});
+
+test('shared native-button styles exclude disabled controls from hover and active states', () => {
+  const css = compile("@use 'base/buttons';");
+  assert.match(css, /button\{display:inline-flex/);
+  assert.match(css, /button:hover:not\(:disabled\):not\(\[aria-disabled=true\]\)/);
+  assert.match(css, /button:active:not\(:disabled\):not\(\[aria-disabled=true\]\)/);
+  assert.match(css, /button:disabled,button\[aria-disabled=true\]/);
+});
+
+test('header toggle is hidden by default and revealed only by the established navigation transition', () => {
+  const css = compileFile(
+    fileURLToPath(new URL('../src/app/components/header/header.scss', import.meta.url)),
+    { style: 'compressed' },
+  ).css;
+  assert.match(css, /\.site-header__menu\{display:none\}/);
+  assert.match(css, /@media\(max-width: 64rem\)\{\.site-header__menu\{display:inline-flex/);
+  assert.doesNotMatch(css, /\.site-header button\{/);
 });

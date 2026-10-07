@@ -68,27 +68,6 @@
     gap: 0.75rem;
   }
 
-  button {
-    min-inline-size: 2.75rem;
-    min-block-size: foundation.$control-target;
-    padding: 0.55rem 0.9rem;
-    border: 2px solid #252a30;
-    border-radius: 0.35rem;
-    background: #fff;
-    color: #202020;
-    cursor: pointer;
-
-    &:hover:not(:disabled) {
-      background: #202020;
-      color: #fff;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-  }
-
   &__indicators button[aria-current='true'] {
     border-width: 3px;
     background: #202020;

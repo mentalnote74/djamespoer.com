@@ -6,80 +6,116 @@
       routerLinkActive="site-header__home--active"
       [routerLinkActiveOptions]="{ exact: true }"
       ariaCurrentWhenActive="page"
+      >D. James Poer</a
     >
-      D. James Poer
-    </a>
-
-    <nav class="site-header__nav" aria-label="Primary">
+    <button
+      #menuButton
+      aria-label="Menu"
+      class="site-header__menu"
+      type="button"
+      [attr.aria-expanded]="mobileOpen()"
+      aria-controls="primary-navigation"
+      (click)="toggleMenu(menuButton)"
+    >
+      <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24">
+        <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2" />
+      </svg>
+    </button>
+    <nav
+      (focusout)="closeOnFocusLeave($event)"
+      id="primary-navigation"
+      class="site-header__nav"
+      [class.site-header__nav--open]="mobileOpen()"
+      aria-label="Primary"
+    >
       <ul class="site-header__nav-list">
         <li>
           <a
             class="site-header__nav-link"
-            routerLink="/engineering"
+            routerLink="/"
             routerLinkActive="site-header__nav-link--active"
+            [routerLinkActiveOptions]="{ exact: true }"
             ariaCurrentWhenActive="page"
+            >Home</a
           >
-            Engineering
-          </a>
+        </li>
+        <li class="site-header__group">
+          <button
+            #workButton
+            type="button"
+            [attr.aria-expanded]="openSection() === 'work'"
+            aria-controls="work-navigation"
+            (click)="toggleSection('work', workButton)"
+          >
+            Work
+          </button>
+          <ul id="work-navigation" class="site-header__submenu" [hidden]="openSection() !== 'work'">
+            @for (link of work; track link.path) {
+              <li>
+                <a
+                  class="site-header__nav-link"
+                  [routerLink]="link.path"
+                  routerLinkActive="site-header__nav-link--active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  ariaCurrentWhenActive="page"
+                  >{{ link.label }}</a
+                >
+              </li>
+            }
+          </ul>
+        </li>
+        <li class="site-header__group">
+          <button
+            #perspectivesButton
+            type="button"
+            [attr.aria-expanded]="openSection() === 'perspectives'"
+            aria-controls="perspectives-navigation"
+            (click)="toggleSection('perspectives', perspectivesButton)"
+          >
+            Perspectives
+          </button>
+          <ul
+            id="perspectives-navigation"
+            class="site-header__submenu"
+            [hidden]="openSection() !== 'perspectives'"
+          >
+            @for (link of perspectives; track link.path) {
+              <li>
+                <a
+                  class="site-header__nav-link"
+                  [routerLink]="link.path"
+                  routerLinkActive="site-header__nav-link--active"
+                  ariaCurrentWhenActive="page"
+                  >{{ link.label }}</a
+                >
+              </li>
+            }
+          </ul>
         </li>
         <li>
           <a
             class="site-header__nav-link"
-            routerLink="/ux-product"
+            routerLink="/about"
             routerLinkActive="site-header__nav-link--active"
             ariaCurrentWhenActive="page"
+            >About</a
           >
-            UX &amp; Product
-          </a>
         </li>
         <li>
-          <a
-            class="site-header__nav-link"
-            routerLink="/accessibility"
-            routerLinkActive="site-header__nav-link--active"
-            ariaCurrentWhenActive="page"
+          <a class="site-header__nav-link" href="/assets/resume/d-james-poer-resume.pdf" download
+            >Resume</a
           >
-            Accessibility
-          </a>
         </li>
         <li>
-          <a
-            class="site-header__nav-link"
-            routerLink="/ai"
-            routerLinkActive="site-header__nav-link--active"
-            ariaCurrentWhenActive="page"
-          >
-            AI &amp; Innovation
-          </a>
-        </li>
-        <li>
-          <a
-            class="site-header__nav-link"
-            routerLink="/creative"
-            routerLinkActive="site-header__nav-link--active"
-            ariaCurrentWhenActive="page"
-          >
-            Creative
-          </a>
-        </li>
-        <li>
-          <a
-            class="site-header__nav-link"
-            routerLink="/impact"
-            routerLinkActive="site-header__nav-link--active"
-            ariaCurrentWhenActive="page"
-          >
-            Impact
-          </a>
+          <a class="site-header__nav-link" href="mailto:djamespoer@djamespoer.com">Contact</a>
         </li>
       </ul>
     </nav>
-
     <p class="site-header__utility">
       Follow Me on
-      <a href="https://www.linkedin.com/in/djamespoer" target="_blank" rel="noopener noreferrer">
-        LinkedIn
-      </a>
+      <a href="https://www.linkedin.com/in/djamespoer" target="_blank" rel="noopener noreferrer"
+        >LinkedIn</a
+      >
     </p>
   </div>
 </header>

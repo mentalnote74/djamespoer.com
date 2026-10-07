@@ -1,16 +1,17 @@
 @use '../../../styles/abstracts' as foundation;
 
 .site-header {
-  width: 100%;
   padding-block: 1rem;
-
   &__content {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    display: flex;
     align-items: center;
-    gap: 1rem clamp(1rem, 2vw, 2rem);
+    flex-wrap: wrap;
+    gap: 1rem;
   }
-
+  &__home {
+    font-weight: 700;
+    text-decoration: none;
+  }
   &__home,
   &__nav-link,
   &__utility a {
@@ -18,89 +19,102 @@
     align-items: center;
     min-block-size: foundation.$control-target;
   }
-
-  &__home {
-    font-weight: 700;
-    white-space: nowrap;
-    text-decoration: none;
-
-    &--active {
-      text-decoration: underline;
-      text-decoration-thickness: foundation.$link-hover-thickness;
-    }
+  &__nav {
+    margin-inline: auto;
   }
-
-  &__nav-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.25rem 0.5rem;
+  &__nav-list,
+  &__submenu {
+    list-style: none;
     padding: 0;
     margin: 0;
-    list-style: none;
   }
-
+  &__nav-list {
+    display: flex;
+    gap: 0.5rem;
+  }
   &__nav-link {
     padding-inline: 0.625rem;
     border-radius: 0.25rem;
-    text-decoration: none;
-
-    &:hover,
-    &--active {
-      text-decoration: underline;
-    }
-
-    &--active {
-      text-decoration-thickness: foundation.$link-hover-thickness;
-      font-weight: 700;
-    }
   }
-
+  &__nav-link {
+    text-decoration: none;
+  }
+  &__nav-link:hover,
+  &__nav-link--active,
+  &__home--active {
+    text-decoration: underline;
+    text-decoration-thickness: foundation.$link-hover-thickness;
+  }
+  &__group > button::after {
+    content: '';
+    inline-size: 0.4rem;
+    block-size: 0.4rem;
+    margin-inline-start: 0.75rem;
+    border-inline-end: 2px solid currentColor;
+    border-block-end: 2px solid currentColor;
+    transform: rotate(45deg);
+  }
+  &__group > button[aria-expanded='true']::after {
+    transform: rotate(225deg);
+  }
+  &__menu {
+    display: none;
+  }
+  &__group {
+    position: relative;
+  }
+  &__submenu {
+    position: absolute;
+    z-index: 10;
+    inset-block-start: 100%;
+    min-inline-size: 15rem;
+    padding: 0.5rem;
+    background: #fff;
+    color: #111827;
+    border: 1px solid currentColor;
+    border-radius: 0.25rem;
+  }
+  &__submenu[hidden] {
+    display: none;
+  }
+  &__submenu a {
+    inline-size: 100%;
+  }
   &__utility {
     margin: 0;
-    white-space: nowrap;
   }
 }
 
 @include foundation.at-or-below('navigation-wrap') {
   .site-header {
-    &__content {
-      grid-template-columns: minmax(0, 1fr) auto;
+    &__menu {
+      display: inline-flex;
+      margin-inline-start: auto;
     }
-
     &__nav {
-      grid-column: 1 / -1;
-      grid-row: 2;
+      display: none;
+      inline-size: 100%;
+      order: 3;
     }
-
-    &__nav-list {
-      justify-content: flex-start;
+    &__nav--open {
+      display: block;
     }
-  }
-}
-
-@include foundation.at-or-below('content-stack') {
-  .site-header {
-    &__content {
-      grid-template-columns: 1fr;
-    }
-
-    &__nav {
-      grid-column: 1;
-      grid-row: auto;
-    }
-
     &__nav-list {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
     }
-
-    &__nav-link {
+    &__submenu {
+      position: static;
+      min-inline-size: 0;
+      margin-block-start: 0.5rem;
+    }
+    &__nav-list > li > a,
+    &__group > button {
       inline-size: 100%;
     }
-
     &__utility {
-      white-space: normal;
+      inline-size: 100%;
+      order: 4;
     }
   }
 }

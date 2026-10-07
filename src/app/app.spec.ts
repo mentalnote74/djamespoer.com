@@ -145,6 +145,29 @@ describe('App', () => {
     );
   });
 
+  it.each([
+    { path: '/work', heading: 'Work' },
+    { path: '/work/exl', heading: 'EXL / LifePRO' },
+    { path: '/work/ips', heading: 'IPS / PowerSchool' },
+    { path: '/work/tcc', heading: 'TCC Software Solutions' },
+    { path: '/work/dr', heading: 'D&R' },
+    { path: '/about', heading: 'About' },
+  ])('renders $path within the existing shell and applies metadata', async ({ path, heading }) => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    await TestBed.inject(Router).navigateByUrl(path);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelectorAll('main')).toHaveLength(1);
+    expect(root.querySelectorAll('header')).toHaveLength(1);
+    expect(root.querySelectorAll('footer')).toHaveLength(1);
+    expect(root.querySelectorAll('h1')).toHaveLength(1);
+    expect(root.querySelector('main h1')?.textContent).toBe(heading);
+    expect(root.querySelector('.skip-link')?.getAttribute('href')).toBe('#main-content');
+    expect(document.title).toBe(`${heading} | D. James Poer`);
+  });
+
   it.each(proofPages)(
     'should render $path through the shared page shell',
     async ({ path, heading }) => {
