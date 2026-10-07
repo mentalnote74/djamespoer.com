@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as foundation;
+
 .site-header {
   width: 100%;
   padding-block: 1rem;
@@ -14,7 +16,7 @@
   &__utility a {
     display: inline-flex;
     align-items: center;
-    min-block-size: 2.75rem;
+    min-block-size: foundation.$control-target;
   }
 
   &__home {
@@ -24,7 +26,7 @@
 
     &--active {
       text-decoration: underline;
-      text-decoration-thickness: 0.14em;
+      text-decoration-thickness: foundation.$link-hover-thickness;
     }
   }
 
@@ -46,10 +48,10 @@
     &:hover,
     &--active {
       text-decoration: underline;
-      text-decoration-thickness: 0.14em;
     }
 
     &--active {
+      text-decoration-thickness: foundation.$link-hover-thickness;
       font-weight: 700;
     }
   }
@@ -60,7 +62,7 @@
   }
 }
 
-@media (max-width: 64rem) {
+@include foundation.at-or-below('navigation-wrap') {
   .site-header {
     &__content {
       grid-template-columns: minmax(0, 1fr) auto;
@@ -77,7 +79,7 @@
   }
 }
 
-@media (max-width: 40rem) {
+@include foundation.at-or-below('content-stack') {
   .site-header {
     &__content {
       grid-template-columns: 1fr;

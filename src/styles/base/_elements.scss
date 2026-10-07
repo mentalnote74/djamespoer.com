@@ -1,0 +1,70 @@
+@use '../abstracts' as foundation;
+
+// Runtime-facing page colors can cascade independently of compile-time geometry.
+:root {
+  --page-background: #f7f7f7;
+  --page-foreground: #202020;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: foundation.$font-stack;
+  line-height: foundation.$body-line-height;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--page-background);
+  color: var(--page-foreground);
+}
+
+// Preserve native paragraph spacing; components override only contextual differences.
+p {
+  margin-block: 1em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: foundation.$heading-weight;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 0.08em;
+
+  &:hover {
+    text-decoration-thickness: foundation.$link-hover-thickness;
+  }
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+caption {
+  text-align: start;
+  font-weight: foundation.$heading-weight;
+}
+
+th,
+td {
+  text-align: start;
+}

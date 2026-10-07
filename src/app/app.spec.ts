@@ -86,6 +86,7 @@ describe('App', () => {
     expect(main?.getAttribute('tabindex')).toBe('-1');
     expect(main?.querySelector('app-home')).not.toBeNull();
     expect(main?.querySelector('app-hero')).not.toBeNull();
+    expect(main?.querySelector('.hero .visually-hidden')?.firstElementChild?.tagName).toBe('H1');
     expect(main?.querySelectorAll('app-deployment-history')).toHaveLength(1);
     expect(
       main?.querySelector('app-home > app-hero + section.home-history + app-carousel'),

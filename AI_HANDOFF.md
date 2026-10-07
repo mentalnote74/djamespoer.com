@@ -6,6 +6,8 @@ This is a concise, repository-local continuity document for James, ChatGPT, and 
 
 ## Current Objective
 
+Current authorized work: Sass remediation Chunk 1 is implemented and awaiting James's review. The non-emitting public Sass foundation centralizes the existing 32/40/48/64rem responsive policy, shared compile-time values, elemental cascade and protected visually-hidden utility. Hero hidden content now begins with its h1. No CLS, shell/skip-link, wrapper, Carousel architecture, Smart Grid markup, deployment-history or dependency changes were made. Do not begin another remediation chunk or commit/push without approval. Older SCRUM-40 entries below are historical and do not describe this remediation's current status.
+
 The implementation sequence is:
 
 1. Finish the reusable page/container and semantic landmark architecture.
@@ -74,6 +76,8 @@ STOP after supplying the manual command; await James's sanitized findings and ap
 No architectural or accessibility decision from `SCRUM-22` remains unresolved. The six slide labels and proof-page text are intentionally temporary; substantive content and career evidence remain future product work.
 
 ## Verification
+
+Sass remediation Chunk 1: five Sass API tests, 43 focused Angular tests (four files), and the complete 132-test Angular suite (ten files) passed. Production build passed with no budget warnings: 266.12 kB initial / 74.66 kB estimated transfer. Prettier and whitespace checks passed. Fresh production CSS was inspected: global 1,262 bytes + embedded component 8,434 bytes = 9,696 bytes versus the accepted 9,734-byte baseline. Combined gzip comparison is 2,371 versus 2,311 bytes; this is not a network-transfer measurement. Sass source is 19 files / 716 lines / 12,067 bytes versus 13 / 652 / 10,547. All four width queries and the separate reduced-motion query remain. The build regenerated only the build-info timestamp as incidental output. No browser visual verification, Lighthouse run, provider request, snapshot refresh, commit or push occurred.
 
 Latest diagnostic verification: 11 new mocked diagnostic tests and 161 total focused Node tests passed. Prettier/whitespace checks passed. No live provider request, snapshot generation, Angular test suite or production build ran. Real-account diagnostic findings are pending James's manual run.
 

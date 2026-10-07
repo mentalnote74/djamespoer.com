@@ -1,0 +1,14 @@
+// Shared compile-time decisions; importing this module emits no CSS.
+$font-stack:
+  Inter,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  sans-serif;
+$body-line-height: 1.5;
+$heading-weight: 700;
+$control-target: 2.75rem;
+$focus-width: 3px;
+$focus-offset: 4px;
+$link-hover-thickness: 0.14em;

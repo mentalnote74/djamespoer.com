@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as foundation;
+
 :host {
   display: block;
   min-inline-size: 0;
@@ -8,16 +10,12 @@
   }
   table {
     inline-size: 100%;
-    border-collapse: collapse;
   }
   caption {
-    text-align: start;
-    font-weight: 700;
     padding-block: 0.75rem;
   }
   th,
   td {
-    text-align: start;
     padding: 0.75rem;
     border-block-end: 1px solid #767676;
     overflow-wrap: anywhere;
@@ -30,19 +28,15 @@
   }
   button,
   select {
-    min-block-size: 2.75rem;
+    min-block-size: foundation.$control-target;
     padding-inline: 0.75rem;
   }
   button[aria-disabled='true'] {
     color: #595959;
     cursor: default;
   }
-  select:focus-visible,
   &__viewport:focus-visible {
-    outline: 3px solid currentColor;
-    outline-offset: 4px;
-  }
-  &__viewport:focus-visible {
+    outline: foundation.$focus-width solid currentColor;
     outline-offset: -3px;
   }
 }

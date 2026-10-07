@@ -1,0 +1,23 @@
+@use 'sass:map';
+
+// Private policy: public callers receive validated values, not a mutable map.
+$-breakpoints: (
+  'controls-grid': 32rem,
+  'content-stack': 40rem,
+  'artwork-compact': 48rem,
+  'navigation-wrap': 64rem,
+);
+
+@function breakpoint($name) {
+  @if not map.has-key($-breakpoints, $name) {
+    @error 'Unknown responsive breakpoint: #{$name}.';
+  }
+  @return map.get($-breakpoints, $name);
+}
+
+// Group a component's changes in one call per transition. No output until called.
+@mixin at-or-below($name) {
+  @media (max-width: breakpoint($name)) {
+    @content;
+  }
+}
