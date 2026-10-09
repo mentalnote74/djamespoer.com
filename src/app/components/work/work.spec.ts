@@ -44,7 +44,6 @@ describe('Work routes', () => {
     expect(root.querySelector('main')).toBeNull();
   });
   it.each([
-    ['exl', 'EXL / LifePRO'],
     ['ips', 'IPS / PowerSchool'],
     ['tcc', 'TCC Software Solutions'],
     ['dr', 'Dreyer & Reinbold'],
@@ -59,7 +58,10 @@ describe('Work routes', () => {
     expect(root.querySelector('[href="/work"]')).not.toBeNull();
   });
 
-  it.each([['djamespoer', 'djamespoer.com', 'Performance 92']])(
+  it.each([
+    ['djamespoer', 'djamespoer.com', 'Performance 92'],
+    ['exl', 'EXL / LifePRO', 'roughly 150 lines of Sass'],
+  ])(
     'renders the authored /work/%s draft as semantic, indexable text',
     async (path, heading, fact) => {
       const harness = await RouterTestingHarness.create(`/work/${path}`);

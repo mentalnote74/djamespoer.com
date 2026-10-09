@@ -1,4 +1,5 @@
 import { CaseStudy } from './case-study.model';
+import { EXL_CASE_STUDY } from './exl.content';
 import { DJAMESPOER_CASE_STUDY } from './djamespoer.content';
 
 // Public authored content only; the private archive is never a runtime source.
@@ -17,7 +18,7 @@ const scaffold = (title: string): CaseStudy => ({
 
 export const CASE_STUDIES = {
   djamespoer: DJAMESPOER_CASE_STUDY,
-  exl: scaffold('EXL / LifePRO'),
+  exl: EXL_CASE_STUDY,
   ips: scaffold('IPS / PowerSchool'),
   tcc: scaffold('TCC Software Solutions'),
   dr: scaffold('Dreyer & Reinbold'),

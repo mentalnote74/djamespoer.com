@@ -15,7 +15,11 @@ export class Work {
       description:
         'Current professional project: product ownership, UX engineering and front-end architecture.',
     },
-    { path: '/work/exl', name: 'EXL / LifePRO' },
+    {
+      path: '/work/exl',
+      name: 'EXL / LifePRO',
+      description: 'Enterprise UX, Angular modernization and accessibility.',
+    },
     { path: '/work/ips', name: 'IPS / PowerSchool' },
     { path: '/work/tcc', name: 'TCC Software Solutions' },
     { path: '/work/dr', name: 'Dreyer & Reinbold' },
