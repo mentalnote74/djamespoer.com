@@ -45,6 +45,36 @@ describe('CaseStudy presentation', () => {
     expect(root.querySelector('h1')?.textContent).toBe('Revised study');
     expect(root.querySelectorAll('h2')).toHaveLength(1);
   });
+  it('supports multiple paragraphs and native ordered/unordered lists', () => {
+    const fixture = render({
+      title: 'Synthetic study',
+      sections: [
+        {
+          heading: 'Approach',
+          paragraphs: ['First paragraph', 'Second paragraph'],
+          listType: 'ordered',
+          items: ['First step', 'Second step'],
+        },
+        { heading: 'Technologies', items: ['Synthetic tool'] },
+      ],
+    });
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelectorAll('section:first-of-type p')).toHaveLength(2);
+    expect(root.querySelectorAll('ol li')).toHaveLength(2);
+    expect(root.querySelectorAll('ul li')).toHaveLength(1);
+  });
+
+  it('rejects inaccessible evidence before rendering', () => {
+    expect(() =>
+      render({
+        title: 'Synthetic study',
+        sections: [
+          { heading: 'Evidence', evidence: [{ kind: 'link', label: ' ', href: '/example' }] },
+        ],
+      }),
+    ).toThrow(/link label/);
+  });
+
   it('renders optional public evidence with labelled links and reserved image dimensions', () => {
     const fixture = render({
       title: 'Synthetic study',

@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { validateCaseStudy } from './case-study.validation';
 import { RouterLink } from '@angular/router';
 import { CaseStudy as CaseStudyContent } from './case-study.model';
 
@@ -9,5 +10,7 @@ import { CaseStudy as CaseStudyContent } from './case-study.model';
   styleUrl: './case-study.scss',
 })
 export class CaseStudy {
-  readonly study = input.required<CaseStudyContent>();
+  readonly study = input.required<CaseStudyContent, CaseStudyContent>({
+    transform: validateCaseStudy,
+  });
 }

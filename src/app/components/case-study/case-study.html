@@ -11,11 +11,19 @@
         <p>{{ paragraph }}</p>
       }
       @if (section.items?.length) {
-        <ul>
-          @for (item of section.items; track $index) {
-            <li>{{ item }}</li>
-          }
-        </ul>
+        @if (section.listType === 'ordered') {
+          <ol>
+            @for (item of section.items; track $index) {
+              <li>{{ item }}</li>
+            }
+          </ol>
+        } @else {
+          <ul>
+            @for (item of section.items; track $index) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        }
       }
       @for (evidence of section.evidence ?? []; track $index) {
         @switch (evidence.kind) {
