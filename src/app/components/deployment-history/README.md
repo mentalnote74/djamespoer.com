@@ -1,5 +1,67 @@
 # Build & Deployment History
 
+## SCRUM-63: production refresh lifecycle
+
+The Oct. 6, 2026 checked-in snapshot was generated manually. Previously `npm run
+build` ran only the timestamp generator before Angular compilation; every later
+deployment therefore copied that same history asset. The cold Angular same-origin
+loader has no application-level persistent cache or polling. Source inspection
+establishes the missing generation step, not a browser-cache root cause.
+
+`prebuild` now runs `scripts/deployment-history/build-refresh.mjs` before timestamp
+generation and Angular compilation. In documented Cloudflare Workers Builds context
+(`WORKERS_CI=1`, `WORKERS_CI_BRANCH=main`), refreshing is mandatory. Independent
+production discovery, complete bounded acquisition, existing v4 sanitization,
+validation and atomic replacement all finish before Angular copies public assets.
+Failure stops the build; a failed refresh does not overwrite the last-known-good
+file or rewrite its timestamps. This deliberately trades deployment availability
+during provider/read failures for preventing silent stale publication. No automatic
+fallback deployment, retry, scheduling or post-deployment hook was added.
+
+Local builds and non-main preview builds explicitly reuse the existing asset and
+make no implicit Cloudflare call, even if credentials exist. Unsupported/missing
+hosted branch context fails closed. The verified empty-result policy and source
+mapping remain unchanged. The complete provider list preserves historical,
+repeated, failed and terminated attempts; matching IDs stay stable. This is not
+a new durable archive/merge policy for records a provider may later stop returning.
+
+### Build-only configuration and remaining external acceptance
+
+James must configure the production Worker's **Settings > Build > Build Variables
+and Secrets** with external `CLOUDFLARE_ACCOUNT_ID` and a secret named
+`DEPLOYMENT_HISTORY_READ_TOKEN`. Use the existing account-restricted read permissions:
+Workers Builds Configuration Read and Workers Scripts Read. Do not replace the
+Wrangler deployment token, broaden permissions, add these to Wrangler runtime
+variables, commit them, or put them in Angular. The default documented context
+variables are supplied by Cloudflare; build/deploy commands remain `npm run build`
+and `npx wrangler deploy`. No dashboard configuration was changed by the agent.
+
+The manual command remains `npm run history:refresh` (Windows: `npm.cmd run
+history:refresh`) from James's existing credential-bearing PowerShell session with
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. That explicit command uses the
+existing generator; no JSON should be hand-edited. Do not paste either value into chat.
+
+The agent's process has neither manual runtime input available. No live refresh
+was performed, and the original 19-row asset/hash remains bug evidence. A mocked
+regression proves an Oct. 6 artifact is replaced with three Oct. 7 attempts plus
+the preserved older attempt, with successful/failed/terminated/repeated semantics
+unchanged. Actual current Cloudflare rows and production acceptance remain external.
+
+### Timing limitation
+
+Generation occurs during Building, before this pipeline's final deploy outcome.
+If the provider already lists the current attempt, its observed queued/in-progress
+state is valid; final success/failure cannot be known yet. Provider visibility at
+that instant is not assumed or proven. The next successful build refresh observes
+earlier completed attempts, including failures before Building. A failed install
+cannot publish a new snapshot. This expected lag in the current attempt's final
+result does not explain repeatedly shipping the unchanged Oct. 6 file. No claim
+of immediate post-deployment freshness is made.
+
+Official references: [Workers Builds configuration and default variables](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/),
+[build-only variables/secrets](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/),
+and [read permissions for the Builds API](https://developers.cloudflare.com/workers/ci-cd/builds/api-reference/).
+
 ## Active simplified acquisition contract (schema v4)
 
 James approved Cloudflare build-attempt records as the production source. The active path is Worker/production-scope discovery -> build-history list -> public sanitizer -> atomic static snapshot -> existing same-origin Angular loader -> consumer -> Smart Grid. No activation/deployment/version/traffic correlation, log parsing or GitHub inference is required. Old research below is superseded and isolated.
