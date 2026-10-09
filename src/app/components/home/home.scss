@@ -2,6 +2,13 @@
   display: block;
 }
 
+.home-creative {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  margin-block-start: 1rem;
+}
+
 .home-history {
   padding-block: clamp(2rem, 5vw, 4rem);
 

@@ -1,0 +1,23 @@
+<div class="candidate" [attr.data-theme]="candidate().theme">
+  <div class="candidate__art" aria-hidden="true">
+    <div class="candidate__motif"></div>
+    <div class="candidate__particles" [id]="particleId"></div>
+  </div>
+  <div class="candidate__copy">
+    <h3>{{ candidate().heading }}</h3>
+    <p>{{ candidate().idea }}</p>
+    <a [routerLink]="candidate().path">Explore {{ candidate().heading }}</a>
+  </div>
+  @if (!reducedMotion()) {
+    <button
+      class="candidate__motion"
+      type="button"
+      (click)="toggleAnimation()"
+      [attr.aria-label]="
+        (paused() ? 'Play' : 'Pause') + ' ' + candidate().heading + ' particle animation'
+      "
+    >
+      {{ paused() ? 'Play animation' : 'Pause animation' }}
+    </button>
+  }
+</div>
