@@ -24,3 +24,5 @@ This is the project convention, not a claim that automated collection already ex
 ## Records
 
 - [2026-10-07: Initial-route CLS remediation](2026-10-07-initial-route-cls-remediation.md)
+
+- [2026-10-09: Accepted content and history-refresh shipment](2026-10-09-accepted-content-and-history-refresh.md) - production results recorded; two original screenshots pending receipt.

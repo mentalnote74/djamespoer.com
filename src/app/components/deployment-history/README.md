@@ -1,5 +1,24 @@
 # Build & Deployment History
 
+## Cloudflare build-failure runbook
+
+For an unexplained production infrastructure/tool-install failure without actionable
+stderr, retry the **same build exactly once** before changing source, dependencies,
+Node versions, configuration or repository state. Keep the exact SHA and build
+variables unchanged. If the identical retry fails again, **stop retrying** and
+retrieve the detailed logs to diagnose the reproducible failure.
+
+This is not a general claim that build failures are transient. Do not automatically
+retry application, compilation or test failures with a clear, actionable error.
+
+Operational evidence, 2026-10-09: SHA
+`08e134c34d51035c129e261274de4953db252f5f` initially failed during Installing with
+only `Failed: error occurred while installing tools or dependencies`. No actionable
+stderr was provided; Building and Deploying never started. James reported that one
+retry of the same build succeeded without changes to source, SHA, dependencies,
+Node configuration, build configuration or Cloudflare variables. The successful
+unchanged retry did not establish the underlying cause of the first failure.
+
 ## SCRUM-63: production refresh lifecycle
 
 The Oct. 6, 2026 checked-in snapshot was generated manually. Previously `npm run

@@ -6,6 +6,10 @@ This is a concise, repository-local continuity document for James, ChatGPT, and 
 
 ## Current Objective
 
+Production acceptance update: the initial stale-history defect is verified resolved by James's live 29-attempt grid observation. Earlier pending-live statements below are historical. SCRUM-63 Jira has not been changed in this documentation task; the next refresh's completed retry state is still to be checked.
+
+James reports production acceptance for `08e134c34d51035c129e261274de4953db252f5f` after an unchanged Cloudflare retry: Lighthouse 99/100/100/100, Agentic Browsing 3/3; axe-core 4.13.0, WCAG 2.1 AA, Best Practices ON, all reported issue counts zero. Records are in `docs/milestones/2026-10-09-accepted-content-and-history-refresh.md` and `docs/case-studies/djamespoer/evidence.md`; original screenshots await James/DTS placement. No production timing metrics are inferred. James subsequently confirmed SCRUM-63 refreshed production history: 29 attempts, Oct. 7 records restored, failed 08e134c and its successful retry preserved separately. The retry currently shows in-progress/stage unavailable because acquisition preceded completion. This documentation shipment should capture its completed state on the next refresh; that follow-up verification remains pending.
+
 Accepted-only shipment authorized: shared case-study authoring foundation, accepted djamespoer.com content/navigation, all six functional carousel slides, and SCRUM-63 refresh lifecycle. EXL authored content remains local and excluded; production retains its scaffold. James confirms Cloudflare build-only account/read-secret configuration is complete. Live refresh and deployed JSON/grid acceptance remain pending the normal main build; no local credential duplication is required.
 
 James/DTS shipping amendment: the five non-Creative slides are FUNCTIONALLY ACCEPTED FOR CURRENT SHIPMENT ? VISUAL REDESIGN DEFERRED TO PRETTY PASS. Creative V2 remains accepted. All six current Home slides ship as-is; no design, content or artwork changes are authorized by this amendment.
