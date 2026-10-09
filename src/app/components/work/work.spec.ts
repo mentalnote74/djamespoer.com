@@ -10,7 +10,7 @@ describe('Work routes', () => {
     }),
   );
   it('keeps Home, Perspectives and Work lazy', () => {
-    expect(routes.filter((route) => route.path?.startsWith('work'))).toHaveLength(5);
+    expect(routes.filter((route) => route.path?.startsWith('work'))).toHaveLength(6);
     for (const route of routes) {
       expect(route.loadComponent).toBeTypeOf('function');
       expect(route.component).toBeUndefined();
@@ -27,25 +27,27 @@ describe('Work routes', () => {
       ]),
     );
   });
-  it('renders four whole-card links and a single index heading', async () => {
+  it('places the current project above EXL with whole-card links and a single index heading', async () => {
     const harness = await RouterTestingHarness.create('/work');
     const root = harness.routeNativeElement!;
     expect(root.querySelectorAll('h1')).toHaveLength(1);
     expect(root.querySelector('h1')?.textContent).toBe('Work');
     expect(Array.from(root.querySelectorAll('li a'), (link) => link.getAttribute('href'))).toEqual([
+      '/work/djamespoer',
       '/work/exl',
       '/work/ips',
       '/work/tcc',
       '/work/dr',
     ]);
-    expect(root.querySelectorAll('li a h2')).toHaveLength(4);
+    expect(root.querySelectorAll('li a h2')).toHaveLength(5);
+    expect(root.querySelector('li a')?.textContent).toContain('Current professional project');
     expect(root.querySelector('main')).toBeNull();
   });
   it.each([
     ['exl', 'EXL / LifePRO'],
     ['ips', 'IPS / PowerSchool'],
     ['tcc', 'TCC Software Solutions'],
-    ['dr', 'D&R'],
+    ['dr', 'Dreyer & Reinbold'],
   ])('scaffolds /work/%s without career claims', async (path, heading) => {
     const harness = await RouterTestingHarness.create(`/work/${path}`);
     const root = harness.routeNativeElement!;
@@ -56,4 +58,18 @@ describe('Work routes', () => {
     expect(root.textContent).toContain('Supporting content and evidence have not yet been added');
     expect(root.querySelector('[href="/work"]')).not.toBeNull();
   });
+
+  it.each([['djamespoer', 'djamespoer.com', 'Performance 92']])(
+    'renders the authored /work/%s draft as semantic, indexable text',
+    async (path, heading, fact) => {
+      const harness = await RouterTestingHarness.create(`/work/${path}`);
+      const root = harness.routeNativeElement!;
+      expect(root.querySelectorAll('h1')).toHaveLength(1);
+      expect(root.querySelector('h1')?.textContent).toBe(heading);
+      expect(root.querySelector('article')).not.toBeNull();
+      expect(root.querySelectorAll('section h2').length).toBeGreaterThan(5);
+      expect(root.textContent).toContain(fact);
+      expect(root.textContent).not.toContain('Content pending.');
+    },
+  );
 });

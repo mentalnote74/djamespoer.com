@@ -34,15 +34,16 @@ export const routes: Routes = [
   },
   ...(
     [
+      ['djamespoer', 'djamespoer.com'],
       ['exl', 'EXL / LifePRO'],
       ['ips', 'IPS / PowerSchool'],
       ['tcc', 'TCC Software Solutions'],
-      ['dr', 'D&R'],
+      ['dr', 'Dreyer & Reinbold'],
     ] as const
   ).map(([path, heading]): Route => ({
     path: `work/${path}`,
     title: `${heading} | D. James Poer`,
-    data: { description: `${heading} case-study scaffold.` },
+    data: { description: `${heading} case study and supporting evidence.` },
     resolve: {
       study: () =>
         import('./components/case-study/case-study.content').then(

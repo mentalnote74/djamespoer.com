@@ -9,9 +9,15 @@ import { RouterLink } from '@angular/router';
 })
 export class Work {
   readonly projects = [
+    {
+      path: '/work/djamespoer',
+      name: 'djamespoer.com',
+      description:
+        'Current professional project: product ownership, UX engineering and front-end architecture.',
+    },
     { path: '/work/exl', name: 'EXL / LifePRO' },
     { path: '/work/ips', name: 'IPS / PowerSchool' },
     { path: '/work/tcc', name: 'TCC Software Solutions' },
-    { path: '/work/dr', name: 'D&R' },
+    { path: '/work/dr', name: 'Dreyer & Reinbold' },
   ];
 }

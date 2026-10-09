@@ -1,6 +1,7 @@
 import { CaseStudy } from './case-study.model';
+import { DJAMESPOER_CASE_STUDY } from './djamespoer.content';
 
-// Existing scaffold copy only. Replace with approved public content, not raw archive material.
+// Public authored content only; the private archive is never a runtime source.
 const scaffold = (title: string): CaseStudy => ({
   title,
   introduction: 'Case-study scaffold. Supporting content and evidence have not yet been added.',
@@ -15,8 +16,9 @@ const scaffold = (title: string): CaseStudy => ({
 });
 
 export const CASE_STUDIES = {
+  djamespoer: DJAMESPOER_CASE_STUDY,
   exl: scaffold('EXL / LifePRO'),
   ips: scaffold('IPS / PowerSchool'),
   tcc: scaffold('TCC Software Solutions'),
-  dr: scaffold('D&R'),
+  dr: scaffold('Dreyer & Reinbold'),
 } satisfies Record<string, CaseStudy>;

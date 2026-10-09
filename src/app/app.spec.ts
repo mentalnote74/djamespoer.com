@@ -150,7 +150,7 @@ describe('App', () => {
     { path: '/work/exl', heading: 'EXL / LifePRO' },
     { path: '/work/ips', heading: 'IPS / PowerSchool' },
     { path: '/work/tcc', heading: 'TCC Software Solutions' },
-    { path: '/work/dr', heading: 'D&R' },
+    { path: '/work/dr', heading: 'Dreyer & Reinbold' },
     { path: '/about', heading: 'About' },
   ])('renders $path within the existing shell and applies metadata', async ({ path, heading }) => {
     const fixture = TestBed.createComponent(App);

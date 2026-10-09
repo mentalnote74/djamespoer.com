@@ -4,6 +4,31 @@ import { routes } from '../../app.routes';
 import { Header } from './header';
 
 describe('Header', () => {
+  it('places the current project first among case studies and keeps its destination consistent', async () => {
+    await TestBed.inject(Router).navigateByUrl('/work/djamespoer');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const links = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>(
+        '#work-navigation a',
+      ),
+    );
+    expect(links.map((link) => link.getAttribute('href')).slice(0, 3)).toEqual([
+      '/work',
+      '/work/djamespoer',
+      '/work/exl',
+    ]);
+    expect(links[1].textContent?.trim()).toBe('djamespoer.com');
+    expect(links.map((link) => link.getAttribute('href'))).toEqual([
+      '/work',
+      '/work/djamespoer',
+      '/work/exl',
+      '/work/ips',
+      '/work/tcc',
+      '/work/dr',
+    ]);
+    expect(links[1].getAttribute('aria-current')).toBe('page');
+  });
   let component: Header;
   let fixture: ComponentFixture<Header>;
 

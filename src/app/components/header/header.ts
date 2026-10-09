@@ -22,10 +22,11 @@ export class Header {
   ];
   readonly work = [
     { path: '/work', label: 'All Work' },
+    { path: '/work/djamespoer', label: 'djamespoer.com' },
     { path: '/work/exl', label: 'EXL / LifePRO' },
     { path: '/work/ips', label: 'IPS / PowerSchool' },
     { path: '/work/tcc', label: 'TCC Software Solutions' },
-    { path: '/work/dr', label: 'D&R' },
+    { path: '/work/dr', label: 'Dreyer & Reinbold' },
   ];
   private sectionButton: HTMLButtonElement | null = null;
   private menuButton: HTMLButtonElement | null = null;
