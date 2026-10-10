@@ -43,7 +43,12 @@ export const routes: Routes = [
   ).map(([path, heading]): Route => ({
     path: `work/${path}`,
     title: `${heading} | D. James Poer`,
-    data: { description: `${heading} case study and supporting evidence.` },
+    data: {
+      description:
+        path === 'dr'
+          ? 'Dreyer & Reinbold case study: dealership digital operations, vehicle photography and month-end commission reporting within an existing intranet.'
+          : `${heading} case study and supporting evidence.`,
+    },
     resolve: {
       study: () =>
         import('./components/case-study/case-study.content').then(

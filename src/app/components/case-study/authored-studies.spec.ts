@@ -1,10 +1,21 @@
+import { DR_CASE_STUDY } from './dr.content';
 import { TCC_CASE_STUDY } from './tcc.content';
 import { EXL_CASE_STUDY } from './exl.content';
 import { DJAMESPOER_CASE_STUDY } from './djamespoer.content';
 import { validateCaseStudy } from './case-study.validation';
 
 describe('Authored case-study drafts', () => {
-  it.each([EXL_CASE_STUDY, DJAMESPOER_CASE_STUDY, TCC_CASE_STUDY])(
+  it('preserves the approved D&R roles and inherited-system boundaries', () => {
+    expect(DR_CASE_STUDY.introduction).toContain('Photographer/Web Developer');
+    expect(DR_CASE_STUDY.introduction).toContain('Digital Presence Coordinator');
+    const copy = JSON.stringify(DR_CASE_STUDY);
+    expect(copy).toContain('developed several years before I joined');
+    expect(copy).toContain('approximately 14 salespeople');
+    expect(copy).toContain('approximately 30 seconds');
+    expect(copy).toContain('functionality remains in use');
+    expect(copy).not.toMatch(/ASP\.NET|WCAG|Section 508|WYSIWYG/);
+  });
+  it.each([EXL_CASE_STUDY, DJAMESPOER_CASE_STUDY, TCC_CASE_STUDY, DR_CASE_STUDY])(
     'validates $title without empty scaffold sections',
     (study) => {
       expect(validateCaseStudy(study)).toBe(study);

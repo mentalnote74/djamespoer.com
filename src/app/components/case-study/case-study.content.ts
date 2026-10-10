@@ -1,3 +1,4 @@
+import { DR_CASE_STUDY } from './dr.content';
 import { TCC_CASE_STUDY } from './tcc.content';
 import { CaseStudy } from './case-study.model';
 import { EXL_CASE_STUDY } from './exl.content';
@@ -22,5 +23,5 @@ export const CASE_STUDIES = {
   exl: EXL_CASE_STUDY,
   ips: scaffold('IPS / PowerSchool'),
   tcc: TCC_CASE_STUDY,
-  dr: scaffold('Dreyer & Reinbold'),
+  dr: DR_CASE_STUDY,
 } satisfies Record<string, CaseStudy>;
