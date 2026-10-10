@@ -1,3 +1,4 @@
+import { IPS_CASE_STUDY } from './ips.content';
 import { DR_CASE_STUDY } from './dr.content';
 import { TCC_CASE_STUDY } from './tcc.content';
 import { EXL_CASE_STUDY } from './exl.content';
@@ -5,6 +6,16 @@ import { DJAMESPOER_CASE_STUDY } from './djamespoer.content';
 import { validateCaseStudy } from './case-study.validation';
 
 describe('Authored case-study drafts', () => {
+  it('preserves IPS state-rule and conditional-form boundaries', () => {
+    expect(IPS_CASE_STUDY.title).toBe('Indianapolis Public Schools');
+    expect(IPS_CASE_STUDY.introduction).toContain('UI Developer');
+    const copy = JSON.stringify(IPS_CASE_STUDY);
+    expect(copy).toContain('State of Indiana');
+    expect(copy).toContain('worked directly with district leadership');
+    expect(copy).toContain('affected fields could be reset');
+    expect(copy).toContain('known invalid combinations');
+    expect(copy).not.toMatch(/federal|penalties|WCAG|Section 508/);
+  });
   it('preserves the approved D&R roles and inherited-system boundaries', () => {
     expect(DR_CASE_STUDY.introduction).toContain('Photographer/Web Developer');
     expect(DR_CASE_STUDY.introduction).toContain('Digital Presence Coordinator');
@@ -15,7 +26,7 @@ describe('Authored case-study drafts', () => {
     expect(copy).toContain('functionality remains in use');
     expect(copy).not.toMatch(/ASP\.NET|WCAG|Section 508|WYSIWYG/);
   });
-  it.each([EXL_CASE_STUDY, DJAMESPOER_CASE_STUDY, TCC_CASE_STUDY, DR_CASE_STUDY])(
+  it.each([EXL_CASE_STUDY, DJAMESPOER_CASE_STUDY, TCC_CASE_STUDY, DR_CASE_STUDY, IPS_CASE_STUDY])(
     'validates $title without empty scaffold sections',
     (study) => {
       expect(validateCaseStudy(study)).toBe(study);

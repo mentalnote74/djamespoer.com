@@ -151,7 +151,7 @@ describe('App', () => {
   it.each([
     { path: '/work', heading: 'Work' },
     { path: '/work/exl', heading: 'EXL / LifePRO' },
-    { path: '/work/ips', heading: 'IPS / PowerSchool' },
+    { path: '/work/ips', heading: 'Indianapolis Public Schools' },
     { path: '/work/tcc', heading: 'TCC Software Solutions' },
     { path: '/work/dr', heading: 'Dreyer & Reinbold' },
     { path: '/about', heading: 'About' },

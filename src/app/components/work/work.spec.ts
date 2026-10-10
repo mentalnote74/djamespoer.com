@@ -43,25 +43,12 @@ describe('Work routes', () => {
     expect(root.querySelector('li a')?.textContent).toContain('Current professional project');
     expect(root.querySelector('main')).toBeNull();
   });
-  it.each([['ips', 'IPS / PowerSchool']])(
-    'scaffolds /work/%s without career claims',
-    async (path, heading) => {
-      const harness = await RouterTestingHarness.create(`/work/${path}`);
-      const root = harness.routeNativeElement!;
-      expect(root.querySelector('h1')?.textContent).toBe(heading);
-      expect(root.querySelector('article')).not.toBeNull();
-      expect(root.querySelectorAll('h1')).toHaveLength(1);
-      expect(root.querySelectorAll('section h2')).toHaveLength(6);
-      expect(root.textContent).toContain('Supporting content and evidence have not yet been added');
-      expect(root.querySelector('[href="/work"]')).not.toBeNull();
-    },
-  );
-
   it.each([
     ['djamespoer', 'djamespoer.com', 'Performance 92'],
     ['exl', 'EXL / LifePRO', 'roughly 150 lines of Sass'],
     ['tcc', 'TCC Software Solutions', 'During my final week at TCC'],
     ['dr', 'Dreyer & Reinbold', 'approximately 30 seconds'],
+    ['ips', 'Indianapolis Public Schools', 'State of Indiana'],
   ])(
     'renders the authored /work/%s draft as semantic, indexable text',
     async (path, heading, fact) => {

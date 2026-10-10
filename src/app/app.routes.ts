@@ -46,7 +46,7 @@ export const routes: Routes = [
     [
       ['djamespoer', 'djamespoer.com'],
       ['exl', 'EXL / LifePRO'],
-      ['ips', 'IPS / PowerSchool'],
+      ['ips', 'Indianapolis Public Schools'],
       ['tcc', 'TCC Software Solutions'],
       ['dr', 'Dreyer & Reinbold'],
     ] as const
@@ -57,7 +57,9 @@ export const routes: Routes = [
       description:
         path === 'dr'
           ? 'Dreyer & Reinbold case study: dealership digital operations, vehicle photography and month-end commission reporting within an existing intranet.'
-          : `${heading} case study and supporting evidence.`,
+          : path === 'ips'
+            ? 'Indianapolis Public Schools case study: dynamic PowerSchool forms, conditional validation and state reporting requirements.'
+            : `${heading} case study and supporting evidence.`,
     },
     resolve: {
       study: () =>
