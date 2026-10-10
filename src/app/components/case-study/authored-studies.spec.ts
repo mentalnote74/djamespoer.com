@@ -1,9 +1,10 @@
+import { TCC_CASE_STUDY } from './tcc.content';
 import { EXL_CASE_STUDY } from './exl.content';
 import { DJAMESPOER_CASE_STUDY } from './djamespoer.content';
 import { validateCaseStudy } from './case-study.validation';
 
 describe('Authored case-study drafts', () => {
-  it.each([EXL_CASE_STUDY, DJAMESPOER_CASE_STUDY])(
+  it.each([EXL_CASE_STUDY, DJAMESPOER_CASE_STUDY, TCC_CASE_STUDY])(
     'validates $title without empty scaffold sections',
     (study) => {
       expect(validateCaseStudy(study)).toBe(study);

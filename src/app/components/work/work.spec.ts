@@ -45,7 +45,6 @@ describe('Work routes', () => {
   });
   it.each([
     ['ips', 'IPS / PowerSchool'],
-    ['tcc', 'TCC Software Solutions'],
     ['dr', 'Dreyer & Reinbold'],
   ])('scaffolds /work/%s without career claims', async (path, heading) => {
     const harness = await RouterTestingHarness.create(`/work/${path}`);
@@ -61,6 +60,7 @@ describe('Work routes', () => {
   it.each([
     ['djamespoer', 'djamespoer.com', 'Performance 92'],
     ['exl', 'EXL / LifePRO', 'roughly 150 lines of Sass'],
+    ['tcc', 'TCC Software Solutions', 'During my final week at TCC'],
   ])(
     'renders the authored /work/%s draft as semantic, indexable text',
     async (path, heading, fact) => {

@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { CaseStudy } from './case-study';
 import { CaseStudy as Content } from './case-study.model';
+import { TCC_CASE_STUDY } from './tcc.content';
 
 describe('CaseStudy presentation', () => {
   beforeEach(() =>
@@ -13,6 +14,18 @@ describe('CaseStudy presentation', () => {
     fixture.detectChanges();
     return fixture;
   };
+  it('renders approved TCC content with native headings and lists without extra landmarks', () => {
+    const fixture = render(TCC_CASE_STUDY);
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('h1')?.textContent).toBe('TCC Software Solutions');
+    expect(root.querySelectorAll('h1')).toHaveLength(1);
+    expect(root.querySelectorAll('h2')).toHaveLength(TCC_CASE_STUDY.sections.length);
+    expect(root.querySelectorAll('main, [id]')).toHaveLength(0);
+    expect(root.querySelectorAll('ul li')).toHaveLength(17);
+    expect(root.textContent).toContain('During my final week at TCC');
+    expect(root.textContent).toContain('Angular 8');
+    expect(root.textContent).not.toContain('Content pending');
+  });
   it('omits unsupported sections and introduction instead of imposing a narrative', () => {
     const fixture = render({ title: 'Synthetic study', sections: [] });
     const root = fixture.nativeElement as HTMLElement;
