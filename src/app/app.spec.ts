@@ -119,6 +119,9 @@ describe('App', () => {
     expect(main?.querySelectorAll('.carousel__slide')).toHaveLength(6);
     expect(compiled.querySelector('app-page + app-footer')).not.toBeNull();
     expect(document.title).toBe('D. James Poer | UX Engineer & Front-End Architect');
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+      'https://djamespoer.com/',
+    );
   });
 
   it('should return to the Hero and Home metadata from the site-name link', async () => {
@@ -166,6 +169,27 @@ describe('App', () => {
     expect(root.querySelector('main h1')?.textContent).toBe(heading);
     expect(root.querySelector('.skip-link')?.getAttribute('href')).toBe('#main-content');
     expect(document.title).toBe(`${heading} | D. James Poer`);
+    expect(document.querySelectorAll('link[rel="canonical"]')).toHaveLength(1);
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+      `https://djamespoer.com${path}`,
+    );
+  });
+
+  it('canonicalizes route content without tracking parameters or fragments across navigation', async () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    const router = TestBed.inject(Router);
+    await router.navigateByUrl('/work/tcc?utm_source=test#impact');
+    await fixture.whenStable();
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+      'https://djamespoer.com/work/tcc',
+    );
+    await router.navigateByUrl('/work/exl');
+    await fixture.whenStable();
+    expect(document.querySelectorAll('link[rel="canonical"]')).toHaveLength(1);
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+      'https://djamespoer.com/work/exl',
+    );
   });
 
   it.each(proofPages)(
@@ -190,6 +214,9 @@ describe('App', () => {
       expect(main?.querySelector('app-proof-page')).not.toBeNull();
       expect(activeLink?.getAttribute('aria-current')).toBe('page');
       expect(document.title).toBe(`${heading} | D. James Poer`);
+      expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+        `https://djamespoer.com${path}`,
+      );
       expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toContain(
         `${heading} proof-of-value page`,
       );
