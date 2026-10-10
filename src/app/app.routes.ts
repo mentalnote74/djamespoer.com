@@ -97,6 +97,22 @@ const createProofRoute = (path: string, heading: string): Route => ({
         },
       }
     : {}),
+  ...(path === 'impact'
+    ? {
+        data: {
+          heading,
+          composition: 'impact',
+          description:
+            'Impact perspective: lasting operational improvements, research-informed products, usable workflows and systemic accessibility solutions.',
+        },
+        resolve: {
+          content: () =>
+            import('./components/proof-page/impact.content').then(
+              ({ IMPACT_CONTENT }) => IMPACT_CONTENT,
+            ),
+        },
+      }
+    : {}),
   loadComponent: loadProofPage,
 });
 

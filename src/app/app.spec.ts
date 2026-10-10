@@ -256,6 +256,16 @@ describe('App', () => {
         expect(main?.querySelectorAll('h2')).toHaveLength(13);
         expect(main?.querySelectorAll('app-case-study p')).toHaveLength(113);
       }
+      if (path === '/impact') {
+        expect(
+          main?.querySelector('app-perspective-candidate [data-theme="outcomes"]'),
+        ).not.toBeNull();
+        expect(main?.querySelector('.candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
+        expect(main?.querySelectorAll('h2')).toHaveLength(6);
+        expect(main?.textContent).toContain('More than twelve years later');
+        expect(main?.textContent).toContain('Leave something better behind.');
+      }
       if (path === '/creative') {
         expect(main?.querySelectorAll('h2')).toHaveLength(10);
         expect(main?.querySelectorAll('app-case-study p')).toHaveLength(44);
@@ -288,7 +298,9 @@ describe('App', () => {
                 ? 'AI & Innovation perspective'
                 : path === '/creative'
                   ? 'Creative perspective'
-                  : `${heading} proof-of-value page`,
+                  : path === '/impact'
+                    ? 'Impact perspective'
+                    : `${heading} proof-of-value page`,
       );
     },
   );
