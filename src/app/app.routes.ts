@@ -52,6 +52,22 @@ const createProofRoute = (path: string, heading: string): Route => ({
         },
       }
     : {}),
+  ...(path === 'accessibility'
+    ? {
+        data: {
+          heading,
+          composition: 'accessibility',
+          description:
+            'Accessibility perspective: semantic HTML, Section 508, WCAG, reusable component architecture and human validation.',
+        },
+        resolve: {
+          content: () =>
+            import('./components/proof-page/accessibility.content').then(
+              ({ ACCESSIBILITY_CONTENT }) => ACCESSIBILITY_CONTENT,
+            ),
+        },
+      }
+    : {}),
   loadComponent: loadProofPage,
 });
 

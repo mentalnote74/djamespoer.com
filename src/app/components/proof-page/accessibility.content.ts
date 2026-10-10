@@ -1,0 +1,170 @@
+import { CaseStudy } from '../case-study/case-study.model';
+
+export const ACCESSIBILITY_CONTENT: CaseStudy = {
+  title: 'Accessibility',
+  introduction: 'Accessibility Lead',
+  sections: [
+    {
+      heading: 'Accessibility Starts Before The Audit',
+      paragraphs: [
+        'Accessibility is not the last step in my development process.',
+        'It is not a report I run after the design has been approved, the components have been built, and the application is almost ready to ship.',
+        'By then, many of the most expensive accessibility problems have already been designed into the product.',
+        'Accessibility begins with requirements, information architecture, interaction design, component choices, semantic structure, content, and the assumptions we make about how someone will use the interface.',
+        'The audit should verify the work.',
+        'It should not be the first time accessibility enters the conversation.',
+      ],
+    },
+    {
+      heading: 'Accessibility Is A Ux And Engineering Discipline',
+      paragraphs: [
+        'My approach to accessibility comes from working on enterprise applications where usability, technical implementation, and compliance could not realistically be separated.',
+        'A screen can be technically compliant and still be difficult to use.',
+        'A beautifully designed interaction can still exclude someone if its behavior depends on a mouse, color perception, precise vision, hearing, or assumptions about how a person interacts with a computer.',
+        'That is why I treat accessibility as both UX and engineering.',
+        'The question is not simply, “Does this pass?”',
+        'The better question is, “Can people use this?”',
+      ],
+    },
+    {
+      heading: 'Solve The Systemic Problem',
+      paragraphs: [
+        'At EXL, Section 508 requirements exposed a much larger architectural problem.',
+        'The existing approach would have required accessibility-related changes across approximately 1.5 million lines of HTML.',
+        'I identified that the problem could instead be addressed at the shared presentation layer.',
+        'Approximately 150 lines of Sass provided the necessary solution without rewriting the enormous body of existing markup.',
+        'That was not merely a CSS optimization.',
+        'It was an architectural accessibility decision.',
+        'The most effective fix was not changing every instance of the problem. It was finding the layer of the system where one change could correct the behavior consistently.',
+        'Accessibility work often reveals technical debt precisely because it forces a product to operate outside the narrow assumptions under which it was originally built.',
+      ],
+    },
+    {
+      heading: 'Accessibility Should Shape Architecture',
+      paragraphs: [
+        'That experience reinforced a principle I still use:',
+        'Fix accessibility at the highest appropriate reusable layer.',
+        'At TCC, that sometimes meant going deeper than our application code.',
+        'We regularly used PrimeNG components across our Angular applications, but some of those components had underlying Section 508 accessibility problems. Fixing each occurrence inside individual applications would have created repeated patches while leaving the source of the problem untouched.',
+        'Instead, I forked PrimeNG into our own internal tcc-primeng library and corrected the underlying accessibility issues in the components we regularly used.',
+        'Applications consuming those components then inherited the corrected behavior from the library rather than requiring every development team to solve the same accessibility defects independently.',
+        'If a problem exists in a shared component, fix the component.',
+        'If it exists in the component library, fix the library.',
+        'If it exists in a design-system pattern, fix the pattern.',
+        'If it comes from the information architecture or interaction model, changing CSS at the end will not solve it.',
+        'Local patches may make individual audit findings disappear while allowing the underlying defect to survive throughout the product.',
+        'Good accessibility architecture prevents the same problem from being recreated on the next screen—or in the next application.',
+      ],
+    },
+    {
+      heading: 'Automated Testing Is Evidence, Not Understanding',
+      paragraphs: [
+        'Automated tools are extremely useful.',
+        'I use axe to identify detectable WCAG issues and Lighthouse to continuously watch accessibility alongside performance, best practices, and SEO.',
+        'djamespoer.com is routinely tested against those tools in production, and the current employment-history pages have been shipping with clean axe audits and Lighthouse accessibility scores of 100.',
+        'That is evidence that the implementation is healthy.',
+        'It is not proof that every user can successfully use the product.',
+        'Automated tools can evaluate rules they know how to detect. They cannot fully understand whether an interaction makes sense, whether information is cognitively clear, whether a workflow is frustrating, or whether a technically valid interface has become practically unusable.',
+        'Passing the scanner is the beginning of confidence, not the end of responsibility.',
+      ],
+    },
+    {
+      heading: 'Humans Still Have To Look',
+      paragraphs: [
+        'One of the useful lessons from building this portfolio came from a responsive data grid.',
+        'The software worked.',
+        'The automated tooling did not identify the presentation as a defect.',
+        'But on a real phone, the information became difficult for a person to visually parse.',
+        'A machine can successfully interpret structure that leaves a human staring at what looks like a pile of unrelated information.',
+        'That is why browser inspection, real devices, different viewport sizes, keyboard interaction, and human judgment remain part of accessibility validation.',
+        'Tools see rules.',
+        'People experience interfaces.',
+        'Both matter.',
+      ],
+    },
+    {
+      heading: 'Semantic Html Is An Interface',
+      paragraphs: [
+        'Semantic markup is sometimes treated as implementation detail.',
+        'It is not.',
+        'Headings communicate document structure. Landmarks provide navigation. Labels establish relationships. Buttons and links communicate different behaviors. Lists identify collections. Form semantics explain inputs, requirements, errors, and state.',
+        'For many assistive technologies, that semantic layer is the interface.',
+        'Using the correct element usually provides more robust behavior than recreating the same concept with generic containers and custom JavaScript.',
+        'The simplest accessible implementation is often the one that allows the browser to do the job it already knows how to do.',
+      ],
+    },
+    {
+      heading: 'Keyboard Is Not An Edge Case',
+      paragraphs: [
+        'If an interaction requires a pointer, it is incomplete.',
+        'Interactive elements need logical focus behavior, visible focus indication, predictable keyboard operation, and a usable sequence through the interface.',
+        'That requirement affects design as much as implementation.',
+        'A complicated visual interaction that cannot be expressed coherently through keyboard navigation may indicate that the interaction itself needs reconsideration.',
+        'The objective is not to reproduce mouse movement with keyboard commands.',
+        'It is to make the underlying task operable regardless of the input method.',
+      ],
+    },
+    {
+      heading: 'Motion Is A User Preference',
+      paragraphs: [
+        'Animation and motion can add personality, orientation, and useful feedback.',
+        'They can also make an experience uncomfortable or unusable.',
+        "The Perspective artwork on djamespoer.com includes motion, but that behavior has to respect the user's reduced-motion preference and preserve meaningful control over the experience.",
+        'This is another example of accessibility improving product thinking rather than limiting it.',
+        'The requirement is not “do not use motion.”',
+        'It is do not assume everyone should experience motion the same way.',
+      ],
+    },
+    {
+      heading: 'Error Prevention Is Accessibility',
+      paragraphs: [
+        'Accessibility also extends beyond screen-reader semantics and keyboard operation.',
+        'The Indianapolis Public Schools PowerSchool work is a useful example.',
+        'Complex State of Indiana reporting rules meant that the information required from a user changed dynamically according to earlier answers.',
+        'The interface exposed those changing requirements through visible indicators, grouped related fields, provided inline error messages, reset dependent information when necessary, and prevented invalid submissions.',
+        'That reduced the amount of hidden system knowledge required from the person completing the form.',
+        'Clear requirements, understandable errors, predictable state changes, and prevention of invalid actions are usability concerns.',
+        'They are also accessibility concerns.',
+      ],
+    },
+    {
+      heading: 'Accessibility Is Part Of Definition Of Done',
+      paragraphs: [
+        'On this project, accessibility does not receive its own cleanup sprint after features are complete.',
+        'It travels with the work.',
+        'Components are built semantically. Responsive behavior is checked. Motion preferences are respected. Automated accessibility testing is run. Production is inspected. Defects discovered through actual use return to the backlog and get fixed.',
+        'A feature that cannot be used accessibly is not finished simply because its primary happy path works.',
+        'That changes accessibility from a compliance event into an engineering habit.',
+      ],
+    },
+    {
+      heading: 'Compliance Is The Floor',
+      paragraphs: [
+        'Standards such as WCAG and Section 508 provide an essential shared framework.',
+        'They establish testable expectations and make accessibility requirements concrete enough to design, build, review, and procure against.',
+        'But compliance is the floor.',
+        'A product can satisfy a checklist and still create unnecessary difficulty. Conversely, understanding the purpose behind a criterion often leads to better solutions than mechanically addressing individual audit findings.',
+        'The standard tells us what must be protected.',
+        'UX tells us why it matters.',
+        'Engineering determines how to make that protection durable.',
+      ],
+    },
+    {
+      heading: 'What This Perspective Demonstrates',
+      paragraphs: [
+        'My accessibility work is not separate from my UX or engineering work.',
+        'It changes how I structure applications, choose components, design interactions, write markup, handle errors, build responsive layouts, evaluate motion, test production software, and prioritize technical debt.',
+        'I use standards and automated tools because evidence matters.',
+        'I use human observation and judgment because people matter more than the score.',
+        'The objective is not to build software that can survive an accessibility audit.',
+        'The objective is to build software people can use.',
+      ],
+    },
+    {
+      heading: 'Technologies, Standards & Practices',
+      paragraphs: [
+        'WCAG · Section 508 · Semantic HTML · Accessible Interaction Design · Keyboard Accessibility · Focus Management · Responsive Accessibility · Reduced Motion · Form Accessibility · Error Prevention · Sass/SCSS · Angular · PrimeNG · tcc-primeng · Component Architecture · Design Systems · axe · Lighthouse · Browser Validation · Real-Device Testing · Accessibility Testing · Production Verification',
+      ],
+    },
+  ],
+};
