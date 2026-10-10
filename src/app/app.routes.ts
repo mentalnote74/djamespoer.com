@@ -11,6 +11,8 @@ const createProofRoute = (path: string, heading: string): Route => ({
     description: `${heading} proof-of-value page for D. James Poer. Portfolio evidence will be added in a future content phase.`,
     ...(path === 'creative'
       ? {
+          description:
+            'Creative perspective: concept development, visual design, interaction, experimentation and production discipline.',
           artwork: {
             src: '/assets/perspectives/SCRUM-64-Larry-V2-C.png',
             alt: 'A densely illustrated town of interconnected autobiographical scenes and visual Easter eggs.',
@@ -79,6 +81,16 @@ const createProofRoute = (path: string, heading: string): Route => ({
         resolve: {
           content: () =>
             import('./components/proof-page/ai.content').then(({ AI_CONTENT }) => AI_CONTENT),
+        },
+      }
+    : {}),
+  ...(path === 'creative'
+    ? {
+        resolve: {
+          content: () =>
+            import('./components/proof-page/creative.content').then(
+              ({ CREATIVE_CONTENT }) => CREATIVE_CONTENT,
+            ),
         },
       }
     : {}),

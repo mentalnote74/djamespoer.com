@@ -253,6 +253,10 @@ describe('App', () => {
         expect(main?.querySelectorAll('app-case-study p')).toHaveLength(113);
       }
       if (path === '/creative') {
+        expect(main?.querySelectorAll('h2')).toHaveLength(10);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(44);
+        expect(main?.textContent).toContain('Useful should not have to mean forgettable.');
+        expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(artwork?.getAttribute('src')).toBe('/assets/perspectives/SCRUM-64-Larry-V2-C.png');
         expect(artwork?.width).toBe(2172);
         expect(artwork?.height).toBe(724);
@@ -274,7 +278,9 @@ describe('App', () => {
               ? 'Accessibility perspective'
               : path === '/ai'
                 ? 'AI & Innovation perspective'
-                : `${heading} proof-of-value page`,
+                : path === '/creative'
+                  ? 'Creative perspective'
+                  : `${heading} proof-of-value page`,
       );
     },
   );
