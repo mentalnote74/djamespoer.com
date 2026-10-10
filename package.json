@@ -6,6 +6,7 @@
     "start": "ng serve",
     "prebuild": "node scripts/deployment-history/build-refresh.mjs && node scripts/generate-build-info.mjs",
     "build": "ng build",
+    "assets:creative": "node scripts/optimize-creative.mjs",
     "history:refresh": "node scripts/generate-deployment-history.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

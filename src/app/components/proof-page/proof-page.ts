@@ -15,5 +15,12 @@ export class ProofPage {
   readonly heading = input.required<string>();
   readonly content = input<StudyContent>();
   readonly composition = input<PerspectiveCandidateKey>();
-  readonly artwork = input<{ src: string; alt: string; width: number; height: number }>();
+  readonly artwork = input<{
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+    srcset?: string;
+    sizes?: string;
+  }>();
 }

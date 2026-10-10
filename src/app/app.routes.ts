@@ -14,7 +14,10 @@ const createProofRoute = (path: string, heading: string): Route => ({
           description:
             'Creative perspective: concept development, visual design, interaction, experimentation and production discipline.',
           artwork: {
-            src: '/assets/perspectives/SCRUM-64-Larry-V2-C.png',
+            src: '/assets/perspectives/creative-2172.webp',
+            srcset:
+              '/assets/perspectives/creative-600.webp 600w, /assets/perspectives/creative-1200.webp 1200w, /assets/perspectives/creative-1800.webp 1800w, /assets/perspectives/creative-2172.webp 2172w',
+            sizes: '(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2)',
             alt: 'A densely illustrated town of interconnected autobiographical scenes and visual Easter eggs.',
             width: 2172,
             height: 724,

@@ -4,6 +4,9 @@
       <img
         class="proof-page__artwork"
         [ngSrc]="image.src"
+        [attr.srcset]="image.srcset"
+        [attr.sizes]="image.sizes || '100vw'"
+        disableOptimizedSrcset
         [alt]="image.alt"
         [width]="image.width"
         [height]="image.height"
@@ -25,6 +28,9 @@
       <img
         class="proof-page__artwork"
         [ngSrc]="image.src"
+        [attr.srcset]="image.srcset"
+        [attr.sizes]="image.sizes || '100vw'"
+        disableOptimizedSrcset
         [alt]="image.alt"
         [width]="image.width"
         [height]="image.height"

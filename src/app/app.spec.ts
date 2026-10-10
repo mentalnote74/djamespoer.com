@@ -117,6 +117,10 @@ describe('App', () => {
     expect(main?.querySelector('app-carousel .carousel__indicators')).toBeNull();
     expect(main?.querySelectorAll('app-carousel .carousel__controls button')).toHaveLength(3);
     expect(main?.querySelectorAll('.carousel__slide')).toHaveLength(6);
+    const creative = main?.querySelector<HTMLImageElement>('img.home-creative');
+    expect(creative?.getAttribute('srcset')).toMatch(/creative-600\.webp\s+600w/);
+    expect(creative?.getAttribute('sizes')).toContain('1152px');
+    expect(creative?.getAttribute('loading')).toBe('lazy');
     expect(compiled.querySelector('app-page + app-footer')).not.toBeNull();
     expect(document.title).toBe('D. James Poer | UX Engineer & Front-End Architect');
     expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
@@ -257,7 +261,11 @@ describe('App', () => {
         expect(main?.querySelectorAll('app-case-study p')).toHaveLength(44);
         expect(main?.textContent).toContain('Useful should not have to mean forgettable.');
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
-        expect(artwork?.getAttribute('src')).toBe('/assets/perspectives/SCRUM-64-Larry-V2-C.png');
+        expect(artwork?.getAttribute('src')).toBe('/assets/perspectives/creative-2172.webp');
+        expect(artwork?.getAttribute('srcset')).toContain('creative-600.webp 600w');
+        expect(artwork?.getAttribute('srcset')).toContain('creative-2172.webp 2172w');
+        expect(artwork?.getAttribute('sizes')).toContain('1280px');
+        expect(artwork?.getAttribute('fetchpriority')).toBe('high');
         expect(artwork?.width).toBe(2172);
         expect(artwork?.height).toBe(724);
         expect(artwork?.alt).toContain('interconnected autobiographical scenes');
