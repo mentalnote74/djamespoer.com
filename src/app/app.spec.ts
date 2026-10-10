@@ -240,6 +240,18 @@ describe('App', () => {
         expect(main?.querySelectorAll('h2')).toHaveLength(14);
         expect(main?.querySelectorAll('app-case-study p')).toHaveLength(93);
       }
+      if (path === '/ai') {
+        expect(
+          main?.querySelector('app-perspective-candidate [data-theme="signal"]'),
+        ).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
+        expect(main?.textContent).toContain(
+          'It is human-directed, AI-amplified product development.',
+        );
+        expect(main?.querySelectorAll('h2')).toHaveLength(13);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(113);
+      }
       if (path === '/creative') {
         expect(artwork?.getAttribute('src')).toBe('/assets/perspectives/SCRUM-64-Larry-V2-C.png');
         expect(artwork?.width).toBe(2172);
@@ -260,7 +272,9 @@ describe('App', () => {
             ? 'UX & Product perspective'
             : path === '/accessibility'
               ? 'Accessibility perspective'
-              : `${heading} proof-of-value page`,
+              : path === '/ai'
+                ? 'AI & Innovation perspective'
+                : `${heading} proof-of-value page`,
       );
     },
   );

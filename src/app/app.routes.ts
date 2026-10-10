@@ -68,6 +68,20 @@ const createProofRoute = (path: string, heading: string): Route => ({
         },
       }
     : {}),
+  ...(path === 'ai'
+    ? {
+        data: {
+          heading,
+          composition: 'ai',
+          description:
+            'AI & Innovation perspective: agent orchestration, human-directed product development, evidence and production verification.',
+        },
+        resolve: {
+          content: () =>
+            import('./components/proof-page/ai.content').then(({ AI_CONTENT }) => AI_CONTENT),
+        },
+      }
+    : {}),
   loadComponent: loadProofPage,
 });
 
