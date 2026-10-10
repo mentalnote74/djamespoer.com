@@ -212,6 +212,15 @@ describe('App', () => {
       expect(main?.querySelectorAll('h1')).toHaveLength(1);
       expect(main?.querySelector('h1')?.textContent?.trim()).toBe(heading);
       expect(main?.querySelector('app-proof-page')).not.toBeNull();
+      const artwork = main?.querySelector<HTMLImageElement>('app-proof-page img');
+      if (path === '/creative') {
+        expect(artwork?.getAttribute('src')).toBe('/assets/perspectives/SCRUM-64-Larry-V2-C.png');
+        expect(artwork?.width).toBe(2172);
+        expect(artwork?.height).toBe(724);
+        expect(artwork?.alt).toContain('interconnected autobiographical scenes');
+      } else {
+        expect(artwork).toBeNull();
+      }
       expect(activeLink?.getAttribute('aria-current')).toBe('page');
       expect(document.title).toBe(`${heading} | D. James Poer`);
       expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(

@@ -9,6 +9,16 @@ const createProofRoute = (path: string, heading: string): Route => ({
   data: {
     heading,
     description: `${heading} proof-of-value page for D. James Poer. Portfolio evidence will be added in a future content phase.`,
+    ...(path === 'creative'
+      ? {
+          artwork: {
+            src: '/assets/perspectives/SCRUM-64-Larry-V2-C.png',
+            alt: 'A densely illustrated town of interconnected autobiographical scenes and visual Easter eggs.',
+            width: 2172,
+            height: 724,
+          },
+        }
+      : {}),
   },
   loadComponent: loadProofPage,
 });

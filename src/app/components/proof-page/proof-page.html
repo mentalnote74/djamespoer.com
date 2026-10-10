@@ -1,5 +1,15 @@
 <section class="proof-page layout-container" aria-labelledby="proof-page-heading">
   <h1 id="proof-page-heading">{{ heading() }}</h1>
+  @if (artwork(); as image) {
+    <img
+      class="proof-page__artwork"
+      [ngSrc]="image.src"
+      [alt]="image.alt"
+      [width]="image.width"
+      [height]="image.height"
+      priority
+    />
+  }
 
   <p>Portfolio evidence for this perspective will be added in a future content phase.</p>
 </section>
