@@ -20,6 +20,22 @@ const createProofRoute = (path: string, heading: string): Route => ({
         }
       : {}),
   },
+  ...(path === 'engineering'
+    ? {
+        data: {
+          heading,
+          composition: 'engineering',
+          description:
+            'Engineering perspective: Angular architecture, reusable components, accessibility, testing, performance and production delivery.',
+        },
+        resolve: {
+          content: () =>
+            import('./components/proof-page/engineering.content').then(
+              ({ ENGINEERING_CONTENT }) => ENGINEERING_CONTENT,
+            ),
+        },
+      }
+    : {}),
   loadComponent: loadProofPage,
 });
 

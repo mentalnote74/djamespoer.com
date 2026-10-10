@@ -63,6 +63,21 @@ describe('Perspective review candidates', () => {
     fixture.detectChanges();
     return fixture;
   };
+  it('omits carousel copy in hero mode while retaining artwork and motion controls', () => {
+    const fixture = create();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('.candidate__copy')).not.toBeNull();
+    fixture.componentRef.setInput('showCopy', false);
+    fixture.detectChanges();
+    expect(root.querySelector('.candidate__copy')).toBeNull();
+    expect(root.querySelector('h3, a')).toBeNull();
+    expect(root.querySelector('.candidate__art')?.getAttribute('aria-hidden')).toBe('true');
+    expect(root.querySelector('.candidate__particles')).not.toBeNull();
+    const button = root.querySelector<HTMLButtonElement>('button')!;
+    button.click();
+    fixture.detectChanges();
+    expect(button.getAttribute('aria-label')).toBe('Play Engineering particle animation');
+  });
   it('keeps the five existing facet destinations and distinct particle treatments', () => {
     expect(Object.values(PERSPECTIVE_CANDIDATES).map((x) => x.path)).toEqual([
       '/engineering',

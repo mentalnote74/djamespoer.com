@@ -1,15 +1,27 @@
-<section class="proof-page layout-container" aria-labelledby="proof-page-heading">
-  <h1 id="proof-page-heading">{{ heading() }}</h1>
-  @if (artwork(); as image) {
-    <img
-      class="proof-page__artwork"
-      [ngSrc]="image.src"
-      [alt]="image.alt"
-      [width]="image.width"
-      [height]="image.height"
-      priority
-    />
-  }
+@if (content(); as study) {
+  <app-case-study [study]="study" [showWorkLink]="false">
+    @if (composition(); as facet) {
+      <app-perspective-candidate
+        class="proof-page__composition"
+        [facet]="facet"
+        [showCopy]="false"
+      />
+    }
+  </app-case-study>
+} @else {
+  <section class="proof-page layout-container" aria-labelledby="proof-page-heading">
+    <h1 id="proof-page-heading">{{ heading() }}</h1>
+    @if (artwork(); as image) {
+      <img
+        class="proof-page__artwork"
+        [ngSrc]="image.src"
+        [alt]="image.alt"
+        [width]="image.width"
+        [height]="image.height"
+        priority
+      />
+    }
 
-  <p>Portfolio evidence for this perspective will be added in a future content phase.</p>
-</section>
+    <p>Portfolio evidence for this perspective will be added in a future content phase.</p>
+  </section>
+}

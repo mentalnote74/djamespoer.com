@@ -3,11 +3,13 @@
     <div class="candidate__motif"></div>
     <div class="candidate__particles" [id]="particleId"></div>
   </div>
-  <div class="candidate__copy">
-    <h3>{{ candidate().heading }}</h3>
-    <p>{{ candidate().idea }}</p>
-    <a [routerLink]="candidate().path">Explore {{ candidate().heading }}</a>
-  </div>
+  @if (showCopy()) {
+    <div class="candidate__copy">
+      <h3>{{ candidate().heading }}</h3>
+      <p>{{ candidate().idea }}</p>
+      <a [routerLink]="candidate().path">Explore {{ candidate().heading }}</a>
+    </div>
+  }
   @if (!reducedMotion()) {
     <button
       class="candidate__motion"

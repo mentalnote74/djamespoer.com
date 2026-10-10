@@ -10,6 +10,7 @@ import { CaseStudy as CaseStudyContent } from './case-study.model';
   styleUrl: './case-study.scss',
 })
 export class CaseStudy {
+  readonly showWorkLink = input(true);
   readonly study = input.required<CaseStudyContent, CaseStudyContent>({
     transform: validateCaseStudy,
   });

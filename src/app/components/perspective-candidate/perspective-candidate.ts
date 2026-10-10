@@ -40,6 +40,7 @@ let nextId = 0;
 })
 export class PerspectiveCandidate implements AfterViewInit, OnDestroy {
   readonly facet = input.required<PerspectiveCandidateKey>();
+  readonly showCopy = input(true);
   readonly candidate = computed(() => PERSPECTIVE_CANDIDATES[this.facet()]);
   readonly paused = signal(false);
   readonly reducedMotion = signal(false);

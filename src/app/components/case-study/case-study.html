@@ -1,6 +1,9 @@
 <article class="case-study layout-container">
   <h1>{{ study().title }}</h1>
-  <p><a routerLink="/work">All Work</a></p>
+  @if (showWorkLink()) {
+    <p><a routerLink="/work">All Work</a></p>
+  }
+  <ng-content />
   @if (study().introduction; as introduction) {
     <p>{{ introduction }}</p>
   }

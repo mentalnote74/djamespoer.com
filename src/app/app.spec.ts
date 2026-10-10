@@ -213,6 +213,13 @@ describe('App', () => {
       expect(main?.querySelector('h1')?.textContent?.trim()).toBe(heading);
       expect(main?.querySelector('app-proof-page')).not.toBeNull();
       const artwork = main?.querySelector<HTMLImageElement>('app-proof-page img');
+      if (path === '/engineering') {
+        expect(main?.querySelector('app-perspective-candidate')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
+        expect(main?.textContent).toContain('Build it. Test it. Ship it. Verify it.');
+        expect(main?.querySelectorAll('h2').length).toBeGreaterThan(5);
+      }
       if (path === '/creative') {
         expect(artwork?.getAttribute('src')).toBe('/assets/perspectives/SCRUM-64-Larry-V2-C.png');
         expect(artwork?.width).toBe(2172);
@@ -227,7 +234,7 @@ describe('App', () => {
         `https://djamespoer.com${path}`,
       );
       expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toContain(
-        `${heading} proof-of-value page`,
+        path === '/engineering' ? 'Engineering perspective' : `${heading} proof-of-value page`,
       );
     },
   );
