@@ -36,6 +36,22 @@ const createProofRoute = (path: string, heading: string): Route => ({
         },
       }
     : {}),
+  ...(path === 'ux-product'
+    ? {
+        data: {
+          heading,
+          composition: 'ux',
+          description:
+            'UX & Product perspective: user research, usability testing, workflow design, accessibility and iterative product delivery.',
+        },
+        resolve: {
+          content: () =>
+            import('./components/proof-page/ux-product.content').then(
+              ({ UX_PRODUCT_CONTENT }) => UX_PRODUCT_CONTENT,
+            ),
+        },
+      }
+    : {}),
   loadComponent: loadProofPage,
 });
 

@@ -220,6 +220,16 @@ describe('App', () => {
         expect(main?.textContent).toContain('Build it. Test it. Ship it. Verify it.');
         expect(main?.querySelectorAll('h2').length).toBeGreaterThan(5);
       }
+      if (path === '/ux-product') {
+        expect(
+          main?.querySelector('app-perspective-candidate [data-theme="journey"]'),
+        ).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
+        expect(main?.textContent).toContain('The product carried the complexity.');
+        expect(main?.querySelectorAll('h2')).toHaveLength(13);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(76);
+      }
       if (path === '/creative') {
         expect(artwork?.getAttribute('src')).toBe('/assets/perspectives/SCRUM-64-Larry-V2-C.png');
         expect(artwork?.width).toBe(2172);
@@ -234,7 +244,11 @@ describe('App', () => {
         `https://djamespoer.com${path}`,
       );
       expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toContain(
-        path === '/engineering' ? 'Engineering perspective' : `${heading} proof-of-value page`,
+        path === '/engineering'
+          ? 'Engineering perspective'
+          : path === '/ux-product'
+            ? 'UX & Product perspective'
+            : `${heading} proof-of-value page`,
       );
     },
   );
