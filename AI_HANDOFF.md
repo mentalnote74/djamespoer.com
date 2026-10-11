@@ -382,3 +382,7 @@ Primary disclosures now About, Work, Perspectives. About contains About, R?sum?,
 ## About authored content
 
 Replaced About scaffold with James-approved verbatim copy, one H1, emphasized opening/central question/closing, existing responsive container and readable paragraph measure. Existing lazy /about route and dropdown destination unchanged; BEDLAM untouched. Focused 11/11, Angular 213/213, Node 152/152, production build (no budget warnings), formatting and whitespace passed. Generated timestamp excluded; browser visual acceptance not claimed.
+
+## Home seven-slide carousel restructure
+
+Carousel is now the first Home visual. Existing Hero is reused inside the new lead Under Construction / djamespoer.com slide with a Home link; existing artwork, particle policy and utilities retained. Six Perspective slides follow in unchanged order/content. Persistent Home H1 sits outside rotating slides; Hero uses a slide heading and container-based sizing in carousel mode. Construction-site copy follows carousel; history is last. Generic carousel count/navigation already derives from projected content; five-second timing unchanged. Focused carousel/Home/bootstrap 42/42, Angular 213/213, Node 152/152, production build (no budget warnings), formatting/whitespace passed. Timestamp excluded; real-browser/mobile acceptance remains pending.

@@ -1,36 +1,4 @@
-<app-hero />
-
-<section class="home-construction layout-container" aria-labelledby="construction-site-heading">
-  <h2 id="construction-site-heading">Pardon the dust.</h2>
-  <p><strong>You're standing in the middle of a working construction site. On purpose.</strong></p>
-  <p>
-    Most portfolios show you the finished house after the tools, sawdust, mistakes, experiments, and
-    bad ideas have been swept away.
-  </p>
-  <p>I'm doing the opposite.</p>
-  <p>
-    djamespoer.com is being designed and built in public. The unfinished pieces are part of the
-    portfolio: UX decisions, accessibility work, Angular architecture, experiments, failures, fixes,
-    testing, AI-assisted development—and the occasional spectacularly bad idea that gets replaced by
-    a better one.
-  </p>
-  <p>
-    Some rooms are finished. Some still have studs showing. Some may change while you're standing in
-    them.
-  </p>
-  <p>
-    <strong>
-      That's the point. You're not just looking at what I built. You're watching how I build.
-    </strong>
-  </p>
-</section>
-
-<section class="home-history" aria-labelledby="build-deployment-history-heading">
-  <div class="home-history__content layout-container">
-    <h2 id="build-deployment-history-heading">Build &amp; Deployment History</h2>
-    <app-deployment-history />
-  </div>
-</section>
+<h1 class="visually-hidden">D. James Poer</h1>
 
 <app-carousel
   [showPreviousNext]="true"
@@ -39,6 +7,10 @@
   [autoRotate]="true"
   [rotationInterval]="5000"
 >
+  <ng-template appCarouselSlide label="Under Construction / djamespoer.com">
+    <app-hero [carouselPresentation]="true" />
+  </ng-template>
+
   <ng-template appCarouselSlide label="Engineering">
     <app-perspective-candidate facet="engineering" />
   </ng-template>
@@ -79,3 +51,35 @@
     <app-perspective-candidate facet="impact" />
   </ng-template>
 </app-carousel>
+
+<section class="home-construction layout-container" aria-labelledby="construction-site-heading">
+  <h2 id="construction-site-heading">Pardon the dust.</h2>
+  <p><strong>You're standing in the middle of a working construction site. On purpose.</strong></p>
+  <p>
+    Most portfolios show you the finished house after the tools, sawdust, mistakes, experiments, and
+    bad ideas have been swept away.
+  </p>
+  <p>I'm doing the opposite.</p>
+  <p>
+    djamespoer.com is being designed and built in public. The unfinished pieces are part of the
+    portfolio: UX decisions, accessibility work, Angular architecture, experiments, failures, fixes,
+    testing, AI-assisted development—and the occasional spectacularly bad idea that gets replaced by
+    a better one.
+  </p>
+  <p>
+    Some rooms are finished. Some still have studs showing. Some may change while you're standing in
+    them.
+  </p>
+  <p>
+    <strong>
+      That's the point. You're not just looking at what I built. You're watching how I build.
+    </strong>
+  </p>
+</section>
+
+<section class="home-history" aria-labelledby="build-deployment-history-heading">
+  <div class="home-history__content layout-container">
+    <h2 id="build-deployment-history-heading">Build &amp; Deployment History</h2>
+    <app-deployment-history />
+  </div>
+</section>

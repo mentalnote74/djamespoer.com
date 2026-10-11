@@ -1,4 +1,4 @@
-<section class="hero" aria-labelledby="hero-heading">
+<section class="hero" [class.hero--slide]="carouselPresentation()" aria-labelledby="hero-heading">
   <div class="hero__art" aria-hidden="true">
     <img
       class="hero__scene"
@@ -16,11 +16,19 @@
 
   <div class="hero__content">
     <div class="visually-hidden">
-      <h1 id="hero-heading">D. James Poer</h1>
+      @if (carouselPresentation()) {
+        <h3 id="hero-heading">Under Construction / djamespoer.com</h3>
+      } @else {
+        <h1 id="hero-heading">D. James Poer</h1>
+      }
 
       <p>UX Engineer &bull; Front-End Architect</p>
 
-      <h2>Building something better.</h2>
+      @if (carouselPresentation()) {
+        <p>Building something better.</p>
+      } @else {
+        <h2>Building something better.</h2>
+      }
 
       <p>Under construction &mdash; check back soon.</p>
     </div>
@@ -29,6 +37,9 @@
       <p class="hero__updated">Last updated: {{ lastUpdated }}</p>
 
       <div class="hero__actions">
+        @if (carouselPresentation()) {
+          <a class="hero__button hero__button--secondary" routerLink="/">djamespoer.com — Home</a>
+        }
         <a class="hero__button hero__button--secondary" href="mailto:djamespoer@djamespoer.com">
           Contact Me
         </a>

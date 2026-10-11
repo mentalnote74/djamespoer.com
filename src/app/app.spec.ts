@@ -67,13 +67,13 @@ describe('App', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-  it('places the construction-site copy between Hero and history', async () => {
+  it('places the construction-site copy between carousel and history', async () => {
     const fixture = TestBed.createComponent(App);
     await TestBed.inject(Router).navigateByUrl('/');
     await fixture.whenStable();
     const root = fixture.nativeElement as HTMLElement;
     const section = root.querySelector('.home-construction')!;
-    expect(section.previousElementSibling?.tagName).toBe('APP-HERO');
+    expect(section.previousElementSibling?.tagName).toBe('APP-CAROUSEL');
     expect(section.nextElementSibling?.classList.contains('home-history')).toBe(true);
     expect(section.querySelector('h2')?.textContent).toBe('Pardon the dust.');
     expect(
@@ -120,11 +120,11 @@ describe('App', () => {
     expect(main?.getAttribute('tabindex')).toBe('-1');
     expect(main?.querySelector('app-home')).not.toBeNull();
     expect(main?.querySelector('app-hero')).not.toBeNull();
-    expect(main?.querySelector('.hero .visually-hidden')?.firstElementChild?.tagName).toBe('H1');
+    expect(main?.querySelector('app-home > h1')?.textContent).toBe('D. James Poer');
     expect(main?.querySelectorAll('app-deployment-history')).toHaveLength(1);
     expect(
       main?.querySelector(
-        'app-home > app-hero + section.home-construction + section.home-history + app-carousel',
+        'app-home > app-carousel + section.home-construction + section.home-history',
       ),
     ).not.toBeNull();
     expect(main?.querySelector('app-hero app-deployment-history')).toBeNull();
@@ -152,7 +152,28 @@ describe('App', () => {
     expect(main?.querySelector('app-carousel')).not.toBeNull();
     expect(main?.querySelector('app-carousel .carousel__indicators')).toBeNull();
     expect(main?.querySelectorAll('app-carousel .carousel__controls button')).toHaveLength(3);
-    expect(main?.querySelectorAll('.carousel__slide')).toHaveLength(6);
+    expect(main?.querySelectorAll('.carousel__slide')).toHaveLength(7);
+    const slides = Array.from(main?.querySelectorAll('.carousel__slide') ?? []);
+    expect(slides.map((slide) => slide.getAttribute('aria-label'))).toEqual([
+      'Slide 1 of 7: Under Construction / djamespoer.com',
+      'Slide 2 of 7: Engineering',
+      'Slide 3 of 7: UX & Product',
+      'Slide 4 of 7: Accessibility',
+      'Slide 5 of 7: AI & Innovation',
+      'Slide 6 of 7: Creative',
+      'Slide 7 of 7: Impact',
+    ]);
+    expect(main?.querySelector('app-home > app-hero')).toBeNull();
+    expect(main?.querySelector('app-home > :last-child')?.classList.contains('home-history')).toBe(
+      true,
+    );
+    expect(slides[0].querySelector('.hero__scene')?.getAttribute('src')).toBe(
+      '/images/tiny/construction-master.webp',
+    );
+    expect(slides[0].querySelector('a[href="/"]')?.textContent?.trim()).toBe(
+      'djamespoer.com — Home',
+    );
+    expect(main?.querySelector('.carousel__position')?.textContent?.trim()).toBe('Slide 1 of 7');
     const creative = main?.querySelector<HTMLImageElement>('img.home-creative');
     expect(creative?.getAttribute('srcset')).toMatch(/creative-600\.webp\s+600w/);
     expect(creative?.getAttribute('sizes')).toContain('1152px');

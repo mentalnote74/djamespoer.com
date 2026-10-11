@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, input, OnDestroy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { BUILD_TIME } from '../../generated/build-info';
 
 type ParticlesJs = {
@@ -10,12 +11,13 @@ type ParticlesWindow = Window & {
 };
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-hero',
   styleUrl: './hero.scss',
   templateUrl: './hero.html',
 })
 export class Hero implements AfterViewInit, OnDestroy {
+  readonly carouselPresentation = input(false);
   readonly lastUpdated = new Date(BUILD_TIME).toLocaleString('en-US', {
     month: 'long',
     day: 'numeric',

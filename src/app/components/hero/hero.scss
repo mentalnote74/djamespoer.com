@@ -2,6 +2,7 @@
 
 :host {
   display: block;
+  inline-size: 100%;
 }
 
 .hero {
@@ -200,5 +201,15 @@
         transform: none;
       }
     }
+  }
+}
+
+// Fit the existing artwork into its new carousel region without viewport-height sizing.
+.hero--slide {
+  min-height: 0;
+
+  .hero__content {
+    min-height: 22rem;
+    aspect-ratio: 1672 / 941;
   }
 }
