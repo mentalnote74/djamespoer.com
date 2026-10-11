@@ -6,8 +6,16 @@
       routerLinkActive="site-header__home--active"
       [routerLinkActiveOptions]="{ exact: true }"
       ariaCurrentWhenActive="page"
-      >D. James Poer</a
+      aria-label="djamespoer.com — Home"
+      ><app-bedlam #identity /><span class="visually-hidden">djamespoer.com</span></a
     >
+    <button
+      type="button"
+      (click)="identity.paused.update(toggleIdentity)"
+      [attr.aria-label]="identity.paused() ? 'Play living identity' : 'Pause living identity'"
+    >
+      {{ identity.paused() ? 'Play' : 'Pause' }}
+    </button>
     <button
       #menuButton
       aria-label="Menu"

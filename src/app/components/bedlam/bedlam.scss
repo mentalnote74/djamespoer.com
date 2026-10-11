@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  inline-size: clamp(12rem, 25vw, 18rem);
+}
+.bedlam {
+  --mask-color: #c9f5ed;
+  --mask-opacity: 1;
+  --mask-depth: 2px;
+  position: relative;
+  display: block;
+  block-size: 4rem;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 0.3rem;
+  background: #111827;
+  // A fixed dark veil keeps light canonical letterforms readable over every field state.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(17 24 39 / 70%);
+    z-index: 1;
+  }
+  &__layer {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    opacity: var(--layer-opacity, 0.4);
+    transform: translate(var(--layer-x, 0), var(--layer-y, 0)) rotate(var(--layer-angle, 0deg))
+      scale(var(--layer-scale, 1.1));
+  }
+  &__anchor,
+  &__mask {
+    z-index: 2;
+    position: absolute;
+    inset: 0.5rem;
+    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
+  }
+  &__anchor {
+    background: #fff;
+    filter: drop-shadow(0 0 1px #111827);
+  }
+  &__mask {
+    background: var(--mask-color);
+    opacity: var(--mask-opacity);
+    filter: drop-shadow(0 var(--mask-depth) var(--mask-depth) #050b16);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bedlam__layer {
+    transform: none;
+  }
+}

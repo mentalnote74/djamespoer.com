@@ -1,15 +1,17 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Bedlam } from '../bedlam/bedlam';
 
 @Component({
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, Bedlam],
   selector: 'app-header',
   styleUrl: './header.scss',
   templateUrl: './header.html',
   host: { '(keydown.escape)': 'closeFromEscape($event)' },
 })
 export class Header {
+  readonly toggleIdentity = (paused: boolean): boolean => !paused;
   readonly mobileOpen = signal(false);
   readonly openSection = signal<'work' | 'perspectives' | null>(null);
   readonly perspectives = [

@@ -153,8 +153,16 @@ describe('Header', () => {
       '.site-header__utility a[href="https://www.linkedin.com/in/djamespoer"]',
     );
 
-    expect(home?.textContent?.trim()).toBe('D. James Poer');
+    expect(home?.textContent?.trim()).toBe('djamespoer.com');
+    expect(home?.getAttribute('aria-label')).toBe('djamespoer.com — Home');
     expect(home?.getAttribute('href')).toBe('/');
+    const pause = compiled.querySelector<HTMLButtonElement>('[aria-label="Pause living identity"]');
+    expect(pause).not.toBeNull();
+    pause?.click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('[aria-label="Play living identity"]')?.textContent?.trim()).toBe(
+      'Play',
+    );
     expect(home?.getAttribute('aria-current')).toBe('page');
     expect(navigation?.contains(home ?? null)).toBe(false);
     expect(navigationLinks.map((link) => link.textContent?.trim())).toEqual([
