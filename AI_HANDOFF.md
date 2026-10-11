@@ -394,3 +394,9 @@ Removed visible carousel H2 and named native section directly with aria-label Po
 ## Home heading and spacing correction
 
 Removed-carousel-heading regression was Home H1 followed by active Under Construction H3; all seven slide headings now H2 with separate presentation hooks. Carousel retains direct accessible name and visually hidden counter; Pardon the dust remains H2. Home overrides carousel start padding to 0.75-1.5rem (generic default retained); history end padding now 0.75-1.5rem instead of 2-4rem. Header/Page/footer and Smart Grid spacing otherwise untouched; no negative margins. Focused 47/47, Angular 213/213, Node 152/152, production build without budget warnings, formatting/whitespace passed. Desktop/mobile appearance and production axe/Lighthouse not measured here; acceptance pending. Timestamp excluded.
+
+## Routed-page layout ownership migration
+
+Page now owns routed outer spacing (0.75-1.5rem top), the existing 80rem responsive canvas and gutters. Shared editorial tracks center readable 70ch content; real media and Work cards can span the canvas, with no reserved supporting column. About, Work, CaseStudy and ProofPage no longer own duplicated outer padding/containers. Home explicitly selects independent layout; lazy routes and blocking initial navigation remain intact.
+
+Verified representative About, Work, TCC, Engineering and Home route transitions and one main landmark: focused 27/27; Angular 214/214; Node 152/152; production build and formatting/whitespace passed. Initial bundle 292.69 kB / estimated transfer 79.29 kB, no budget warnings. Browser visual/reflow and axe acceptance remain unverified in this environment. Generated timestamp excluded.

@@ -67,6 +67,37 @@ describe('App', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
+  it('owns the shared editorial canvas across routes while Home stays independent', async () => {
+    const fixture = TestBed.createComponent(App);
+    const router = TestBed.inject(Router);
+    for (const path of ['/about', '/work', '/work/tcc', '/engineering', '/', '/about']) {
+      await router.navigateByUrl(path);
+      await fixture.whenStable();
+      fixture.detectChanges();
+      const root = fixture.nativeElement as HTMLElement;
+      const canvas = root.querySelector('.page__content')!;
+      expect(canvas.classList.contains('page__content--independent')).toBe(path === '/');
+      expect(canvas.classList.contains('layout-container')).toBe(path !== '/');
+      if (path !== '/') {
+        expect(canvas.querySelector('.editorial-content')).not.toBeNull();
+        expect(canvas.querySelector('.editorial-content.layout-container')).toBeNull();
+      } else {
+        expect(canvas.querySelector('app-home > app-carousel')).not.toBeNull();
+        TestBed.inject(HttpTestingController)
+          .expectOne('/data/deployment-history.json')
+          .flush(
+            JSON.stringify({
+              schemaVersion: 4,
+              checkedAt: '2026-10-06T16:08:56.989Z',
+              generatedAt: '2026-10-06T16:08:56.989Z',
+              refreshStatus: 'ok',
+              rows: [],
+            }),
+          );
+      }
+      expect(root.querySelectorAll('main')).toHaveLength(1);
+    }
+  });
   it('places the construction-site copy between carousel and history', async () => {
     const fixture = TestBed.createComponent(App);
     await TestBed.inject(Router).navigateByUrl('/');

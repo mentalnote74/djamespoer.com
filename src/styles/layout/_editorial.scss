@@ -1,0 +1,30 @@
+// Shared editorial tracks occupy the whole canvas; unused sides remain flexible,
+// not reserved supporting columns. Real media can opt into the full-width track.
+.editorial-content {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(0, 1fr) [content-start] minmax(0, 70ch)
+    [content-end] minmax(0, 1fr) [full-end];
+  min-inline-size: 0;
+}
+
+.editorial-content > *,
+.editorial-content > section > * {
+  grid-column: content;
+  min-inline-size: 0;
+}
+
+.editorial-content > h1 {
+  margin-block-start: 0;
+}
+
+.editorial-content > section {
+  grid-column: full;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.editorial-content > .editorial-wide,
+.editorial-content > section > .editorial-wide {
+  grid-column: full;
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -7,4 +7,9 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './page.scss',
   templateUrl: './page.html',
 })
-export class Page {}
+export class Page {
+  readonly independentLayout = signal(false);
+  setLayout(layout: unknown): void {
+    this.independentLayout.set(layout === 'independent');
+  }
+}

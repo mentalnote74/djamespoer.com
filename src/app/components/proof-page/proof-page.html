@@ -2,7 +2,7 @@
   <app-case-study [study]="study" [showWorkLink]="false">
     @if (artwork(); as image) {
       <img
-        class="proof-page__artwork"
+        class="proof-page__artwork editorial-wide"
         [ngSrc]="image.src"
         [attr.srcset]="image.srcset"
         [attr.sizes]="image.sizes || '100vw'"
@@ -15,18 +15,18 @@
     }
     @if (composition(); as facet) {
       <app-perspective-candidate
-        class="proof-page__composition"
+        class="proof-page__composition editorial-wide"
         [facet]="facet"
         [showCopy]="false"
       />
     }
   </app-case-study>
 } @else {
-  <section class="proof-page layout-container" aria-labelledby="proof-page-heading">
+  <section class="proof-page editorial-content" aria-labelledby="proof-page-heading">
     <h1 id="proof-page-heading">{{ heading() }}</h1>
     @if (artwork(); as image) {
       <img
-        class="proof-page__artwork"
+        class="proof-page__artwork editorial-wide"
         [ngSrc]="image.src"
         [attr.srcset]="image.srcset"
         [attr.sizes]="image.sizes || '100vw'"

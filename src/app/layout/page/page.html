@@ -1,3 +1,12 @@
 <main id="main-content" tabindex="-1">
-  <router-outlet />
+  <div
+    class="page__content"
+    [class.layout-container]="!independentLayout()"
+    [class.page__content--independent]="independentLayout()"
+  >
+    <router-outlet
+      #outlet="outlet"
+      (activate)="setLayout(outlet.activatedRoute.snapshot.data['layout'])"
+    />
+  </div>
 </main>

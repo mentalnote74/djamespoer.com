@@ -6,3 +6,12 @@
 main {
   min-block-size: 100%;
 }
+
+.page__content {
+  min-inline-size: 0;
+  padding-block: clamp(0.75rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2rem);
+}
+
+.page__content--independent {
+  padding-block: 0;
+}

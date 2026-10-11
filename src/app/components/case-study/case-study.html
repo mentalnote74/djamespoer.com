@@ -1,4 +1,4 @@
-<article class="case-study layout-container">
+<article class="case-study editorial-content">
   <h1>{{ study().title }}</h1>
   @if (showWorkLink()) {
     <p><a routerLink="/work">All Work</a></p>
@@ -36,7 +36,7 @@
             </p>
           }
           @case ('image') {
-            <figure>
+            <figure class="editorial-wide">
               <img
                 [src]="evidence.src"
                 [alt]="evidence.alt"
