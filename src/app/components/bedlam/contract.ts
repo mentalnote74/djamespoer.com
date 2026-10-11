@@ -47,7 +47,7 @@ export function presentation(slot: Slot, raw: Chatter): Record<string, string> {
     '--layer-y': `${(c.y - 0.5) * 8}%`,
     '--layer-angle': `${(c.energy - 0.5) * 8}deg`,
     '--layer-scale': `${1.06 + c.energy * 0.06}`,
-    '--layer-opacity': `${0.3 + c.energy * 0.25}`,
+    '--layer-opacity': `${0.1 + c.energy * 0.1}`,
   };
   return {
     ...own,
