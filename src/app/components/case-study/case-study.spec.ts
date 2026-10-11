@@ -33,7 +33,7 @@ describe('CaseStudy presentation', () => {
     expect(root.querySelector('section')).toBeNull();
     expect(root.querySelector('main')).toBeNull();
     expect(root.textContent).not.toContain('Content pending');
-    expect(root.querySelector('[href="/work"]')).not.toBeNull();
+    expect(root.querySelector('[href="/work"]')).toBeNull();
   });
   it('renders supplied section order, lists and plain text without interpreting HTML', () => {
     const fixture = render({

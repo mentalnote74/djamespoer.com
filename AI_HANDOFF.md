@@ -406,3 +406,9 @@ Verified representative About, Work, TCC, Engineering and Home route transitions
 Completed the routed-canvas directive on top of ee4ed3e: optional editorial-pair wrappers support primary content followed by real supporting material, using unequal flexible tracks and the existing 48rem artwork-compact transition to a single source-order column. No current page adds placeholder material or reserves an empty column. Use editorial-wide for full-canvas media; use editorial-pair only when supporting content exists. Page retains sole outer-spacing/canvas/gutter ownership and Home remains independent.
 
 Focused layout/routing 27/27, Angular 214/214, Node 153/153 (including paired-layout Sass regression), production build passed without budget warnings; initial 293.21 kB / estimated transfer 79.36 kB. Formatting and whitespace passed. Browser visual/reflow/overflow and axe acceptance remain pending; generated timestamp excluded.
+
+## Retired Work index and global route fallback
+
+The exact /work route now redirects to Home with pathMatch full; the final wildcard also redirects to Home. Five authored /work/* case studies and all six Perspectives remain lazy and unchanged. Removed Work landing component/template/styles, its index-only tests, All Work navigation and case-study links, and the obsolete showWorkLink input. Case-study route coverage moved to app.routes.spec.ts; blocking-bootstrap coverage now excludes redirect-only entries from lazy-component assertions. Historical documentation remains historical.
+
+Verified redirects, legitimate routes, one main landmark and mocked browser back/forward restoration. Focused 44/44 plus final routing 7/7; full Angular 216/216; Node 153/153; production build passed, initial 293.18 kB / estimated transfer 79.48 kB without budget warnings. Prettier/whitespace passed. Real-browser history acceptance remains unmeasured. Generated build timestamp excluded.

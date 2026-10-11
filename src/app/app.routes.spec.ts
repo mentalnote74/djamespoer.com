@@ -1,17 +1,45 @@
 import { TestBed } from '@angular/core/testing';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { NavigationEnd, provideRouter, Router, withComponentInputBinding } from '@angular/router';
+import { Location } from '@angular/common';
+import { provideLocationMocks } from '@angular/common/testing';
+import { firstValueFrom, filter } from 'rxjs';
 import { RouterTestingHarness } from '@angular/router/testing';
-import { routes } from '../../app.routes';
+import { routes } from './app.routes';
 
 describe('Work routes', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      providers: [provideRouter(routes, withComponentInputBinding())],
+      providers: [provideRouter(routes, withComponentInputBinding()), provideLocationMocks()],
     }),
   );
-  it('keeps Home, Perspectives and Work lazy', () => {
+  it('restores legitimate routes through back and forward history navigation', async () => {
+    const harness = await RouterTestingHarness.create('/about');
+    await harness.navigateByUrl('/work/tcc');
+    const router = TestBed.inject(Router);
+    router.setUpLocationChangeListener();
+    const location = TestBed.inject(Location);
+    const back = firstValueFrom(
+      router.events.pipe(filter((event) => event instanceof NavigationEnd)),
+    );
+    location.back();
+    await back;
+    expect(router.url).toBe('/about');
+    const forward = firstValueFrom(
+      router.events.pipe(filter((event) => event instanceof NavigationEnd)),
+    );
+    location.forward();
+    await forward;
+    expect(router.url).toBe('/work/tcc');
+  });
+  it('keeps Home, Perspectives and case studies lazy with exact Work and last wildcard redirects', () => {
+    expect(routes.find((route) => route.path === 'work')).toEqual({
+      path: 'work',
+      pathMatch: 'full',
+      redirectTo: '',
+    });
+    expect(routes.at(-1)).toEqual({ path: '**', redirectTo: '' });
     expect(routes.filter((route) => route.path?.startsWith('work'))).toHaveLength(6);
-    for (const route of routes) {
+    for (const route of routes.filter((route) => !route.redirectTo && route.redirectTo !== '')) {
       expect(route.loadComponent).toBeTypeOf('function');
       expect(route.component).toBeUndefined();
     }
@@ -26,22 +54,6 @@ describe('Work routes', () => {
         'impact',
       ]),
     );
-  });
-  it('places the current project above EXL with whole-card links and a single index heading', async () => {
-    const harness = await RouterTestingHarness.create('/work');
-    const root = harness.routeNativeElement!;
-    expect(root.querySelectorAll('h1')).toHaveLength(1);
-    expect(root.querySelector('h1')?.textContent).toBe('Work');
-    expect(Array.from(root.querySelectorAll('li a'), (link) => link.getAttribute('href'))).toEqual([
-      '/work/djamespoer',
-      '/work/exl',
-      '/work/ips',
-      '/work/tcc',
-      '/work/dr',
-    ]);
-    expect(root.querySelectorAll('li a h2')).toHaveLength(5);
-    expect(root.querySelector('li a')?.textContent).toContain('Current professional project');
-    expect(root.querySelector('main')).toBeNull();
   });
   it.each([
     ['djamespoer', 'djamespoer.com', 'Performance 92'],

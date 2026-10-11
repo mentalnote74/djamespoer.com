@@ -63,7 +63,11 @@ describe('Initial application navigation', () => {
         }),
       );
       http.verify();
-      expect(routes.every((route) => typeof route.loadComponent === 'function')).toBe(true);
+      expect(
+        routes
+          .filter((route) => route.redirectTo === undefined)
+          .every((route) => typeof route.loadComponent === 'function'),
+      ).toBe(true);
     } finally {
       releaseHome();
       app?.destroy();

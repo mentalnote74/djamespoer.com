@@ -130,11 +130,8 @@ export const routes: Routes = [
   },
   {
     path: 'work',
-    title: 'Work | D. James Poer',
-    data: {
-      description: 'Case studies and supporting portfolio evidence.',
-    },
-    loadComponent: () => import('./components/work/work').then(({ Work }) => Work),
+    pathMatch: 'full',
+    redirectTo: '',
   },
   ...(
     [
@@ -176,4 +173,5 @@ export const routes: Routes = [
   createProofRoute('ai', 'AI & Innovation'),
   createProofRoute('creative', 'Creative'),
   createProofRoute('impact', 'Impact'),
+  { path: '**', redirectTo: '' },
 ];

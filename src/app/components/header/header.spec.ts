@@ -48,21 +48,19 @@ describe('Header', () => {
         '#work-navigation a',
       ),
     );
-    expect(links.map((link) => link.getAttribute('href')).slice(0, 3)).toEqual([
-      '/work',
+    expect(links.map((link) => link.getAttribute('href')).slice(0, 2)).toEqual([
       '/work/djamespoer',
       '/work/exl',
     ]);
-    expect(links[1].textContent?.trim()).toBe('djamespoer.com');
+    expect(links[0].textContent?.trim()).toBe('djamespoer.com');
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
-      '/work',
       '/work/djamespoer',
       '/work/exl',
       '/work/ips',
       '/work/tcc',
       '/work/dr',
     ]);
-    expect(links[1].getAttribute('aria-current')).toBe('page');
+    expect(links[0].getAttribute('aria-current')).toBe('page');
   });
   let component: Header;
   let fixture: ComponentFixture<Header>;
@@ -133,7 +131,7 @@ describe('Header', () => {
     expect(document.activeElement).toBe(menu);
     menu.click();
     fixture.detectChanges();
-    await TestBed.inject(Router).navigateByUrl('/work');
+    await TestBed.inject(Router).navigateByUrl('/work/tcc');
     fixture.detectChanges();
     expect(component.mobileOpen()).toBe(false);
   });
@@ -149,7 +147,7 @@ describe('Header', () => {
       expect(root.querySelector(`#${button.getAttribute('aria-controls')}`)).not.toBeNull();
     });
     expect(root.querySelector('[href="/work/exl"]')?.getAttribute('aria-current')).toBe('page');
-    expect(root.querySelector('[href="/work"]')?.hasAttribute('aria-current')).toBe(false);
+    expect(root.querySelector('[href="/work"]')).toBeNull();
   });
 
   it('names the icon-only menu toggle and hides the decorative SVG from assistive technology', () => {

@@ -23,7 +23,6 @@ export class Header {
     { path: '/impact', label: 'Impact' },
   ];
   readonly work = [
-    { path: '/work', label: 'All Work' },
     { path: '/work/djamespoer', label: 'djamespoer.com' },
     { path: '/work/exl', label: 'EXL / LifePRO' },
     { path: '/work/ips', label: 'IPS / PowerSchool' },

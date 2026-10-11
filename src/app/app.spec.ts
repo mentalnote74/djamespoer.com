@@ -67,10 +67,25 @@ describe('App', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
+  it.each(['/work', '/does-not-exist', '/work/unknown/nested'])(
+    'redirects %s to Home through the router without extra landmarks or retired links',
+    async (path) => {
+      const fixture = TestBed.createComponent(App);
+      const router = TestBed.inject(Router);
+      await router.navigateByUrl(path);
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(router.url).toBe('/');
+      const root = fixture.nativeElement as HTMLElement;
+      expect(root.querySelectorAll('main')).toHaveLength(1);
+      expect(root.querySelector('app-home')).not.toBeNull();
+      expect(root.querySelector('[href="/work"]')).toBeNull();
+    },
+  );
   it('owns the shared editorial canvas across routes while Home stays independent', async () => {
     const fixture = TestBed.createComponent(App);
     const router = TestBed.inject(Router);
-    for (const path of ['/about', '/work', '/work/tcc', '/engineering', '/', '/about']) {
+    for (const path of ['/about', '/work/tcc', '/engineering', '/', '/about']) {
       await router.navigateByUrl(path);
       await fixture.whenStable();
       fixture.detectChanges();
@@ -253,7 +268,6 @@ describe('App', () => {
   });
 
   it.each([
-    { path: '/work', heading: 'Work' },
     { path: '/work/exl', heading: 'EXL / LifePRO' },
     { path: '/work/ips', heading: 'Indianapolis Public Schools' },
     { path: '/work/tcc', heading: 'TCC Software Solutions' },
