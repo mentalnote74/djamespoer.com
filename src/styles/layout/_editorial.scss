@@ -1,3 +1,5 @@
+@use '../abstracts' as foundation;
+
 // Shared editorial tracks occupy the whole canvas; unused sides remain flexible,
 // not reserved supporting columns. Real media can opt into the full-width track.
 .editorial-content {
@@ -27,4 +29,37 @@
 .editorial-content > .editorial-wide,
 .editorial-content > section > .editorial-wide {
   grid-column: full;
+}
+
+// Opt in only when authored content actually includes supporting material.
+// Place primary content first and supporting material second in source order.
+.editorial-content > .editorial-pair,
+.editorial-content > section > .editorial-pair {
+  grid-column: full;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
+}
+
+.editorial-pair > * {
+  min-inline-size: 0;
+  grid-column: auto;
+}
+
+.editorial-pair > :first-child {
+  max-inline-size: 70ch;
+}
+
+.editorial-pair img,
+.editorial-pair svg {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+@include foundation.at-or-below('artwork-compact') {
+  .editorial-content > .editorial-pair,
+  .editorial-content > section > .editorial-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }

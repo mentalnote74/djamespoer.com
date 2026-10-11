@@ -400,3 +400,9 @@ Removed-carousel-heading regression was Home H1 followed by active Under Constru
 Page now owns routed outer spacing (0.75-1.5rem top), the existing 80rem responsive canvas and gutters. Shared editorial tracks center readable 70ch content; real media and Work cards can span the canvas, with no reserved supporting column. About, Work, CaseStudy and ProofPage no longer own duplicated outer padding/containers. Home explicitly selects independent layout; lazy routes and blocking initial navigation remain intact.
 
 Verified representative About, Work, TCC, Engineering and Home route transitions and one main landmark: focused 27/27; Angular 214/214; Node 152/152; production build and formatting/whitespace passed. Initial bundle 292.69 kB / estimated transfer 79.29 kB, no budget warnings. Browser visual/reflow and axe acceptance remain unverified in this environment. Generated timestamp excluded.
+
+## Editorial supporting-content capability
+
+Completed the routed-canvas directive on top of ee4ed3e: optional editorial-pair wrappers support primary content followed by real supporting material, using unequal flexible tracks and the existing 48rem artwork-compact transition to a single source-order column. No current page adds placeholder material or reserves an empty column. Use editorial-wide for full-canvas media; use editorial-pair only when supporting content exists. Page retains sole outer-spacing/canvas/gutter ownership and Home remains independent.
+
+Focused layout/routing 27/27, Angular 214/214, Node 153/153 (including paired-layout Sass regression), production build passed without budget warnings; initial 293.21 kB / estimated transfer 79.36 kB. Formatting and whitespace passed. Browser visual/reflow/overflow and axe acceptance remain pending; generated timestamp excluded.
