@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { Page } from './layout/page/page';
@@ -9,4 +9,6 @@ import { Page } from './layout/page/page';
   styleUrl: './app.scss',
   templateUrl: './app.html',
 })
-export class App {}
+export class App {
+  readonly identityPaused = signal(false);
+}

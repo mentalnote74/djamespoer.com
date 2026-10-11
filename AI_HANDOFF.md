@@ -366,3 +366,7 @@ Verification: focused BEDLAM/Header 22/22; full Angular 207/207; Node 152/152; p
 ## SCRUM-75 - Dark veil corrective pass
 
 Removed only the 70% dark overlay above the three canvas fields. Existing canvas opacity, algorithms, speed, and canonical SVG are unchanged. Focused tests 22/22 and canonical asset test 1/1 passed; production build passed without budget warnings; Prettier and whitespace checks passed. James will verify engine visibility and composite readability in production after deployment.
+
+## SCRUM-75 - Header cleanup
+
+Logo treatment frozen at 15-25% canvas opacity with transparent base. Logo remains the sole accessible Home link; redundant Home navigation and adjacent Pause removed. Native footer Pause/Play living identity action controls application-owned pause state; reduced motion and runtime behavior unchanged. Focused tests 43/43, Angular 210/210, Node 152/152, production build and formatting/whitespace checks passed. Production visual acceptance remains pending.

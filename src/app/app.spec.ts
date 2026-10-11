@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router, TitleStrategy, withComponentInputBinding } from '@angular/router';
 import { App } from './app';
+import { By } from '@angular/platform-browser';
+import { Bedlam } from './components/bedlam/bedlam';
 import { routes } from './app.routes';
 import { PageMetadataStrategy } from './services/page-metadata-strategy';
 import { provideHttpClient } from '@angular/common/http';
@@ -64,6 +66,22 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
+  });
+  it('connects the footer motion control to the header identity', async () => {
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const control = Array.from(root.querySelectorAll<HTMLButtonElement>('footer button')).find(
+      (button) => button.textContent?.trim() === 'Pause living identity',
+    )!;
+    const identity = fixture.debugElement.query(By.directive(Bedlam)).componentInstance as Bedlam;
+    control.click();
+    fixture.detectChanges();
+    expect(identity.paused()).toBe(true);
+    control.click();
+    fixture.detectChanges();
+    expect(identity.paused()).toBe(false);
+    expect(root.querySelector('header button[aria-label="Pause living identity"]')).toBeNull();
   });
 
   it('should render routed content inside the application landmarks', async () => {

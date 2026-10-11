@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 
 @Component({
   imports: [],
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './footer.html',
 })
 export class Footer {
+  readonly identityPaused = model(false);
+  readonly toggleIdentity = (paused: boolean): boolean => !paused;
   readonly currentYear = new Date().getFullYear();
 
   accessibilityStatementOpen = false;

@@ -33,4 +33,20 @@ describe('Footer', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('offers a native pause/play action outside the header', () => {
+    const buttons = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLButtonElement>('button'),
+    );
+    const control = buttons.find(
+      (button) => button.textContent?.trim() === 'Pause living identity',
+    )!;
+    expect(control.type).toBe('button');
+    control.click();
+    fixture.detectChanges();
+    expect(component.identityPaused()).toBe(true);
+    expect(control.textContent?.trim()).toBe('Play living identity');
+    control.click();
+    fixture.detectChanges();
+    expect(component.identityPaused()).toBe(false);
+  });
 });

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Bedlam } from '../bedlam/bedlam';
@@ -11,7 +11,7 @@ import { Bedlam } from '../bedlam/bedlam';
   host: { '(keydown.escape)': 'closeFromEscape($event)' },
 })
 export class Header {
-  readonly toggleIdentity = (paused: boolean): boolean => !paused;
+  readonly identityPaused = input(false);
   readonly mobileOpen = signal(false);
   readonly openSection = signal<'work' | 'perspectives' | null>(null);
   readonly perspectives = [

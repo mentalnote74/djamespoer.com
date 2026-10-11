@@ -7,15 +7,10 @@
       [routerLinkActiveOptions]="{ exact: true }"
       ariaCurrentWhenActive="page"
       aria-label="djamespoer.com — Home"
-      ><app-bedlam #identity /><span class="visually-hidden">djamespoer.com</span></a
+      ><app-bedlam [paused]="identityPaused()" /><span class="visually-hidden"
+        >djamespoer.com</span
+      ></a
     >
-    <button
-      type="button"
-      (click)="identity.paused.update(toggleIdentity)"
-      [attr.aria-label]="identity.paused() ? 'Play living identity' : 'Pause living identity'"
-    >
-      {{ identity.paused() ? 'Play' : 'Pause' }}
-    </button>
     <button
       #menuButton
       aria-label="Menu"
@@ -37,16 +32,6 @@
       aria-label="Primary"
     >
       <ul class="site-header__nav-list">
-        <li>
-          <a
-            class="site-header__nav-link"
-            routerLink="/"
-            routerLinkActive="site-header__nav-link--active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            ariaCurrentWhenActive="page"
-            >Home</a
-          >
-        </li>
         <li class="site-header__group">
           <button
             #workButton

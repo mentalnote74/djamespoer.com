@@ -7,7 +7,7 @@ import {
   inject,
   input,
   NgZone,
-  signal,
+  model,
   viewChild,
   viewChildren,
 } from '@angular/core';
@@ -15,7 +15,7 @@ import type { BedlamRuntime } from './runtime';
 @Component({ selector: 'app-bedlam', templateUrl: './bedlam.html', styleUrl: './bedlam.scss' })
 export class Bedlam {
   readonly speed = input(0.12);
-  readonly paused = signal(false);
+  readonly paused = model(false);
   private readonly field = viewChild<ElementRef<HTMLElement>>('field');
   private readonly layers = viewChildren<ElementRef<HTMLCanvasElement>>('layer');
   private runtime?: BedlamRuntime;
