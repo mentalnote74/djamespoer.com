@@ -18,7 +18,7 @@ Partial Fisher–Yates selects three distinct entries and assigns them in order 
 | Gray–Scott               | Two concentration fields, reaction/feed/kill equations and explicit diffusion                                                                                          |
 | Curl-noise advection     | Finite-difference curl of a smoothly interpolated random scalar potential; slowly translated field, toroidal particles                                                 |
 
-All return bounded state-derived centroid/energy chatter. Chatter controls its own layer's translation (±4%), rotation (±4°), scale (1.06–1.12) and opacity (0.05–0.10). Slot A controls mask color; B opacity (0.90–1); C shadow depth (1–4px). Slot behavior does not depend on cartridge identity. Chatter is clamped and low-pass filtered; raster color/alpha changes are slew-limited. There are no canned CSS keyframe animations.
+All return bounded state-derived centroid/energy chatter. Chatter controls its own layer's translation (±4%), rotation (±4°), scale (1.06–1.12) and opacity (0.10–0.20). Slot A controls mask color; B opacity (0.90–1); C shadow depth (1–4px). Slot behavior does not depend on cartridge identity. Chatter is clamped and low-pass filtered; raster color/alpha changes are slew-limited. There are no canned CSS keyframe animations.
 
 ## Motion, lifecycle and limits
 

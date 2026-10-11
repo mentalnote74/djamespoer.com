@@ -44,8 +44,8 @@ describe('BEDLAM cartridges and slots', () => {
   });
   it('keeps every canvas slot transparent at both energy bounds', () => {
     for (const slot of ['A', 'B', 'C'] as const) {
-      expect(presentation(slot, { x: 0.5, y: 0.5, energy: 0 })['--layer-opacity']).toBe('0.05');
-      expect(presentation(slot, { x: 0.5, y: 0.5, energy: 1 })['--layer-opacity']).toBe('0.1');
+      expect(presentation(slot, { x: 0.5, y: 0.5, energy: 0 })['--layer-opacity']).toBe('0.1');
+      expect(presentation(slot, { x: 0.5, y: 0.5, energy: 1 })['--layer-opacity']).toBe('0.2');
     }
   });
   for (const algorithm of pool) {
