@@ -21,9 +21,9 @@ describe('Header', () => {
     const links = Array.from(list.querySelectorAll('a'));
     expect(links.map((link) => link.textContent?.trim())).toEqual([
       'About',
-      'Résumé',
+      'Resume',
       'Contact',
-      'Follow Me on LinkedIn',
+      'LinkedIn',
     ]);
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '/about',
@@ -162,10 +162,10 @@ describe('Header', () => {
     expect(root.querySelectorAll('#primary-navigation')).toHaveLength(1);
   });
 
-  it('uses the requested Résumé label for the existing download', () => {
+  it('uses the ASCII Resume label for the existing download', () => {
     const root = fixture.nativeElement as HTMLElement;
     const resume = root.querySelector<HTMLAnchorElement>('a[download]');
-    expect(resume?.textContent?.trim()).toBe('Résumé');
+    expect(resume?.textContent?.trim()).toBe('Resume');
     expect(resume?.getAttribute('href')).toBe('/assets/resume/d-james-poer-resume.pdf');
   });
 

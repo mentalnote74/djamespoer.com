@@ -1,13 +1,8 @@
-<section
-  class="carousel"
-  aria-labelledby="portfolio-carousel-heading"
-  aria-roledescription="carousel"
->
+<section class="carousel" aria-label="Portfolio Perspectives" aria-roledescription="carousel">
   <div class="carousel__content layout-container">
-    <div class="carousel__heading">
-      <h2 id="portfolio-carousel-heading">Portfolio perspectives</h2>
-      <p class="carousel__position">Slide {{ currentPosition() }} of {{ slides().length }}</p>
-    </div>
+    <p class="carousel__position visually-hidden">
+      Slide {{ currentPosition() }} of {{ slides().length }}
+    </p>
 
     <div
       class="carousel__viewport"

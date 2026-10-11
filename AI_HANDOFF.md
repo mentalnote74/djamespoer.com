@@ -386,3 +386,7 @@ Replaced About scaffold with James-approved verbatim copy, one H1, emphasized op
 ## Home seven-slide carousel restructure
 
 Carousel is now the first Home visual. Existing Hero is reused inside the new lead Under Construction / djamespoer.com slide with a Home link; existing artwork, particle policy and utilities retained. Six Perspective slides follow in unchanged order/content. Persistent Home H1 sits outside rotating slides; Hero uses a slide heading and container-based sizing in carousel mode. Construction-site copy follows carousel; history is last. Generic carousel count/navigation already derives from projected content; five-second timing unchanged. Focused carousel/Home/bootstrap 42/42, Angular 213/213, Node 152/152, production build (no budget warnings), formatting/whitespace passed. Timestamp excluded; real-browser/mobile acceptance remains pending.
+
+## Carousel label/counter cleanup
+
+Removed visible carousel H2 and named native section directly with aria-label Portfolio Perspectives. Counter visually hidden using existing accessibility utility; slide position labels/live-region behavior, controls/timing/order preserved. Pardon the dust remains H2. Included previously approved Resume/LinkedIn label cleanup, destinations unchanged. Focused 41/41, Angular 213/213, production build (no budget warnings), formatting/whitespace passed. Browser axe not available; production acceptance remains pending. Timestamp excluded.

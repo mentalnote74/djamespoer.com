@@ -246,7 +246,13 @@ describe('Carousel', () => {
     const slides = root.querySelectorAll<HTMLElement>('.carousel__slide');
     const indicators = root.querySelectorAll<HTMLButtonElement>('.carousel__indicators button');
 
-    expect(carousel?.getAttribute('aria-labelledby')).toBe('portfolio-carousel-heading');
+    expect(carousel?.getAttribute('aria-label')).toBe('Portfolio Perspectives');
+    expect(carousel?.hasAttribute('aria-labelledby')).toBe(false);
+    expect(root.querySelector('#portfolio-carousel-heading')).toBeNull();
+    expect(root.querySelector('.carousel__position')?.classList.contains('visually-hidden')).toBe(
+      true,
+    );
+    expect(root.querySelector('.carousel__position')?.hasAttribute('aria-hidden')).toBe(false);
     expect(carousel?.getAttribute('aria-roledescription')).toBe('carousel');
     expect(viewport?.getAttribute('aria-live')).toBe('off');
     expect(slides[0]?.getAttribute('role')).toBe('group');
