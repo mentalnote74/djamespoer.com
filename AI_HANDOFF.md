@@ -378,3 +378,7 @@ Added James-approved Pardon the dust section immediately after Hero and before B
 ## Header navigation IA cleanup
 
 Primary disclosures now About, Work, Perspectives. About contains About, R?sum?, Contact and Follow Me on LinkedIn with original destinations. Shared disclosure keyboard/Escape/mobile behavior retained; logo remains sole Home link. Approved living-identity control hidden with display: none; pause wiring and reduced motion preserved, no BEDLAM visual/runtime tuning. Header 10/10, Angular 212/212, Node 152/152, production build (no budget warnings), formatting and whitespace passed. Generated timestamp excluded.
+
+## About authored content
+
+Replaced About scaffold with James-approved verbatim copy, one H1, emphasized opening/central question/closing, existing responsive container and readable paragraph measure. Existing lazy /about route and dropdown destination unchanged; BEDLAM untouched. Focused 11/11, Angular 213/213, Node 152/152, production build (no budget warnings), formatting and whitespace passed. Generated timestamp excluded; browser visual acceptance not claimed.
