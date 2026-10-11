@@ -7,11 +7,15 @@ export class ThemeState {
   private readonly document = inject(DOCUMENT);
   private readonly selected = signal<ThemeId>('teetotaler');
   readonly activeTheme = this.selected.asReadonly();
+  readonly availableThemes: readonly { id: ThemeId; label: string }[] = [
+    { id: 'teetotaler', label: 'Teetotaler' },
+  ];
   constructor() {
     this.setTheme('teetotaler');
   }
   setTheme(theme: ThemeId): void {
-    if (theme !== 'teetotaler') throw new Error('Unsupported theme');
+    if (!this.availableThemes.some((available) => available.id === theme))
+      throw new Error('Unsupported theme');
     this.document.documentElement.setAttribute('data-theme', theme);
     this.selected.set(theme);
   }

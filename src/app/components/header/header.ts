@@ -1,3 +1,4 @@
+import { ThemeState } from '../../services/theme-state';
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -11,9 +12,10 @@ import { Bedlam } from '../bedlam/bedlam';
   host: { '(keydown.escape)': 'closeFromEscape($event)' },
 })
 export class Header {
+  readonly themeState = inject(ThemeState);
   readonly identityPaused = input(false);
   readonly mobileOpen = signal(false);
-  readonly openSection = signal<'about' | 'work' | 'perspectives' | null>(null);
+  readonly openSection = signal<'about' | 'work' | 'perspectives' | 'theme' | null>(null);
   readonly perspectives = [
     { path: '/engineering', label: 'Engineering' },
     { path: '/ux-product', label: 'UX & Product' },
@@ -56,7 +58,10 @@ export class Header {
     this.openSection.set(null);
   }
 
-  toggleSection(section: 'about' | 'work' | 'perspectives', button: HTMLButtonElement): void {
+  toggleSection(
+    section: 'about' | 'work' | 'perspectives' | 'theme',
+    button: HTMLButtonElement,
+  ): void {
     this.sectionButton = button;
     this.openSection.update((open) => (open === section ? null : section));
   }

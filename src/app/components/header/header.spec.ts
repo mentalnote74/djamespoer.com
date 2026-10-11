@@ -4,13 +4,33 @@ import { routes } from '../../app.routes';
 import { Header } from './header';
 
 describe('Header', () => {
+  it('offers global theme selection through the shared disclosure with an accessible current state', () => {
+    const root = fixture.nativeElement as HTMLElement;
+    const trigger = root.querySelector<HTMLButtonElement>('[aria-controls="theme-navigation"]')!;
+    trigger.click();
+    fixture.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    const list = root.querySelector<HTMLUListElement>('#theme-navigation')!;
+    expect(list.hidden).toBe(false);
+    const options = Array.from(list.querySelectorAll('button'));
+    expect(options.map((option) => option.textContent?.trim())).toEqual(['Teetotaler']);
+    expect(list.querySelector('[disabled]')).toBeNull();
+    expect(options[0].getAttribute('aria-pressed')).toBe('true');
+    options[0].click();
+    expect(document.documentElement.getAttribute('data-theme')).toBe('teetotaler');
+    options[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    fixture.detectChanges();
+    expect(list.hidden).toBe(true);
+    expect(document.activeElement).toBe(trigger);
+    expect(root.querySelector('[role="menu"]')).toBeNull();
+  });
   it('orders About, Work and Perspectives and preserves About destinations', async () => {
     const root = fixture.nativeElement as HTMLElement;
     expect(
       Array.from(root.querySelectorAll('.site-header__nav-list > li > button'), (button) =>
         button.textContent?.trim(),
       ),
-    ).toEqual(['About', 'Work', 'Perspectives']);
+    ).toEqual(['About', 'Work', 'Perspectives', 'Theme']);
     const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
     const list = root.querySelector<HTMLUListElement>('#about-navigation')!;
     expect(list.hidden).toBe(true);

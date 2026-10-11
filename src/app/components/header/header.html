@@ -131,6 +131,35 @@
             }
           </ul>
         </li>
+        <li class="site-header__group">
+          <button
+            #themeButton
+            type="button"
+            [attr.aria-expanded]="openSection() === 'theme'"
+            aria-controls="theme-navigation"
+            (click)="toggleSection('theme', themeButton)"
+          >
+            Theme
+          </button>
+          <ul
+            id="theme-navigation"
+            class="site-header__submenu"
+            [hidden]="openSection() !== 'theme'"
+          >
+            @for (theme of themeState.availableThemes; track theme.id) {
+              <li>
+                <button
+                  class="site-header__theme-option"
+                  type="button"
+                  [attr.aria-pressed]="themeState.activeTheme() === theme.id"
+                  (click)="themeState.setTheme(theme.id)"
+                >
+                  {{ theme.label }}
+                </button>
+              </li>
+            }
+          </ul>
+        </li>
       </ul>
     </nav>
   </div>

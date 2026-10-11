@@ -76,6 +76,10 @@
   &__submenu[hidden] {
     display: none;
   }
+  &__theme-option {
+    inline-size: 100%;
+    justify-content: start;
+  }
   &__submenu a {
     inline-size: 100%;
   }
