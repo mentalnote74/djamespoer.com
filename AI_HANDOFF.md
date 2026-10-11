@@ -374,3 +374,7 @@ Logo treatment frozen at 15-25% canvas opacity with transparent base. Logo remai
 ## Home construction-site copy
 
 Added James-approved Pardon the dust section immediately after Hero and before Build & Deployment History, preserving supplied copy and emphasizing opening/closing statements with native strong markup. Existing responsive container and typography retained. Angular 211/211 and production build passed; formatting/whitespace passed. No visual redesign or BEDLAM changes.
+
+## Header navigation IA cleanup
+
+Primary disclosures now About, Work, Perspectives. About contains About, R?sum?, Contact and Follow Me on LinkedIn with original destinations. Shared disclosure keyboard/Escape/mobile behavior retained; logo remains sole Home link. Approved living-identity control hidden with display: none; pause wiring and reduced motion preserved, no BEDLAM visual/runtime tuning. Header 10/10, Angular 212/212, Node 152/152, production build (no budget warnings), formatting and whitespace passed. Generated timestamp excluded.

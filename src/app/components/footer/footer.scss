@@ -3,3 +3,7 @@
   padding-block: 1.5rem;
   border-top: 1px solid #d8d8d8;
 }
+// Retain the runtime control wiring for future use without exposing a UI control.
+.site-footer__identity-motion {
+  display: none;
+}

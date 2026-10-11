@@ -4,6 +4,41 @@ import { routes } from '../../app.routes';
 import { Header } from './header';
 
 describe('Header', () => {
+  it('orders About, Work and Perspectives and preserves About destinations', async () => {
+    const root = fixture.nativeElement as HTMLElement;
+    expect(
+      Array.from(root.querySelectorAll('.site-header__nav-list > li > button'), (button) =>
+        button.textContent?.trim(),
+      ),
+    ).toEqual(['About', 'Work', 'Perspectives']);
+    const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
+    const list = root.querySelector<HTMLUListElement>('#about-navigation')!;
+    expect(list.hidden).toBe(true);
+    about.click();
+    fixture.detectChanges();
+    expect(about.getAttribute('aria-expanded')).toBe('true');
+    expect(list.hidden).toBe(false);
+    const links = Array.from(list.querySelectorAll('a'));
+    expect(links.map((link) => link.textContent?.trim())).toEqual([
+      'About',
+      'Résumé',
+      'Contact',
+      'Follow Me on LinkedIn',
+    ]);
+    expect(links.map((link) => link.getAttribute('href'))).toEqual([
+      '/about',
+      '/assets/resume/d-james-poer-resume.pdf',
+      'mailto:djamespoer@djamespoer.com',
+      'https://www.linkedin.com/in/djamespoer',
+    ]);
+    about.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    fixture.detectChanges();
+    expect(list.hidden).toBe(true);
+    expect(document.activeElement).toBe(about);
+    await TestBed.inject(Router).navigateByUrl('/about');
+    fixture.detectChanges();
+    expect(links[0].getAttribute('aria-current')).toBe('page');
+  });
   it('places the current project first among case studies and keeps its destination consistent', async () => {
     await TestBed.inject(Router).navigateByUrl('/work/djamespoer');
     await fixture.whenStable();
@@ -127,10 +162,10 @@ describe('Header', () => {
     expect(root.querySelectorAll('#primary-navigation')).toHaveLength(1);
   });
 
-  it('uses the plain ASCII Resume label for the existing download', () => {
+  it('uses the requested Résumé label for the existing download', () => {
     const root = fixture.nativeElement as HTMLElement;
     const resume = root.querySelector<HTMLAnchorElement>('a[download]');
-    expect(resume?.textContent?.trim()).toBe('Resume');
+    expect(resume?.textContent?.trim()).toBe('Résumé');
     expect(resume?.getAttribute('href')).toBe('/assets/resume/d-james-poer-resume.pdf');
   });
 
@@ -150,7 +185,7 @@ describe('Header', () => {
       navigation?.querySelectorAll<HTMLAnchorElement>('#perspectives-navigation a') ?? [],
     );
     const linkedin = compiled.querySelector<HTMLAnchorElement>(
-      '.site-header__utility a[href="https://www.linkedin.com/in/djamespoer"]',
+      '#about-navigation a[href="https://www.linkedin.com/in/djamespoer"]',
     );
 
     expect(home?.textContent?.trim()).toBe('djamespoer.com');
@@ -178,7 +213,7 @@ describe('Header', () => {
       '/impact',
     ]);
     expect(linkedin).not.toBeNull();
-    expect(navigation?.contains(linkedin ?? null)).toBe(false);
+    expect(navigation?.contains(linkedin ?? null)).toBe(true);
     expect(linkedin?.getAttribute('target')).toBe('_blank');
     expect(linkedin?.getAttribute('rel')).toBe('noopener noreferrer');
 

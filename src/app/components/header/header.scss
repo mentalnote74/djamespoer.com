@@ -13,8 +13,7 @@
     text-decoration: none;
   }
   &__home,
-  &__nav-link,
-  &__utility a {
+  &__nav-link {
     display: inline-flex;
     align-items: center;
     min-block-size: foundation.$control-target;
@@ -80,9 +79,6 @@
   &__submenu a {
     inline-size: 100%;
   }
-  &__utility {
-    margin: 0;
-  }
 }
 
 @include foundation.at-or-below('navigation-wrap') {
@@ -111,10 +107,6 @@
     &__nav-list > li > a,
     &__group > button {
       inline-size: 100%;
-    }
-    &__utility {
-      inline-size: 100%;
-      order: 4;
     }
   }
 }

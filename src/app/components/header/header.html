@@ -34,6 +34,52 @@
       <ul class="site-header__nav-list">
         <li class="site-header__group">
           <button
+            #aboutButton
+            type="button"
+            [attr.aria-expanded]="openSection() === 'about'"
+            aria-controls="about-navigation"
+            (click)="toggleSection('about', aboutButton)"
+          >
+            About
+          </button>
+          <ul
+            id="about-navigation"
+            class="site-header__submenu"
+            [hidden]="openSection() !== 'about'"
+          >
+            <li>
+              <a
+                class="site-header__nav-link"
+                routerLink="/about"
+                routerLinkActive="site-header__nav-link--active"
+                ariaCurrentWhenActive="page"
+                >About</a
+              >
+            </li>
+            <li>
+              <a
+                class="site-header__nav-link"
+                href="/assets/resume/d-james-poer-resume.pdf"
+                download
+                >Résumé</a
+              >
+            </li>
+            <li>
+              <a class="site-header__nav-link" href="mailto:djamespoer@djamespoer.com">Contact</a>
+            </li>
+            <li>
+              <a
+                class="site-header__nav-link"
+                href="https://www.linkedin.com/in/djamespoer"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Follow Me on LinkedIn</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="site-header__group">
+          <button
             #workButton
             type="button"
             [attr.aria-expanded]="openSection() === 'work'"
@@ -85,30 +131,7 @@
             }
           </ul>
         </li>
-        <li>
-          <a
-            class="site-header__nav-link"
-            routerLink="/about"
-            routerLinkActive="site-header__nav-link--active"
-            ariaCurrentWhenActive="page"
-            >About</a
-          >
-        </li>
-        <li>
-          <a class="site-header__nav-link" href="/assets/resume/d-james-poer-resume.pdf" download
-            >Resume</a
-          >
-        </li>
-        <li>
-          <a class="site-header__nav-link" href="mailto:djamespoer@djamespoer.com">Contact</a>
-        </li>
       </ul>
     </nav>
-    <p class="site-header__utility">
-      Follow Me on
-      <a href="https://www.linkedin.com/in/djamespoer" target="_blank" rel="noopener noreferrer"
-        >LinkedIn</a
-      >
-    </p>
   </div>
 </header>

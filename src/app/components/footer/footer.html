@@ -15,7 +15,11 @@
       <p class="site-footer__copyright">
         &copy; {{ currentYear }} D. James Poer. All rights reserved.
       </p>
-      <button type="button" (click)="identityPaused.update(toggleIdentity)">
+      <button
+        class="site-footer__identity-motion"
+        type="button"
+        (click)="identityPaused.update(toggleIdentity)"
+      >
         {{ identityPaused() ? 'Play living identity' : 'Pause living identity' }}
       </button>
     </div>
