@@ -11,9 +11,11 @@ app-carousel {
   margin-block: 1em;
 }
 
-.home-construction {
+.home-editorial {
   padding-block: clamp(2rem, 5vw, 4rem);
+}
 
+.home-construction {
   p {
     max-inline-size: 70ch;
   }

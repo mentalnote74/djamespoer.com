@@ -412,3 +412,11 @@ Focused layout/routing 27/27, Angular 214/214, Node 153/153 (including paired-la
 The exact /work route now redirects to Home with pathMatch full; the final wildcard also redirects to Home. Five authored /work/* case studies and all six Perspectives remain lazy and unchanged. Removed Work landing component/template/styles, its index-only tests, All Work navigation and case-study links, and the obsolete showWorkLink input. Case-study route coverage moved to app.routes.spec.ts; blocking-bootstrap coverage now excludes redirect-only entries from lazy-component assertions. Historical documentation remains historical.
 
 Verified redirects, legitimate routes, one main landmark and mocked browser back/forward restoration. Focused 44/44 plus final routing 7/7; full Angular 216/216; Node 153/153; production build passed, initial 293.18 kB / estimated transfer 79.48 kB without budget warnings. Prettier/whitespace passed. Real-browser history acceptance remains unmeasured. Generated build timestamp excluded.
+
+## Thingamajob Home visual placeholder
+
+James authorized scenery only, not SCRUM-33 functionality. No earlier Aside component was recovered; a minimal native named aside projects the kiosk. Home now uses the shared supporting-first editorial pair: Thingamajob left, unchanged Pardon the dust copy right, below the unchanged seven-slide carousel and above history. At the existing 48rem transition the pair stacks in source order. No other page uses the new modifier.
+
+Kiosk anatomy includes a roof/sign, bezel/screen, instruction/status areas and native disabled preview file/buttons. No handlers, uploads, analysis, scores, API or state machine. Semantic surface custom properties/system-color fallbacks prepare later theming; the decorative black/yellow construction tape is deliberately fixed and aria-hidden, with construction status supplied as real text. Controls are provisional visual anatomy, not a frozen functional contract.
+
+Focused Home/Aside/placeholder/bootstrap 23/23, Angular 217/217, Node 153/153, production build without budget warnings (293.28 kB initial, 79.33 kB estimated transfer), formatting/whitespace passed. Real-browser visual/reflow/axe acceptance remains pending. Timestamp noise and unrelated material excluded.

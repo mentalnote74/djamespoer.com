@@ -119,8 +119,14 @@ describe('App', () => {
     await fixture.whenStable();
     const root = fixture.nativeElement as HTMLElement;
     const section = root.querySelector('.home-construction')!;
-    expect(section.previousElementSibling?.tagName).toBe('APP-CAROUSEL');
-    expect(section.nextElementSibling?.classList.contains('home-history')).toBe(true);
+    expect(section.previousElementSibling?.tagName).toBe('APP-ASIDE');
+    expect(section.parentElement?.parentElement?.previousElementSibling?.tagName).toBe(
+      'APP-CAROUSEL',
+    );
+    expect(
+      section.parentElement?.parentElement?.nextElementSibling?.classList.contains('home-history'),
+    ).toBe(true);
+    expect(root.querySelector('aside[aria-label="Thingamajob"] app-thingamajob')).not.toBeNull();
     expect(section.querySelector('h2')?.textContent).toBe('Pardon the dust.');
     expect(
       Array.from(section.querySelectorAll('strong')).map((item) => item.textContent?.trim()),
@@ -169,9 +175,7 @@ describe('App', () => {
     expect(main?.querySelector('app-home > h1')?.textContent).toBe('D. James Poer');
     expect(main?.querySelectorAll('app-deployment-history')).toHaveLength(1);
     expect(
-      main?.querySelector(
-        'app-home > app-carousel + section.home-construction + section.home-history',
-      ),
+      main?.querySelector('app-home > app-carousel + div.home-editorial + section.home-history'),
     ).not.toBeNull();
     expect(main?.querySelector('app-hero app-deployment-history')).toBeNull();
     expect(main?.querySelector('.hero__updated')?.textContent).toContain('Last updated:');

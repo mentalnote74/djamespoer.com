@@ -47,6 +47,10 @@
   grid-column: auto;
 }
 
+.editorial-content > .editorial-pair--supporting-first {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+}
+
 .editorial-pair > :first-child {
   max-inline-size: 70ch;
 }
