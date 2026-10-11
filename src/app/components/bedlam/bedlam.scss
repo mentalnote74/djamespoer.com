@@ -13,14 +13,6 @@
   isolation: isolate;
   border-radius: 0.3rem;
   background: #111827;
-  // A fixed dark veil keeps light canonical letterforms readable over every field state.
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgb(17 24 39 / 70%);
-    z-index: 1;
-  }
   &__layer {
     position: absolute;
     inset: 0;
