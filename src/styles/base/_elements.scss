@@ -1,11 +1,5 @@
 @use '../abstracts' as foundation;
 
-// Runtime-facing page colors can cascade independently of compile-time geometry.
-:root {
-  --page-background: #f7f7f7;
-  --page-foreground: #202020;
-}
-
 *,
 *::before,
 *::after {

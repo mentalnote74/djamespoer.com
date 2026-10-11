@@ -68,8 +68,8 @@
     inset-block-start: 100%;
     min-inline-size: 15rem;
     padding: 0.5rem;
-    background: #fff;
-    color: #111827;
+    background: var(--navigation-surface);
+    color: var(--navigation-foreground);
     border: 1px solid currentColor;
     border-radius: 0.25rem;
   }

@@ -1,0 +1,38 @@
+@use 'sass:map';
+// Static definitions are authoritative; components consume only semantic properties.
+$themes: (
+  'teetotaler': (
+    'page-background': #f7f7f7,
+    'page-foreground': #202020,
+    'control-background': #fff,
+    'control-foreground': #202020,
+    'control-border': #252a30,
+    'control-hover-background': #202020,
+    'control-hover-foreground': #fff,
+    'control-active-background': #252a30,
+    'control-active-foreground': #fff,
+    'navigation-surface': #fff,
+    'navigation-foreground': #111827,
+    'section-surface': #eef1f4,
+    'panel-surface': #fff,
+    'secondary-text': #454b52,
+    'panel-border': #aab2bb,
+    'selected-background': #202020,
+    'selected-foreground': #fff,
+  ),
+);
+@mixin properties($tokens) {
+  @each $role, $value in $tokens {
+    --#{$role}: #{$value};
+  }
+}
+// Missing JS/selector retains the identical baseline. Only the document root
+// selects drink themes; nested artwork data-theme attributes cannot select them.
+:root:not([data-theme]) {
+  @include properties(map.get($themes, 'teetotaler'));
+}
+@each $name, $tokens in $themes {
+  :root[data-theme='#{$name}'] {
+    @include properties($tokens);
+  }
+}
