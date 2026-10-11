@@ -56,6 +56,29 @@ describe('Work routes', () => {
     );
   });
   it.each([
+    ['exl', 'October 2019–April 2023'],
+    ['ips', 'August 2019–October 2019'],
+    ['tcc', '2015–2019'],
+    ['dr', '2011–2015'],
+    ['djamespoer', 'UX Engineer'],
+  ])('renders /work/%s context beneath its heading', async (path, context) => {
+    const harness = await RouterTestingHarness.create(`/work/${path}`);
+    const heading = harness.routeNativeElement!.querySelector('h1')!;
+    expect(heading.nextElementSibling?.tagName).toBe('P');
+    expect(heading.nextElementSibling?.textContent).toContain(context);
+    const metadata = heading.nextElementSibling!.textContent!;
+    expect(metadata).toContain(' · ');
+    expect(metadata).not.toMatch(/[?\uFFFD\u00C2\u00C3]/);
+    const roles: Record<string, string> = {
+      exl: 'Senior Web Designer',
+      ips: 'UI Developer',
+      tcc: 'UX Developer II',
+      dr: 'Photographer/Web Developer · Digital Presence Coordinator',
+      djamespoer: 'UX Engineer · Front-End Architect · Product Builder',
+    };
+    expect(metadata).toContain(roles[path]);
+  });
+  it.each([
     ['djamespoer', 'djamespoer.com', 'Performance 92'],
     ['exl', 'EXL / LifePRO', 'roughly 150 lines of Sass'],
     ['tcc', 'TCC Software Solutions', 'During my final week at TCC'],

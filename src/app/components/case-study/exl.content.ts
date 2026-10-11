@@ -4,7 +4,7 @@ import { CaseStudy } from './case-study.model';
 export const EXL_CASE_STUDY: CaseStudy = {
   title: 'EXL / LifePRO',
   introduction:
-    'Senior Web Designer ? UX Engineering · Front-End Development · Accessibility · Product Design\n\nModernizing an established enterprise application without rewriting the world—combining UX, front-end development, accessibility, architecture, and pragmatic technical decision-making.',
+    'Senior Web Designer · October 2019–April 2023 · UX Engineering · Front-End Development · Accessibility · Product Design\n\nModernizing an established enterprise application without rewriting the world—combining UX, front-end development, accessibility, architecture, and pragmatic technical decision-making.',
   sections: [
     {
       heading: "The challenge wasn't starting over",
