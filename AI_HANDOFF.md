@@ -370,3 +370,7 @@ Removed only the 70% dark overlay above the three canvas fields. Existing canvas
 ## SCRUM-75 - Header cleanup
 
 Logo treatment frozen at 15-25% canvas opacity with transparent base. Logo remains the sole accessible Home link; redundant Home navigation and adjacent Pause removed. Native footer Pause/Play living identity action controls application-owned pause state; reduced motion and runtime behavior unchanged. Focused tests 43/43, Angular 210/210, Node 152/152, production build and formatting/whitespace checks passed. Production visual acceptance remains pending.
+
+## Home construction-site copy
+
+Added James-approved Pardon the dust section immediately after Hero and before Build & Deployment History, preserving supplied copy and emphasizing opening/closing statements with native strong markup. Existing responsive container and typography retained. Angular 211/211 and production build passed; formatting/whitespace passed. No visual redesign or BEDLAM changes.

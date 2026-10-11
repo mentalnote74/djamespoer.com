@@ -67,6 +67,22 @@ describe('App', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
+  it('places the construction-site copy between Hero and history', async () => {
+    const fixture = TestBed.createComponent(App);
+    await TestBed.inject(Router).navigateByUrl('/');
+    await fixture.whenStable();
+    const root = fixture.nativeElement as HTMLElement;
+    const section = root.querySelector('.home-construction')!;
+    expect(section.previousElementSibling?.tagName).toBe('APP-HERO');
+    expect(section.nextElementSibling?.classList.contains('home-history')).toBe(true);
+    expect(section.querySelector('h2')?.textContent).toBe('Pardon the dust.');
+    expect(
+      Array.from(section.querySelectorAll('strong')).map((item) => item.textContent?.trim()),
+    ).toEqual([
+      "You're standing in the middle of a working construction site. On purpose.",
+      "That's the point. You're not just looking at what I built. You're watching how I build.",
+    ]);
+  });
   it('connects the footer motion control to the header identity', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
@@ -107,7 +123,9 @@ describe('App', () => {
     expect(main?.querySelector('.hero .visually-hidden')?.firstElementChild?.tagName).toBe('H1');
     expect(main?.querySelectorAll('app-deployment-history')).toHaveLength(1);
     expect(
-      main?.querySelector('app-home > app-hero + section.home-history + app-carousel'),
+      main?.querySelector(
+        'app-home > app-hero + section.home-construction + section.home-history + app-carousel',
+      ),
     ).not.toBeNull();
     expect(main?.querySelector('app-hero app-deployment-history')).toBeNull();
     expect(main?.querySelector('.hero__updated')?.textContent).toContain('Last updated:');
