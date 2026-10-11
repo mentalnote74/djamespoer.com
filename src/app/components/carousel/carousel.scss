@@ -5,7 +5,8 @@
 }
 
 .carousel {
-  padding-block: clamp(3rem, 8vw, 6rem);
+  padding-block-start: var(--carousel-padding-start, clamp(3rem, 8vw, 6rem));
+  padding-block-end: clamp(3rem, 8vw, 6rem);
   background: #eef1f4;
 
   &__content {

@@ -174,6 +174,18 @@ describe('App', () => {
       'djamespoer.com — Home',
     );
     expect(main?.querySelector('.carousel__position')?.textContent?.trim()).toBe('Slide 1 of 7');
+    expect(main?.querySelector('.carousel')?.getAttribute('aria-label')).toBe(
+      'Portfolio Perspectives',
+    );
+    for (const slide of slides) {
+      expect(slide.querySelector('h2')).not.toBeNull();
+      expect(slide.querySelector('h3')).toBeNull();
+    }
+    main?.querySelectorAll('[aria-labelledby]').forEach((element) => {
+      for (const id of element.getAttribute('aria-labelledby')!.split(/\s+/)) {
+        expect(document.getElementById(id)).not.toBeNull();
+      }
+    });
     const creative = main?.querySelector<HTMLImageElement>('img.home-creative');
     expect(creative?.getAttribute('srcset')).toMatch(/creative-600\.webp\s+600w/);
     expect(creative?.getAttribute('sizes')).toContain('1152px');

@@ -5,7 +5,7 @@
   </div>
   @if (showCopy()) {
     <div class="candidate__copy">
-      <h3>{{ candidate().heading }}</h3>
+      <h2 class="candidate__heading">{{ candidate().heading }}</h2>
       <p>{{ candidate().idea }}</p>
       <a [routerLink]="candidate().path">Explore {{ candidate().heading }}</a>
     </div>

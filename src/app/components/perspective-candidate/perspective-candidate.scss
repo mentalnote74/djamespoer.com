@@ -21,7 +21,8 @@
     position: relative;
     max-inline-size: 27rem;
   }
-  h3 {
+  &__heading {
+    font-size: 1.17em;
     margin-block: 0 0.75rem;
   }
   p {

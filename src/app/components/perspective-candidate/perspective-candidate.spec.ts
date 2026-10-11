@@ -70,7 +70,7 @@ describe('Perspective review candidates', () => {
     fixture.componentRef.setInput('showCopy', false);
     fixture.detectChanges();
     expect(root.querySelector('.candidate__copy')).toBeNull();
-    expect(root.querySelector('h3, a')).toBeNull();
+    expect(root.querySelector('h2, a')).toBeNull();
     expect(root.querySelector('.candidate__art')?.getAttribute('aria-hidden')).toBe('true');
     expect(root.querySelector('.candidate__particles')).not.toBeNull();
     const button = root.querySelector<HTMLButtonElement>('button')!;
@@ -94,7 +94,7 @@ describe('Perspective review candidates', () => {
   });
   it('provides a real destination and decorative, non-focusable artwork', () => {
     const fixture = create();
-    expect(fixture.nativeElement.querySelector('h3').textContent).toBe('Engineering');
+    expect(fixture.nativeElement.querySelector('h2').textContent).toBe('Engineering');
     expect(fixture.nativeElement.querySelector('a').getAttribute('href')).toBe('/engineering');
     expect(fixture.nativeElement.querySelector('.candidate__art').getAttribute('aria-hidden')).toBe(
       'true',
@@ -126,7 +126,7 @@ describe('Perspective review candidates', () => {
     fixture.detectChanges();
     expect(initialize).not.toHaveBeenCalled();
     expect(fixture.nativeElement.querySelector('button')).toBeNull();
-    expect(fixture.nativeElement.querySelector('h3')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('h2')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('a')).not.toBeNull();
   });
   it('allocates different particle container IDs for multiple instances', () => {

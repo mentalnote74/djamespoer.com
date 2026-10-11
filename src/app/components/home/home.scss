@@ -2,6 +2,15 @@
   display: block;
 }
 
+app-carousel {
+  --carousel-padding-start: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.home-slide-heading {
+  font-size: 1.17em;
+  margin-block: 1em;
+}
+
 .home-construction {
   padding-block: clamp(2rem, 5vw, 4rem);
 
@@ -18,7 +27,8 @@
 }
 
 .home-history {
-  padding-block: clamp(2rem, 5vw, 4rem);
+  padding-block-start: clamp(2rem, 5vw, 4rem);
+  padding-block-end: clamp(0.75rem, 2vw, 1.5rem);
 
   &__content {
     min-inline-size: 0;

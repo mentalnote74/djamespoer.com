@@ -390,3 +390,7 @@ Carousel is now the first Home visual. Existing Hero is reused inside the new le
 ## Carousel label/counter cleanup
 
 Removed visible carousel H2 and named native section directly with aria-label Portfolio Perspectives. Counter visually hidden using existing accessibility utility; slide position labels/live-region behavior, controls/timing/order preserved. Pardon the dust remains H2. Included previously approved Resume/LinkedIn label cleanup, destinations unchanged. Focused 41/41, Angular 213/213, production build (no budget warnings), formatting/whitespace passed. Browser axe not available; production acceptance remains pending. Timestamp excluded.
+
+## Home heading and spacing correction
+
+Removed-carousel-heading regression was Home H1 followed by active Under Construction H3; all seven slide headings now H2 with separate presentation hooks. Carousel retains direct accessible name and visually hidden counter; Pardon the dust remains H2. Home overrides carousel start padding to 0.75-1.5rem (generic default retained); history end padding now 0.75-1.5rem instead of 2-4rem. Header/Page/footer and Smart Grid spacing otherwise untouched; no negative margins. Focused 47/47, Angular 213/213, Node 152/152, production build without budget warnings, formatting/whitespace passed. Desktop/mobile appearance and production axe/Lighthouse not measured here; acceptance pending. Timestamp excluded.
