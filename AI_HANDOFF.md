@@ -444,3 +444,7 @@ Mojito bright-daytime anchor passes; Sunrise-to-Mojito 1,001-state sampling pass
 ## SCRUM-77 Piña Colada checkpoint
 
 Piña Colada light-daytime anchor passes. Mojito-to-Piña Colada sampling is SAFE (minimum text 6.199, UI 5.299). No new shared roles; all completed themes and Teetotaler revalidated. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. Browser/axe pending. Corrected shell-transfer encoding in the preceding learning notes. Next Mai Tai; no living engine.
+
+## SCRUM-77 Mai Tai checkpoint
+
+Golden-hour Mai Tai passes all pairings and prior-theme regressions. Piña Colada-to-Mai Tai sampled SAFE (minimum text 6.117, UI 5.299); no new roles or reorder. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. Browser/axe pending. Next Tequila Sunset; inversion analysis remains ahead. Full tokens in the static-anchor learning log.

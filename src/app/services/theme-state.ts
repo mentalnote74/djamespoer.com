@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { inject, Injectable, signal } from '@angular/core';
-export type ThemeId = 'teetotaler' | 'tequila-sunrise' | 'mojito' | 'pina-colada';
+export type ThemeId = 'teetotaler' | 'tequila-sunrise' | 'mojito' | 'pina-colada' | 'mai-tai';
 /** Only accepted palettes are selectable. No color or artwork logic belongs here. */
 @Injectable({ providedIn: 'root' })
 export class ThemeState {
@@ -12,6 +12,7 @@ export class ThemeState {
     { id: 'tequila-sunrise', label: 'Tequila Sunrise' },
     { id: 'mojito', label: 'Mojito' },
     { id: 'pina-colada', label: 'Piña Colada' },
+    { id: 'mai-tai', label: 'Mai Tai' },
   ];
   constructor() {
     this.setTheme('teetotaler');

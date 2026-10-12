@@ -123,3 +123,41 @@ Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, pr
 | focus-inner               | #fff    |
 | focus-outer               | #111    |
 | native-color-scheme       | light   |
+
+## Mai Tai - golden hour
+
+Amber/rum page, burnt-orange structural controls, warm supporting surfaces. Minimum text 6.117:1; UI 5.483:1. Piña Colada -> Mai Tai: sampled SAFE; minimum body 10.601:1 and text 6.117:1 at incoming endpoint, UI 5.299:1 at outgoing endpoint. No polarity change. Warm surfaces deepen without collapsing secondary text. Existing semantic roles suffice; all previous themes revalidated. No reorder recommended. Next Tequila Sunset retains light polarity while testing dusk colors; night inversion remains a separate concern.
+
+Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build, formatting/whitespace passed. Browser/axe pending.
+
+| Semantic role             | Value   |
+| ------------------------- | ------- |
+| page-background           | #f2dfc2 |
+| page-foreground           | #3d281d |
+| control-background        | #fff5e5 |
+| control-foreground        | #65331e |
+| control-border            | #703c22 |
+| control-hover-background  | #703c22 |
+| control-hover-foreground  | #fff5e5 |
+| control-active-background | #4c291d |
+| control-active-foreground | #fff5e5 |
+| navigation-surface        | #f1d3a9 |
+| navigation-foreground     | #3d281d |
+| section-surface           | #e9c59c |
+| panel-surface             | #fff5e5 |
+| secondary-text            | #5c3b2a |
+| panel-border              | #703c22 |
+| selected-background       | #703c22 |
+| selected-foreground       | #fff5e5 |
+| component-surface         | #f1d3a9 |
+| component-text            | #3d281d |
+| component-border          | #703c22 |
+| input-surface             | #fff5e5 |
+| input-text                | #3d281d |
+| grid-border               | #703c22 |
+| grid-disabled-text        | #5c3b2a |
+| footer-divider            | #703c22 |
+| disabled-opacity          | 1       |
+| focus-inner               | #fff    |
+| focus-outer               | #111    |
+| native-color-scheme       | light   |
