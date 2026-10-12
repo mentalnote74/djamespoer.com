@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { compileString } from 'sass';
+import { compileString, compile as compileFile } from 'sass';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { palettes, themeCss, evaluate, contrast, rgb, transition } from './theme-analysis.mjs';
@@ -127,4 +127,33 @@ test('same-polarity adjacent anchors preserve sampled semantic contrast; crossov
           JSON.stringify({ from: result.from, to: result.to, ...row }),
         );
   }
+});
+
+test('pre-dawn to sunrise is flagged as a polarity crossover, not a safe interpolated path', () => {
+  const result = transition('bloody-mary', 'tequila-sunrise');
+  assert.equal(result.polarityChange, true);
+  assert.ok(result.firstUnsafe > 0 && result.lastUnsafe < 1);
+  assert.ok(result.minima.some((row) => row.ratio < row.required));
+  for (const name of ['bloody-mary', 'tequila-sunrise'])
+    for (const row of evaluate(palettes[name])) assert.ok(row.ratio >= row.required);
+});
+
+test('actual shared UI consumes the measured roles while construction tape and artwork stay independent', () => {
+  const compile = (path) =>
+    compileFile(fileURLToPath(new URL('../' + path, import.meta.url)), { style: 'compressed' }).css;
+  const grid = compile('src/app/components/smart-grid/smart-grid.scss');
+  assert.match(grid, /border-block-end:1px solid var\(--grid-border\)/);
+  assert.match(grid, /color:var\(--grid-disabled-text\)/);
+  assert.match(
+    compile('src/app/components/footer/footer.scss'),
+    /border-top:1px solid var\(--footer-divider\)/,
+  );
+  assert.match(compile('src/styles/base/_buttons.scss'), /opacity:var\(--disabled-opacity\)/);
+  const kiosk = compile('src/app/components/thingamajob/thingamajob.scss');
+  assert.match(kiosk, /var\(--component-surface, Canvas\)/);
+  assert.match(kiosk, /var\(--input-surface, Field\)/);
+  assert.match(kiosk, /background:#ffdf00;color:#000/);
+  assert.match(themeCss, /:root\[data-theme\]:not\(\[data-theme=teetotaler\]\) input/);
+  assert.match(themeCss, /box-shadow:0 0 0 3px var\(--focus-inner\)/);
+  assert.doesNotMatch(themeCss, /\.candidate|\.bedlam|--accent|transition:/);
 });

@@ -69,11 +69,17 @@ export function transition(from, to, steps = 1000) {
   const a = palettes[from],
     b = palettes[to];
   const minima = pairs.map(([fg, bg, required]) => ({ fg, bg, required, ratio: Infinity, at: 0 }));
+  let firstUnsafe = null;
+  let lastUnsafe = null;
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
     const mix = (role) => rgb(a[role]).map((v, j) => v + (rgb(b[role])[j] - v) * t);
     minima.forEach((p) => {
       const ratio = contrast(mix(p.fg), mix(p.bg));
+      if (ratio < p.required) {
+        firstUnsafe ??= t;
+        lastUnsafe = t;
+      }
       if (ratio < p.ratio) {
         p.ratio = ratio;
         p.at = t;
@@ -83,7 +89,13 @@ export function transition(from, to, steps = 1000) {
   return {
     from,
     to,
-    polarityChange: a['native-color-scheme'] !== b['native-color-scheme'],
+    polarityChange:
+      contrast(rgb(a['page-foreground']), [0, 0, 0]) >
+        contrast(rgb(a['page-background']), [0, 0, 0]) !==
+      contrast(rgb(b['page-foreground']), [0, 0, 0]) >
+        contrast(rgb(b['page-background']), [0, 0, 0]),
+    firstUnsafe,
+    lastUnsafe,
     minima,
   };
 }
@@ -97,13 +109,15 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       `${name}: text ${text.ratio.toFixed(3)} (${text.fg}/${text.bg}); UI ${ui.ratio.toFixed(3)} (${ui.fg}/${ui.bg})`,
     );
   }
-  for (let i = 1; i < anchors.length; i++) {
-    const r = transition(anchors[i - 1], anchors[i]);
+  const edges = anchors.slice(1).map((name, i) => [anchors[i], name]);
+  if (anchors.includes('bloody-mary')) edges.push(['bloody-mary', 'tequila-sunrise']);
+  for (const [from, to] of edges) {
+    const r = transition(from, to);
     const body = r.minima.find((p) => p.fg === 'page-foreground' && p.bg === 'page-background');
     const text = r.minima.filter((p) => p.required === 4.5).sort((a, b) => a.ratio - b.ratio)[0];
     const ui = r.minima.filter((p) => p.required === 3).sort((a, b) => a.ratio - b.ratio)[0];
     console.log(
-      `${r.from} -> ${r.to}: ${r.polarityChange ? 'POLARITY CROSSOVER' : text.ratio >= 4.5 && ui.ratio >= 3 ? 'SAFE' : 'UNSAFE'}; body ${body.ratio.toFixed(3)} @${body.at}; text ${text.ratio.toFixed(3)} @${text.at}; UI ${ui.ratio.toFixed(3)} @${ui.at}`,
+      `${r.from} -> ${r.to}: ${r.polarityChange ? 'POLARITY CROSSOVER' : text.ratio >= 4.5 && ui.ratio >= 3 ? 'SAFE' : 'UNSAFE'}; body ${body.ratio.toFixed(3)} @${body.at}; text ${text.ratio.toFixed(3)} @${text.at}; UI ${ui.ratio.toFixed(3)} @${ui.at}; failing samples ${r.firstUnsafe}..${r.lastUnsafe}`,
     );
   }
 }

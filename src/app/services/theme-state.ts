@@ -7,7 +7,8 @@ export type ThemeId =
   | 'pina-colada'
   | 'mai-tai'
   | 'tequila-sunset'
-  | 'rum-runner';
+  | 'rum-runner'
+  | 'bloody-mary';
 /** Only accepted palettes are selectable. No color or artwork logic belongs here. */
 @Injectable({ providedIn: 'root' })
 export class ThemeState {
@@ -22,6 +23,7 @@ export class ThemeState {
     { id: 'mai-tai', label: 'Mai Tai' },
     { id: 'tequila-sunset', label: 'Tequila Sunset' },
     { id: 'rum-runner', label: 'Rum Runner' },
+    { id: 'bloody-mary', label: 'Bloody Mary' },
   ];
   constructor() {
     this.setTheme('teetotaler');

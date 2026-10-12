@@ -247,3 +247,65 @@ Next: Bloody Mary, pre-dawn dark polarity; analyze its same-polarity path and th
 | focus-inner               | #fff    |
 | focus-outer               | #111    |
 | native-color-scheme       | dark    |
+
+## Bloody Mary - pre-dawn, outgoing dark polarity
+
+Charcoal/celery page, oxblood controls, tomato/hot-sauce hover accents and pale salt/cream foregrounds. Minimum text 7.171:1 (hover foreground/surface); UI 5.907:1 (grid border/panel). Rum Runner -> Bloody Mary: sampled SAFE; body minimum 14.025:1, text 7.171:1, UI 5.907:1, all at incoming endpoint. Existing roles suffice. Prior anchors and Teetotaler revalidated. No order change.
+
+Validation: theme/contrast 7/7, focused 12/12, Angular 224/224, Node 160/160, production build without budget warnings (302.85 kB initial, estimated transfer 80.87 kB; global CSS 10.90 kB / 1.88 kB estimated transfer), formatting/whitespace passed. A test-only Sass import initially used the wrong export name; corrected to the existing compile API and reran the complete gate successfully. Existing jsdom canvas warnings remain. Browser/axe/Lighthouse acceptance not run.
+
+### Dawn boundary: POLARITY CROSSOVER / unsafe direct interpolation
+
+Bloody Mary -> Tequila Sunrise: body minimum 1.001:1 at t=0.499; text 1.000:1 at t=0.498; UI 1.001:1 at t=0.470. First failing sampled state t=0.110, last t=0.882; outgoing sampled safe corridor ends at 0.109 and incoming begins at 0.883. Diagnostic fractions are not approved clock times or hop thresholds.
+
+Recommend a second atomic semantic-bundle hop at dawn, from the pre-dawn endpoint to Sunrise. Immediately before: minimum text 7.171:1 and UI 5.907:1. Immediately after: text 7.031:1 and UI 6.106:1. Same coupled roles as dusk; native color scheme changes to light, focus rings remain fixed. Current body foregrounds again have no common safe surface interval: outgoing requires surface luminance <=0.15719; incoming requires >=0.26536. A foreground-only hop over a smoothly changing surface is not proven safe; the smallest supported remedy is the coupled endpoint hop. No living runtime added.
+
+| Semantic role             | Value   |
+| ------------------------- | ------- |
+| page-background           | #1e2421 |
+| page-foreground           | #fff0d2 |
+| control-background        | #47292b |
+| control-foreground        | #fff0d2 |
+| control-border            | #c6bc83 |
+| control-hover-background  | #e3a17b |
+| control-hover-foreground  | #321f19 |
+| control-active-background | #e9c58a |
+| control-active-foreground | #321f19 |
+| navigation-surface        | #28332c |
+| navigation-foreground     | #fff0d2 |
+| section-surface           | #2e3430 |
+| panel-surface             | #353c35 |
+| secondary-text            | #d8cfb9 |
+| panel-border              | #c6bc83 |
+| selected-background       | #e3a17b |
+| selected-foreground       | #321f19 |
+| component-surface         | #28332c |
+| component-text            | #fff0d2 |
+| component-border          | #c6bc83 |
+| input-surface             | #1e2421 |
+| input-text                | #fff0d2 |
+| grid-border               | #c6bc83 |
+| grid-disabled-text        | #d8cfb9 |
+| footer-divider            | #c6bc83 |
+| disabled-opacity          | 1       |
+| focus-inner               | #fff    |
+| focus-outer               | #111    |
+| native-color-scheme       | dark    |
+
+## Completed transition map and stop checkpoint
+
+| Outgoing -> incoming           | Position             | Classification                     | Minimum body | Minimum text | Minimum UI | Valley / recommendation                            |
+| ------------------------------ | -------------------- | ---------------------------------- | ------------ | ------------ | ---------- | -------------------------------------------------- |
+| Tequila Sunrise -> Mojito      | Sunrise -> day       | Sampled SAFE                       | 10.757       | 6.298        | 5.484      | Incoming endpoint; no remedy/reorder               |
+| Mojito -> Piña Colada          | Day -> light daytime | Sampled SAFE                       | 10.757       | 6.199        | 5.299      | Body outgoing; text/UI incoming; no remedy/reorder |
+| Piña Colada -> Mai Tai         | Day -> golden hour   | Sampled SAFE                       | 10.601       | 6.117        | 5.299      | Text/body incoming; UI outgoing; no remedy/reorder |
+| Mai Tai -> Tequila Sunset      | Golden hour -> dusk  | Sampled SAFE                       | 10.551       | 5.809        | 5.030      | Incoming endpoint; no remedy/reorder               |
+| Tequila Sunset -> Rum Runner   | Dusk -> night        | POLARITY CROSSOVER / unsafe direct | 1.002        | 1.000        | 1.000      | Body t=.454, text .448, UI .571; coupled hop       |
+| Rum Runner -> Bloody Mary      | Night -> pre-dawn    | Sampled SAFE                       | 14.025       | 7.171        | 5.907      | Incoming endpoint; no remedy/reorder               |
+| Bloody Mary -> Tequila Sunrise | Pre-dawn -> sunrise  | POLARITY CROSSOVER / unsafe direct | 1.001        | 1.000        | 1.001      | Body t=.499, text .498, UI .470; coupled hop       |
+
+Recommended order remains Sunrise -> Mojito -> Piña Colada -> Mai Tai -> Sunset -> Rum Runner -> Bloody Mary -> Sunrise. No MARGINAL or unexplained UNSAFE same-polarity regions were found in this sample model. The two inversion boundaries require controlled hops with these endpoints; clock speed cannot rescue their unsafe intervals. Reordering is not proposed as a substitute for resolving inversion.
+
+Final available navigation: Teetotaler, Tequila Sunrise, Mojito, Piña Colada, Mai Tai, Tequila Sunset, Rum Runner, Bloody Mary. No unavailable theme entries, living mode, scheduler, animation or interpolation runtime. Teetotaler exact-value parity remains green. The remaining decision is human acceptance of static visual identity and the documented future two-hop strategy; dense sampling is not a continuous proof or WCAG certification. Remaining browser coverage includes desktop/mobile/zoom, menu overflow, disabled native file chrome, focus-ring clipping, dark-surface BEDLAM recognition, representative Home/case-study/Perspective/footer surfaces and axe.
+
+Stopped because the authorized, sufficiently defined Sunrise-to-Sunrise static anchor sequence is complete. Further themes would expand this run; the living engine is explicitly excluded. Next action is human browser/axe review and committee review of the dusk/dawn hops before any living-theme implementation. Other previously discussed drinks are not silently added as anchors.
