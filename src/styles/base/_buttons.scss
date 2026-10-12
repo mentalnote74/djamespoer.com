@@ -31,4 +31,16 @@ button {
     opacity: var(--disabled-opacity);
   }
 }
+.nav-menu-button {
+  @include foundation.nav-menu-item;
+  border: 0;
+  background: transparent;
+  color: inherit;
+
+  &:hover:not(:disabled):not([aria-disabled='true']),
+  &:active:not(:disabled):not([aria-disabled='true']) {
+    background: transparent;
+    color: inherit;
+  }
+}
 // Shared focus-visible outlines are supplied by base/accessibility.

@@ -149,7 +149,7 @@
             @for (theme of themeState.availableThemes; track theme.id) {
               <li>
                 <button
-                  class="site-header__theme-option"
+                  class="nav-menu-button"
                   type="button"
                   [attr.aria-pressed]="themeState.activeTheme() === theme.id"
                   (click)="themeState.setTheme(theme.id)"

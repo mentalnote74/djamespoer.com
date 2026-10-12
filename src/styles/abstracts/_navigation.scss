@@ -1,0 +1,23 @@
+@use 'foundations' as tokens;
+
+// Dropdown links and action buttons share presentation, not native semantics.
+@mixin nav-menu-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: start;
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: tokens.$control-target;
+  padding: 0 0.625rem;
+  border-radius: 0.25rem;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+
+  &:hover:not(:disabled):not([aria-disabled='true']),
+  &[aria-current='page'],
+  &[aria-pressed='true'] {
+    text-decoration: underline;
+    text-decoration-thickness: tokens.$link-hover-thickness;
+  }
+}

@@ -74,3 +74,24 @@ test('header toggle is hidden by default and revealed only by the established na
   assert.match(css, /@media\(max-width: 64rem\)\{\.site-header__menu\{display:inline-flex/);
   assert.doesNotMatch(css, /\.site-header button\{/);
 });
+
+test('dropdown action buttons share link metrics and override generic button chrome in all interaction states', () => {
+  const shared = compile(
+    "@use 'abstracts' as foundation;.menu-link { @include foundation.nav-menu-item; }",
+  );
+  const buttons = compile("@use 'base/buttons';");
+  assert.match(
+    shared,
+    /inline-size:100%;min-inline-size:0;min-block-size:2.75rem;padding:0 .625rem/,
+  );
+  assert.match(shared, /\[aria-current=page\].*\[aria-pressed=true\].*text-decoration:underline/);
+  assert.match(
+    buttons,
+    /\.nav-menu-button\{[^}]*border:0;background:(?:transparent|rgba\(0,0,0,0\));color:inherit/,
+  );
+  assert.match(
+    buttons,
+    /\.nav-menu-button:hover:not\(:disabled\):not\(\[aria-disabled=true\]\),\.nav-menu-button:active:not\(:disabled\):not\(\[aria-disabled=true\]\)\{background:(?:transparent|rgba\(0,0,0,0\));color:inherit\}/,
+  );
+  assert.doesNotMatch(buttons, /data-theme|outline:none|outline:0/);
+});

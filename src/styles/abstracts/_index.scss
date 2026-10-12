@@ -1,3 +1,4 @@
 @forward 'responsive' show breakpoint, at-or-below;
+@forward 'navigation' show nav-menu-item;
 @forward 'foundations' show $font-stack, $body-line-height, $heading-weight, $control-target,
   $focus-width, $focus-offset, $link-hover-thickness;

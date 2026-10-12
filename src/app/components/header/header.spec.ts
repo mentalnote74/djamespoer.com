@@ -19,6 +19,8 @@ describe('Header', () => {
       state.availableThemes.map((theme) => theme.label),
     );
     expect(list.querySelector('[disabled]')).toBeNull();
+    expect(options.every((option) => option.classList.contains('nav-menu-button'))).toBe(true);
+    expect(trigger.classList.contains('nav-menu-button')).toBe(false);
     expect(options[0].getAttribute('aria-pressed')).toBe('true');
     options.forEach((option, index) => {
       option.click();
