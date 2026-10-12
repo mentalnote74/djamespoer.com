@@ -199,3 +199,51 @@ Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, pr
 | focus-inner               | #fff    |
 | focus-outer               | #111    |
 | native-color-scheme       | light   |
+
+## Rum Runner - night, incoming dark polarity
+
+Blackberry/plum page and elevated surfaces, pale cream foregrounds, berry hover/selected states. Minimum text 8.614:1; UI 6.053:1. Existing shared roles represent the inversion without component hacks. Native control color-scheme changes to dark; two-tone focus remains independent. All endpoints and Teetotaler revalidated. BEDLAM and artwork remain unchanged and need visual review against the dark canvas.
+
+Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build, formatting/whitespace passed. Browser/axe pending.
+
+### Dusk boundary: POLARITY CROSSOVER / unsafe direct interpolation
+
+Tequila Sunset -> Rum Runner: body minimum 1.002:1 at t=0.454; minimum text 1.000:1 at t=0.448; minimum UI 1.000:1 at t=0.571. At 0.001 sampling increments, the first failing state is t=0.066 and the last failing state is t=0.856 across the tested pairings; outgoing sampled safe corridor ends at 0.065 and incoming begins at 0.857. These fractions describe a hypothetical straight sRGB path, not clock times or approved hop locations. Do not render that path.
+
+Recommendation: controlled atomic hop from the completed Sunset endpoint to the completed Rum Runner endpoint. Immediately before: minimum text 5.809:1 and UI 5.030:1. Immediately after: text 8.614:1 and UI 6.053:1. Switch the whole semantic bundle together: page/prose, secondary/status, navigation, control normal/hover/active/selected foregrounds and surfaces, panel/kiosk/input surfaces and foregrounds, borders, native color scheme. Focus rings remain fixed. No CSS transitions on these global colors were added; current static selection already switches by root attribute. Future engine must not interpolate across this boundary.
+
+Surfaces cannot safely be claimed to continue smoothly with only the two existing body foregrounds jumping: outgoing foreground luminance 0.02125 requires surface luminance >=0.27061 at 4.5:1; incoming foreground luminance 0.88908 requires surface <=0.15868. There is no shared admissible surface interval. A surface/foreground coupled hop is the smallest safe recommendation; bridge colors or other staged paths would need separate design and validation. Any wholly continuous inversion must cross equal foreground/background luminance, so reordering alone cannot remove the underlying polarity problem. No reorder recommended merely to hide it.
+
+Next: Bloody Mary, pre-dawn dark polarity; analyze its same-polarity path and the return to Sunrise. No living runtime implemented.
+
+| Semantic role             | Value   |
+| ------------------------- | ------- |
+| page-background           | #211827 |
+| page-foreground           | #fff0df |
+| control-background        | #3c2943 |
+| control-foreground        | #fff0df |
+| control-border            | #cfa3bd |
+| control-hover-background  | #e5bacf |
+| control-hover-foreground  | #2d1930 |
+| control-active-background | #f4d1bb |
+| control-active-foreground | #2d1930 |
+| navigation-surface        | #302238 |
+| navigation-foreground     | #fff0df |
+| section-surface           | #2b1c32 |
+| panel-surface             | #36283a |
+| secondary-text            | #dfc5d7 |
+| panel-border              | #cfa3bd |
+| selected-background       | #e5bacf |
+| selected-foreground       | #2d1930 |
+| component-surface         | #302238 |
+| component-text            | #fff0df |
+| component-border          | #cfa3bd |
+| input-surface             | #211827 |
+| input-text                | #fff0df |
+| grid-border               | #cfa3bd |
+| grid-disabled-text        | #dfc5d7 |
+| footer-divider            | #cfa3bd |
+| disabled-opacity          | 1       |
+| focus-inner               | #fff    |
+| focus-outer               | #111    |
+| native-color-scheme       | dark    |

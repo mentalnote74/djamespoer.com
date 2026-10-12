@@ -452,3 +452,7 @@ Golden-hour Mai Tai passes all pairings and prior-theme regressions. Piña Colad
 ## SCRUM-77 Tequila Sunset checkpoint
 
 Dusk anchor passes while retaining outgoing light polarity. Mai Tai-to-Sunset sampled SAFE (minimum text 5.809, UI 5.030). Prior themes revalidated; no new roles or reorder. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. Browser/axe pending. Next Rum Runner requires explicit polarity-crossover diagnostics; no living engine.
+
+## SCRUM-77 Rum Runner checkpoint
+
+Night anchor passes (minimum text 8.614, UI 6.053), with all prior endpoints revalidated. Dusk direct interpolation is explicitly UNSAFE: near-1:1 valleys; recommended atomic Sunset-to-Rum Runner semantic-bundle hop, not a faster clock. Existing foreground luminances have no shared safe surface interval; coupled surface/foreground leap is required with these endpoints. Full analysis in static-anchor log. No interpolation runtime or BEDLAM change. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. Browser/axe pending. Continuing to pre-dawn Bloody Mary.
