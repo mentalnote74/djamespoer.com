@@ -439,4 +439,8 @@ Autonomous static-only run authorized by James. Tequila Sunrise is available thr
 
 ## SCRUM-77 Mojito checkpoint
 
-Mojito bright-daytime anchor passes; Sunrise-to-Mojito 1,001-state sampling passes all tested pairings (minimum text 6.298, UI 5.484). Prior themes and Teetotaler values revalidated. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. No new shared roles. Browser/axe pending. Continuing to Pi?a Colada; living engine absent. Full token records and learning: docs/themes/scrum-77-static-anchors.md.
+Mojito bright-daytime anchor passes; Sunrise-to-Mojito 1,001-state sampling passes all tested pairings (minimum text 6.298, UI 5.484). Prior themes and Teetotaler values revalidated. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. No new shared roles. Browser/axe pending. Continuing to Piña Colada; living engine absent. Full token records and learning: docs/themes/scrum-77-static-anchors.md.
+
+## SCRUM-77 Piña Colada checkpoint
+
+Piña Colada light-daytime anchor passes. Mojito-to-Piña Colada sampling is SAFE (minimum text 6.199, UI 5.299). No new shared roles; all completed themes and Teetotaler revalidated. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. Browser/axe pending. Corrected shell-transfer encoding in the preceding learning notes. Next Mai Tai; no living engine.

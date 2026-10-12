@@ -4,7 +4,7 @@ These are source-based contrast diagnostics, not browser/axe acceptance or proof
 
 The mathematical audit samples 1,001 equally spaced sRGB channel interpolation states per adjacent drink pair. Pairings cover inherited prose/links/footer/grid, secondary/status text, navigation, button normal/hover/active/selected states, native input/select colors, kiosk body/screen and meaningful borders. New-palette disabled buttons retain opacity 1; Teetotaler retains its accepted opacity 0.6. Two-tone focus rings provide a contrasting ring on light and dark adjacent surfaces. Native disabled file-control chrome, ridge-border bevels, shadows, clipping and actual browser rendering require human/browser inspection; decorative dividers/shadows are not claimed as meaningful UI boundaries. Dense samples are diagnostics, not a mathematical guarantee between samples.
 
-## Tequila Sunrise ? sunrise
+## Tequila Sunrise - sunrise
 
 Yellow illuminated page, orange/coral section and navigation surfaces, deep red-brown text/controls. Minimum tested text 7.031:1 (secondary text on section); UI 6.106:1 (grid border on section). Body text and inherited links remain well separated from the warm surfaces.
 
@@ -12,7 +12,7 @@ This first palette exposed missing kiosk/system-color, input, grid, divider and 
 
 Validation: focused 27/27; Angular 224/224; Node 158/158; production build passed (297.55 kB initial, estimated transfer 80.22 kB); formatting/whitespace passed. Existing jsdom canvas warnings remain. Browser surfaces unavailable; no visual, axe or Lighthouse claim.
 
-Next: Mojito (bright daytime), then Pi?a Colada, then Mai Tai (golden hour). No ordering change recommended yet. Evaluate sunset/night polarity before extending the safe corridor.
+Next: Mojito (bright daytime), then Piña Colada, then Mai Tai (golden hour). No ordering change recommended yet. Evaluate sunset/night polarity before extending the safe corridor.
 
 ### Tequila Sunrise token record
 
@@ -48,9 +48,9 @@ Next: Mojito (bright daytime), then Pi?a Colada, then Mai Tai (golden hour). No 
 | focus-outer               | #111    |
 | native-color-scheme       | light   |
 
-## Mojito ? bright daytime
+## Mojito - bright daytime
 
-Pale mint/ice page, lime-green supporting surfaces and deep green controls. Minimum text 6.298:1; UI 5.484:1. Sunrise ? Mojito: SAFE in sampled sRGB path; minimum body 10.757:1, text 6.298:1, UI 5.484:1, minima at the incoming endpoint. No polarity change or order change. Existing roles suffice; all completed themes revalidated. Next Pi?a Colada remains a same-polarity light anchor; test its actual path before claiming safety.
+Pale mint/ice page, lime-green supporting surfaces and deep green controls. Minimum text 6.298:1; UI 5.484:1. Sunrise - Mojito: SAFE in sampled sRGB path; minimum body 10.757:1, text 6.298:1, UI 5.484:1, minima at the incoming endpoint. No polarity change or order change. Existing roles suffice; all completed themes revalidated. Next Piña Colada remains a same-polarity light anchor; test its actual path before claiming safety.
 
 Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build passed (298.42 kB initial / 80.38 kB estimated transfer), formatting/whitespace passed. Browser/axe pending.
 
@@ -81,6 +81,44 @@ Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, pr
 | grid-border               | #256447 |
 | grid-disabled-text        | #355747 |
 | footer-divider            | #256447 |
+| disabled-opacity          | 1       |
+| focus-inner               | #fff    |
+| focus-outer               | #111    |
+| native-color-scheme       | light   |
+
+## Piña Colada - light daytime
+
+Cream/coconut page, pineapple section surface and palm-green controls. Minimum text 6.199:1; UI 5.299:1. Mojito -> Piña Colada: SAFE in 1,001 sampled states; minimum body 10.757:1 at outgoing endpoint, text 6.199:1 and UI 5.299:1 at incoming endpoint. Same-polarity corridor remains separated with healthy margin. No token adjustment or order change; all prior themes revalidated. Next Mai Tai will deepen the warm surfaces; its actual path still needs measurement.
+
+Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build, formatting/whitespace passed. Browser/axe pending.
+
+| Semantic role             | Value   |
+| ------------------------- | ------- |
+| page-background           | #fff8e6 |
+| page-foreground           | #283c24 |
+| control-background        | #fffdf4 |
+| control-foreground        | #28502a |
+| control-border            | #42652c |
+| control-hover-background  | #42652c |
+| control-hover-foreground  | #fffdf4 |
+| control-active-background | #284b34 |
+| control-active-foreground | #fffdf4 |
+| navigation-surface        | #e7edcd |
+| navigation-foreground     | #283c24 |
+| section-surface           | #f3e4b6 |
+| panel-surface             | #fffdf4 |
+| secondary-text            | #515438 |
+| panel-border              | #42652c |
+| selected-background       | #42652c |
+| selected-foreground       | #fffdf4 |
+| component-surface         | #f3e4b6 |
+| component-text            | #283c24 |
+| component-border          | #42652c |
+| input-surface             | #fffdf4 |
+| input-text                | #283c24 |
+| grid-border               | #42652c |
+| grid-disabled-text        | #515438 |
+| footer-divider            | #42652c |
 | disabled-opacity          | 1       |
 | focus-inner               | #fff    |
 | focus-outer               | #111    |
