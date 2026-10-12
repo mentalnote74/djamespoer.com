@@ -436,3 +436,7 @@ Focused Header/ThemeState 12/12, full Angular 224/224, production build and Pret
 ## SCRUM-77 static anchors: Tequila Sunrise
 
 Autonomous static-only run authorized by James. Tequila Sunrise is available through ThemeState/root scopes. Added evidence-driven kiosk/input, grid, footer-divider and disabled-opacity roles while preserving Teetotaler literals/system colors. New palettes use two-tone focus and deliberate native control colors; no artwork/BEDLAM/functional kiosk changes. Build-time contrast/transition diagnostics are not shipped runtime code. Learning log: docs/themes/scrum-77-static-anchors.md. Focused 27/27, Angular 224/224, Node 158/158, production build, formatting and whitespace passed. Browser/axe acceptance remains pending; living engine absent. Continuing with Mojito.
+
+## SCRUM-77 Mojito checkpoint
+
+Mojito bright-daytime anchor passes; Sunrise-to-Mojito 1,001-state sampling passes all tested pairings (minimum text 6.298, UI 5.484). Prior themes and Teetotaler values revalidated. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. No new shared roles. Browser/axe pending. Continuing to Pi?a Colada; living engine absent. Full token records and learning: docs/themes/scrum-77-static-anchors.md.

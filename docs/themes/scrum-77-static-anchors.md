@@ -13,3 +13,75 @@ This first palette exposed missing kiosk/system-color, input, grid, divider and 
 Validation: focused 27/27; Angular 224/224; Node 158/158; production build passed (297.55 kB initial, estimated transfer 80.22 kB); formatting/whitespace passed. Existing jsdom canvas warnings remain. Browser surfaces unavailable; no visual, axe or Lighthouse claim.
 
 Next: Mojito (bright daytime), then Pi?a Colada, then Mai Tai (golden hour). No ordering change recommended yet. Evaluate sunset/night polarity before extending the safe corridor.
+
+### Tequila Sunrise token record
+
+| Semantic role             | Value   |
+| ------------------------- | ------- |
+| page-background           | #fff3d6 |
+| page-foreground           | #421b18 |
+| control-background        | #fff9ed |
+| control-foreground        | #70251c |
+| control-border            | #873323 |
+| control-hover-background  | #873323 |
+| control-hover-foreground  | #fff9ed |
+| control-active-background | #63221c |
+| control-active-foreground | #fff9ed |
+| navigation-surface        | #ffe4b5 |
+| navigation-foreground     | #421b18 |
+| section-surface           | #ffd5b5 |
+| panel-surface             | #fff9ed |
+| secondary-text            | #633b2e |
+| panel-border              | #873323 |
+| selected-background       | #873323 |
+| selected-foreground       | #fff9ed |
+| component-surface         | #ffe4b5 |
+| component-text            | #421b18 |
+| component-border          | #873323 |
+| input-surface             | #fff9ed |
+| input-text                | #421b18 |
+| grid-border               | #873323 |
+| grid-disabled-text        | #633b2e |
+| footer-divider            | #873323 |
+| disabled-opacity          | 1       |
+| focus-inner               | #fff    |
+| focus-outer               | #111    |
+| native-color-scheme       | light   |
+
+## Mojito ? bright daytime
+
+Pale mint/ice page, lime-green supporting surfaces and deep green controls. Minimum text 6.298:1; UI 5.484:1. Sunrise ? Mojito: SAFE in sampled sRGB path; minimum body 10.757:1, text 6.298:1, UI 5.484:1, minima at the incoming endpoint. No polarity change or order change. Existing roles suffice; all completed themes revalidated. Next Pi?a Colada remains a same-polarity light anchor; test its actual path before claiming safety.
+
+Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build passed (298.42 kB initial / 80.38 kB estimated transfer), formatting/whitespace passed. Browser/axe pending.
+
+| Semantic role             | Value   |
+| ------------------------- | ------- |
+| page-background           | #eaf7ee |
+| page-foreground           | #173e31 |
+| control-background        | #f6fff7 |
+| control-foreground        | #164c38 |
+| control-border            | #256447 |
+| control-hover-background  | #256447 |
+| control-hover-foreground  | #f6fff7 |
+| control-active-background | #164c38 |
+| control-active-foreground | #f6fff7 |
+| navigation-surface        | #d7f1df |
+| navigation-foreground     | #173e31 |
+| section-surface           | #ccebd5 |
+| panel-surface             | #f6fff7 |
+| secondary-text            | #355747 |
+| panel-border              | #256447 |
+| selected-background       | #256447 |
+| selected-foreground       | #f6fff7 |
+| component-surface         | #d7f1df |
+| component-text            | #173e31 |
+| component-border          | #256447 |
+| input-surface             | #f6fff7 |
+| input-text                | #173e31 |
+| grid-border               | #256447 |
+| grid-disabled-text        | #355747 |
+| footer-divider            | #256447 |
+| disabled-opacity          | 1       |
+| focus-inner               | #fff    |
+| focus-outer               | #111    |
+| native-color-scheme       | light   |
