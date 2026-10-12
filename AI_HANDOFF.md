@@ -432,3 +432,7 @@ Focused 35/35, Angular 223/223, Node 155/155; parity covers every migrated value
 Primary navigation owns the Theme disclosure after About, Work and Perspectives. Thingamajob remains the future job-evaluation kiosk, never the theme selector; its black/yellow tape remains fixed. The menu derives only implemented themes from ThemeState.availableThemes, initially Teetotaler alone, with accessible pressed state. Future palettes and Dusk-to-Dusk are absent until functional. Selection uses ThemeState and root data-theme; shared disclosure, Escape/focus and mobile behavior are preserved. SCRUM-77 documentation reflects this boundary.
 
 Focused Header/ThemeState 12/12, full Angular 224/224, production build and Prettier/whitespace passed. Existing jsdom canvas warnings remain; real-browser visual/axe acceptance is pending. Generated timestamp excluded.
+
+## SCRUM-77 static anchors: Tequila Sunrise
+
+Autonomous static-only run authorized by James. Tequila Sunrise is available through ThemeState/root scopes. Added evidence-driven kiosk/input, grid, footer-divider and disabled-opacity roles while preserving Teetotaler literals/system colors. New palettes use two-tone focus and deliberate native control colors; no artwork/BEDLAM/functional kiosk changes. Build-time contrast/transition diagnostics are not shipped runtime code. Learning log: docs/themes/scrum-77-static-anchors.md. Focused 27/27, Angular 224/224, Node 158/158, production build, formatting and whitespace passed. Browser/axe acceptance remains pending; living engine absent. Continuing with Mojito.

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { routes } from '../../app.routes';
 import { Header } from './header';
+import { ThemeState } from '../../services/theme-state';
 
 describe('Header', () => {
   it('offers global theme selection through the shared disclosure with an accessible current state', () => {
@@ -13,10 +14,25 @@ describe('Header', () => {
     const list = root.querySelector<HTMLUListElement>('#theme-navigation')!;
     expect(list.hidden).toBe(false);
     const options = Array.from(list.querySelectorAll('button'));
-    expect(options.map((option) => option.textContent?.trim())).toEqual(['Teetotaler']);
+    const state = TestBed.inject(ThemeState);
+    expect(options.map((option) => option.textContent?.trim())).toEqual(
+      state.availableThemes.map((theme) => theme.label),
+    );
     expect(list.querySelector('[disabled]')).toBeNull();
     expect(options[0].getAttribute('aria-pressed')).toBe('true');
+    options.forEach((option, index) => {
+      option.click();
+      fixture.detectChanges();
+      expect(document.documentElement.getAttribute('data-theme')).toBe(
+        state.availableThemes[index].id,
+      );
+      expect(option.getAttribute('aria-pressed')).toBe('true');
+      expect(
+        options.filter((button) => button.getAttribute('aria-pressed') === 'true'),
+      ).toHaveLength(1);
+    });
     options[0].click();
+    fixture.detectChanges();
     expect(document.documentElement.getAttribute('data-theme')).toBe('teetotaler');
     options[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     fixture.detectChanges();

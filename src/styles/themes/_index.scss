@@ -19,11 +19,67 @@ $themes: (
     'panel-border': #aab2bb,
     'selected-background': #202020,
     'selected-foreground': #fff,
+    'component-surface': Canvas,
+    'component-text': CanvasText,
+    'component-border': currentColor,
+    'input-surface': Field,
+    'input-text': FieldText,
+    'grid-border': #767676,
+    'grid-disabled-text': #595959,
+    'footer-divider': #d8d8d8,
+    'disabled-opacity': 0.6,
+  ),
+  'tequila-sunrise': (
+    'page-background': #fff3d6,
+    'page-foreground': #421b18,
+    'control-background': #fff9ed,
+    'control-foreground': #70251c,
+    'control-border': #873323,
+    'control-hover-background': #873323,
+    'control-hover-foreground': #fff9ed,
+    'control-active-background': #63221c,
+    'control-active-foreground': #fff9ed,
+    'navigation-surface': #ffe4b5,
+    'navigation-foreground': #421b18,
+    'section-surface': #ffd5b5,
+    'panel-surface': #fff9ed,
+    'secondary-text': #633b2e,
+    'panel-border': #873323,
+    'selected-background': #873323,
+    'selected-foreground': #fff9ed,
+    'component-surface': #ffe4b5,
+    'component-text': #421b18,
+    'component-border': #873323,
+    'input-surface': #fff9ed,
+    'input-text': #421b18,
+    'grid-border': #873323,
+    'grid-disabled-text': #633b2e,
+    'footer-divider': #873323,
+    'disabled-opacity': 1,
+    'focus-inner': #fff,
+    'focus-outer': #111,
+    'native-color-scheme': light,
   ),
 );
 @mixin properties($tokens) {
   @each $role, $value in $tokens {
     --#{$role}: #{$value};
+  }
+}
+// New palettes need deliberate native chrome and a two-tone focus indicator.
+// Baseline styles, including browser-native control colors, remain untouched.
+:root[data-theme]:not([data-theme='teetotaler']) {
+  color-scheme: var(--native-color-scheme);
+  input,
+  textarea,
+  select {
+    background-color: var(--input-surface);
+    color: var(--input-text);
+    border-color: var(--control-border);
+  }
+  :is(button, a, input, textarea, select):focus-visible {
+    outline-color: var(--focus-outer);
+    box-shadow: 0 0 0 3px var(--focus-inner);
   }
 }
 // Missing JS/selector retains the identical baseline. Only the document root

@@ -2,6 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { compileString } from 'sass';
 import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { palettes, themeCss, evaluate, contrast, rgb, transition } from './theme-analysis.mjs';
 const css = compileString("@use 'themes';", {
   loadPaths: [fileURLToPath(new URL('../src/styles', import.meta.url))],
   style: 'compressed',
@@ -26,7 +28,9 @@ const expected = {
   'selected-foreground': '#fff',
 };
 test('Teetotaler and no-selector fallback preserve all migrated production colors with root-only scoping', () => {
-  const blocks = [...css.matchAll(/([^{}]+)\{([^{}]+)\}/g)];
+  const blocks = [
+    ...css.matchAll(/(:root:not\(\[data-theme\]\)|:root\[data-theme=teetotaler\])\{([^{}]+)\}/g),
+  ];
   assert.deepEqual(
     blocks.map((b) => b[1]),
     [':root:not([data-theme])', ':root[data-theme=teetotaler]'],
@@ -35,7 +39,13 @@ test('Teetotaler and no-selector fallback preserve all migrated production color
     const actual = Object.fromEntries(
       [...block[2].matchAll(/--([a-z-]+):([^;]+);?/g)].map((m) => [m[1], m[2].trim()]),
     );
-    assert.deepEqual(actual, expected);
+    for (const [role, value] of Object.entries(expected)) assert.equal(actual[role], value);
+    assert.equal(actual['grid-border'], '#767676');
+    assert.equal(actual['grid-disabled-text'], '#595959');
+    assert.equal(actual['component-surface'], 'Canvas');
+    assert.equal(actual['input-surface'], 'Field');
+    assert.equal(actual['footer-divider'], '#d8d8d8');
+    assert.equal(actual['disabled-opacity'], '0.6');
   }
 });
 function luminance(hex) {
@@ -60,5 +70,61 @@ test('migrated enabled text pairings preserve normal-text contrast', () => {
     const a = luminance(expected[fg]),
       b = luminance(expected[bg]);
     assert.ok((Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05) >= 4.5, fg + ' on ' + bg);
+  }
+});
+
+test('every available drink has complete semantic pairings with healthy contrast', () => {
+  for (const [name, tokens] of Object.entries(palettes)) {
+    if (name === 'teetotaler') continue;
+    for (const row of evaluate(tokens))
+      assert.ok(row.ratio >= row.required, name + ': ' + JSON.stringify(row));
+    assert.equal(tokens['disabled-opacity'], '1');
+    for (const role of [
+      'page-background',
+      'section-surface',
+      'panel-surface',
+      'navigation-surface',
+      'component-surface',
+      'input-surface',
+      'control-background',
+      'control-hover-background',
+      'control-active-background',
+      'selected-background',
+    ]) {
+      assert.ok(
+        Math.max(
+          contrast(rgb(tokens['focus-inner']), rgb(tokens[role])),
+          contrast(rgb(tokens['focus-outer']), rgb(tokens[role])),
+        ) >= 3,
+        name + ': two-tone focus on ' + role,
+      );
+    }
+  }
+});
+test('available runtime themes match generated root palettes without exposing future modes', () => {
+  const source = readFileSync(
+    new URL('../src/app/services/theme-state.ts', import.meta.url),
+    'utf8',
+  );
+  const names = [...source.matchAll(/id: '([a-z-]+)'/g)].map((m) => m[1]);
+  assert.deepEqual(names, Object.keys(palettes));
+  assert.doesNotMatch(source, /id: '(?:dawn-to-dawn|dusk-to-dusk)'/);
+  assert.doesNotMatch(themeCss, /:root\[data-theme=(?:blueprint|journey)\]/);
+});
+test('same-polarity adjacent anchors preserve sampled semantic contrast; crossovers are explicitly detected', () => {
+  const names = Object.keys(palettes).filter((n) => n !== 'teetotaler');
+  for (let i = 1; i < names.length; i++) {
+    const result = transition(names[i - 1], names[i]);
+    if (result.polarityChange) {
+      assert.ok(
+        result.minima.some((p) => p.ratio < p.required),
+        'expected unsafe direct polarity crossover',
+      );
+    } else
+      for (const row of result.minima)
+        assert.ok(
+          row.ratio >= row.required,
+          JSON.stringify({ from: result.from, to: result.to, ...row }),
+        );
   }
 });

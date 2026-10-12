@@ -10,6 +10,12 @@ describe('ThemeState', () => {
       const state = TestBed.inject(ThemeState);
       expect(state.activeTheme()).toBe('teetotaler');
       expect(document.documentElement.dataset['theme']).toBe('teetotaler');
+      for (const theme of state.availableThemes) {
+        state.setTheme(theme.id);
+        expect(state.activeTheme()).toBe(theme.id);
+        expect(document.documentElement.dataset['theme']).toBe(theme.id);
+        expect(artwork.dataset['theme']).toBe('blueprint');
+      }
       state.setTheme('teetotaler');
       expect(artwork.dataset['theme']).toBe('blueprint');
       expect(() => state.setTheme('unapproved' as 'teetotaler')).toThrow('Unsupported theme');
