@@ -161,3 +161,41 @@ Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, pr
 | focus-inner               | #fff    |
 | focus-outer               | #111    |
 | native-color-scheme       | light   |
+
+## Tequila Sunset - dusk, outgoing light polarity
+
+Amber/coral page, crimson controls and plum foregrounds. Minimum text 5.809:1; UI 5.030:1. Mai Tai -> Tequila Sunset: sampled SAFE; minimum body 10.551:1, text 5.809:1 and UI 5.030:1, all at the incoming endpoint. Supporting surfaces can deepen through dusk without swapping polarity yet. Existing roles suffice; all prior themes revalidated. No reorder. Next Rum Runner intentionally changes polarity; direct interpolation must be measured, not assumed compliant.
+
+Validation: theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build, formatting/whitespace passed. Browser/axe pending.
+
+| Semantic role             | Value   |
+| ------------------------- | ------- |
+| page-background           | #eed5cd |
+| page-foreground           | #392031 |
+| control-background        | #fff3e8 |
+| control-foreground        | #65253d |
+| control-border            | #74334c |
+| control-hover-background  | #74334c |
+| control-hover-foreground  | #fff3e8 |
+| control-active-background | #4a263e |
+| control-active-foreground | #fff3e8 |
+| navigation-surface        | #eac3c1 |
+| navigation-foreground     | #392031 |
+| section-surface           | #dfb9ac |
+| panel-surface             | #fff3e8 |
+| secondary-text            | #593448 |
+| panel-border              | #74334c |
+| selected-background       | #74334c |
+| selected-foreground       | #fff3e8 |
+| component-surface         | #eac3c1 |
+| component-text            | #392031 |
+| component-border          | #74334c |
+| input-surface             | #fff3e8 |
+| input-text                | #392031 |
+| grid-border               | #74334c |
+| grid-disabled-text        | #593448 |
+| footer-divider            | #74334c |
+| disabled-opacity          | 1       |
+| focus-inner               | #fff    |
+| focus-outer               | #111    |
+| native-color-scheme       | light   |

@@ -448,3 +448,7 @@ Piña Colada light-daytime anchor passes. Mojito-to-Piña Colada sampling is SAF
 ## SCRUM-77 Mai Tai checkpoint
 
 Golden-hour Mai Tai passes all pairings and prior-theme regressions. Piña Colada-to-Mai Tai sampled SAFE (minimum text 6.117, UI 5.299); no new roles or reorder. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. Browser/axe pending. Next Tequila Sunset; inversion analysis remains ahead. Full tokens in the static-anchor learning log.
+
+## SCRUM-77 Tequila Sunset checkpoint
+
+Dusk anchor passes while retaining outgoing light polarity. Mai Tai-to-Sunset sampled SAFE (minimum text 5.809, UI 5.030). Prior themes revalidated; no new roles or reorder. Theme/contrast 5/5, focused 12/12, Angular 224/224, Node 158/158, production build and formatting/whitespace passed. Browser/axe pending. Next Rum Runner requires explicit polarity-crossover diagnostics; no living engine.
