@@ -27,7 +27,7 @@ describe('Header', () => {
       fixture.detectChanges();
       expect(document.documentElement.getAttribute('data-theme')).toBe(
         state.availableThemes[index].id === 'dusk-to-dusk'
-          ? 'tequila-sunrise'
+          ? 'tequila-sunset'
           : state.availableThemes[index].id,
       );
       expect(option.getAttribute('aria-pressed')).toBe('true');

@@ -1,12 +1,12 @@
 /** Timing/state only; palette values remain authored in Sass. */
 export const livingAnchors = [
+  'tequila-sunset',
+  'rum-runner',
+  'bloody-mary',
   'tequila-sunrise',
   'mojito',
   'pina-colada',
   'mai-tai',
-  'tequila-sunset',
-  'rum-runner',
-  'bloody-mary',
 ] as const;
 export type LivingAnchor = (typeof livingAnchors)[number];
 export const livingTiming = { interpolationMs: 48 * 60 * 1000, wipeMs: 400 };
@@ -23,7 +23,7 @@ export function livingFrame(elapsed: number, timing = livingTiming) {
   const cycleMs = 5 * timing.interpolationMs + 2 * timing.wipeMs;
   let remaining = elapsed % cycleMs;
   for (let index = 0; index < livingAnchors.length; index++) {
-    const wipe = index === 4 ? 'sunset' : index === 6 ? 'sunrise' : null;
+    const wipe = index === 0 ? 'sunset' : index === 2 ? 'sunrise' : null;
     const duration = wipe ? timing.wipeMs : timing.interpolationMs;
     if (remaining < duration)
       return {
@@ -101,11 +101,19 @@ export function startLivingTheme(document: Document, timing = livingTiming): () 
   };
   const tick = () => {
     if (stopped) return;
-    const frame = livingFrame(window.performance.now() - started, timing);
+    const elapsed = window.performance.now() - started;
+    const frame = livingFrame(elapsed, timing);
     if (transition) return;
+    // The selected cycle begins at dusk, including a controlled exact t=0.
+    if (elapsed === 0) {
+      applyAnchor(livingAnchors[0]);
+      lastTarget = livingAnchors[0];
+      timer = window.setTimeout(tick, 1);
+      return;
+    }
     if (
       frame.wipe &&
-      lastTarget === frame.from &&
+      (lastTarget === frame.from || lastTarget === undefined) &&
       !motion.matches &&
       !document.hidden &&
       document.startViewTransition

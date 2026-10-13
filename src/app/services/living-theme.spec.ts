@@ -8,6 +8,15 @@ import {
 
 describe('Living theme controlled clock', () => {
   it('follows all seven anchors and wraps after roughly four hours', () => {
+    expect(livingAnchors).toEqual([
+      'tequila-sunset',
+      'rum-runner',
+      'bloody-mary',
+      'tequila-sunrise',
+      'mojito',
+      'pina-colada',
+      'mai-tai',
+    ]);
     let time = 0;
     livingAnchors.forEach((anchor, index) => {
       const frame = livingFrame(time);
@@ -17,17 +26,17 @@ describe('Living theme controlled clock', () => {
       time += frame.wipe ? livingTiming.wipeMs : livingTiming.interpolationMs;
     });
     expect(time).toBe(4 * 60 * 60 * 1000 + 800);
-    expect(livingFrame(time).from).toBe('tequila-sunrise');
-    expect(livingFrame(time + 1000).progress).toBeCloseTo(1000 / livingTiming.interpolationMs);
+    expect(livingFrame(time).from).toBe('tequila-sunset');
+    expect(livingFrame(time + 1000).progress).toBeCloseTo(600 / livingTiming.interpolationMs);
   });
   it('moves extremely slowly and never interpolates either polarity boundary', () => {
     expect(livingFrame(1000).progress).toBeLessThan(0.0004);
-    const sunset = 4 * livingTiming.interpolationMs;
-    expect(livingFrame(sunset - 1).to).toBe('tequila-sunset');
+    const sunset = 0;
+    expect(livingFrame(sunset).from).toBe('tequila-sunset');
     expect(livingFrame(sunset).wipe).toBe('sunset');
     expect(livingFrame(sunset + 399).wipe).toBe('sunset');
     expect(livingFrame(sunset + 400).from).toBe('rum-runner');
-    const dawn = 5 * livingTiming.interpolationMs + 400;
+    const dawn = livingTiming.interpolationMs + 400;
     expect(livingFrame(dawn - 1).to).toBe('bloody-mary');
     expect(livingFrame(dawn).wipe).toBe('sunrise');
     expect(livingFrame(dawn + 400).from).toBe('tequila-sunrise');
@@ -35,8 +44,8 @@ describe('Living theme controlled clock', () => {
   it('supports explicit timing without a control panel and rejects invalid values', () => {
     expect(livingTiming.wipeMs).toBe(400);
     expect(livingFrame(40, { interpolationMs: 10, wipeMs: 600 }).wipe).toBe('sunset');
-    expect(livingFrame(639, { interpolationMs: 10, wipeMs: 600 }).wipe).toBe('sunset');
-    expect(livingFrame(640, { interpolationMs: 10, wipeMs: 600 }).from).toBe('rum-runner');
+    expect(livingFrame(599, { interpolationMs: 10, wipeMs: 600 }).wipe).toBe('sunset');
+    expect(livingFrame(600, { interpolationMs: 10, wipeMs: 600 }).from).toBe('rum-runner');
     expect(() => livingFrame(-1)).toThrow();
     expect(() => livingFrame(0, { interpolationMs: 0, wipeMs: 400 })).toThrow();
   });
@@ -117,7 +126,8 @@ describe('Living theme runtime', () => {
     });
     const mainCount = document.querySelectorAll('main').length;
     stop = startLivingTheme(document, timing);
-    for (let i = 0; i < 4; i++) await advance(1000);
+    expect(document.documentElement.dataset['theme']).toBe('tequila-sunset');
+    await advance(1);
     expect(snapshots[0]).toEqual({
       direction: 'sunset',
       old: 'tequila-sunset',
@@ -125,7 +135,7 @@ describe('Living theme runtime', () => {
     });
     expect(document.documentElement.style.getPropertyValue('--page-foreground')).toBe('');
     await advance(400);
-    await advance(1000);
+    await advance(999);
     expect(snapshots[1]).toEqual({
       direction: 'sunrise',
       old: 'bloody-mary',
@@ -134,18 +144,37 @@ describe('Living theme runtime', () => {
     await advance(400);
     expect(document.documentElement.dataset['theme']).toBe('tequila-sunrise');
     expect(document.documentElement.dataset['themeWipe']).toBeUndefined();
+    for (let i = 0; i < 4; i++) await advance(1000);
+    expect(snapshots[2]).toEqual({
+      direction: 'sunset',
+      old: 'tequila-sunset',
+      next: 'rum-runner',
+    });
     expect(document.querySelectorAll('main').length).toBe(mainCount);
   });
   it('reduced motion changes anchors atomically without interpolation or snapshots', async () => {
     reduced = true;
     const wipe = vi.spyOn(document, 'startViewTransition');
     stop = startLivingTheme(document, timing);
-    await advance(1000);
-    expect(document.documentElement.dataset['theme']).toBe('mojito');
-    expect(document.documentElement.style.getPropertyValue('--page-foreground')).toBe('');
-    await advance(3000);
+    expect(document.documentElement.dataset['theme']).toBe('tequila-sunset');
+    await advance(400);
     expect(document.documentElement.dataset['theme']).toBe('rum-runner');
+    expect(document.documentElement.style.getPropertyValue('--page-foreground')).toBe('');
+    await advance(1000);
+    expect(document.documentElement.dataset['theme']).toBe('tequila-sunrise');
     expect(wipe).not.toHaveBeenCalled();
+  });
+  it('starting a fresh runtime resets elapsed time to Sunset rather than the prior position', async () => {
+    reduced = true;
+    stop = startLivingTheme(document, timing);
+    await advance(400);
+    await advance(1000);
+    expect(document.documentElement.dataset['theme']).toBe('tequila-sunrise');
+    stop();
+    stop = startLivingTheme(document, timing);
+    expect(document.documentElement.dataset['theme']).toBe('tequila-sunset');
+    await advance(400);
+    expect(document.documentElement.dataset['theme']).toBe('rum-runner');
   });
   it('unsupported browsers use atomic polarity changes', async () => {
     Object.defineProperty(document, 'startViewTransition', {
@@ -153,8 +182,7 @@ describe('Living theme runtime', () => {
       value: undefined,
     });
     stop = startLivingTheme(document, timing);
-    await advance(3000);
-    await advance(1000);
+    await advance(400);
     expect(document.documentElement.dataset['theme']).toBe('rum-runner');
     expect(document.documentElement.dataset['themeWipe']).toBeUndefined();
   });
@@ -169,7 +197,7 @@ describe('Living theme runtime', () => {
       } as ViewTransition;
     });
     stop = startLivingTheme(document, timing);
-    for (let i = 0; i < 4; i++) await advance(1000);
+    await advance(1);
     stop();
     document.documentElement.dataset['theme'] = 'teetotaler';
     update!();
@@ -183,7 +211,7 @@ describe('Living theme runtime', () => {
       throw new Error('Capture unavailable');
     });
     stop = startLivingTheme(document, timing);
-    for (let i = 0; i < 4; i++) await advance(1000);
+    await advance(1);
     expect(document.documentElement.dataset['theme']).toBe('rum-runner');
     expect(document.documentElement.dataset['themeWipe']).toBeUndefined();
     await advance(400);

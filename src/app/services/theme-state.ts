@@ -44,7 +44,7 @@ export class ThemeState {
     this.stopLiving?.();
     this.stopLiving = undefined;
     if (theme === 'dusk-to-dusk') {
-      this.document.documentElement.setAttribute('data-theme', 'tequila-sunrise');
+      this.document.documentElement.setAttribute('data-theme', 'tequila-sunset');
       void import('./living-theme')
         .then(({ startLivingTheme }) => {
           if (version === this.selectionVersion)

@@ -16,7 +16,7 @@ export const viewports = {
 };
 export function parseOptions(args) {
   const options = {};
-  const allowed = ['url', 'themes', 'routes', 'viewports', 'expected-sha', 'chrome'];
+  const allowed = ['url', 'themes', 'routes', 'viewports', 'expected-sha', 'chrome', 'mode'];
   for (let i = 0; i < args.length; i += 2) {
     const key = args[i]?.replace(/^--/, '');
     if (
@@ -41,6 +41,10 @@ export function parseOptions(args) {
     throw new Error('URL must be an HTTP(S) origin without credentials, query or path');
   if (!/^[a-f0-9]{40}$/.test(options['expected-sha'] ?? ''))
     throw new Error('A full verified expected SHA is required');
+  const mode = options.mode ?? 'static';
+  if (!['static', 'living'].includes(mode)) throw new Error('Invalid evidence mode');
+  if (mode === 'living' && options.themes)
+    throw new Error('Living mode selects Dusk-to-Dusk; omit --themes');
   const themes =
     (options.themes ?? 'all') === 'all' ? Object.keys(palettes) : options.themes.split(',');
   const routes = (options.routes ?? '/,/about,/work/exl,/engineering').split(',');
@@ -54,6 +58,7 @@ export function parseOptions(args) {
       throw new Error('Invalid/duplicate ' + kind);
   return {
     url: url.origin,
+    mode,
     themes,
     routes,
     sizes,
@@ -129,7 +134,7 @@ async function identity(page, theme, label, route) {
   }, Object.keys(palettes[theme]));
   return verifyIdentity(observed, theme, label, route);
 }
-async function selectTheme(page, theme, label, route) {
+export async function selectTheme(page, theme, label, route) {
   await page.goto(route, { waitUntil: 'networkidle2', timeout: 45000 });
   await page.waitForSelector('#theme-navigation button');
   if ((await page.evaluate(() => document.documentElement.dataset.theme)) !== 'teetotaler')
@@ -374,7 +379,11 @@ async function run(options) {
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
-    await run(parseOptions(process.argv.slice(2)));
+    const options = parseOptions(process.argv.slice(2));
+    if (options.mode === 'living') {
+      const { runLivingEvidence } = await import('./living-theme-evidence.mjs');
+      await runLivingEvidence(options, { auditOutcome, selectTheme, viewports });
+    } else await run(options);
   } catch (error) {
     console.error(error.message);
     process.exitCode = 1;
