@@ -502,3 +502,9 @@ Server-only foundation in server/thingamajob: signed Cloudflare Access human JWT
 Security tests 25/25 use real signed fictional JWTs and SQLite-backed production queries; server TypeScript check passed. Full Angular 234/234, combined Node 192/192, normal npm production build (304.98 kB initial / 81.35 kB estimated transfer), Prettier and whitespace passed. Existing jsdom canvas warnings remain. Generated timestamp restored; unrelated edits/private/evidence artifacts excluded.
 
 Live Access configuration, real James/Erica subject bindings, D1 provisioning and protected deployment are not verified by local tests. No credentials/private identifiers were requested or committed. Runtime/resource integration is deferred to SCRUM-81 after Coach review; do not begin it automatically. Setup/trust boundaries and test commands: server/thingamajob/README.md.
+
+## SCRUM-81 bounded entry checkpoint
+
+Coach accepted SCRUM-80 locally and authorized a lean entry slice. Added server/thingamajob/worker.ts: read-only GET /api/thingamajob/workspaces/<workspaceId>/access composes signed Access identity with active D1 owner authority. Returns minimal JSON; missing bindings fail closed, denials/unknown paths never serve SPA HTML. No writes, R2, career data, provisioning endpoint, new dependencies or public portfolio deployment changes.
+
+Focused identity/entry tests 28/28 and strict server TypeScript check pass; formatting/whitespace pass. Local signed fictional JWT + SQLite integration only. Live protected API deployment, Access settings, D1 binding and actual trusted owner provisioning are not available in the repository; no live success or SCRUM-80 integration certification claimed. This is an SCRUM-81 setup blocker, not an observed SCRUM-80 defect. Coach accepted this inspectable checkpoint for a scoped commit; live setup and full-story work remain deferred.

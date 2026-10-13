@@ -1,6 +1,6 @@
 # SCRUM-80 identity and workspace ownership
 
-Server-only foundation. Angular imports none of this directory. There is no Worker entry point, HTTP endpoint, R2 binding, evidence intake, claim/UNKNOWN implementation, or public provisioning route. SCRUM-81 must not begin until this checkpoint is reviewed.
+Server-only foundation. Angular imports none of this directory. The SCRUM-80 checkpoint had no Worker entry point. Coach has now authorized the bounded SCRUM-81 read-only entry slice below; R2, evidence intake, claim/UNKNOWN implementation and public provisioning routes remain absent.
 
 ## Trust boundary
 
@@ -36,3 +36,18 @@ Tests use real locally signed JWTs with fictional subjects and an in-memory SQLi
 The library logs nothing. Authentication/authorization failures return safe errors without tokens, subjects, email, private SQL or provider diagnostics. Trusted provisioning errors must remain operator-side; a future Worker boundary must never serialize raw infrastructure exceptions.
 
 References: [Cloudflare JWT validation](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/validating-json/), [human versus service application tokens](https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/authorization-cookie/application-token/), [D1 transactional batches](https://developers.cloudflare.com/d1/worker-api/d1-database/).
+
+## SCRUM-81 first entry slice (local checkpoint only)
+
+`worker.ts` exports a standard Worker fetch handler with one read-only route:
+`GET /api/thingamajob/workspaces/<workspaceId>/access`.
+It verifies Access and queries D1 for active owner authority, then returns only
+`{ "authorized": true, "operation": "owner" }`. It writes nothing and returns no identity, provider identifier, career content or evidence.
+
+Server bindings required: `ACCESS_ISSUER`, `ACCESS_AUDIENCE`, and `IDENTITY_DB` (D1 with the SCRUM-80 identity tables and trusted owner provisioning). No request value supplies these bindings. Missing configuration returns 503; authentication/authorization failures return generic 403. Unsupported paths/methods return JSON 404/405. All responses are non-cacheable. The handler has no static asset binding, CORS grant, provisioning endpoint or logging.
+
+The existing root `wrangler.jsonc` continues to deploy only the public portfolio. It does not deploy this entry point. A separate protected API deployment with separate test/live resources must be configured before a real check; do not point this standalone handler at the public portfolio's catch-all route. Its Access policy must cover the API path and alternative origins; JWT verification remains mandatory even for direct-origin requests. No deployment name, hostname, resource ID or owner subject has been guessed.
+
+First live check, once that setup exists: through an authenticated human session, request the access route for that person's provisioned workspace and expect JSON 200; request the other owner's workspace and expect generic JSON 403. Repeat for the other owner. Missing/forged identity must not produce SPA HTML. Actual owner identifiers/tokens stay private. These results would supply SCRUM-80 live integration evidence organically; failures in identity/owner provisioning return to SCRUM-80 before expanding SCRUM-81.
+
+Local verification: 28/28 identity/entry tests and strict TypeScript check pass. Entry tests use real signed fictional JWTs and the actual identity SQL in SQLite, not deployed Access/D1. No live integration success is claimed. Worker bundling/deployment, R2, broader schemas, writes/retry/reconciliation and the rest of SCRUM-81 are deferred. No new packages installed.
