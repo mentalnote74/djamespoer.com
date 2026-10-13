@@ -9,7 +9,8 @@
     "assets:creative": "node scripts/optimize-creative.mjs",
     "history:refresh": "node scripts/generate-deployment-history.mjs",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "evidence:themes": "node scripts/theme-evidence.mjs"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
@@ -27,9 +28,12 @@
     "@angular/build": "^22.2.1",
     "@angular/cli": "^22.2.1",
     "@angular/compiler-cli": "^22.2.0",
+    "axe-core": "4.14.0",
     "jsdom": "^30.0.0",
+    "lighthouse": "13.5.0",
     "particles.js": "^2.0.0",
     "prettier": "^3.8.1",
+    "puppeteer-core": "25.13.0",
     "typescript": "~6.0.2",
     "vitest": "^5.0.0"
   }
