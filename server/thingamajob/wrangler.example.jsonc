@@ -1,0 +1,36 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  // Copy to ignored wrangler.private.jsonc; replace every REPLACE value privately.
+  "main": "worker.ts",
+  "compatibility_date": "2026-10-13",
+  "workers_dev": false,
+  "preview_urls": false,
+  "env": {
+    "test": {
+      "name": "thingamajob-api-test",
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [{ "pattern": "REPLACE_WITH_TEST_API_HOSTNAME", "custom_domain": true }],
+      "d1_databases": [
+        {
+          "binding": "IDENTITY_DB",
+          "database_name": "REPLACE_WITH_TEST_D1_NAME",
+          "database_id": "REPLACE_WITH_TEST_D1_ID",
+        },
+      ],
+    },
+    "live": {
+      "name": "thingamajob-api-live",
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [{ "pattern": "REPLACE_WITH_LIVE_API_HOSTNAME", "custom_domain": true }],
+      "d1_databases": [
+        {
+          "binding": "IDENTITY_DB",
+          "database_name": "REPLACE_WITH_LIVE_D1_NAME",
+          "database_id": "REPLACE_WITH_LIVE_D1_ID",
+        },
+      ],
+    },
+  },
+}

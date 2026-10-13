@@ -46,5 +46,11 @@ Thumbs.db
 # Private Career Truth Archive
 career-source/
 
+# Private Thingamajob runtime configuration and local Worker state
+/server/thingamajob/wrangler.private.jsonc
+/server/thingamajob/.dev.vars*
+/server/thingamajob/.wrangler/
+/.wrangler/
+
 # Private Career Truth Archive
 career-source/
