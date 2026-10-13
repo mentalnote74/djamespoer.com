@@ -1,0 +1,48 @@
+// Complete native root snapshots; no crossfade or accessible DOM duplication.
+:root[data-theme-wipe] {
+  &::view-transition-group(root) {
+    animation: none;
+  }
+  &::view-transition-old(root),
+  &::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+    height: 100%;
+  }
+  &::view-transition-old(root) {
+    z-index: 1;
+  }
+  &::view-transition-new(root) {
+    z-index: 2;
+    animation-duration: var(--theme-wipe-duration, 400ms);
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: both;
+  }
+}
+:root[data-theme-wipe='sunset']::view-transition-new(root) {
+  animation-name: theme-horizon;
+}
+:root[data-theme-wipe='sunrise']::view-transition-new(root) {
+  animation-name: theme-rise;
+}
+@keyframes theme-horizon {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes theme-rise {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme-wipe]::view-transition-new(root) {
+    animation: none;
+  }
+}

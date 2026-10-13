@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { inject, Injectable, signal } from '@angular/core';
+import { DestroyRef, inject, Injectable, NgZone, signal } from '@angular/core';
 export type ThemeId =
   | 'teetotaler'
   | 'tequila-sunrise'
@@ -9,13 +9,17 @@ export type ThemeId =
   | 'tequila-sunset'
   | 'rum-runner'
   | 'bloody-mary';
+export type ThemeSelection = ThemeId | 'dusk-to-dusk';
 /** Only accepted palettes are selectable. No color or artwork logic belongs here. */
 @Injectable({ providedIn: 'root' })
 export class ThemeState {
   private readonly document = inject(DOCUMENT);
-  private readonly selected = signal<ThemeId>('teetotaler');
+  private readonly selected = signal<ThemeSelection>('teetotaler');
+  private readonly zone = inject(NgZone);
+  private stopLiving?: () => void;
+  private selectionVersion = 0;
   readonly activeTheme = this.selected.asReadonly();
-  readonly availableThemes: readonly { id: ThemeId; label: string }[] = [
+  readonly availableThemes: readonly { id: ThemeSelection; label: string }[] = [
     { id: 'teetotaler', label: 'Teetotaler' },
     { id: 'tequila-sunrise', label: 'Tequila Sunrise' },
     { id: 'mojito', label: 'Mojito' },
@@ -24,14 +28,34 @@ export class ThemeState {
     { id: 'tequila-sunset', label: 'Tequila Sunset' },
     { id: 'rum-runner', label: 'Rum Runner' },
     { id: 'bloody-mary', label: 'Bloody Mary' },
+    { id: 'dusk-to-dusk', label: 'Dusk-to-Dusk' },
   ];
   constructor() {
     this.setTheme('teetotaler');
+    inject(DestroyRef).onDestroy(() => {
+      this.selectionVersion++;
+      this.stopLiving?.();
+    });
   }
-  setTheme(theme: ThemeId): void {
+  setTheme(theme: ThemeSelection): void {
     if (!this.availableThemes.some((available) => available.id === theme))
       throw new Error('Unsupported theme');
-    this.document.documentElement.setAttribute('data-theme', theme);
+    const version = ++this.selectionVersion;
+    this.stopLiving?.();
+    this.stopLiving = undefined;
+    if (theme === 'dusk-to-dusk') {
+      this.document.documentElement.setAttribute('data-theme', 'tequila-sunrise');
+      void import('./living-theme')
+        .then(({ startLivingTheme }) => {
+          if (version === this.selectionVersion)
+            this.zone.runOutsideAngular(() => {
+              this.stopLiving = startLivingTheme(this.document);
+            });
+        })
+        .catch(() => {
+          if (version === this.selectionVersion) this.setTheme('tequila-sunrise');
+        });
+    } else this.document.documentElement.setAttribute('data-theme', theme);
     this.selected.set(theme);
   }
 }

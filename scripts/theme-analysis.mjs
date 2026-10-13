@@ -1,4 +1,4 @@
-// Build-time diagnostics only. No interpolation code is shipped to the browser.
+// Build-time diagnostics only. This module is not shipped to the browser.
 import { compileString } from 'sass';
 import { fileURLToPath } from 'node:url';
 

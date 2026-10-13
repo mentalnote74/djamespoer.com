@@ -177,7 +177,9 @@ async function save(file, value) {
 async function run(options) {
   const source = await readFile(path.join(root, 'src/app/services/theme-state.ts'), 'utf8');
   const labels = Object.fromEntries(
-    [...source.matchAll(/id: '([a-z-]+)', label: '([^']+)'/g)].map((m) => [m[1], m[2]]),
+    [...source.matchAll(/id: '([a-z-]+)', label: '([^']+)'/g)]
+      .filter((m) => m[1] !== 'dusk-to-dusk')
+      .map((m) => [m[1], m[2]]),
   );
   if (Object.keys(labels).join() !== Object.keys(palettes).join())
     throw new Error('Runtime/Sass theme manifest mismatch');

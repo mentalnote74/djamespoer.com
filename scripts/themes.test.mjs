@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { compileString, compile as compileFile } from 'sass';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
-import { palettes, themeCss, evaluate, contrast, rgb, transition } from './theme-analysis.mjs';
+import { palettes, themeCss, evaluate, contrast, rgb } from './theme-analysis.mjs';
 const css = compileString("@use 'themes';", {
   loadPaths: [fileURLToPath(new URL('../src/styles', import.meta.url))],
   style: 'compressed',
@@ -101,41 +101,28 @@ test('every available drink has complete semantic pairings with healthy contrast
     }
   }
 });
-test('available runtime themes match generated root palettes without exposing future modes', () => {
+test('available runtime choices expose static palettes and the implemented living mode', () => {
   const source = readFileSync(
     new URL('../src/app/services/theme-state.ts', import.meta.url),
     'utf8',
   );
   const names = [...source.matchAll(/id: '([a-z-]+)'/g)].map((m) => m[1]);
-  assert.deepEqual(names, Object.keys(palettes));
-  assert.doesNotMatch(source, /id: '(?:dawn-to-dawn|dusk-to-dusk)'/);
+  assert.deepEqual(names, [...Object.keys(palettes), 'dusk-to-dusk']);
+  assert.doesNotMatch(source, /id: 'dawn-to-dawn'/);
   assert.doesNotMatch(themeCss, /:root\[data-theme=(?:blueprint|journey)\]/);
 });
-test('same-polarity adjacent anchors preserve sampled semantic contrast; crossovers are explicitly detected', () => {
-  const names = Object.keys(palettes).filter((n) => n !== 'teetotaler');
-  for (let i = 1; i < names.length; i++) {
-    const result = transition(names[i - 1], names[i]);
-    if (result.polarityChange) {
-      assert.ok(
-        result.minima.some((p) => p.ratio < p.required),
-        'expected unsafe direct polarity crossover',
-      );
-    } else
-      for (const row of result.minima)
-        assert.ok(
-          row.ratio >= row.required,
-          JSON.stringify({ from: result.from, to: result.to, ...row }),
-        );
-  }
-});
-
-test('pre-dawn to sunrise is flagged as a polarity crossover, not a safe interpolated path', () => {
-  const result = transition('bloody-mary', 'tequila-sunrise');
-  assert.equal(result.polarityChange, true);
-  assert.ok(result.firstUnsafe > 0 && result.lastUnsafe < 1);
-  assert.ok(result.minima.some((row) => row.ratio < row.required));
-  for (const name of ['bloody-mary', 'tequila-sunrise'])
-    for (const row of evaluate(palettes[name])) assert.ok(row.ratio >= row.required);
+test('polarity wipes reveal complete snapshots in distinct directions without crossfading', () => {
+  const wipe = compileFile(
+    fileURLToPath(new URL('../src/styles/themes/_living.scss', import.meta.url)),
+    { style: 'compressed' },
+  ).css;
+  assert.match(wipe, /data-theme-wipe=sunset.*animation-name:theme-horizon/);
+  assert.match(wipe, /data-theme-wipe=sunrise.*animation-name:theme-rise/);
+  assert.match(wipe, /clip-path:inset\(0 100% 0 0\)/);
+  assert.match(wipe, /clip-path:inset\(100% 0 0 0\)/);
+  assert.match(wipe, /var\(--theme-wipe-duration, 400ms\)/);
+  assert.match(wipe, /prefers-reduced-motion: reduce/);
+  assert.doesNotMatch(wipe, /opacity:|crossfade|mix-blend-mode:(?!normal)/);
 });
 
 test('actual shared UI consumes the measured roles while construction tape and artwork stay independent', () => {
