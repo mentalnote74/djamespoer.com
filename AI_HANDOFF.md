@@ -494,3 +494,11 @@ Living runtime order now Sunset -> Rum Runner -> Bloody Mary -> Sunrise -> Mojit
 Local uncommitted runner updated to ten corrected checkpoints per width, including exact Sunset t=0, both wipes, resumed night/day progression and cycle wrap. Optimized /about desktop/narrow: 20/20 PASS, axe 0 violations/incomplete, Lighthouse snapshot Accessibility 100; artifacts in ignored tmp/living-theme-evidence/2026-10-13T13-12-24-121Z/. No claim that these local corrections are deployed at the baseline SHA. No commit/push in this pass.
 
 Final correction gates: focused Angular 22/22, full Angular 234/234, harness 7/7, Node 167/167, production build 304.98 kB initial / 81.44 kB estimated transfer, Prettier and whitespace passed. Initial startup/stale-offset test failures were corrected; existing jsdom canvas warnings remain. Generated timestamp restored.
+
+## SCRUM-80 trusted identity/workspace checkpoint
+
+Server-only foundation in server/thingamajob: signed Cloudflare Access human JWT validation through jose 6.2.12, trusted issuer/audience/JWKS, identity-only D1 schema, active membership and separate owner checks, opaque immutable request scopes, fresh revocation checks and committing-SQL authorization predicate. Trusted two-owner provisioning is atomic and accepts no browser identity/ownership assertions. No Angular imports, Worker entry point, endpoint, R2, career evidence, claims, UNKNOWNs or LLM work.
+
+Security tests 25/25 use real signed fictional JWTs and SQLite-backed production queries; server TypeScript check passed. Full Angular 234/234, combined Node 192/192, normal npm production build (304.98 kB initial / 81.35 kB estimated transfer), Prettier and whitespace passed. Existing jsdom canvas warnings remain. Generated timestamp restored; unrelated edits/private/evidence artifacts excluded.
+
+Live Access configuration, real James/Erica subject bindings, D1 provisioning and protected deployment are not verified by local tests. No credentials/private identifiers were requested or committed. Runtime/resource integration is deferred to SCRUM-81 after Coach review; do not begin it automatically. Setup/trust boundaries and test commands: server/thingamajob/README.md.
