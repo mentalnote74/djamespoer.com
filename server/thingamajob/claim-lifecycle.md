@@ -99,11 +99,11 @@ real D1 event persisted across TEST Worker redeployment. These are distinguished
 from real authenticated human UI acceptance, which remains pending. Unauthenticated
 TEST app/workflow requests continue redirecting to existing Access.
 
-Reload https://api-test.djamespoer.com/api/thingamajob/test/app/ through normal
-James Access. Confirm active LoT excludes the old overbroad claim and includes the
-accurate correction. Inspect the old proposal and replacement in both directions:
-original Accept/timestamps/provenance remain; supersession is explicit. Resume the
-remaining SCRUM-86 keyboard/narrow and owner-workflow acceptance using accurate,
-already-authorized evidence. Do not accept known-false wording merely as a fixture.
+The read-only visible audit follow-up is deployed. Use the exact button-based steps
+in [audit-acceptance.md](./audit-acceptance.md), which records the latest Worker
+version and validation. Each active claim exposes **View history / audit**, with
+**Inspect original approval and supersession history** and **Open replacement
+proposal and review** connecting both directions. This follow-up changes no
+schema, claim, review or lifecycle event.
 
 Stop at James acceptance. No Erica site work or SCRUM-87 is authorized.

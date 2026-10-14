@@ -34,9 +34,21 @@ export interface Proposal {
     recordedAt: number;
     executionContext: 'owner_access' | 'operator';
     authorizationReference: string;
+    authorizingOwnerActorId?: string;
   };
   history?: History[];
   proposerAttribution?: string;
+  proposerActorId?: string;
+  proposedAt?: number;
+  review?: {
+    reviewId: string;
+    decision: 'accepted' | 'corrected' | 'rejected';
+    ownerActorId: string;
+    reviewedAt: number;
+    correctedStatement: string;
+    expectedVersion: number;
+    resultingVersion: number;
+  } | null;
   evidence?: { sourceId: string; locator: string }[];
 }
 export interface History {

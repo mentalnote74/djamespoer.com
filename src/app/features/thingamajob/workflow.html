@@ -67,6 +67,31 @@
     @if (proposal(); as p) {
       <h3 #proposalHeading tabindex="-1">Selected proposal: {{ p.reviewDisposition }}</h3>
       <p class="record">{{ p.statement }}</p>
+      <p>Proposal ID: {{ p.proposalId }}</p>
+      @if (p.proposedAt !== undefined) {
+        <p>
+          Proposed at {{ p.proposedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC. Proposer
+          actor: {{ p.proposerActorId }}
+        </p>
+      }
+      @if (p.review; as review) {
+        <h4>Original owner review</h4>
+        <dl>
+          <dt>Review ID</dt>
+          <dd>{{ review.reviewId }}</dd>
+          <dt>Decision</dt>
+          <dd>{{ review.decision }}</dd>
+          <dt>Owner actor</dt>
+          <dd>{{ review.ownerActorId }}</dd>
+          <dt>Reviewed at</dt>
+          <dd>{{ review.reviewedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC</dd>
+          <dt>Version transition</dt>
+          <dd>{{ review.expectedVersion }} to {{ review.resultingVersion }}</dd>
+        </dl>
+        @if (review.correctedStatement) {
+          <p>Approved correction wording: {{ review.correctedStatement }}</p>
+        }
+      }
       @if (p.proposerAttribution) {
         <p>Proposer attribution: {{ p.proposerAttribution }}</p>
       }
@@ -74,6 +99,7 @@
         @for (source of p.evidence ?? []; track source.sourceId) {
           <li>
             <a [href]="api.evidenceUrl(source.sourceId)">Download supporting original</a>
+            <p>Source ID: {{ source.sourceId }}</p>
             <p>Supporting locator: {{ source.locator }}</p>
           </li>
         }
@@ -83,6 +109,7 @@
       </p>
       @if (p.claim; as claim) {
         <p>Active reviewed claim ({{ claim.reviewDisposition }}): {{ claim.statement }}</p>
+        <p>Claim ID: {{ claim.claimId }}</p>
         <details>
           <summary>Propose a correction to this approved claim</summary>
           <form #claimCorrectionForm (submit)="proposeCorrection($event, claimCorrectionForm)">
@@ -157,14 +184,30 @@
       }
       @if (p.historicalClaim; as historical) {
         <p>Historical claim: superseded, excluded from active LoT: {{ historical.statement }}</p>
+        <p>
+          Historical claim ID: {{ historical.claimId }}. Its original approval is preserved above.
+        </p>
         @if (p.supersession; as transition) {
           <p>
             Replacement claim: {{ transition.replacementClaimId }}. Reason: {{ transition.reason }}
           </p>
           <p>
-            Recorded at {{ transition.recordedAt }} (Unix seconds); execution:
+            Superseded at
+            {{ transition.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC; execution:
             {{ transition.executionContext }}.
           </p>
+          <dl>
+            <dt>Supersession event</dt>
+            <dd>{{ transition.eventId }}</dd>
+            <dt>Replacement proposal</dt>
+            <dd>{{ transition.replacementProposalId }}</dd>
+            <dt>Replacement review</dt>
+            <dd>{{ transition.replacementReviewId }}</dd>
+            <dt>Authorizing owner actor</dt>
+            <dd>{{ transition.authorizingOwnerActorId }}</dd>
+            <dt>Authorization reference</dt>
+            <dd>{{ transition.authorizationReference || 'Authenticated owner Access action' }}</dd>
+          </dl>
           <button
             type="button"
             [disabled]="busy()"
@@ -179,7 +222,9 @@
       }
       @for (transition of p.supersedes ?? []; track transition.eventId) {
         <p>
-          This approved claim replaces historical claim {{ transition.obsoleteClaimId }}. Reason:
+          This approved claim replaces historical claim {{ transition.obsoleteClaimId }}.
+          Supersession event: {{ transition.eventId }}. Recorded at
+          {{ transition.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC. Reason:
           {{ transition.reason }}
         </p>
         <button
@@ -224,7 +269,14 @@
       <h4>Proposal history</h4>
       <ol>
         @for (event of p.history ?? []; track event.version) {
-          <li>Version {{ event.version }} — {{ event.operation }}: {{ event.statement }}</li>
+          <li>
+            Version {{ event.version }} — {{ event.operation }}: {{ event.statement }}
+            @if (event.recordedAt !== undefined) {
+              <span>
+                ({{ event.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC)</span
+              >
+            }
+          </li>
         }
       </ol>
     }
@@ -256,11 +308,17 @@
     @if (!claims().length) {
       <p>No reviewed claims in this list. An empty LoT is valid.</p>
     }
+    <p>
+      View a claim's original proposal, owner review and lifecycle history without changing data.
+    </p>
     <ul>
       @for (claim of claims(); track claim.claimId) {
         <li>
           <strong>{{ claim.reviewDisposition }}</strong
           >: {{ claim.statement }}
+          <button type="button" [disabled]="busy()" (click)="viewClaimHistory(claim.claimId)">
+            View history / audit
+          </button>
         </li>
       }
     </ul>

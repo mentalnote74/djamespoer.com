@@ -284,4 +284,46 @@ describe('protected Thingamajob workflow', () => {
       (fixture.nativeElement as HTMLElement).querySelector('form:has(select[name=replacement])'),
     ).toBeNull();
   });
+  it('visible LoT audit button reads the owner-scoped proposal and renders review provenance without a mutation', async () => {
+    const active = {
+      ...pending,
+      proposalId: 'reviewed-proposal',
+      reviewDisposition: 'accepted' as const,
+      claim: {
+        claimId: 'claim-audit',
+        statement: 'Fictional approved claim',
+        reviewDisposition: 'accepted' as const,
+      },
+    };
+    await start({ ...overview, proposals: [active] });
+    const root = fixture.nativeElement as HTMLElement;
+    const button = root.querySelector<HTMLButtonElement>('#claims-heading + p + ul button');
+    expect(button?.textContent?.trim()).toBe('View history / audit');
+    button!.click();
+    const request = http.expectOne(
+      '/api/thingamajob/workspaces/fictional-one/assertions/reviewed-proposal',
+    );
+    expect(request.request.method).toBe('GET');
+    request.flush({
+      ...active,
+      proposedAt: 100,
+      proposerActorId: 'fictional-actor',
+      review: {
+        reviewId: 'review-audit',
+        decision: 'accepted',
+        ownerActorId: 'fictional-actor',
+        reviewedAt: 200,
+        correctedStatement: '',
+        expectedVersion: 1,
+        resultingVersion: 2,
+      },
+    });
+    await vi.waitFor(() => expect(fixture.componentInstance.busy()).toBe(false));
+    fixture.detectChanges();
+    expect(root.textContent).toContain('Original owner review');
+    expect(root.textContent).toContain('review-audit');
+    expect(root.textContent).toContain('fictional-actor');
+    expect(root.textContent).toContain('1970-01-01 00:03:20 UTC');
+    http.expectNone((r) => r.method === 'POST');
+  });
 });

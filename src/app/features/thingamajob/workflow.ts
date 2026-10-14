@@ -9,12 +9,14 @@ import {
   Injector,
   afterNextRender,
 } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WorkflowApi } from './workflow-api';
 import type { Workflow, Proposal, UnknownDetail } from './workflow.models';
 
 @Component({
   selector: 'app-thingamajob-workflow',
+  imports: [DatePipe],
   templateUrl: './workflow.html',
   styleUrl: './workflow.scss',
   providers: [WorkflowApi],
@@ -150,6 +152,10 @@ export class ThingamajobWorkflow implements OnInit {
         this.api.supersede(obsolete, String(data.get('replacement')), String(data.get('reason'))),
       'Claim supersession saved. Active LoT refreshed; original proposal, review and claim history remain preserved.',
     );
+  }
+  async viewClaimHistory(claimId: string) {
+    const selected = this.workspace()?.proposals.find((p) => p.claim?.claimId === claimId);
+    if (selected) await this.selectProposal(selected.proposalId, true);
   }
   async selectProposal(id: string, moveFocus = false) {
     if (this.busy()) return;

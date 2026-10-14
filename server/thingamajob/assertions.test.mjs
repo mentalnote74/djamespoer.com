@@ -117,6 +117,15 @@ test('explicit owner acceptance creates one immutable reviewed claim with copied
     assert.equal(accepted.claim.statement, p.statement);
     assert.equal(accepted.claim.version, 1);
     assert.equal(accepted.history.length, 2);
+    assert.equal(accepted.review.decision, 'accepted');
+    assert.equal(accepted.review.ownerActorId, 'actor-one');
+    assert.equal(accepted.proposerActorId, 'actor-one');
+    assert.equal(typeof accepted.proposedAt, 'number');
+    assert.equal(accepted.review.reviewedAt, accepted.history[1].recordedAt);
+    assert.equal(
+      accepted.review.reviewId,
+      f.db.prepare('SELECT review_id FROM thingamajob_reviews').get().review_id,
+    );
     assert.ok(
       !('evidenceStrength' in accepted.claim) && !('requirementEvaluation' in accepted.claim),
     );

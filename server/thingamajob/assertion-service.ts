@@ -81,7 +81,8 @@ export async function getProposal(database: IdentityDatabase, scope: WorkspaceAc
   // One D1 statement: disposition/claim/history reflect one read snapshot.
   const row = await database
     .prepare(
-      `SELECT p.proposal_id,p.statement,p.proposer_attribution,p.original_version,p.current_version,p.disposition,p.fingerprint,
+      `SELECT p.proposal_id,p.statement,p.proposer_attribution,p.original_version,p.current_version,p.disposition,p.fingerprint,p.proposed_at,p.proposer_actor_id,
+    (SELECT json_object('reviewId',r.review_id,'decision',r.decision,'ownerActorId',r.owner_actor_id,'reviewedAt',r.reviewed_at,'correctedStatement',r.corrected_statement,'expectedVersion',r.expected_version,'resultingVersion',r.resulting_version) FROM thingamajob_reviews r WHERE r.workspace_id=p.workspace_id AND r.proposal_id=p.proposal_id) AS review_json,
     (SELECT json_group_array(json_object('sourceId',s.source_id,'locator',s.locator)) FROM thingamajob_proposal_sources s
       WHERE s.workspace_id=p.workspace_id AND s.proposal_id=p.proposal_id) AS references_json,
     (SELECT json_object('claimId',c.claim_id,'statement',c.statement,'version',c.version,'reviewDisposition',c.disposition)
@@ -104,6 +105,9 @@ export async function getProposal(database: IdentityDatabase, scope: WorkspaceAc
     .bind(scope.workspaceId, id)
     .first<
       Proposal & {
+        proposed_at: number;
+        proposer_actor_id: string;
+        review_json: string | null;
         references_json: string;
         claim_json: string | null;
         supersedes_json: string;
@@ -119,6 +123,9 @@ export async function getProposal(database: IdentityDatabase, scope: WorkspaceAc
     proposalId: row.proposal_id,
     statement: row.statement,
     proposerAttribution: row.proposer_attribution,
+    proposerActorId: row.proposer_actor_id,
+    proposedAt: row.proposed_at,
+    review: row.review_json ? (JSON.parse(row.review_json) as unknown) : null,
     originalVersion: row.original_version,
     version: row.current_version,
     reviewDisposition: row.disposition,
