@@ -1,5 +1,6 @@
 import { mutationAuthorization, recheckWorkspace } from './workspace-access.ts';
 import type { IdentityDatabase, WorkspaceAccess } from './workspace-access.ts';
+import type { Provenance } from './evidence-validation.ts';
 
 export interface OriginalBucket {
   put(
@@ -38,6 +39,35 @@ async function receipt(database: IdentityDatabase, scope: WorkspaceAccess, reque
     .first<Original>();
 }
 
+async function replayProvenance(
+  database: IdentityDatabase,
+  scope: WorkspaceAccess,
+  sourceId: string,
+  provenance?: Provenance,
+) {
+  if (!provenance) return;
+  const row = await database
+    .prepare(
+      `SELECT filename, source_type, attribution, source_locator
+    FROM thingamajob_evidence WHERE workspace_id = ? AND source_id = ?`,
+    )
+    .bind(scope.workspaceId, sourceId)
+    .first<{
+      filename: string;
+      source_type: string;
+      attribution: string;
+      source_locator: string;
+    }>();
+  if (
+    !row ||
+    row.filename !== provenance.filename ||
+    row.source_type !== provenance.sourceType ||
+    row.attribution !== provenance.attribution ||
+    row.source_locator !== provenance.sourceLocator
+  )
+    throw new StorageConflict();
+}
+
 /** Internal immutable-byte storage seam; not an evidence-format/intake API.
  * Authorization is a genuine server scope. All object keys are server-generated.
  * No deletion on failure: an R2-success/D1-failure object remains a private orphan. */
@@ -48,6 +78,7 @@ export async function storeOriginal(
   requestKey: string,
   bytes: Uint8Array,
   expectedVersion = 0,
+  provenance?: Provenance,
 ) {
   await recheckWorkspace(scope);
   if (
@@ -62,6 +93,7 @@ export async function storeOriginal(
   if (existing) {
     if (existing.sha256 !== hash || existing.byte_length !== bytes.byteLength)
       throw new StorageConflict();
+    await replayProvenance(database, scope, existing.source_id, provenance);
     await recheckWorkspace(scope);
     return { sourceId: existing.source_id, version: existing.version, replayed: true };
   }
@@ -96,12 +128,31 @@ export async function storeOriginal(
         (workspace_id, source_id, version, actor_id, operation) VALUES (?, ?, 1, ?, 'created')`,
         )
         .bind(scope.workspaceId, sourceId, scope.actorId),
+      ...(provenance
+        ? [
+            database
+              .prepare(
+                `INSERT INTO thingamajob_evidence
+        (workspace_id, source_id, version, filename, source_type, attribution, source_locator)
+        VALUES (?, ?, 1, ?, ?, ?, ?)`,
+              )
+              .bind(
+                scope.workspaceId,
+                sourceId,
+                provenance.filename,
+                provenance.sourceType,
+                provenance.attribution,
+                provenance.sourceLocator,
+              ),
+          ]
+        : []),
     ]);
   } catch {
     const winner = await receipt(database, scope, requestKey);
     if (!winner) throw new Error('Storage commit unavailable');
     if (winner.sha256 !== hash || winner.byte_length !== bytes.byteLength)
       throw new StorageConflict();
+    await replayProvenance(database, scope, winner.source_id, provenance);
     await recheckWorkspace(scope);
     return { sourceId: winner.source_id, version: winner.version, replayed: true };
   }
@@ -110,7 +161,7 @@ export async function storeOriginal(
 }
 
 /** Originals can be read only by their workspace-scoped committed D1 record. */
-export async function verifyOriginal(
+export async function loadOriginal(
   database: IdentityDatabase,
   bucket: OriginalBucket,
   scope: WorkspaceAccess,
@@ -131,5 +182,15 @@ export async function verifyOriginal(
   await recheckWorkspace(scope);
   if (bytes.byteLength !== original.byte_length || (await digest(bytes)) !== original.sha256)
     throw new Error('Original integrity failure');
+  return { bytes, version: original.version };
+}
+
+export async function verifyOriginal(
+  database: IdentityDatabase,
+  bucket: OriginalBucket,
+  scope: WorkspaceAccess,
+  sourceId: string,
+) {
+  const original = await loadOriginal(database, bucket, scope, sourceId);
   return { committed: true, integrity: 'verified', version: original.version } as const;
 }
