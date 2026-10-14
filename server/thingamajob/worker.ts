@@ -6,6 +6,9 @@ import { bootstrapOwnWorkspace } from './self-workspace.ts';
 import { testStartPage } from './test-start.ts';
 import { ownStorageWorkspace, storageReadiness } from './storage-readiness.ts';
 import type { PrivateOriginals } from './storage-readiness.ts';
+import { StorageConflict, storeOriginal, verifyOriginal } from './original-storage.ts';
+import type { OriginalBucket } from './original-storage.ts';
+import { storageRoundtripPage } from './storage-roundtrip-page.ts';
 
 export interface WorkerEnvironment {
   ACCESS_ISSUER: string;
@@ -13,7 +16,7 @@ export interface WorkerEnvironment {
   IDENTITY_DB: IdentityDatabase;
   TEST_BOOTSTRAP_ENABLED?: string;
   TEST_REFERENCE_WORKSPACE?: string;
-  PRIVATE_ORIGINALS?: PrivateOriginals;
+  PRIVATE_ORIGINALS?: PrivateOriginals & Partial<OriginalBucket>;
 }
 
 function reply(status: number, body: object): Response {
@@ -35,20 +38,25 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const bootstrap = path === '/api/thingamajob/bootstrap';
       const reference = path === '/api/thingamajob/test/reference-access';
       const ownStorage = path === '/api/thingamajob/test/storage';
+      const roundtrip = path === '/api/thingamajob/test/storage-roundtrip';
       const storage = testEnabled
         ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/storage$/.exec(path)
         : null;
       const match = /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/access$/.exec(path);
-      if (!match && !storage && !(testEnabled && (start || bootstrap || reference || ownStorage)))
+      if (
+        !match &&
+        !storage &&
+        !(testEnabled && (start || bootstrap || reference || ownStorage || roundtrip))
+      )
         return reply(404, { error: 'Not found' });
       const expectedMethod = bootstrap ? 'POST' : 'GET';
-      if (request.method !== expectedMethod) {
+      if (request.method !== expectedMethod && !(roundtrip && request.method === 'POST')) {
         const response = reply(405, { error: 'Method not allowed' });
-        response.headers.set('Allow', expectedMethod);
+        response.headers.set('Allow', roundtrip ? 'GET, POST' : expectedMethod);
         return response;
       }
       if (
-        bootstrap &&
+        (bootstrap || (roundtrip && request.method === 'POST')) &&
         (request.headers.get('Origin') !== 'https://api-test.djamespoer.com' ||
           (request.headers.has('Sec-Fetch-Site') &&
             request.headers.get('Sec-Fetch-Site') !== 'same-origin'))
@@ -67,6 +75,39 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       try {
         const identity = await authenticate(request);
+        if (roundtrip) {
+          const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          if (request.method === 'GET') {
+            const nonce = crypto.randomUUID();
+            return new Response(
+              storageRoundtripPage.replace('<script>', `<script nonce="${nonce}">`),
+              {
+                headers: {
+                  'Content-Type': 'text/html; charset=utf-8',
+                  'Cache-Control': 'no-store',
+                  'Content-Security-Policy': `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`,
+                  'X-Content-Type-Options': 'nosniff',
+                  'Referrer-Policy': 'no-referrer',
+                },
+              },
+            );
+          }
+          const binding = env.PRIVATE_ORIGINALS;
+          if (!binding || typeof binding.put !== 'function' || typeof binding.get !== 'function')
+            throw new Error('Storage unavailable');
+          const bucket = { put: binding.put.bind(binding), get: binding.get.bind(binding) };
+          const saved = await storeOriginal(
+            env.IDENTITY_DB,
+            bucket,
+            scope,
+            request.headers.get('Idempotency-Key') ?? '',
+            new TextEncoder().encode(
+              'Fictional Thingamajob TEST storage fixture. No career facts.\n',
+            ),
+          );
+          const checked = await verifyOriginal(env.IDENTITY_DB, bucket, scope, saved.sourceId);
+          return reply(200, { ...checked, replayed: saved.replayed });
+        }
         if (storage || ownStorage) {
           const scope = storage
             ? await authorizeWorkspace(env.IDENTITY_DB, identity, storage[1], 'owner')
@@ -95,6 +136,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         await authorizeWorkspace(env.IDENTITY_DB, identity, workspace, 'owner');
         return reply(200, { authorized: true, operation: 'owner' });
       } catch (error) {
+        if (error instanceof StorageConflict) return reply(409, { error: 'Storage conflict' });
         return error instanceof AccessDenied
           ? reply(403, { error: 'Access denied' })
           : reply(503, { error: 'Service unavailable' });
