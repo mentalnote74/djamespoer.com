@@ -175,7 +175,12 @@ test('service requires isolated sentinel and rejects all direct browser identity
 test('isolated bounded service proof, private replay and post-redeployment persistence stay within query budget', async () => {
   const f = evidenceFixture();
   try {
-    for (const name of ['assertions.sql', 'unknowns.sql', 'verification.sql'])
+    for (const name of [
+      'assertions.sql',
+      'claim-lifecycle.sql',
+      'unknowns.sql',
+      'verification.sql',
+    ])
       f.db.exec(readFileSync(new URL(name, import.meta.url), 'utf8'));
     f.db.prepare('UPDATE thingamajob_actors SET issuer=?').run(proofIssuer);
     const env = {
@@ -234,7 +239,12 @@ test('isolated bounded service proof, private replay and post-redeployment persi
 test('concurrent verifier invocations cannot repeat the seed step or overwrite progress', async () => {
   const f = evidenceFixture();
   try {
-    for (const name of ['assertions.sql', 'unknowns.sql', 'verification.sql'])
+    for (const name of [
+      'assertions.sql',
+      'claim-lifecycle.sql',
+      'unknowns.sql',
+      'verification.sql',
+    ])
       f.db.exec(readFileSync(new URL(name, import.meta.url), 'utf8'));
     f.db.prepare('UPDATE thingamajob_actors SET issuer=?').run(proofIssuer);
     const env = {
@@ -268,7 +278,12 @@ test('concurrent verifier invocations cannot repeat the seed step or overwrite p
 test('a reconciled interrupted read-only step resumes without repeating completed fictional business writes', async () => {
   const f = evidenceFixture();
   try {
-    for (const name of ['assertions.sql', 'unknowns.sql', 'verification.sql'])
+    for (const name of [
+      'assertions.sql',
+      'claim-lifecycle.sql',
+      'unknowns.sql',
+      'verification.sql',
+    ])
       f.db.exec(readFileSync(new URL(name, import.meta.url), 'utf8'));
     f.db.prepare('UPDATE thingamajob_actors SET issuer=?').run(proofIssuer);
     const env = {

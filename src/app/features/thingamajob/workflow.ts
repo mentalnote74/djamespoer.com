@@ -33,6 +33,9 @@ export class ThingamajobWorkflow implements OnInit {
   readonly claims = computed(
     () => this.workspace()?.proposals.flatMap((p) => (p.claim ? [p.claim] : [])) ?? [],
   );
+  readonly replacementClaims = computed(() =>
+    this.claims().filter((c) => c.claimId !== this.proposal()?.claim?.claimId),
+  );
   readonly qualifying = computed(() => {
     const linked = new Set(
       this.unknown()
@@ -119,6 +122,34 @@ export class ThingamajobWorkflow implements OnInit {
       this.busy.set(false);
       this.focusNotice();
     }
+  }
+  async proposeCorrection(event: Event, form: HTMLFormElement) {
+    event.preventDefault();
+    const obsolete = this.proposal()?.claim;
+    if (!obsolete || !form.reportValidity()) return;
+    await this.perform(async () => {
+      this.proposal.set(
+        await this.api.createCorrection(
+          obsolete,
+          this.value(form, 'statement'),
+          this.value(form, 'attribution'),
+          this.value(form, 'source'),
+          this.value(form, 'locator'),
+          this.value(form, 'reason'),
+        ),
+      );
+    }, 'Linked correction proposal saved. The original remains active until this correction is explicitly approved.');
+  }
+  async supersede(event: Event, form: HTMLFormElement) {
+    event.preventDefault();
+    const obsolete = this.proposal()?.claim;
+    if (!obsolete || !form.reportValidity()) return;
+    const data = new FormData(form);
+    await this.perform(
+      () =>
+        this.api.supersede(obsolete, String(data.get('replacement')), String(data.get('reason'))),
+      'Claim supersession saved. Active LoT refreshed; original proposal, review and claim history remain preserved.',
+    );
   }
   async selectProposal(id: string, moveFocus = false) {
     if (this.busy()) return;

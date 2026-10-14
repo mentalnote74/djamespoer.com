@@ -70,6 +70,7 @@ try {
       'originals.sql',
       'evidence.sql',
       'assertions.sql',
+      'claim-lifecycle.sql',
       'unknowns.sql',
     ])
       db.exec(fs.readFileSync(new URL(name, import.meta.url), 'utf8'));

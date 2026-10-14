@@ -235,4 +235,53 @@ describe('protected Thingamajob workflow', () => {
     expect(fixture.componentInstance.message()).toContain('Access denied');
     http.expectNone((r) => r.method === 'POST');
   });
+  it('superseded approval is audit history only, while its active replacement qualifies as current truth', async () => {
+    const replacement = {
+      claimId: 'replacement',
+      statement: 'Accurate fictional correction',
+      reviewDisposition: 'corrected' as const,
+    };
+    await start({
+      ...overview,
+      proposals: [
+        { ...pending, proposalId: 'old-proposal', reviewDisposition: 'accepted', claim: null },
+        {
+          ...pending,
+          proposalId: 'replacement-proposal',
+          reviewDisposition: 'corrected',
+          claim: replacement,
+        },
+      ],
+    });
+    fixture.componentInstance.proposal.set({
+      ...pending,
+      reviewDisposition: 'accepted',
+      claim: null,
+      historicalClaim: {
+        claimId: 'old-claim',
+        statement: 'Historical false fictional claim',
+        reviewDisposition: 'accepted',
+        lifecycleState: 'superseded',
+      },
+      supersession: {
+        eventId: 'event',
+        replacementClaimId: 'replacement',
+        replacementProposalId: 'replacement-proposal',
+        replacementReviewId: 'review',
+        reason: 'Correct this fact',
+        recordedAt: 1,
+        executionContext: 'owner_access',
+        authorizationReference: '',
+      },
+    });
+    fixture.detectChanges();
+    expect(fixture.componentInstance.claims()).toEqual([replacement]);
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain('Historical claim');
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain(
+      'excluded from active LoT',
+    );
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector('form:has(select[name=replacement])'),
+    ).toBeNull();
+  });
 });

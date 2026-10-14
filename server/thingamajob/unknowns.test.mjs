@@ -7,7 +7,7 @@ const root = '/api/thingamajob/workspaces/workspace-one',
   collection = root + '/unknowns';
 async function fixture(withSources = true) {
   const f = evidenceFixture();
-  for (const file of ['assertions.sql', 'unknowns.sql'])
+  for (const file of ['assertions.sql', 'claim-lifecycle.sql', 'unknowns.sql'])
     f.db.exec(readFileSync(new URL(file, import.meta.url), 'utf8'));
   const sources = {};
   if (withSources)

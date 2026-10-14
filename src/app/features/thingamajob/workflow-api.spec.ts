@@ -66,4 +66,55 @@ describe('Thingamajob service boundary', () => {
     req.flush({});
     await request;
   });
+  it('post-approval correction has an explicit target and never sends owner or execution authority', async () => {
+    await initialize();
+    const request = api.createCorrection(
+      { claimId: 'old-claim', statement: 'Fictional', reviewDisposition: 'accepted' },
+      'Accurate fictional correction',
+      'Fictional owner',
+      'source-one',
+      '',
+      'Correct this fact',
+    );
+    const req = http.expectOne(
+      '/api/thingamajob/workspaces/fixture-one/claims/old-claim/corrections',
+    );
+    expect(req.request.body).toEqual({
+      statement: 'Accurate fictional correction',
+      proposerAttribution: 'Fictional owner',
+      evidence: [{ sourceId: 'source-one', locator: '' }],
+      correctionReason: 'Correct this fact',
+    });
+    expect(req.request.headers.has('X-Role')).toBe(false);
+    req.flush({});
+    await request;
+  });
+  it('explicit supersession sends only replacement, expected versions and reason with stable retry key', async () => {
+    await initialize();
+    const old = {
+      claimId: 'old-claim',
+      statement: 'Fictional',
+      reviewDisposition: 'accepted' as const,
+    };
+    const first = api.supersede(old, 'replacement', 'Correct this fact');
+    const req = http.expectOne(
+      '/api/thingamajob/workspaces/fixture-one/claims/old-claim/supersede',
+    );
+    const key = req.request.headers.get('Idempotency-Key');
+    expect(req.request.body).toEqual({
+      replacementClaimId: 'replacement',
+      expectedObsoleteVersion: 1,
+      expectedReplacementVersion: 1,
+      reason: 'Correct this fact',
+    });
+    req.flush({});
+    await first;
+    const retry = api.supersede(old, 'replacement', 'Correct this fact');
+    const again = http.expectOne(
+      '/api/thingamajob/workspaces/fixture-one/claims/old-claim/supersede',
+    );
+    expect(again.request.headers.get('Idempotency-Key')).toBe(key);
+    again.flush({});
+    await retry;
+  });
 });

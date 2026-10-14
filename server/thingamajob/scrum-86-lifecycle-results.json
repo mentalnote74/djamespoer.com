@@ -1,0 +1,65 @@
+{
+  "eventId": "615b684d-9c05-4fea-81fb-131ae09e6594",
+  "recordedAt": "2026-10-14T16:44:55.000Z",
+  "executionContext": "operator",
+  "explicitOwnerDirectionRecorded": true,
+  "obsoleteClaimId": "f979fcdc-253b-40ed-b4c8-f1ca9a2b2c1e",
+  "replacementClaimId": "ba239a8e-519c-40b9-9e9f-5d99b65d4a44",
+  "replacementProposalId": "5e818032-d153-45c3-9734-bd86b9de2d4a",
+  "replacementReviewId": "257b6233-f1f5-42b5-b3dc-d32a4f6ec715",
+  "historicalClaims": 4,
+  "activeClaims": 3,
+  "lifecycleEvents": 1,
+  "linkedCorrectionProposals": 0,
+  "obsoleteAbsentFromActiveLoT": true,
+  "replacementPresentInActiveLoT": true,
+  "historicalApprovalRetained": true,
+  "schema": [
+    {
+      "name": "thingamajob_active_claims",
+      "type": "view"
+    },
+    {
+      "name": "thingamajob_claim_correction_proposals",
+      "type": "table"
+    },
+    {
+      "name": "thingamajob_claim_corrections_no_delete",
+      "type": "trigger"
+    },
+    {
+      "name": "thingamajob_claim_corrections_no_update",
+      "type": "trigger"
+    },
+    {
+      "name": "thingamajob_claim_review_identity",
+      "type": "index"
+    },
+    {
+      "name": "thingamajob_claim_supersessions",
+      "type": "table"
+    },
+    {
+      "name": "thingamajob_claim_supersessions_active_targets",
+      "type": "trigger"
+    },
+    {
+      "name": "thingamajob_claim_supersessions_no_delete",
+      "type": "trigger"
+    },
+    {
+      "name": "thingamajob_claim_supersessions_no_update",
+      "type": "trigger"
+    }
+  ],
+  "preExistingTablesUnchanged": 20,
+  "testWorkerVersion": "feb85186-f353-46d9-809f-4b8a64f36657",
+  "tests": {
+    "shippingServer": 120,
+    "lifecycle": 14,
+    "focusedAngular": 17,
+    "fullAngular": 251,
+    "localFictionalAxeAudits": 19,
+    "axeViolations": 0
+  }
+}

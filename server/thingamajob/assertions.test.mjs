@@ -7,6 +7,7 @@ const root = '/api/thingamajob/workspaces/workspace-one/assertions';
 async function fixture() {
   const f = evidenceFixture();
   f.db.exec(readFileSync(new URL('./assertions.sql', import.meta.url), 'utf8'));
+  f.db.exec(readFileSync(new URL('./claim-lifecycle.sql', import.meta.url), 'utf8'));
   const sources = {};
   for (const subject of ['one', 'two']) {
     const response = await f.worker.fetch(

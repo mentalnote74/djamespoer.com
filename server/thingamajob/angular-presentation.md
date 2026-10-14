@@ -90,11 +90,31 @@ canvas-not-implemented notices remain non-failing; no lint check is claimed.
 ## Human acceptance
 
 Open the protected app URL through normal James Access. Verify existing evidence,
-owner decisions/claims and open/resolved UNKNOWN history. Use an already-authorized
-source and James's own accurate wording to create pending proposals; check separate
-Accept/Reject/Correct. For an open UNKNOWN, record an evidence-backed answer, link a
-proposal, review it and verify it stays open; then explicitly explain/confirm its
-qualifying claim and resolve. Check keyboard focus and narrow reflow. No credentials
-need to be copied, and no Erica career material is needed.
+owner decisions/claims and open/resolved UNKNOWN history. Existing intentionally
+accepted overbroad TEST claims remain preserved as acceptance artifacts; this
+sequence does not assert that a later independent approval supersedes them.
+
+Use separate pending proposals with already-authorized evidence:
+
+1. **Accept** only wording James confirms is accurate and evidence-backed.
+2. **Reject** known-false wording; verify no reviewed claim is created.
+3. **Correct** overbroad wording while its proposal is still pending, supplying
+   accurate wording; verify the original and decision history remain preserved.
+4. For a linked UNKNOWN, verify answers and review leave it open, then separately
+   explain/confirm a qualifying accurate claim and resolve it.
+
+Check keyboard focus and narrow reflow. No credentials need to be copied, and no
+Erica career material is needed. Do not accept known-false wording and then expect
+a separate correction to silently retire it.
+
+### Approved-claim lifecycle requirement
+
+James explicitly requires post-acceptance correction. Linked correction approval
+now atomically supersedes the prior approved claim; existing approved corrections
+can be explicitly linked through the same lifecycle transition. Active LoT excludes
+superseded claims; audit history retains original approval and replacement links.
+See [claim-lifecycle.md](./claim-lifecycle.md) for schema, authorization, reconciliation,
+latest Worker version, current verification and the remaining human gate. Earlier
+counts/version above describe the initial presentation checkpoint.
 
 Stop at James acceptance. No Erica site work is authorized before SCRUM-86 acceptance.

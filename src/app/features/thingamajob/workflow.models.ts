@@ -16,6 +16,25 @@ export interface Proposal {
   version: number;
   reviewDisposition: Disposition;
   claim: Claim | null;
+  supersedes?: {
+    obsoleteClaimId: string;
+    obsoleteProposalId: string;
+    eventId: string;
+    reason: string;
+    recordedAt: number;
+  }[];
+  correctionOf?: { obsoleteClaimId: string; reason: string };
+  historicalClaim?: Claim & { lifecycleState: 'superseded' };
+  supersession?: {
+    eventId: string;
+    replacementClaimId: string;
+    replacementProposalId: string;
+    replacementReviewId: string;
+    reason: string;
+    recordedAt: number;
+    executionContext: 'owner_access' | 'operator';
+    authorizationReference: string;
+  };
   history?: History[];
   proposerAttribution?: string;
   evidence?: { sourceId: string; locator: string }[];
@@ -47,9 +66,14 @@ export interface UnknownDetail extends UnknownSummary {
     statement: string;
     reviewDisposition: Disposition;
     claimId: string | null;
+    claimLifecycleState?: 'active' | 'superseded';
     reviewHistory: History[];
   }[];
-  resolution: { claimId: string; explanation: string } | null;
+  resolution: {
+    claimId: string;
+    explanation: string;
+    claimLifecycleState?: 'active' | 'superseded';
+  } | null;
   history: History[];
 }
 export interface Workflow {

@@ -11,7 +11,7 @@ import { seedProofOwners, runRoundtripProof, verifyProofPersistence } from './ro
 test('two fictional clients complete both production pipelines, adversarial tool isolation and partial-failure reconciliation', async () => {
   const f = evidenceFixture();
   try {
-    for (const name of ['assertions.sql', 'unknowns.sql'])
+    for (const name of ['assertions.sql', 'claim-lifecycle.sql', 'unknowns.sql'])
       f.db.exec(readFileSync(new URL(name, import.meta.url), 'utf8'));
     await seedProofOwners(f.database);
     const result = await runRoundtripProof(f.database, f.bucket);

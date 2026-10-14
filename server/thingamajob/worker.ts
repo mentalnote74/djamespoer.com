@@ -28,6 +28,7 @@ import { assertionPage } from './assertion-page.ts';
 import { unknownPage } from './unknown-page.ts';
 import { verificationPage } from './verification-page.ts';
 import { boundedBytes } from './evidence-validation.ts';
+import { supersedeClaim } from './claim-lifecycle.ts';
 import { workflowSnapshot } from './workflow-snapshot.ts';
 import {
   createUnknown,
@@ -84,6 +85,11 @@ export function createWorker(keys?: JWTVerifyGetKey) {
           )
         : null;
       if (unknowns?.[3] === 'resolve' && unknowns[4]) return reply(404, { error: 'Not found' });
+      const claims = testEnabled
+        ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/claims\/([a-zA-Z0-9_-]{1,100})\/(supersede|corrections)$/.exec(
+            path,
+          )
+        : null;
       const assertions = testEnabled
         ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/assertions(?:\/([a-zA-Z0-9_-]{1,100})(\/review)?)?$/.exec(
             path,
@@ -103,6 +109,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         !storage &&
         !evidence &&
         !assertions &&
+        !claims &&
         !unknowns &&
         !(
           testEnabled &&
@@ -122,6 +129,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         return reply(404, { error: 'Not found' });
       const expectedMethod =
         bootstrap ||
+        claims ||
         (evidence && !evidence[2]) ||
         (assertions && (!assertions[2] || assertions[3])) ||
         (unknowns && (!unknowns[2] || unknowns[3]))
@@ -145,7 +153,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       if (
         (bootstrap ||
-          ((roundtrip || verification || evidence || assertions || unknowns) &&
+          ((roundtrip || verification || evidence || assertions || unknowns || claims) &&
             request.method === 'POST')) &&
         (request.headers.get('Origin') !== 'https://api-test.djamespoer.com' ||
           (request.headers.has('Sec-Fetch-Site') &&
@@ -189,6 +197,15 @@ export function createWorker(keys?: JWTVerifyGetKey) {
             "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self'; font-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
           );
           return new Response(asset.body, { status: asset.status, headers });
+        }
+        if (claims) {
+          const scope = await authorizeWorkspace(env.IDENTITY_DB, identity, claims[1], 'owner');
+          return reply(
+            200,
+            claims[3] === 'corrections'
+              ? await createProposal(request, env.IDENTITY_DB, scope, undefined, claims[2])
+              : await supersedeClaim(request, env.IDENTITY_DB, scope, claims[2]),
+          );
         }
         if (workflow) {
           const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);

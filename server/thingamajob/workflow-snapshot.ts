@@ -11,7 +11,7 @@ export async function workflowSnapshot(database: IdentityDatabase, scope: Worksp
     (SELECT json_group_array(json_object('sourceId',source_id,'filename',filename,'attribution',attribution,'sourceLocator',source_locator))
       FROM (SELECT * FROM thingamajob_evidence WHERE workspace_id=w.workspace_id ORDER BY acquired_at DESC,source_id LIMIT 100)) evidence,
     (SELECT json_group_array(json_object('proposalId',p.proposal_id,'statement',p.statement,'version',p.current_version,'reviewDisposition',p.disposition,
-      'claim',json((SELECT json_object('claimId',c.claim_id,'statement',c.statement,'reviewDisposition',c.disposition) FROM thingamajob_claims c WHERE c.workspace_id=p.workspace_id AND c.proposal_id=p.proposal_id))))
+      'claim',json((SELECT json_object('claimId',c.claim_id,'statement',c.statement,'reviewDisposition',c.disposition) FROM thingamajob_active_claims c WHERE c.workspace_id=p.workspace_id AND c.proposal_id=p.proposal_id))))
       FROM (SELECT * FROM thingamajob_proposals WHERE workspace_id=w.workspace_id ORDER BY proposed_at DESC,proposal_id LIMIT 100) p) proposals,
     (SELECT json_group_array(json_object('unknownId',unknown_id,'question',question,'state',state,'version',version))
       FROM (SELECT * FROM thingamajob_unknowns WHERE workspace_id=w.workspace_id ORDER BY unknown_id LIMIT 100)) unknowns

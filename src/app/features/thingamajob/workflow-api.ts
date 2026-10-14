@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import type { Workflow, Proposal, UnknownDetail } from './workflow.models';
+import type { Workflow, Proposal, UnknownDetail, Claim } from './workflow.models';
 
 @Injectable()
 export class WorkflowApi {
@@ -66,6 +66,29 @@ export class WorkflowApi {
       decision,
       expectedVersion: proposal.version,
       ...(decision === 'corrected' ? { correctedStatement } : {}),
+    });
+  }
+  createCorrection(
+    obsolete: Claim,
+    statement: string,
+    proposerAttribution: string,
+    sourceId: string,
+    locator: string,
+    correctionReason: string,
+  ) {
+    return this.post<Proposal>('/claims/' + this.identifier(obsolete.claimId) + '/corrections', {
+      statement,
+      proposerAttribution,
+      evidence: [{ sourceId: this.identifier(sourceId), locator }],
+      correctionReason,
+    });
+  }
+  supersede(obsolete: Claim, replacementClaimId: string, reason: string) {
+    return this.post('/claims/' + this.identifier(obsolete.claimId) + '/supersede', {
+      replacementClaimId: this.identifier(replacementClaimId),
+      expectedObsoleteVersion: 1,
+      expectedReplacementVersion: 1,
+      reason,
     });
   }
   resolve(unknown: UnknownDetail, claimId: string, explanation: string) {

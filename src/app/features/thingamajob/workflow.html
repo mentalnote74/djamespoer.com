@@ -82,10 +82,125 @@
         Version {{ p.version }}. Proposal wording is preserved independently of any corrected claim.
       </p>
       @if (p.claim; as claim) {
-        <p>Reviewed claim ({{ claim.reviewDisposition }}): {{ claim.statement }}</p>
+        <p>Active reviewed claim ({{ claim.reviewDisposition }}): {{ claim.statement }}</p>
+        <details>
+          <summary>Propose a correction to this approved claim</summary>
+          <form #claimCorrectionForm (submit)="proposeCorrection($event, claimCorrectionForm)">
+            <fieldset [disabled]="busy() || !w.evidence.length">
+              <legend>Linked correction for an approved claim</legend>
+              <label
+                >Correct replacement wording<textarea
+                  name="statement"
+                  maxlength="4000"
+                  required
+                ></textarea>
+              </label>
+              <label
+                >Proposer attribution<input name="attribution" maxlength="1000" required
+              /></label>
+              <label
+                >Supporting evidence<select name="source" required>
+                  <option value="">Choose evidence</option>
+                  @for (source of w.evidence; track source.sourceId) {
+                    <option [value]="source.sourceId">{{ source.filename }}</option>
+                  }
+                </select></label
+              >
+              <label>Supporting locator (optional)<input name="locator" maxlength="2000" /></label>
+              <label
+                >Reason for correcting this fact<textarea
+                  name="reason"
+                  maxlength="4000"
+                  required
+                ></textarea>
+              </label>
+              <button type="submit">Create linked correction proposal only</button>
+              <p>
+                The original stays active until you approve the correction. Approval replaces
+                current truth atomically and preserves history.
+              </p>
+            </fieldset>
+          </form>
+        </details>
+        <details>
+          <summary>Supersede this claim with an approved correction</summary>
+          <form #supersessionForm (submit)="supersede($event, supersessionForm)">
+            <fieldset [disabled]="busy() || !replacementClaims().length">
+              <legend>Explicit owner claim supersession</legend>
+              <label
+                >Replacement active reviewed claim<select name="replacement" required>
+                  <option value="">Choose the approved correction</option>
+                  @for (replacement of replacementClaims(); track replacement.claimId) {
+                    <option [value]="replacement.claimId">{{ replacement.statement }}</option>
+                  }
+                </select></label
+              >
+              <label
+                >Why this claim replaces the obsolete fact<textarea
+                  name="reason"
+                  maxlength="4000"
+                  required
+                ></textarea>
+              </label>
+              <label
+                ><input name="confirmed" type="checkbox" required /> I confirm this approved claim
+                corrects the same fact and the selected original must leave the active LoT.</label
+              >
+              <button type="submit">Supersede this claim explicitly</button>
+              <p>
+                Original proposal, review, claim and timestamps remain in audit history. UNKNOWN
+                history is not rewritten.
+              </p>
+            </fieldset>
+          </form>
+        </details>
+      }
+      @if (p.historicalClaim; as historical) {
+        <p>Historical claim: superseded, excluded from active LoT: {{ historical.statement }}</p>
+        @if (p.supersession; as transition) {
+          <p>
+            Replacement claim: {{ transition.replacementClaimId }}. Reason: {{ transition.reason }}
+          </p>
+          <p>
+            Recorded at {{ transition.recordedAt }} (Unix seconds); execution:
+            {{ transition.executionContext }}.
+          </p>
+          <button
+            type="button"
+            [disabled]="busy()"
+            (click)="selectProposal(transition.replacementProposalId, true)"
+          >
+            Open replacement proposal and review
+          </button>
+        }
       }
       @if (p.reviewDisposition === 'rejected') {
         <p>Rejected: no reviewed claim was created.</p>
+      }
+      @for (transition of p.supersedes ?? []; track transition.eventId) {
+        <p>
+          This approved claim replaces historical claim {{ transition.obsoleteClaimId }}. Reason:
+          {{ transition.reason }}
+        </p>
+        <button
+          type="button"
+          [disabled]="busy()"
+          (click)="selectProposal(transition.obsoleteProposalId, true)"
+        >
+          Inspect original approval and supersession history
+        </button>
+      }
+      @if (p.correctionOf; as correctionOf) {
+        <p>
+          Explicit correction of claim {{ correctionOf.obsoleteClaimId }}. Reason:
+          {{ correctionOf.reason }}
+        </p>
+        @if (p.reviewDisposition === 'proposed') {
+          <p>
+            Accept or Correct will approve this replacement and supersede the original in one
+            transaction. Reject preserves the original active claim.
+          </p>
+        }
       }
       @if (p.reviewDisposition === 'proposed') {
         <fieldset [disabled]="busy()">
@@ -137,7 +252,7 @@
     </details>
   </section>
   <section aria-labelledby="claims-heading">
-    <h2 id="claims-heading">Reviewed claims</h2>
+    <h2 id="claims-heading">Active reviewed claims: Library of Truth</h2>
     @if (!claims().length) {
       <p>No reviewed claims in this list. An empty LoT is valid.</p>
     }
@@ -174,6 +289,12 @@
       <p>Reason: {{ u.reason }}</p>
       <p>Context: {{ u.context }}</p>
       <p>Version {{ u.version }}.</p>
+      @if (u.resolution?.claimLifecycleState === 'superseded') {
+        <p>
+          The historical resolution references a superseded claim. Resolution history is preserved;
+          that claim is not current truth.
+        </p>
+      }
       <h4>Attributed answers</h4>
       <ul>
         @for (answer of u.answers; track answer.answerId) {
@@ -198,6 +319,9 @@
         @for (p of u.proposals; track p.proposalId) {
           <li>
             <p>{{ p.reviewDisposition }}: {{ p.statement }}</p>
+            @if (p.claimLifecycleState === 'superseded') {
+              <p>Linked claim superseded; retained as history, not qualifying current truth.</p>
+            }
             <button type="button" [disabled]="busy()" (click)="selectProposal(p.proposalId, true)">
               Open linked proposal for review
             </button>

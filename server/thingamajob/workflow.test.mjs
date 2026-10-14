@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { evidenceFixture, signedEvidenceRequest, uploadForm } from './evidence-fixtures.mjs';
 function fixture() {
   const f = evidenceFixture();
-  for (const file of ['assertions.sql', 'unknowns.sql'])
+  for (const file of ['assertions.sql', 'claim-lifecycle.sql', 'unknowns.sql'])
     f.db.exec(readFileSync(new URL(file, import.meta.url), 'utf8'));
   return f;
 }

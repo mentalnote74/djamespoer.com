@@ -115,12 +115,13 @@ export async function getUnknown(
       WHERE a.workspace_id=u.workspace_id AND a.unknown_id=u.unknown_id ORDER BY e.version) a) AS answers_json,
   (SELECT json_group_array(json_object('answerId',l.answer_id,'proposalId',l.proposal_id,'statement',p.statement,'reviewDisposition',p.disposition,
     'reviewHistory',json((SELECT json_group_array(json_object('version',version,'operation',operation,'statement',statement,'recordedAt',recorded_at)) FROM (SELECT h.version,h.operation,h.statement,h.recorded_at FROM thingamajob_assertion_history h WHERE h.workspace_id=l.workspace_id AND h.proposal_id=l.proposal_id ORDER BY h.version))),
+    'claimLifecycleState',(SELECT CASE WHEN EXISTS (SELECT 1 FROM thingamajob_claim_supersessions s WHERE s.workspace_id=c.workspace_id AND s.obsolete_claim_id=c.claim_id) THEN 'superseded' ELSE 'active' END FROM thingamajob_claims c WHERE c.workspace_id=l.workspace_id AND c.proposal_id=l.proposal_id),
     'claimId',(SELECT c.claim_id FROM thingamajob_claims c WHERE c.workspace_id=l.workspace_id AND c.proposal_id=l.proposal_id)))
     FROM (SELECT l.* FROM thingamajob_unknown_proposals l JOIN thingamajob_unknown_events e
       ON e.workspace_id=l.workspace_id AND e.event_id=l.event_id
       WHERE l.workspace_id=u.workspace_id AND l.unknown_id=u.unknown_id ORDER BY e.version) l
     JOIN thingamajob_proposals p ON p.workspace_id=l.workspace_id AND p.proposal_id=l.proposal_id) AS proposals_json,
-  (SELECT json_object('claimId',r.claim_id,'answerId',r.answer_id,'proposalId',r.proposal_id,'explanation',r.explanation,'expectedVersion',r.expected_version,'version',r.resulting_version)
+  (SELECT json_object('claimLifecycleState',CASE WHEN EXISTS (SELECT 1 FROM thingamajob_claim_supersessions s WHERE s.workspace_id=r.workspace_id AND s.obsolete_claim_id=r.claim_id) THEN 'superseded' ELSE 'active' END,'claimId',r.claim_id,'answerId',r.answer_id,'proposalId',r.proposal_id,'explanation',r.explanation,'expectedVersion',r.expected_version,'version',r.resulting_version)
     FROM thingamajob_unknown_resolutions r WHERE r.workspace_id=u.workspace_id AND r.unknown_id=u.unknown_id) AS resolution_json,
   (SELECT json_group_array(json_object('version',version,'operation',operation,'answerId',answer_id,'proposalId',proposal_id,'claimId',claim_id,'recordedAt',recorded_at))
     FROM (SELECT * FROM thingamajob_unknown_events e WHERE e.workspace_id=u.workspace_id AND e.unknown_id=u.unknown_id ORDER BY version)) AS history_json
@@ -349,11 +350,11 @@ export async function resolveUnknown(
   if (existing) return existing;
   requireOpen(row, expected);
   const ownClaim = await database
-    .prepare('SELECT claim_id FROM thingamajob_claims WHERE workspace_id=? AND claim_id=?')
+    .prepare('SELECT claim_id FROM thingamajob_active_claims WHERE workspace_id=? AND claim_id=?')
     .bind(scope.workspaceId, claimId)
     .first();
   if (!ownClaim) throw new AccessDenied();
-  const qualificationSql = `SELECT l.answer_id,l.proposal_id FROM thingamajob_unknown_proposals l JOIN thingamajob_claims c ON c.workspace_id=l.workspace_id AND c.proposal_id=l.proposal_id
+  const qualificationSql = `SELECT l.answer_id,l.proposal_id FROM thingamajob_unknown_proposals l JOIN thingamajob_active_claims c ON c.workspace_id=l.workspace_id AND c.proposal_id=l.proposal_id
     JOIN thingamajob_reviews r ON r.workspace_id=c.workspace_id AND r.review_id=c.review_id AND r.decision=c.disposition
     WHERE l.workspace_id=? AND l.unknown_id=? AND c.claim_id=? AND c.disposition IN ('accepted','corrected')`;
   const qualifying = await database
