@@ -28,6 +28,7 @@ import { assertionPage } from './assertion-page.ts';
 import { unknownPage } from './unknown-page.ts';
 import { verificationPage } from './verification-page.ts';
 import { boundedBytes } from './evidence-validation.ts';
+import { workflowSnapshot } from './workflow-snapshot.ts';
 import {
   createUnknown,
   answerUnknown,
@@ -47,6 +48,7 @@ export interface WorkerEnvironment {
   TEST_REFERENCE_WORKSPACE?: string;
   PRIVATE_ORIGINALS?: PrivateOriginals & Partial<OriginalBucket>;
   TEST_VERIFICATION?: { fetch(request: Request): Promise<Response> };
+  TEST_UI?: { fetch(request: Request): Promise<Response> };
 }
 
 function reply(status: number, body: object): Response {
@@ -73,6 +75,9 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const ownAssertions = path === '/api/thingamajob/test/assertions';
       const ownUnknowns = path === '/api/thingamajob/test/unknowns';
       const verification = path === '/api/thingamajob/test/two-client-verification';
+      const workflow = path === '/api/thingamajob/test/workflow';
+      const uiPrefix = '/api/thingamajob/test/app/';
+      const ui = path === uiPrefix.slice(0, -1) || path.startsWith(uiPrefix);
       const unknowns = testEnabled
         ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/unknowns(?:\/([a-zA-Z0-9_-]{1,100})(?:\/(answers|resolve)(?:\/([a-zA-Z0-9_-]{1,100})\/proposal)?)?)?$/.exec(
             path,
@@ -109,7 +114,9 @@ export function createWorker(keys?: JWTVerifyGetKey) {
             ownEvidence ||
             ownAssertions ||
             ownUnknowns ||
-            verification)
+            verification ||
+            workflow ||
+            ui)
         )
       )
         return reply(404, { error: 'Not found' });
@@ -158,6 +165,35 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       try {
         const identity = await authenticate(request);
+        if (ui) {
+          if (!env.TEST_UI) return reply(503, { error: 'Presentation unavailable' });
+          if (path === uiPrefix.slice(0, -1))
+            return Response.redirect(new URL(uiPrefix, request.url), 302);
+          const assetPath = path.slice(uiPrefix.length);
+          if (
+            assetPath.includes('..') ||
+            !/^(?:[a-zA-Z0-9_-]+\.(?:js|css|woff2|ico)|index\.html)?$/.test(assetPath)
+          )
+            return reply(404, { error: 'Not found' });
+          const url = new URL(request.url);
+          url.pathname = '/' + (assetPath || 'index.html');
+          url.search = '';
+          const asset = await env.TEST_UI.fetch(new Request(url, { method: 'GET' }));
+          const headers = new Headers(asset.headers);
+          headers.set('Cache-Control', 'no-store');
+          headers.set('X-Content-Type-Options', 'nosniff');
+          headers.set('Referrer-Policy', 'no-referrer');
+          headers.set('X-Robots-Tag', 'noindex, nofollow');
+          headers.set(
+            'Content-Security-Policy',
+            "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self'; font-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+          );
+          return new Response(asset.body, { status: asset.status, headers });
+        }
+        if (workflow) {
+          const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          return reply(200, await workflowSnapshot(env.IDENTITY_DB, scope));
+        }
         if (verification) {
           const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
           await recheckWorkspace(scope);

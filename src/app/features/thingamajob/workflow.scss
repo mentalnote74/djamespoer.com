@@ -1,0 +1,114 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  color: #17212b;
+  background: #fff;
+  font: 1rem/1.6 system-ui;
+  overflow-wrap: anywhere;
+}
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.25;
+}
+section {
+  margin-block: 2rem;
+  border-block-start: 1px solid #67717b;
+  padding-block-start: 1rem;
+}
+label {
+  display: block;
+  margin-block: 1rem;
+}
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  box-sizing: border-box;
+  max-inline-size: 100%;
+  color: inherit;
+}
+input:not([type='checkbox']),
+textarea,
+select {
+  display: block;
+  inline-size: 100%;
+  border: 1px solid #67717b;
+  background: #fff;
+  padding: 0.5rem;
+}
+textarea {
+  min-block-size: 6rem;
+}
+button,
+summary,
+a {
+  min-block-size: 2.75rem;
+}
+button {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #394b5c;
+  background: #eef3f7;
+  margin: 0.25rem;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+  color: #505a64;
+}
+a {
+  color: #004b8d;
+  display: inline-block;
+}
+summary {
+  cursor: pointer;
+  padding-block: 0.5rem;
+}
+fieldset {
+  min-inline-size: 0;
+  border: 1px solid #67717b;
+  padding: 1rem;
+}
+legend {
+  font-weight: 600;
+  padding-inline: 0.3rem;
+}
+.confirm {
+  display: flex;
+  align-items: start;
+  gap: 0.75rem;
+}
+.confirm input {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  flex: none;
+  margin-block-start: 0.25rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.record {
+  white-space: pre-wrap;
+}
+.notice {
+  padding: 1rem;
+  background: #eef3f7;
+  border: 1px solid #67717b;
+}
+:where(button, input, select, textarea, summary, a):focus-visible,
+.notice:focus,
+h3[tabindex]:focus {
+  outline: 3px solid #005fcc;
+  outline-offset: 3px;
+}
+ul,
+ol {
+  padding-inline-start: 1.5rem;
+}
+li {
+  margin-block: 0.75rem;
+}

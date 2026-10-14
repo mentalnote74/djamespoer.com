@@ -51,6 +51,32 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "thingamajob-test": {
+              "browser": "src/thingamajob-main.ts",
+              "index": {
+                "input": "src/thingamajob-index.html",
+                "output": "index.html"
+              },
+              "styles": ["src/thingamajob-styles.scss"],
+              "assets": [],
+              "outputPath": "dist/thingamajob-test",
+              "baseHref": "/api/thingamajob/test/app/",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

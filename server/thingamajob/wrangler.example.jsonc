@@ -8,6 +8,12 @@
   "env": {
     "test": {
       "name": "thingamajob-api-test",
+      "assets": {
+        "binding": "TEST_UI",
+        "directory": "../../dist/thingamajob-test/browser",
+        "run_worker_first": true,
+        "html_handling": "none",
+      },
       // SCRUM-85 isolated fictional verifier; never bind James's D1/R2 to that Worker.
       "services": [
         {

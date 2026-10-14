@@ -12,7 +12,8 @@
     "test": "ng test",
     "evidence:themes": "node scripts/theme-evidence.mjs",
     "test:thingamajob": "node --test server/thingamajob/*.test.mjs",
-    "check:thingamajob": "tsc -p server/thingamajob/tsconfig.json"
+    "check:thingamajob": "tsc -p server/thingamajob/tsconfig.json",
+    "build:thingamajob-test": "ng build --configuration thingamajob-test"
   },
   "private": true,
   "packageManager": "npm@11.19.0",

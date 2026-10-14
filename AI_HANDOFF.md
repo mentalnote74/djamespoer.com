@@ -1,5 +1,15 @@
 # AI Engineering Handoff
 
+## Active SCRUM-86 TEST presentation acceptance gate (2026-10-14)
+
+SCRUM-85 accepted base 9d7fd2a642c26995f8f3ef1e0fd578dcbca82d1c preserved. Shared standalone/lazy Angular feature under src/app/features/thingamajob has component-scoped service and transient signals; thin separate TEST host/build mounts at https://api-test.djamespoer.com/api/thingamajob/test/app/. Public portfolio preview/routes/themes/carousel/content/history unchanged. Added read-only own-owner snapshot; existing server mutations/versions/authority remain authoritative. Native evidence/proposal/review/claim/UNKNOWN/explicit resolution UI; untrusted content only as text, no live LLM/evaluation or client-specific code.
+
+Deployed TEST version 1917e612-8193-4846-bd78-f1232ab89d12 serves protected assets via TEST_UI, Worker-first routing and explicit index handling. Existing bindings/dev-preview restrictions preserved; app/API unauthenticated requests redirect to Access. No owner mutations/schema changes or real original uploads/reads by agent. All 20 real TEST table hashes/counts and Erica pending state unchanged; SCRUM-85 verifier c471f433-19d4-4f2b-ad64-d2fe850342c6 remains passed 137/137; Access/LIVE/portfolio/main untouched.
+
+Focused Angular 14/14, full Angular 248/248, shipping server 105/105, strict TypeScript/format/whitespace and both builds/budgets pass; public generated timestamp restored. Local production-bundle/fictional signed Worker/SQLite browser flow passes 14 axe audits zero/no overflow/one main, 1280/390/320 widths, 200% text/CSS zoom, native keyboard actions, feedback and linked-proposal focus; inert markup, empty peer, stale/denied states verified. Narrow screenshot inspected. Real authenticated TEST UI acceptance and native browser zoom remain unclaimed.
+
+Checkpoint branch test/scrum-86-angular-presentation. Next: James opens protected app, checks his existing data, uses already-authorized evidence/own wording for explicit Accept/Reject/Correct and linked UNKNOWN resolution, checks keyboard/narrow behavior. See server/thingamajob/angular-presentation.md. STOP at James acceptance; no Erica site work before acceptance. Other surviving local edits remain preserved/uncommitted.
+
 ## SCRUM-85 accepted deployed checkpoint (2026-10-14)
 
 SCRUM-84 accepted by James at fea271d345bd4477f7cbaa23bbd32ee36dcbcb24. James's repaired SCRUM-85 Access-session run completed; independent authoritative D1 verification confirms state=passed, cursor/check-list 137/137 with exact ordered labels. Both fictional owner pipelines/isolation/adversarial tools, explicit Accept/Correct/Reject and resolution, stale/concurrent decisions, retries, real D1 rollback/R2 failures/orphan reconciliation pass. Dedicated service-only Worker thingamajob-scrum85-verification-test version c471f433-19d4-4f2b-ad64-d2fe850342c6; isolated D1/R2 thingamajob-scrum85-fictional-test. Existing TEST entry version 6c3acdf8-75a6-4eea-a9c6-9361832f5cc2. No public verifier/preview/R2 domains or human credentials forwarded.
