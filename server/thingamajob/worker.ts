@@ -2,11 +2,15 @@ import { AccessDenied, createAccessIdentityAdapter } from './access-identity.ts'
 import { authorizeWorkspace } from './workspace-access.ts';
 import type { IdentityDatabase } from './workspace-access.ts';
 import type { JWTVerifyGetKey } from 'jose';
+import { bootstrapOwnWorkspace } from './self-workspace.ts';
+import { testStartPage } from './test-start.ts';
 
 export interface WorkerEnvironment {
   ACCESS_ISSUER: string;
   ACCESS_AUDIENCE: string;
   IDENTITY_DB: IdentityDatabase;
+  TEST_BOOTSTRAP_ENABLED?: string;
+  TEST_REFERENCE_WORKSPACE?: string;
 }
 
 function reply(status: number, body: object): Response {
@@ -21,13 +25,28 @@ export function createWorker(keys?: JWTVerifyGetKey) {
   return {
     async fetch(request: Request, env: WorkerEnvironment): Promise<Response> {
       const path = new URL(request.url).pathname;
+      const testEnabled =
+        env.TEST_BOOTSTRAP_ENABLED === 'true' &&
+        new URL(request.url).origin === 'https://api-test.djamespoer.com';
+      const start = path === '/api/thingamajob/test/start';
+      const bootstrap = path === '/api/thingamajob/bootstrap';
+      const reference = path === '/api/thingamajob/test/reference-access';
       const match = /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/access$/.exec(path);
-      if (!match) return reply(404, { error: 'Not found' });
-      if (request.method !== 'GET') {
+      if (!match && !(testEnabled && (start || bootstrap || reference)))
+        return reply(404, { error: 'Not found' });
+      const expectedMethod = bootstrap ? 'POST' : 'GET';
+      if (request.method !== expectedMethod) {
         const response = reply(405, { error: 'Method not allowed' });
-        response.headers.set('Allow', 'GET');
+        response.headers.set('Allow', expectedMethod);
         return response;
       }
+      if (
+        bootstrap &&
+        (request.headers.get('Origin') !== 'https://api-test.djamespoer.com' ||
+          (request.headers.has('Sec-Fetch-Site') &&
+            request.headers.get('Sec-Fetch-Site') !== 'same-origin'))
+      )
+        return reply(403, { error: 'Access denied' });
       let authenticate;
       try {
         if (!env.IDENTITY_DB || typeof env.IDENTITY_DB.prepare !== 'function')
@@ -41,7 +60,25 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       try {
         const identity = await authenticate(request);
-        await authorizeWorkspace(env.IDENTITY_DB, identity, match[1], 'owner');
+        if (start) {
+          const nonce = crypto.randomUUID();
+          return new Response(testStartPage.replace('<script>', `<script nonce="${nonce}">`), {
+            headers: {
+              'Content-Type': 'text/html; charset=utf-8',
+              'Cache-Control': 'no-store',
+              'Content-Security-Policy': `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`,
+              'X-Content-Type-Options': 'nosniff',
+              'Referrer-Policy': 'no-referrer',
+            },
+          });
+        }
+        if (bootstrap) {
+          const scope = await bootstrapOwnWorkspace(env.IDENTITY_DB, identity);
+          return reply(200, { workspaceId: scope.workspaceId });
+        }
+        const workspace = reference ? env.TEST_REFERENCE_WORKSPACE : match?.[1];
+        if (!workspace) return reply(503, { error: 'Service unavailable' });
+        await authorizeWorkspace(env.IDENTITY_DB, identity, workspace, 'owner');
         return reply(200, { authorized: true, operation: 'owner' });
       } catch (error) {
         return error instanceof AccessDenied
