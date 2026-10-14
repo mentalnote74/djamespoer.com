@@ -1,0 +1,25 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "thingamajob-scrum85-verification-test",
+  "main": "verification-worker.ts",
+  "compatibility_date": "2026-10-13",
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": {
+    "FICTIONAL_VERIFICATION_ONLY": "scrum85-fictional-only",
+    "PROOF_PHASE": "initial",
+  },
+  "d1_databases": [
+    {
+      "binding": "FICTIONAL_DB",
+      "database_name": "thingamajob-scrum85-fictional-test",
+      "database_id": "REPLACE_WITH_ISOLATED_FICTIONAL_D1_ID",
+    },
+  ],
+  "r2_buckets": [
+    {
+      "binding": "FICTIONAL_ORIGINALS",
+      "bucket_name": "thingamajob-scrum85-fictional-test",
+    },
+  ],
+}

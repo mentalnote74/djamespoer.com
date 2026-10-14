@@ -1,5 +1,15 @@
 # AI Engineering Handoff
 
+## SCRUM-85 accepted deployed checkpoint (2026-10-14)
+
+SCRUM-84 accepted by James at fea271d345bd4477f7cbaa23bbd32ee36dcbcb24. James's repaired SCRUM-85 Access-session run completed; independent authoritative D1 verification confirms state=passed, cursor/check-list 137/137 with exact ordered labels. Both fictional owner pipelines/isolation/adversarial tools, explicit Accept/Correct/Reject and resolution, stale/concurrent decisions, retries, real D1 rollback/R2 failures/orphan reconciliation pass. Dedicated service-only Worker thingamajob-scrum85-verification-test version c471f433-19d4-4f2b-ad64-d2fe850342c6; isolated D1/R2 thingamajob-scrum85-fictional-test. Existing TEST entry version 6c3acdf8-75a6-4eea-a9c6-9361832f5cc2. No public verifier/preview/R2 domains or human credentials forwarded.
+
+Three committed synthetic R2 originals independently verified by bytes/hash/length, plus retained inaccessible private synthetic orphan; D1 FKs/quick_check pass. Actual local Node-process restart replay passes. Deployed 24-check prefix survived repair redeployment and final original/claim/resolution/history retrieval and durable retries passed. Stored phase initial; no additional restart-phase human run was performed or requested. Shipping 101/101, Angular 234/234, TypeScript/format/whitespace/build/budgets pass, timestamp restored; 4 local UI axe audits zero/no overflow/keyboard/one main.
+
+Earlier 503 was confirmed exceededResources at 13:39:30 UTC; historical telemetry access denied (403), exact sublimit unconfirmed. Removed per-step RSA generation via per-isolate fictional key reuse, without caching identity/scope/authority or changing limits/billing. Conditionally reconciled only verified interrupted cursor-24 progress lock; all completed business records preserved. All 20 real TEST table hashes/counts and Erica pending/approval state unchanged; Access/LIVE/portfolio/main untouched. No real career facts in fixtures, no live LLM or evaluation work. Remote main remains beb5a7bfe998189472c00a4aed8b17fd65ce6698.
+
+Checkpoint branch test/scrum-85-two-client-roundtrip; see server/thingamajob/two-client-verification.md and sanitized scrum-85-verification-results.json. Unrelated surviving local work stays uncommitted. SCRUM-85 ACCEPTED / GREEN FOR SCRUM-86. STOP until Coach issues the next block; no SCRUM-86 work begun.
+
 ## SCRUM-84 deployed TEST acceptance checkpoint (2026-10-14)
 
 Recovery reconciliation accepted; preserved recovered implementation rolled out only to TEST. Additive unknowns.sql applied (six UNKNOWN tables plus claim/proposal identity index). TEST Worker version bd33c4c6-d8eb-4cce-963c-368732a460dd serves 100%. Pre/post canonical row hashes and counts match across all 14 existing D1 tables, including James ownership/evidence/reviews/claims and pending/approval state; six new tables remain empty and integrity checks pass. Bindings/domains/private R2 visibility/LIVE inventory/portfolio deployment unchanged. No original R2 uploads/changes or Access policy changes. Remote main remains beb5a7bfe998189472c00a4aed8b17fd65ce6698; Erica acceptance remains open.

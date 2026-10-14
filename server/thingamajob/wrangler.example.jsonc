@@ -8,6 +8,13 @@
   "env": {
     "test": {
       "name": "thingamajob-api-test",
+      // SCRUM-85 isolated fictional verifier; never bind James's D1/R2 to that Worker.
+      "services": [
+        {
+          "binding": "TEST_VERIFICATION",
+          "service": "thingamajob-scrum85-verification-test",
+        },
+      ],
       "r2_buckets": [
         { "binding": "PRIVATE_ORIGINALS", "bucket_name": "REPLACE_WITH_PRIVATE_TEST_R2_NAME" },
       ],

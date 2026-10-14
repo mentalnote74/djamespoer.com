@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "persistedState": "passed",
+  "completedSteps": 137,
+  "totalSteps": 137,
+  "exactOrderedCheckListVerified": true,
+  "phase": "initial",
+  "fictionalOwners": 2,
+  "relationshipViolations": {
+    "bad_owners": 0,
+    "bad_memberships": 0,
+    "unreviewed_claims": 0,
+    "rejected_claims": 0,
+    "bad_resolutions": 0,
+    "automatic_resolutions": 0,
+    "non_fixture_evidence": 0,
+    "pending": 0,
+    "approvals": 0
+  },
+  "counts": {
+    "originals": 3,
+    "original_history": 3,
+    "evidence": 3,
+    "proposals": 10,
+    "proposal_sources": 10,
+    "reviews": 10,
+    "claims": 7,
+    "claim_sources": 7,
+    "assertion_history": 20,
+    "unknowns": 6,
+    "unknown_events": 22,
+    "unknown_answers": 6,
+    "unknown_answer_sources": 6,
+    "unknown_proposals": 6,
+    "unknown_resolutions": 4
+  },
+  "dispositions": [
+    {
+      "workspace_id": "scrum85-one",
+      "disposition": "accepted",
+      "n": 3
+    },
+    {
+      "workspace_id": "scrum85-one",
+      "disposition": "corrected",
+      "n": 1
+    },
+    {
+      "workspace_id": "scrum85-one",
+      "disposition": "rejected",
+      "n": 1
+    },
+    {
+      "workspace_id": "scrum85-two",
+      "disposition": "accepted",
+      "n": 2
+    },
+    {
+      "workspace_id": "scrum85-two",
+      "disposition": "corrected",
+      "n": 1
+    },
+    {
+      "workspace_id": "scrum85-two",
+      "disposition": "rejected",
+      "n": 2
+    }
+  ],
+  "unknowns": [
+    {
+      "workspace_id": "scrum85-one",
+      "state": "open",
+      "n": 1
+    },
+    {
+      "workspace_id": "scrum85-one",
+      "state": "resolved",
+      "n": 2
+    },
+    {
+      "workspace_id": "scrum85-two",
+      "state": "open",
+      "n": 1
+    },
+    {
+      "workspace_id": "scrum85-two",
+      "state": "resolved",
+      "n": 2
+    }
+  ],
+  "fictionalOriginalsVerified": 3,
+  "retainedPrivateOrphanVerified": true,
+  "integrity": "ok",
+  "evidenceLevel": "authoritative deployed D1/R2 plus independent plan-label comparison",
+  "redeploymentPersistence": "completed prefix survived verifier repair deployment and final retrieval/replay checks",
+  "liveLLM": false,
+  "existingTestWorkerVersion": "6c3acdf8-75a6-4eea-a9c6-9361832f5cc2",
+  "verifierWorker": "thingamajob-scrum85-verification-test",
+  "verifierVersion": "c471f433-19d4-4f2b-ad64-d2fe850342c6",
+  "fictionalR2": "thingamajob-scrum85-fictional-test",
+  "fictionalD1": "thingamajob-scrum85-fictional-test",
+  "localShippingTests": {
+    "passed": 101,
+    "total": 101
+  },
+  "angularTests": {
+    "passed": 234,
+    "total": 234
+  },
+  "localAxeAudits": {
+    "audits": 4,
+    "violations": 0
+  },
+  "realTestTableCount": 20,
+  "realTestHashesAndCountsUnchanged": true,
+  "ericaStateUnchanged": true,
+  "livePortfolioAccessMainUntouched": true,
+  "remainingGate": "Coach next block before SCRUM-86"
+}

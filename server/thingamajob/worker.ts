@@ -1,5 +1,5 @@
 import { AccessDenied, createAccessIdentityAdapter } from './access-identity.ts';
-import { authorizeWorkspace } from './workspace-access.ts';
+import { authorizeWorkspace, recheckWorkspace } from './workspace-access.ts';
 import type { IdentityDatabase } from './workspace-access.ts';
 import type { JWTVerifyGetKey } from 'jose';
 import { bootstrapOwnWorkspace } from './self-workspace.ts';
@@ -26,6 +26,8 @@ import {
 } from './assertion-service.ts';
 import { assertionPage } from './assertion-page.ts';
 import { unknownPage } from './unknown-page.ts';
+import { verificationPage } from './verification-page.ts';
+import { boundedBytes } from './evidence-validation.ts';
 import {
   createUnknown,
   answerUnknown,
@@ -44,6 +46,7 @@ export interface WorkerEnvironment {
   TEST_BOOTSTRAP_ENABLED?: string;
   TEST_REFERENCE_WORKSPACE?: string;
   PRIVATE_ORIGINALS?: PrivateOriginals & Partial<OriginalBucket>;
+  TEST_VERIFICATION?: { fetch(request: Request): Promise<Response> };
 }
 
 function reply(status: number, body: object): Response {
@@ -69,6 +72,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const ownEvidence = path === '/api/thingamajob/test/evidence';
       const ownAssertions = path === '/api/thingamajob/test/assertions';
       const ownUnknowns = path === '/api/thingamajob/test/unknowns';
+      const verification = path === '/api/thingamajob/test/two-client-verification';
       const unknowns = testEnabled
         ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/unknowns(?:\/([a-zA-Z0-9_-]{1,100})(?:\/(answers|resolve)(?:\/([a-zA-Z0-9_-]{1,100})\/proposal)?)?)?$/.exec(
             path,
@@ -104,7 +108,8 @@ export function createWorker(keys?: JWTVerifyGetKey) {
             roundtrip ||
             ownEvidence ||
             ownAssertions ||
-            ownUnknowns)
+            ownUnknowns ||
+            verification)
         )
       )
         return reply(404, { error: 'Not found' });
@@ -118,13 +123,14 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       if (
         request.method !== expectedMethod &&
         !(roundtrip && request.method === 'POST') &&
+        !(verification && request.method === 'POST') &&
         !(evidence && !evidence[2] && request.method === 'GET') &&
         !(unknowns && !unknowns[2] && request.method === 'GET')
       ) {
         const response = reply(405, { error: 'Method not allowed' });
         response.headers.set(
           'Allow',
-          roundtrip || (evidence && !evidence[2]) || (unknowns && !unknowns[2])
+          roundtrip || verification || (evidence && !evidence[2]) || (unknowns && !unknowns[2])
             ? 'GET, POST'
             : expectedMethod,
         );
@@ -132,7 +138,8 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       if (
         (bootstrap ||
-          ((roundtrip || evidence || assertions || unknowns) && request.method === 'POST')) &&
+          ((roundtrip || verification || evidence || assertions || unknowns) &&
+            request.method === 'POST')) &&
         (request.headers.get('Origin') !== 'https://api-test.djamespoer.com' ||
           (request.headers.has('Sec-Fetch-Site') &&
             request.headers.get('Sec-Fetch-Site') !== 'same-origin'))
@@ -151,6 +158,34 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       try {
         const identity = await authenticate(request);
+        if (verification) {
+          const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          await recheckWorkspace(scope);
+          if (!env.TEST_VERIFICATION) return reply(503, { error: 'Verification unavailable' });
+          if (request.method === 'GET') {
+            const nonce = crypto.randomUUID();
+            return new Response(verificationPage.replace('<script>', `<script nonce="${nonce}">`), {
+              headers: {
+                'Content-Type': 'text/html; charset=utf-8',
+                'Cache-Control': 'no-store',
+                'Content-Security-Policy': `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`,
+                'X-Content-Type-Options': 'nosniff',
+                'Referrer-Policy': 'no-referrer',
+              },
+            });
+          }
+          if (request.body && (await boundedBytes(request.body, 1)).length)
+            return reply(400, { error: 'Verification accepts no arguments' });
+          const response = await env.TEST_VERIFICATION.fetch(
+            new Request('https://verification.internal/run', { method: 'POST' }),
+          );
+          await recheckWorkspace(scope);
+          if (response.status !== 200)
+            return reply(503, {
+              error: 'Verification unavailable; operator inspection may be required',
+            });
+          return reply(200, await response.json());
+        }
         if (ownUnknowns || unknowns) {
           const scope = unknowns
             ? await authorizeWorkspace(env.IDENTITY_DB, identity, unknowns[1], 'owner')
