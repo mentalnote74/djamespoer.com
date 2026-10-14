@@ -94,6 +94,20 @@ export async function evidenceMetadata(
   };
 }
 
+/** Only the caller's authorized committed sources; bounded TEST review selector. */
+export async function listEvidence(database: IdentityDatabase, scope: WorkspaceAccess) {
+  await recheckWorkspace(scope);
+  const row = await database
+    .prepare(
+      `SELECT json_group_array(json_object('sourceId',source_id,'filename',filename)) AS items
+    FROM (SELECT source_id,filename FROM thingamajob_evidence WHERE workspace_id=? ORDER BY acquired_at DESC,source_id LIMIT 100)`,
+    )
+    .bind(scope.workspaceId)
+    .first<{ items: string }>();
+  await recheckWorkspace(scope);
+  return { sources: JSON.parse(row?.items ?? '[]') as unknown };
+}
+
 export async function downloadEvidence(
   database: IdentityDatabase,
   bucket: OriginalBucket,
