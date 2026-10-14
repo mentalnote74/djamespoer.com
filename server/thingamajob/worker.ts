@@ -74,6 +74,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         }
         if (bootstrap) {
           const scope = await bootstrapOwnWorkspace(env.IDENTITY_DB, identity);
+          if (!scope) return reply(202, { pending: true });
           return reply(200, { workspaceId: scope.workspaceId });
         }
         const workspace = reference ? env.TEST_REFERENCE_WORKSPACE : match?.[1];

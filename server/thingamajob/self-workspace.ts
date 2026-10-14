@@ -16,11 +16,11 @@ async function existingWorkspace(database: IdentityDatabase, identity: HumanIden
   return row ? authorizeWorkspace(database, identity, row.workspace_id, 'owner') : null;
 }
 
-/** Only the verified human may initialize their own workspace. No payload identity. */
+/** Only an operator-approved verified human may initialize their own workspace. */
 export async function bootstrapOwnWorkspace(
   database: IdentityDatabase,
   identity: HumanIdentity,
-): Promise<WorkspaceAccess> {
+): Promise<WorkspaceAccess | null> {
   assertHumanIdentity(identity);
   const existing = await existingWorkspace(database, identity);
   if (existing) return existing;
@@ -30,6 +30,19 @@ export async function bootstrapOwnWorkspace(
     .bind(identity.issuer, identity.subject)
     .first<{ actor_id: string }>();
   if (actor) throw new AccessDenied();
+  // Public requests record ONLY the server-verified identity. This is not approval.
+  await database.batch([
+    database
+      .prepare(
+        'INSERT OR IGNORE INTO thingamajob_pending_identities (issuer, subject) VALUES (?, ?)',
+      )
+      .bind(identity.issuer, identity.subject),
+  ]);
+  const approval = await database
+    .prepare('SELECT active FROM thingamajob_owner_approvals WHERE issuer = ? AND subject = ?')
+    .bind(identity.issuer, identity.subject)
+    .first<{ active: number }>();
+  if (approval?.active !== 1) return null;
   const actorId = crypto.randomUUID(),
     workspaceId = crypto.randomUUID();
   assertHumanIdentity(identity);
@@ -38,9 +51,17 @@ export async function bootstrapOwnWorkspace(
       database
         .prepare(
           `INSERT INTO thingamajob_actors (actor_id, issuer, subject)
-        SELECT ?, ?, ? WHERE unixepoch() < ?`,
+        SELECT ?, ?, ? WHERE unixepoch() < ? AND EXISTS (
+          SELECT 1 FROM thingamajob_owner_approvals WHERE issuer = ? AND subject = ? AND active = 1)`,
         )
-        .bind(actorId, identity.issuer, identity.subject, identity.expiresAt),
+        .bind(
+          actorId,
+          identity.issuer,
+          identity.subject,
+          identity.expiresAt,
+          identity.issuer,
+          identity.subject,
+        ),
       database
         .prepare('INSERT INTO thingamajob_workspaces (workspace_id, owner_actor_id) VALUES (?, ?)')
         .bind(workspaceId, actorId),

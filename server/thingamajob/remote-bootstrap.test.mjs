@@ -15,6 +15,11 @@ const origin = 'https://api-test.djamespoer.com';
 function fixture() {
   const db = new DatabaseSync(':memory:');
   db.exec(readFileSync(new URL('./identity.sql', import.meta.url), 'utf8'));
+  db.exec(readFileSync(new URL('./owner-approval.sql', import.meta.url), 'utf8'));
+  for (const subject of ['fictional-one', 'fictional-two']) {
+    db.prepare('INSERT INTO thingamajob_pending_identities VALUES (?, ?)').run(issuer, subject);
+    db.prepare('INSERT INTO thingamajob_owner_approvals VALUES (?, ?, 1)').run(issuer, subject);
+  }
   const database = {
     prepare(sql) {
       const values = [];
@@ -224,6 +229,67 @@ test('TEST start page has native semantics, nonce CSP and no cookie/storage acce
       !response.headers.get('content-security-policy').includes("script-src 'unsafe-inline'"),
     );
     assert.equal(response.headers.get('cache-control'), 'no-store');
+  } finally {
+    db.close();
+  }
+});
+
+test('Access login alone records only pending identity; forged approval fields cannot grant ownership', async () => {
+  const { db, env } = fixture();
+  try {
+    const response = await bootstrap(env, 'fictional-unapproved', {
+      body: JSON.stringify({
+        subject: 'fictional-one',
+        email: 'approved@example.invalid',
+        active: 1,
+        approved: true,
+        owner: true,
+      }),
+    });
+    assert.equal(response.status, 202);
+    assert.deepEqual(await response.json(), { pending: true });
+    assert.equal(db.prepare('SELECT COUNT(*) AS n FROM thingamajob_actors').get().n, 0);
+    assert.equal(db.prepare('SELECT COUNT(*) AS n FROM thingamajob_workspaces').get().n, 0);
+    assert.equal(
+      db
+        .prepare('SELECT COUNT(*) AS n FROM thingamajob_owner_approvals WHERE subject=?')
+        .get('fictional-unapproved').n,
+      0,
+    );
+    assert.equal(
+      db
+        .prepare('SELECT COUNT(*) AS n FROM thingamajob_pending_identities WHERE subject=?')
+        .get('fictional-unapproved').n,
+      1,
+    );
+    db.prepare('INSERT INTO thingamajob_owner_approvals VALUES (?, ?, 1)').run(
+      issuer,
+      'fictional-unapproved',
+    );
+    assert.equal((await bootstrap(env, 'fictional-unapproved')).status, 200);
+  } finally {
+    db.close();
+  }
+});
+test('existing owner identity and workspace remain byte-for-byte unchanged without a new approval', async () => {
+  const { db, env } = fixture();
+  try {
+    const workspace = await (await bootstrap(env, 'fictional-one')).json();
+    const snapshot = JSON.stringify({
+      actors: db.prepare('SELECT * FROM thingamajob_actors').all(),
+      workspaces: db.prepare('SELECT * FROM thingamajob_workspaces').all(),
+      memberships: db.prepare('SELECT * FROM thingamajob_memberships').all(),
+    });
+    db.exec('DELETE FROM thingamajob_owner_approvals');
+    assert.deepEqual(await (await bootstrap(env, 'fictional-one')).json(), workspace);
+    assert.equal(
+      JSON.stringify({
+        actors: db.prepare('SELECT * FROM thingamajob_actors').all(),
+        workspaces: db.prepare('SELECT * FROM thingamajob_workspaces').all(),
+        memberships: db.prepare('SELECT * FROM thingamajob_memberships').all(),
+      }),
+      snapshot,
+    );
   } finally {
     db.close();
   }
