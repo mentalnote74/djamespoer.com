@@ -4,6 +4,8 @@ import type { IdentityDatabase } from './workspace-access.ts';
 import type { JWTVerifyGetKey } from 'jose';
 import { bootstrapOwnWorkspace } from './self-workspace.ts';
 import { testStartPage } from './test-start.ts';
+import { ownStorageWorkspace, storageReadiness } from './storage-readiness.ts';
+import type { PrivateOriginals } from './storage-readiness.ts';
 
 export interface WorkerEnvironment {
   ACCESS_ISSUER: string;
@@ -11,6 +13,7 @@ export interface WorkerEnvironment {
   IDENTITY_DB: IdentityDatabase;
   TEST_BOOTSTRAP_ENABLED?: string;
   TEST_REFERENCE_WORKSPACE?: string;
+  PRIVATE_ORIGINALS?: PrivateOriginals;
 }
 
 function reply(status: number, body: object): Response {
@@ -31,8 +34,12 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const start = path === '/api/thingamajob/test/start';
       const bootstrap = path === '/api/thingamajob/bootstrap';
       const reference = path === '/api/thingamajob/test/reference-access';
+      const ownStorage = path === '/api/thingamajob/test/storage';
+      const storage = testEnabled
+        ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/storage$/.exec(path)
+        : null;
       const match = /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/access$/.exec(path);
-      if (!match && !(testEnabled && (start || bootstrap || reference)))
+      if (!match && !storage && !(testEnabled && (start || bootstrap || reference || ownStorage)))
         return reply(404, { error: 'Not found' });
       const expectedMethod = bootstrap ? 'POST' : 'GET';
       if (request.method !== expectedMethod) {
@@ -60,6 +67,12 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       try {
         const identity = await authenticate(request);
+        if (storage || ownStorage) {
+          const scope = storage
+            ? await authorizeWorkspace(env.IDENTITY_DB, identity, storage[1], 'owner')
+            : await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          return reply(200, await storageReadiness(scope, env.PRIVATE_ORIGINALS));
+        }
         if (start) {
           const nonce = crypto.randomUUID();
           return new Response(testStartPage.replace('<script>', `<script nonce="${nonce}">`), {

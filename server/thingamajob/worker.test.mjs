@@ -88,6 +88,144 @@ test('Worker composes signed Access with SQLite ownership for two isolated owner
     db.close();
   }
 });
+
+async function storageRequest(target = 'one', subject = 'one', own = false) {
+  const signed = await request(target, subject);
+  return new Request(
+    'https://api-test.djamespoer.com' +
+      (own
+        ? '/api/thingamajob/test/storage'
+        : `/api/thingamajob/workspaces/workspace-${target}/storage`) +
+      '?key=workspaces/workspace-two/private&subject=subject-two&owner=true',
+    { headers: signed.headers },
+  );
+}
+
+test('TEST storage probes are owner-scoped, server-keyed and read-only for both clients', async () => {
+  const { db, env } = fixture();
+  env.TEST_BOOTSTRAP_ENABLED = 'true';
+  const keys = [];
+  env.PRIVATE_ORIGINALS = {
+    async head(key) {
+      keys.push(key);
+      return null;
+    },
+  };
+  const before = db.prepare('SELECT * FROM thingamajob_memberships').all();
+  try {
+    for (const [target, subject, status] of [
+      ['one', 'one', 200],
+      ['two', 'two', 200],
+      ['one', 'two', 403],
+      ['two', 'one', 403],
+    ]) {
+      const response = await worker.fetch(await storageRequest(target, subject), env);
+      assert.equal(response.status, status);
+      assert.equal(response.headers.get('Cache-Control'), 'no-store');
+      assert.deepEqual(
+        await response.json(),
+        status === 200
+          ? { authorized: true, d1: 'ready', r2: 'ready' }
+          : { error: 'Access denied' },
+      );
+    }
+    assert.equal(keys.length, 2);
+    assert.match(keys[0], /^workspaces\/workspace-one\/_readiness\/[a-f0-9-]{36}$/);
+    assert.match(keys[1], /^workspaces\/workspace-two\/_readiness\/[a-f0-9-]{36}$/);
+    assert.deepEqual(db.prepare('SELECT * FROM thingamajob_memberships').all(), before);
+    for (const subject of ['one', 'two'])
+      assert.equal(
+        (await worker.fetch(await storageRequest('one', subject, true), env)).status,
+        200,
+      );
+  } finally {
+    db.close();
+  }
+});
+
+test('storage denies untrusted/unprovisioned identity before touching R2', async () => {
+  const { db, env } = fixture();
+  env.TEST_BOOTSTRAP_ENABLED = 'true';
+  let calls = 0;
+  env.PRIVATE_ORIGINALS = {
+    async head() {
+      calls++;
+      return null;
+    },
+  };
+  try {
+    const valid = await storageRequest();
+    for (const headers of [{}, { 'Cf-Access-Jwt-Assertion': 'forged', 'X-Actor-Id': 'actor-one' }])
+      assert.equal((await worker.fetch(new Request(valid.url, { headers }), env)).status, 403);
+    assert.equal(
+      (await worker.fetch(await storageRequest('one', 'unknown', true), env)).status,
+      403,
+    );
+    db.exec('UPDATE thingamajob_memberships SET active = 0');
+    assert.equal((await worker.fetch(await storageRequest(), env)).status, 403);
+    assert.equal(calls, 0);
+  } finally {
+    db.close();
+  }
+});
+
+test('revocation during R2 probe fails closed; provider details are never returned', async () => {
+  const { db, env } = fixture();
+  env.TEST_BOOTSTRAP_ENABLED = 'true';
+  try {
+    env.PRIVATE_ORIGINALS = {
+      async head() {
+        db.exec('UPDATE thingamajob_memberships SET active = 0');
+        return { key: 'private-metadata' };
+      },
+    };
+    const revoked = await worker.fetch(await storageRequest(), env);
+    assert.equal(revoked.status, 403);
+    assert.deepEqual(await revoked.json(), { error: 'Access denied' });
+    db.exec('UPDATE thingamajob_memberships SET active = 1');
+    env.PRIVATE_ORIGINALS = {
+      async head() {
+        throw new Error('private-provider-detail');
+      },
+    };
+    const failed = await worker.fetch(await storageRequest(), env);
+    assert.equal(failed.status, 503);
+    assert.deepEqual(await failed.json(), { error: 'Service unavailable' });
+    delete env.PRIVATE_ORIGINALS;
+    assert.equal((await worker.fetch(await storageRequest(), env)).status, 503);
+  } finally {
+    db.close();
+  }
+});
+
+test('storage routes are disabled outside TEST and accept no writes', async () => {
+  const { db, env } = fixture();
+  try {
+    const valid = await storageRequest();
+    assert.equal((await worker.fetch(valid, env)).status, 404);
+    env.TEST_BOOTSTRAP_ENABLED = 'true';
+    for (const origin of ['https://api.djamespoer.com', 'https://other.example.invalid'])
+      assert.equal(
+        (
+          await worker.fetch(
+            new Request(valid.url.replace('https://api-test.djamespoer.com', origin), {
+              headers: valid.headers,
+            }),
+            env,
+          )
+        ).status,
+        404,
+      );
+    const method = await worker.fetch(
+      new Request(valid.url, { method: 'POST', headers: valid.headers, body: 'fictional' }),
+      env,
+    );
+    assert.equal(method.status, 405);
+    assert.equal(method.headers.get('Allow'), 'GET');
+  } finally {
+    db.close();
+  }
+});
 test('Worker rejects missing/forged identity, unknown subjects and revoked owners', async () => {
   const { db, env } = fixture();
   try {
