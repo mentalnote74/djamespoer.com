@@ -114,6 +114,7 @@ export async function createProposal(
   request: Request,
   database: IdentityDatabase,
   scope: WorkspaceAccess,
+  unknownLink?: { unknownId: string; answerId: string; expectedVersion: number },
 ) {
   await recheckWorkspace(scope);
   const authorization = mutationAuthorization(scope, 'owner');
@@ -135,7 +136,7 @@ export async function createProposal(
     throw new AssertionInputError();
   for (const item of evidence) await evidenceMetadata(database, scope, item.sourceId);
   const requestKey = identifier(request.headers.get('Idempotency-Key'));
-  const hash = await fingerprint({ statement, attribution, evidence });
+  const hash = await fingerprint({ statement, attribution, evidence, unknownLink });
   async function replay() {
     await recheckWorkspace(scope);
     const existing = await database
@@ -151,6 +152,7 @@ export async function createProposal(
   const existing = await replay();
   if (existing) return existing;
   const id = crypto.randomUUID();
+  const eventId = crypto.randomUUID();
   try {
     await database.batch([
       database
@@ -179,6 +181,42 @@ export async function createProposal(
         VALUES (?,?,1,'proposed',?,NULL,?)`,
         )
         .bind(scope.workspaceId, id, scope.actorId, statement),
+      ...(unknownLink
+        ? [
+            database
+              .prepare(
+                `UPDATE thingamajob_unknowns SET version=version+1,last_event_id=?
+          WHERE workspace_id=? AND unknown_id=? AND state='open' AND version=? AND ${authorization.sql}`,
+              )
+              .bind(
+                eventId,
+                scope.workspaceId,
+                unknownLink.unknownId,
+                unknownLink.expectedVersion,
+                ...authorization.bindings,
+              ),
+            database
+              .prepare(
+                `INSERT INTO thingamajob_unknown_events(workspace_id,unknown_id,event_id,version,operation,request_key,fingerprint,actor_id,answer_id,proposal_id)
+          SELECT workspace_id,unknown_id,?,version,'proposal-linked',?,?,?,?,? FROM thingamajob_unknowns
+          WHERE workspace_id=? AND unknown_id=? AND last_event_id=? AND state='open'`,
+              )
+              .bind(
+                eventId,
+                requestKey,
+                hash,
+                scope.actorId,
+                unknownLink.answerId,
+                id,
+                scope.workspaceId,
+                unknownLink.unknownId,
+                eventId,
+              ),
+            database
+              .prepare('INSERT INTO thingamajob_unknown_proposals VALUES (?,?,?,?,?)')
+              .bind(scope.workspaceId, unknownLink.unknownId, unknownLink.answerId, id, eventId),
+          ]
+        : []),
     ]);
   } catch {
     const winner = await replay();

@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## SCRUM-84 deployed TEST acceptance checkpoint (2026-10-14)
+
+Recovery reconciliation accepted; preserved recovered implementation rolled out only to TEST. Additive unknowns.sql applied (six UNKNOWN tables plus claim/proposal identity index). TEST Worker version bd33c4c6-d8eb-4cce-963c-368732a460dd serves 100%. Pre/post canonical row hashes and counts match across all 14 existing D1 tables, including James ownership/evidence/reviews/claims and pending/approval state; six new tables remain empty and integrity checks pass. Bindings/domains/private R2 visibility/LIVE inventory/portfolio deployment unchanged. No original R2 uploads/changes or Access policy changes. Remote main remains beb5a7bfe998189472c00a4aed8b17fd65ce6698; Erica acceptance remains open.
+
+Post-deploy shipping tests 92/92 (UNKNOWN 17/17), strict TypeScript and whitespace pass. Accepted recovery verification includes Angular 234/234, production build/budgets, Worker dry run and 22 fictional desktop/narrow axe audits with zero violations/no overflow/one main. Four unrelated local PowerShell transport diagnostics remain blocked by execution policy; diagnostics untouched. Protected UNKNOWN/storage requests redirect unauthenticated clients to Access (302); authenticated owner success is not yet claimed.
+
+Dedicated checkpoint branch test/scrum-84-unknown-resolution. Next gate: James uses https://api-test.djamespoer.com/api/thingamajob/test/unknowns through normal Access to verify explicit Accept/Reject/Correct and resolution/history. Stop before SCRUM-85. See server/thingamajob/unknown-resolution.md. Other surviving diagnostics/assets/output/traces remain untouched.
+
+
 ## Purpose
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.

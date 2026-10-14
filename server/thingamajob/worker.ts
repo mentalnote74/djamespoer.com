@@ -25,6 +25,17 @@ import {
   ReviewConflict,
 } from './assertion-service.ts';
 import { assertionPage } from './assertion-page.ts';
+import { unknownPage } from './unknown-page.ts';
+import {
+  createUnknown,
+  answerUnknown,
+  proposeUnknownAnswer,
+  resolveUnknown,
+  getUnknown,
+  listUnknowns,
+  UnknownInputError,
+  UnknownConflict,
+} from './unknown-service.ts';
 
 export interface WorkerEnvironment {
   ACCESS_ISSUER: string;
@@ -57,6 +68,13 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const roundtrip = path === '/api/thingamajob/test/storage-roundtrip';
       const ownEvidence = path === '/api/thingamajob/test/evidence';
       const ownAssertions = path === '/api/thingamajob/test/assertions';
+      const ownUnknowns = path === '/api/thingamajob/test/unknowns';
+      const unknowns = testEnabled
+        ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/unknowns(?:\/([a-zA-Z0-9_-]{1,100})(?:\/(answers|resolve)(?:\/([a-zA-Z0-9_-]{1,100})\/proposal)?)?)?$/.exec(
+            path,
+          )
+        : null;
+      if (unknowns?.[3] === 'resolve' && unknowns[4]) return reply(404, { error: 'Not found' });
       const assertions = testEnabled
         ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/assertions(?:\/([a-zA-Z0-9_-]{1,100})(\/review)?)?$/.exec(
             path,
@@ -76,6 +94,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         !storage &&
         !evidence &&
         !assertions &&
+        !unknowns &&
         !(
           testEnabled &&
           (start ||
@@ -84,28 +103,36 @@ export function createWorker(keys?: JWTVerifyGetKey) {
             ownStorage ||
             roundtrip ||
             ownEvidence ||
-            ownAssertions)
+            ownAssertions ||
+            ownUnknowns)
         )
       )
         return reply(404, { error: 'Not found' });
       const expectedMethod =
-        bootstrap || (evidence && !evidence[2]) || (assertions && (!assertions[2] || assertions[3]))
+        bootstrap ||
+        (evidence && !evidence[2]) ||
+        (assertions && (!assertions[2] || assertions[3])) ||
+        (unknowns && (!unknowns[2] || unknowns[3]))
           ? 'POST'
           : 'GET';
       if (
         request.method !== expectedMethod &&
         !(roundtrip && request.method === 'POST') &&
-        !(evidence && !evidence[2] && request.method === 'GET')
+        !(evidence && !evidence[2] && request.method === 'GET') &&
+        !(unknowns && !unknowns[2] && request.method === 'GET')
       ) {
         const response = reply(405, { error: 'Method not allowed' });
         response.headers.set(
           'Allow',
-          roundtrip || (evidence && !evidence[2]) ? 'GET, POST' : expectedMethod,
+          roundtrip || (evidence && !evidence[2]) || (unknowns && !unknowns[2])
+            ? 'GET, POST'
+            : expectedMethod,
         );
         return response;
       }
       if (
-        (bootstrap || ((roundtrip || evidence || assertions) && request.method === 'POST')) &&
+        (bootstrap ||
+          ((roundtrip || evidence || assertions || unknowns) && request.method === 'POST')) &&
         (request.headers.get('Origin') !== 'https://api-test.djamespoer.com' ||
           (request.headers.has('Sec-Fetch-Site') &&
             request.headers.get('Sec-Fetch-Site') !== 'same-origin'))
@@ -124,6 +151,49 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       try {
         const identity = await authenticate(request);
+        if (ownUnknowns || unknowns) {
+          const scope = unknowns
+            ? await authorizeWorkspace(env.IDENTITY_DB, identity, unknowns[1], 'owner')
+            : await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          if (ownUnknowns) {
+            const nonce = crypto.randomUUID();
+            return new Response(
+              unknownPage(scope.workspaceId).replace('<script>', `<script nonce="${nonce}">`),
+              {
+                headers: {
+                  'Content-Type': 'text/html; charset=utf-8',
+                  'Cache-Control': 'no-store',
+                  'Content-Security-Policy': `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'`,
+                  'X-Content-Type-Options': 'nosniff',
+                  'Referrer-Policy': 'no-referrer',
+                },
+              },
+            );
+          }
+          if (!unknowns?.[2])
+            return reply(
+              200,
+              request.method === 'GET'
+                ? await listUnknowns(env.IDENTITY_DB, scope)
+                : await createUnknown(request, env.IDENTITY_DB, scope),
+            );
+          if (unknowns[3] === 'resolve')
+            return reply(200, await resolveUnknown(request, env.IDENTITY_DB, scope, unknowns[2]));
+          if (unknowns[3] === 'answers')
+            return reply(
+              200,
+              unknowns[4]
+                ? await proposeUnknownAnswer(
+                    request,
+                    env.IDENTITY_DB,
+                    scope,
+                    unknowns[2],
+                    unknowns[4],
+                  )
+                : await answerUnknown(request, env.IDENTITY_DB, scope, unknowns[2]),
+            );
+          return reply(200, await getUnknown(env.IDENTITY_DB, scope, unknowns[2]));
+        }
         if (ownAssertions || assertions) {
           const scope = assertions
             ? await authorizeWorkspace(env.IDENTITY_DB, identity, assertions[1], 'owner')
@@ -241,6 +311,9 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         await authorizeWorkspace(env.IDENTITY_DB, identity, workspace, 'owner');
         return reply(200, { authorized: true, operation: 'owner' });
       } catch (error) {
+        if (error instanceof UnknownInputError)
+          return reply(400, { error: 'Invalid UNKNOWN input' });
+        if (error instanceof UnknownConflict) return reply(409, { error: 'UNKNOWN conflict' });
         if (error instanceof AssertionInputError)
           return reply(400, { error: 'Invalid assertion input' });
         if (error instanceof ReviewConflict) return reply(409, { error: 'Review conflict' });
