@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Client #1 redacted resume ready (2026-10-15)
+
+Private final derivative redacted-87775f17-c0ae-48e1-93e8-ead4fe36b268/resume.redacted.txt links to baseline b3359519-cebd-4407-a432-e99b357d2716. Six contact/header paragraphs redacted; other 135 text paragraphs unchanged; eight career HTTP(S) targets retained. Originals/sealed manifests unchanged. Hash anchors and limitations: server/thingamajob/client-one-resume-redaction.md. Two focused deterministic tests passed. Earlier text-only draft retained privately but excluded. No API/model calls, extraction, benchmark access or deployment. Next extraction must use final redacted derivative plus curated selected sections, never original DOCX/full snapshots.
+
 ## Curated Client #1 baseline (2026-10-15)
 
 Run b3359519-cebd-4407-a432-e99b357d2716 captured ten approved live-rendered IPS/TCC excerpts; all matched expected public copy. Original responses/rendered snapshots are provenance-only; extractionInputs allows only unchanged historical resume and selected sections. Previous run/homepage preserved; benchmark untouched. Committed manifest hash/details: server/thingamajob/client-one-curated-baseline.md. Two focused synthetic selection tests pass; seven artifacts and ten section hashes/linkages independently verified. No extraction/model calls, deployment, UI or API changes. Next: separately authorized cited-candidate extraction; later problematic-source resilience run remains separate.
