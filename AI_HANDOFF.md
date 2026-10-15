@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Curated Client #1 baseline (2026-10-15)
+
+Run b3359519-cebd-4407-a432-e99b357d2716 captured ten approved live-rendered IPS/TCC excerpts; all matched expected public copy. Original responses/rendered snapshots are provenance-only; extractionInputs allows only unchanged historical resume and selected sections. Previous run/homepage preserved; benchmark untouched. Committed manifest hash/details: server/thingamajob/client-one-curated-baseline.md. Two focused synthetic selection tests pass; seven artifacts and ten section hashes/linkages independently verified. No extraction/model calls, deployment, UI or API changes. Next: separately authorized cited-candidate extraction; later problematic-source resilience run remains separate.
+
 ## Client #1 independent capture (2026-10-15)
 
 Local-only run 4fff8dd5-0e07-4a8b-8c54-286b69c34c0b captures the ordinary October 2021 resume and public portfolio root HTML, without benchmark access or extraction. Private originals/manifest remain ignored under career-source/proof-runs. Committed hash anchor and limitations: server/thingamajob/client-one-proof-capture.md. CLI exclusively creates files and verifies source/manifest hashes; not filesystem WORM. Two focused synthetic tests passed. No deployed data/UI/theme/API changes. Next: assess website root HTML sufficiency, then independently extract cited candidates after provider/private-data authorization. No deployment.
