@@ -18,6 +18,32 @@ const proofPages = [
 ] as const;
 
 describe('App', () => {
+  it.each(['/', '/thingamajob', '/about'])(
+    'skips to the shared current main on %s without router navigation',
+    async (path) => {
+      const fixture = TestBed.createComponent(App);
+      fixture.detectChanges();
+      const router = TestBed.inject(Router);
+      await router.navigateByUrl(path);
+      await fixture.whenStable();
+      fixture.detectChanges();
+      const root = fixture.nativeElement as HTMLElement;
+      const main = root.querySelector<HTMLElement>('main#main-content')!;
+      const focus = vi.spyOn(main, 'focus');
+      const navigation = vi.spyOn(router, 'navigateByUrl');
+      const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+      const skip = root.querySelector<HTMLAnchorElement>('.skip-link')!;
+      skip.dispatchEvent(click);
+      expect(click.defaultPrevented).toBe(true);
+      expect(focus).toHaveBeenCalledOnce();
+      expect(document.activeElement).toBe(main);
+      expect(router.url).toBe(path);
+      expect(navigation).not.toHaveBeenCalled();
+      expect(root.querySelectorAll('main')).toHaveLength(1);
+      expect(root.querySelectorAll('#main-content')).toHaveLength(1);
+      expect(skip.textContent?.trim()).toBe('Skip to main content');
+    },
+  );
   afterEach(() => {
     TestBed.inject(HttpTestingController)
       .match('/data/deployment-history.json')

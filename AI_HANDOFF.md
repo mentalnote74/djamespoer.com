@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## Shared skip link corrected; deployment review ready (2026-10-15)
+
+Fixes the prior public-entry checkpoint's shared skip-link limitation. A bare fragment resolved through base href=/ to Home on subroutes. App now intercepts activation and focuses its already-rendered main#main-content, preventing navigation. Native link/name, main ID and negative tabindex preserved; no Router or history change.
+
+Validation: focused App 24/24; full Angular 257/257; production build/budgets and formatting pass. Real Tab/Enter checks on /, /thingamajob and /about at 1440/390px prove unchanged URL/history/timeOrigin/document requests, focus on one main/target, visible focus and correct next Tab. Thingamajob desktop/mobile axe: zero violations. Evidence: output/thingamajob-skip-link/validation.json. Review: http://127.0.0.1:4406/thingamajob.
+
+READY for deployment review; STOP before deployment. Homepage 390px carousel overflow deliberately unchanged. Thingamajob copy, Erica, backend/API, Access/OTP/email and unrelated work untouched. Earlier unstaged edits preserved.
+
+
 ## Public Thingamajob entry ready for local review (2026-10-15)
 
 Local branch test/thingamajob-public-entry adds lazy /thingamajob, direct primary navigation and a real homepage panel link replacing disabled mock controls. Public copy covers source-backed evidence, owner review, product direction, James/Erica prototypes and separate Daily Job Dredge. No safe public owner-workflow entry exists; no private/API/test links, backend changes or deployment. Erica and Cloudflare settings untouched.
