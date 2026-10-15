@@ -1,28 +1,43 @@
 :host {
   display: block;
 }
-.case-study section {
-  margin-block-start: 2rem;
+.product-page,
+.product-columns,
+.product-columns > * {
+  min-inline-size: 0;
 }
-p,
-li {
+.product-introduction {
+  margin-block-end: 2rem;
+}
+.product-introduction h1 {
+  margin-block-start: 0;
+}
+.product-introduction p {
   max-inline-size: 65ch;
-}
-.product-opening {
   font-size: clamp(1.125rem, 2vw, 1.5rem);
 }
-.widget-section {
-  padding: clamp(1rem, 3vw, 2rem);
+.product-columns {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+.product-workspace {
+  padding: clamp(0.75rem, 2vw, 1.5rem);
   border: 2px solid var(--panel-border, currentColor);
   border-radius: 0.5rem;
   background: var(--panel-surface, Canvas);
-  color: var(--page-foreground, CanvasText);
 }
-.widget-section app-thingamajob-workflow {
-  padding: clamp(0.75rem, 2vw, 1.5rem);
-  border: 1px solid #67717b;
-  border-radius: 0.4rem;
+.case-study h2 {
+  margin-block-start: 0;
 }
-li + li {
-  margin-block-start: 0.5rem;
+.case-study section + section {
+  margin-block-start: 1.5rem;
+}
+.case-study p {
+  max-inline-size: 65ch;
+}
+@media (min-width: 70rem) {
+  .product-columns {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
 }

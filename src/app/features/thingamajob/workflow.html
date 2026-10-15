@@ -1,46 +1,85 @@
 @if (portfolio) {
   <div class="portfolio-review">
-    <h3>Try an owner review</h3>
-    <p>
-      Interactive walkthrough using fictional material. Decisions stay in this tab and disappear on
-      reset or reload. No real workspace, upload or AI service is connected.
+    <h2 id="job-task-heading">Evaluate a Job Description</h2>
+    <p id="local-demo-note">
+      Fictional, tab-local walkthrough. Compare job text with sample career evidence; no private
+      records, uploads or AI service are connected.
     </p>
-    <div class="sample-source">
-      <h4>Source material</h4>
-      <p>{{ portfolio.sourceText }}</p>
-    </div>
-    <p #notice tabindex="-1" role="status" class="notice">{{ portfolioNotice() }}</p>
-    @if (proposal(); as p) {
-      <h4>Proposed career statement</h4>
-      <p class="record">{{ p.statement }}</p>
-      <p>
-        Decision:
-        {{ p.reviewDisposition === 'proposed' ? 'Awaiting your review' : p.reviewDisposition }}
-      </p>
-      @if (p.reviewDisposition === 'proposed') {
-        <ng-container [ngTemplateOutlet]="reviewControls" />
-      }
-      <h4>Reviewed statement</h4>
-      @if (p.claim; as claim) {
-        <p class="record">{{ claim.statement }}</p>
-      } @else {
-        <p>No reviewed statement. A proposal alone is not approved evidence.</p>
-      }
-      <details>
-        <summary>View decision history</summary>
-        <ol>
-          @for (event of p.history ?? []; track event.version) {
-            <li>
-              {{ event.operation === 'proposed' ? 'Original proposal' : event.operation }}:
-              {{ event.statement }}
-            </li>
-          }
-        </ol>
-      </details>
+    <form #jobForm (submit)="compareJobDescription($event, jobForm)">
+      <label
+        >Fictional job description<textarea
+          #jobInput
+          name="jobDescription"
+          maxlength="4000"
+          required
+          aria-describedby="local-demo-note"
+          [value]="jobDescription()"
+          (input)="jobDescription.set(jobInput.value); jobComparison.set(null)"
+        ></textarea>
+      </label>
+      <button type="submit">Compare with sample evidence</button>
+    </form>
+    <h3>Career evidence</h3>
+    <p>{{ portfolio.sourceText }}</p>
+    @if (jobComparison(); as comparison) {
+      <div class="notice" role="status">
+        <h3>Text comparison</h3>
+        <p>
+          This highlights phrase overlap only. It is not a fit score, proof of qualification or a
+          complete assessment of the job.
+        </p>
+        @if (comparison.matched.length) {
+          <p>Sample evidence overlaps with:</p>
+          <ul>
+            @for (phrase of comparison.matched; track phrase) {
+              <li>{{ phrase }}</li>
+            }
+          </ul>
+        } @else {
+          <p>No phrases match this small sample.</p>
+        }
+        @if (comparison.notMatched.length) {
+          <p>
+            Sample topics not mentioned in this job text: {{ comparison.notMatched.join(', ') }}.
+          </p>
+        }
+        <p>Other job requirements are not assessed by this sample.</p>
+      </div>
     }
-    <button type="button" [disabled]="busy()" (click)="resetSample()">
-      Reset fictional sample
-    </button>
+    <details class="sample-review">
+      <summary>Review supporting statement</summary>
+      <p #notice tabindex="-1" role="status" class="notice">{{ portfolioNotice() }}</p>
+      @if (proposal(); as p) {
+        <h3>Suggested career statement</h3>
+        <p class="record">{{ p.statement }}</p>
+        <p>
+          Your choice:
+          {{ p.reviewDisposition === 'proposed' ? 'Not decided' : p.reviewDisposition }}
+        </p>
+        @if (p.reviewDisposition === 'proposed') {
+          <ng-container [ngTemplateOutlet]="reviewControls" />
+        }
+        <h3>Reviewed statement</h3>
+        @if (p.claim; as claim) {
+          <p class="record">{{ claim.statement }}</p>
+        } @else {
+          <p>No statement selected for use.</p>
+        }
+        <details>
+          <summary>View decision history</summary>
+          <ol>
+            @for (event of p.history ?? []; track event.version) {
+              <li>
+                {{ event.operation === 'proposed' ? 'Original suggestion' : event.operation }}:
+                {{ event.statement }}
+              </li>
+            }
+          </ol>
+        </details>
+      }
+    </details>
+    <button type="button" [disabled]="busy()" (click)="resetSample()">Reset sample</button>
+    <p>Everything stays in this tab. Reset or reload restores the fictional sample.</p>
   </div>
 } @else {
   <h1>Thingamajob TEST workspace</h1>
@@ -541,9 +580,10 @@
 }
 <ng-template #reviewControls>
   <fieldset [disabled]="busy()">
-    <legend>Explicit owner review</legend>
+    <legend>{{ portfolio ? 'Choose wording to use' : 'Explicit owner review' }}</legend>
     <label
-      >Corrected wording (required for Correct)<textarea
+      >{{ portfolio ? 'Your corrected wording' : 'Corrected wording (required for Correct)'
+      }}<textarea
         #corrected
         maxlength="4000"
         [value]="correction()"
@@ -551,9 +591,13 @@
       ></textarea>
     </label>
     <div class="actions">
-      <button type="button" (click)="review('accepted')">Accept proposal</button
-      ><button type="button" (click)="review('rejected')">Reject proposal</button
-      ><button type="button" (click)="review('corrected')">Correct proposal</button>
+      <button type="button" (click)="review('accepted')">
+        {{ portfolio ? 'Use this statement' : 'Accept proposal' }}</button
+      ><button type="button" (click)="review('rejected')">
+        {{ portfolio ? 'Do not use' : 'Reject proposal' }}</button
+      ><button type="button" (click)="review('corrected')">
+        {{ portfolio ? 'Use corrected wording' : 'Correct proposal' }}
+      </button>
     </div>
     @if (portfolio) {
       <p>This review changes only the fictional sample in this tab.</p>

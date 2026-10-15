@@ -29,6 +29,22 @@ export class ThingamajobWorkflow implements OnInit {
   readonly busy = signal(false);
   readonly message = signal('Loading your protected workspace…');
   readonly correction = signal('');
+  readonly jobDescription = signal('Facilitate accessibility workshops for a team.');
+  readonly jobComparison = signal<{ matched: string[]; notMatched: string[] } | null>(null);
+  compareJobDescription(event: Event, form: HTMLFormElement): void {
+    event.preventDefault();
+    if (!this.portfolio || !form.reportValidity()) return;
+    const text = this.jobDescription().normalize('NFKC').toLowerCase();
+    const phrases = [
+      { label: 'Accessibility', pattern: /\baccessibility\b/ },
+      { label: 'Workshops', pattern: /\bworkshops?\b/ },
+      { label: 'Facilitation', pattern: /\bfacilitat\w*\b/ },
+    ];
+    this.jobComparison.set({
+      matched: phrases.filter((p) => p.pattern.test(text)).map((p) => p.label),
+      notMatched: phrases.filter((p) => !p.pattern.test(text)).map((p) => p.label),
+    });
+  }
   readonly notice = viewChild<ElementRef<HTMLElement>>('notice');
   private readonly injector = inject(Injector);
   readonly proposalHeading = viewChild<ElementRef<HTMLElement>>('proposalHeading');
@@ -68,23 +84,26 @@ export class ThingamajobWorkflow implements OnInit {
     this.api.clear();
     this.proposal.set(null);
     this.correction.set('');
+    this.jobDescription.set('Facilitate accessibility workshops for a team.');
+    this.jobComparison.set(null);
     await this.refresh(false);
     await this.selectSample();
     this.focusNotice();
   }
   readonly portfolioNotice = computed(() => {
     if (this.busy()) return 'Updating this fictional sample…';
-    if (this.message().startsWith('Enter corrected wording')) return this.message();
+    if (this.message().startsWith('Enter corrected wording'))
+      return 'Enter corrected wording before using a correction.';
     if (/failed|unavailable|denied|could not|Conflict/.test(this.message()))
       return 'The sample could not be updated. Reset it before trying again.';
     const decision = this.proposal()?.reviewDisposition;
     return decision === 'accepted'
-      ? 'Sample accepted. The reviewed statement appears below.'
+      ? 'Statement selected for use in this sample.'
       : decision === 'corrected'
-        ? 'Sample corrected. Original proposal wording is preserved.'
+        ? 'Corrected wording selected. The original suggestion is preserved.'
         : decision === 'rejected'
-          ? 'Sample rejected. No reviewed statement was created.'
-          : 'Read the source, then accept, reject or correct the proposal.';
+          ? 'Suggestion not selected. No reviewed statement was created.'
+          : 'Review the suggested wording, then choose whether to use, omit or correct it.';
   });
   private focusNotice() {
     queueMicrotask(() => this.notice()?.nativeElement.focus());

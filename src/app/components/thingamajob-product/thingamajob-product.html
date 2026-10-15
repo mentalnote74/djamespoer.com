@@ -1,115 +1,76 @@
-<article class="case-study editorial-content">
-  <h1>Thingamajob</h1>
-  <p class="product-opening">
-    An owner-controlled career platform, built from source-backed evidence.
-  </p>
-  <p>
-    A reusable product for turning scattered career material into reviewed evidence that can support
-    a job search.
-  </p>
-  <section aria-labelledby="problem-heading">
-    <h2 id="problem-heading">The problem</h2>
-    <p>
-      Career evidence is fragmented across résumés, LinkedIn, portfolios, documents, memory and
-      job-search activity. That makes it difficult to distinguish an accurate, supported statement
-      from an attractive but unsupported narrative.
-    </p>
-  </section>
-  <section aria-labelledby="idea-heading">
-    <h2 id="idea-heading">The idea</h2>
-    <p>
-      Give the owner a reusable evidence foundation. Keep source material, proposed statements,
-      review decisions and open questions connected, while leaving approval in human hands.
-    </p>
-  </section>
-  <section class="widget-section editorial-wide" aria-labelledby="widget-heading">
-    <h2 id="widget-heading">Thingamajob in use</h2>
-    <p>
-      This is the existing Thingamajob review component, presented with a fictional sample. Try
-      Accept, Reject or Correct, inspect the result and history, then reset to explore another
-      decision.
-    </p>
-    <app-thingamajob-workflow />
-  </section>
-  <section aria-labelledby="workflow-heading">
-    <h2 id="workflow-heading">How it works</h2>
-    <ol>
-      <li>Bring available career evidence together and retain its source.</li>
-      <li>Identify possible facts and questions that still need an answer.</li>
-      <li>Let the owner review, correct, accept or reject proposed statements.</li>
-      <li>Reuse reviewed evidence while preserving its history.</li>
-      <li>
-        Extend that foundation toward evaluating opportunities, preparing source-grounded materials
-        and feeding useful outcomes back into the job search.
-      </li>
-    </ol>
-    <p>
-      Evidence, owner review and explicit question resolution are implemented in the protected
-      prototype. Opportunity evaluation and material generation remain product direction; they are
-      not offered by this walkthrough.
-    </p>
-  </section>
-  <section aria-labelledby="human-heading">
-    <h2 id="human-heading">Human + AI operating model</h2>
-    <p>
-      Automation can propose; it cannot grant itself owner authority. Accepting or correcting a
-      statement is an explicit human decision. Answering a question does not automatically resolve
-      it. When an approved fact is corrected later, the original approval remains in history while
-      the replacement becomes current.
-    </p>
-    <p>
-      The public walkthrough makes no AI calls. Its review actions are local interactions with
-      fictional material, not authenticated decisions on a real person's records.
-    </p>
-  </section>
-  <section aria-labelledby="clients-heading">
-    <h2 id="clients-heading">One platform, independent clients</h2>
-    <p>
-      James is Client #1, the first live prototype. Erica is Client #2, the second independent live
-      prototype. The shared platform keeps client evidence and workspaces isolated. Erica's private
-      onboarding remains separate from her public site and this case study.
-    </p>
-  </section>
-  <section aria-labelledby="evolution-heading">
-    <h2 id="evolution-heading">Prototype and evolution</h2>
-    <p>
-      The protected workflow supports evidence, proposals, owner review, reviewed statements, open
-      questions and explicit resolution. It also preserves the history of corrections to previously
-      approved facts. The walkthrough focuses on proposal review, using the same component and
-      review controls with an isolated local adapter.
-    </p>
-    <p>
-      Selections and decisions in this walkthrough exist only in the current tab. Reset or reload
-      restores the sample. It does not upload files, access a private workspace or persist a real
-      career fact.
-    </p>
-  </section>
-  <section aria-labelledby="engineering-heading">
-    <h2 id="engineering-heading">Design, accessibility and engineering</h2>
-    <p>
-      The Angular feature owns its presentation state behind a service boundary. The protected
-      application obtains identity and ownership decisions from the server. The portfolio supplies a
-      separate, tab-local adapter; it has no private API connection and receives no client records.
-    </p>
-    <p>
-      Native labels, fieldsets, buttons and disclosure controls support keyboard operation. Review
-      outcomes receive a focused status message. Source text and proposed wording render as data,
-      never executable markup. The case study uses the portfolio's shared main landmark, navigation
-      and lazy routing.
-    </p>
-    <p>
-      Iteration has moved the feature from a placeholder to a protected owner workflow, added
-      history-preserving correction, and now made the real review UI inspectable inside this case
-      study.
-    </p>
-  </section>
-  <section aria-labelledby="dredge-heading">
-    <h2 id="dredge-heading">Relationship to Daily Job Dredge</h2>
-    <p>
-      Thingamajob is the reusable career platform. Daily Job Dredge is a separate operational
-      workflow for finding and processing opportunities. Opportunities can inform evidence-based
-      evaluation, and reviewed outcomes can inform later searches. That is an intended interface
-      between the systems, not a claim that a live integration is already connected here.
-    </p>
-  </section>
-</article>
+<div class="product-page">
+  <header class="product-introduction">
+    <h1>Thingamajob</h1>
+    <p>An owner-controlled career platform built from source-backed evidence.</p>
+  </header>
+  <div class="product-columns">
+    <section class="product-workspace" aria-labelledby="job-task-heading">
+      <app-thingamajob-workflow />
+    </section>
+    <article class="case-study" aria-labelledby="case-study-heading">
+      <h2 id="case-study-heading">The case study</h2>
+      <section>
+        <h3>The problem</h3>
+        <p>
+          Career evidence is scattered across résumés, profiles, documents and memory. Unsupported
+          wording can sound convincing without being accurate.
+        </p>
+      </section>
+      <section>
+        <h3>The idea</h3>
+        <p>
+          Build a reusable foundation that connects source material, suggested statements, human
+          decisions and open questions.
+        </p>
+      </section>
+      <section>
+        <h3>How it works</h3>
+        <p>
+          Collect evidence, identify facts and questions, let the owner review wording, then reuse
+          the supported statements. The local walkthrough highlights job-text overlap with fictional
+          evidence; it does not assess overall suitability.
+        </p>
+      </section>
+      <section>
+        <h3>Human + AI operating model</h3>
+        <p>
+          Automation can suggest; the owner decides. An answer does not automatically resolve a
+          question, and a suggestion does not become an approved fact. This walkthrough makes no AI
+          calls.
+        </p>
+      </section>
+      <section>
+        <h3>Independent clients</h3>
+        <p>
+          James is Client #1, the first live prototype. Erica is Client #2, the second independent
+          live prototype. The shared platform keeps their evidence and workspaces separate; neither
+          person's records are used here.
+        </p>
+      </section>
+      <section>
+        <h3>Prototype and evolution</h3>
+        <p>
+          The protected prototype supports evidence, review, explicit question resolution and
+          history-preserving correction. The public surface reuses its review component with
+          fictional, tab-local data. Full opportunity evaluation and application generation remain
+          product direction.
+        </p>
+      </section>
+      <section>
+        <h3>Design, accessibility and engineering</h3>
+        <p>
+          Angular owns presentation state behind a service boundary. The protected server owns
+          identity and authority. Native controls, keyboard focus, responsive layout and escaped
+          text support accessible review without exposing private APIs.
+        </p>
+      </section>
+      <section>
+        <h3>Relationship to Daily Job Dredge</h3>
+        <p>
+          Daily Job Dredge is a separate opportunity-finding workflow. It can inform evidence-based
+          evaluation and learn from outcomes; no live integration is connected in this walkthrough.
+        </p>
+      </section>
+    </article>
+  </div>
+</div>

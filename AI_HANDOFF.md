@@ -1,5 +1,16 @@
 # AI Engineering Handoff
 
+## Thingamajob JD-first layout and indexing correction (2026-10-15)
+
+Local branch test/thingamajob-jd-layout-seo. Wide layout is product left/case study right (1.1fr/1fr); below 70rem it stacks product first. Primary task is Evaluate a Job Description. Public demo performs explicitly limited phrase matching against fictional sample evidence, with no fit score or automatic approval. Real review controller retained behind plain labels and disclosure. No private API/data or backend/Access/OTP/email changes; Work menu and route preserved.
+
+Indexing cause was the old loopback server's X-Robots-Tag noindex header, not HTML metadata or robots.txt. New tracked scripts/portfolio-review-server.mjs omits it only for /thingamajob, keeps other review routes noindex, and supplies gzip/Brotli text compression. No production SEO or deployment change.
+
+Validation: focused Angular 20/20, full 264/264; both builds/budgets and HTTP server regression pass. 42 axe audits zero violations, nine themes, 320/390/768/1440px, 200% text/zoom, keyboard and review decisions. Public bundles exclude protected endpoint strings. Desktop Lighthouse 100/100/100/100; default simulated mobile 95/100/100/100. The unqualified all-profile performance gate is therefore NOT fully met. No analytics or global performance redesign undertaken. Deferral offered no measured gain and is not included.
+
+Screenshots/reports: output/thingamajob-jd-layout/. Review: http://127.0.0.1:4406/thingamajob. Ready for visual review; mobile performance remains the stated score limitation. STOP before deployment. Unrelated working-tree changes preserved.
+
+
 ## Thingamajob case study with real review component ready (2026-10-15)
 
 Local branch test/thingamajob-case-study-widget keeps /thingamajob, moves its nav entry into Work, and rebuilds the page around the existing features/thingamajob/workflow component. Real controller and shared review-controls template serve protected and portfolio presentations. Public parent supplies a fictional tab-local adapter for Accept/Reject/Correct/history/reset; no HTTP, storage, upload or human authority. The case study explicitly describes this limited walkthrough. Private API provider remains exclusively in the protected bootstrap; endpoint strings are absent from public bundles. Backend behavior/data unchanged.

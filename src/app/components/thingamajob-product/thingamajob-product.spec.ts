@@ -19,6 +19,27 @@ async function start() {
   return { harness, widget, root: harness.routeNativeElement! };
 }
 describe('Thingamajob case study and real workflow component', () => {
+  it('compares job text with fictional evidence without inventing fit or approving a claim', async () => {
+    const { widget, harness, root } = await start();
+    const form = root.querySelector<HTMLFormElement>('app-thingamajob-workflow form')!;
+    widget.compareJobDescription(new Event('submit'), form);
+    harness.detectChanges();
+    expect(widget.jobComparison()?.matched).toEqual(['Accessibility', 'Workshops', 'Facilitation']);
+    expect(widget.claims()).toHaveLength(0);
+    expect(widget.proposal()?.reviewDisposition).toBe('proposed');
+    expect(root.querySelector('#job-task-heading')?.textContent).toBe('Evaluate a Job Description');
+    expect(root.textContent).toContain('not a fit score');
+    widget.jobDescription.set('SQL database administration');
+    harness.detectChanges();
+    widget.compareJobDescription(new Event('submit'), form);
+    harness.detectChanges();
+    expect(widget.jobComparison()?.matched).toEqual([]);
+    expect(widget.claims()).toHaveLength(0);
+    await widget.resetSample();
+    expect(widget.jobComparison()).toBeNull();
+    TestBed.inject(HttpTestingController).expectNone(() => true);
+  });
+
   it('surfaces missing correction wording without claiming success', async () => {
     const { widget, harness, root } = await start();
     await widget.review('corrected');
@@ -51,10 +72,10 @@ describe('Thingamajob case study and real workflow component', () => {
       }
       const label =
         decision === 'accepted'
-          ? 'Accept proposal'
+          ? 'Use this statement'
           : decision === 'rejected'
-            ? 'Reject proposal'
-            : 'Correct proposal';
+            ? 'Do not use'
+            : 'Use corrected wording';
       [...root.querySelectorAll<HTMLButtonElement>('button')]
         .find((b) => b.textContent?.trim() === label)!
         .click();
