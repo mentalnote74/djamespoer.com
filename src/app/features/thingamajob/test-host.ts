@@ -6,4 +6,9 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './test-host.html',
   styleUrl: './test-host.scss',
 })
-export class ThingamajobTestHost {}
+export class ThingamajobTestHost {
+  skip(event: Event) {
+    event.preventDefault();
+    document.getElementById('main-content')?.focus();
+  }
+}

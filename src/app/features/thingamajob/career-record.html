@@ -1,0 +1,307 @@
+@if (screen() === 'advanced') {
+  <p class="brand">Thingamajob</p>
+  <button type="button" (click)="leaveAdvanced()">Back to my career record</button>
+  @defer (on immediate) {
+    <app-thingamajob-workflow />
+  } @placeholder {
+    <p role="status">Opening advanced tools.</p>
+  }
+} @else {
+  <header>
+    @if (screen() === 'home') {
+      <h1 #pageHeading tabindex="-1">Thingamajob</h1>
+    } @else {
+      <p class="brand">Thingamajob</p>
+      <button type="button" [disabled]="saving()" (click)="go('home')">Back</button>
+      <h1 #pageHeading tabindex="-1">
+        {{
+          screen() === 'record'
+            ? 'Your career record'
+            : screen() === 'evidence'
+              ? 'Your supporting evidence'
+              : 'Things that need your attention'
+        }}
+      </h1>
+    }
+  </header>
+  <p #notice tabindex="-1" role="status" [class.error]="failed()">{{ status() }}</p>
+  @if (failed()) {
+    <button type="button" [disabled]="loading() || saving()" (click)="load()">
+      Reload career record
+    </button>
+  }
+  @if (loading()) {
+    <p>Loading your private career record.</p>
+  } @else if (workspace(); as w) {
+    @if (screen() === 'home') {
+      <section aria-labelledby="record-status">
+        <h2 id="record-status">
+          {{
+            questions().length
+              ? 'A few details need your attention.'
+              : !complete()
+                ? 'Some evidence has not been assessed yet.'
+                : facts().length
+                  ? 'Your career record is ready.'
+                  : 'Your career record is ready to build.'
+          }}
+        </h2>
+        <div class="totals">
+          <p>
+            <strong>{{ established() }}</strong> career facts established from your sources
+          </p>
+          <p>
+            <strong>{{ questions().length }}</strong> things need your attention
+          </p>
+        </div>
+        @if (!questions().length && facts().length && complete()) {
+          <p>
+            Your Library of Truth is ready. Your evidence has been checked and nothing currently
+            needs your attention.
+          </p>
+        }
+        @if (!facts().length) {
+          <p>
+            No career facts have been established from your evidence yet. An empty record is valid.
+          </p>
+        }
+        @if (w.reviewedClaims?.length) {
+          <p>Your previously reviewed information is included in your career record too.</p>
+        }
+        <div class="actions">
+          @if (questions().length) {
+            <button class="primary" type="button" (click)="startReview()">
+              Review {{ questions().length }} things</button
+            ><button type="button" (click)="go('record')">View my career record</button>
+          } @else {
+            <button class="primary" type="button" (click)="go('record')">
+              View my career record
+            </button>
+          }
+          <button type="button" (click)="go('evidence')">View supporting evidence</button>
+        </div>
+      </section>
+    }
+    @if (screen() === 'record') {
+      @if (activeGroup(); as group) {
+        <label
+          >Browse your career record<select
+            #groupSelect
+            [value]="group.name"
+            (change)="category.set(groupSelect.value)"
+          >
+            @for (g of groups(); track g.name) {
+              <option [value]="g.name" [selected]="g.name === group.name">
+                {{ g.name }} ({{ g.facts.length }})
+              </option>
+            }
+          </select></label
+        >
+        <section aria-labelledby="career-group-heading">
+          <h2 id="career-group-heading">{{ group.name }}</h2>
+          <ul class="facts">
+            @for (fact of group.facts; track fact.id) {
+              <li>
+                <p>{{ wording(fact.text) }}</p>
+                <details #support (toggle)="inspect(fact, support)">
+                  <summary>Supporting evidence</summary>
+                  @if (candidate(fact); as c) {
+                    <p>Source: {{ sourceName(fact.run, c.sourceKey) }}</p>
+                    @for (citation of c.citations; track $index) {
+                      <blockquote>{{ citation.quote }}</blockquote>
+                    }
+                    @if (factContext(fact)?.ownerAnswer; as clarification) {
+                      <p>Your clarification: {{ clarification.answer }}</p>
+                    }
+                  }
+                  @if (sources().get(fact.id); as p) {
+                    @for (e of p.evidence ?? []; track e.sourceId) {
+                      <p>
+                        Source document <a [href]="api.evidenceUrl(e.sourceId)">Download source</a>
+                      </p>
+                    }
+                    <details>
+                      <summary>Decision history</summary>
+                      @for (h of p.history ?? []; track h.version) {
+                        <p>{{ wording(h.statement ?? '') }}</p>
+                      }
+                    </details>
+                  } @else if (sourceErrors().has(fact.id)) {
+                    <p>
+                      Supporting evidence could not be loaded. Close and reopen this section to try
+                      again.
+                    </p>
+                  } @else if (!candidate(fact) || fact.reviewed) {
+                    <p>Loading supporting evidence.</p>
+                  }
+                </details>
+              </li>
+            }
+          </ul>
+        </section>
+      } @else {
+        <p>Your career record is empty. Your supporting evidence remains available below.</p>
+      }
+      @if (notes().length) {
+        <details class="context-notes">
+          <summary>Source notes and historical wording ({{ notes().length }})</summary>
+          <p>These notes provide context. They do not require an answer.</p>
+          <label
+            >Choose a source note<select
+              #noteSelect
+              [value]="selectedNote()"
+              (change)="selectedNote.set(+noteSelect.value)"
+            >
+              @for (note of notes(); track $index) {
+                <option [value]="$index">
+                  Note {{ $index + 1 }} - {{ sourceName(note.run, note.claim.sourceKey) }}
+                </option>
+              }
+            </select></label
+          >
+          @if (notes()[selectedNote()]; as note) {
+            @if (note.title) {
+              <p>Title as shown in this source: {{ note.title.presentedTitle }}</p>
+            }
+            <p>{{ wording(note.claim.text) }}</p>
+            @if (note.context) {
+              <p>{{ note.context.display }}</p>
+              @if (note.context.ownerAnswer) {
+                <p>Your earlier clarification: {{ note.context.ownerAnswer.answer }}</p>
+              }
+            }
+            @for (u of note.claim.uncertainties; track $index) {
+              <p>{{ u }}</p>
+            }
+            <details>
+              <summary>Supporting evidence</summary>
+              @for (citation of note.claim.citations; track $index) {
+                <blockquote>{{ citation.quote }}</blockquote>
+              }
+            </details>
+          }
+        </details>
+      }
+      <button type="button" (click)="go('evidence')">View supporting evidence</button>
+    }
+    @if (screen() === 'evidence') {
+      <p>
+        Your supporting documents stay private. Open a document to inspect the original stored
+        source.
+      </p>
+      <ul>
+        @for (source of w.evidence; track source.sourceId) {
+          <li>
+            <p>{{ source.filename }}</p>
+            <a [href]="api.evidenceUrl(source.sourceId)">Download {{ source.filename }}</a>
+          </li>
+        } @empty {
+          <li>No supporting documents are available yet.</li>
+        }
+      </ul>
+      <button type="button" (click)="go('record')">View my career record</button>
+    }
+    @if (screen() === 'review') {
+      @if (question(); as q) {
+        <section aria-labelledby="question-heading">
+          <p>Thing {{ answeredThisVisit() + 1 }} of {{ reviewTotal() }}</p>
+          <h2 id="question-heading">{{ q.issue.question }}</h2>
+          <h3>Why we're asking</h3>
+          <p>We could not settle this detail from your evidence alone.</p>
+          <details>
+            <summary>Supporting evidence</summary>
+            @for (id of q.issue.claimIds; track id) {
+              @for (c of q.run.document.claims; track c.id) {
+                @if (c.id === id) {
+                  <p>{{ sourceName(q.run, c.sourceKey) }}</p>
+                  @for (citation of c.citations; track $index) {
+                    <blockquote>{{ citation.quote }}</blockquote>
+                  }
+                }
+              }
+            }
+          </details>
+          <form
+            #answerForm
+            (submit)="$event.preventDefault(); answerForm.reportValidity() && save()"
+          >
+            <fieldset [disabled]="saving()">
+              <legend>Your clarification</legend>
+              <label
+                >Your answer<textarea
+                  #reply
+                  required
+                  maxlength="4000"
+                  [value]="answer()"
+                  (input)="answer.set(reply.value)"
+                ></textarea>
+              </label>
+              <p>
+                Your answer will be kept with the statements below. Use Correct this to change
+                wording, or Leave out to keep a statement out of your career record.
+              </p>
+              @for (e of edits(); track e.candidateId; let index = $index) {
+                <div class="related-statement">
+                  <p>{{ wording(e.statement) }}</p>
+                  <button
+                    type="button"
+                    (click)="edit(index, { editing: !e.editing })"
+                    [attr.aria-expanded]="e.editing"
+                  >
+                    Correct this
+                  </button>
+                  @if (e.editing) {
+                    <label
+                      >Wording to keep<textarea
+                        #corrected
+                        required
+                        maxlength="4000"
+                        [value]="e.statement"
+                        (input)="edit(index, { statement: corrected.value })"
+                      ></textarea>
+                    </label>
+                  }
+                  <label class="check"
+                    ><input
+                      #leaveOut
+                      type="checkbox"
+                      [checked]="e.reject"
+                      (change)="edit(index, { reject: leaveOut.checked })"
+                    />
+                    Leave out this statement</label
+                  >
+                </div>
+              }
+              <label class="check"
+                ><input
+                  #confirm
+                  type="checkbox"
+                  required
+                  [checked]="checked()"
+                  (change)="checked.set(confirm.checked)"
+                />
+                I have checked the wording to save with my answer.</label
+              >
+              <div class="actions">
+                <button class="primary" type="submit">Save &amp; continue</button
+                ><button type="button" (click)="go('home')">Back</button>
+              </div>
+            </fieldset>
+          </form>
+        </section>
+      } @else {
+        <h2>Your career record is ready.</h2>
+        <p>Nothing currently needs your attention.</p>
+        <button type="button" (click)="go('record')">View my career record</button>
+      }
+    }
+    <nav aria-label="Other career record options">
+      <button type="button" [disabled]="saving()" (click)="go('advanced')">
+        Advanced / diagnostic view
+      </button>
+    </nav>
+  } @else if (!loading()) {
+    <p>Your private career record could not be opened.</p>
+    <button type="button" (click)="load()">Try loading again</button>
+  }
+}

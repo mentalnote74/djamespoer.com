@@ -12,11 +12,11 @@ main {
   inset-inline-start: 0.5rem;
   transform: translateY(-200%);
   padding: 0.75rem;
-  background: #fff;
-  color: #004b8d;
+  background: var(--control-background, Canvas);
+  color: var(--control-foreground, CanvasText);
 }
 .skip-link:focus {
   transform: none;
-  outline: 3px solid #005fcc;
+  outline: 3px solid var(--focus-outer, Highlight);
   outline-offset: 3px;
 }

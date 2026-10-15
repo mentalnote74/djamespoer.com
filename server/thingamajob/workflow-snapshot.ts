@@ -28,14 +28,31 @@ export async function workflowSnapshot(database: IdentityDatabase, scope: Worksp
     .first<{ workspace_id: string; evidence: string; proposals: string; unknowns: string }>();
   if (!row) throw new AccessDenied();
   await recheckWorkspace(scope);
+  const extended = await baselineAvailable(database);
+  const details = extended
+    ? await database
+        .prepare(
+          `SELECT
+    (SELECT json_group_array(json_object('runId',run_id,'createdAt',created_at)) FROM thingamajob_extraction_runs WHERE workspace_id=?) runs,
+    (SELECT json_group_array(json_object('claimId',claim_id,'proposalId',proposal_id,'statement',statement,'reviewDisposition',disposition)) FROM ${claimView} WHERE workspace_id=?) claims`,
+        )
+        .bind(scope.workspaceId, scope.workspaceId)
+        .first<{ runs: string; claims: string }>()
+    : null;
+  const baselineClaims = extended ? await activeBaseline(database, scope) : [];
+  await recheckWorkspace(scope);
   return {
     workspaceId: row.workspace_id,
     evidence: JSON.parse(row.evidence) as unknown,
     proposals: JSON.parse(row.proposals) as unknown,
     unknowns: JSON.parse(row.unknowns) as unknown,
     limit: 100,
-    ...((await baselineAvailable(database))
-      ? { baselineClaims: await activeBaseline(database, scope) }
+    ...(extended
+      ? {
+          baselineClaims,
+          reviewedClaims: JSON.parse(details?.claims ?? '[]') as unknown,
+          extractionRuns: JSON.parse(details?.runs ?? '[]') as unknown,
+        }
       : {}),
   };
 }

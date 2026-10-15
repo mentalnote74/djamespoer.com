@@ -12,9 +12,9 @@ bootstrapApplication(ThingamajobTestHost, {
     provideRouter([
       {
         path: '',
-        title: 'Thingamajob TEST workspace',
+        title: 'Thingamajob - your career record',
         loadComponent: () =>
-          import('./app/features/thingamajob/workflow').then((m) => m.ThingamajobWorkflow),
+          import('./app/features/thingamajob/career-record').then((m) => m.CareerRecord),
       },
       { path: '**', redirectTo: '' },
     ]),

@@ -100,6 +100,8 @@ export interface UnknownDetail extends UnknownSummary {
   history: History[];
 }
 export interface Workflow {
+  extractionRuns?: { runId: string; createdAt: number }[];
+  reviewedClaims?: (Claim & { proposalId: string })[];
   baselineClaims?: {
     candidateId: string;
     proposalId: string;

@@ -332,3 +332,32 @@ test('accepted duration-summary history is preserved while excluded from canonic
     f.db.close();
   }
 });
+test('client landing discovery stays owner-scoped and does not import or review anything', async () => {
+  const f = await fixture();
+  try {
+    const before = f.db.prepare('SELECT * FROM thingamajob_reviews').all();
+    const own = await f.worker.fetch(
+      await signedEvidenceRequest('/api/thingamajob/test/workflow', 'one'),
+      f.env,
+    );
+    const record = await own.json();
+    assert.equal(own.status, 200);
+    assert.equal(record.extractionRuns.length, 1);
+    assert.equal(record.extractionRuns[0].runId, f.runId);
+    assert.equal(record.baselineClaims.length, 1);
+    const peer = await f.worker.fetch(
+      await signedEvidenceRequest(
+        '/api/thingamajob/test/workflow?workspaceId=workspace-one&role=owner',
+        'two',
+      ),
+      f.env,
+    );
+    const other = await peer.json();
+    assert.deepEqual(other.extractionRuns, []);
+    assert.deepEqual(other.baselineClaims, []);
+    assert.deepEqual(other.reviewedClaims, []);
+    assert.deepEqual(f.db.prepare('SELECT * FROM thingamajob_reviews').all(), before);
+  } finally {
+    f.db.close();
+  }
+});

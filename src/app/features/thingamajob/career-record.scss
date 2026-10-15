@@ -1,0 +1,133 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  color: var(--page-foreground, CanvasText);
+  background: var(--page-background, Canvas);
+  overflow-wrap: anywhere;
+}
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+.brand {
+  font-weight: 700;
+}
+section {
+  margin-block: 2rem;
+}
+.totals,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: start;
+}
+.totals p {
+  flex: 1 1 13rem;
+  padding: 1rem;
+  background: var(--section-surface, Canvas);
+  border: 1px solid var(--panel-border, currentColor);
+}
+.totals strong {
+  display: block;
+  font-size: 2rem;
+}
+button,
+a,
+input,
+select,
+textarea,
+summary {
+  font: inherit;
+  max-inline-size: 100%;
+}
+button {
+  min-block-size: 2.75rem;
+  padding: 0.5rem 0.85rem;
+  color: var(--control-foreground, CanvasText);
+  background: var(--control-background, Canvas);
+  border: 1px solid var(--control-border, currentColor);
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+  opacity: var(--disabled-opacity, 0.65);
+}
+.primary {
+  font-weight: 700;
+  border-width: 2px;
+}
+a {
+  color: var(--page-foreground, LinkText);
+  text-decoration: underline;
+}
+label {
+  display: block;
+  margin-block: 1rem;
+}
+textarea,
+select {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  box-sizing: border-box;
+  color: var(--input-text, CanvasText);
+  background: var(--input-surface, Canvas);
+  border: 1px solid var(--control-border, currentColor);
+  padding: 0.5rem;
+}
+textarea {
+  min-block-size: 6rem;
+}
+fieldset {
+  min-inline-size: 0;
+  padding: 1rem;
+  border: 1px solid var(--panel-border, currentColor);
+}
+.facts {
+  list-style: none;
+  padding: 0;
+}
+.facts > li,
+.related-statement {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--panel-border, currentColor);
+  background: var(--panel-surface, Canvas);
+}
+summary {
+  cursor: pointer;
+  padding-block: 0.5rem;
+}
+blockquote {
+  margin-inline: 0.75rem;
+  padding-inline-start: 0.75rem;
+  border-inline-start: 2px solid var(--panel-border, currentColor);
+  white-space: pre-wrap;
+}
+.check {
+  display: flex;
+  align-items: start;
+  gap: 0.5rem;
+}
+.check input {
+  flex: none;
+  min-inline-size: 1.25rem;
+  min-block-size: 1.25rem;
+}
+nav,
+.context-notes {
+  margin-block-start: 2rem;
+  border-block-start: 1px solid var(--panel-border, currentColor);
+  padding-block-start: 1rem;
+}
+:focus-visible,
+[tabindex='-1']:focus {
+  outline: 3px solid var(--focus-outer, Highlight);
+  outline-offset: 3px;
+}
+.error {
+  border-inline-start: 0.3rem solid var(--control-border, currentColor);
+  padding-inline-start: 0.75rem;
+}

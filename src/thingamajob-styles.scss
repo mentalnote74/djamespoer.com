@@ -3,8 +3,8 @@ html {
 }
 body {
   margin: 0;
-  background: #fff;
-  color: #17212b;
+  background: var(--page-background, Canvas);
+  color: var(--page-foreground, CanvasText);
   font: 1rem/1.6 system-ui;
 }
 *,
