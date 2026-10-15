@@ -41,33 +41,101 @@
 
     <!-- Google tag (gtag.js) -->
     <script>
-      window.dataLayer = window.dataLayer || [];
+      (() => {
+        if (!['djamespoer.com', 'www.djamespoer.com'].includes(window.location.hostname)) return;
+        // Explicit browser opt-out, not bot classification or an authentication signal.
+        // Visit ?internal=1 once; ?internal=0 clears it for this browser/origin.
+        try {
+          const marker = new URLSearchParams(window.location.search).get('internal');
+          if (marker === '1') window.localStorage.setItem('portfolio.analytics.internal', '1');
+          if (marker === '0') window.localStorage.removeItem('portfolio.analytics.internal');
+          if (window.localStorage.getItem('portfolio.analytics.internal') === '1') return;
+        } catch {
+          return;
+        }
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-WQBYGF4Z8F');
 
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      gtag('js', new Date());
-      gtag('config', 'G-WQBYGF4Z8F');
-
-      // Queue the page view immediately, but keep third-party startup off the rendering path.
-      const loadAnalytics = () => {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-WQBYGF4Z8F';
-        document.head.append(script);
-      };
-      window.addEventListener(
-        'portfolio-ready',
-        () => {
-          if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(loadAnalytics, { timeout: 2000 });
-          } else {
-            window.setTimeout(loadAnalytics, 0);
+        const caseStudies = ['/work/djamespoer', '/work/exl', '/work/ips', '/work/tcc', '/work/dr'];
+        const publicRoutes = [
+          '/',
+          '/about',
+          '/thingamajob',
+          '/engineering',
+          '/ux-product',
+          '/accessibility',
+          '/ai',
+          '/creative',
+          '/impact',
+          ...caseStudies,
+        ];
+        const activate = (event) => {
+          if (
+            !event.isTrusted ||
+            (event.type === 'auxclick' ? event.button !== 1 : event.button !== 0)
+          )
+            return;
+          const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
+          if (!anchor) return;
+          const target = new URL(anchor.href, window.location.href);
+          const route = window.location.pathname.replace(/\/$/, '') || '/';
+          const parameters = {
+            page_path: publicRoutes.includes(route) ? route : '/other',
+            cta_location: anchor.closest('app-header')
+              ? 'primary-navigation'
+              : anchor.closest('app-hero')
+                ? 'hero'
+                : anchor.closest('app-thingamajob')
+                  ? 'home-thingamajob'
+                  : 'page-content',
+          };
+          let name;
+          if (target.protocol === 'mailto:') name = 'contact_click';
+          else if (target.origin === window.location.origin) {
+            if (
+              anchor.hasAttribute('download') &&
+              target.pathname === '/assets/resume/d-james-poer-resume.pdf'
+            ) {
+              name = 'resume_download';
+              parameters.resume_id = 'public-current';
+            } else if (target.pathname === '/thingamajob') {
+              name = 'thingamajob_open';
+              parameters.destination_path = '/thingamajob';
+            }
           }
-        },
-        { once: true },
-      );
+          if (name) {
+            // Never collect link text, href, contact destination, queries, hashes or form values.
+            try {
+              window.gtag('event', name, parameters);
+            } catch {
+              /* Optional telemetry must not interrupt navigation. */
+            }
+          }
+        };
+        document.addEventListener('click', activate);
+        document.addEventListener('auxclick', activate);
+
+        // Keep third-party startup off the rendering path; clicks can queue before it loads.
+        const loadAnalytics = () => {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-WQBYGF4Z8F';
+          document.head.append(script);
+        };
+        window.addEventListener(
+          'portfolio-ready',
+          () => {
+            if ('requestIdleCallback' in window)
+              window.requestIdleCallback(loadAnalytics, { timeout: 2000 });
+            else window.setTimeout(loadAnalytics, 0);
+          },
+          { once: true },
+        );
+      })();
     </script>
   </head>
 
