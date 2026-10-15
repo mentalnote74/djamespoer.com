@@ -5,7 +5,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { refreshHistoryForBuild } from './build-refresh.mjs';
+import { refreshHistoryForBuild as refresh } from './build-refresh.mjs';
+const refreshHistoryForBuild = (options = {}) =>
+  refresh({ acquireArchive: async () => [], ...options });
 import { createCloudflareBuildAcquisition } from './cloudflare-build-history.mjs';
 import { createSnapshot } from './snapshot.mjs';
 import { validateDeploymentSnapshot } from './load-adapter.mjs';

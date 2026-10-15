@@ -6,11 +6,6 @@ app-carousel {
   --carousel-padding-start: clamp(0.75rem, 2vw, 1.5rem);
 }
 
-.home-slide-heading {
-  font-size: 1.17em;
-  margin-block: 1em;
-}
-
 .home-editorial {
   padding-block: clamp(2rem, 5vw, 4rem);
 }
@@ -25,7 +20,6 @@ app-carousel {
   display: block;
   inline-size: 100%;
   block-size: auto;
-  margin-block-start: 1rem;
 }
 
 .home-history {

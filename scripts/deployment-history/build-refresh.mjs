@@ -1,3 +1,4 @@
+import { readPublishedHistory } from './published-history.mjs';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { createCloudflareBuildAcquisition } from './cloudflare-build-history.mjs';
@@ -13,6 +14,7 @@ export async function refreshHistoryForBuild({
   output = defaultOutput,
   createAcquisition = createCloudflareBuildAcquisition,
   now,
+  acquireArchive = readPublishedHistory,
 } = {}) {
   if (environment.WORKERS_CI === undefined) return { mode: 'local', refreshed: false };
   if (
@@ -37,6 +39,8 @@ export async function refreshHistoryForBuild({
     );
   }
   const snapshot = await generateSnapshot(output, {
+    retainHistory: true,
+    acquireArchive,
     acquire: createAcquisition({
       accountId: environment.CLOUDFLARE_ACCOUNT_ID,
       getToken: () => environment.DEPLOYMENT_HISTORY_READ_TOKEN,

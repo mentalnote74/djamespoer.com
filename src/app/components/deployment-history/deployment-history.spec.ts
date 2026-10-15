@@ -21,6 +21,25 @@ const ready: DeploymentHistoryLoadState = {
 };
 
 describe('DeploymentHistory consumer foundation', () => {
+  it('sorts unsorted production history newest first while retaining every older row and five-row paging', async () => {
+    const { component, grid, states, fixture } = await setup();
+    const records = Array.from({ length: 12 }, (_, index) => ({
+      ...normalized.rows[0]!,
+      id: 'attempt-' + index.toString(16).padStart(64, '0'),
+      createdAt: new Date(Date.UTC(2026, 9, index + 1)).toISOString(),
+    }));
+    states.next({ ...ready, status: 'ready', records });
+    fixture.detectChanges();
+    expect(component.rows()).toHaveLength(12);
+    expect(component.rows()[0]!.createdAt).toBe('2026-10-12T00:00:00.000Z');
+    expect(grid.visibleRows()).toHaveLength(5);
+    component.changePage({ pageIndex: 2, pageSize: 5 });
+    fixture.detectChanges();
+    expect(grid.visibleRows()).toHaveLength(2);
+    expect(grid.visibleRows()[1]!.createdAt).toBe('2026-10-01T00:00:00.000Z');
+    expect(records[0]!.createdAt).toBe('2026-10-01T00:00:00.000Z');
+  });
+
   it('uses pipeline record creation and requires explicit deployed stage', async () => {
     const { component } = await setup();
     const row = component.rows()[0]!;

@@ -15,7 +15,9 @@ export class Header {
   readonly themeState = inject(ThemeState);
   readonly identityPaused = input(false);
   readonly mobileOpen = signal(false);
-  readonly openSection = signal<'about' | 'work' | 'perspectives' | 'theme' | null>(null);
+  readonly openSection = signal<
+    'about' | 'work' | 'case-studies' | 'perspectives' | 'theme' | null
+  >(null);
   readonly perspectives = [
     { path: '/engineering', label: 'Engineering' },
     { path: '/ux-product', label: 'UX & Product' },
@@ -25,12 +27,15 @@ export class Header {
     { path: '/impact', label: 'Impact' },
   ];
   readonly work = [
-    { path: '/work/djamespoer', label: 'djamespoer.com' },
-    { path: '/thingamajob', label: 'Thingamajob' },
     { path: '/work/exl', label: 'EXL / LifePRO' },
     { path: '/work/ips', label: 'IPS / PowerSchool' },
     { path: '/work/tcc', label: 'TCC Software Solutions' },
     { path: '/work/dr', label: 'Dreyer & Reinbold' },
+  ];
+  readonly caseStudies = [
+    { path: '/work/djamespoer', label: 'djamespoer.com' },
+    { path: '/thingamajob', label: 'Thingamajob' },
+    ...this.work,
   ];
   private sectionButton: HTMLButtonElement | null = null;
   private menuButton: HTMLButtonElement | null = null;
@@ -60,7 +65,7 @@ export class Header {
   }
 
   toggleSection(
-    section: 'about' | 'work' | 'perspectives' | 'theme',
+    section: 'about' | 'work' | 'case-studies' | 'perspectives' | 'theme',
     button: HTMLButtonElement,
   ): void {
     this.sectionButton = button;

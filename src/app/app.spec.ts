@@ -253,8 +253,14 @@ describe('App', () => {
     expect(main?.querySelector('.carousel')?.getAttribute('aria-label')).toBe(
       'Portfolio Perspectives',
     );
-    for (const slide of slides) {
-      expect(slide.querySelector('h2')).not.toBeNull();
+    for (const [index, slide] of slides.entries()) {
+      if (index === 5) {
+        expect(slide.querySelector('h2')).toBeNull();
+        expect(slide.getAttribute('aria-label')).toBe('Slide 6 of 7: Creative');
+        expect(slide.querySelector('img.home-creative')).not.toBeNull();
+      } else {
+        expect(slide.querySelector('h2')).not.toBeNull();
+      }
       expect(slide.querySelector('h3')).toBeNull();
     }
     main?.querySelectorAll('[aria-labelledby]').forEach((element) => {

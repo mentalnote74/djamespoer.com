@@ -5,12 +5,25 @@ import { Header } from './header';
 import { ThemeState } from '../../services/theme-state';
 
 describe('Header', () => {
-  it('offers Thingamajob under Work with a current-page state', async () => {
+  it('keeps Work restricted to employment history and makes project case studies available separately', () => {
+    expect(component.work.map((link) => link.path)).toEqual([
+      '/work/exl',
+      '/work/ips',
+      '/work/tcc',
+      '/work/dr',
+    ]);
+    expect(component.caseStudies.map((link) => link.path)).toEqual([
+      '/work/djamespoer',
+      '/thingamajob',
+      ...component.work.map((link) => link.path),
+    ]);
+  });
+  it('offers Thingamajob under Case Studies with a current-page state', async () => {
     await TestBed.inject(Router).navigateByUrl('/thingamajob');
     fixture.detectChanges();
     await fixture.whenStable();
     const link = (fixture.nativeElement as HTMLElement).querySelector<HTMLAnchorElement>(
-      '#work-navigation a[href="/thingamajob"]',
+      '#case-studies-navigation a[href="/thingamajob"]',
     );
     expect(link?.textContent?.trim()).toBe('Thingamajob');
     expect(link?.getAttribute('aria-current')).toBe('page');
@@ -65,7 +78,7 @@ describe('Header', () => {
       Array.from(root.querySelectorAll('.site-header__nav-list > li > button'), (button) =>
         button.textContent?.trim(),
       ),
-    ).toEqual(['About', 'Work', 'Perspectives', 'Theme']);
+    ).toEqual(['About', 'Work', 'Case Studies', 'Perspectives', 'Theme']);
     const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
     const list = root.querySelector<HTMLUListElement>('#about-navigation')!;
     expect(list.hidden).toBe(true);
@@ -100,7 +113,7 @@ describe('Header', () => {
     fixture.detectChanges();
     const links = Array.from(
       (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>(
-        '#work-navigation a',
+        '#case-studies-navigation a',
       ),
     );
     expect(links.map((link) => link.getAttribute('href')).slice(0, 2)).toEqual([

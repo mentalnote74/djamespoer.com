@@ -154,8 +154,8 @@
         <p>Proposal ID: {{ p.proposalId }}</p>
         @if (p.proposedAt !== undefined) {
           <p>
-            Proposed at {{ p.proposedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC.
-            Proposer actor: {{ p.proposerActorId }}
+            Proposed at {{ p.proposedAt | utcTimestamp }} UTC. Proposer actor:
+            {{ p.proposerActorId }}
           </p>
         }
         @if (p.review; as review) {
@@ -168,7 +168,7 @@
             <dt>Owner actor</dt>
             <dd>{{ review.ownerActorId }}</dd>
             <dt>Reviewed at</dt>
-            <dd>{{ review.reviewedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC</dd>
+            <dd>{{ review.reviewedAt | utcTimestamp }} UTC</dd>
             <dt>Version transition</dt>
             <dd>{{ review.expectedVersion }} to {{ review.resultingVersion }}</dd>
           </dl>
@@ -281,8 +281,8 @@
             </p>
             <p>
               Superseded at
-              {{ transition.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC;
-              execution: {{ transition.executionContext }}.
+              {{ transition.recordedAt | utcTimestamp }} UTC; execution:
+              {{ transition.executionContext }}.
             </p>
             <dl>
               <dt>Supersession event</dt>
@@ -314,7 +314,7 @@
           <p>
             This approved claim replaces historical claim {{ transition.obsoleteClaimId }}.
             Supersession event: {{ transition.eventId }}. Recorded at
-            {{ transition.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC. Reason:
+            {{ transition.recordedAt | utcTimestamp }} UTC. Reason:
             {{ transition.reason }}
           </p>
           <button
@@ -346,9 +346,7 @@
             <li>
               Version {{ event.version }} — {{ event.operation }}: {{ event.statement }}
               @if (event.recordedAt !== undefined) {
-                <span>
-                  ({{ event.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC)</span
-                >
+                <span> ({{ event.recordedAt | utcTimestamp }} UTC)</span>
               }
             </li>
           }

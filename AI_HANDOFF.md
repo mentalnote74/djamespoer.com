@@ -1,5 +1,16 @@
 # AI Engineering Handoff
 
+## Thingamajob homepage/navigation and SCRUM-40 recovery checkpoint (2026-10-15)
+
+Local branch test/thingamajob-home-history-finalization; no push or deployment. The homepage now mounts the same fictional, tab-local workflow/controller as /thingamajob; shared adapter moved into the feature. Case Studies exposes only /work/djamespoer, /thingamajob and the four existing employer case-study routes. Work retains the employer lens. Creative's redundant heading is removed with its slide label/artwork/controls preserved. Narrow carousel grid tracks no longer force horizontal page overflow. Accepted product-left/case-study-right layout and copy are unchanged.
+
+SCRUM-40 regression: live served the checked-in October 6 snapshot (19 rows), while authoritative Cloudflare production deployments extend through October 15. Manual offline builds bypassed the CI-only refresh introduced in 08e134c; the deployed efb3116 artifact confirms the stale snapshot. Exact first bad deployment/last good artifact cannot be established from Git; historical Builds inspection is forbidden by current read permissions (403). A pinned GET-only deployment reader now adds 65 sanitized deployment events, with all 19 original rows preserved byte-for-byte as records (84 total). Consumer sorts newest first; five per page, 17 pages verified. Explicit build:production/deploy:production commands refresh before building; separate read configuration is required, no deployment-token fallback. Local and validated published archives are retained across clean builds/provider retention; incomplete acquisition fails closed. Snapshot necessarily includes events known before its own release.
+
+Performance changes defer analytics until app readiness/idle, preload compiler-derived current-route assets, inline the small global stylesheet, and replace general date formatting with equivalent fixed UTC formatting. Lazy navigation and original stable shell retained. Final local production Lighthouse: desktop 100/100/100/100; default simulated mobile 97/100/100/100 (FCP 1636 ms, LCP 1976 ms, TBT 142 ms, CLS 0). Earlier trials ranged 97-99; mobile 100 remains unmet. Overall NOT READY against the requested performance gate; do not deploy.
+
+Validation: focused Angular 41/41, full Angular 267/267, Node 153/153, public and protected builds/budgets, formatting and whitespace checks. Rendered audits 59 with zero axe violations; keyboard/skip-link/navigation recovery, 320/390/768/1440px, 200% text/zoom and nine themes passed. No private API calls in public workflow checks. Backend, Erica, Access, OTP/email, production and main untouched; unrelated working-tree changes preserved. Evidence/screenshots/reports: output/thingamajob-finalization/. Review http://127.0.0.1:4406/ and /thingamajob.
+
+
 ## Thingamajob JD-first layout and indexing correction (2026-10-15)
 
 Local branch test/thingamajob-jd-layout-seo. Wide layout is product left/case study right (1.1fr/1fr); below 70rem it stacks product first. Primary task is Evaluate a Job Description. Public demo performs explicitly limited phrase matching against fictional sample evidence, with no fit score or automatic approval. Real review controller retained behind plain labels and disclosure. No private API/data or backend/Access/OTP/email changes; Work menu and route preserved.

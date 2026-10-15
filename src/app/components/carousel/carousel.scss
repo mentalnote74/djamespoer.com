@@ -11,6 +11,7 @@
 
   &__content {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
 
@@ -28,6 +29,7 @@
 
   &__slide {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     min-block-size: 12rem;
     padding: clamp(1.5rem, 6vw, 4rem);
     place-items: center;

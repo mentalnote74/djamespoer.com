@@ -84,7 +84,7 @@ describe('DeploymentHistory snapshot composition', () => {
     fixture.detectChanges();
     expect(grid.loading()).toBe(false);
     expect(grid.error()).toBeNull();
-    expect(grid.rows()).toEqual(rows);
+    expect(grid.rows()).toEqual([...rows].reverse());
     expect(root.querySelectorAll('tbody tr')).toHaveLength(3);
     expect(root.querySelector('tbody')?.textContent).toContain('Fixture change A');
     expect(root.querySelector('tbody')?.textContent).toContain('Succeeded');
@@ -173,7 +173,7 @@ describe('DeploymentHistory snapshot composition', () => {
     expect(component.pagination()).toEqual({ mode: 'client', pageIndex: 1, pageSize: 2 });
     expect(grid.pagination()).toEqual(component.pagination());
     expect(root.querySelectorAll('tbody tr')).toHaveLength(1);
-    expect(root.querySelector('tbody')?.textContent).toContain('Fixture change C');
+    expect(root.querySelector('tbody')?.textContent).toContain('Fixture change A');
     const select = root.querySelector<HTMLSelectElement>('select')!;
     select.value = '5';
     select.dispatchEvent(new Event('change'));

@@ -40,7 +40,6 @@
     />
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQBYGF4Z8F"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
 
@@ -50,6 +49,25 @@
 
       gtag('js', new Date());
       gtag('config', 'G-WQBYGF4Z8F');
+
+      // Queue the page view immediately, but keep third-party startup off the rendering path.
+      const loadAnalytics = () => {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-WQBYGF4Z8F';
+        document.head.append(script);
+      };
+      window.addEventListener(
+        'portfolio-ready',
+        () => {
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadAnalytics, { timeout: 2000 });
+          } else {
+            window.setTimeout(loadAnalytics, 0);
+          }
+        },
+        { once: true },
+      );
     </script>
   </head>
 

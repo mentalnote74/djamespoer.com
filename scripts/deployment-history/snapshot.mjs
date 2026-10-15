@@ -71,7 +71,29 @@ export async function generateSnapshot(output, options) {
   try {
     await recoverTemporaryOutput(output);
     // All acquisition and validation finish before touching the existing asset.
-    const snapshot = await createSnapshot(options);
+    let snapshot = await createSnapshot(options);
+    if (options?.acquireArchive) {
+      const archive = await createSnapshot({ acquire: options.acquireArchive });
+      const merged = new Map(snapshot.rows.map((row) => [row.id, row]));
+      archive.rows.forEach((row) => {
+        if (!merged.has(row.id)) merged.set(row.id, row);
+      });
+      snapshot = { ...snapshot, rows: [...merged.values()] };
+    }
+    if (options?.retainHistory) {
+      let prior;
+      try {
+        prior = JSON.parse(await readFile(output, 'utf8'));
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+      }
+      if (prior) {
+        await serializeVerifiedSnapshot(prior);
+        const archive = new Map(prior.rows.map((row) => [row.id, row]));
+        snapshot.rows.forEach((row) => archive.set(row.id, row));
+        snapshot = { ...snapshot, rows: [...archive.values()] };
+      }
+    }
     await writeSnapshotAtomically(output, snapshot);
     return snapshot;
   } catch (cause) {

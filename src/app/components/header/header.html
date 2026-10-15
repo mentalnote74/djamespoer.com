@@ -105,6 +105,35 @@
         </li>
         <li class="site-header__group">
           <button
+            #caseStudiesButton
+            type="button"
+            [attr.aria-expanded]="openSection() === 'case-studies'"
+            aria-controls="case-studies-navigation"
+            (click)="toggleSection('case-studies', caseStudiesButton)"
+          >
+            Case Studies
+          </button>
+          <ul
+            id="case-studies-navigation"
+            class="site-header__submenu"
+            [hidden]="openSection() !== 'case-studies'"
+          >
+            @for (link of caseStudies; track link.path) {
+              <li>
+                <a
+                  class="site-header__nav-link"
+                  [routerLink]="link.path"
+                  routerLinkActive="site-header__nav-link--active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  ariaCurrentWhenActive="page"
+                  >{{ link.label }}</a
+                >
+              </li>
+            }
+          </ul>
+        </li>
+        <li class="site-header__group">
+          <button
             #perspectivesButton
             type="button"
             [attr.aria-expanded]="openSection() === 'perspectives'"

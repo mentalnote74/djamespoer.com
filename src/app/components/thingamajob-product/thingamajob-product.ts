@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ThingamajobWorkflow } from '../../features/thingamajob/workflow';
 import { PORTFOLIO_WORKFLOW } from '../../features/thingamajob/portfolio-workflow';
-import { PortfolioReview } from './portfolio-review';
+import { PortfolioReview } from '../../features/thingamajob/portfolio-review';
 
 @Component({
   selector: 'app-thingamajob-product',

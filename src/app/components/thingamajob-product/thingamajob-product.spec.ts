@@ -6,7 +6,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { routes } from '../../app.routes';
 import { ThingamajobWorkflow } from '../../features/thingamajob/workflow';
-import { PortfolioReview } from './portfolio-review';
+import { PortfolioReview } from '../../features/thingamajob/portfolio-review';
 async function start() {
   TestBed.configureTestingModule({
     providers: [provideRouter(routes), provideHttpClient(), provideHttpClientTesting()],

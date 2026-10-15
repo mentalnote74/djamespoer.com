@@ -1,3 +1,4 @@
+import { UtcTimestamp } from './utc-timestamp';
 import {
   Component,
   computed,
@@ -9,14 +10,14 @@ import {
   Injector,
   afterNextRender,
 } from '@angular/core';
-import { DatePipe, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import type { Workflow, Proposal, UnknownDetail } from './workflow.models';
 import { PORTFOLIO_WORKFLOW, WORKFLOW_API } from './portfolio-workflow';
 
 @Component({
   selector: 'app-thingamajob-workflow',
-  imports: [DatePipe, NgTemplateOutlet],
+  imports: [UtcTimestamp, NgTemplateOutlet],
   templateUrl: './workflow.html',
   styleUrl: './workflow.scss',
 })

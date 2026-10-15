@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import type { PortfolioWorkflowPort } from '../../features/thingamajob/portfolio-workflow';
-import type { Proposal, Workflow } from '../../features/thingamajob/workflow.models';
+import type { PortfolioWorkflowPort } from './portfolio-workflow';
+import type { Proposal, Workflow } from './workflow.models';
 
 /** Local-only review adapter for the real workflow component; no HTTP/storage/auth. */
 @Injectable()
