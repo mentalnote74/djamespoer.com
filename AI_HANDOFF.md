@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Public content release prepared; production blocked (2026-10-15)
+
+Isolated release/public-content-20261015 starts from 78b1216 before the new extraction/staging commits. Updated homepage Thingamajob copy, October 15 Executive Scrum Brief and durable case-study copy; preserved labeled public demo, separate Daily Job Dredge identity and existing grid/CSS. New staging code/schema/import work is absent; c433db7 remains preserved in the original checkout. Focused component tests 9/9; production compilation/budgets and four local desktop/mobile renders passed. Established deploy:production stopped in mandatory production-history refresh: CLOUDFLARE_ACCOUNT_ID and separate DEPLOYMENT_HISTORY_READ_TOKEN unavailable in process/user environment. Wrangler deploy did not run; production unchanged. Configure those existing read-only history inputs securely, then resume the already-authorized content release. No main push or protected/Erica/Access changes.
+
 ## Public Thingamajob demo/evaluator boundary clarified (2026-10-15)
 
 Local branch test/thingamajob-public-evaluator-boundary. Public case study and homepage sample now say Before: phrase-overlap demo; the textarea/button/result explicitly describe fictional phrase comparison, not a real evaluator. First-screen overview explains the user problem, source-backed owner-approved truth, intended Proven/Supported/Confirmation Needed/Gap meanings, and public/protected/planned boundaries. Right column follows all eight intended evidence-to-application stages, with concrete owner/AI behaviors and accurate current capability limits. Existing split, real sample review controller and private-data isolation retained.

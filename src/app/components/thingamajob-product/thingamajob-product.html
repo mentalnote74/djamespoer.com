@@ -1,11 +1,10 @@
 <div class="product-page">
   <header class="product-introduction">
     <h1>Thingamajob</h1>
-    <p class="product-lead">Which job requirements can your career evidence actually support?</p>
-    <p>
-      Product goal: extract JD requirements, search source-backed, owner-approved claims, classify
-      the evidence and draft application material with sources.
+    <p class="product-lead">
+      A career assistant built around verified evidence instead of résumé keyword guessing.
     </p>
+    <p>AI may propose. Evidence supports. The person decides.</p>
     <h2 class="result-heading">Intended evaluation results</h2>
     <dl class="result-key">
       <div>
@@ -26,8 +25,8 @@
       </div>
     </dl>
     <p class="implementation-boundary">
-      <strong>Public:</strong> fictional demo only. <strong>Protected today:</strong> evidence and
-      owner review. <strong>Not yet connected:</strong> JD evaluation or application output.
+      The earlier public demo below uses fictional, tab-local data. It is separate from the
+      protected Thingamajob experience and cannot access private career evidence.
     </p>
   </header>
   <div class="product-columns">
@@ -35,104 +34,135 @@
       <app-thingamajob-workflow />
     </section>
     <article class="case-study" aria-labelledby="case-study-heading">
-      <h2 id="case-study-heading">From career documents to a job decision</h2>
+      <h2 id="case-study-heading">A career assistant built around evidence</h2>
       <section>
         <h3>The problem</h3>
         <p>
-          A job asks for a capability; a resume contains a similar phrase. That overlap does not
-          establish what the person did, how much responsibility they held, or whether they meet the
-          requirement. A polished application can conceal those differences.
+          Résumés are snapshots. They leave things out, compress years of work into a few bullets,
+          and often fail to describe the evidence behind a candidate’s actual experience.
+        </p>
+        <p>
+          Traditional job matching usually makes that worse. It compares job-description language to
+          résumé language and rewards phrase overlap.
+        </p>
+        <p>That creates two bad outcomes:</p>
+        <ul>
+          <li>real experience can be missed because the wording is different</li>
+          <li>AI can be tempted to fill gaps by guessing</li>
+        </ul>
+        <p>Thingamajob starts somewhere else: with evidence.</p>
+      </section>
+      <section>
+        <h3>The Library of Truth</h3>
+        <p>Thingamajob builds a Library of Truth from the career evidence a person actually has.</p>
+        <p>
+          That evidence can include historical résumés, project and case-study material, public
+          professional pages, career documents, owner-supplied context, and other relevant evidence.
+        </p>
+        <p>
+          AI can inspect that material, extract candidate claims, connect related evidence, and
+          surface uncertainty.
+        </p>
+        <p>But AI does not decide what becomes truth.</p>
+        <p>
+          The person reviews proposed claims and can accept them, correct them, reject them, or add
+          context.
+        </p>
+        <p>AI may propose. Evidence supports. The person decides.</p>
+      </section>
+      <section>
+        <h3>Provenance matters</h3>
+        <p>A claim is useful only if Thingamajob can explain where it came from.</p>
+        <p>
+          Extracted claims retain links back to supporting evidence so the owner can inspect the
+          source instead of trusting a black-box summary.
+        </p>
+        <p>
+          Uncertainty is preserved rather than silently rewritten. Conflicting evidence can remain
+          visible until the person resolves it.
         </p>
       </section>
       <section>
-        <h3>The intended product sequence</h3>
-        <ol class="product-sequence">
-          <li><strong>Ingest evidence.</strong> Keep source documents and their provenance.</li>
-          <li>
-            <strong>Extract and normalize claims.</strong> Propose specific statements with source
-            references, without broadening their meaning.
-          </li>
-          <li>
-            <strong>Owner verifies or corrects.</strong> Accept accurate wording, correct
-            overstatements, or reject unsupported suggestions.
-          </li>
-          <li>
-            <strong>Build the active Library of Truth.</strong> Use current approved claims; retain
-            superseded claims in history.
-          </li>
-          <li>
-            <strong>Extract JD requirements.</strong> Separate the job's individual requirements
-            instead of treating the description as a bag of keywords.
-          </li>
-          <li>
-            <strong>Search the evidence.</strong> Find relevant approved claims and inspect the
-            sources behind them.
-          </li>
-          <li>
-            <strong>Classify each requirement.</strong> Return Proven, Supported, Confirmation
-            Needed or Gap, with the evidence and limits behind that decision.
-          </li>
-          <li>
-            <strong>Draft source-backed application output.</strong> Use supported wording, preserve
-            source links and leave unresolved qualifications explicit.
-          </li>
-        </ol>
+        <h3>The first proof</h3>
+        <p>The first formal Thingamajob proof uses Client #1—James himself.</p>
         <p>
-          This is the intended end-to-end sequence, not a claim that the full evaluator is running
-          here. A Gap describes the evidence available, not proof that a person lacks a skill.
+          Thingamajob independently reconstructs a Library of Truth from ordinary client evidence
+          rather than being given the already-reconciled answer key.
+        </p>
+        <p>
+          That independently built LoT can later be compared against a sealed benchmark to measure
+          what was recovered, missed, unsupported, ambiguous, or unavailable from the supplied
+          evidence.
+        </p>
+        <p>This separates extraction quality from owner-assisted correction.</p>
+      </section>
+      <section>
+        <h3>From evidence to job evaluation</h3>
+        <p>
+          Once the Library of Truth is established, Thingamajob evaluates job requirements against
+          verified career evidence.
+        </p>
+        <p>
+          Jobs can enter through: - pasted job-description text - a job-posting URL - a supported
+          uploaded file
+        </p>
+        <p>Those inputs normalize into one evaluation flow.</p>
+        <p>Instead of inventing a match percentage, requirements use four states:</p>
+        <p>PROVEN Direct evidence supports the requirement.</p>
+        <p>SUPPORTED Related evidence supports the requirement, but not as strongly or directly.</p>
+        <p>
+          CONFIRMATION NEEDED The evidence suggests a possible match, but the person needs to
+          clarify it.
+        </p>
+        <p>GAP The current Library of Truth does not support the requirement.</p>
+        <p>The goal is explainable fit, not keyword theater.</p>
+      </section>
+      <section>
+        <h3>Human control</h3>
+        <p>Thingamajob is intentionally human-in-the-loop.</p>
+        <p>
+          AI can extract requirements, search evidence, propose relationships, explain relevance,
+          and draft useful outputs.
+        </p>
+        <p>The person controls truth.</p>
+      </section>
+      <section>
+        <h3>Multi-client by design</h3>
+        <p>Thingamajob is one reusable product, not a separate application for every candidate.</p>
+        <p>
+          Each client’s workspace is designed to keep their evidence, Library of Truth, preferences,
+          evaluations, review history, generated materials, and career identity separate.
+        </p>
+        <p>One client’s evidence must never leak into another client’s workspace.</p>
+        <p>James is Client #1. Erica Kortz is Client #2.</p>
+      </section>
+      <section>
+        <h3>Designed for failure too</h3>
+        <p>
+          If AI capacity, provider quota, or POC budget becomes unavailable, user work remains
+          preserved, paid calls do not retry endlessly, recovery stays obvious, and billing/provider
+          internals remain hidden from normal users.
+        </p>
+        <p>
+          Running out of AI capacity may pause intelligence, but it must never strand the user in a
+          broken interface.
         </p>
       </section>
       <section>
-        <h3>What the public demo actually does</h3>
+        <h3>Active product</h3>
         <p>
-          The earlier phrase-overlap demo on the left compares three fixed topics with fictional
-          text. It also reuses the real review controller for choosing, correcting or rejecting
-          sample wording and inspecting its history. Everything resets with this tab.
+          Thingamajob focuses on evidence-backed career decisions. Daily Job Dredge is a separate
+          opportunity-finding workflow.
         </p>
         <p>
-          It does not extract JD requirements, search a private Library of Truth, classify
-          requirements, generate an application or call an AI service. Its matches are not
-          qualification results. It illustrates why phrase matching is insufficient.
-        </p>
-      </section>
-      <section>
-        <h3>What the protected product supports today</h3>
-        <p>
-          The owner workflow supports private evidence intake, attributed source-linked proposals,
-          explicit Accept / Correct / Reject decisions, active reviewed claims, correction history
-          and explicit resolution of open questions. Review approval alone does not determine
-          evidence strength or a job-requirement result.
+          Thingamajob is an active product that continues to evolve through real job-search
+          workflows.
         </p>
         <p>
-          Automatic claim extraction and normalization, JD requirement extraction, evidence search,
-          the four result states and application generation are not wired into that owner workflow.
-          They remain product direction. No protected evaluator entry is available from this page.
+          The case study documents the durable product thinking, evidence model, human-AI operating
+          model, and validation approach.
         </p>
-      </section>
-      <section>
-        <h3>AI proposes; evidence and owner approval determine truth</h3>
-        <p>
-          In the intended evaluator, AI proposes claim wording, possible matches and drafts. Sources
-          must support the wording, and the owner must explicitly approve or correct a claim before
-          it enters the active Library of Truth. Rejecting a suggestion creates no approved claim. A
-          later approved correction preserves the earlier acceptance in history.
-        </p>
-        <p>
-          A plausible AI answer cannot approve itself, resolve an open question automatically, or
-          turn weak evidence into a Proven requirement. The system must ask for confirmation or show
-          the gap instead of filling it with persuasive copy.
-        </p>
-      </section>
-      <section>
-        <h3>Independent workspaces, shared product</h3>
-        <p>
-          James is Client #1; Erica is Client #2. Their workspaces and career evidence remain
-          separate. Neither person's private records appear in this public demo.
-        </p>
-        <p>
-          Daily Job Dredge is a separate opportunity-finding workflow, not another name for
-          Thingamajob. No Dredge integration is connected here.
-        </p>
+        <p>Daily implementation progress is recorded in the homepage Executive Scrum Brief.</p>
       </section>
     </article>
   </div>

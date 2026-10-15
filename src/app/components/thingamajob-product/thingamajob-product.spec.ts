@@ -19,37 +19,30 @@ async function start() {
   return { harness, widget, root: harness.routeNativeElement! };
 }
 describe('Thingamajob case study and real workflow component', () => {
-  it('explains the intended evaluation sequence and separates demo, protected capabilities and unwired direction', async () => {
+  it('explains the durable evidence-led product and clearly labels the separate public demo', async () => {
     const { root } = await start();
     const overview = root.querySelector('.product-introduction')!;
-    expect(overview.textContent).toContain('Which job requirements');
-    expect(overview.textContent).toContain('owner-approved');
-    expect(overview.textContent).toContain('fictional demo only');
-    expect(overview.textContent).toContain('Not yet connected:');
-    expect(Array.from(overview.querySelectorAll('dt'), (e) => e.textContent)).toEqual([
-      'Proven',
-      'Supported',
-      'Confirmation Needed',
-      'Gap',
-    ]);
-    const stages = Array.from(
-      root.querySelectorAll('.product-sequence li strong'),
-      (e) => e.textContent,
+    expect(overview.textContent).toContain('A career assistant built around verified evidence');
+    expect(overview.textContent).toContain('The person decides.');
+    expect(overview.textContent).toContain('fictional, tab-local data');
+    const study = root.querySelector('.case-study')!;
+    for (const heading of [
+      'The problem',
+      'The Library of Truth',
+      'Provenance matters',
+      'The first proof',
+      'From evidence to job evaluation',
+      'Human control',
+      'Multi-client by design',
+      'Designed for failure too',
+      'Active product',
+    ]) {
+      expect(study.textContent).toContain(heading);
+    }
+    expect(study.textContent).not.toContain('not wired into');
+    expect(root.querySelector('app-thingamajob-workflow')?.textContent).toContain(
+      'not the Thingamajob evaluator',
     );
-    expect(stages).toEqual([
-      'Ingest evidence.',
-      'Extract and normalize claims.',
-      'Owner verifies or corrects.',
-      'Build the active Library of Truth.',
-      'Extract JD requirements.',
-      'Search the evidence.',
-      'Classify each requirement.',
-      'Draft source-backed application output.',
-    ]);
-    const widget = root.querySelector('app-thingamajob-workflow')!;
-    expect(widget.textContent).toContain('not the Thingamajob evaluator');
-    expect(widget.textContent).not.toMatch(/Evaluate a Job Description|Proven|Confirmation Needed/);
-    expect(root.textContent).toContain('not wired into that owner workflow');
     expect(root.querySelector('a[href*="api"], iframe')).toBeNull();
     TestBed.inject(HttpTestingController).expectNone(() => true);
   });
