@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Pending extraction staging implemented locally (2026-10-15)
+
+New TEST-only owner-authenticated extraction-runs GET/POST plus additive run/candidate linkage schema reuse existing proposal service. Five candidates per continuation, stable keys, full run metadata/questions/citations retained, no auto truth. Local fictional 65/65 staging/isolation and existing-truth preservation pass; staging 3/3 plus assertions 13/13 and strict server TS pass. Real run 1f96a7ab-1567-4678-bcef-15b840439cc7 has a private prepared package, all 65 candidates/four questions retained, but ZERO actual TEST proposals staged: new route/schema are undeployed and no fixture identity substituted for James. Details/package hash: server/thingamajob/extraction-staging.md. Actual staging needs separately authorized TEST rollout plus real owner-session source binding/import. Review UI untouched; no deployment, models, benchmark access or remote data changes.
+
 ## First real Client #1 extraction complete (2026-10-15)
 
 Run 1f96a7ab-1567-4678-bcef-15b840439cc7 used gpt-5.6-sol once on the redacted resume and curated IPS/TCC sections only: 65 pending candidates (47/6/12), 76 exact citations, 16 candidates with uncertainty, four owner questions. One possible title discrepancy and two non-contradictory context differences retained. No benchmark input/comparison or active-LoT writes. Usage 6477 input/6763 output; cache-write-adjusted estimate $0.167642, recorded separately without rewriting the original receipt. Four focused tests pass; nine claims sampled plus five uncertainty spots. Private hashes, usage and review assessment: server/thingamajob/client-one-first-extraction.md. Next requires authenticated run-scoped staging, shared review/citation adaptation, then authorized protected TEST checkpoint; none implemented yet. No deployment.

@@ -1,4 +1,5 @@
 import { AccessDenied, createAccessIdentityAdapter } from './access-identity.ts';
+import { stageExtractionRun, getExtractionRun } from './extraction-staging.ts';
 import { authorizeWorkspace, recheckWorkspace } from './workspace-access.ts';
 import type { IdentityDatabase } from './workspace-access.ts';
 import type { JWTVerifyGetKey } from 'jose';
@@ -79,6 +80,11 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const workflow = path === '/api/thingamajob/test/workflow';
       const uiPrefix = '/api/thingamajob/test/app/';
       const ui = path === uiPrefix.slice(0, -1) || path.startsWith(uiPrefix);
+      const extraction = testEnabled
+        ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/extraction-runs\/([a-zA-Z0-9_-]{1,100})$/.exec(
+            path,
+          )
+        : null;
       const unknowns = testEnabled
         ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/unknowns(?:\/([a-zA-Z0-9_-]{1,100})(?:\/(answers|resolve)(?:\/([a-zA-Z0-9_-]{1,100})\/proposal)?)?)?$/.exec(
             path,
@@ -106,6 +112,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const match = /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/access$/.exec(path);
       if (
         !match &&
+        !extraction &&
         !storage &&
         !evidence &&
         !assertions &&
@@ -139,13 +146,18 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         request.method !== expectedMethod &&
         !(roundtrip && request.method === 'POST') &&
         !(verification && request.method === 'POST') &&
+        !(extraction && request.method === 'POST') &&
         !(evidence && !evidence[2] && request.method === 'GET') &&
         !(unknowns && !unknowns[2] && request.method === 'GET')
       ) {
         const response = reply(405, { error: 'Method not allowed' });
         response.headers.set(
           'Allow',
-          roundtrip || verification || (evidence && !evidence[2]) || (unknowns && !unknowns[2])
+          extraction ||
+            roundtrip ||
+            verification ||
+            (evidence && !evidence[2]) ||
+            (unknowns && !unknowns[2])
             ? 'GET, POST'
             : expectedMethod,
         );
@@ -153,7 +165,13 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       if (
         (bootstrap ||
-          ((roundtrip || verification || evidence || assertions || unknowns || claims) &&
+          ((extraction ||
+            roundtrip ||
+            verification ||
+            evidence ||
+            assertions ||
+            unknowns ||
+            claims) &&
             request.method === 'POST')) &&
         (request.headers.get('Origin') !== 'https://api-test.djamespoer.com' ||
           (request.headers.has('Sec-Fetch-Site') &&
@@ -173,6 +191,24 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       try {
         const identity = await authenticate(request);
+        if (extraction) {
+          const scope = await authorizeWorkspace(env.IDENTITY_DB, identity, extraction[1], 'owner');
+          if (request.method === 'GET')
+            return reply(200, await getExtractionRun(env.IDENTITY_DB, scope, extraction[2]));
+          const binding = env.PRIVATE_ORIGINALS;
+          if (!binding || typeof binding.put !== 'function' || typeof binding.get !== 'function')
+            return reply(503, { error: 'Storage unavailable' });
+          return reply(
+            200,
+            await stageExtractionRun(
+              request,
+              env.IDENTITY_DB,
+              { put: binding.put.bind(binding), get: binding.get.bind(binding) },
+              scope,
+              extraction[2],
+            ),
+          );
+        }
         if (ui) {
           if (!env.TEST_UI) return reply(503, { error: 'Presentation unavailable' });
           if (path === uiPrefix.slice(0, -1))
