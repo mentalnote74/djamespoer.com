@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Bounded Client #1 review UX (2026-10-15)
+
+Replaces the 65-claim run dump with one active claim, pending/source filters, Previous/Next, progress/decision totals and counted Owner questions. Active citations use a native disclosure; linked questions/conflicts/qualifications remain visible. Existing versioned owner review API saves Accept/Correct/Reject; successful decisions advance to next pending unless Stay is selected. Errors preserve draft and never auto-advance. History opens existing workflow audit controls. No new note semantics; clarification uses corrected claim wording. Focused Angular 11/11 and protected build passed; fictional rendered smoke at 1440/390/320px shows one claim and no overflow. No schema/model/extraction/benchmark/JD/PROD change.
+
 ## Protected Client #1 run review TEST rollout (2026-10-15)
 
 Extends c433db7 staging with an existing-workflow run panel: owner-session package import/continuation, immutable package/source hashes, deterministic source upload keys, run-scoped citations/qualifications/conflicts and four unanswered owner questions. Review selects the existing Accept/Correct/Reject controls; no automatic approval or benchmark/evaluation/model work. Focused Angular 21/21, staging integration 3/3, strict server TypeScript and protected build/budgets passed. TEST rollout authorized; real import requires James Access session (no browser session available to agent). Public cleanup remains parked at 69a97c5 in its isolated release worktree. Pre-rollout private snapshot hashes cover all 22 existing TEST tables. Preserve unrelated local files.

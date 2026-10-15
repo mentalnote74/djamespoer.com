@@ -28,53 +28,157 @@
     </button>
   </details>
   @if (run(); as r) {
-    <p>{{ r.proposals.length }} candidate proposals linked; run status: {{ r.state }}.</p>
-    <h3>Questions for you</h3>
-    <p>These questions remain unanswered. They do not create or approve career facts.</p>
-    <ol>
-      @for (q of r.document.questions; track $index) {
-        <li>
-          {{ q.question }} <small>Related candidates: {{ q.claimIds.join(', ') }}</small>
-        </li>
+    <p>
+      {{ pending() }} pending of {{ r.document.claims.length }}.
+      @for (d of decisions(); track d.state) {
+        <span>{{ d.count }} {{ d.state }}. </span>
       }
-    </ol>
-    <h3>Conflicts</h3>
-    @for (c of r.document.conflicts; track c.id) {
-      <p>{{ c.explanation }} ({{ c.claimIds.join(', ') }})</p>
-    } @empty {
-      <p>No explicit conflicts recorded in this extraction.</p>
+    </p>
+    <div class="navigation">
+      <label
+        ><input
+          #pendingFilter
+          type="checkbox"
+          [checked]="pendingOnly()"
+          [disabled]="busy()"
+          (change)="pendingOnly.set(pendingFilter.checked); filter()"
+        />
+        Pending only</label
+      >
+      <label
+        >Source
+        <select
+          #sourceFilter
+          [value]="source()"
+          [disabled]="busy()"
+          (change)="source.set(sourceFilter.value); filter()"
+        >
+          <option value="">All sources</option>
+          @for (s of r.document.sources; track s.key) {
+            <option [value]="s.key">{{ s.key }}</option>
+          }
+        </select></label
+      >
+      <button
+        type="button"
+        [disabled]="busy()"
+        (click)="questionsOpen.set(!questionsOpen())"
+        [attr.aria-expanded]="questionsOpen()"
+      >
+        Owner questions ({{ r.document.questions.length }})
+      </button>
+    </div>
+    @if (questionsOpen()) {
+      <section aria-labelledby="owner-questions-heading">
+        <h3 id="owner-questions-heading">Owner questions</h3>
+        <p>
+          Unanswered extraction questions. Reviewing a claim does not automatically answer these.
+        </p>
+        <ol>
+          @for (q of r.document.questions; track $index) {
+            <li>
+              <p>{{ q.question }}</p>
+              @for (id of q.claimIds; track id) {
+                <button
+                  type="button"
+                  [disabled]="busy()"
+                  (click)="
+                    pendingOnly.set(false); source.set(''); questionsOpen.set(false); select(id)
+                  "
+                >
+                  View related claim {{ id }}
+                </button>
+              }
+            </li>
+          }
+        </ol>
+      </section>
     }
-    <h3>Candidate claims</h3>
-    <ol>
-      @for (c of r.document.claims; track c.id) {
-        <li>
-          <p>{{ c.text }}</p>
-          <p>
-            Source: {{ c.sourceKey }}. {{ c.sourceReference.locator }}. Captured:
-            {{ c.sourceReference.capturedAt }}. Extraction confidence: {{ c.extractionConfidence }}.
-          </p>
+    @if (active(); as c) {
+      <article aria-labelledby="active-claim-heading">
+        <h3 #claimHeading id="active-claim-heading" tabindex="-1">
+          Claim {{ position() }} of {{ r.document.claims.length }}
+        </h3>
+        <p class="claim-text">{{ c.text }}</p>
+        <p>
+          Source: {{ c.sourceKey }}. {{ c.sourceReference.locator }}. Extraction confidence:
+          {{ c.extractionConfidence }}.
+        </p>
+        <details>
+          <summary>Supporting citation / source</summary>
+          <p>Captured: {{ c.sourceReference.capturedAt }}</p>
           @for (citation of c.citations; track $index) {
             <blockquote>{{ citation.quote }}</blockquote>
             <p>Location: {{ citation.locationKey }}</p>
           }
-          @for (u of c.uncertainties; track $index) {
-            <p>Qualification / uncertainty: {{ u }}</p>
+        </details>
+        @for (u of c.uncertainties; track $index) {
+          <p>Qualification / uncertainty: {{ u }}</p>
+        }
+        @for (conflict of r.document.conflicts; track conflict.id) {
+          @if (c.conflictIds.includes(conflict.id)) {
+            <p>Conflict: {{ conflict.explanation }}</p>
           }
-          @if (c.conflictIds.length) {
-            <p>Conflict references: {{ c.conflictIds.join(', ') }}</p>
+        }
+        @for (q of linkedQuestions(); track $index) {
+          <p>Question for you: {{ q.question }}</p>
+        }
+        @if (detail(); as p) {
+          <p>
+            Decision: {{ p.reviewDisposition === 'proposed' ? 'Pending' : p.reviewDisposition }}
+          </p>
+          @if (p.reviewDisposition === 'proposed') {
+            <fieldset [disabled]="busy()">
+              <legend>Owner decision</legend>
+              <label
+                >Corrected claim wording (required for Correct)<textarea
+                  #wording
+                  maxlength="4000"
+                  [value]="correction()"
+                  (input)="correction.set(wording.value)"
+                ></textarea>
+              </label>
+              <p>
+                Clarify the claim through corrected wording. Separate context notes are not
+                supported by this review API.
+              </p>
+              <label
+                ><input
+                  #stayHere
+                  type="checkbox"
+                  [checked]="stay()"
+                  (change)="stay.set(stayHere.checked)"
+                />
+                Stay on this claim after saving</label
+              >
+              <div class="navigation">
+                <button type="button" (click)="decide('accepted')">Accept</button
+                ><button type="button" (click)="decide('corrected')">Correct</button
+                ><button type="button" (click)="decide('rejected')">Reject</button>
+              </div>
+              <p>
+                Accept or Correct creates a reviewed claim. Review does not automatically resolve an
+                UNKNOWN.
+              </p>
+            </fieldset>
           }
-          @if (proposal(c.id); as p) {
-            <p>Decision: {{ p.reviewDisposition }}</p>
-            <button type="button" [disabled]="busy()" (click)="reviewProposal.emit(p.proposalId)">
-              Review this claim
-            </button>
-          }
-        </li>
-      }
-    </ol>
-    <p>
-      Use the existing claim review below to Accept, Correct or Reject. Reload this run after
-      decisions to update its status.
-    </p>
+          <button type="button" [disabled]="busy()" (click)="reviewProposal.emit(p.proposalId)">
+            View existing claim history / audit
+          </button>
+        }
+        <div class="navigation">
+          <button type="button" [disabled]="busy() || atBoundary(-1)" (click)="navigate(-1)">
+            Previous</button
+          ><button type="button" [disabled]="busy() || atBoundary(1)" (click)="navigate(1)">
+            Next
+          </button>
+        </div>
+      </article>
+    } @else {
+      <p>
+        No claims in this filter. Clear Pending only or choose another source to inspect earlier
+        decisions.
+      </p>
+    }
   }
 </section>

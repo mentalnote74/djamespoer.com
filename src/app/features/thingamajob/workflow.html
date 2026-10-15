@@ -94,7 +94,10 @@
     <p>
       Showing up to {{ w.limit }} records per list. All actions are checked by the protected server.
     </p>
-    <app-extraction-run (reviewProposal)="selectProposal($event)" />
+    <app-extraction-run
+      (reviewProposal)="selectProposal($event, true)"
+      (reviewed)="refresh(false)"
+    />
     <section aria-labelledby="evidence-heading">
       <h2 id="evidence-heading">Private evidence</h2>
       @if (!w.evidence.length) {

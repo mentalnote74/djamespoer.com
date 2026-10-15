@@ -1,5 +1,6 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, computed, ElementRef, inject, output, signal, viewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import type { Proposal } from './workflow.models';
 import { WorkflowApi } from './workflow-api';
 export interface ExtractionRun {
   runId: string;
@@ -36,9 +37,109 @@ async function hash(file: File) {
 export class ExtractionRunPanel {
   private readonly api = inject(WorkflowApi);
   readonly reviewProposal = output<string>();
+  readonly reviewed = output<void>();
   readonly run = signal<ExtractionRun | null>(null);
   readonly busy = signal(false);
   readonly message = signal('Load the Client #1 extraction run to review its candidates.');
+  readonly selectedId = signal('');
+  readonly pendingOnly = signal(true);
+  readonly source = signal('');
+  readonly questionsOpen = signal(false);
+  readonly stay = signal(false);
+  readonly correction = signal('');
+  readonly detail = signal<Proposal | null>(null);
+  readonly heading = viewChild<ElementRef<HTMLElement>>('claimHeading');
+  readonly visible = computed(
+    () =>
+      this.run()?.document.claims.filter(
+        (c) =>
+          (!this.source() || c.sourceKey === this.source()) &&
+          (!this.pendingOnly() || this.proposal(c.id)?.reviewDisposition === 'proposed'),
+      ) ?? [],
+  );
+  readonly active = computed(() =>
+    this.run()?.document.claims.find((c) => c.id === this.selectedId()),
+  );
+  readonly pending = computed(
+    () => this.run()?.proposals.filter((p) => p.reviewDisposition === 'proposed').length ?? 0,
+  );
+  readonly decisions = computed(() =>
+    ['accepted', 'corrected', 'rejected'].map((state) => ({
+      state,
+      count: this.run()?.proposals.filter((p) => p.reviewDisposition === state).length ?? 0,
+    })),
+  );
+  readonly linkedQuestions = computed(
+    () =>
+      this.run()?.document.questions.filter((q) => q.claimIds.includes(this.selectedId())) ?? [],
+  );
+  async select(id: string, focus = true) {
+    if (this.busy()) return;
+    this.selectedId.set(id);
+    this.detail.set(null);
+    this.correction.set('');
+    const proposal = this.proposal(id);
+    if (!proposal) return;
+    this.busy.set(true);
+    try {
+      this.detail.set(await this.api.proposal(proposal.proposalId));
+    } catch (error) {
+      this.failure(error);
+    } finally {
+      this.busy.set(false);
+      if (focus) setTimeout(() => this.heading()?.nativeElement.focus());
+    }
+  }
+  async navigate(delta: number) {
+    const list = this.visible();
+    const i = list.findIndex((c) => c.id === this.selectedId());
+    const next = list[i + delta];
+    if (next) await this.select(next.id);
+  }
+  async filter() {
+    await this.select(this.visible()[0]?.id ?? '');
+  }
+  position() {
+    return (this.run()?.document.claims.findIndex((c) => c.id === this.selectedId()) ?? -1) + 1;
+  }
+  atBoundary(delta: number) {
+    const i = this.visible().findIndex((c) => c.id === this.selectedId());
+    return !this.visible()[i + delta];
+  }
+  async decide(decision: 'accepted' | 'corrected' | 'rejected') {
+    const p = this.detail();
+    if (this.busy() || !p || p.reviewDisposition !== 'proposed') return;
+    if (decision === 'corrected' && !this.correction().trim()) {
+      this.message.set('Enter corrected wording before choosing Correct.');
+      return;
+    }
+    this.busy.set(true);
+    try {
+      const saved = await this.api.review(p, decision, this.correction());
+      this.detail.set(saved);
+      const run = await this.api.extractionRun(RUN);
+      this.run.set(run);
+      this.message.set('Decision saved: ' + saved.reviewDisposition + '.');
+      this.reviewed.emit();
+      this.busy.set(false);
+      if (!this.stay()) {
+        const all = run.document.claims;
+        const current = all.findIndex((c) => c.id === this.selectedId());
+        const ordered = [...all.slice(current + 1), ...all.slice(0, current)];
+        const next = ordered.find(
+          (c) =>
+            (!this.source() || c.sourceKey === this.source()) &&
+            this.proposal(c.id)?.reviewDisposition === 'proposed',
+        );
+        if (next) await this.select(next.id);
+        else this.message.set('Decision saved. No pending claims remain in this source/filter.');
+      }
+    } catch (error) {
+      this.failure(error);
+    } finally {
+      this.busy.set(false);
+    }
+  }
   private files: File[] = [];
   choose(input: HTMLInputElement) {
     this.files = Array.from(input.files ?? []);
@@ -70,6 +171,7 @@ export class ExtractionRunPanel {
     } finally {
       this.busy.set(false);
     }
+    if (this.run()) await this.filter();
   }
   async import() {
     if (this.busy()) return;
