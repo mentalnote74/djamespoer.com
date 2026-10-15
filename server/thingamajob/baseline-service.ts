@@ -3,6 +3,13 @@ import { AccessDenied } from './access-identity.ts';
 import { recheckWorkspace, mutationAuthorization } from './workspace-access.ts';
 import type { IdentityDatabase, WorkspaceAccess } from './workspace-access.ts';
 import { AssertionInputError, ReviewConflict, reviewProposal } from './assertion-service.ts';
+async function titlePolicyAvailable(database: IdentityDatabase) {
+  return !!(await database
+    .prepare(
+      "SELECT name FROM sqlite_master WHERE type='view' AND name='thingamajob_current_evaluations'",
+    )
+    .first());
+}
 export async function baselineAvailable(database: IdentityDatabase) {
   return !!(await database
     .prepare(
@@ -18,19 +25,44 @@ export async function baselineSummary(
   await recheckWorkspace(scope);
   mutationAuthorization(scope, 'owner');
   if (!(await baselineAvailable(database))) return undefined;
+  const titles = await titlePolicyAvailable(database);
+  const evaluations = titles
+    ? 'thingamajob_current_evaluations'
+    : 'thingamajob_baseline_evaluations';
+  const issues = titles ? 'thingamajob_current_issues' : 'thingamajob_baseline_issues';
   const row = await database
     .prepare(
       `SELECT
- (SELECT json_group_array(json_object('candidateId',candidate_id,'category',category,'reasons',json(reasons_json),'policyVersion',policy_version,'recordedAt',recorded_at)) FROM thingamajob_baseline_evaluations WHERE workspace_id=? AND run_id=?) evaluations,
- (SELECT json_group_array(json_object('id',i.issue_id,'question',i.question,'claimIds',json(i.candidate_ids_json),'answer',json(a.response_json),'answeredAt',a.recorded_at)) FROM thingamajob_baseline_issues i LEFT JOIN thingamajob_baseline_answers a ON a.workspace_id=i.workspace_id AND a.run_id=i.run_id AND a.issue_id=i.issue_id WHERE i.workspace_id=? AND i.run_id=?) issues`,
+ (SELECT json_group_array(json_object('candidateId',candidate_id,'category',category,'reasons',json(reasons_json),'policyVersion',policy_version,'recordedAt',recorded_at)) FROM ${evaluations} WHERE workspace_id=? AND run_id=?) evaluations,
+ (SELECT json_group_array(json_object('id',i.issue_id,'question',i.question,'claimIds',json(i.candidate_ids_json),'answer',json(a.response_json),'answeredAt',a.recorded_at)) FROM ${issues} i LEFT JOIN thingamajob_baseline_answers a ON a.workspace_id=i.workspace_id AND a.run_id=i.run_id AND a.issue_id=i.issue_id WHERE i.workspace_id=? AND i.run_id=? ${titles ? "AND i.current_disposition='attention'" : ''}) issues`,
     )
     .bind(scope.workspaceId, runId, scope.workspaceId, runId)
     .first<{ evaluations: string; issues: string }>();
   await recheckWorkspace(scope);
-  return {
+  const result = {
     evaluations: JSON.parse(row?.evaluations ?? '[]') as unknown,
     issues: JSON.parse(row?.issues ?? '[]') as unknown,
+    ...(titles
+      ? {
+          titleHistory: await database
+            .prepare(
+              "SELECT json_group_array(json_object('issueId',issue_id,'question',question,'reason',reason,'policyVersion',policy_version)) items FROM thingamajob_current_issues WHERE workspace_id=? AND run_id=? AND current_disposition='informational'",
+            )
+            .bind(scope.workspaceId, runId)
+            .first<{ items: string }>()
+            .then((r) => JSON.parse(r?.items ?? '[]') as unknown),
+          rolePresentations: await database
+            .prepare(
+              "SELECT json_group_array(json_object('candidateId',candidate_id,'roleKey',role_key,'sourceId',source_id,'presentedTitle',presented_title,'citation',json(citation_json),'associationBasis',association_basis,'canonicalTitle',canonical_title)) items FROM thingamajob_role_presentations WHERE workspace_id=? AND run_id=?",
+            )
+            .bind(scope.workspaceId, runId)
+            .first<{ items: string }>()
+            .then((r) => JSON.parse(r?.items ?? '[]') as unknown),
+        }
+      : {}),
   };
+  await recheckWorkspace(scope);
+  return result;
 }
 export async function baselineForProposal(
   database: IdentityDatabase,
@@ -40,9 +72,12 @@ export async function baselineForProposal(
   await recheckWorkspace(scope);
   mutationAuthorization(scope, 'owner');
   if (!(await baselineAvailable(database))) return undefined;
+  const evaluations = (await titlePolicyAvailable(database))
+    ? 'thingamajob_current_evaluations'
+    : 'thingamajob_baseline_evaluations';
   const row = await database
     .prepare(
-      'SELECT e.run_id,e.candidate_id,e.category,e.policy_version,e.recorded_at,e.reasons_json,p.disposition FROM thingamajob_baseline_evaluations e JOIN thingamajob_proposals p ON p.workspace_id=e.workspace_id AND p.proposal_id=e.proposal_id WHERE e.workspace_id=? AND e.proposal_id=?',
+      `SELECT e.run_id,e.candidate_id,e.category,e.policy_version,e.recorded_at,e.reasons_json,p.disposition FROM ${evaluations} e JOIN thingamajob_proposals p ON p.workspace_id=e.workspace_id AND p.proposal_id=e.proposal_id WHERE e.workspace_id=? AND e.proposal_id=?`,
     )
     .bind(scope.workspaceId, proposalId)
     .first<{
@@ -105,9 +140,12 @@ export async function resolveBaselineIssue(
     !Array.isArray(input.decisions)
   )
     throw new AssertionInputError();
+  const issueTable = (await titlePolicyAvailable(database))
+    ? 'thingamajob_current_issues'
+    : 'thingamajob_baseline_issues';
   const issue = await database
     .prepare(
-      'SELECT candidate_ids_json FROM thingamajob_baseline_issues WHERE workspace_id=? AND run_id=? AND issue_id=?',
+      `SELECT candidate_ids_json FROM ${issueTable} WHERE workspace_id=? AND run_id=? AND issue_id=? ${issueTable === 'thingamajob_current_issues' ? "AND current_disposition='attention'" : ''}`,
     )
     .bind(scope.workspaceId, runId, input.issueId)
     .first<{ candidate_ids_json: string }>();

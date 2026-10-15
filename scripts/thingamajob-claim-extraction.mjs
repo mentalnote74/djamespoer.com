@@ -67,7 +67,7 @@ Use adjoining supplied paragraphs for context and multiple citations if necessar
 Do not convert objective/aspirational statements into accomplished facts. Do not extract redacted/contact placeholders.
 Confidence means extraction fidelity, NOT career truth verification. Everything remains pending owner review.
 Preserve genuine conflicts on both sides and flag them; do not invent conflicts from missing facts or different specificity.
-Different titles may reflect time/promotion: flag uncertainty rather than silently deciding which is correct.
+Distinguish employer/canonical role titles from source-specific resume presentation titles. Historical resumes may be intentionally tailored; differing title wording alone is not a contradiction, uncertainty requiring owner action, or evidence of promotion. Preserve exact source titles and provenance. Associate variants only where employer, compatible dates, responsibilities, technologies and corroboration support one underlying role; do not silently select a canonical title. Ask about titles only for material ambiguity: different roles, irreconcilable employer/date relationships, substantive seniority/responsibility disagreement supported beyond title wording, or inability to establish the same employment period.
 Preserve ambiguous source wording and identify the needed owner question. No absence-as-negative inference.
 Extract substantive employer/title/date, responsibilities, technologies, education, certification and project facts.
 Aim for concise atomic claims; avoid duplicative prose and generic personality summaries. At most 150 claims.

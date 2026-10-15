@@ -215,3 +215,43 @@ test('interrupted grouped decisions retain explicit partial history and resume w
     f.db.close();
   }
 });
+test('title reassessment is append-only, visible as informational provenance and cannot be resolved as a current conflict', async () => {
+  const f = await fixture();
+  try {
+    f.db.exec(readFileSync(new URL('title-presentations.sql', import.meta.url), 'utf8'));
+    const original = f.db.prepare('SELECT * FROM thingamajob_baseline_evaluations').all();
+    f.db
+      .prepare(
+        "INSERT INTO thingamajob_baseline_reassessments(workspace_id,run_id,candidate_id,revision,category,reasons_json,policy_version) VALUES ('workspace-one',?,'c1',2,'qualified','[\"Source title presentation\"]','fictional-title-v2')",
+      )
+      .run(f.runId);
+    f.db
+      .prepare(
+        "INSERT INTO thingamajob_issue_reassessments(workspace_id,run_id,issue_id,revision,disposition,reason,policy_version) VALUES ('workspace-one',?,'question-1',2,'informational','Title wording alone is not a conflict','fictional-title-v2')",
+      )
+      .run(f.runId);
+    const result = await f.worker.fetch(await signedEvidenceRequest(f.route, 'one'), f.env);
+    assert.equal(result.status, 200);
+    const summary = (await result.json()).baseline;
+    assert.equal(summary.issues.length, 0);
+    assert.equal(summary.titleHistory.length, 1);
+    assert.equal(summary.evaluations.find((e) => e.candidateId === 'c1').category, 'qualified');
+    assert.deepEqual(
+      f.db.prepare('SELECT * FROM thingamajob_baseline_evaluations').all(),
+      original,
+    );
+    const body = {
+      issueId: 'question-1',
+      answer: 'Should not be required',
+      decisions: [
+        { candidateId: 'c1', statement: 'Fictional claim 1', reject: false },
+        { candidateId: 'c2', statement: 'Fictional claim 2', reject: false },
+      ],
+    };
+    assert.equal((await f.post(f.route + '/resolve', body)).status, 403);
+    assert.equal(f.db.prepare('SELECT count(*) n FROM thingamajob_reviews').get().n, 0);
+    assert.throws(() => f.db.exec('DELETE FROM thingamajob_issue_reassessments'), /Immutable/);
+  } finally {
+    f.db.close();
+  }
+});

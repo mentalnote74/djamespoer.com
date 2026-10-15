@@ -183,4 +183,49 @@ describe('bounded owner extraction review', () => {
       ],
     });
   });
+  it('keeps source title variants informational without selecting a canonical title or asking the original question again', async () => {
+    const { fixture, run, api } = setup();
+    run.baseline = {
+      evaluations: run.document.claims.map((c) => ({
+        candidateId: c.id,
+        category: 'qualified',
+        reasons: ['Source-specific presentation'],
+        policyVersion: 'fictional-v2',
+        recordedAt: 2,
+      })),
+      issues: [],
+      titleHistory: [
+        {
+          issueId: 'old-title',
+          question: 'Which title is correct?',
+          reason: 'Wording alone is not a conflict',
+          policyVersion: 'fictional-v2',
+        },
+      ],
+      rolePresentations: [
+        {
+          candidateId: 'a',
+          roleKey: 'same-role',
+          sourceId: 'fictional',
+          presentedTitle: 'Fictional tailored title',
+          canonicalTitle: null,
+          associationBasis: 'Compatible employer, dates and responsibilities',
+        },
+      ],
+    };
+    const c = fixture.componentInstance;
+    await c.load();
+    expect(c.openIssues()).toHaveLength(0);
+    c.category.set('qualified');
+    c.pendingOnly.set(false);
+    await c.filter();
+    fixture.detectChanges();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(c.linkedQuestions()).toHaveLength(0);
+    expect(root.textContent).toContain('Source-presented title: Fictional tailored title');
+    expect(root.textContent).toContain('Canonical employer title has not been selected');
+    expect(root.textContent).toContain('Title presentation history (informational)');
+    expect(root.querySelector('article')?.textContent).not.toContain('Conflict:');
+    expect(api.review).not.toHaveBeenCalled();
+  });
 });

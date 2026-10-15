@@ -214,6 +214,19 @@
         </ol>
       </section>
     }
+    @if (r.baseline?.titleHistory?.length) {
+      <details>
+        <summary>Title presentation history (informational)</summary>
+        <p>
+          Original extraction questions are preserved below as history, not current requests for
+          your attention.
+        </p>
+        @for (q of r.baseline?.titleHistory ?? []; track q.issueId) {
+          <p>{{ q.question }}</p>
+          <p>Reclassified as informational: {{ q.reason }}</p>
+        }
+      </details>
+    }
     @if (active(); as c) {
       <article aria-labelledby="active-claim-heading">
         <h3 #claimHeading id="active-claim-heading" tabindex="-1">
@@ -224,6 +237,13 @@
           Source: {{ c.sourceKey }}. {{ c.sourceReference.locator }}. Extraction confidence:
           {{ c.extractionConfidence }}.
         </p>
+        @if (titlePresentation(); as t) {
+          <p>
+            Source-presented title: {{ t.presentedTitle }}. Associated role: {{ t.roleKey }}.
+            Canonical employer title has not been selected.
+          </p>
+          <p>{{ t.associationBasis }}</p>
+        }
         <details>
           <summary>Supporting citation / source</summary>
           <p>Captured: {{ c.sourceReference.capturedAt }}</p>
@@ -236,7 +256,7 @@
           <p>Qualification / uncertainty: {{ u }}</p>
         }
         @for (conflict of r.document.conflicts; track conflict.id) {
-          @if (c.conflictIds.includes(conflict.id)) {
+          @if (c.conflictIds.includes(conflict.id) && !titlePresentation()) {
             <p>Conflict: {{ conflict.explanation }}</p>
           }
         }

@@ -1,7 +1,8 @@
+import { approvedTitleGroups } from './title-policy.ts';
 // Bounded first-proof policy. Never treats model confidence or a citation match alone as entailment.
 // The input digest pins this policy to the independently inspected candidate/source package;
 // new extraction outputs require their own source vetting, not automatic reuse of this approval.
-export const POLICY_VERSION = 'client-one-source-vetting-v1';
+export const POLICY_VERSION = 'client-one-source-vetting-v2';
 export const APPROVED_TEMPLATE = '76528b67452512eebf4b63830eab7ecef5f45086c8f3bd19473c68cb2bfde0cd';
 export interface VettingDocument {
   extractionRunId: string;
@@ -24,11 +25,16 @@ export interface VettingDocument {
   }[];
 }
 export function classifyBaseline(document: VettingDocument) {
-  const issues = document.questions.map((q, i) => ({
-    id: 'question-' + (i + 1),
-    question: q.question,
-    claimIds: q.claimIds,
-  }));
+  const titleGroups = approvedTitleGroups(document.extractionRunId);
+  const titleClaims = new Set<string>(titleGroups.flatMap((g) => [...g.claimIds]));
+  const nonConflicts = new Set<string>(titleGroups.flatMap((g) => [...g.conflicts]));
+  const issues = document.questions
+    .map((q, i) => ({
+      id: 'question-' + (i + 1),
+      question: q.question,
+      claimIds: q.claimIds,
+    }))
+    .filter((q) => !titleGroups.some((g) => g.issueId === q.id));
   if (document.claims.some((c) => c.id === 'resume-042'))
     issues.push({
       id: 'elapsed-time',
@@ -51,9 +57,19 @@ export function classifyBaseline(document: VettingDocument) {
         category: 'invalid' as const,
         reasons: ['Missing or nonliteral source citation; not established.'],
       };
+    if (titleClaims.has(c.id))
+      return {
+        candidateId: c.id,
+        category: 'qualified' as const,
+        reasons: [
+          'Source-specific title presentation associated with the same corroborated employment period. No canonical employer title or promotion is inferred; wording differences alone are not conflicts.',
+        ],
+      };
     for (const issue of issues.filter((q) => q.claimIds.includes(c.id)))
       reasons.push(issue.question);
-    for (const conflict of document.conflicts.filter((k) => c.conflictIds.includes(k.id)))
+    for (const conflict of document.conflicts.filter(
+      (k) => c.conflictIds.includes(k.id) && !nonConflicts.has(k.id),
+    ))
       if (!reasons.includes(conflict.explanation)) reasons.push(conflict.explanation);
     if (c.extractionConfidence !== 'high') reasons.push('Uncertain extraction requires judgment.');
     if (reasons.length) return { candidateId: c.id, category: 'attention' as const, reasons };

@@ -40,6 +40,19 @@ for (const source of document.sources) {
   if (source.units.some((u) => !local.toString('utf8').includes(u.text)))
     throw Error('Unit mismatch');
 }
+if (
+  db
+    .prepare(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='thingamajob_baseline_evaluations'",
+    )
+    .get() &&
+  db
+    .prepare(
+      'SELECT count(*) n FROM thingamajob_baseline_evaluations WHERE workspace_id=? AND run_id=?',
+    )
+    .get(run.workspace_id, run.run_id).n
+)
+  throw Error('Baseline already exists; use append-only reassessment tooling.');
 const classified = classifyBaseline(document),
   w = quote(run.workspace_id),
   r = quote(run.run_id),

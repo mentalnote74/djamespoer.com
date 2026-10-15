@@ -11,6 +11,15 @@ export interface BaselineIssue {
 }
 export interface ExtractionRun {
   baseline?: {
+    titleHistory?: { issueId: string; question: string; reason: string; policyVersion: string }[];
+    rolePresentations?: {
+      candidateId: string;
+      roleKey: string;
+      sourceId: string;
+      presentedTitle: string;
+      canonicalTitle: null;
+      associationBasis: string;
+    }[];
     evaluations: {
       candidateId: string;
       category: string;
@@ -174,9 +183,13 @@ export class ExtractionRunPanel {
       count: this.run()?.proposals.filter((p) => p.reviewDisposition === state).length ?? 0,
     })),
   );
-  readonly linkedQuestions = computed(
-    () =>
-      this.run()?.document.questions.filter((q) => q.claimIds.includes(this.selectedId())) ?? [],
+  readonly linkedQuestions = computed(() =>
+    (this.run()?.baseline?.issues ?? this.run()?.document.questions ?? []).filter((q) =>
+      q.claimIds.includes(this.selectedId()),
+    ),
+  );
+  readonly titlePresentation = computed(() =>
+    this.run()?.baseline?.rolePresentations?.find((t) => t.candidateId === this.selectedId()),
   );
   async select(id: string, focus = true) {
     if (this.busy()) return;

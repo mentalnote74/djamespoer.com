@@ -48,3 +48,26 @@ Both read and resolution endpoints use the existing verified human identity,
 owner/workspace authorization and same-origin mutation protection. Request actor,
 role and workspace fields grant no authority. LIVE has no extraction-run route.
 No R2 object is modified by the baseline job.
+
+## Source-specific title presentations
+
+Title wording alone is not a contradiction or evidence of promotion. Canonical
+employer titles, source-presented titles and substantive employment conflicts
+are distinct. Association requires employer context, compatible date precision
+and corroborating responsibilities/technology; explicit separate roles or
+material responsibility/seniority evidence still require judgment.
+
+`title-presentations.sql` appends immutable evaluation/issue reassessments and
+source-specific role presentations. Current views select the latest assessment.
+Original candidate text, original flags/questions, citations and any owner
+answers remain untouched. Informational title questions cannot be submitted as
+current conflicts. They remain available under title presentation history.
+Canonical titles stay unset unless separately established; this policy does not
+promote a source headline into a canonical employer fact.
+
+The pinned TEST reassessment tool is
+`scripts/thingamajob-title-reassessment.mjs`. It verifies the exact approved run
+and source hashes, records rollout authorization, and appends four title
+presentations and two nonblocking question assessments. It makes no model calls.
+The original extraction instructions are corrected for future calls; the
+accepted extraction package is not regenerated or edited.
