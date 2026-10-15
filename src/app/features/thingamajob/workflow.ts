@@ -1,3 +1,4 @@
+import { ExtractionRunPanel } from './extraction-run';
 import { UtcTimestamp } from './utc-timestamp';
 import {
   Component,
@@ -17,7 +18,7 @@ import { PORTFOLIO_WORKFLOW, WORKFLOW_API } from './portfolio-workflow';
 
 @Component({
   selector: 'app-thingamajob-workflow',
-  imports: [UtcTimestamp, NgTemplateOutlet],
+  imports: [UtcTimestamp, NgTemplateOutlet, ExtractionRunPanel],
   templateUrl: './workflow.html',
   styleUrl: './workflow.scss',
 })

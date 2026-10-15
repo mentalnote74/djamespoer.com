@@ -1,0 +1,80 @@
+<section aria-labelledby="extraction-heading">
+  <h2 id="extraction-heading">Client #1 candidate review</h2>
+  <p>
+    Run: 1f96a7ab-1567-4678-bcef-15b840439cc7. These are candidate claims, not active Library of
+    Truth facts.
+  </p>
+  <p role="status">{{ message() }}</p>
+  <button type="button" [disabled]="busy()" (click)="load()">Load candidate run</button>
+  <details>
+    <summary>Import authorized Client #1 package</summary>
+    <p>
+      Select manifest.json, import-template.json and the three source TXT files from the prepared
+      private package. Only your authenticated workspace can receive them. Continuing an interrupted
+      import preserves existing decisions.
+    </p>
+    <label
+      >Private package files
+      <input
+        #packageFiles
+        type="file"
+        multiple
+        accept=".json,.txt"
+        [disabled]="busy()"
+        (change)="choose(packageFiles)"
+    /></label>
+    <button type="button" [disabled]="busy()" (click)="import()">
+      Import / continue pending candidates
+    </button>
+  </details>
+  @if (run(); as r) {
+    <p>{{ r.proposals.length }} candidate proposals linked; run status: {{ r.state }}.</p>
+    <h3>Questions for you</h3>
+    <p>These questions remain unanswered. They do not create or approve career facts.</p>
+    <ol>
+      @for (q of r.document.questions; track $index) {
+        <li>
+          {{ q.question }} <small>Related candidates: {{ q.claimIds.join(', ') }}</small>
+        </li>
+      }
+    </ol>
+    <h3>Conflicts</h3>
+    @for (c of r.document.conflicts; track c.id) {
+      <p>{{ c.explanation }} ({{ c.claimIds.join(', ') }})</p>
+    } @empty {
+      <p>No explicit conflicts recorded in this extraction.</p>
+    }
+    <h3>Candidate claims</h3>
+    <ol>
+      @for (c of r.document.claims; track c.id) {
+        <li>
+          <p>{{ c.text }}</p>
+          <p>
+            Source: {{ c.sourceKey }}. {{ c.sourceReference.locator }}. Captured:
+            {{ c.sourceReference.capturedAt }}. Extraction confidence: {{ c.extractionConfidence }}.
+          </p>
+          @for (citation of c.citations; track $index) {
+            <blockquote>{{ citation.quote }}</blockquote>
+            <p>Location: {{ citation.locationKey }}</p>
+          }
+          @for (u of c.uncertainties; track $index) {
+            <p>Qualification / uncertainty: {{ u }}</p>
+          }
+          @if (c.conflictIds.length) {
+            <p>Conflict references: {{ c.conflictIds.join(', ') }}</p>
+          }
+          @if (proposal(c.id); as p) {
+            <p>Decision: {{ p.reviewDisposition }}</p>
+            <button type="button" [disabled]="busy()" (click)="reviewProposal.emit(p.proposalId)">
+              Review this claim
+            </button>
+          }
+        </li>
+      }
+    </ol>
+    <p>
+      Use the existing claim review below to Accept, Correct or Reject. Reload this run after
+      decisions to update its status.
+    </p>
+  }
+</section>

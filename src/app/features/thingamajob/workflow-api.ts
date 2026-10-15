@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import type { ExtractionRun } from './extraction-run';
 import type { Workflow, Proposal, UnknownDetail, Claim } from './workflow.models';
 
 @Injectable()
@@ -21,6 +22,14 @@ export class WorkflowApi {
     if (this.workspaceId !== next) this.retries.clear();
     this.workspaceId = next;
     return result;
+  }
+  extractionRun(runId: string) {
+    return firstValueFrom(
+      this.http.get<ExtractionRun>(this.root() + '/extraction-runs/' + this.identifier(runId)),
+    );
+  }
+  stageExtractionRun(runId: string, document: object) {
+    return this.post<ExtractionRun>('/extraction-runs/' + this.identifier(runId), document);
   }
   clear() {
     this.workspaceId = undefined;
@@ -139,7 +148,7 @@ export class WorkflowApi {
       { statement, proposerAttribution, expectedVersion: unknown.version },
     );
   }
-  async upload(file: File, attribution: string, sourceLocator: string) {
+  async upload(file: File, attribution: string, sourceLocator: string, importKey?: string) {
     if (file.size > 10_000_000 || !file.size)
       throw new Error('Select a supported file of up to 10 MB');
     const hash = Array.from(
@@ -155,7 +164,7 @@ export class WorkflowApi {
       }),
       path = '/evidence',
       prior = this.retries.get(path);
-    const key = prior?.body === serialized ? prior.key : crypto.randomUUID();
+    const key = importKey ?? (prior?.body === serialized ? prior.key : crypto.randomUUID());
     this.retries.set(path, { body: serialized, key });
     const form = new FormData();
     form.set('file', file);

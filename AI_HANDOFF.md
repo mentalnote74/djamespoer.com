@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Protected Client #1 run review TEST rollout (2026-10-15)
+
+Extends c433db7 staging with an existing-workflow run panel: owner-session package import/continuation, immutable package/source hashes, deterministic source upload keys, run-scoped citations/qualifications/conflicts and four unanswered owner questions. Review selects the existing Accept/Correct/Reject controls; no automatic approval or benchmark/evaluation/model work. Focused Angular 21/21, staging integration 3/3, strict server TypeScript and protected build/budgets passed. TEST rollout authorized; real import requires James Access session (no browser session available to agent). Public cleanup remains parked at 69a97c5 in its isolated release worktree. Pre-rollout private snapshot hashes cover all 22 existing TEST tables. Preserve unrelated local files.
+
 ## Pending extraction staging implemented locally (2026-10-15)
 
 New TEST-only owner-authenticated extraction-runs GET/POST plus additive run/candidate linkage schema reuse existing proposal service. Five candidates per continuation, stable keys, full run metadata/questions/citations retained, no auto truth. Local fictional 65/65 staging/isolation and existing-truth preservation pass; staging 3/3 plus assertions 13/13 and strict server TS pass. Real run 1f96a7ab-1567-4678-bcef-15b840439cc7 has a private prepared package, all 65 candidates/four questions retained, but ZERO actual TEST proposals staged: new route/schema are undeployed and no fixture identity substituted for James. Details/package hash: server/thingamajob/extraction-staging.md. Actual staging needs separately authorized TEST rollout plus real owner-session source binding/import. Review UI untouched; no deployment, models, benchmark access or remote data changes.

@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  color: var(--text-primary, inherit);
+}
+section {
+  border-block-start: 1px solid var(--control-border, currentColor);
+  margin-block: 2rem;
+  padding-block-start: 1rem;
+}
+li {
+  margin-block: 1.5rem;
+}
+blockquote {
+  margin-inline: 1rem;
+  border-inline-start: 2px solid var(--control-border, currentColor);
+  padding-inline-start: 1rem;
+  white-space: pre-wrap;
+}
+button,
+input,
+summary {
+  font: inherit;
+  max-inline-size: 100%;
+}
+button {
+  color: var(--control-text, inherit);
+  background: var(--control-background, transparent);
+  border: 1px solid var(--control-border, currentColor);
+  padding: 0.5rem;
+}
+:focus-visible {
+  outline: 3px solid var(--focus-outer, currentColor);
+  outline-offset: 3px;
+}
+small {
+  display: block;
+}
