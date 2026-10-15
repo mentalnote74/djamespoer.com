@@ -12,7 +12,7 @@
 .product-introduction h1 {
   margin-block-start: 0;
 }
-.product-introduction p {
+.product-introduction .product-lead {
   max-inline-size: 65ch;
   font-size: clamp(1.125rem, 2vw, 1.5rem);
 }
@@ -39,5 +39,41 @@
 @media (min-width: 70rem) {
   .product-columns {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+}
+
+.result-heading {
+  font-size: 1rem;
+  margin-block: 1rem 0.5rem;
+}
+.result-key {
+  display: grid;
+  gap: 0.75rem 1.5rem;
+  margin-block: 0 1rem;
+}
+.result-key dt {
+  font-weight: 700;
+}
+.result-key dd {
+  margin: 0;
+}
+.implementation-boundary {
+  padding-block: 0.75rem;
+  border-block: 1px solid var(--panel-border, currentColor);
+}
+.product-sequence {
+  padding-inline-start: 1.5rem;
+}
+.product-sequence li + li {
+  margin-block-start: 0.75rem;
+}
+@media (min-width: 40rem) {
+  .result-key {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 70rem) {
+  .result-key {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

@@ -19,6 +19,40 @@ async function start() {
   return { harness, widget, root: harness.routeNativeElement! };
 }
 describe('Thingamajob case study and real workflow component', () => {
+  it('explains the intended evaluation sequence and separates demo, protected capabilities and unwired direction', async () => {
+    const { root } = await start();
+    const overview = root.querySelector('.product-introduction')!;
+    expect(overview.textContent).toContain('Which job requirements');
+    expect(overview.textContent).toContain('owner-approved');
+    expect(overview.textContent).toContain('fictional demo only');
+    expect(overview.textContent).toContain('Not yet connected:');
+    expect(Array.from(overview.querySelectorAll('dt'), (e) => e.textContent)).toEqual([
+      'Proven',
+      'Supported',
+      'Confirmation Needed',
+      'Gap',
+    ]);
+    const stages = Array.from(
+      root.querySelectorAll('.product-sequence li strong'),
+      (e) => e.textContent,
+    );
+    expect(stages).toEqual([
+      'Ingest evidence.',
+      'Extract and normalize claims.',
+      'Owner verifies or corrects.',
+      'Build the active Library of Truth.',
+      'Extract JD requirements.',
+      'Search the evidence.',
+      'Classify each requirement.',
+      'Draft source-backed application output.',
+    ]);
+    const widget = root.querySelector('app-thingamajob-workflow')!;
+    expect(widget.textContent).toContain('not the Thingamajob evaluator');
+    expect(widget.textContent).not.toMatch(/Evaluate a Job Description|Proven|Confirmation Needed/);
+    expect(root.textContent).toContain('not wired into that owner workflow');
+    expect(root.querySelector('a[href*="api"], iframe')).toBeNull();
+    TestBed.inject(HttpTestingController).expectNone(() => true);
+  });
   it('compares job text with fictional evidence without inventing fit or approving a claim', async () => {
     const { widget, harness, root } = await start();
     const form = root.querySelector<HTMLFormElement>('app-thingamajob-workflow form')!;
@@ -27,7 +61,9 @@ describe('Thingamajob case study and real workflow component', () => {
     expect(widget.jobComparison()?.matched).toEqual(['Accessibility', 'Workshops', 'Facilitation']);
     expect(widget.claims()).toHaveLength(0);
     expect(widget.proposal()?.reviewDisposition).toBe('proposed');
-    expect(root.querySelector('#job-task-heading')?.textContent).toBe('Evaluate a Job Description');
+    expect(root.querySelector('#job-task-heading')?.textContent).toBe(
+      'Before: phrase-overlap demo',
+    );
     expect(root.textContent).toContain('not a fit score');
     widget.jobDescription.set('SQL database administration');
     harness.detectChanges();

@@ -1,74 +1,137 @@
 <div class="product-page">
   <header class="product-introduction">
     <h1>Thingamajob</h1>
-    <p>An owner-controlled career platform built from source-backed evidence.</p>
+    <p class="product-lead">Which job requirements can your career evidence actually support?</p>
+    <p>
+      Product goal: extract JD requirements, search source-backed, owner-approved claims, classify
+      the evidence and draft application material with sources.
+    </p>
+    <h2 class="result-heading">Intended evaluation results</h2>
+    <dl class="result-key">
+      <div>
+        <dt>Proven</dt>
+        <dd>Direct evidence meets this requirement.</dd>
+      </div>
+      <div>
+        <dt>Supported</dt>
+        <dd>Partial or indirect supporting evidence.</dd>
+      </div>
+      <div>
+        <dt>Confirmation Needed</dt>
+        <dd>Owner confirmation or a source is missing.</dd>
+      </div>
+      <div>
+        <dt>Gap</dt>
+        <dd>No supporting evidence found; do not claim it.</dd>
+      </div>
+    </dl>
+    <p class="implementation-boundary">
+      <strong>Public:</strong> fictional demo only. <strong>Protected today:</strong> evidence and
+      owner review. <strong>Not yet connected:</strong> JD evaluation or application output.
+    </p>
   </header>
   <div class="product-columns">
     <section class="product-workspace" aria-labelledby="job-task-heading">
       <app-thingamajob-workflow />
     </section>
     <article class="case-study" aria-labelledby="case-study-heading">
-      <h2 id="case-study-heading">The case study</h2>
+      <h2 id="case-study-heading">From career documents to a job decision</h2>
       <section>
         <h3>The problem</h3>
         <p>
-          Career evidence is scattered across résumés, profiles, documents and memory. Unsupported
-          wording can sound convincing without being accurate.
+          A job asks for a capability; a resume contains a similar phrase. That overlap does not
+          establish what the person did, how much responsibility they held, or whether they meet the
+          requirement. A polished application can conceal those differences.
         </p>
       </section>
       <section>
-        <h3>The idea</h3>
+        <h3>The intended product sequence</h3>
+        <ol class="product-sequence">
+          <li><strong>Ingest evidence.</strong> Keep source documents and their provenance.</li>
+          <li>
+            <strong>Extract and normalize claims.</strong> Propose specific statements with source
+            references, without broadening their meaning.
+          </li>
+          <li>
+            <strong>Owner verifies or corrects.</strong> Accept accurate wording, correct
+            overstatements, or reject unsupported suggestions.
+          </li>
+          <li>
+            <strong>Build the active Library of Truth.</strong> Use current approved claims; retain
+            superseded claims in history.
+          </li>
+          <li>
+            <strong>Extract JD requirements.</strong> Separate the job's individual requirements
+            instead of treating the description as a bag of keywords.
+          </li>
+          <li>
+            <strong>Search the evidence.</strong> Find relevant approved claims and inspect the
+            sources behind them.
+          </li>
+          <li>
+            <strong>Classify each requirement.</strong> Return Proven, Supported, Confirmation
+            Needed or Gap, with the evidence and limits behind that decision.
+          </li>
+          <li>
+            <strong>Draft source-backed application output.</strong> Use supported wording, preserve
+            source links and leave unresolved qualifications explicit.
+          </li>
+        </ol>
         <p>
-          Build a reusable foundation that connects source material, suggested statements, human
-          decisions and open questions.
+          This is the intended end-to-end sequence, not a claim that the full evaluator is running
+          here. A Gap describes the evidence available, not proof that a person lacks a skill.
         </p>
       </section>
       <section>
-        <h3>How it works</h3>
+        <h3>What the public demo actually does</h3>
         <p>
-          Collect evidence, identify facts and questions, let the owner review wording, then reuse
-          the supported statements. The local walkthrough highlights job-text overlap with fictional
-          evidence; it does not assess overall suitability.
+          The earlier phrase-overlap demo on the left compares three fixed topics with fictional
+          text. It also reuses the real review controller for choosing, correcting or rejecting
+          sample wording and inspecting its history. Everything resets with this tab.
+        </p>
+        <p>
+          It does not extract JD requirements, search a private Library of Truth, classify
+          requirements, generate an application or call an AI service. Its matches are not
+          qualification results. It illustrates why phrase matching is insufficient.
         </p>
       </section>
       <section>
-        <h3>Human + AI operating model</h3>
+        <h3>What the protected product supports today</h3>
         <p>
-          Automation can suggest; the owner decides. An answer does not automatically resolve a
-          question, and a suggestion does not become an approved fact. This walkthrough makes no AI
-          calls.
+          The owner workflow supports private evidence intake, attributed source-linked proposals,
+          explicit Accept / Correct / Reject decisions, active reviewed claims, correction history
+          and explicit resolution of open questions. Review approval alone does not determine
+          evidence strength or a job-requirement result.
+        </p>
+        <p>
+          Automatic claim extraction and normalization, JD requirement extraction, evidence search,
+          the four result states and application generation are not wired into that owner workflow.
+          They remain product direction. No protected evaluator entry is available from this page.
         </p>
       </section>
       <section>
-        <h3>Independent clients</h3>
+        <h3>AI proposes; evidence and owner approval determine truth</h3>
         <p>
-          James is Client #1, the first live prototype. Erica is Client #2, the second independent
-          live prototype. The shared platform keeps their evidence and workspaces separate; neither
-          person's records are used here.
+          In the intended evaluator, AI proposes claim wording, possible matches and drafts. Sources
+          must support the wording, and the owner must explicitly approve or correct a claim before
+          it enters the active Library of Truth. Rejecting a suggestion creates no approved claim. A
+          later approved correction preserves the earlier acceptance in history.
+        </p>
+        <p>
+          A plausible AI answer cannot approve itself, resolve an open question automatically, or
+          turn weak evidence into a Proven requirement. The system must ask for confirmation or show
+          the gap instead of filling it with persuasive copy.
         </p>
       </section>
       <section>
-        <h3>Prototype and evolution</h3>
+        <h3>Independent workspaces, shared product</h3>
         <p>
-          The protected prototype supports evidence, review, explicit question resolution and
-          history-preserving correction. The public surface reuses its review component with
-          fictional, tab-local data. Full opportunity evaluation and application generation remain
-          product direction.
+          James is Client #1; Erica is Client #2. Their workspaces and career evidence remain
+          separate. Neither person's private records appear in this public demo.
         </p>
-      </section>
-      <section>
-        <h3>Design, accessibility and engineering</h3>
         <p>
-          Angular owns presentation state behind a service boundary. The protected server owns
-          identity and authority. Native controls, keyboard focus, responsive layout and escaped
-          text support accessible review without exposing private APIs.
-        </p>
-      </section>
-      <section>
-        <h3>Relationship to Daily Job Dredge</h3>
-        <p>
-          Daily Job Dredge is a separate opportunity-finding workflow. It can inform evidence-based
-          evaluation and learn from outcomes; no live integration is connected in this walkthrough.
+          Daily Job Dredge is a separate opportunity-finding workflow, not another name for
+          Thingamajob. No Dredge integration is connected here.
         </p>
       </section>
     </article>

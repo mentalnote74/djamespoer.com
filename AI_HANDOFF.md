@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## Public Thingamajob demo/evaluator boundary clarified (2026-10-15)
+
+Local branch test/thingamajob-public-evaluator-boundary. Public case study and homepage sample now say Before: phrase-overlap demo; the textarea/button/result explicitly describe fictional phrase comparison, not a real evaluator. First-screen overview explains the user problem, source-backed owner-approved truth, intended Proven/Supported/Confirmation Needed/Gap meanings, and public/protected/planned boundaries. Right column follows all eight intended evidence-to-application stages, with concrete owner/AI behaviors and accurate current capability limits. Existing split, real sample review controller and private-data isolation retained.
+
+Seam inspected: public parent provides PORTFOLIO_WORKFLOW via PortfolioReview; only the protected bootstrap provides WORKFLOW_API via WorkflowApi. That client exposes evidence/proposal/review/claim/question/history operations, not a JD evaluator. Clean next integration is a separate lazy evaluator view within the protected bootstrap, backed by an authenticated server-scoped evaluation API. Do not swap the public adapter for a private API or expose protected workspace links here. No live AI, classification engine or application-output connection is claimed or added.
+
+Validation: focused Angular 10/10, full 268/268, public/protected builds and budgets, formatting/whitespace, 39 rendered axe audits zero violations; keyboard/review/history/reset/skip links, 320/390/768/1440px and 200% text/zoom passed with no private API calls. Overview fits the first 844px-high screen at desktop, 390px and 320px. Screenshots/reports: output/thingamajob-seam/. Review http://127.0.0.1:4406/thingamajob. Prior mobile Lighthouse 100 gate remains open and was not re-benchmarked in this copy/UI pass. No deployment, push, backend/data, Erica, Access/OTP/email or main changes; unrelated edits preserved. Stop for seam acceptance.
+
+
 ## Thingamajob homepage/navigation and SCRUM-40 recovery checkpoint (2026-10-15)
 
 Local branch test/thingamajob-home-history-finalization; no push or deployment. The homepage now mounts the same fictional, tab-local workflow/controller as /thingamajob; shared adapter moved into the feature. Case Studies exposes only /work/djamespoer, /thingamajob and the four existing employer case-study routes. Work retains the employer lens. Creative's redundant heading is removed with its slide label/artwork/controls preserved. Narrow carousel grid tracks no longer force horizontal page overflow. Accepted product-left/case-study-right layout and copy are unchanged.

@@ -1,13 +1,14 @@
 @if (portfolio) {
   <div class="portfolio-review">
-    <h2 id="job-task-heading">Evaluate a Job Description</h2>
+    <h2 id="job-task-heading">Before: phrase-overlap demo</h2>
     <p id="local-demo-note">
-      Fictional, tab-local walkthrough. Compare job text with sample career evidence; no private
-      records, uploads or AI service are connected.
+      Public demo only, not the Thingamajob evaluator. A phrase match does not establish a
+      qualification. This fictional sample stays in this tab; no private records, uploads or AI
+      service are connected.
     </p>
     <form #jobForm (submit)="compareJobDescription($event, jobForm)">
       <label
-        >Fictional job description<textarea
+        >Fictional sample text<textarea
           #jobInput
           name="jobDescription"
           maxlength="4000"
@@ -17,16 +18,16 @@
           (input)="jobDescription.set(jobInput.value); jobComparison.set(null)"
         ></textarea>
       </label>
-      <button type="submit">Compare with sample evidence</button>
+      <button type="submit">Compare sample phrases</button>
     </form>
     <h3>Career evidence</h3>
     <p>{{ portfolio.sourceText }}</p>
     @if (jobComparison(); as comparison) {
       <div class="notice" role="status">
-        <h3>Text comparison</h3>
+        <h3>Demo phrase overlap</h3>
         <p>
           This highlights phrase overlap only. It is not a fit score, proof of qualification or a
-          complete assessment of the job.
+          requirement classification or complete assessment of the job.
         </p>
         @if (comparison.matched.length) {
           <p>Sample evidence overlaps with:</p>

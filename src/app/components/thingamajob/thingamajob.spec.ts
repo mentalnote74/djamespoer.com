@@ -26,7 +26,7 @@ describe('Homepage Thingamajob workflow', () => {
     fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
     expect(root.querySelector('aside')?.getAttribute('aria-label')).toBe('Thingamajob');
-    expect(root.querySelector('h2')?.textContent).toBe('Evaluate a Job Description');
+    expect(root.querySelector('h2')?.textContent).toBe('Before: phrase-overlap demo');
     expect(root.querySelector('a')?.textContent).toBe('View Thingamajob Case Study');
     expect(root.querySelector('a')?.getAttribute('href')).toBe('/thingamajob');
     widget.compareJobDescription(new Event('submit'), root.querySelector('form')!);
