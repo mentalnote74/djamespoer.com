@@ -11,6 +11,14 @@ export interface BaselineIssue {
 }
 export interface ExtractionRun {
   baseline?: {
+    sourceContexts?: {
+      candidateId: string;
+      kind: string;
+      display: string;
+      documentDate: string | null;
+      dateBasis: string;
+      ownerAnswer?: { answer: string } | null;
+    }[];
     titleHistory?: { issueId: string; question: string; reason: string; policyVersion: string }[];
     rolePresentations?: {
       candidateId: string;
@@ -187,6 +195,9 @@ export class ExtractionRunPanel {
     (this.run()?.baseline?.issues ?? this.run()?.document.questions ?? []).filter((q) =>
       q.claimIds.includes(this.selectedId()),
     ),
+  );
+  readonly sourceContext = computed(() =>
+    this.run()?.baseline?.sourceContexts?.find((c) => c.candidateId === this.selectedId()),
   );
   readonly titlePresentation = computed(() =>
     this.run()?.baseline?.rolePresentations?.find((t) => t.candidateId === this.selectedId()),

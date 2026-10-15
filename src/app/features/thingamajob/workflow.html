@@ -207,7 +207,14 @@
           claim.
         </p>
         @if (p.claim; as claim) {
-          <p>Active reviewed claim ({{ claim.reviewDisposition }}): {{ claim.statement }}</p>
+          <p>
+            {{
+              p.baseline?.canonicalUsage === 'source_presentation'
+                ? 'Historical source statement; excluded from canonical LoT'
+                : 'Active reviewed claim'
+            }}
+            ({{ claim.reviewDisposition }}): {{ claim.statement }}
+          </p>
           <p>Claim ID: {{ claim.claimId }}</p>
           <details>
             <summary>Propose a correction to this approved claim</summary>

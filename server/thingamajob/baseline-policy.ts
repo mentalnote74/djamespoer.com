@@ -1,8 +1,9 @@
+import { approvedSourceContexts } from './context-policy.ts';
 import { approvedTitleGroups } from './title-policy.ts';
 // Bounded first-proof policy. Never treats model confidence or a citation match alone as entailment.
 // The input digest pins this policy to the independently inspected candidate/source package;
 // new extraction outputs require their own source vetting, not automatic reuse of this approval.
-export const POLICY_VERSION = 'client-one-source-vetting-v2';
+export const POLICY_VERSION = 'client-one-source-vetting-v3';
 export const APPROVED_TEMPLATE = '76528b67452512eebf4b63830eab7ecef5f45086c8f3bd19473c68cb2bfde0cd';
 export interface VettingDocument {
   extractionRunId: string;
@@ -25,6 +26,7 @@ export interface VettingDocument {
   }[];
 }
 export function classifyBaseline(document: VettingDocument) {
+  const contexts = approvedSourceContexts(document.extractionRunId);
   const titleGroups = approvedTitleGroups(document.extractionRunId);
   const titleClaims = new Set<string>(titleGroups.flatMap((g) => [...g.claimIds]));
   const nonConflicts = new Set<string>(titleGroups.flatMap((g) => [...g.conflicts]));
@@ -34,8 +36,14 @@ export function classifyBaseline(document: VettingDocument) {
       question: q.question,
       claimIds: q.claimIds,
     }))
-    .filter((q) => !titleGroups.some((g) => g.issueId === q.id));
-  if (document.claims.some((c) => c.id === 'resume-042'))
+    .filter(
+      (q) =>
+        !titleGroups.some((g) => g.issueId === q.id) && !contexts.some((c) => c.issueId === q.id),
+    );
+  if (
+    document.claims.some((c) => c.id === 'resume-042') &&
+    !contexts.some((c) => c.issueId === 'elapsed-time')
+  )
     issues.push({
       id: 'elapsed-time',
       question:
@@ -56,6 +64,13 @@ export function classifyBaseline(document: VettingDocument) {
         candidateId: c.id,
         category: 'invalid' as const,
         reasons: ['Missing or nonliteral source citation; not established.'],
+      };
+    const context = contexts.find((s) => s.candidateId === c.id);
+    if (context)
+      return {
+        candidateId: c.id,
+        category: context.category as 'baseline' | 'qualified',
+        reasons: [context.reason],
       };
     if (titleClaims.has(c.id))
       return {

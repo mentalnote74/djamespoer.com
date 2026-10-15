@@ -224,8 +224,45 @@ describe('bounded owner extraction review', () => {
     expect(c.linkedQuestions()).toHaveLength(0);
     expect(root.textContent).toContain('Source-presented title: Fictional tailored title');
     expect(root.textContent).toContain('Canonical employer title has not been selected');
-    expect(root.textContent).toContain('Title presentation history (informational)');
+    expect(root.textContent).toContain('Presentation and context history (informational)');
     expect(root.querySelector('article')?.textContent).not.toContain('Conflict:');
     expect(api.review).not.toHaveBeenCalled();
+  });
+  it('shows no review obligation for source-date summaries and preserves existing owner clarification', async () => {
+    const { fixture, run } = setup();
+    run.baseline = {
+      evaluations: run.document.claims.map((c) => ({
+        candidateId: c.id,
+        category: 'qualified',
+        reasons: ['Source context retained'],
+        policyVersion: 'fictional-v3',
+        recordedAt: 3,
+      })),
+      issues: [],
+      sourceContexts: [
+        {
+          candidateId: 'a',
+          kind: 'duration_summary',
+          display: 'Historical summary only; not canonical duration',
+          documentDate: null,
+          dateBasis: 'Date unknown; capture time is separate',
+          ownerAnswer: { answer: 'Accurate at that time' },
+        },
+      ],
+    };
+    const c = fixture.componentInstance;
+    await c.load();
+    fixture.detectChanges();
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain(
+      'No questions currently require your attention',
+    );
+    c.category.set('qualified');
+    c.pendingOnly.set(false);
+    await c.filter();
+    fixture.detectChanges();
+    const text = (fixture.nativeElement as HTMLElement).textContent;
+    expect(text).toContain('Accurate at that time');
+    expect(text).toContain('Historical summary only');
+    expect(c.openIssues()).toHaveLength(0);
   });
 });

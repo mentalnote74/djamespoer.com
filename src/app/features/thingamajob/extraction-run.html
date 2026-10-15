@@ -38,9 +38,21 @@
         Routine evidence-backed facts do not need individual approval. Qualifications are retained
         without interrupting you.
       </p>
-      <button type="button" [disabled]="busy()" (click)="chooseIssue(openIssues()[0]?.id ?? '')">
-        Review {{ openIssues().length }} items that need your attention
-      </button>
+      @if (openIssues().length) {
+        <button
+          type="button"
+          [disabled]="busy() || !openIssues().length"
+          (click)="chooseIssue(openIssues()[0]?.id ?? '')"
+        >
+          Review {{ openIssues().length }} items that need your attention
+        </button>
+      } @else {
+        <p>
+          No questions currently require your attention. Baseline facts and source qualifications
+          remain available for inspection.
+        </p>
+      }
+
       <label
         >Inspect claims
         <select
@@ -216,7 +228,7 @@
     }
     @if (r.baseline?.titleHistory?.length) {
       <details>
-        <summary>Title presentation history (informational)</summary>
+        <summary>Presentation and context history (informational)</summary>
         <p>
           Original extraction questions are preserved below as history, not current requests for
           your attention.
@@ -237,6 +249,15 @@
           Source: {{ c.sourceKey }}. {{ c.sourceReference.locator }}. Extraction confidence:
           {{ c.extractionConfidence }}.
         </p>
+        @if (sourceContext(); as context) {
+          <p>Source context: {{ context.display }}</p>
+          @if (context.ownerAnswer; as confirmation) {
+            <p>Existing owner clarification (preserved): {{ confirmation.answer }}</p>
+          }
+          <p>
+            Document date: {{ context.documentDate ?? 'Not established' }}. {{ context.dateBasis }}
+          </p>
+        }
         @if (titlePresentation(); as t) {
           <p>
             Source-presented title: {{ t.presentedTitle }}. Associated role: {{ t.roleKey }}.

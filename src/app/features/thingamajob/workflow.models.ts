@@ -12,6 +12,7 @@ export interface Claim {
 }
 export interface Proposal {
   baseline?: {
+    canonicalUsage?: string;
     runId: string;
     candidateId: string;
     category: string;

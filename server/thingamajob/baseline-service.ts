@@ -10,6 +10,23 @@ async function titlePolicyAvailable(database: IdentityDatabase) {
     )
     .first());
 }
+async function sourceContexts(database: IdentityDatabase, scope: WorkspaceAccess, runId: string) {
+  if (
+    !(await database
+      .prepare(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='thingamajob_source_contexts'",
+      )
+      .first())
+  )
+    return [];
+  const row = await database
+    .prepare(
+      "SELECT json_group_array(json_object('candidateId',s.candidate_id,'sourceId',s.source_id,'kind',s.kind,'display',s.display_text,'citations',json(s.citation_json),'documentDate',s.document_date,'dateBasis',s.date_basis,'policyVersion',s.policy_version,'ownerAnswer',json(a.response_json))) items FROM thingamajob_source_contexts s LEFT JOIN thingamajob_baseline_answers a ON a.workspace_id=s.workspace_id AND a.run_id=s.run_id AND a.issue_id=s.issue_id WHERE s.workspace_id=? AND s.run_id=?",
+    )
+    .bind(scope.workspaceId, runId)
+    .first<{ items: string }>();
+  return JSON.parse(row?.items ?? '[]') as unknown[];
+}
 export async function baselineAvailable(database: IdentityDatabase) {
   return !!(await database
     .prepare(
@@ -41,6 +58,7 @@ export async function baselineSummary(
   await recheckWorkspace(scope);
   const result = {
     evaluations: JSON.parse(row?.evaluations ?? '[]') as unknown,
+    sourceContexts: await sourceContexts(database, scope, runId),
     issues: JSON.parse(row?.issues ?? '[]') as unknown,
     ...(titles
       ? {
@@ -90,11 +108,15 @@ export async function baselineForProposal(
       disposition: string;
     }>();
   if (!row) return undefined;
+  const context = (
+    (await sourceContexts(database, scope, row.run_id)) as { candidateId: string; kind: string }[]
+  ).find((c) => c.candidateId === row.candidate_id);
   await recheckWorkspace(scope);
   return {
     runId: row.run_id,
     candidateId: row.candidate_id,
     category: row.category,
+    canonicalUsage: context?.kind === 'duration_summary' ? 'source_presentation' : 'career_fact',
     policyVersion: row.policy_version,
     recordedAt: row.recorded_at,
     reasons: JSON.parse(row.reasons_json) as unknown,

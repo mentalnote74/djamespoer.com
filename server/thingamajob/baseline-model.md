@@ -71,3 +71,30 @@ and source hashes, records rollout authorization, and appends four title
 presentations and two nonblocking question assessments. It makes no model calls.
 The original extraction instructions are corrected for future calls; the
 accepted extraction package is not regenerated or edited.
+
+## Source-date-dependent summaries and deterministic context
+
+Career-duration marketing summaries are source-specific presentation metadata,
+not canonical employment-duration facts. Preserve their wording and authored
+date only where the source establishes one. Do not substitute a capture timestamp
+or a filename hint for that date. Differing summary numbers alone never create
+a conflict. Actual chronological contradictions and dates required for a current
+substantive task can still require owner judgment.
+
+The focused v3 reassessment appends source context plus evaluation/issue policy
+revisions. The historical resume-date question becomes informational: undated
+Present/work-in-progress remains historical, with unknown endpoints preserved.
+Education listings that assert no award date can stand without assigning the
+ambiguous adjacent date. A six-week build allowance is retained without treating
+it as a measured elapsed duration. The system does not ask the owner to repair
+that avoidable strengthening inference.
+
+Original questions, candidate text, qualifications, citations and all prior
+policy/owner history stay immutable. `thingamajob_source_contexts` records the
+source-specific interpretation and explicitly unknown authored dates. Current
+views select the append-only reassessments; they do not manufacture answers.
+The first proof has zero human-required questions after these context rules.
+Existing owner confirmations stay linked and take precedence over source-only
+uncertainty. Duration-summary acceptances remain historical source assertions,
+while the canonical LoT view excludes them as timeless duration facts. No new extraction
+or benchmark comparison is involved.
