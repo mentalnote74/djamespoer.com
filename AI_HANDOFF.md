@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## First real Client #1 extraction complete (2026-10-15)
+
+Run 1f96a7ab-1567-4678-bcef-15b840439cc7 used gpt-5.6-sol once on the redacted resume and curated IPS/TCC sections only: 65 pending candidates (47/6/12), 76 exact citations, 16 candidates with uncertainty, four owner questions. One possible title discrepancy and two non-contradictory context differences retained. No benchmark input/comparison or active-LoT writes. Usage 6477 input/6763 output; cache-write-adjusted estimate $0.167642, recorded separately without rewriting the original receipt. Four focused tests pass; nine claims sampled plus five uncertainty spots. Private hashes, usage and review assessment: server/thingamajob/client-one-first-extraction.md. Next requires authenticated run-scoped staging, shared review/citation adaptation, then authorized protected TEST checkpoint; none implemented yet. No deployment.
+
 ## Client #1 redacted resume ready (2026-10-15)
 
 Private final derivative redacted-87775f17-c0ae-48e1-93e8-ead4fe36b268/resume.redacted.txt links to baseline b3359519-cebd-4407-a432-e99b357d2716. Six contact/header paragraphs redacted; other 135 text paragraphs unchanged; eight career HTTP(S) targets retained. Originals/sealed manifests unchanged. Hash anchors and limitations: server/thingamajob/client-one-resume-redaction.md. Two focused deterministic tests passed. Earlier text-only draft retained privately but excluded. No API/model calls, extraction, benchmark access or deployment. Next extraction must use final redacted derivative plus curated selected sections, never original DOCX/full snapshots.
