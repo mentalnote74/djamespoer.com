@@ -2,7 +2,24 @@ import { Component, computed, ElementRef, inject, output, signal, viewChild } fr
 import { HttpErrorResponse } from '@angular/common/http';
 import type { Proposal } from './workflow.models';
 import { WorkflowApi } from './workflow-api';
+export interface BaselineIssue {
+  id: string;
+  question: string;
+  claimIds: string[];
+  answer: { answer: string } | null;
+  answeredAt?: number;
+}
 export interface ExtractionRun {
+  baseline?: {
+    evaluations: {
+      candidateId: string;
+      category: string;
+      reasons: string[];
+      policyVersion: string;
+      recordedAt: number;
+    }[];
+    issues: BaselineIssue[];
+  };
   runId: string;
   state: string;
   document: {
@@ -45,6 +62,81 @@ export class ExtractionRunPanel {
   readonly pendingOnly = signal(true);
   readonly source = signal('');
   readonly questionsOpen = signal(false);
+  readonly category = signal('attention');
+  readonly challenge = signal(false);
+  readonly issueId = signal('');
+  readonly issueAnswer = signal('');
+  readonly issueDecisions = signal<{ candidateId: string; statement: string; reject: boolean }[]>(
+    [],
+  );
+  readonly openIssues = computed(() => this.run()?.baseline?.issues.filter((i) => !i.answer) ?? []);
+  readonly selectedIssue = computed(() =>
+    this.run()?.baseline?.issues.find((i) => i.id === this.issueId()),
+  );
+  readonly classification = computed(() =>
+    this.run()?.baseline?.evaluations.find((e) => e.candidateId === this.selectedId()),
+  );
+  readonly classCounts = computed(() =>
+    ['baseline', 'attention', 'qualified', 'invalid'].map((category) => ({
+      category,
+      count:
+        this.run()?.baseline?.evaluations.filter(
+          (e) =>
+            e.category === category &&
+            (category !== 'baseline' ||
+              this.proposal(e.candidateId)?.reviewDisposition === 'proposed'),
+        ).length ?? 0,
+    })),
+  );
+  async chooseIssue(id: string) {
+    if (this.busy()) return;
+    this.issueId.set(id);
+    this.issueAnswer.set('');
+    const issue = this.run()?.baseline?.issues.find((i) => i.id === id);
+    this.issueDecisions.set(
+      (issue?.claimIds ?? []).map((candidateId) => ({
+        candidateId,
+        statement: this.run()?.document.claims.find((c) => c.id === candidateId)?.text ?? '',
+        reject: false,
+      })),
+    );
+    this.selectedId.set('');
+    this.detail.set(null);
+    this.questionsOpen.set(true);
+  }
+  editIssue(index: number, statement: string) {
+    this.issueDecisions.update((rows) =>
+      rows.map((row, i) => (i === index ? { ...row, statement } : row)),
+    );
+  }
+  rejectIssue(index: number, reject: boolean) {
+    this.issueDecisions.update((rows) =>
+      rows.map((row, i) => (i === index ? { ...row, reject } : row)),
+    );
+  }
+  claim(id: string) {
+    return this.run()?.document.claims.find((c) => c.id === id);
+  }
+  async saveIssue() {
+    if (this.busy() || !this.issueId() || !this.issueAnswer().trim()) return;
+    this.busy.set(true);
+    try {
+      await this.api.resolveBaselineIssue(RUN, {
+        issueId: this.issueId(),
+        answer: this.issueAnswer(),
+        decisions: this.issueDecisions(),
+      });
+      this.run.set(await this.api.extractionRun(RUN));
+      this.reviewed.emit();
+      this.message.set('Answer and explicit owner decisions saved. No unrelated claim changed.');
+      this.busy.set(false);
+      await this.chooseIssue(this.openIssues()[0]?.id ?? '');
+    } catch (error) {
+      this.failure(error);
+    } finally {
+      this.busy.set(false);
+    }
+  }
   readonly stay = signal(false);
   readonly correction = signal('');
   readonly detail = signal<Proposal | null>(null);
@@ -54,6 +146,11 @@ export class ExtractionRunPanel {
       this.run()?.document.claims.filter(
         (c) =>
           (!this.source() || c.sourceKey === this.source()) &&
+          (!this.run()?.baseline ||
+            !this.category() ||
+            this.run()?.baseline?.evaluations.some(
+              (e) => e.candidateId === c.id && e.category === this.category(),
+            )) &&
           (!this.pendingOnly() || this.proposal(c.id)?.reviewDisposition === 'proposed'),
       ) ?? [],
   );
@@ -61,7 +158,15 @@ export class ExtractionRunPanel {
     this.run()?.document.claims.find((c) => c.id === this.selectedId()),
   );
   readonly pending = computed(
-    () => this.run()?.proposals.filter((p) => p.reviewDisposition === 'proposed').length ?? 0,
+    () =>
+      this.run()?.proposals.filter(
+        (p) =>
+          p.reviewDisposition === 'proposed' &&
+          (!this.run()?.baseline ||
+            this.run()?.baseline?.evaluations.some(
+              (e) => e.candidateId === p.candidateId && e.category === 'attention',
+            )),
+      ).length ?? 0,
   );
   readonly decisions = computed(() =>
     ['accepted', 'corrected', 'rejected'].map((state) => ({
@@ -76,6 +181,8 @@ export class ExtractionRunPanel {
   async select(id: string, focus = true) {
     if (this.busy()) return;
     this.selectedId.set(id);
+    this.challenge.set(false);
+    this.questionsOpen.set(false);
     this.detail.set(null);
     this.correction.set('');
     const proposal = this.proposal(id);
@@ -129,7 +236,11 @@ export class ExtractionRunPanel {
         const next = ordered.find(
           (c) =>
             (!this.source() || c.sourceKey === this.source()) &&
-            this.proposal(c.id)?.reviewDisposition === 'proposed',
+            this.proposal(c.id)?.reviewDisposition === 'proposed' &&
+            (!run.baseline ||
+              run.baseline.evaluations.some(
+                (e) => e.candidateId === c.id && e.category === 'attention',
+              )),
         );
         if (next) await this.select(next.id);
         else this.message.set('Decision saved. No pending claims remain in this source/filter.');
@@ -155,7 +266,7 @@ export class ExtractionRunPanel {
         ? 'Access denied (403). This run is unavailable to this identity/workspace, or has not been imported.'
         : status === 409
           ? 'Conflict (409). No decision was retried. Reload the run before continuing.'
-          : 'The run could not be loaded/imported. No successful import is claimed. Selected files remain available; check the package and session before continuing.',
+          : 'The action could not be completed. Saved decisions remain recorded and your current draft is preserved. Check the session; continue an interrupted question with the same answer and wording.',
     );
   }
   async load() {
@@ -164,14 +275,17 @@ export class ExtractionRunPanel {
     try {
       this.run.set(await this.api.extractionRun(RUN));
       this.message.set(
-        'Run loaded. Candidates remain unverified until you explicitly review them.',
+        'Run loaded. Routine source-established facts need no approval. Review the focused exceptions.',
       );
     } catch (error) {
       this.failure(error);
     } finally {
       this.busy.set(false);
     }
-    if (this.run()) await this.filter();
+    if (this.run()?.baseline) {
+      this.questionsOpen.set(true);
+      await this.chooseIssue(this.openIssues()[0]?.id ?? '');
+    } else if (this.run()) await this.filter();
   }
   async import() {
     if (this.busy()) return;

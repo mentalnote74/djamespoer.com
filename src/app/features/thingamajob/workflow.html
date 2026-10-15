@@ -85,8 +85,8 @@
 } @else {
   <h1>Thingamajob TEST workspace</h1>
   <p>
-    Private evidence, separate owner review, and explicit uncertainty resolution. No job evaluation
-    or automatic truth promotion.
+    Source-backed baseline facts, focused owner decisions, and explicit uncertainty resolution. Job
+    evaluation is not part of this view.
   </p>
   <p #notice tabindex="-1" role="status" class="notice">{{ message() }}</p>
   <button type="button" (click)="refresh()" [disabled]="busy()">Refresh workspace</button>
@@ -155,6 +155,15 @@
       >
       @if (proposal(); as p) {
         <h3 #proposalHeading tabindex="-1">Selected proposal: {{ p.reviewDisposition }}</h3>
+        @if (p.baseline; as b) {
+          <p>
+            Source evaluation: {{ b.category }}. Active baseline: {{ b.active ? 'yes' : 'no' }}.
+            {{ b.transition }}. Policy: {{ b.policyVersion }}. Run: {{ b.runId }}. Candidate:
+            {{ b.candidateId }}. Recorded: {{ b.recordedAt | utcTimestamp }}. Automatic
+            establishment is not an owner acceptance; original extraction and any later owner review
+            remain separate.
+          </p>
+        }
         <p class="record">{{ p.statement }}</p>
         <p>Proposal ID: {{ p.proposalId }}</p>
         @if (p.proposedAt !== undefined) {
@@ -383,9 +392,20 @@
       </details>
     </section>
     <section aria-labelledby="claims-heading">
-      <h2 id="claims-heading">Active reviewed claims: Library of Truth</h2>
+      <h2 id="claims-heading">Active Library of Truth</h2>
+      @if (w.baselineClaims?.length) {
+        <p>
+          {{ w.baselineClaims?.length }} source-established baseline facts. No individual approval
+          required. Inspect each citation and its establishment history in the Client #1 review
+          panel using the Baseline LoT filter. Automatic baseline establishment is distinct from an
+          owner review.
+        </p>
+      }
       @if (!claims().length) {
-        <p>No reviewed claims in this list. An empty LoT is valid.</p>
+        <p>No manually reviewed claims in this list.</p>
+        @if (!w.baselineClaims?.length) {
+          <p>An empty LoT is valid.</p>
+        }
       }
       <p>
         View a claim's original proposal, owner review and lifecycle history without changing data.

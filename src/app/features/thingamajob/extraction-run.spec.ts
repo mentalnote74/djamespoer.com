@@ -34,16 +34,15 @@ function setup() {
   const api = {
     extractionRun: vi.fn().mockImplementation(async () => structuredClone(run)),
     stageExtractionRun: vi.fn(),
+    resolveBaselineIssue: vi.fn().mockResolvedValue({ saved: true }),
     upload: vi.fn(),
-    proposal: vi
-      .fn()
-      .mockImplementation(async (id: string) => ({
-        proposalId: id,
-        statement: 'Claim ' + id,
-        version: 1,
-        reviewDisposition: run.proposals.find((p) => p.proposalId === id)!.reviewDisposition,
-        claim: null,
-      })),
+    proposal: vi.fn().mockImplementation(async (id: string) => ({
+      proposalId: id,
+      statement: 'Claim ' + id,
+      version: 1,
+      reviewDisposition: run.proposals.find((p) => p.proposalId === id)!.reviewDisposition,
+      claim: null,
+    })),
     review: vi.fn().mockImplementation(async (p: { proposalId: string }, decision: string) => {
       run.proposals.find((i) => i.proposalId === p.proposalId)!.reviewDisposition = decision;
       return { ...p, reviewDisposition: decision };
@@ -125,5 +124,63 @@ describe('bounded owner extraction review', () => {
     await fixture.componentInstance.import();
     expect(api.upload).not.toHaveBeenCalled();
     expect(api.stageExtractionRun).not.toHaveBeenCalled();
+  });
+  it('makes questions the primary queue and baseline inspection approval-free', async () => {
+    const { fixture, run, api } = setup();
+    run.baseline = {
+      evaluations: run.document.claims.map((c, i) => ({
+        candidateId: c.id,
+        category: i === 0 ? 'baseline' : i === 1 ? 'attention' : 'qualified',
+        reasons: ['Fictional source vetting'],
+        policyVersion: 'fictional',
+        recordedAt: 1,
+      })),
+      issues: [{ id: 'q', question: 'Canonical title?', claimIds: ['b'], answer: null }],
+    };
+    const c = fixture.componentInstance;
+    await c.load();
+    fixture.detectChanges();
+    expect(c.selectedIssue()?.question).toBe('Canonical title?');
+    expect(c.active()).toBeUndefined();
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain(
+      'Review 1 items that need your attention',
+    );
+    c.category.set('baseline');
+    c.pendingOnly.set(false);
+    await c.filter();
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.textContent).toContain('no approval required');
+    expect(
+      Array.from(el.querySelectorAll('article button')).some(
+        (b) => b.textContent?.trim() === 'Accept',
+      ),
+    ).toBe(false);
+    expect(api.review).not.toHaveBeenCalled();
+  });
+  it('saves one question and related statements in one explicit action, preserving answer draft on conflict', async () => {
+    const { fixture, run, api } = setup();
+    run.baseline = {
+      evaluations: [],
+      issues: [{ id: 'q', question: 'Canonical title?', claimIds: ['a', 'b'], answer: null }],
+    };
+    const c = fixture.componentInstance;
+    await c.load();
+    c.issueAnswer.set('Canonical title confirmed');
+    c.editIssue(0, 'Accurate title');
+    api.resolveBaselineIssue.mockRejectedValueOnce(new HttpErrorResponse({ status: 409 }));
+    await c.saveIssue();
+    expect(c.issueAnswer()).toBe('Canonical title confirmed');
+    expect(c.issueDecisions()[0].statement).toBe('Accurate title');
+    expect(c.message()).toContain('Conflict (409)');
+    await c.saveIssue();
+    expect(api.resolveBaselineIssue).toHaveBeenLastCalledWith(expect.any(String), {
+      issueId: 'q',
+      answer: 'Canonical title confirmed',
+      decisions: [
+        { candidateId: 'a', statement: 'Accurate title', reject: false },
+        { candidateId: 'b', statement: 'Claim b', reject: false },
+      ],
+    });
   });
 });

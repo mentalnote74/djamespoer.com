@@ -11,6 +11,16 @@ export interface Claim {
   reviewDisposition: 'accepted' | 'corrected';
 }
 export interface Proposal {
+  baseline?: {
+    runId: string;
+    candidateId: string;
+    category: string;
+    policyVersion: string;
+    recordedAt: number;
+    reasons: string[];
+    active: boolean;
+    transition: string;
+  };
   proposalId: string;
   statement: string;
   version: number;
@@ -89,6 +99,15 @@ export interface UnknownDetail extends UnknownSummary {
   history: History[];
 }
 export interface Workflow {
+  baselineClaims?: {
+    candidateId: string;
+    proposalId: string;
+    statement: string;
+    runId: string;
+    establishedAt: number;
+    basis: string;
+    policyVersion: string;
+  }[];
   workspaceId: string;
   evidence: Evidence[];
   proposals: Proposal[];

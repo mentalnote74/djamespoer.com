@@ -67,3 +67,12 @@ fieldset {
 label {
   display: block;
 }
+select {
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  font: inherit;
+}
+.navigation > label {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}

@@ -1,3 +1,4 @@
+import { resolveBaselineIssue } from './baseline-service.ts';
 import { AccessDenied, createAccessIdentityAdapter } from './access-identity.ts';
 import { stageExtractionRun, getExtractionRun } from './extraction-staging.ts';
 import { authorizeWorkspace, recheckWorkspace } from './workspace-access.ts';
@@ -81,7 +82,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const uiPrefix = '/api/thingamajob/test/app/';
       const ui = path === uiPrefix.slice(0, -1) || path.startsWith(uiPrefix);
       const extraction = testEnabled
-        ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/extraction-runs\/([a-zA-Z0-9_-]{1,100})$/.exec(
+        ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/extraction-runs\/([a-zA-Z0-9_-]{1,100})(\/resolve)?$/.exec(
             path,
           )
         : null;
@@ -193,6 +194,13 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         const identity = await authenticate(request);
         if (extraction) {
           const scope = await authorizeWorkspace(env.IDENTITY_DB, identity, extraction[1], 'owner');
+          if (extraction[3]) {
+            if (request.method !== 'POST') return reply(405, { error: 'Method not allowed' });
+            return reply(
+              200,
+              await resolveBaselineIssue(request, env.IDENTITY_DB, scope, extraction[2]),
+            );
+          }
           if (request.method === 'GET')
             return reply(200, await getExtractionRun(env.IDENTITY_DB, scope, extraction[2]));
           const binding = env.PRIVATE_ORIGINALS;

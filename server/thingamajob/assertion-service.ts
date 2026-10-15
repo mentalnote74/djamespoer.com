@@ -1,3 +1,4 @@
+import { baselineForProposal } from './baseline-service.ts';
 import { AccessDenied } from './access-identity.ts';
 import { mutationAuthorization, recheckWorkspace } from './workspace-access.ts';
 import type { IdentityDatabase, WorkspaceAccess } from './workspace-access.ts';
@@ -127,6 +128,7 @@ export async function getProposal(database: IdentityDatabase, scope: WorkspaceAc
     proposedAt: row.proposed_at,
     review: row.review_json ? (JSON.parse(row.review_json) as unknown) : null,
     originalVersion: row.original_version,
+    baseline: await baselineForProposal(database, scope, id),
     version: row.current_version,
     reviewDisposition: row.disposition,
     supersedes: JSON.parse(row.supersedes_json) as unknown,

@@ -1,8 +1,8 @@
 <section aria-labelledby="extraction-heading">
-  <h2 id="extraction-heading">Client #1 candidate review</h2>
+  <h2 id="extraction-heading">Client #1 Library of Truth</h2>
   <p>
-    Run: 1f96a7ab-1567-4678-bcef-15b840439cc7. These are candidate claims, not active Library of
-    Truth facts.
+    Run: 1f96a7ab-1567-4678-bcef-15b840439cc7. Source-established baseline facts and exceptions
+    retain their original extraction lineage.
   </p>
   <p role="status">{{ message() }}</p>
   <button type="button" [disabled]="busy()" (click)="load()">Load candidate run</button>
@@ -28,10 +28,42 @@
     </button>
   </details>
   @if (run(); as r) {
+    @if (r.baseline) {
+      <p>
+        Baseline LoT: {{ classCounts()[0].count }}. Needs your attention:
+        {{ openIssues().length }} questions covering {{ pending() }} claims. Qualified /
+        informational: {{ classCounts()[2].count }}.
+      </p>
+      <p>
+        Routine evidence-backed facts do not need individual approval. Qualifications are retained
+        without interrupting you.
+      </p>
+      <button type="button" [disabled]="busy()" (click)="chooseIssue(openIssues()[0]?.id ?? '')">
+        Review {{ openIssues().length }} items that need your attention
+      </button>
+      <label
+        >Inspect claims
+        <select
+          #categorySelect
+          [value]="category()"
+          [disabled]="busy()"
+          (change)="category.set(categorySelect.value); pendingOnly.set(false); filter()"
+        >
+          <option value="attention">Needs your attention</option>
+          <option value="baseline">Baseline LoT - no approval needed</option>
+          <option value="qualified">Qualified / informational</option>
+          <option value="">All extracted claims / decisions</option>
+        </select></label
+      >
+    } @else {
+      <p>
+        {{ pending() }} candidates pending classification. No automatic baseline has been
+        established yet.
+      </p>
+    }
     <p>
-      {{ pending() }} pending of {{ r.document.claims.length }}.
       @for (d of decisions(); track d.state) {
-        <span>{{ d.count }} {{ d.state }}. </span>
+        <span>{{ d.count }} owner-{{ d.state }}. </span>
       }
     </p>
     <div class="navigation">
@@ -43,7 +75,7 @@
           [disabled]="busy()"
           (change)="pendingOnly.set(pendingFilter.checked); filter()"
         />
-        Pending only</label
+        Undecided exceptions only</label
       >
       <label
         >Source
@@ -65,10 +97,98 @@
         (click)="questionsOpen.set(!questionsOpen())"
         [attr.aria-expanded]="questionsOpen()"
       >
-        Owner questions ({{ r.document.questions.length }})
+        Owner questions ({{ r.baseline?.issues?.length ?? r.document.questions.length }})
       </button>
     </div>
-    @if (questionsOpen()) {
+    @if (questionsOpen() && r.baseline) {
+      <section aria-labelledby="owner-questions-heading">
+        <h3 id="owner-questions-heading">Owner questions</h3>
+        <label
+          >Question
+          <select
+            #questionSelect
+            [value]="issueId()"
+            [disabled]="busy()"
+            (change)="chooseIssue(questionSelect.value)"
+          >
+            <option value="">Choose a question</option>
+            @for (q of r.baseline.issues; track q.id) {
+              <option [value]="q.id" [selected]="q.id === issueId()">
+                {{ q.answer ? 'Answered' : 'Needs attention' }} - {{ q.question }}
+              </option>
+            }
+          </select></label
+        >
+        @if (selectedIssue(); as q) {
+          <h4>{{ q.question }}</h4>
+          @if (q.answer) {
+            <p>Recorded answer: {{ q.answer.answer }}</p>
+          } @else {
+            <p>
+              One focused answer resolves this issue. Review the related wording together; routine
+              facts are not in this queue.
+            </p>
+            <fieldset [disabled]="busy()">
+              <legend>Answer and related claim wording</legend>
+              <label
+                >Your answer / context<textarea
+                  #answerText
+                  maxlength="4000"
+                  [value]="issueAnswer()"
+                  (input)="issueAnswer.set(answerText.value)"
+                ></textarea>
+              </label>
+              @for (d of issueDecisions(); track d.candidateId; let index = $index) {
+                @if (claim(d.candidateId); as c) {
+                  <label
+                    >{{ c.sourceKey }} - {{ d.candidateId
+                    }}<textarea
+                      #resolvedWording
+                      maxlength="4000"
+                      [value]="d.statement"
+                      (input)="editIssue(index, resolvedWording.value)"
+                    ></textarea>
+                  </label>
+                  <details>
+                    <summary>Supporting citation / qualification</summary>
+                    @for (citation of c.citations; track $index) {
+                      <blockquote>{{ citation.quote }}</blockquote>
+                      <p>{{ citation.locationKey }}</p>
+                    }
+                    @for (u of c.uncertainties; track $index) {
+                      <p>{{ u }}</p>
+                    }
+                  </details>
+                  <label
+                    ><input
+                      #rejectRelated
+                      type="checkbox"
+                      [checked]="d.reject"
+                      (change)="rejectIssue(index, rejectRelated.checked)"
+                    />
+                    Reject this claim instead</label
+                  >
+                }
+              }
+              <p>
+                Saving explicitly accepts unchanged statements, records edited statements as
+                corrections and rejects checked statements. Original sources and history remain
+                intact.
+              </p>
+              <button type="button" [disabled]="!issueAnswer().trim()" (click)="saveIssue()">
+                Save answer and reviewed wording
+              </button>
+            </fieldset>
+          }
+        } @else {
+          <p>
+            No unanswered questions remain. You can inspect the baseline and earlier answers without
+            approving routine facts.
+          </p>
+        }
+      </section>
+    }
+    @if (questionsOpen() && !r.baseline) {
       <section aria-labelledby="owner-questions-heading">
         <h3 id="owner-questions-heading">Owner questions</h3>
         <p>
@@ -125,9 +245,39 @@
         }
         @if (detail(); as p) {
           <p>
-            Decision: {{ p.reviewDisposition === 'proposed' ? 'Pending' : p.reviewDisposition }}
+            State:
+            {{
+              p.reviewDisposition === 'proposed'
+                ? classification()?.category === 'baseline'
+                  ? 'Established automatically from source; no approval required'
+                  : classification()?.category === 'qualified'
+                    ? 'Qualified / informational; no approval required'
+                    : 'Needs attention'
+                : p.reviewDisposition
+            }}
           </p>
-          @if (p.reviewDisposition === 'proposed') {
+          @for (reason of classification()?.reasons ?? []; track $index) {
+            <p>{{ reason }}</p>
+          }
+          @if (classification(); as evaluation) {
+            <p>
+              Establishment/evaluation policy: {{ evaluation.policyVersion }}. Recorded:
+              {{ evaluation.recordedAt }}. Original extraction run and candidate preserved.
+            </p>
+          }
+          @if (
+            r.baseline &&
+            classification()?.category !== 'attention' &&
+            p.reviewDisposition === 'proposed'
+          ) {
+            <button type="button" [disabled]="busy()" (click)="challenge.set(!challenge())">
+              Correct or challenge this fact (optional)
+            </button>
+          }
+          @if (
+            p.reviewDisposition === 'proposed' &&
+            (!r.baseline || classification()?.category === 'attention' || challenge())
+          ) {
             <fieldset [disabled]="busy()">
               <legend>Owner decision</legend>
               <label
@@ -176,8 +326,8 @@
       </article>
     } @else {
       <p>
-        No claims in this filter. Clear Pending only or choose another source to inspect earlier
-        decisions.
+        Choose a focused question to review, or inspect baseline/informational facts using the
+        filters.
       </p>
     }
   }

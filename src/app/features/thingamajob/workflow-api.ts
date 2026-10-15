@@ -28,6 +28,16 @@ export class WorkflowApi {
       this.http.get<ExtractionRun>(this.root() + '/extraction-runs/' + this.identifier(runId)),
     );
   }
+  resolveBaselineIssue(
+    runId: string,
+    body: {
+      issueId: string;
+      answer: string;
+      decisions: { candidateId: string; statement: string; reject: boolean }[];
+    },
+  ) {
+    return this.post('/extraction-runs/' + this.identifier(runId) + '/resolve', body);
+  }
   stageExtractionRun(runId: string, document: object) {
     return this.post<ExtractionRun>('/extraction-runs/' + this.identifier(runId), document);
   }

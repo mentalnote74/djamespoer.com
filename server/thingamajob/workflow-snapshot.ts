@@ -1,3 +1,4 @@
+import { activeBaseline, baselineAvailable } from './baseline-service.ts';
 import { AccessDenied } from './access-identity.ts';
 import { recheckWorkspace } from './workspace-access.ts';
 import type { IdentityDatabase, WorkspaceAccess } from './workspace-access.ts';
@@ -27,5 +28,8 @@ export async function workflowSnapshot(database: IdentityDatabase, scope: Worksp
     proposals: JSON.parse(row.proposals) as unknown,
     unknowns: JSON.parse(row.unknowns) as unknown,
     limit: 100,
+    ...((await baselineAvailable(database))
+      ? { baselineClaims: await activeBaseline(database, scope) }
+      : {}),
   };
 }

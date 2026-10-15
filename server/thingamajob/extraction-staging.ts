@@ -1,3 +1,4 @@
+import { baselineSummary } from './baseline-service.ts';
 import { AccessDenied } from './access-identity.ts';
 import { mutationAuthorization, recheckWorkspace } from './workspace-access.ts';
 import type { IdentityDatabase, WorkspaceAccess } from './workspace-access.ts';
@@ -69,6 +70,7 @@ export async function getExtractionRun(
   return {
     runId,
     state: row.state,
+    baseline: await baselineSummary(database, scope, runId),
     document: JSON.parse(row.document_json) as unknown,
     proposals: JSON.parse(row.items) as unknown,
   };
