@@ -24,17 +24,28 @@ describe('Thingamajob case study and real workflow component', () => {
     const overview = root.querySelector('.product-introduction')!;
     expect(overview.textContent).toContain('A career assistant built around verified evidence');
     expect(overview.textContent).toContain('The person decides.');
-    expect(overview.textContent).toContain('fictional, tab-local data');
+    expect(root.querySelector('.product-workspace')?.textContent).toContain(
+      'fictional, tab-local data',
+    );
+    expect(root.querySelector('details')?.open).toBe(false);
+    expect(root.textContent).toContain('under active construction');
+    expect(
+      Array.from(root.querySelectorAll('.result-key dd'), (e) => e.textContent?.trim()),
+    ).toEqual([
+      'Direct evidence supports the requirement.',
+      'Related evidence supports the requirement, but less directly or completely.',
+      'Available evidence suggests a possible match, but additional owner/candidate confirmation is required.',
+      'The current Library of Truth does not support the requirement.',
+    ]);
     const study = root.querySelector('.case-study')!;
     for (const heading of [
       'The problem',
       'The Library of Truth',
-      'Provenance matters',
+      'Human control and provenance',
       'The first proof',
-      'From evidence to job evaluation',
-      'Human control',
-      'Multi-client by design',
-      'Designed for failure too',
+      'Job evaluation',
+      'Multi-client architecture',
+      'Graceful degradation',
       'Active product',
     ]) {
       expect(study.textContent).toContain(heading);
@@ -84,11 +95,25 @@ describe('Thingamajob case study and real workflow component', () => {
     expect(root.querySelector('app-thingamajob-workflow')).not.toBeNull();
     expect(root.querySelector('main,iframe,input[type=file]')).toBeNull();
     expect(root.textContent).toContain('fictional sample');
-    expect(root.textContent).toContain('Daily Job Dredge');
+    expect(root.textContent).not.toContain('Erica');
+    expect(root.textContent).not.toContain('Jobs can enter through');
+    expect(root.textContent).not.toContain('POC budget');
     expect(root.textContent).not.toMatch(
       /UNKNOWN|VERIFIED|ASSERTED|REVIEWING|TEST|LIVE|sample-proposal|sample-claim|fictional-portfolio|api-test/,
     );
     TestBed.inject(HttpTestingController).expectNone(() => true);
+  });
+  it('preserves draft text and offers recovery without exposing a raw prototype error', async () => {
+    const { root, widget, harness } = await start();
+    widget.correction.set('My unfinished sample wording.');
+    widget.jobDescription.set('My sample job description.');
+    vi.spyOn(widget.api, 'review').mockRejectedValueOnce(new Error('RAW_PROVIDER_DETAILS'));
+    await widget.review('accepted');
+    harness.detectChanges();
+    expect(widget.correction()).toBe('My unfinished sample wording.');
+    expect(widget.jobDescription()).toBe('My sample job description.');
+    expect(root.textContent).toContain('Your text is preserved.');
+    expect(root.textContent).not.toContain('RAW_PROVIDER_DETAILS');
   });
   it.each(['accepted', 'rejected', 'corrected'] as const)(
     'runs the real component review handler for %s and preserves original history',

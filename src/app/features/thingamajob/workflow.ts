@@ -96,7 +96,7 @@ export class ThingamajobWorkflow implements OnInit {
     if (this.message().startsWith('Enter corrected wording'))
       return 'Enter corrected wording before using a correction.';
     if (/failed|unavailable|denied|could not|Conflict/.test(this.message()))
-      return 'The sample could not be updated. Reset it before trying again.';
+      return 'This prototype action is temporarily unavailable. Your text is preserved. Try again, or reset the fictional example when you are ready.';
     const decision = this.proposal()?.reviewDisposition;
     return decision === 'accepted'
       ? 'Statement selected for use in this sample.'

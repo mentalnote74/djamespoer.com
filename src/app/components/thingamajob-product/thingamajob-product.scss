@@ -27,6 +27,18 @@
   border-radius: 0.5rem;
   background: var(--panel-surface, Canvas);
 }
+.construction-notice {
+  border-block-start: 0.5rem double var(--control-border, currentColor);
+  padding-block-start: 0.75rem;
+}
+.historical-demo summary {
+  cursor: pointer;
+  padding-block: 0.75rem;
+}
+.historical-demo summary:focus-visible {
+  outline: 3px solid var(--focus-outer, currentColor);
+  outline-offset: 3px;
+}
 .case-study h2 {
   margin-block-start: 0;
 }

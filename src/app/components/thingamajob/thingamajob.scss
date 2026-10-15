@@ -14,3 +14,15 @@ h2 {
   margin-block-start: 0;
   font-size: clamp(1.25rem, 2vw, 1.75rem);
 }
+.construction-notice {
+  border-block-start: 0.5rem double var(--control-border, currentColor);
+  padding-block-start: 0.75rem;
+}
+summary {
+  cursor: pointer;
+  padding-block: 0.75rem;
+}
+summary:focus-visible {
+  outline: 3px solid var(--focus-outer, currentColor);
+  outline-offset: 3px;
+}
