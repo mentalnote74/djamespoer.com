@@ -173,5 +173,17 @@ export const routes: Routes = [
   createProofRoute('ai', 'AI & Innovation'),
   createProofRoute('creative', 'Creative'),
   createProofRoute('impact', 'Impact'),
+  {
+    path: 'thingamajob',
+    title: 'Thingamajob | D. James Poer',
+    data: {
+      description:
+        'Thingamajob is a reusable career platform built around source-backed evidence and owner review.',
+    },
+    loadComponent: () =>
+      import('./components/thingamajob-product/thingamajob-product').then(
+        ({ ThingamajobProduct }) => ThingamajobProduct,
+      ),
+  },
   { path: '**', redirectTo: '' },
 ];

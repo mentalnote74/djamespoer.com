@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## Public Thingamajob entry ready for local review (2026-10-15)
+
+Local branch test/thingamajob-public-entry adds lazy /thingamajob, direct primary navigation and a real homepage panel link replacing disabled mock controls. Public copy covers source-backed evidence, owner review, product direction, James/Erica prototypes and separate Daily Job Dredge. No safe public owner-workflow entry exists; no private/API/test links, backend changes or deployment. Erica and Cloudflare settings untouched.
+
+Validation: focused Angular 14/14; full Angular 254/254; production build/budgets and formatting pass. Public route lazy chunk 3.42 KB. Local production-rendered axe 38 audits across nine themes/desktop/mobile plus 200% checks: zero violations. Keyboard entry/focus passes. Screenshots, exact rendered copy and machine evidence: output/thingamajob-public-entry/. Review server: http://127.0.0.1:4406/thingamajob.
+
+Existing shared limitations, left unchanged: homepage carousel/hero width 691px at 390px even with both new entries removed; shared skip link resolves to /#main-content and returns Home on subroutes. New page fits mobile and 200% zoom. STOP for James review; no deploy. Earlier unrelated working-tree edits remain preserved and uncommitted.
+
+
 ## Active SCRUM-86 claim lifecycle acceptance gate (2026-10-14)
 
 Latest acceptance follow-up: TEST 36cab580-511e-464f-b348-b0941ed83e21 adds a visible View history / audit button per active claim, scoped read-only review/proposal metadata and readable UTC provenance/history. Actual buttons connect replacement -> original via Inspect original approval and supersession history, then original -> replacement via Open replacement proposal and review. No schema/data writes; 20 original table hashes/counts and existing lifecycle unchanged. Angular focused18/full252, server120, 22 local axe audits zero; native keyboard/focus/narrow and unchanged database during audit navigation pass. Both builds/budgets/type/format checks pass. See server/thingamajob/audit-acceptance.md for exact click steps. James human acceptance still pending; no Erica work.

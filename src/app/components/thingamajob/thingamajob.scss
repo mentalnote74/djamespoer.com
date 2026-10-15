@@ -3,72 +3,14 @@
   min-inline-size: 0;
 }
 .thingamajob {
-  --thingamajob-surface: var(--component-surface, Canvas);
-  --thingamajob-text: var(--component-text, CanvasText);
-  --thingamajob-border: var(--component-border, currentColor);
-  --thingamajob-screen: var(--input-surface, Field);
-  --thingamajob-screen-text: var(--input-text, FieldText);
   padding: 1rem;
-  background: var(--thingamajob-surface);
-  color: var(--thingamajob-text);
-  border: 3px double var(--thingamajob-border);
+  background: var(--component-surface, Canvas);
+  color: var(--component-text, CanvasText);
+  border: 3px double var(--component-border, currentColor);
   border-radius: 0.5rem;
-  box-shadow: 0.3rem 0.4rem 0 color-mix(in srgb, currentColor 15%, transparent);
   overflow-wrap: anywhere;
 }
-.thingamajob__roof {
-  block-size: 2rem;
-  background: repeating-linear-gradient(100deg, transparent 0 0.4rem, currentColor 0.4rem 0.5rem);
-  clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
-  opacity: 0.3;
-}
 h2 {
-  margin-block-start: 0.5rem;
+  margin-block-start: 0;
   font-size: clamp(1.25rem, 2vw, 1.75rem);
-}
-.thingamajob__bezel {
-  border: 0.5rem ridge var(--thingamajob-border);
-  border-radius: 0.5rem;
-}
-.thingamajob__screen {
-  padding: 0.75rem;
-  background: var(--thingamajob-screen);
-  color: var(--thingamajob-screen-text);
-}
-fieldset {
-  margin: 0;
-  padding: 0.5rem;
-  min-inline-size: 0;
-  border: 1px solid var(--thingamajob-border);
-}
-label {
-  display: block;
-}
-input {
-  display: block;
-  inline-size: 100%;
-  min-inline-size: 0;
-  margin-block: 0.5rem;
-}
-button {
-  background: var(--thingamajob-surface);
-  color: var(--thingamajob-text);
-  border-color: var(--thingamajob-border);
-}
-.thingamajob__actions {
-  margin-block-start: 1rem;
-}
-.thingamajob__status {
-  border-block-start: 1px solid var(--thingamajob-border);
-  padding-block-start: 0.75rem;
-}
-.thingamajob__tape {
-  margin-block-start: 1rem;
-  padding: 0.6rem 0.25rem;
-  border-block: 0.5rem solid #000;
-  border-image: repeating-linear-gradient(45deg, #000 0 0.5rem, #ffdf00 0.5rem 1rem) 8;
-  background: #ffdf00;
-  color: #000;
-  font-weight: 900;
-  text-align: center;
 }

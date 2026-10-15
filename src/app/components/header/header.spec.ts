@@ -5,6 +5,16 @@ import { Header } from './header';
 import { ThemeState } from '../../services/theme-state';
 
 describe('Header', () => {
+  it('offers a direct Thingamajob product entry with a current-page state', async () => {
+    await TestBed.inject(Router).navigateByUrl('/thingamajob');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const link = (fixture.nativeElement as HTMLElement).querySelector<HTMLAnchorElement>(
+      'nav[aria-label="Primary"] > ul > li > a[href="/thingamajob"]',
+    );
+    expect(link?.textContent?.trim()).toBe('Thingamajob');
+    expect(link?.getAttribute('aria-current')).toBe('page');
+  });
   it('offers global theme selection through the shared disclosure with an accessible current state', () => {
     const root = fixture.nativeElement as HTMLElement;
     const trigger = root.querySelector<HTMLButtonElement>('[aria-controls="theme-navigation"]')!;

@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+p,
+ul {
+  max-inline-size: 70ch;
+}
+.product-opening {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+}
+section {
+  margin-block-start: 2rem;
+}
+li + li {
+  margin-block-start: 0.5rem;
+}
