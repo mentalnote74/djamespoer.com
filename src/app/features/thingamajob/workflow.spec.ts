@@ -3,6 +3,8 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { ThingamajobWorkflow } from './workflow';
+import { WorkflowApi } from './workflow-api';
+import { WORKFLOW_API } from './portfolio-workflow';
 import type { Workflow, UnknownDetail, Proposal } from './workflow.models';
 const overview: Workflow = {
   workspaceId: 'fictional-one',
@@ -36,7 +38,12 @@ describe('protected Thingamajob workflow', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ThingamajobWorkflow],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        WorkflowApi,
+        { provide: WORKFLOW_API, useExisting: WorkflowApi },
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
     fixture = TestBed.createComponent(ThingamajobWorkflow);
     http = TestBed.inject(HttpTestingController);

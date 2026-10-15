@@ -1,499 +1,564 @@
-<h1>Thingamajob TEST workspace</h1>
-<p>
-  Private evidence, separate owner review, and explicit uncertainty resolution. No job evaluation or
-  automatic truth promotion.
-</p>
-<p #notice tabindex="-1" role="status" class="notice">{{ message() }}</p>
-<button type="button" (click)="refresh()" [disabled]="busy()">Refresh workspace</button>
-@if (workspace(); as w) {
-  <p>
-    Showing up to {{ w.limit }} records per list. All actions are checked by the protected server.
-  </p>
-  <section aria-labelledby="evidence-heading">
-    <h2 id="evidence-heading">Private evidence</h2>
-    @if (!w.evidence.length) {
-      <p>No evidence yet. An empty workspace is valid.</p>
-    }
-    <ul>
-      @for (source of w.evidence; track source.sourceId) {
-        <li>
-          <a [href]="api.evidenceUrl(source.sourceId)">Download {{ source.filename }}</a>
-          <p>Attribution: {{ source.attribution }}</p>
-          <p>Source locator: {{ source.sourceLocator }}</p>
-        </li>
-      }
-    </ul>
-    <details>
-      <summary>Add authorized evidence</summary>
-      <form #uploadForm (submit)="upload($event, uploadForm)">
-        <fieldset [disabled]="busy()">
-          <legend>Upload an original privately</legend>
-          <label
-            >Evidence file (PDF, DOCX, TXT or Markdown; up to 10 MB)<input
-              type="file"
-              name="file"
-              accept=".pdf,.docx,.txt,.md,.markdown"
-              required
-          /></label>
-          <label>Source attribution<input name="attribution" maxlength="1000" required /></label>
-          <label>Source locator (optional)<input name="sourceLocator" maxlength="2000" /></label>
-          <label class="confirm"
-            ><input type="checkbox" required /> I authorize this source for my private TEST
-            workspace.</label
-          >
-          <button type="submit">Store evidence only</button>
-        </fieldset>
-      </form>
-    </details>
-  </section>
-  <section aria-labelledby="proposals-heading">
-    <h2 id="proposals-heading">Proposals and owner decisions</h2>
-    @if (!w.proposals.length) {
-      <p>No proposals yet.</p>
-    }
-    <label
-      >Select a proposal<select
-        #proposalSelect
-        [disabled]="busy()"
-        [value]="proposal()?.proposalId ?? ''"
-        (change)="selectProposal(proposalSelect.value)"
-      >
-        <option value="">Choose a proposal</option>
-        @for (p of w.proposals; track p.proposalId) {
-          <option [value]="p.proposalId">{{ p.reviewDisposition }} — {{ p.statement }}</option>
-        }
-      </select></label
-    >
+@if (portfolio) {
+  <div class="portfolio-review">
+    <h3>Try an owner review</h3>
+    <p>
+      Interactive walkthrough using fictional material. Decisions stay in this tab and disappear on
+      reset or reload. No real workspace, upload or AI service is connected.
+    </p>
+    <div class="sample-source">
+      <h4>Source material</h4>
+      <p>{{ portfolio.sourceText }}</p>
+    </div>
+    <p #notice tabindex="-1" role="status" class="notice">{{ portfolioNotice() }}</p>
     @if (proposal(); as p) {
-      <h3 #proposalHeading tabindex="-1">Selected proposal: {{ p.reviewDisposition }}</h3>
+      <h4>Proposed career statement</h4>
       <p class="record">{{ p.statement }}</p>
-      <p>Proposal ID: {{ p.proposalId }}</p>
-      @if (p.proposedAt !== undefined) {
-        <p>
-          Proposed at {{ p.proposedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC. Proposer
-          actor: {{ p.proposerActorId }}
-        </p>
+      <p>
+        Decision:
+        {{ p.reviewDisposition === 'proposed' ? 'Awaiting your review' : p.reviewDisposition }}
+      </p>
+      @if (p.reviewDisposition === 'proposed') {
+        <ng-container [ngTemplateOutlet]="reviewControls" />
       }
-      @if (p.review; as review) {
-        <h4>Original owner review</h4>
-        <dl>
-          <dt>Review ID</dt>
-          <dd>{{ review.reviewId }}</dd>
-          <dt>Decision</dt>
-          <dd>{{ review.decision }}</dd>
-          <dt>Owner actor</dt>
-          <dd>{{ review.ownerActorId }}</dd>
-          <dt>Reviewed at</dt>
-          <dd>{{ review.reviewedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC</dd>
-          <dt>Version transition</dt>
-          <dd>{{ review.expectedVersion }} to {{ review.resultingVersion }}</dd>
-        </dl>
-        @if (review.correctedStatement) {
-          <p>Approved correction wording: {{ review.correctedStatement }}</p>
-        }
+      <h4>Reviewed statement</h4>
+      @if (p.claim; as claim) {
+        <p class="record">{{ claim.statement }}</p>
+      } @else {
+        <p>No reviewed statement. A proposal alone is not approved evidence.</p>
       }
-      @if (p.proposerAttribution) {
-        <p>Proposer attribution: {{ p.proposerAttribution }}</p>
+      <details>
+        <summary>View decision history</summary>
+        <ol>
+          @for (event of p.history ?? []; track event.version) {
+            <li>
+              {{ event.operation === 'proposed' ? 'Original proposal' : event.operation }}:
+              {{ event.statement }}
+            </li>
+          }
+        </ol>
+      </details>
+    }
+    <button type="button" [disabled]="busy()" (click)="resetSample()">
+      Reset fictional sample
+    </button>
+  </div>
+} @else {
+  <h1>Thingamajob TEST workspace</h1>
+  <p>
+    Private evidence, separate owner review, and explicit uncertainty resolution. No job evaluation
+    or automatic truth promotion.
+  </p>
+  <p #notice tabindex="-1" role="status" class="notice">{{ message() }}</p>
+  <button type="button" (click)="refresh()" [disabled]="busy()">Refresh workspace</button>
+  @if (workspace(); as w) {
+    <p>
+      Showing up to {{ w.limit }} records per list. All actions are checked by the protected server.
+    </p>
+    <section aria-labelledby="evidence-heading">
+      <h2 id="evidence-heading">Private evidence</h2>
+      @if (!w.evidence.length) {
+        <p>No evidence yet. An empty workspace is valid.</p>
       }
       <ul>
-        @for (source of p.evidence ?? []; track source.sourceId) {
+        @for (source of w.evidence; track source.sourceId) {
           <li>
-            <a [href]="api.evidenceUrl(source.sourceId)">Download supporting original</a>
-            <p>Source ID: {{ source.sourceId }}</p>
-            <p>Supporting locator: {{ source.locator }}</p>
+            <a [href]="api.evidenceUrl(source.sourceId)">Download {{ source.filename }}</a>
+            <p>Attribution: {{ source.attribution }}</p>
+            <p>Source locator: {{ source.sourceLocator }}</p>
           </li>
         }
       </ul>
-      <p>
-        Version {{ p.version }}. Proposal wording is preserved independently of any corrected claim.
-      </p>
-      @if (p.claim; as claim) {
-        <p>Active reviewed claim ({{ claim.reviewDisposition }}): {{ claim.statement }}</p>
-        <p>Claim ID: {{ claim.claimId }}</p>
-        <details>
-          <summary>Propose a correction to this approved claim</summary>
-          <form #claimCorrectionForm (submit)="proposeCorrection($event, claimCorrectionForm)">
-            <fieldset [disabled]="busy() || !w.evidence.length">
-              <legend>Linked correction for an approved claim</legend>
-              <label
-                >Correct replacement wording<textarea
-                  name="statement"
-                  maxlength="4000"
-                  required
-                ></textarea>
-              </label>
-              <label
-                >Proposer attribution<input name="attribution" maxlength="1000" required
-              /></label>
-              <label
-                >Supporting evidence<select name="source" required>
-                  <option value="">Choose evidence</option>
-                  @for (source of w.evidence; track source.sourceId) {
-                    <option [value]="source.sourceId">{{ source.filename }}</option>
-                  }
-                </select></label
-              >
-              <label>Supporting locator (optional)<input name="locator" maxlength="2000" /></label>
-              <label
-                >Reason for correcting this fact<textarea
-                  name="reason"
-                  maxlength="4000"
-                  required
-                ></textarea>
-              </label>
-              <button type="submit">Create linked correction proposal only</button>
-              <p>
-                The original stays active until you approve the correction. Approval replaces
-                current truth atomically and preserves history.
-              </p>
-            </fieldset>
-          </form>
-        </details>
-        <details>
-          <summary>Supersede this claim with an approved correction</summary>
-          <form #supersessionForm (submit)="supersede($event, supersessionForm)">
-            <fieldset [disabled]="busy() || !replacementClaims().length">
-              <legend>Explicit owner claim supersession</legend>
-              <label
-                >Replacement active reviewed claim<select name="replacement" required>
-                  <option value="">Choose the approved correction</option>
-                  @for (replacement of replacementClaims(); track replacement.claimId) {
-                    <option [value]="replacement.claimId">{{ replacement.statement }}</option>
-                  }
-                </select></label
-              >
-              <label
-                >Why this claim replaces the obsolete fact<textarea
-                  name="reason"
-                  maxlength="4000"
-                  required
-                ></textarea>
-              </label>
-              <label
-                ><input name="confirmed" type="checkbox" required /> I confirm this approved claim
-                corrects the same fact and the selected original must leave the active LoT.</label
-              >
-              <button type="submit">Supersede this claim explicitly</button>
-              <p>
-                Original proposal, review, claim and timestamps remain in audit history. UNKNOWN
-                history is not rewritten.
-              </p>
-            </fieldset>
-          </form>
-        </details>
+      <details>
+        <summary>Add authorized evidence</summary>
+        <form #uploadForm (submit)="upload($event, uploadForm)">
+          <fieldset [disabled]="busy()">
+            <legend>Upload an original privately</legend>
+            <label
+              >Evidence file (PDF, DOCX, TXT or Markdown; up to 10 MB)<input
+                type="file"
+                name="file"
+                accept=".pdf,.docx,.txt,.md,.markdown"
+                required
+            /></label>
+            <label>Source attribution<input name="attribution" maxlength="1000" required /></label>
+            <label>Source locator (optional)<input name="sourceLocator" maxlength="2000" /></label>
+            <label class="confirm"
+              ><input type="checkbox" required /> I authorize this source for my private TEST
+              workspace.</label
+            >
+            <button type="submit">Store evidence only</button>
+          </fieldset>
+        </form>
+      </details>
+    </section>
+    <section aria-labelledby="proposals-heading">
+      <h2 id="proposals-heading">Proposals and owner decisions</h2>
+      @if (!w.proposals.length) {
+        <p>No proposals yet.</p>
       }
-      @if (p.historicalClaim; as historical) {
-        <p>Historical claim: superseded, excluded from active LoT: {{ historical.statement }}</p>
-        <p>
-          Historical claim ID: {{ historical.claimId }}. Its original approval is preserved above.
-        </p>
-        @if (p.supersession; as transition) {
+      <label
+        >Select a proposal<select
+          #proposalSelect
+          [disabled]="busy()"
+          [value]="proposal()?.proposalId ?? ''"
+          (change)="selectProposal(proposalSelect.value)"
+        >
+          <option value="">Choose a proposal</option>
+          @for (p of w.proposals; track p.proposalId) {
+            <option [value]="p.proposalId">{{ p.reviewDisposition }} — {{ p.statement }}</option>
+          }
+        </select></label
+      >
+      @if (proposal(); as p) {
+        <h3 #proposalHeading tabindex="-1">Selected proposal: {{ p.reviewDisposition }}</h3>
+        <p class="record">{{ p.statement }}</p>
+        <p>Proposal ID: {{ p.proposalId }}</p>
+        @if (p.proposedAt !== undefined) {
           <p>
-            Replacement claim: {{ transition.replacementClaimId }}. Reason: {{ transition.reason }}
+            Proposed at {{ p.proposedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC.
+            Proposer actor: {{ p.proposerActorId }}
           </p>
-          <p>
-            Superseded at
-            {{ transition.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC; execution:
-            {{ transition.executionContext }}.
-          </p>
+        }
+        @if (p.review; as review) {
+          <h4>Original owner review</h4>
           <dl>
-            <dt>Supersession event</dt>
-            <dd>{{ transition.eventId }}</dd>
-            <dt>Replacement proposal</dt>
-            <dd>{{ transition.replacementProposalId }}</dd>
-            <dt>Replacement review</dt>
-            <dd>{{ transition.replacementReviewId }}</dd>
-            <dt>Authorizing owner actor</dt>
-            <dd>{{ transition.authorizingOwnerActorId }}</dd>
-            <dt>Authorization reference</dt>
-            <dd>{{ transition.authorizationReference || 'Authenticated owner Access action' }}</dd>
+            <dt>Review ID</dt>
+            <dd>{{ review.reviewId }}</dd>
+            <dt>Decision</dt>
+            <dd>{{ review.decision }}</dd>
+            <dt>Owner actor</dt>
+            <dd>{{ review.ownerActorId }}</dd>
+            <dt>Reviewed at</dt>
+            <dd>{{ review.reviewedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC</dd>
+            <dt>Version transition</dt>
+            <dd>{{ review.expectedVersion }} to {{ review.resultingVersion }}</dd>
           </dl>
+          @if (review.correctedStatement) {
+            <p>Approved correction wording: {{ review.correctedStatement }}</p>
+          }
+        }
+        @if (p.proposerAttribution) {
+          <p>Proposer attribution: {{ p.proposerAttribution }}</p>
+        }
+        <ul>
+          @for (source of p.evidence ?? []; track source.sourceId) {
+            <li>
+              <a [href]="api.evidenceUrl(source.sourceId)">Download supporting original</a>
+              <p>Source ID: {{ source.sourceId }}</p>
+              <p>Supporting locator: {{ source.locator }}</p>
+            </li>
+          }
+        </ul>
+        <p>
+          Version {{ p.version }}. Proposal wording is preserved independently of any corrected
+          claim.
+        </p>
+        @if (p.claim; as claim) {
+          <p>Active reviewed claim ({{ claim.reviewDisposition }}): {{ claim.statement }}</p>
+          <p>Claim ID: {{ claim.claimId }}</p>
+          <details>
+            <summary>Propose a correction to this approved claim</summary>
+            <form #claimCorrectionForm (submit)="proposeCorrection($event, claimCorrectionForm)">
+              <fieldset [disabled]="busy() || !w.evidence.length">
+                <legend>Linked correction for an approved claim</legend>
+                <label
+                  >Correct replacement wording<textarea
+                    name="statement"
+                    maxlength="4000"
+                    required
+                  ></textarea>
+                </label>
+                <label
+                  >Proposer attribution<input name="attribution" maxlength="1000" required
+                /></label>
+                <label
+                  >Supporting evidence<select name="source" required>
+                    <option value="">Choose evidence</option>
+                    @for (source of w.evidence; track source.sourceId) {
+                      <option [value]="source.sourceId">{{ source.filename }}</option>
+                    }
+                  </select></label
+                >
+                <label
+                  >Supporting locator (optional)<input name="locator" maxlength="2000"
+                /></label>
+                <label
+                  >Reason for correcting this fact<textarea
+                    name="reason"
+                    maxlength="4000"
+                    required
+                  ></textarea>
+                </label>
+                <button type="submit">Create linked correction proposal only</button>
+                <p>
+                  The original stays active until you approve the correction. Approval replaces
+                  current truth atomically and preserves history.
+                </p>
+              </fieldset>
+            </form>
+          </details>
+          <details>
+            <summary>Supersede this claim with an approved correction</summary>
+            <form #supersessionForm (submit)="supersede($event, supersessionForm)">
+              <fieldset [disabled]="busy() || !replacementClaims().length">
+                <legend>Explicit owner claim supersession</legend>
+                <label
+                  >Replacement active reviewed claim<select name="replacement" required>
+                    <option value="">Choose the approved correction</option>
+                    @for (replacement of replacementClaims(); track replacement.claimId) {
+                      <option [value]="replacement.claimId">{{ replacement.statement }}</option>
+                    }
+                  </select></label
+                >
+                <label
+                  >Why this claim replaces the obsolete fact<textarea
+                    name="reason"
+                    maxlength="4000"
+                    required
+                  ></textarea>
+                </label>
+                <label
+                  ><input name="confirmed" type="checkbox" required /> I confirm this approved claim
+                  corrects the same fact and the selected original must leave the active LoT.</label
+                >
+                <button type="submit">Supersede this claim explicitly</button>
+                <p>
+                  Original proposal, review, claim and timestamps remain in audit history. UNKNOWN
+                  history is not rewritten.
+                </p>
+              </fieldset>
+            </form>
+          </details>
+        }
+        @if (p.historicalClaim; as historical) {
+          <p>Historical claim: superseded, excluded from active LoT: {{ historical.statement }}</p>
+          <p>
+            Historical claim ID: {{ historical.claimId }}. Its original approval is preserved above.
+          </p>
+          @if (p.supersession; as transition) {
+            <p>
+              Replacement claim: {{ transition.replacementClaimId }}. Reason:
+              {{ transition.reason }}
+            </p>
+            <p>
+              Superseded at
+              {{ transition.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC;
+              execution: {{ transition.executionContext }}.
+            </p>
+            <dl>
+              <dt>Supersession event</dt>
+              <dd>{{ transition.eventId }}</dd>
+              <dt>Replacement proposal</dt>
+              <dd>{{ transition.replacementProposalId }}</dd>
+              <dt>Replacement review</dt>
+              <dd>{{ transition.replacementReviewId }}</dd>
+              <dt>Authorizing owner actor</dt>
+              <dd>{{ transition.authorizingOwnerActorId }}</dd>
+              <dt>Authorization reference</dt>
+              <dd>
+                {{ transition.authorizationReference || 'Authenticated owner Access action' }}
+              </dd>
+            </dl>
+            <button
+              type="button"
+              [disabled]="busy()"
+              (click)="selectProposal(transition.replacementProposalId, true)"
+            >
+              Open replacement proposal and review
+            </button>
+          }
+        }
+        @if (p.reviewDisposition === 'rejected') {
+          <p>Rejected: no reviewed claim was created.</p>
+        }
+        @for (transition of p.supersedes ?? []; track transition.eventId) {
+          <p>
+            This approved claim replaces historical claim {{ transition.obsoleteClaimId }}.
+            Supersession event: {{ transition.eventId }}. Recorded at
+            {{ transition.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC. Reason:
+            {{ transition.reason }}
+          </p>
           <button
             type="button"
             [disabled]="busy()"
-            (click)="selectProposal(transition.replacementProposalId, true)"
+            (click)="selectProposal(transition.obsoleteProposalId, true)"
           >
-            Open replacement proposal and review
+            Inspect original approval and supersession history
           </button>
         }
-      }
-      @if (p.reviewDisposition === 'rejected') {
-        <p>Rejected: no reviewed claim was created.</p>
-      }
-      @for (transition of p.supersedes ?? []; track transition.eventId) {
-        <p>
-          This approved claim replaces historical claim {{ transition.obsoleteClaimId }}.
-          Supersession event: {{ transition.eventId }}. Recorded at
-          {{ transition.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC. Reason:
-          {{ transition.reason }}
-        </p>
-        <button
-          type="button"
-          [disabled]="busy()"
-          (click)="selectProposal(transition.obsoleteProposalId, true)"
-        >
-          Inspect original approval and supersession history
-        </button>
-      }
-      @if (p.correctionOf; as correctionOf) {
-        <p>
-          Explicit correction of claim {{ correctionOf.obsoleteClaimId }}. Reason:
-          {{ correctionOf.reason }}
-        </p>
-        @if (p.reviewDisposition === 'proposed') {
+        @if (p.correctionOf; as correctionOf) {
           <p>
-            Accept or Correct will approve this replacement and supersede the original in one
-            transaction. Reject preserves the original active claim.
+            Explicit correction of claim {{ correctionOf.obsoleteClaimId }}. Reason:
+            {{ correctionOf.reason }}
           </p>
+          @if (p.reviewDisposition === 'proposed') {
+            <p>
+              Accept or Correct will approve this replacement and supersede the original in one
+              transaction. Reject preserves the original active claim.
+            </p>
+          }
         }
-      }
-      @if (p.reviewDisposition === 'proposed') {
-        <fieldset [disabled]="busy()">
-          <legend>Explicit owner review</legend>
-          <label
-            >Corrected wording (required for Correct)<textarea
-              #corrected
-              maxlength="4000"
-              [value]="correction()"
-              (input)="correction.set(corrected.value)"
-            ></textarea>
-          </label>
-          <div class="actions">
-            <button type="button" (click)="review('accepted')">Accept proposal</button
-            ><button type="button" (click)="review('rejected')">Reject proposal</button
-            ><button type="button" (click)="review('corrected')">Correct proposal</button>
-          </div>
-          <p>Accept or Correct creates a reviewed claim. It does not resolve a linked UNKNOWN.</p>
-        </fieldset>
-      }
-      <h4>Proposal history</h4>
-      <ol>
-        @for (event of p.history ?? []; track event.version) {
-          <li>
-            Version {{ event.version }} — {{ event.operation }}: {{ event.statement }}
-            @if (event.recordedAt !== undefined) {
-              <span>
-                ({{ event.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC)</span
-              >
-            }
-          </li>
+        @if (p.reviewDisposition === 'proposed') {
+          <ng-container [ngTemplateOutlet]="reviewControls" />
         }
-      </ol>
-    }
-    <details>
-      <summary>Create a pending proposal</summary>
-      <form #proposalForm (submit)="propose($event, proposalForm)">
-        <fieldset [disabled]="busy() || !w.evidence.length">
-          <legend>Evidence-backed proposal</legend>
-          <label
-            >Proposed statement<textarea name="statement" maxlength="4000" required></textarea>
-          </label>
-          <label>Proposer attribution<input name="attribution" maxlength="1000" required /></label>
-          <label
-            >Supporting evidence<select name="source" required>
-              <option value="">Choose evidence</option>
-              @for (source of w.evidence; track source.sourceId) {
-                <option [value]="source.sourceId">{{ source.filename }}</option>
+        <h4>Proposal history</h4>
+        <ol>
+          @for (event of p.history ?? []; track event.version) {
+            <li>
+              Version {{ event.version }} — {{ event.operation }}: {{ event.statement }}
+              @if (event.recordedAt !== undefined) {
+                <span>
+                  ({{ event.recordedAt * 1000 | date: 'yyyy-MM-dd HH:mm:ss' : 'UTC' }} UTC)</span
+                >
               }
-            </select></label
-          >
-          <label>Supporting locator (optional)<input name="locator" maxlength="2000" /></label>
-          <button type="submit">Create pending proposal only</button>
-        </fieldset>
-      </form>
-    </details>
-  </section>
-  <section aria-labelledby="claims-heading">
-    <h2 id="claims-heading">Active reviewed claims: Library of Truth</h2>
-    @if (!claims().length) {
-      <p>No reviewed claims in this list. An empty LoT is valid.</p>
-    }
-    <p>
-      View a claim's original proposal, owner review and lifecycle history without changing data.
-    </p>
-    <ul>
-      @for (claim of claims(); track claim.claimId) {
-        <li>
-          <strong>{{ claim.reviewDisposition }}</strong
-          >: {{ claim.statement }}
-          <button type="button" [disabled]="busy()" (click)="viewClaimHistory(claim.claimId)">
-            View history / audit
-          </button>
-        </li>
+            </li>
+          }
+        </ol>
       }
-    </ul>
-  </section>
-  <section aria-labelledby="unknowns-heading">
-    <h2 id="unknowns-heading">Independent UNKNOWNs</h2>
-    @if (!w.unknowns.length) {
-      <p>No UNKNOWNs recorded yet.</p>
-    }
-    <label
-      >Select an UNKNOWN<select
-        #unknownSelect
-        [disabled]="busy()"
-        [value]="unknown()?.unknownId ?? ''"
-        (change)="selectUnknown(unknownSelect.value)"
-      >
-        <option value="">Choose an UNKNOWN</option>
-        @for (u of w.unknowns; track u.unknownId) {
-          <option [value]="u.unknownId">{{ u.state }} — {{ u.question }}</option>
-        }
-      </select></label
-    >
-    @if (unknown(); as u) {
-      <h3>Selected UNKNOWN: {{ u.state }}</h3>
-      <p class="record">{{ u.question }}</p>
-      <p>Reason: {{ u.reason }}</p>
-      <p>Context: {{ u.context }}</p>
-      <p>Version {{ u.version }}.</p>
-      @if (u.resolution?.claimLifecycleState === 'superseded') {
-        <p>
-          The historical resolution references a superseded claim. Resolution history is preserved;
-          that claim is not current truth.
-        </p>
-      }
-      <h4>Attributed answers</h4>
-      <ul>
-        @for (answer of u.answers; track answer.answerId) {
-          <li>
-            <p>{{ answer.answer }}</p>
-            <p>Attribution: {{ answer.attribution }}</p>
-            @if (!answer.evidence.length) {
-              <p>
-                No supporting evidence yet. This answer cannot create an evidence-backed proposal.
-              </p>
-            }
-            <ul>
-              @for (source of answer.evidence; track source.sourceId) {
-                <li>Evidence locator: {{ source.locator }}</li>
-              }
-            </ul>
-          </li>
-        }
-      </ul>
-      <h4>Linked proposals and review history</h4>
-      <ul>
-        @for (p of u.proposals; track p.proposalId) {
-          <li>
-            <p>{{ p.reviewDisposition }}: {{ p.statement }}</p>
-            @if (p.claimLifecycleState === 'superseded') {
-              <p>Linked claim superseded; retained as history, not qualifying current truth.</p>
-            }
-            <button type="button" [disabled]="busy()" (click)="selectProposal(p.proposalId, true)">
-              Open linked proposal for review
-            </button>
-            <ol>
-              @for (event of p.reviewHistory; track event.version) {
-                <li>{{ event.operation }}: {{ event.statement }}</li>
-              }
-            </ol>
-          </li>
-        }
-      </ul>
-      @if (u.resolution; as resolution) {
-        <h4>Explicit owner resolution</h4>
-        <p>{{ resolution.explanation }}</p>
-      }
-      @if (u.state === 'open') {
-        <details>
-          <summary>Record an attributed answer</summary>
-          <form #answerForm (submit)="answer($event, answerForm)">
-            <fieldset [disabled]="busy()">
-              <legend>Answer; keep UNKNOWN open</legend>
-              <label>Answer<textarea name="answer" maxlength="4000" required></textarea></label
-              ><label
-                >Answer attribution<input name="attribution" maxlength="1000" required
-              /></label>
-              <label
-                >Supporting evidence (optional)<select name="source">
-                  <option value="">No supporting evidence yet</option>
-                  @for (source of w.evidence; track source.sourceId) {
-                    <option [value]="source.sourceId">{{ source.filename }}</option>
-                  }
-                </select></label
-              >
-              <label>Supporting locator (optional)<input name="locator" maxlength="2000" /></label
-              ><button type="submit">Record answer; keep open</button>
-            </fieldset>
-          </form>
-        </details>
-        <details>
-          <summary>Create a linked proposal</summary>
-          <form #linkForm (submit)="link($event, linkForm)">
-            <fieldset [disabled]="busy() || !unlinkedAnswers().length">
-              <legend>Link an evidence-backed answer; keep UNKNOWN open</legend>
-              <label
-                >Unlinked answer with evidence<select name="answerId" required>
-                  <option value="">Choose an answer</option>
-                  @for (answer of unlinkedAnswers(); track answer.answerId) {
-                    <option [value]="answer.answerId">{{ answer.answer }}</option>
-                  }
-                </select></label
-              >
-              <label
-                >Proposed statement<textarea
-                  name="statement"
-                  maxlength="4000"
-                  required
-                ></textarea></label
-              ><label
-                >Proposer attribution<input name="attribution" maxlength="1000" required /></label
-              ><button type="submit">Create linked pending proposal</button>
-            </fieldset>
-          </form>
-        </details>
-        <form #resolveForm (submit)="resolve($event, resolveForm)">
-          <fieldset [disabled]="busy() || !qualifying().length">
-            <legend>Separate explicit owner resolution</legend>
+      <details>
+        <summary>Create a pending proposal</summary>
+        <form #proposalForm (submit)="propose($event, proposalForm)">
+          <fieldset [disabled]="busy() || !w.evidence.length">
+            <legend>Evidence-backed proposal</legend>
             <label
-              >Linked accepted/corrected reviewed claim<select name="claimId" required>
-                <option value="">Choose a qualifying claim</option>
-                @for (claim of qualifying(); track claim.claimId) {
-                  <option [value]="claim.claimId">
-                    {{ claim.reviewDisposition }} — {{ claim.statement }}
-                  </option>
+              >Proposed statement<textarea name="statement" maxlength="4000" required></textarea>
+            </label>
+            <label
+              >Proposer attribution<input name="attribution" maxlength="1000" required
+            /></label>
+            <label
+              >Supporting evidence<select name="source" required>
+                <option value="">Choose evidence</option>
+                @for (source of w.evidence; track source.sourceId) {
+                  <option [value]="source.sourceId">{{ source.filename }}</option>
                 }
               </select></label
             >
-            <label
-              >How this claim answers this specific UNKNOWN<textarea
-                name="explanation"
-                maxlength="4000"
-                required
-              ></textarea>
-            </label>
-            <label class="confirm"
-              ><input type="checkbox" required /> I confirm this reviewed claim answers this
-              specific question.</label
-            ><button type="submit">Resolve this UNKNOWN explicitly</button>
+            <label>Supporting locator (optional)<input name="locator" maxlength="2000" /></label>
+            <button type="submit">Create pending proposal only</button>
           </fieldset>
         </form>
-        @if (!qualifying().length) {
+      </details>
+    </section>
+    <section aria-labelledby="claims-heading">
+      <h2 id="claims-heading">Active reviewed claims: Library of Truth</h2>
+      @if (!claims().length) {
+        <p>No reviewed claims in this list. An empty LoT is valid.</p>
+      }
+      <p>
+        View a claim's original proposal, owner review and lifecycle history without changing data.
+      </p>
+      <ul>
+        @for (claim of claims(); track claim.claimId) {
+          <li>
+            <strong>{{ claim.reviewDisposition }}</strong
+            >: {{ claim.statement }}
+            <button type="button" [disabled]="busy()" (click)="viewClaimHistory(claim.claimId)">
+              View history / audit
+            </button>
+          </li>
+        }
+      </ul>
+    </section>
+    <section aria-labelledby="unknowns-heading">
+      <h2 id="unknowns-heading">Independent UNKNOWNs</h2>
+      @if (!w.unknowns.length) {
+        <p>No UNKNOWNs recorded yet.</p>
+      }
+      <label
+        >Select an UNKNOWN<select
+          #unknownSelect
+          [disabled]="busy()"
+          [value]="unknown()?.unknownId ?? ''"
+          (change)="selectUnknown(unknownSelect.value)"
+        >
+          <option value="">Choose an UNKNOWN</option>
+          @for (u of w.unknowns; track u.unknownId) {
+            <option [value]="u.unknownId">{{ u.state }} — {{ u.question }}</option>
+          }
+        </select></label
+      >
+      @if (unknown(); as u) {
+        <h3>Selected UNKNOWN: {{ u.state }}</h3>
+        <p class="record">{{ u.question }}</p>
+        <p>Reason: {{ u.reason }}</p>
+        <p>Context: {{ u.context }}</p>
+        <p>Version {{ u.version }}.</p>
+        @if (u.resolution?.claimLifecycleState === 'superseded') {
           <p>
-            No qualifying linked reviewed claim yet. Unsupported, rejected or unrelated claims do
-            not resolve this UNKNOWN.
+            The historical resolution references a superseded claim. Resolution history is
+            preserved; that claim is not current truth.
           </p>
         }
-      }
-      <h4>UNKNOWN history</h4>
-      <ol>
-        @for (event of u.history; track event.version) {
-          <li>Version {{ event.version }} — {{ event.operation }}</li>
+        <h4>Attributed answers</h4>
+        <ul>
+          @for (answer of u.answers; track answer.answerId) {
+            <li>
+              <p>{{ answer.answer }}</p>
+              <p>Attribution: {{ answer.attribution }}</p>
+              @if (!answer.evidence.length) {
+                <p>
+                  No supporting evidence yet. This answer cannot create an evidence-backed proposal.
+                </p>
+              }
+              <ul>
+                @for (source of answer.evidence; track source.sourceId) {
+                  <li>Evidence locator: {{ source.locator }}</li>
+                }
+              </ul>
+            </li>
+          }
+        </ul>
+        <h4>Linked proposals and review history</h4>
+        <ul>
+          @for (p of u.proposals; track p.proposalId) {
+            <li>
+              <p>{{ p.reviewDisposition }}: {{ p.statement }}</p>
+              @if (p.claimLifecycleState === 'superseded') {
+                <p>Linked claim superseded; retained as history, not qualifying current truth.</p>
+              }
+              <button
+                type="button"
+                [disabled]="busy()"
+                (click)="selectProposal(p.proposalId, true)"
+              >
+                Open linked proposal for review
+              </button>
+              <ol>
+                @for (event of p.reviewHistory; track event.version) {
+                  <li>{{ event.operation }}: {{ event.statement }}</li>
+                }
+              </ol>
+            </li>
+          }
+        </ul>
+        @if (u.resolution; as resolution) {
+          <h4>Explicit owner resolution</h4>
+          <p>{{ resolution.explanation }}</p>
         }
-      </ol>
-    }
-    <details>
-      <summary>Open an independent UNKNOWN</summary>
-      <form #unknownForm (submit)="openUnknown($event, unknownForm)">
-        <fieldset [disabled]="busy()">
-          <legend>Record missing knowledge independently of truth</legend>
-          <label>Question<textarea name="question" maxlength="3000" required></textarea></label
-          ><label>Reason<input name="reason" maxlength="1000" required /></label
-          ><label>Context (optional)<textarea name="context" maxlength="2000"></textarea></label
-          ><button type="submit">Open UNKNOWN</button>
-        </fieldset>
-      </form>
-    </details>
-  </section>
+        @if (u.state === 'open') {
+          <details>
+            <summary>Record an attributed answer</summary>
+            <form #answerForm (submit)="answer($event, answerForm)">
+              <fieldset [disabled]="busy()">
+                <legend>Answer; keep UNKNOWN open</legend>
+                <label>Answer<textarea name="answer" maxlength="4000" required></textarea></label
+                ><label
+                  >Answer attribution<input name="attribution" maxlength="1000" required
+                /></label>
+                <label
+                  >Supporting evidence (optional)<select name="source">
+                    <option value="">No supporting evidence yet</option>
+                    @for (source of w.evidence; track source.sourceId) {
+                      <option [value]="source.sourceId">{{ source.filename }}</option>
+                    }
+                  </select></label
+                >
+                <label>Supporting locator (optional)<input name="locator" maxlength="2000" /></label
+                ><button type="submit">Record answer; keep open</button>
+              </fieldset>
+            </form>
+          </details>
+          <details>
+            <summary>Create a linked proposal</summary>
+            <form #linkForm (submit)="link($event, linkForm)">
+              <fieldset [disabled]="busy() || !unlinkedAnswers().length">
+                <legend>Link an evidence-backed answer; keep UNKNOWN open</legend>
+                <label
+                  >Unlinked answer with evidence<select name="answerId" required>
+                    <option value="">Choose an answer</option>
+                    @for (answer of unlinkedAnswers(); track answer.answerId) {
+                      <option [value]="answer.answerId">{{ answer.answer }}</option>
+                    }
+                  </select></label
+                >
+                <label
+                  >Proposed statement<textarea
+                    name="statement"
+                    maxlength="4000"
+                    required
+                  ></textarea></label
+                ><label
+                  >Proposer attribution<input name="attribution" maxlength="1000" required /></label
+                ><button type="submit">Create linked pending proposal</button>
+              </fieldset>
+            </form>
+          </details>
+          <form #resolveForm (submit)="resolve($event, resolveForm)">
+            <fieldset [disabled]="busy() || !qualifying().length">
+              <legend>Separate explicit owner resolution</legend>
+              <label
+                >Linked accepted/corrected reviewed claim<select name="claimId" required>
+                  <option value="">Choose a qualifying claim</option>
+                  @for (claim of qualifying(); track claim.claimId) {
+                    <option [value]="claim.claimId">
+                      {{ claim.reviewDisposition }} — {{ claim.statement }}
+                    </option>
+                  }
+                </select></label
+              >
+              <label
+                >How this claim answers this specific UNKNOWN<textarea
+                  name="explanation"
+                  maxlength="4000"
+                  required
+                ></textarea>
+              </label>
+              <label class="confirm"
+                ><input type="checkbox" required /> I confirm this reviewed claim answers this
+                specific question.</label
+              ><button type="submit">Resolve this UNKNOWN explicitly</button>
+            </fieldset>
+          </form>
+          @if (!qualifying().length) {
+            <p>
+              No qualifying linked reviewed claim yet. Unsupported, rejected or unrelated claims do
+              not resolve this UNKNOWN.
+            </p>
+          }
+        }
+        <h4>UNKNOWN history</h4>
+        <ol>
+          @for (event of u.history; track event.version) {
+            <li>Version {{ event.version }} — {{ event.operation }}</li>
+          }
+        </ol>
+      }
+      <details>
+        <summary>Open an independent UNKNOWN</summary>
+        <form #unknownForm (submit)="openUnknown($event, unknownForm)">
+          <fieldset [disabled]="busy()">
+            <legend>Record missing knowledge independently of truth</legend>
+            <label>Question<textarea name="question" maxlength="3000" required></textarea></label
+            ><label>Reason<input name="reason" maxlength="1000" required /></label
+            ><label>Context (optional)<textarea name="context" maxlength="2000"></textarea></label
+            ><button type="submit">Open UNKNOWN</button>
+          </fieldset>
+        </form>
+      </details>
+    </section>
+  }
 }
+<ng-template #reviewControls>
+  <fieldset [disabled]="busy()">
+    <legend>Explicit owner review</legend>
+    <label
+      >Corrected wording (required for Correct)<textarea
+        #corrected
+        maxlength="4000"
+        [value]="correction()"
+        (input)="correction.set(corrected.value)"
+      ></textarea>
+    </label>
+    <div class="actions">
+      <button type="button" (click)="review('accepted')">Accept proposal</button
+      ><button type="button" (click)="review('rejected')">Reject proposal</button
+      ><button type="button" (click)="review('corrected')">Correct proposal</button>
+    </div>
+    @if (portfolio) {
+      <p>This review changes only the fictional sample in this tab.</p>
+    } @else {
+      <p>Accept or Correct creates a reviewed claim. It does not resolve a linked UNKNOWN.</p>
+    }
+  </fieldset></ng-template
+>

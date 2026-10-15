@@ -5,15 +5,20 @@ import { Header } from './header';
 import { ThemeState } from '../../services/theme-state';
 
 describe('Header', () => {
-  it('offers a direct Thingamajob product entry with a current-page state', async () => {
+  it('offers Thingamajob under Work with a current-page state', async () => {
     await TestBed.inject(Router).navigateByUrl('/thingamajob');
     fixture.detectChanges();
     await fixture.whenStable();
     const link = (fixture.nativeElement as HTMLElement).querySelector<HTMLAnchorElement>(
-      'nav[aria-label="Primary"] > ul > li > a[href="/thingamajob"]',
+      '#work-navigation a[href="/thingamajob"]',
     );
     expect(link?.textContent?.trim()).toBe('Thingamajob');
     expect(link?.getAttribute('aria-current')).toBe('page');
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'nav[aria-label="Primary"] > ul > li > a[href="/thingamajob"]',
+      ),
+    ).toBeNull();
   });
   it('offers global theme selection through the shared disclosure with an accessible current state', () => {
     const root = fixture.nativeElement as HTMLElement;
@@ -100,11 +105,12 @@ describe('Header', () => {
     );
     expect(links.map((link) => link.getAttribute('href')).slice(0, 2)).toEqual([
       '/work/djamespoer',
-      '/work/exl',
+      '/thingamajob',
     ]);
     expect(links[0].textContent?.trim()).toBe('djamespoer.com');
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '/work/djamespoer',
+      '/thingamajob',
       '/work/exl',
       '/work/ips',
       '/work/tcc',

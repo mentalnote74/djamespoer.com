@@ -26,6 +26,7 @@ export class Header {
   ];
   readonly work = [
     { path: '/work/djamespoer', label: 'djamespoer.com' },
+    { path: '/thingamajob', label: 'Thingamajob' },
     { path: '/work/exl', label: 'EXL / LifePRO' },
     { path: '/work/ips', label: 'IPS / PowerSchool' },
     { path: '/work/tcc', label: 'TCC Software Solutions' },

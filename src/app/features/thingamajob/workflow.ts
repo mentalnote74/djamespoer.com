@@ -9,20 +9,20 @@ import {
   Injector,
   afterNextRender,
 } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { WorkflowApi } from './workflow-api';
 import type { Workflow, Proposal, UnknownDetail } from './workflow.models';
+import { PORTFOLIO_WORKFLOW, WORKFLOW_API } from './portfolio-workflow';
 
 @Component({
   selector: 'app-thingamajob-workflow',
-  imports: [DatePipe],
+  imports: [DatePipe, NgTemplateOutlet],
   templateUrl: './workflow.html',
   styleUrl: './workflow.scss',
-  providers: [WorkflowApi],
 })
 export class ThingamajobWorkflow implements OnInit {
-  readonly api = inject(WorkflowApi);
+  readonly portfolio = inject(PORTFOLIO_WORKFLOW, { optional: true });
+  readonly api = this.portfolio ?? inject(WORKFLOW_API);
   readonly workspace = signal<Workflow | null>(null);
   readonly proposal = signal<Proposal | null>(null);
   readonly unknown = signal<UnknownDetail | null>(null);
@@ -57,7 +57,35 @@ export class ThingamajobWorkflow implements OnInit {
   );
   async ngOnInit() {
     await this.refresh(false);
+    if (this.portfolio) await this.selectSample();
   }
+  private async selectSample() {
+    const first = this.workspace()?.proposals[0];
+    if (first) await this.selectProposal(first.proposalId);
+  }
+  async resetSample() {
+    if (!this.portfolio || this.busy()) return;
+    this.api.clear();
+    this.proposal.set(null);
+    this.correction.set('');
+    await this.refresh(false);
+    await this.selectSample();
+    this.focusNotice();
+  }
+  readonly portfolioNotice = computed(() => {
+    if (this.busy()) return 'Updating this fictional sample…';
+    if (this.message().startsWith('Enter corrected wording')) return this.message();
+    if (/failed|unavailable|denied|could not|Conflict/.test(this.message()))
+      return 'The sample could not be updated. Reset it before trying again.';
+    const decision = this.proposal()?.reviewDisposition;
+    return decision === 'accepted'
+      ? 'Sample accepted. The reviewed statement appears below.'
+      : decision === 'corrected'
+        ? 'Sample corrected. Original proposal wording is preserved.'
+        : decision === 'rejected'
+          ? 'Sample rejected. No reviewed statement was created.'
+          : 'Read the source, then accept, reject or correct the proposal.';
+  });
   private focusNotice() {
     queueMicrotask(() => this.notice()?.nativeElement.focus());
   }

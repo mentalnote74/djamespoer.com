@@ -1,15 +1,27 @@
 :host {
   display: block;
 }
+.case-study section {
+  margin-block-start: 2rem;
+}
 p,
-ul {
-  max-inline-size: 70ch;
+li {
+  max-inline-size: 65ch;
 }
 .product-opening {
   font-size: clamp(1.125rem, 2vw, 1.5rem);
 }
-section {
-  margin-block-start: 2rem;
+.widget-section {
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 2px solid var(--panel-border, currentColor);
+  border-radius: 0.5rem;
+  background: var(--panel-surface, Canvas);
+  color: var(--page-foreground, CanvasText);
+}
+.widget-section app-thingamajob-workflow {
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+  border: 1px solid #67717b;
+  border-radius: 0.4rem;
 }
 li + li {
   margin-block-start: 0.5rem;

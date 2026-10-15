@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## Thingamajob case study with real review component ready (2026-10-15)
+
+Local branch test/thingamajob-case-study-widget keeps /thingamajob, moves its nav entry into Work, and rebuilds the page around the existing features/thingamajob/workflow component. Real controller and shared review-controls template serve protected and portfolio presentations. Public parent supplies a fictional tab-local adapter for Accept/Reject/Correct/history/reset; no HTTP, storage, upload or human authority. The case study explicitly describes this limited walkthrough. Private API provider remains exclusively in the protected bootstrap; endpoint strings are absent from public bundles. Backend behavior/data unchanged.
+
+Validation: Angular 263/263; public/protected builds and budgets pass; 37 local axe audits (17 interaction/responsive/zoom, 20 nine-theme/zoom) zero violations. 1440/390/320px, keyboard Work menu/review/history/skip, correction validation, hostile text escaping, stale decisions and reset/reload verified. Existing Google Analytics is blocked only by local harness; analytics configuration unchanged. Screenshots/copy/results: output/thingamajob-case-study/. Local review: http://127.0.0.1:4406/thingamajob.
+
+READY for review, not deployed. Erica, Access/OTP/email and earlier deployed checkpoints untouched. Existing homepage carousel overflow not changed. Earlier unrelated working-tree edits preserved. STOP for James review.
+
+
 ## Shared skip link corrected; deployment review ready (2026-10-15)
 
 Fixes the prior public-entry checkpoint's shared skip-link limitation. A bare fragment resolved through base href=/ to Home on subroutes. App now intercepts activation and focuses its already-rendered main#main-content, preventing navigation. Native link/name, main ID and negative tabindex preserved; no Router or history change.

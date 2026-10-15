@@ -1,56 +1,115 @@
-<article class="editorial-content">
+<article class="case-study editorial-content">
   <h1>Thingamajob</h1>
-  <p class="product-opening">A reusable career platform built around source-backed evidence.</p>
-  <p>
-    Thingamajob connects career evidence with the work of exploring roles, preparing application
-    materials and managing a job search. It starts with what a person can substantiate, rather than
-    generating a career story without sources.
+  <p class="product-opening">
+    An owner-controlled career platform, built from source-backed evidence.
   </p>
-  <section aria-labelledby="evidence-heading">
-    <h2 id="evidence-heading">Evidence before assertions</h2>
+  <p>
+    A reusable product for turning scattered career material into reviewed evidence that can support
+    a job search.
+  </p>
+  <section aria-labelledby="problem-heading">
+    <h2 id="problem-heading">The problem</h2>
     <p>
-      The working foundation lets an owner review evidence-backed proposals, accept, reject or
-      correct them, and explicitly resolve open questions. An automated suggestion does not become
-      an approved career fact on its own. Original sources and decision history remain available to
-      the owner.
+      Career evidence is fragmented across résumés, LinkedIn, portfolios, documents, memory and
+      job-search activity. That makes it difficult to distinguish an accurate, supported statement
+      from an attractive but unsupported narrative.
     </p>
   </section>
-  <section aria-labelledby="scope-heading">
-    <h2 id="scope-heading">One foundation, a broader career workflow</h2>
-    <p>The platform is designed to support:</p>
-    <ul>
-      <li>Career evidence: organize source material and reviewed career facts.</li>
-      <li>Role evaluation: relate a person's evidence to a role's requirements.</li>
-      <li>Application materials: prepare source-grounded résumés and application content.</li>
-      <li>Job-search workflow: connect opportunities, decisions and follow-up.</li>
-    </ul>
+  <section aria-labelledby="idea-heading">
+    <h2 id="idea-heading">The idea</h2>
     <p>
-      Evidence and owner review form the working foundation. Role evaluation, application materials
-      and the broader job-search workflow describe the product direction, not actions offered on
-      this page.
+      Give the owner a reusable evidence foundation. Keep source material, proposed statements,
+      review decisions and open questions connected, while leaving approval in human hands.
+    </p>
+  </section>
+  <section class="widget-section editorial-wide" aria-labelledby="widget-heading">
+    <h2 id="widget-heading">Thingamajob in use</h2>
+    <p>
+      This is the existing Thingamajob review component, presented with a fictional sample. Try
+      Accept, Reject or Correct, inspect the result and history, then reset to explore another
+      decision.
+    </p>
+    <app-thingamajob-workflow />
+  </section>
+  <section aria-labelledby="workflow-heading">
+    <h2 id="workflow-heading">How it works</h2>
+    <ol>
+      <li>Bring available career evidence together and retain its source.</li>
+      <li>Identify possible facts and questions that still need an answer.</li>
+      <li>Let the owner review, correct, accept or reject proposed statements.</li>
+      <li>Reuse reviewed evidence while preserving its history.</li>
+      <li>
+        Extend that foundation toward evaluating opportunities, preparing source-grounded materials
+        and feeding useful outcomes back into the job search.
+      </li>
+    </ol>
+    <p>
+      Evidence, owner review and explicit question resolution are implemented in the protected
+      prototype. Opportunity evaluation and material generation remain product direction; they are
+      not offered by this walkthrough.
+    </p>
+  </section>
+  <section aria-labelledby="human-heading">
+    <h2 id="human-heading">Human + AI operating model</h2>
+    <p>
+      Automation can propose; it cannot grant itself owner authority. Accepting or correcting a
+      statement is an explicit human decision. Answering a question does not automatically resolve
+      it. When an approved fact is corrected later, the original approval remains in history while
+      the replacement becomes current.
+    </p>
+    <p>
+      The public walkthrough makes no AI calls. Its review actions are local interactions with
+      fictional material, not authenticated decisions on a real person's records.
     </p>
   </section>
   <section aria-labelledby="clients-heading">
-    <h2 id="clients-heading">Two independent prototypes</h2>
+    <h2 id="clients-heading">One platform, independent clients</h2>
     <p>
       James is Client #1, the first live prototype. Erica is Client #2, the second independent live
-      prototype. They use the same reusable product approach, with separate career profiles and
-      owner-controlled evidence. One person's career facts are not another person's content.
+      prototype. The shared platform keeps client evidence and workspaces isolated. Erica's private
+      onboarding remains separate from her public site and this case study.
     </p>
   </section>
-  <section aria-labelledby="access-heading">
-    <h2 id="access-heading">Using Thingamajob</h2>
+  <section aria-labelledby="evolution-heading">
+    <h2 id="evolution-heading">Prototype and evolution</h2>
     <p>
-      This is the public product overview. The owner workspace is not publicly accessible from this
-      page; no uploads or job evaluations can be submitted here.
+      The protected workflow supports evidence, proposals, owner review, reviewed statements, open
+      questions and explicit resolution. It also preserves the history of corrections to previously
+      approved facts. The walkthrough focuses on proposal review, using the same component and
+      review controls with an isolated local adapter.
+    </p>
+    <p>
+      Selections and decisions in this walkthrough exist only in the current tab. Reset or reload
+      restores the sample. It does not upload files, access a private workspace or persist a real
+      career fact.
+    </p>
+  </section>
+  <section aria-labelledby="engineering-heading">
+    <h2 id="engineering-heading">Design, accessibility and engineering</h2>
+    <p>
+      The Angular feature owns its presentation state behind a service boundary. The protected
+      application obtains identity and ownership decisions from the server. The portfolio supplies a
+      separate, tab-local adapter; it has no private API connection and receives no client records.
+    </p>
+    <p>
+      Native labels, fieldsets, buttons and disclosure controls support keyboard operation. Review
+      outcomes receive a focused status message. Source text and proposed wording render as data,
+      never executable markup. The case study uses the portfolio's shared main landmark, navigation
+      and lazy routing.
+    </p>
+    <p>
+      Iteration has moved the feature from a placeholder to a protected owner workflow, added
+      history-preserving correction, and now made the real review UI inspectable inside this case
+      study.
     </p>
   </section>
   <section aria-labelledby="dredge-heading">
-    <h2 id="dredge-heading">Separate from Daily Job Dredge</h2>
+    <h2 id="dredge-heading">Relationship to Daily Job Dredge</h2>
     <p>
-      Thingamajob is the reusable product platform. Daily Job Dredge is a separate operational
-      workflow for finding and processing opportunities. They can inform each other without being
-      the same product.
+      Thingamajob is the reusable career platform. Daily Job Dredge is a separate operational
+      workflow for finding and processing opportunities. Opportunities can inform evidence-based
+      evaluation, and reviewed outcomes can inform later searches. That is an intended interface
+      between the systems, not a claim that a live integration is already connected here.
     </p>
   </section>
 </article>
