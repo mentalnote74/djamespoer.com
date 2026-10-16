@@ -45,6 +45,7 @@ export class PublicTrack {
           '/work/exl': 'exl',
           '/case-studies/exl': 'exl',
           '/work/ips': 'ips',
+          '/case-studies/ips': 'ips',
           '/work/tcc': 'tcc',
           '/work/dr': 'dr',
         } as const;

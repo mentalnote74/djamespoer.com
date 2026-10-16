@@ -151,7 +151,7 @@ export const routes: Routes = [
           : path === 'dr'
             ? 'Dreyer & Reinbold case study: dealership digital operations, vehicle photography and month-end commission reporting within an existing intranet.'
             : path === 'ips'
-              ? 'Indianapolis Public Schools case study: dynamic PowerSchool forms, conditional validation and state reporting requirements.'
+              ? 'IPS Work History: customizing the existing PowerSchool environment with JavaScript, jQuery, HTML and CSS.'
               : `${heading} case study and supporting evidence.`,
     },
     resolve: {
@@ -160,9 +160,13 @@ export const routes: Routes = [
           ? import('./components/case-study/exl-work.content').then(
               ({ EXL_WORK_HISTORY }) => EXL_WORK_HISTORY,
             )
-          : import('./components/case-study/case-study.content').then(
-              ({ CASE_STUDIES }) => CASE_STUDIES[path],
-            ),
+          : path === 'ips'
+            ? import('./components/case-study/ips-work.content').then(
+                ({ IPS_WORK_HISTORY }) => IPS_WORK_HISTORY,
+              )
+            : import('./components/case-study/case-study.content').then(
+                ({ CASE_STUDIES }) => CASE_STUDIES[path],
+              ),
     },
     loadComponent: () =>
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
@@ -177,6 +181,20 @@ export const routes: Routes = [
     resolve: {
       study: () =>
         import('./components/case-study/exl.content').then(({ EXL_CASE_STUDY }) => EXL_CASE_STUDY),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
+  },
+  {
+    path: 'case-studies/ips',
+    title: 'IPS Case Study | D. James Poer',
+    data: {
+      description:
+        'Translating district policy into predictable PowerSchool behavior through conditional validation and collaboration with IPS leadership.',
+    },
+    resolve: {
+      study: () =>
+        import('./components/case-study/ips.content').then(({ IPS_CASE_STUDY }) => IPS_CASE_STUDY),
     },
     loadComponent: () =>
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),

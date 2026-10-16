@@ -37,7 +37,11 @@ export class Header {
     { path: '/work/djamespoer', label: 'djamespoer.com' },
     { path: '/thingamajob', label: 'Thingamajob' },
     ...this.work.map((link) =>
-      link.path === '/work/exl' ? { ...link, path: '/case-studies/exl' } : link,
+      link.path === '/work/exl'
+        ? { ...link, path: '/case-studies/exl' }
+        : link.path === '/work/ips'
+          ? { ...link, path: '/case-studies/ips' }
+          : link,
     ),
   ];
   private sectionButton: HTMLButtonElement | null = null;

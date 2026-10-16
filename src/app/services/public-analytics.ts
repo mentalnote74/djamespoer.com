@@ -27,6 +27,7 @@ export const PUBLIC_ROUTES = [
   '/work/exl',
   '/case-studies/exl',
   '/work/ips',
+  '/case-studies/ips',
   '/work/tcc',
   '/work/dr',
 ] as const;
