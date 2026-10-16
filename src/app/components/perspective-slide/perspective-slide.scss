@@ -1,0 +1,105 @@
+﻿:host {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 3;
+  container-type: inline-size;
+}
+.artwork-slide {
+  position: relative;
+  isolation: isolate;
+  inline-size: 100%;
+  aspect-ratio: 3;
+  color: #fff;
+  background: #15191c;
+}
+picture,
+img {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+img {
+  object-fit: cover;
+}
+.artwork-slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgb(0 0 0 / 0.78), rgb(0 0 0 / 0.5) 36%, transparent 72%);
+}
+.slide-copy {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  padding: clamp(1rem, 3cqi, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  text-align: start;
+}
+h2 {
+  font-size: clamp(1.75rem, 4cqi, 3.5rem);
+  line-height: 1.05;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.025em;
+}
+p {
+  max-inline-size: 34ch;
+  font-size: clamp(1rem, 1.7cqi, 1.375rem);
+  line-height: 1.3;
+  margin: 0 0 0.75rem;
+}
+a {
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 0.25rem;
+  text-underline-offset: 0.2em;
+  font-weight: 600;
+}
+a:focus-visible {
+  outline: 3px solid white;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #15191c;
+}
+@container (max-width: 30rem) {
+  .slide-copy {
+    padding: 0.5rem 0.75rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 2.75rem auto;
+    align-content: center;
+    column-gap: 0.5rem;
+    row-gap: 0;
+  }
+  h2 {
+    font-size: 1rem;
+    line-height: 1.1;
+    margin: 0;
+    align-self: center;
+  }
+  p {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    margin: 0;
+    max-inline-size: none;
+  }
+  a {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 0.875rem;
+  }
+}
+
+@container (max-width: 30rem) {
+  .artwork-slide::after {
+    background: linear-gradient(90deg, rgb(0 0 0 / 0.62), rgb(0 0 0 / 0.6));
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "impact": {
+    "generator": "built-in image_gen; no personal API key used",
+    "prompt": "Use case: photorealistic-natural. Project asset for a professional portfolio carousel, ultrawide 3:1 horizontal composition intended for 2172 x 724 delivery. Extreme macro close-up of the Moon's scarred surface, edge-to-edge lunar geology only, no horizon or sky. Overlapping deep impact craters, raised rims, ejecta rays and fine tactile regolith, dramatic low raking natural light revealing real physical depth. Largest sharply detailed crater and scarred overlapping rims occupy the right two-thirds; left quarter is naturally quieter dark regolith/shadow suitable for live white HTML title later. Lunar monochrome with restrained warm stone highlights, editorial photographic realism. The surface must dominate, not a postcard of the full moon. Absolutely no text, typography, numbers, logos or watermark, no astronaut, star field, spacecraft, neon, UI panels or cards. Generate one finished image, keep geology legible in a narrow banner crop.",
+    "sourceSha256": "434ef1a8a9a64ffe21379e6780a5f5f422a27b0ba73621b703a918b842b67c98",
+    "assets": [
+      {
+        "file": "impact-1200.avif",
+        "width": 1200,
+        "height": 400,
+        "bytes": 57772
+      },
+      {
+        "file": "impact-1200.webp",
+        "width": 1200,
+        "height": 400,
+        "bytes": 111650
+      },
+      {
+        "file": "impact-2172.avif",
+        "width": 2172,
+        "height": 724,
+        "bytes": 140468
+      },
+      {
+        "file": "impact-2172.webp",
+        "width": 2172,
+        "height": 724,
+        "bytes": 209086
+      },
+      {
+        "file": "impact-768.avif",
+        "width": 768,
+        "height": 256,
+        "bytes": 24668
+      },
+      {
+        "file": "impact-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 48942
+      }
+    ],
+    "responsive": "AVIF primary / WebP fallback; 768, 1200, 2172 widths; sizes follows unchanged carousel container",
+    "checks": "1440/1024/390/320 geometry/copy/keyboard/delivery passed"
+  }
+}

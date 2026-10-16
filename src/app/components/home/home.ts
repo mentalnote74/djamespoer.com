@@ -1,5 +1,6 @@
 import { Aside } from '../../layout/aside/aside';
 import { Thingamajob } from '../thingamajob/thingamajob';
+import { PerspectiveSlide } from '../perspective-slide/perspective-slide';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
@@ -10,6 +11,7 @@ import { PerspectiveCandidate } from '../perspective-candidate/perspective-candi
 @Component({
   imports: [
     RouterLink,
+    PerspectiveSlide,
     Aside,
     Thingamajob,
     Carousel,
