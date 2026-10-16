@@ -60,65 +60,6 @@
         window.gtag('js', new Date());
         window.gtag('config', 'G-WQBYGF4Z8F');
 
-        const caseStudies = ['/work/djamespoer', '/work/exl', '/work/ips', '/work/tcc', '/work/dr'];
-        const publicRoutes = [
-          '/',
-          '/about',
-          '/thingamajob',
-          '/engineering',
-          '/ux-product',
-          '/accessibility',
-          '/ai',
-          '/creative',
-          '/impact',
-          ...caseStudies,
-        ];
-        const activate = (event) => {
-          if (
-            !event.isTrusted ||
-            (event.type === 'auxclick' ? event.button !== 1 : event.button !== 0)
-          )
-            return;
-          const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
-          if (!anchor) return;
-          const target = new URL(anchor.href, window.location.href);
-          const route = window.location.pathname.replace(/\/$/, '') || '/';
-          const parameters = {
-            page_path: publicRoutes.includes(route) ? route : '/other',
-            cta_location: anchor.closest('app-header')
-              ? 'primary-navigation'
-              : anchor.closest('app-hero')
-                ? 'hero'
-                : anchor.closest('app-thingamajob') || anchor.closest('.home-thingamajob-entry')
-                  ? 'home-thingamajob'
-                  : 'page-content',
-          };
-          let name;
-          if (target.protocol === 'mailto:') name = 'contact_click';
-          else if (target.origin === window.location.origin) {
-            if (
-              anchor.hasAttribute('download') &&
-              target.pathname === '/assets/resume/d-james-poer-resume.pdf'
-            ) {
-              name = 'resume_download';
-              parameters.resume_id = 'public-current';
-            } else if (target.pathname === '/thingamajob') {
-              name = 'thingamajob_open';
-              parameters.destination_path = '/thingamajob';
-            }
-          }
-          if (name) {
-            // Never collect link text, href, contact destination, queries, hashes or form values.
-            try {
-              window.gtag('event', name, parameters);
-            } catch {
-              /* Optional telemetry must not interrupt navigation. */
-            }
-          }
-        };
-        document.addEventListener('click', activate);
-        document.addEventListener('auxclick', activate);
-
         // Keep third-party startup off the rendering path; clicks can queue before it loads.
         const loadAnalytics = () => {
           const script = document.createElement('script');

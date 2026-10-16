@@ -1,3 +1,4 @@
+import { PublicTrack } from '../../services/public-track';
 import { ThemeState, type ThemeSelection } from '../../services/theme-state';
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -5,7 +6,7 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
 import { Bedlam } from '../bedlam/bedlam';
 
 @Component({
-  imports: [RouterLink, RouterLinkActive, Bedlam],
+  imports: [PublicTrack, RouterLink, RouterLinkActive, Bedlam],
   selector: 'app-header',
   styleUrl: './header.scss',
   templateUrl: './header.html',

@@ -29,7 +29,7 @@
         @switch (evidence.kind) {
           @case ('link') {
             <p>
-              <a [href]="evidence.href">{{ evidence.label }}</a>
+              <a publicTrack [href]="evidence.href">{{ evidence.label }}</a>
             </p>
           }
           @case ('image') {

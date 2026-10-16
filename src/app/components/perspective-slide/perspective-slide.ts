@@ -1,4 +1,5 @@
-﻿import { Component, computed, input } from '@angular/core';
+import { PublicTrack } from '../../services/public-track';
+import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 export const ARTWORK_SLIDES = {
   ai: { title: 'AI & Innovation', line: 'Use the machine. Keep the judgment.', route: '/ai' },
@@ -22,7 +23,7 @@ export const ARTWORK_SLIDES = {
 export type ArtworkSlide = keyof typeof ARTWORK_SLIDES;
 @Component({
   selector: 'app-perspective-slide',
-  imports: [RouterLink],
+  imports: [PublicTrack, RouterLink],
   templateUrl: './perspective-slide.html',
   styleUrl: './perspective-slide.scss',
 })

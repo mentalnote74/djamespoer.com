@@ -1,6 +1,9 @@
 <header class="site-header">
   <div class="site-header__content layout-container">
     <a
+      publicTrack
+      trackLocation="primary-navigation"
+      trackSource="navigation"
       class="site-header__home"
       routerLink="/"
       routerLinkActive="site-header__home--active"
@@ -49,6 +52,9 @@
           >
             <li>
               <a
+                publicTrack
+                trackLocation="primary-navigation"
+                trackSource="navigation"
                 class="site-header__nav-link"
                 routerLink="/about"
                 routerLinkActive="site-header__nav-link--active"
@@ -58,6 +64,9 @@
             </li>
             <li>
               <a
+                publicTrack
+                trackLocation="primary-navigation"
+                trackSource="navigation"
                 class="site-header__nav-link"
                 href="/assets/resume/d-james-poer-resume.pdf"
                 download
@@ -65,10 +74,20 @@
               >
             </li>
             <li>
-              <a class="site-header__nav-link" href="mailto:djamespoer@djamespoer.com">Contact</a>
+              <a
+                publicTrack
+                trackLocation="primary-navigation"
+                trackSource="navigation"
+                class="site-header__nav-link"
+                href="mailto:djamespoer@djamespoer.com"
+                >Contact</a
+              >
             </li>
             <li>
               <a
+                publicTrack
+                trackLocation="primary-navigation"
+                trackSource="navigation"
                 class="site-header__nav-link"
                 href="https://www.linkedin.com/in/djamespoer"
                 target="_blank"
@@ -92,6 +111,9 @@
             @for (link of work; track link.path) {
               <li>
                 <a
+                  publicTrack
+                  trackLocation="primary-navigation"
+                  trackSource="work"
                   class="site-header__nav-link"
                   [routerLink]="link.path"
                   routerLinkActive="site-header__nav-link--active"
@@ -121,6 +143,9 @@
             @for (link of caseStudies; track link.path) {
               <li>
                 <a
+                  publicTrack
+                  trackLocation="primary-navigation"
+                  trackSource="case-study"
                   class="site-header__nav-link"
                   [routerLink]="link.path"
                   routerLinkActive="site-header__nav-link--active"
@@ -150,6 +175,9 @@
             @for (link of perspectives; track link.path) {
               <li>
                 <a
+                  publicTrack
+                  trackLocation="primary-navigation"
+                  trackSource="navigation"
                   class="site-header__nav-link"
                   [routerLink]="link.path"
                   routerLinkActive="site-header__nav-link--active"
