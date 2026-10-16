@@ -1,0 +1,126 @@
+@use 'sass:map';
+@use 'sass:list';
+
+// One environment, three surface depths. Components never author shadow geometry.
+$light: (
+  'teetotaler': (
+    0px,
+    4px,
+    12px,
+    -4px,
+    0.12,
+  ),
+  'tequila-sunset': (
+    -9px,
+    8px,
+    20px,
+    -5px,
+    0.14,
+  ),
+  'rum-runner': (
+    0px,
+    3px,
+    12px,
+    -4px,
+    0.13,
+  ),
+  'bloody-mary': (
+    0px,
+    3px,
+    12px,
+    -4px,
+    0.13,
+  ),
+  'tequila-sunrise': (
+    9px,
+    8px,
+    20px,
+    -5px,
+    0.13,
+  ),
+  'mojito': (
+    4px,
+    5px,
+    14px,
+    -4px,
+    0.12,
+  ),
+  'pina-colada': (
+    0px,
+    3px,
+    10px,
+    -3px,
+    0.1,
+  ),
+  'mai-tai': (
+    -4px,
+    5px,
+    14px,
+    -4px,
+    0.12,
+  ),
+);
+@mixin light($values) {
+  @each $role, $index in ('x': 1, 'y': 2, 'blur': 3, 'spread': 4, 'opacity': 5) {
+    --shadow-#{$role}: #{list.nth($values, $index)};
+  }
+}
+:root {
+  --shadow-ink: 15 22 30;
+  --elevation-flat: none;
+  --elevation-ambient:
+    0 1px 3px rgb(var(--shadow-ink) / 0.08),
+    0 0 0 1px color-mix(in srgb, var(--page-foreground) 4%, transparent);
+  --elevation-raised:
+    var(--elevation-ambient),
+    var(--shadow-x) var(--shadow-y) var(--shadow-blur) var(--shadow-spread)
+      rgb(var(--shadow-ink) / var(--shadow-opacity));
+  --elevation-floating:
+    var(--elevation-ambient),
+    calc(var(--shadow-x) * 1.4) calc(var(--shadow-y) * 1.5) calc(var(--shadow-blur) * 1.35)
+      var(--shadow-spread) rgb(var(--shadow-ink) / var(--shadow-opacity));
+  --surface-texture:
+    radial-gradient(
+      circle at 3px 5px,
+      color-mix(in srgb, var(--page-foreground) 1.2%, transparent) 0 0.6px,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 11px 13px,
+      color-mix(in srgb, var(--page-foreground) 0.6%, transparent) 0 0.6px,
+      transparent 1px
+    );
+  --texture-size: 19px 23px, 31px 37px;
+  @include light(map.get($light, 'teetotaler'));
+}
+@each $name, $values in $light {
+  :root[data-theme='#{$name}'] {
+    @include light($values);
+  }
+}
+body,
+.surface-textured {
+  background-image: var(--surface-texture);
+  background-size: var(--texture-size);
+}
+.surface-raised {
+  box-shadow: var(--elevation-raised);
+  transition: box-shadow 1s linear;
+}
+.surface-raised[open] {
+  box-shadow: var(--elevation-floating);
+}
+@media (prefers-reduced-motion: reduce) {
+  .surface-raised {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  body,
+  .surface-textured {
+    background-image: none;
+  }
+  .surface-raised {
+    box-shadow: none;
+  }
+}

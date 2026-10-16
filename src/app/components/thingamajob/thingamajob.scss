@@ -4,7 +4,7 @@
 }
 .thingamajob {
   padding: 1rem;
-  background: var(--component-surface, Canvas);
+  background-color: var(--component-surface, Canvas);
   color: var(--component-text, CanvasText);
   border: 3px double var(--component-border, currentColor);
   border-radius: 0.5rem;
