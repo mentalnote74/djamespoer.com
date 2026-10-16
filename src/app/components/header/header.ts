@@ -41,7 +41,9 @@ export class Header {
         ? { ...link, path: '/case-studies/exl' }
         : link.path === '/work/ips'
           ? { ...link, path: '/case-studies/ips' }
-          : link,
+          : link.path === '/work/tcc'
+            ? { ...link, path: '/case-studies/tcc' }
+            : link,
     ),
   ];
   private sectionButton: HTMLButtonElement | null = null;

@@ -29,6 +29,7 @@ export const PUBLIC_ROUTES = [
   '/work/ips',
   '/case-studies/ips',
   '/work/tcc',
+  '/case-studies/tcc',
   '/work/dr',
 ] as const;
 type PublicPath = (typeof PUBLIC_ROUTES)[number];

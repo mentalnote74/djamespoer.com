@@ -152,7 +152,9 @@ export const routes: Routes = [
             ? 'Dreyer & Reinbold case study: dealership digital operations, vehicle photography and month-end commission reporting within an existing intranet.'
             : path === 'ips'
               ? 'IPS Work History: customizing the existing PowerSchool environment with JavaScript, jQuery, HTML and CSS.'
-              : `${heading} case study and supporting evidence.`,
+              : path === 'tcc'
+                ? 'TCC Work History: UX research, Ascend and Oregon delivery, corporate front-end work and Vertex Angular development, May 2015 through June 2019.'
+                : `${heading} case study and supporting evidence.`,
     },
     resolve: {
       study: () =>
@@ -164,9 +166,13 @@ export const routes: Routes = [
             ? import('./components/case-study/ips-work.content').then(
                 ({ IPS_WORK_HISTORY }) => IPS_WORK_HISTORY,
               )
-            : import('./components/case-study/case-study.content').then(
-                ({ CASE_STUDIES }) => CASE_STUDIES[path],
-              ),
+            : path === 'tcc'
+              ? import('./components/case-study/tcc-work.content').then(
+                  ({ TCC_WORK_HISTORY }) => TCC_WORK_HISTORY,
+                )
+              : import('./components/case-study/case-study.content').then(
+                  ({ CASE_STUDIES }) => CASE_STUDIES[path],
+                ),
     },
     loadComponent: () =>
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
@@ -195,6 +201,20 @@ export const routes: Routes = [
     resolve: {
       study: () =>
         import('./components/case-study/ips.content').then(({ IPS_CASE_STUDY }) => IPS_CASE_STUDY),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
+  },
+  {
+    path: 'case-studies/tcc',
+    title: 'TCC Case Study | D. James Poer',
+    data: {
+      description:
+        'How observing Oregon users shaped Ascend and connected research, business analysis and front-end engineering at TCC.',
+    },
+    resolve: {
+      study: () =>
+        import('./components/case-study/tcc.content').then(({ TCC_CASE_STUDY }) => TCC_CASE_STUDY),
     },
     loadComponent: () =>
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),

@@ -47,6 +47,7 @@ export class PublicTrack {
           '/work/ips': 'ips',
           '/case-studies/ips': 'ips',
           '/work/tcc': 'tcc',
+          '/case-studies/tcc': 'tcc',
           '/work/dr': 'dr',
         } as const;
         if (route in employers) {
