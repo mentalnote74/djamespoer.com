@@ -7,27 +7,23 @@
   [autoRotate]="true"
   [rotationInterval]="5000"
 >
-  <ng-template appCarouselSlide label="Under Construction / djamespoer.com">
-    <app-hero [carouselPresentation]="true" />
-  </ng-template>
-
   <ng-template appCarouselSlide label="Engineering">
-    <app-perspective-candidate facet="engineering" />
+    <app-perspective-candidate [carouselFrame]="true" facet="engineering" />
   </ng-template>
 
   <ng-template appCarouselSlide label="UX &amp; Product">
-    <app-perspective-candidate facet="ux" />
+    <app-perspective-candidate [carouselFrame]="true" facet="ux" />
   </ng-template>
 
   <ng-template appCarouselSlide label="Accessibility">
-    <app-perspective-candidate facet="accessibility" />
+    <app-perspective-candidate [carouselFrame]="true" facet="accessibility" />
   </ng-template>
 
   <ng-template appCarouselSlide label="AI &amp; Innovation">
-    <app-perspective-candidate facet="ai" />
+    <app-perspective-candidate [carouselFrame]="true" facet="ai" />
   </ng-template>
 
-  <ng-template appCarouselSlide label="Creative">
+  <ng-template appCarouselSlide label="Creative Town">
     <img
       class="home-creative"
       src="/assets/perspectives/creative-2172.webp"
@@ -37,7 +33,7 @@
         /assets/perspectives/creative-1800.webp 1800w,
         /assets/perspectives/creative-2172.webp 2172w
       "
-      sizes="(min-width: 1344px) 1152px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - clamp(1.5rem, 6vw, 4rem) * 2 - 2px)"
+      sizes="(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
       width="2172"
       height="724"
       loading="lazy"
@@ -47,7 +43,7 @@
   </ng-template>
 
   <ng-template appCarouselSlide label="Impact">
-    <app-perspective-candidate facet="impact" />
+    <app-perspective-candidate [carouselFrame]="true" facet="impact" />
   </ng-template>
 </app-carousel>
 

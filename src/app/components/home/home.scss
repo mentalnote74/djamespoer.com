@@ -3,7 +3,12 @@
 }
 
 app-carousel {
-  --carousel-padding-start: clamp(0.75rem, 2vw, 1.5rem);
+  --carousel-padding-start: clamp(0.5rem, 1vw, 1rem);
+  --carousel-padding-end: clamp(0.75rem, 2vw, 1.5rem);
+  --carousel-content-gap: 0.5rem;
+  --carousel-slide-padding: 0;
+  --carousel-min-height: 0;
+  --carousel-slide-ratio: 3;
 }
 
 .home-editorial {
