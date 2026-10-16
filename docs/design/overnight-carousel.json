@@ -133,5 +133,50 @@
     ],
     "responsive": "AVIF primary / WebP fallback; 768, 1200, 2172 widths; sizes follows unchanged carousel container",
     "checks": "1440/1024/390/320 geometry/copy/keyboard/delivery passed"
+  },
+  "accessibility": {
+    "generator": "built-in image_gen; no personal API key used",
+    "prompt": "undefined",
+    "sourceSha256": "42f2d35f85b24c22fbfed6bdf5a68d33974c12082857b8b0fa3815844c36bba5",
+    "assets": [
+      {
+        "file": "accessibility-1200.avif",
+        "width": 1200,
+        "height": 400,
+        "bytes": 30129
+      },
+      {
+        "file": "accessibility-1200.webp",
+        "width": 1200,
+        "height": 400,
+        "bytes": 61080
+      },
+      {
+        "file": "accessibility-2172.avif",
+        "width": 2172,
+        "height": 724,
+        "bytes": 78589
+      },
+      {
+        "file": "accessibility-2172.webp",
+        "width": 2172,
+        "height": 724,
+        "bytes": 140162
+      },
+      {
+        "file": "accessibility-768.avif",
+        "width": 768,
+        "height": 256,
+        "bytes": 13107
+      },
+      {
+        "file": "accessibility-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 27198
+      }
+    ],
+    "responsive": "AVIF primary / WebP fallback; 768, 1200, 2172 widths; sizes follows unchanged carousel container",
+    "checks": "1440/1024/390/320 geometry/copy/keyboard/delivery passed"
   }
 }

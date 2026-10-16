@@ -1,6 +1,11 @@
 ﻿import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 export const ARTWORK_SLIDES = {
+  accessibility: {
+    title: 'Accessibility',
+    line: 'Build the entrance everyone can use.',
+    route: '/accessibility',
+  },
   ux: {
     title: 'UX & Product',
     line: 'Turn complexity into something people can use.',
