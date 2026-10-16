@@ -1,6 +1,7 @@
 ﻿import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 export const ARTWORK_SLIDES = {
+  ai: { title: 'AI & Innovation', line: 'Use the machine. Keep the judgment.', route: '/ai' },
   accessibility: {
     title: 'Accessibility',
     line: 'Build the entrance everyone can use.',

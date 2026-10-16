@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
 import { CarouselSlide } from '../carousel/carousel-slide';
 import { DeploymentHistory } from '../deployment-history/deployment-history';
-import { PerspectiveCandidate } from '../perspective-candidate/perspective-candidate';
 
 @Component({
   imports: [
@@ -17,7 +16,6 @@ import { PerspectiveCandidate } from '../perspective-candidate/perspective-candi
     Carousel,
     CarouselSlide,
     DeploymentHistory,
-    PerspectiveCandidate,
   ],
   selector: 'app-home',
   templateUrl: './home.html',
