@@ -49,6 +49,7 @@ export class PublicTrack {
           '/work/tcc': 'tcc',
           '/case-studies/tcc': 'tcc',
           '/work/dr': 'dr',
+          '/case-studies/dr': 'dr',
         } as const;
         if (route in employers) {
           const employer = employers[route as keyof typeof employers];

@@ -149,7 +149,7 @@ export const routes: Routes = [
         path === 'exl'
           ? 'EXL work history: Senior Web Designer on LifePRO, UX, accessibility and front-end engineering.'
           : path === 'dr'
-            ? 'Dreyer & Reinbold case study: dealership digital operations, vehicle photography and month-end commission reporting within an existing intranet.'
+            ? 'Dreyer & Reinbold Work History: Digital Presence Coordinator, dealership websites, vendor integrations and classic-ASP intranet development, September 2011 through May 2015.'
             : path === 'ips'
               ? 'IPS Work History: customizing the existing PowerSchool environment with JavaScript, jQuery, HTML and CSS.'
               : path === 'tcc'
@@ -170,9 +170,13 @@ export const routes: Routes = [
               ? import('./components/case-study/tcc-work.content').then(
                   ({ TCC_WORK_HISTORY }) => TCC_WORK_HISTORY,
                 )
-              : import('./components/case-study/case-study.content').then(
-                  ({ CASE_STUDIES }) => CASE_STUDIES[path],
-                ),
+              : path === 'dr'
+                ? import('./components/case-study/dr-work.content').then(
+                    ({ DR_WORK_HISTORY }) => DR_WORK_HISTORY,
+                  )
+                : import('./components/case-study/case-study.content').then(
+                    ({ CASE_STUDIES }) => CASE_STUDIES[path],
+                  ),
     },
     loadComponent: () =>
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
@@ -215,6 +219,20 @@ export const routes: Routes = [
     resolve: {
       study: () =>
         import('./components/case-study/tcc.content').then(({ TCC_CASE_STUDY }) => TCC_CASE_STUDY),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
+  },
+  {
+    path: 'case-studies/dr',
+    title: 'Dreyer & Reinbold Case Study | D. James Poer',
+    data: {
+      description:
+        'The 15-Minute Month End: configurable incentive rules and commission processing inside an existing classic-ASP intranet.',
+    },
+    resolve: {
+      study: () =>
+        import('./components/case-study/dr.content').then(({ DR_CASE_STUDY }) => DR_CASE_STUDY),
     },
     loadComponent: () =>
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),

@@ -31,6 +31,7 @@ export const PUBLIC_ROUTES = [
   '/work/tcc',
   '/case-studies/tcc',
   '/work/dr',
+  '/case-studies/dr',
 ] as const;
 type PublicPath = (typeof PUBLIC_ROUTES)[number];
 type Employer = 'djamespoer' | 'exl' | 'ips' | 'tcc' | 'dr';
