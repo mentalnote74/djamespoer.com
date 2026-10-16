@@ -1,6 +1,11 @@
 ﻿import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 export const ARTWORK_SLIDES = {
+  ux: {
+    title: 'UX & Product',
+    line: 'Turn complexity into something people can use.',
+    route: '/ux-product',
+  },
   engineering: {
     title: 'Engineering',
     line: 'Build the structure. Solve at the right layer.',

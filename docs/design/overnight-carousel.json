@@ -88,5 +88,50 @@
     ],
     "responsive": "AVIF primary / WebP fallback; 768, 1200, 2172 widths; sizes follows unchanged carousel container",
     "checks": "1440/1024/390/320 geometry/copy/keyboard/delivery passed"
+  },
+  "ux": {
+    "generator": "built-in image_gen; no personal API key used",
+    "prompt": "undefined",
+    "sourceSha256": "f5ab4a51ad91eae4c93d29a69a5c9f107fdfc27c61035820b9c9e598575adc4d",
+    "assets": [
+      {
+        "file": "ux-1200.avif",
+        "width": 1200,
+        "height": 400,
+        "bytes": 36375
+      },
+      {
+        "file": "ux-1200.webp",
+        "width": 1200,
+        "height": 400,
+        "bytes": 71286
+      },
+      {
+        "file": "ux-2172.avif",
+        "width": 2172,
+        "height": 724,
+        "bytes": 90334
+      },
+      {
+        "file": "ux-2172.webp",
+        "width": 2172,
+        "height": 724,
+        "bytes": 154710
+      },
+      {
+        "file": "ux-768.avif",
+        "width": 768,
+        "height": 256,
+        "bytes": 16201
+      },
+      {
+        "file": "ux-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 32780
+      }
+    ],
+    "responsive": "AVIF primary / WebP fallback; 768, 1200, 2172 widths; sizes follows unchanged carousel container",
+    "checks": "1440/1024/390/320 geometry/copy/keyboard/delivery passed"
   }
 }

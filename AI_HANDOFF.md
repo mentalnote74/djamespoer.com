@@ -2,7 +2,7 @@
 
 ## Overnight carousel redesign (2026-10-15)
 
-LOCAL REVIEW ONLY; no PROD deployment. Completed in order: impact, engineering. Each slide independently built and checked at 1440/1024/390/320 with identical 3:1 footprint, live copy, working keyboard link, no clipping/overflow, responsive AVIF/WebP. Creative Town assets/markup, carousel controls/timing/geometry and all unrelated public/protected work unchanged. Artwork generation prompts, hashes and production byte sizes: docs/design/overnight-carousel.json. Masters and screenshots stay in ignored output/overnight-slides. Local preview http://127.0.0.1:4427/. Continue next requested slide only after this commit; stop after AI.
+LOCAL REVIEW ONLY; no PROD deployment. Completed in order: impact, engineering, ux. Each slide independently built and checked at 1440/1024/390/320 with identical 3:1 footprint, live copy, working keyboard link, no clipping/overflow, responsive AVIF/WebP. Creative Town assets/markup, carousel controls/timing/geometry and all unrelated public/protected work unchanged. Artwork generation prompts, hashes and production byte sizes: docs/design/overnight-carousel.json. Masters and screenshots stay in ignored output/overnight-slides. Local preview http://127.0.0.1:4427/. Continue next requested slide only after this commit; stop after AI.
 
 ## Public visual depth review checkpoint (2026-10-15)
 
