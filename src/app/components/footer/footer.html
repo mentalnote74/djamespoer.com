@@ -24,6 +24,11 @@
       </button>
     </div>
 
+    <nav class="site-footer__cookies" aria-label="Cookie preferences">
+      <button type="button" (click)="cookies.openSettings()">Cookie settings</button>
+      <a routerLink="/cookie-policy">Cookie Policy</a>
+    </nav>
+
     @if (accessibilityStatementOpen) {
       <section
         id="accessibility-statement"
@@ -51,3 +56,5 @@
     }
   </div>
 </footer>
+
+<app-cookie-preferences />

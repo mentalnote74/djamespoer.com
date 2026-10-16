@@ -185,5 +185,14 @@ export const routes: Routes = [
         ({ ThingamajobProduct }) => ThingamajobProduct,
       ),
   },
+  {
+    path: 'cookie-policy',
+    title: 'Cookie Policy | D. James Poer',
+    data: { description: 'How the site remembers your playful cookie preferences.' },
+    loadComponent: () =>
+      import('./features/cookie-preferences/cookie-policy').then(
+        ({ CookiePolicy }) => CookiePolicy,
+      ),
+  },
   { path: '**', redirectTo: '' },
 ];

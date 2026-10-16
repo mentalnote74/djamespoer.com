@@ -7,3 +7,24 @@
 .site-footer__identity-motion {
   display: none;
 }
+
+.site-footer__cookies {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-block-start: 1rem;
+}
+.site-footer__cookies button {
+  font: inherit;
+  color: var(--control-foreground);
+  background: var(--control-background);
+  border: 1px solid var(--control-border);
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  min-block-size: 44px;
+  cursor: pointer;
+}
+.site-footer__cookies a {
+  padding-block: 0.75rem;
+}

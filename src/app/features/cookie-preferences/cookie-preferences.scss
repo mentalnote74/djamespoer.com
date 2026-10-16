@@ -1,0 +1,89 @@
+:host {
+  display: contents;
+}
+.cookie-dialog {
+  padding: 0;
+  border: 0;
+  border-radius: 0.5rem;
+  overflow: visible;
+  inline-size: min(28rem, calc(100vw - 2rem));
+  max-inline-size: none;
+  max-block-size: calc(100dvh - 2rem);
+  color: var(--page-foreground);
+  background: var(--panel-surface);
+  &::backdrop {
+    background: rgb(0 0 0 / 0.22);
+  }
+  &__content {
+    padding: 1rem;
+    border: 1px solid var(--panel-border);
+    border-radius: inherit;
+    max-block-size: calc(100dvh - 2rem);
+    overflow: auto;
+    box-sizing: border-box;
+  }
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+  }
+  p {
+    margin: 0.5rem 0 0.75rem;
+    line-height: 1.4;
+  }
+  button {
+    min-block-size: 44px;
+    padding: 0.5rem 0.7rem;
+    font: inherit;
+    color: var(--control-foreground);
+    background: var(--control-background);
+    border: 1px solid var(--control-border);
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  fieldset {
+    margin: 0.75rem 0;
+    padding: 0.5rem;
+    border: 1px solid var(--panel-border);
+    min-inline-size: 0;
+  }
+  legend {
+    padding-inline: 0.25rem;
+  }
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-block-start: 0.75rem;
+    font-size: 0.875rem;
+  }
+  a {
+    padding-block: 0.5rem;
+  }
+}
+.cookie-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.cookie-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem 0.5rem;
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-block-size: 44px;
+    font-size: 0.875rem;
+    overflow-wrap: anywhere;
+  }
+  input {
+    flex: 0 0 auto;
+    inline-size: 1rem;
+    block-size: 1rem;
+    margin: 0;
+    accent-color: var(--control-active-background);
+  }
+}

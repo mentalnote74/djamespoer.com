@@ -1,3 +1,5 @@
+import { provideRouter } from '@angular/router';
+import { PREFERENCE_COOKIE } from '../../features/cookie-preferences/preferences';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Footer } from './footer';
 
@@ -5,9 +7,14 @@ describe('Footer', () => {
   let component: Footer;
   let fixture: ComponentFixture<Footer>;
 
+  afterEach(() => {
+    document.cookie = PREFERENCE_COOKIE + '=; Path=/; Max-Age=0';
+  });
   beforeEach(async () => {
+    document.cookie = PREFERENCE_COOKIE + '=1.0; Path=/';
     await TestBed.configureTestingModule({
       imports: [Footer],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Footer);
@@ -30,6 +37,14 @@ describe('Footer', () => {
     expect(root.querySelector('#accessibility-statement')).toBeNull();
   });
 
+  it('keeps persistent cookie controls in the shared footer', () => {
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('.site-footer__cookies button')?.textContent).toBe('Cookie settings');
+    expect(root.querySelector('.site-footer__cookies a')?.getAttribute('href')).toBe(
+      '/cookie-policy',
+    );
+    expect(root.querySelectorAll('app-cookie-preferences')).toHaveLength(1);
+  });
   it('should create', () => {
     expect(component).toBeTruthy();
   });

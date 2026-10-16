@@ -1,3 +1,4 @@
+import { PREFERENCE_COOKIE } from './features/cookie-preferences/preferences';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router, TitleStrategy, withComponentInputBinding } from '@angular/router';
 import { App } from './app';
@@ -18,6 +19,10 @@ const proofPages = [
 ] as const;
 
 describe('App', () => {
+  // Route/landmark tests model a returning visitor; first-visit dialog is browser-tested separately.
+  beforeEach(() => {
+    document.cookie = PREFERENCE_COOKIE + '=1.0; Path=/';
+  });
   it.each(['/', '/thingamajob', '/about'])(
     'skips to the shared current main on %s without router navigation',
     async (path) => {
@@ -45,6 +50,7 @@ describe('App', () => {
     },
   );
   afterEach(() => {
+    document.cookie = PREFERENCE_COOKIE + '=; Path=/; Max-Age=0';
     TestBed.inject(HttpTestingController)
       .match('/data/deployment-history.json')
       .forEach((request) => {
