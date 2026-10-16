@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import type { ExtractionRun } from './extraction-run';
-import type { Workflow, Proposal, UnknownDetail, Claim } from './workflow.models';
+import type { Workflow, Proposal, UnknownDetail, Claim, Evidence } from './workflow.models';
 
 @Injectable()
 export class WorkflowApi {
@@ -72,6 +72,18 @@ export class WorkflowApi {
     return firstValueFrom(
       this.http.get<UnknownDetail>(this.root() + '/unknowns/' + this.identifier(id)),
     );
+  }
+  sourceCandidates(id: string) {
+    return firstValueFrom(
+      this.http.get<{
+        source: { filename: string };
+        method: string;
+        candidates: { statement: string; locator: string; excerpt: string }[];
+      }>(this.root() + '/evidence/' + this.identifier(id) + '/candidates'),
+    );
+  }
+  stageTextCandidate(id: string, index: number) {
+    return this.post<Proposal>('/evidence/' + this.identifier(id) + '/candidates', { index });
   }
   evidenceUrl(id: string) {
     return this.root() + '/evidence/' + this.identifier(id) + '/original';
@@ -181,7 +193,7 @@ export class WorkflowApi {
     form.set('attribution', attribution);
     form.set('sourceLocator', sourceLocator);
     return firstValueFrom(
-      this.http.post(this.root() + path, form, { headers: { 'Idempotency-Key': key } }),
+      this.http.post<Evidence>(this.root() + path, form, { headers: { 'Idempotency-Key': key } }),
     );
   }
 }

@@ -1,0 +1,162 @@
+<section aria-labelledby="evidence-flow-heading">
+  <h2 id="evidence-flow-heading">Build your Library of Truth</h2>
+  <p>
+    Add career evidence, inspect what it says, then accept, correct or reject suggested statements.
+    Nothing here is approved automatically.
+  </p>
+  <p #flowNotice tabindex="-1" role="status">{{ message() }}</p>
+  @if (!denied()) {
+    <details>
+      <summary>Add career evidence</summary>
+      <p>
+        This first flow accepts pasted career text or a UTF-8 .txt file, including text copied from
+        a résumé or professional profile. PDF, Word and live profile retrieval are not parsed here.
+      </p>
+      <form
+        #sourceForm
+        (submit)="
+          upload(
+            $event,
+            sourceForm,
+            pasted.value,
+            uploadFile.files?.[0],
+            attribution.value,
+            location.value
+          )
+        "
+      >
+        <label>Paste career text<textarea #pasted maxlength="80000" rows="8"></textarea></label>
+        <label
+          >Or upload a text file<input #uploadFile type="file" accept=".txt,text/plain"
+        /></label>
+        <label>Whose evidence is this?<input #attribution required maxlength="1000" /></label>
+        <label
+          >Source title or original location<input #location required maxlength="2000"
+        /></label>
+        <button type="submit" [disabled]="busy()">Save evidence and find statements</button>
+      </form>
+    </details>
+    <label
+      >Continue from saved evidence<select
+        #source
+        (change)="openSource(source.value)"
+        [disabled]="busy()"
+      >
+        <option value="">Choose a source</option>
+        @for (e of workspace().evidence; track e.sourceId) {
+          <option [value]="e.sourceId">{{ e.filename }} — {{ e.sourceLocator }}</option>
+        }
+      </select></label
+    >
+    <p>
+      Statements are exact source excerpts, not inferred facts. Repeated text within a source is
+      grouped; differently worded statements are kept separate. Check context, dates and
+      qualifications before accepting.
+    </p>
+    @if (candidates().length) {
+      <p>Source statement {{ index() + 1 }} of {{ candidates().length }}</p>
+      <blockquote>{{ current()?.excerpt }}</blockquote>
+      <p>{{ current()?.locator }}</p>
+      <div class="actions">
+        <button
+          type="button"
+          [disabled]="busy() || index() === 0"
+          (click)="openCandidate(index() - 1)"
+        >
+          Previous
+        </button>
+        <button type="button" [disabled]="busy()" (click)="openCandidate(index())">
+          Open for review
+        </button>
+        <button
+          type="button"
+          [disabled]="busy() || index() + 1 >= candidates().length"
+          (click)="openCandidate(index() + 1)"
+        >
+          Next
+        </button>
+      </div>
+    }
+    <label
+      >Saved pending decisions ({{ pending().length }})<select
+        #pendingSelect
+        (change)="openProposal(pendingSelect.value)"
+        [disabled]="busy()"
+      >
+        <option value="">Choose a pending statement</option>
+        @for (p of pending(); track p.proposalId) {
+          <option [value]="p.proposalId">{{ p.statement }}</option>
+        }
+      </select></label
+    >
+    @if (proposal(); as p) {
+      <section aria-labelledby="statement-heading">
+        <h3 id="statement-heading">
+          {{ target() ? 'Correct an approved claim' : 'Review this statement' }}
+        </h3>
+        <p>{{ p.statement }}</p>
+        <p>Decision: {{ p.reviewDisposition }}</p>
+        <details>
+          <summary>Read source and citation</summary>
+          @for (e of p.evidence ?? []; track e.sourceId) {
+            <p>{{ e.locator }} — <a [href]="apiEvidenceUrl(e.sourceId)">Open stored source</a></p>
+          }
+        </details>
+        @if (p.reviewDisposition === 'proposed' || target()) {
+          <label
+            >Corrected statement or additional context<textarea
+              #wording
+              [value]="correction()"
+              (input)="correction.set(wording.value)"
+              maxlength="4000"
+              rows="4"
+            ></textarea>
+          </label>
+          @if (target()) {
+            <form
+              #correctionForm
+              (submit)="
+                $event.preventDefault();
+                correctionForm.reportValidity() && approveCorrection(reason.value)
+              "
+            >
+              <label
+                >Why is this correction needed?<input #reason required maxlength="4000"
+              /></label>
+              <button type="submit" [disabled]="busy()">
+                Approve correction and replace prior claim
+              </button>
+            </form>
+          } @else {
+            <div class="actions">
+              <button type="button" [disabled]="busy()" (click)="decide('accepted')">Accept</button>
+              <button
+                type="button"
+                [disabled]="busy() || !correction().trim()"
+                (click)="decide('corrected')"
+              >
+                Approve corrected statement
+              </button>
+              <button type="button" [disabled]="busy()" (click)="decide('rejected')">Reject</button>
+            </div>
+          }
+        }
+      </section>
+    }
+    <details>
+      <summary>Correct an already approved claim</summary>
+      <label
+        >Choose the claim to replace<select
+          #claimSelect
+          (change)="correctClaim(claimSelect.value)"
+          [disabled]="busy()"
+        >
+          <option value="">Choose an active reviewed claim</option>
+          @for (c of claims(); track c.claimId) {
+            <option [value]="c.claimId">{{ c.statement }}</option>
+          }
+        </select></label
+      >
+    </details>
+  }
+</section>

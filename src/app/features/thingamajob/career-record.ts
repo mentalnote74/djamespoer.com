@@ -1,3 +1,4 @@
+import { EvidenceReview } from './evidence-review';
 import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import type { Workflow, Proposal } from './workflow.models';
@@ -42,17 +43,19 @@ export function careerGroup(text: string) {
 }
 @Component({
   selector: 'app-career-record',
-  imports: [ThingamajobWorkflow],
+  imports: [ThingamajobWorkflow, EvidenceReview],
   templateUrl: './career-record.html',
   styleUrl: './career-record.scss',
 })
 export class CareerRecord implements OnInit {
-  readonly internal =
-    inject(ActivatedRoute, { optional: true })?.snapshot.data['internal'] === true;
+  private readonly routeData = inject(ActivatedRoute, { optional: true })?.snapshot.data;
+  readonly internal = this.routeData?.['internal'] === true;
   readonly api = inject(WorkflowApi);
   readonly workspace = signal<Workflow | null>(null);
   readonly runs = signal<ExtractionRun[]>([]);
-  readonly screen = signal<Screen>(this.internal ? 'advanced' : 'home');
+  readonly screen = signal<Screen>(
+    this.internal ? 'advanced' : this.routeData?.['view'] === 'lot' ? 'record' : 'home',
+  );
   readonly loading = signal(true);
   readonly saving = signal(false);
   readonly status = signal('Loading your career record.');
@@ -203,6 +206,13 @@ export class CareerRecord implements OnInit {
               : 'Your career record could not be updated. Your draft is preserved; no completed action is claimed. Please try loading it again.',
     );
     setTimeout(() => this.notice()?.nativeElement.focus());
+  }
+  async refreshActive() {
+    try {
+      this.workspace.set(await this.api.overview());
+    } catch (error) {
+      this.error(error);
+    }
   }
   async load() {
     if (this.saving()) return;

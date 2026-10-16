@@ -19,6 +19,13 @@ bootstrapApplication(ThingamajobTestHost, {
             import('./app/features/thingamajob/career-record').then((m) => m.CareerRecord),
         },
         {
+          path: 'lot',
+          data: { view: 'lot' },
+          title: 'Your Library of Truth | Thingamajob',
+          loadComponent: () =>
+            import('./app/features/thingamajob/career-record').then((m) => m.CareerRecord),
+        },
+        {
           path: 'admin',
           data: { internal: true },
           title: 'Thingamajob internal tools',

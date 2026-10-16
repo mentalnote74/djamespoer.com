@@ -1,3 +1,4 @@
+import { sourceCandidates } from './text-candidates.ts';
 import { resolveBaselineIssue } from './baseline-service.ts';
 import { AccessDenied, createAccessIdentityAdapter } from './access-identity.ts';
 import { stageExtractionRun, getExtractionRun } from './extraction-staging.ts';
@@ -103,7 +104,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
           )
         : null;
       const evidence = testEnabled
-        ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/evidence(?:\/([a-zA-Z0-9_-]{1,100})(\/original)?)?$/.exec(
+        ? /^\/api\/thingamajob\/workspaces\/([a-zA-Z0-9_-]{1,100})\/evidence(?:\/([a-zA-Z0-9_-]{1,100})(\/original|\/candidates)?)?$/.exec(
             path,
           )
         : null;
@@ -138,7 +139,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const expectedMethod =
         bootstrap ||
         claims ||
-        (evidence && !evidence[2]) ||
+        (evidence && (!evidence[2] || evidence[3] === '/candidates')) ||
         (assertions && (!assertions[2] || assertions[3])) ||
         (unknowns && (!unknowns[2] || unknowns[3]))
           ? 'POST'
@@ -148,7 +149,11 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         !(roundtrip && request.method === 'POST') &&
         !(verification && request.method === 'POST') &&
         !(extraction && request.method === 'POST') &&
-        !(evidence && !evidence[2] && request.method === 'GET') &&
+        !(
+          evidence &&
+          (!evidence[2] || evidence[3] === '/candidates') &&
+          request.method === 'GET'
+        ) &&
         !(unknowns && !unknowns[2] && request.method === 'GET')
       ) {
         const response = reply(405, { error: 'Method not allowed' });
@@ -157,7 +162,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
           extraction ||
             roundtrip ||
             verification ||
-            (evidence && !evidence[2]) ||
+            (evidence && (!evidence[2] || evidence[3] === '/candidates')) ||
             (unknowns && !unknowns[2])
             ? 'GET, POST'
             : expectedMethod,
@@ -378,6 +383,11 @@ export function createWorker(keys?: JWTVerifyGetKey) {
           if (!binding || typeof binding.put !== 'function' || typeof binding.get !== 'function')
             throw new Error('Storage unavailable');
           const bucket = { put: binding.put.bind(binding), get: binding.get.bind(binding) };
+          if (evidence?.[2] && evidence[3] === '/candidates')
+            return reply(
+              200,
+              await sourceCandidates(request, env.IDENTITY_DB, bucket, scope, evidence[2]),
+            );
           if (evidence?.[2])
             return await downloadEvidence(env.IDENTITY_DB, bucket, scope, evidence[2]);
           return reply(200, await intakeEvidence(request, env.IDENTITY_DB, bucket, scope));

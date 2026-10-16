@@ -23,7 +23,7 @@
           screen() === 'resume'
             ? 'Your résumé'
             : screen() === 'record'
-              ? 'Career facts and audit'
+              ? 'Your Library of Truth'
               : screen() === 'evidence'
                 ? 'Your supporting evidence'
                 : 'Things that need your attention'
@@ -43,6 +43,7 @@
     <p>Loading your private career record.</p>
   } @else if (workspace(); as w) {
     @if (screen() === 'home') {
+      <app-evidence-review [workspace]="w" (changed)="refreshActive()" />
       <section aria-labelledby="record-status">
         <h2 id="record-status">
           {{
@@ -72,6 +73,7 @@
           </p>
         }
         <div class="actions">
+          <button type="button" (click)="go('record')">View my Library of Truth</button>
           @if (questions().length) {
             <button class="primary" type="button" (click)="startReview()">
               Review {{ questions().length }} things</button
@@ -158,7 +160,11 @@
         }
       }
     }
-    @if (screen() === 'record') {
+    @if (screen() === 'record' && !failed()) {
+      <p>
+        These are your active stored career claims. Open Supporting evidence to inspect a claim's
+        sources.
+      </p>
       @if (activeGroup(); as group) {
         <label
           >Browse your career record<select
@@ -178,7 +184,8 @@
           <ul class="facts">
             @for (fact of group.facts; track fact.id) {
               <li>
-                <p>{{ wording(fact.text) }}</p>
+                <p>{{ fact.text }}</p>
+                <p>{{ fact.reviewed ? 'Owner reviewed' : 'Established from source evidence' }}</p>
                 <details #support (toggle)="inspect(fact, support)">
                   <summary>Supporting evidence</summary>
                   @if (candidate(fact); as c) {
@@ -216,7 +223,10 @@
           </ul>
         </section>
       } @else {
-        <p>Your career record is empty. Your supporting evidence remains available below.</p>
+        <p>
+          Your Library of Truth is empty. Evidence needs to be added and assessed before career
+          claims appear here.
+        </p>
       }
       @if (notes().length) {
         <details class="context-notes">
