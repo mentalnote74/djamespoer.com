@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Shared depth/texture tuning — local review (2026-10-16)
+
+Isolated from PROD source 3067c0e on review/depth-texture-tuning; no deployment/push. Only shared themes/_depth.scss tuning: sunrise +14/+11/24/-3/.26, sunset -14/+11/24/-3/.28, noon 0/+5/12/-2/.20, night 0/+7/20/-2/.42 (x/y/blur/spread/opacity); black shared ink, stronger ambient contact, floating multipliers 1.6/1.8/1.45 with half negative spread and 1.2 opacity capped .6. Same two CSS grain layers now 4.5%/2.5%, finer 3x5 and 5x7px repeats, .4px core/ .85px fade. No component shadows, lighting engine/JS, palette, focus, animation, artwork, content, protected/backend/data changes. Build/budgets and living-theme tests 12/12 passed. Eight desktop/390 four-phase renders passed no overflow/errors, conservative >=8:1 page/widget contrast, keyboard open/focus and raised/floating distinction, reduced-motion 0s vs normal 1s. Initial browser attempts before build readiness/from wrong working directory timed out; corrected final loopback run passed. Screenshots/results output/depth-tuning/. Review http://127.0.0.1:4430/. Await Coach visual approval before PROD.
+
 ## Overnight carousel redesign (2026-10-15)
 
 LOCAL REVIEW ONLY; no PROD deployment. Completed in order: impact, engineering, ux, accessibility, ai. Each slide independently built and checked at 1440/1024/390/320 with identical 3:1 footprint, live copy, working keyboard link, no clipping/overflow, responsive AVIF/WebP. Creative Town assets/markup, carousel controls/timing/geometry and all unrelated public/protected work unchanged. Artwork generation prompts, hashes and production byte sizes: docs/design/overnight-carousel.json. Masters and screenshots stay in ignored output/overnight-slides. Local preview http://127.0.0.1:4427/. Continue next requested slide only after this commit; stop after AI.
