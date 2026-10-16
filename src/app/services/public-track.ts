@@ -43,6 +43,7 @@ export class PublicTrack {
         const employers = {
           '/work/djamespoer': 'djamespoer',
           '/work/exl': 'exl',
+          '/case-studies/exl': 'exl',
           '/work/ips': 'ips',
           '/work/tcc': 'tcc',
           '/work/dr': 'dr',

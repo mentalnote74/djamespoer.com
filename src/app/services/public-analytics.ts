@@ -25,6 +25,7 @@ export const PUBLIC_ROUTES = [
   '/cookie-policy',
   '/work/djamespoer',
   '/work/exl',
+  '/case-studies/exl',
   '/work/ips',
   '/work/tcc',
   '/work/dr',

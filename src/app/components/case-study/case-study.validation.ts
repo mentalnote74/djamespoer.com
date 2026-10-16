@@ -28,7 +28,19 @@ const requirePublicUrl = (value: string): void => {
 /** Fail fast for trusted, typed public authoring; this is not a parser for external/archive payloads. */
 export function validateCaseStudy(study: CaseStudy): CaseStudy {
   requireText(study.title, 'title');
-  if (study.introduction !== undefined) requireText(study.introduction, 'introduction');
+  if (study.subtitle !== undefined) requireText(study.subtitle, 'subtitle');
+  if (study.introduction !== undefined) {
+    for (const paragraph of typeof study.introduction === 'string'
+      ? [study.introduction]
+      : study.introduction)
+      requireText(paragraph, 'introduction');
+  }
+  if (study.relatedPage) {
+    requirePublicUrl(study.relatedPage.href);
+    requireText(study.relatedPage.label, 'related page label');
+    if (study.relatedPage.kind !== 'work' && study.relatedPage.kind !== 'case-study')
+      throw new Error('Invalid related page kind');
+  }
   for (const section of study.sections) {
     requireText(section.heading, 'section heading');
     for (const paragraph of section.paragraphs ?? []) requireText(paragraph, 'paragraph');

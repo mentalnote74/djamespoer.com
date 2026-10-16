@@ -146,21 +146,41 @@ export const routes: Routes = [
     title: `${heading} | D. James Poer`,
     data: {
       description:
-        path === 'dr'
-          ? 'Dreyer & Reinbold case study: dealership digital operations, vehicle photography and month-end commission reporting within an existing intranet.'
-          : path === 'ips'
-            ? 'Indianapolis Public Schools case study: dynamic PowerSchool forms, conditional validation and state reporting requirements.'
-            : `${heading} case study and supporting evidence.`,
+        path === 'exl'
+          ? 'EXL work history: Senior Web Designer on LifePRO, UX, accessibility and front-end engineering.'
+          : path === 'dr'
+            ? 'Dreyer & Reinbold case study: dealership digital operations, vehicle photography and month-end commission reporting within an existing intranet.'
+            : path === 'ips'
+              ? 'Indianapolis Public Schools case study: dynamic PowerSchool forms, conditional validation and state reporting requirements.'
+              : `${heading} case study and supporting evidence.`,
     },
     resolve: {
       study: () =>
-        import('./components/case-study/case-study.content').then(
-          ({ CASE_STUDIES }) => CASE_STUDIES[path],
-        ),
+        path === 'exl'
+          ? import('./components/case-study/exl-work.content').then(
+              ({ EXL_WORK_HISTORY }) => EXL_WORK_HISTORY,
+            )
+          : import('./components/case-study/case-study.content').then(
+              ({ CASE_STUDIES }) => CASE_STUDIES[path],
+            ),
     },
     loadComponent: () =>
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
   })),
+  {
+    path: 'case-studies/exl',
+    title: 'EXL Case Study | D. James Poer',
+    data: {
+      description:
+        'LifePRO case study: investigating accessibility, Angular modernization and technical debt at the right architectural layer.',
+    },
+    resolve: {
+      study: () =>
+        import('./components/case-study/exl.content').then(({ EXL_CASE_STUDY }) => EXL_CASE_STUDY),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
+  },
   {
     path: 'about',
     title: 'About | D. James Poer',
