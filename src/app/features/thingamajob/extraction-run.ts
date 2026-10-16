@@ -52,7 +52,12 @@ export interface ExtractionRun {
     }[];
     questions: { question: string; claimIds: string[] }[];
     conflicts: { id: string; explanation: string; claimIds: string[] }[];
-    sources: { key: string; sourceId: string; sha256: string }[];
+    sources: {
+      key: string;
+      sourceId: string;
+      sha256: string;
+      units?: { locationKey: string; text: string }[];
+    }[];
   };
   proposals: { candidateId: string; proposalId: string; reviewDisposition: string }[];
 }

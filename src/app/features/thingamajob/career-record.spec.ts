@@ -106,7 +106,8 @@ describe('human-first private career record', () => {
     await fixture.componentInstance.load();
     fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.textContent).toContain('Your career record is ready');
+    expect(root.textContent).toContain('Your career profile is ready');
+    expect(root.textContent).toContain('View my résumé');
     expect(root.textContent).toContain('46');
     expect(root.textContent).toContain('0 things need your attention');
     expect(root.textContent).not.toMatch(
@@ -132,6 +133,16 @@ describe('human-first private career record', () => {
       'You were a fictional designer.',
     );
     expect(careerGroup('Bachelor of Science in a fictional field')).toBe('Education');
+  });
+  it('opens the source résumé fallback rather than a fact ledger when structure is insufficient', async () => {
+    const { fixture } = await setup();
+    await fixture.componentInstance.load();
+    fixture.componentInstance.go('resume');
+    fixture.detectChanges();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.textContent).toContain('Your source résumé is the baseline');
+    expect(root.querySelector('.facts')).toBeNull();
+    expect(root.textContent).toContain('View source evidence');
   });
   it('answers one genuine question through existing grouped review and returns to completion', async () => {
     const { fixture, api } = await setup(1);

@@ -4,6 +4,7 @@ import type { Workflow, Proposal } from './workflow.models';
 import type { ExtractionRun, BaselineIssue } from './extraction-run';
 import { WorkflowApi } from './workflow-api';
 import { ThingamajobWorkflow } from './workflow';
+import { assembleResume } from './resume-assembly';
 type DraftEdit = { candidateId: string; statement: string; reject: boolean; editing: boolean };
 type Fact = {
   id: string;
@@ -14,7 +15,7 @@ type Fact = {
   reviewed?: boolean;
 };
 type Question = { run: ExtractionRun; issue: BaselineIssue };
-type Screen = 'home' | 'record' | 'evidence' | 'review' | 'advanced';
+type Screen = 'home' | 'resume' | 'record' | 'evidence' | 'review' | 'advanced';
 export function clientWording(text: string) {
   return text
     .replace(/\bThe owner has\b/g, 'You have')
@@ -94,6 +95,18 @@ export class CareerRecord implements OnInit {
     return [...baseline, ...reviewed];
   });
   readonly established = computed(() => this.workspace()?.baselineClaims?.length ?? 0);
+  readonly resume = computed(() => assembleResume(this.facts(), this.runs()));
+  readonly baselineSource = computed(() => {
+    const source = this.runs()
+      .flatMap((r) => r.document.sources)
+      .find((s) =>
+        s.units?.some((u) => /^(?:professional |work )?experience$/i.test(u.text.trim())),
+      );
+    return (
+      this.workspace()?.evidence.find((e) => e.sourceId === source?.sourceId) ??
+      this.workspace()?.evidence.find((e) => /r[eé]sum[eé]|\bcv\b/i.test(e.filename))
+    );
+  });
   readonly groups = computed(() =>
     [
       'Experience',

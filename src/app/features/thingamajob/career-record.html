@@ -1,6 +1,9 @@
 @if (screen() === 'advanced') {
   <p class="brand">Thingamajob</p>
-  <button type="button" (click)="leaveAdvanced()">Back to my career record</button>
+  <div class="actions">
+    <button type="button" (click)="leaveAdvanced()">Back to my career profile</button
+    ><button type="button" (click)="go('record')">Inspect LoT facts and provenance</button>
+  </div>
   @defer (on immediate) {
     <app-thingamajob-workflow />
   } @placeholder {
@@ -15,11 +18,13 @@
       <button type="button" [disabled]="saving()" (click)="go('home')">Back</button>
       <h1 #pageHeading tabindex="-1">
         {{
-          screen() === 'record'
-            ? 'Your career record'
-            : screen() === 'evidence'
-              ? 'Your supporting evidence'
-              : 'Things that need your attention'
+          screen() === 'resume'
+            ? 'Your résumé'
+            : screen() === 'record'
+              ? 'Career facts and audit'
+              : screen() === 'evidence'
+                ? 'Your supporting evidence'
+                : 'Things that need your attention'
         }}
       </h1>
     }
@@ -42,8 +47,8 @@
               : !complete()
                 ? 'Some evidence has not been assessed yet.'
                 : facts().length
-                  ? 'Your career record is ready.'
-                  : 'Your career record is ready to build.'
+                  ? 'Your career profile is ready.'
+                  : 'Your career profile is ready to build.'
           }}
         </h2>
         <div class="totals">
@@ -55,10 +60,7 @@
           </p>
         </div>
         @if (!questions().length && facts().length && complete()) {
-          <p>
-            Your Library of Truth is ready. Your evidence has been checked and nothing currently
-            needs your attention.
-          </p>
+          <p>Your sources have been reconciled and nothing currently needs your attention.</p>
         }
         @if (!facts().length) {
           <p>
@@ -66,21 +68,116 @@
           </p>
         }
         @if (w.reviewedClaims?.length) {
-          <p>Your previously reviewed information is included in your career record too.</p>
+          <p>Your owner-reviewed corrections are included in your profile too.</p>
         }
         <div class="actions">
           @if (questions().length) {
             <button class="primary" type="button" (click)="startReview()">
               Review {{ questions().length }} things</button
-            ><button type="button" (click)="go('record')">View my career record</button>
+            ><button type="button" (click)="go('resume')">View my résumé</button>
           } @else {
-            <button class="primary" type="button" (click)="go('record')">
-              View my career record
-            </button>
+            <button class="primary" type="button" (click)="go('resume')">View my résumé</button>
           }
-          <button type="button" (click)="go('evidence')">View supporting evidence</button>
+          <button type="button" (click)="go('evidence')">View source evidence</button>
         </div>
       </section>
+    }
+
+    @if (screen() === 'resume') {
+      @if (resume(); as document) {
+        @if (document.hasContent && document.roles.length) {
+          <article class="resume-document" aria-label="Your assembled résumé">
+            <p class="document-note">
+              Assembled from your reconciled sources. Role headings follow your historical résumé; a
+              source's 'present' does not mean current employment.
+            </p>
+            @if (document.summary.length) {
+              <section aria-labelledby="resume-summary">
+                <h2 id="resume-summary">Professional summary</h2>
+                @for (text of document.summary; track $index) {
+                  <p>{{ text }}</p>
+                }
+              </section>
+            }
+            @if (document.roles.length) {
+              <section aria-labelledby="resume-experience">
+                <h2 id="resume-experience">Experience</h2>
+                @for (role of document.roles; track $index) {
+                  <section class="resume-role">
+                    <h3>{{ role.employer }}</h3>
+                    <p class="role-title">{{ role.title }}</p>
+                    <p>{{ role.dates }}</p>
+                    <ul>
+                      @for (bullet of role.bullets.slice(0, 6); track $index) {
+                        <li>{{ bullet }}</li>
+                      }
+                    </ul>
+                    @if (role.bullets.length > 6) {
+                      <details>
+                        <summary>More experience at {{ role.employer }}</summary>
+                        <ul>
+                          @for (bullet of role.bullets.slice(6); track $index) {
+                            <li>{{ bullet }}</li>
+                          }
+                        </ul>
+                      </details>
+                    }
+                  </section>
+                }
+              </section>
+            }
+            @if (document.additional.length) {
+              <section aria-labelledby="resume-projects">
+                <h2 id="resume-projects">Additional experience and projects</h2>
+                <ul>
+                  @for (text of document.additional; track $index) {
+                    <li>{{ text }}</li>
+                  }
+                </ul>
+              </section>
+            }
+            @if (document.skills.length) {
+              <section aria-labelledby="resume-skills">
+                <h2 id="resume-skills">Skills and technologies</h2>
+                <p>{{ document.skills.join(' · ') }}</p>
+              </section>
+            }
+            @if (document.education.length) {
+              <section aria-labelledby="resume-education">
+                <h2 id="resume-education">Education</h2>
+                <ul>
+                  @for (text of document.education; track $index) {
+                    <li>{{ text }}</li>
+                  }
+                </ul>
+              </section>
+            }
+            @if (document.training.length) {
+              <section aria-labelledby="resume-training">
+                <h2 id="resume-training">Certifications and training</h2>
+                <ul>
+                  @for (text of document.training; track $index) {
+                    <li>{{ text }}</li>
+                  }
+                </ul>
+              </section>
+            }
+          </article>
+          <button type="button" (click)="go('evidence')">View source evidence</button>
+        } @else {
+          <p>
+            Your source résumé is the baseline until a faithful consolidated document can be
+            assembled.
+          </p>
+          @if (baselineSource(); as source) {
+            <a [href]="api.evidenceUrl(source.sourceId)"
+              >Open source résumé: {{ source.filename }}</a
+            >
+          } @else {
+            <button type="button" (click)="go('evidence')">View source evidence</button>
+          }
+        }
+      }
     }
     @if (screen() === 'record') {
       @if (activeGroup(); as group) {
@@ -182,7 +279,7 @@
           }
         </details>
       }
-      <button type="button" (click)="go('evidence')">View supporting evidence</button>
+      <button type="button" (click)="go('evidence')">View source evidence</button>
     }
     @if (screen() === 'evidence') {
       <p>
@@ -199,7 +296,7 @@
           <li>No supporting documents are available yet.</li>
         }
       </ul>
-      <button type="button" (click)="go('record')">View my career record</button>
+      <button type="button" (click)="go('resume')">View my résumé</button>
     }
     @if (screen() === 'review') {
       @if (question(); as q) {
@@ -290,9 +387,9 @@
           </form>
         </section>
       } @else {
-        <h2>Your career record is ready.</h2>
+        <h2>Your career profile is ready.</h2>
         <p>Nothing currently needs your attention.</p>
-        <button type="button" (click)="go('record')">View my career record</button>
+        <button type="button" (click)="go('resume')">View my résumé</button>
       }
     }
     <nav aria-label="Other career record options">
