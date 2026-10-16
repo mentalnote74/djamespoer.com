@@ -1,4 +1,4 @@
-import { ThemeState } from '../../services/theme-state';
+import { ThemeState, type ThemeSelection } from '../../services/theme-state';
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -49,6 +49,12 @@ export class Header {
           this.openSection.set(null);
         }
       });
+  }
+
+  selectTheme(theme: ThemeSelection, trigger: HTMLButtonElement): void {
+    this.themeState.setTheme(theme);
+    this.openSection.set(null);
+    trigger.focus();
   }
 
   closeOnFocusLeave(event: FocusEvent): void {

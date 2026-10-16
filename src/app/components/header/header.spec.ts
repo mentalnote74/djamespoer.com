@@ -51,6 +51,10 @@ describe('Header', () => {
     expect(trigger.classList.contains('nav-menu-button')).toBe(false);
     expect(options[0].getAttribute('aria-pressed')).toBe('true');
     options.forEach((option, index) => {
+      if (list.hidden) {
+        trigger.click();
+        fixture.detectChanges();
+      }
       option.click();
       fixture.detectChanges();
       expect(document.documentElement.getAttribute('data-theme')).toBe(
@@ -59,6 +63,11 @@ describe('Header', () => {
           : state.availableThemes[index].id,
       );
       expect(option.getAttribute('aria-pressed')).toBe('true');
+      expect(list.hidden).toBe(true);
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
+      expect(document.activeElement).toBe(trigger);
+      expect(trigger.isContentEditable).not.toBe(true);
+      expect(trigger.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
       expect(
         options.filter((button) => button.getAttribute('aria-pressed') === 'true'),
       ).toHaveLength(1);
@@ -66,6 +75,8 @@ describe('Header', () => {
     options[0].click();
     fixture.detectChanges();
     expect(document.documentElement.getAttribute('data-theme')).toBe('teetotaler');
+    trigger.click();
+    fixture.detectChanges();
     options[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     fixture.detectChanges();
     expect(list.hidden).toBe(true);

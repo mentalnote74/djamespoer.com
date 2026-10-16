@@ -100,3 +100,16 @@
     }
   }
 }
+
+.site-header__group > .site-header__theme-trigger {
+  user-select: none;
+  &::after {
+    content: none;
+  }
+}
+.site-header__theme-chevron {
+  flex: none;
+}
+.site-header__theme-trigger[aria-expanded='true'] .site-header__theme-chevron {
+  transform: rotate(180deg);
+}

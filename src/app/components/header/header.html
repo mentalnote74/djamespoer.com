@@ -163,12 +163,23 @@
         <li class="site-header__group">
           <button
             #themeButton
+            class="site-header__theme-trigger"
             type="button"
             [attr.aria-expanded]="openSection() === 'theme'"
             aria-controls="theme-navigation"
             (click)="toggleSection('theme', themeButton)"
           >
             Theme
+            <svg
+              class="site-header__theme-chevron"
+              aria-hidden="true"
+              focusable="false"
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+            >
+              <path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" />
+            </svg>
           </button>
           <ul
             id="theme-navigation"
@@ -181,7 +192,7 @@
                   class="nav-menu-button"
                   type="button"
                   [attr.aria-pressed]="themeState.activeTheme() === theme.id"
-                  (click)="themeState.setTheme(theme.id)"
+                  (click)="selectTheme(theme.id, themeButton)"
                 >
                   {{ theme.label }}
                 </button>
