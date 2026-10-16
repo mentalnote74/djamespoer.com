@@ -49,7 +49,12 @@
 
 <div class="home-editorial layout-container editorial-content">
   <div class="editorial-pair editorial-pair--supporting-first">
-    <app-aside label="Thingamajob"><app-thingamajob /></app-aside>
+    <app-aside label="Thingamajob"
+      ><div class="home-thingamajob-entry">
+        <app-thingamajob />
+        <p><a routerLink="/thingamajob">View Thingamajob Case Study</a></p>
+      </div></app-aside
+    >
     <div class="home-updates">
       <section class="home-construction" aria-labelledby="construction-site-heading">
         <h2 id="construction-site-heading">Pardon the dust.</h2>

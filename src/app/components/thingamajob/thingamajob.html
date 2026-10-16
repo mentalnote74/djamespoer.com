@@ -28,9 +28,14 @@
     incomplete or temporarily unavailable. This public example is historical, not the current
     evaluator.
   </p>
-  <details>
+  <p>
+    This historical example uses fictional data in this tab only. It cannot access private career
+    records.
+  </p>
+  <details #demo (toggle)="demo.open && demoInitialized.set(true)">
     <summary>View historical before-state demo (fictional data)</summary>
-    <app-thingamajob-workflow />
+    @if (demoInitialized()) {
+      <app-thingamajob-workflow />
+    }
   </details>
-  <p><a routerLink="/thingamajob">View Thingamajob Case Study</a></p>
 </div>

@@ -30,22 +30,7 @@
     </dl>
   </header>
   <div class="product-columns">
-    <section class="product-workspace" aria-labelledby="prototype-heading">
-      <h2 id="prototype-heading">Under active construction</h2>
-      <p class="construction-notice">
-        Thingamajob is a real working prototype under active construction. Some features may be
-        incomplete or temporarily unavailable.
-      </p>
-      <p>
-        This public page documents the evolving product. The historical example below uses
-        fictional, tab-local data; it is not the current evaluator and cannot access private career
-        evidence.
-      </p>
-      <details class="historical-demo">
-        <summary>View historical before-state demo (fictional data)</summary>
-        <app-thingamajob-workflow />
-      </details>
-    </section>
+    <app-thingamajob class="product-workspace" />
     <article class="case-study" aria-labelledby="case-study-heading">
       <h2 id="case-study-heading">A career assistant built around evidence</h2>
       <section>
@@ -75,8 +60,9 @@
       <section>
         <h3>The Library of Truth</h3>
         <p>
-          The Library of Truth represents the career claims a person has reviewed and approved.
-          Suggestions stay separate until that review occurs.
+          Clean, directly supported facts may be established automatically when the evidence is
+          unambiguous and internally consistent. Routine differences are resolved behind the scenes;
+          unsupported suggestions do not become facts.
         </p>
         <p>
           When an approved claim is corrected, the active library reflects the replacement while the
@@ -86,8 +72,9 @@
       <section>
         <h3>Human control and provenance</h3>
         <p>
-          The person can accept, correct or reject a suggested claim, or add context. AI may
-          propose. Evidence supports. The person decides.
+          The person is asked only when genuine judgment or clarification is required. They can
+          correct wording, reject an unsupported suggestion or add context. AI may propose. Evidence
+          supports. The person decides.
         </p>
         <p>
           Claims retain citations so the person can inspect their supporting sources. Uncertainty

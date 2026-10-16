@@ -1,8 +1,8 @@
 :host {
   display: block;
   min-inline-size: 0;
-  color: #17212b;
-  background: #fff;
+  color: var(--component-text, #17212b);
+  background: var(--input-surface, #fff);
   font: 1rem/1.6 system-ui;
   overflow-wrap: anywhere;
 }
@@ -14,7 +14,7 @@ h4 {
 }
 section {
   margin-block: 2rem;
-  border-block-start: 1px solid #67717b;
+  border-block-start: 1px solid var(--component-border, #67717b);
   padding-block-start: 1rem;
 }
 label {
@@ -35,8 +35,8 @@ textarea,
 select {
   display: block;
   inline-size: 100%;
-  border: 1px solid #67717b;
-  background: #fff;
+  border: 1px solid var(--component-border, #67717b);
+  background: var(--input-surface, #fff);
   padding: 0.5rem;
 }
 textarea {
@@ -49,17 +49,19 @@ a {
 }
 button {
   padding: 0.5rem 0.8rem;
-  border: 1px solid #394b5c;
-  background: #eef3f7;
+  border: 1px solid var(--control-border, #394b5c);
+  background: var(--section-surface, #eef3f7);
   margin: 0.25rem;
+  color: var(--control-foreground, inherit);
+  background: var(--control-background, #eef3f7);
   cursor: pointer;
 }
 button:disabled {
   cursor: default;
-  color: #505a64;
+  color: var(--grid-disabled-text, #505a64);
 }
 a {
-  color: #004b8d;
+  color: var(--component-text, #004b8d);
   display: inline-block;
 }
 summary {
@@ -68,7 +70,7 @@ summary {
 }
 fieldset {
   min-inline-size: 0;
-  border: 1px solid #67717b;
+  border: 1px solid var(--component-border, #67717b);
   padding: 1rem;
 }
 legend {
@@ -96,13 +98,13 @@ legend {
 }
 .notice {
   padding: 1rem;
-  background: #eef3f7;
-  border: 1px solid #67717b;
+  background: var(--section-surface, #eef3f7);
+  border: 1px solid var(--component-border, #67717b);
 }
 :where(button, input, select, textarea, summary, a):focus-visible,
 .notice:focus,
 h3[tabindex]:focus {
-  outline: 3px solid #005fcc;
+  outline: 3px solid var(--focus-outer, #005fcc);
   outline-offset: 3px;
 }
 ul,

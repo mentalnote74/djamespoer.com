@@ -12,6 +12,13 @@ async function start() {
     providers: [provideRouter(routes), provideHttpClient(), provideHttpClientTesting()],
   });
   const harness = await RouterTestingHarness.create('/thingamajob');
+  const demo = harness.routeNativeElement!.querySelector(
+    'app-thingamajob details',
+  ) as HTMLDetailsElement;
+  expect(harness.routeNativeElement!.querySelector('app-thingamajob-workflow')).toBeNull();
+  demo.open = true;
+  demo.dispatchEvent(new Event('toggle'));
+  harness.detectChanges();
   const widget = harness.routeDebugElement!.query(By.directive(ThingamajobWorkflow))
     .componentInstance as ThingamajobWorkflow;
   await vi.waitFor(() => expect(widget.proposal()).not.toBeNull());
@@ -25,10 +32,15 @@ describe('Thingamajob case study and real workflow component', () => {
     expect(overview.textContent).toContain('A career assistant built around verified evidence');
     expect(overview.textContent).toContain('The person decides.');
     expect(root.querySelector('.product-workspace')?.textContent).toContain(
-      'fictional, tab-local data',
+      'fictional data in this tab only',
     );
-    expect(root.querySelector('details')?.open).toBe(false);
-    expect(root.textContent).toContain('under active construction');
+    expect(root.querySelector('details')?.open).toBe(true);
+    expect(root.querySelector('.result-key')?.closest('app-thingamajob')).toBeNull();
+    expect(root.querySelector('app-thingamajob a[href="/thingamajob"]')).toBeNull();
+    expect(root.textContent).toContain(
+      'Clean, directly supported facts may be established automatically',
+    );
+    expect(root.textContent).toContain('Under active construction');
     expect(
       Array.from(root.querySelectorAll('.result-key dd'), (e) => e.textContent?.trim()),
     ).toEqual([
@@ -56,6 +68,21 @@ describe('Thingamajob case study and real workflow component', () => {
     );
     expect(root.querySelector('a[href*="api"], iframe')).toBeNull();
     TestBed.inject(HttpTestingController).expectNone(() => true);
+  });
+  it('retains its independent fictional state when the disclosure closes and reopens', async () => {
+    const { widget, harness, root } = await start();
+    await widget.review('accepted');
+    const demo = root.querySelector('app-thingamajob details') as HTMLDetailsElement;
+    demo.open = false;
+    demo.dispatchEvent(new Event('toggle'));
+    harness.detectChanges();
+    demo.open = true;
+    demo.dispatchEvent(new Event('toggle'));
+    harness.detectChanges();
+    expect(
+      harness.routeDebugElement!.query(By.directive(ThingamajobWorkflow)).componentInstance,
+    ).toBe(widget);
+    expect(widget.proposal()?.reviewDisposition).toBe('accepted');
   });
   it('compares job text with fictional evidence without inventing fit or approving a claim', async () => {
     const { widget, harness, root } = await start();

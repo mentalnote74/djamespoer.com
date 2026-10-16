@@ -89,7 +89,7 @@
               ? 'primary-navigation'
               : anchor.closest('app-hero')
                 ? 'hero'
-                : anchor.closest('app-thingamajob')
+                : anchor.closest('app-thingamajob') || anchor.closest('.home-thingamajob-entry')
                   ? 'home-thingamajob'
                   : 'page-content',
           };

@@ -119,3 +119,10 @@ test('ignores passive rendering, synthetic activation, right clicks and unrelate
   f.activate('/thingamajob', 'content', false, { defaultPrevented: true, detail: 0 });
   assert.equal(f.events().length, 2);
 });
+
+test('page-owned homepage Thingamajob CTA retains its attribution', () => {
+  const f = load();
+  f.activate('/thingamajob', '.home-thingamajob-entry');
+  assert.equal(f.events()[0][1], 'thingamajob_open');
+  assert.equal(f.events()[0][2].cta_location, 'home-thingamajob');
+});
