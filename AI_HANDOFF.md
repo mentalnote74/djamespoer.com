@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Narrow daily scheduler activation (2026-10-16)
+
+Implementation preserved on automation/daily-scrum-brief. Main proposal contains only .github/workflows/daily-scrum-brief.yml, fixed checkout of that named branch with no credentials persisted, repository/main guard, read-only contents permission. Composite action owns generator/tests/build/artifact; no deploy or model calls. Cron 09:15 America/New_York with native DST. Generator tests 6/6. Remote main must not change until external Cloudflare main-push deployment risk is cleared: read token trigger inspection HTTP 401, Wrangler OAuth HTTP 403, no browser session available. Prepare PR only; no automatic merge. PROD unchanged at 3067c0e / Worker 51c8803e-77b7-4657-ad33-5c903bd1c758.
+
 ## Daily Scrum Brief local checkpoint (2026-10-16)
 
 Public-only refactor from PROD 3067c0e: DailyScrumBrief owns semantic UI, generated typed snapshot preserves exact October 16 copy/date; Home owns placement. Deterministic generator uses maintained public status.json, bounded freshness window, source ancestry and atomic snapshot writes with hashes/lineage. GitHub Actions daily read-only generation/test/build artifact workflow prepared locally; no push, activation or automatic publishing, no secrets/model/Codex/ChatGPT tasks. Recommend artifact review -> normal public release; no zero-touch PROD until a dedicated approved public ref/gates exist. Generator 6/6, Angular focused 2/2, build/budgets, desktop/390 exact live-copy/geometry comparison passed; next-day output generated only under ignored output. No deploy or protected/backend/Erica/data/art/theme/layout changes. Review http://127.0.0.1:4427/. Stop for Coach.

@@ -11,25 +11,15 @@ concurrency:
   cancel-in-progress: false
 jobs:
   checkpoint:
+    if: github.repository == 'mentalnote74/djamespoer.com' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: refs/heads/automation/daily-scrum-brief
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: npm
-      - run: npm ci
-      - run: node --test scripts/scrum-brief/generate.test.mjs
-      - run: node scripts/scrum-brief/generate.mjs
-      - run: npm run build
-        env:
-          CI: 'false'
-      - uses: actions/upload-artifact@v4
-        with:
-          name: validated-public-brief
-          path: src/app/components/daily-scrum-brief/brief.generated.ts
-          retention-days: 14
-# No commit/push, production credentials, deploy command, model call or ChatGPT task.
+          persist-credentials: false
+      - name: Generate and validate approved public checkpoint
+        uses: ./.github/actions/daily-scrum-brief
+# Trigger only: no branch input, secrets, push permission or deployment.
