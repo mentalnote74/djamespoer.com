@@ -22,7 +22,14 @@ describe('Playful cookie preferences', () => {
       );
     }
     expect(encodePreferences([])).toBe('1.0');
-    expect(encodePreferences(COOKIE_VARIETIES.map((v) => v.id))).toBe('1.63');
+    expect(encodePreferences(COOKIE_VARIETIES.map((v) => v.id))).toBe('1.4095');
+  });
+  it('preserves original v1 bits despite reordered display and new varieties', () => {
+    expect(decodePreferences('1.8')).toEqual(['oatmeal-raisin']);
+    expect(decodePreferences('1.16')).toEqual(['sugar-cookie']);
+    expect(decodePreferences('1.63')).toHaveLength(6);
+    expect(decodePreferences('1.63')).not.toContain('ginger-snap');
+    expect(decodePreferences('1.4095')).toHaveLength(12);
   });
   it('rejects unknown versions, malformed values and unknown bits', () => {
     for (const value of [
@@ -30,8 +37,8 @@ describe('Playful cookie preferences', () => {
       '',
       '2.0',
       '1.-1',
-      '1.64',
-      '1.999',
+      '1.4096',
+      '1.99999',
       '1.01',
       '<script>',
       '1.2extra',

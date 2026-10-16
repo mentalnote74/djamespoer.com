@@ -12,6 +12,11 @@
         <span>Committed to Accessibility</span>
       </button>
 
+      <nav class="site-footer__cookies" aria-label="Cookie preferences">
+        <button type="button" (click)="cookies.openSettings()">Cookie settings</button>
+        <a routerLink="/cookie-policy">Cookie Policy</a>
+      </nav>
+
       <p class="site-footer__copyright">
         &copy; {{ currentYear }} D. James Poer. All rights reserved.
       </p>
@@ -23,11 +28,6 @@
         {{ identityPaused() ? 'Play living identity' : 'Pause living identity' }}
       </button>
     </div>
-
-    <nav class="site-footer__cookies" aria-label="Cookie preferences">
-      <button type="button" (click)="cookies.openSettings()">Cookie settings</button>
-      <a routerLink="/cookie-policy">Cookie Policy</a>
-    </nav>
 
     @if (accessibilityStatementOpen) {
       <section

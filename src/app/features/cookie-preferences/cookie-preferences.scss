@@ -10,7 +10,7 @@
   max-inline-size: none;
   max-block-size: calc(100dvh - 2rem);
   color: var(--page-foreground);
-  background: var(--panel-surface);
+  background: var(--section-surface);
   &::backdrop {
     background: color-mix(in srgb, var(--page-foreground) 12%, transparent);
   }
