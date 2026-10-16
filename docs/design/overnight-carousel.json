@@ -43,5 +43,50 @@
     ],
     "responsive": "AVIF primary / WebP fallback; 768, 1200, 2172 widths; sizes follows unchanged carousel container",
     "checks": "1440/1024/390/320 geometry/copy/keyboard/delivery passed"
+  },
+  "engineering": {
+    "generator": "built-in image_gen; no personal API key used",
+    "prompt": "undefined",
+    "sourceSha256": "b9c22b6fcb2aa5b4440d80d995459526238c9244256e873d46cf3442f7a87c1b",
+    "assets": [
+      {
+        "file": "engineering-1200.avif",
+        "width": 1200,
+        "height": 400,
+        "bytes": 24875
+      },
+      {
+        "file": "engineering-1200.webp",
+        "width": 1200,
+        "height": 400,
+        "bytes": 50264
+      },
+      {
+        "file": "engineering-2172.avif",
+        "width": 2172,
+        "height": 724,
+        "bytes": 59023
+      },
+      {
+        "file": "engineering-2172.webp",
+        "width": 2172,
+        "height": 724,
+        "bytes": 114846
+      },
+      {
+        "file": "engineering-768.avif",
+        "width": 768,
+        "height": 256,
+        "bytes": 11916
+      },
+      {
+        "file": "engineering-768.webp",
+        "width": 768,
+        "height": 256,
+        "bytes": 23624
+      }
+    ],
+    "responsive": "AVIF primary / WebP fallback; 768, 1200, 2172 widths; sizes follows unchanged carousel container",
+    "checks": "1440/1024/390/320 geometry/copy/keyboard/delivery passed"
   }
 }

@@ -8,7 +8,8 @@
       width="2172"
       height="724"
       alt=""
-      loading="lazy"
+      [loading]="kind() === 'engineering' ? 'eager' : 'lazy'"
+      [attr.fetchpriority]="kind() === 'engineering' ? 'high' : null"
       decoding="async"
     />
   </picture>

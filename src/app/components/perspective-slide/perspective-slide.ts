@@ -1,6 +1,11 @@
 ﻿import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 export const ARTWORK_SLIDES = {
+  engineering: {
+    title: 'Engineering',
+    line: 'Build the structure. Solve at the right layer.',
+    route: '/engineering',
+  },
   impact: { title: 'Impact', line: 'Evidence leaves a mark.', route: '/impact' },
 } as const;
 export type ArtworkSlide = keyof typeof ARTWORK_SLIDES;
