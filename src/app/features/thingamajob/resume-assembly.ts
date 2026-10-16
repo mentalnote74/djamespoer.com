@@ -30,7 +30,15 @@ export function resumeWording(text: string): string {
     .replace(/^The owner (?:has |is )?/i, '')
     .replace(/\bthe owner's\b/gi, 'my')
     .replace(/\bthe owner\b/gi, 'I');
-  return plain.charAt(0).toUpperCase() + plain.slice(1);
+  const bullet = plain
+    .replace(/^At .+?, I /i, '')
+    .replace(/^I /, '')
+    .replace(/^Consulted with and advised /i, 'Advised ')
+    .replace(/^Was responsible for /i, 'Responsible for ')
+    .replace(/^My role included /i, '')
+    .replace(/^Pioneering /i, 'Pioneered ')
+    .replace(/^Designing and building /i, 'Design and development of ');
+  return bullet.charAt(0).toUpperCase() + bullet.slice(1);
 }
 function paragraph(location: string) {
   return Number(/:p(\d+)$/.exec(location)?.[1] ?? NaN);
@@ -111,7 +119,9 @@ export function assembleResume(facts: readonly AssemblyFact[], runs: readonly Ex
         sourceRoles.push({
           employer,
           title,
-          dates: match[2].replace(/Present/i, 'as of the source résumé'),
+          dates: /Present/i.test(match[2])
+            ? 'Started ' + match[2].split(/\s*[-\u2013\u2014]\s*/)[0]
+            : match[2],
           bullets: [],
           aliases: [
             employer.replace(/\s*\([^)]*\)/g, ''),

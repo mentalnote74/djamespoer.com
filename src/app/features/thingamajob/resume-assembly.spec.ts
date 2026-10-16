@@ -73,7 +73,7 @@ describe('deterministic resume presentation', () => {
     expect(result.roles).toHaveLength(1);
     expect(result.roles[0].employer).toBe('Fictional Labs (FL)');
     expect(result.roles[0].title).toBe('Interface Developer');
-    expect(result.roles[0].dates).toContain('as of the source');
+    expect(result.roles[0].dates).toBe('Started January 2010');
     expect(result.roles[0].bullets).toEqual(['Built accessible forms at Fictional Labs.']);
     expect(JSON.stringify(result)).not.toContain('obsolete unsupported');
   });
@@ -117,5 +117,8 @@ describe('deterministic resume presentation', () => {
     const result = assembleResume([fact], [run]);
     expect(result.roles).toEqual([]);
     expect(resumeWording('The resume lists a Bachelor of Science.')).toBe('Bachelor of Science.');
+    expect(
+      resumeWording('At Fictional Labs, the owner consulted with and advised Product Managers.'),
+    ).toBe('Advised Product Managers.');
   });
 });

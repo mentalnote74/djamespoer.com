@@ -5,6 +5,7 @@ import type { ExtractionRun, BaselineIssue } from './extraction-run';
 import { WorkflowApi } from './workflow-api';
 import { ThingamajobWorkflow } from './workflow';
 import { assembleResume } from './resume-assembly';
+import { ActivatedRoute } from '@angular/router';
 type DraftEdit = { candidateId: string; statement: string; reject: boolean; editing: boolean };
 type Fact = {
   id: string;
@@ -46,10 +47,12 @@ export function careerGroup(text: string) {
   styleUrl: './career-record.scss',
 })
 export class CareerRecord implements OnInit {
+  readonly internal =
+    inject(ActivatedRoute, { optional: true })?.snapshot.data['internal'] === true;
   readonly api = inject(WorkflowApi);
   readonly workspace = signal<Workflow | null>(null);
   readonly runs = signal<ExtractionRun[]>([]);
-  readonly screen = signal<Screen>('home');
+  readonly screen = signal<Screen>(this.internal ? 'advanced' : 'home');
   readonly loading = signal(true);
   readonly saving = signal(false);
   readonly status = signal('Loading your career record.');

@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 import { ThingamajobTestHost } from './app/features/thingamajob/test-host';
 import { WorkflowApi } from './app/features/thingamajob/workflow-api';
 import { WORKFLOW_API } from './app/features/thingamajob/portfolio-workflow';
@@ -9,14 +9,25 @@ bootstrapApplication(ThingamajobTestHost, {
     WorkflowApi,
     { provide: WORKFLOW_API, useExisting: WorkflowApi },
     provideHttpClient(),
-    provideRouter([
-      {
-        path: '',
-        title: 'Thingamajob - your career record',
-        loadComponent: () =>
-          import('./app/features/thingamajob/career-record').then((m) => m.CareerRecord),
-      },
-      { path: '**', redirectTo: '' },
-    ]),
+    provideRouter(
+      [
+        {
+          path: '',
+          pathMatch: 'full',
+          title: 'Thingamajob - your career record',
+          loadComponent: () =>
+            import('./app/features/thingamajob/career-record').then((m) => m.CareerRecord),
+        },
+        {
+          path: 'admin',
+          data: { internal: true },
+          title: 'Thingamajob internal tools',
+          loadComponent: () =>
+            import('./app/features/thingamajob/career-record').then((m) => m.CareerRecord),
+        },
+        { path: '**', redirectTo: '' },
+      ],
+      withHashLocation(),
+    ),
   ],
 });

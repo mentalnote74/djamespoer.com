@@ -140,9 +140,9 @@ describe('human-first private career record', () => {
     fixture.componentInstance.go('resume');
     fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.textContent).toContain('Your source résumé is the baseline');
+    expect(root.textContent).toContain('Your résumé is not available yet.');
     expect(root.querySelector('.facts')).toBeNull();
-    expect(root.textContent).toContain('View source evidence');
+    expect(root.textContent).not.toMatch(/Advanced|View source evidence|provenance|diagnostic/);
   });
   it('answers one genuine question through existing grouped review and returns to completion', async () => {
     const { fixture, api } = await setup(1);
