@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+﻿import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
@@ -34,7 +34,7 @@ describe('Thingamajob case study and real workflow component', () => {
     expect(root.querySelector('.product-workspace')?.textContent).toContain(
       'fictional data in this tab only',
     );
-    expect(root.querySelector('details')?.open).toBe(true);
+    expect(root.querySelector<HTMLDetailsElement>('app-thingamajob details')?.open).toBe(true);
     expect(root.querySelector('.result-key')?.closest('app-thingamajob')).toBeNull();
     expect(root.querySelector('app-thingamajob a[href="/thingamajob"]')).toBeNull();
     expect(root.textContent).toContain(
@@ -42,13 +42,17 @@ describe('Thingamajob case study and real workflow component', () => {
     );
     expect(root.textContent).toContain('Under active construction');
     expect(
-      Array.from(root.querySelectorAll('.result-key dd'), (e) => e.textContent?.trim()),
+      Array.from(root.querySelectorAll('.result-key summary'), (e) => e.textContent?.trim()),
+    ).toEqual(['Strong Match', 'Supported Match', 'Needs Candidate Confirmation', 'Match Gap']);
+    expect(
+      Array.from(root.querySelectorAll('.result-key details p'), (e) => e.textContent?.trim()),
     ).toEqual([
-      'Direct evidence supports the requirement.',
-      'Related evidence supports the requirement, but less directly or completely.',
-      'Available evidence suggests a possible match, but additional owner/candidate confirmation is required.',
-      'The current Library of Truth does not support the requirement.',
+      "The candidate's verified career evidence directly supports the job requirement.",
+      'The candidate has related verified evidence that supports the requirement, but less directly or completely.',
+      'Existing career evidence suggests the candidate may meet the requirement, but clarification is needed before Thingamajob treats it as supported.',
+      'Current verified career evidence does not support the job requirement.',
     ]);
+    expect(root.querySelectorAll('.result-key details[open]')).toHaveLength(0);
     const study = root.querySelector('.case-study')!;
     for (const heading of [
       'The problem',
