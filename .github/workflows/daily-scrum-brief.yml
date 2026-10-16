@@ -1,0 +1,25 @@
+name: Daily public brief checkpoint
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 9 * * *'
+      timezone: America/New_York
+permissions:
+  contents: read
+concurrency:
+  group: daily-public-brief
+  cancel-in-progress: false
+jobs:
+  checkpoint:
+    if: github.repository == 'mentalnote74/djamespoer.com' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/heads/automation/daily-scrum-brief
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Generate and validate approved public checkpoint
+        uses: ./.github/actions/daily-scrum-brief
+# Trigger only: no branch input, secrets, push permission or deployment.
