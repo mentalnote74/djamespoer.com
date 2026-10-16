@@ -1,3 +1,4 @@
+import { DailyScrumBrief } from '../daily-scrum-brief/daily-scrum-brief';
 import { Aside } from '../../layout/aside/aside';
 import { Thingamajob } from '../thingamajob/thingamajob';
 import { PerspectiveSlide } from '../perspective-slide/perspective-slide';
@@ -9,6 +10,7 @@ import { DeploymentHistory } from '../deployment-history/deployment-history';
 
 @Component({
   imports: [
+    DailyScrumBrief,
     RouterLink,
     PerspectiveSlide,
     Aside,

@@ -1,0 +1,18 @@
+<section [attr.aria-labelledby]="headingId()">
+  <h2 [id]="headingId()">
+    Executive Scrum Brief — <time [attr.datetime]="brief.date">{{ displayDate }}</time>
+  </h2>
+  @for (section of brief.sections; track section.heading) {
+    <h3>{{ section.heading }}</h3>
+    @if (section.items) {
+      <ul>
+        @for (item of section.items; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    }
+    @if (section.paragraph) {
+      <p>{{ section.paragraph }}</p>
+    }
+  }
+</section>

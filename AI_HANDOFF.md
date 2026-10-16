@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Daily Scrum Brief local checkpoint (2026-10-16)
+
+Public-only refactor from PROD 3067c0e: DailyScrumBrief owns semantic UI, generated typed snapshot preserves exact October 16 copy/date; Home owns placement. Deterministic generator uses maintained public status.json, bounded freshness window, source ancestry and atomic snapshot writes with hashes/lineage. GitHub Actions daily read-only generation/test/build artifact workflow prepared locally; no push, activation or automatic publishing, no secrets/model/Codex/ChatGPT tasks. Recommend artifact review -> normal public release; no zero-touch PROD until a dedicated approved public ref/gates exist. Generator 6/6, Angular focused 2/2, build/budgets, desktop/390 exact live-copy/geometry comparison passed; next-day output generated only under ignored output. No deploy or protected/backend/Erica/data/art/theme/layout changes. Review http://127.0.0.1:4427/. Stop for Coach.
+
 ## Overnight carousel redesign (2026-10-15)
 
 LOCAL REVIEW ONLY; no PROD deployment. Completed in order: impact, engineering, ux, accessibility, ai. Each slide independently built and checked at 1440/1024/390/320 with identical 3:1 footprint, live copy, working keyboard link, no clipping/overflow, responsive AVIF/WebP. Creative Town assets/markup, carousel controls/timing/geometry and all unrelated public/protected work unchanged. Artwork generation prompts, hashes and production byte sizes: docs/design/overnight-carousel.json. Masters and screenshots stay in ignored output/overnight-slides. Local preview http://127.0.0.1:4427/. Continue next requested slide only after this commit; stop after AI.
