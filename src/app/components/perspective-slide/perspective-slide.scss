@@ -1,5 +1,6 @@
 ﻿:host {
   display: block;
+  position: relative;
   inline-size: 100%;
   aspect-ratio: 3;
   container-type: inline-size;
@@ -102,4 +103,126 @@ a:focus-visible {
   .artwork-slide::after {
     background: linear-gradient(90deg, rgb(0 0 0 / 0.62), rgb(0 0 0 / 0.6));
   }
+}
+
+// Fixed source-space windows; motion stays inside clips, below the existing text scrim.
+.artwork-regions {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.region-light {
+  opacity: 0.22;
+  stroke-dasharray: 12 88;
+  animation: region-flow var(--region-duration) linear var(--region-delay) infinite;
+  animation-play-state: var(--region-play-state, var(--perspective-play-state, running));
+}
+.region-light--wash {
+  opacity: 0.16;
+  stroke-dasharray: 20 80;
+  filter: blur(3px);
+}
+.region-light--guidance {
+  stroke-dasharray: 36 64;
+  opacity: 0.18;
+  animation-name: region-guide;
+  animation-timing-function: ease-in-out;
+}
+.region-light--ribbon {
+  opacity: 0.3;
+  stroke-dasharray: 9 91;
+}
+.region-light--wake {
+  opacity: 0.2;
+  stroke-dasharray: 22 78;
+  filter: blur(1px);
+  animation-timing-function: ease-out;
+}
+.artwork-motion {
+  display: block;
+  margin-inline-start: auto;
+  margin-block-start: 0.5rem;
+  min-block-size: 2.75rem;
+  padding-inline: 0.75rem;
+  font-size: 0.875rem;
+}
+@keyframes region-flow {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes region-guide {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.24;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.08;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .region-light {
+    animation: none;
+    opacity: 0.1;
+    stroke-dasharray: none;
+  }
+  .artwork-motion {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .artwork-regions,
+  .artwork-motion {
+    display: none;
+  }
+}
+
+// Reuse the browser-selected raster itself inside each window: no reinterpreted art.
+.region-material {
+  opacity: 0.65;
+  animation: region-material-light var(--region-duration) ease-in-out var(--region-delay) infinite
+    alternate;
+  animation-play-state: var(--region-play-state, var(--perspective-play-state, running));
+}
+.region-material--wash {
+  --material-x: 0px;
+  --material-y: -0.6px;
+}
+.region-material--ribbon {
+  --material-x: 0.5px;
+  --material-y: -0.35px;
+}
+.region-material--wake {
+  --material-x: 0.4px;
+  --material-y: 0.4px;
+}
+@keyframes region-material-light {
+  from {
+    filter: brightness(1);
+    transform: translate(0, 0);
+  }
+  to {
+    filter: brightness(1.13);
+    transform: translate(var(--material-x, 0px), var(--material-y, 0px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .region-material {
+    animation: none;
+    filter: none;
+  }
+}
+
+:host:has(.artwork-motion) {
+  aspect-ratio: auto;
 }

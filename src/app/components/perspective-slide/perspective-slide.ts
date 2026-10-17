@@ -1,5 +1,6 @@
 import { PublicTrack } from '../../services/public-track';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
+import { PERSPECTIVE_REGIONS } from './perspective-regions';
 import { RouterLink } from '@angular/router';
 export const ARTWORK_SLIDES = {
   ai: { title: 'AI & Innovation', line: 'Use the machine. Keep the judgment.', route: '/ai' },
@@ -21,6 +22,7 @@ export const ARTWORK_SLIDES = {
   impact: { title: 'Impact', line: 'Evidence leaves a mark.', route: '/impact' },
 } as const;
 export type ArtworkSlide = keyof typeof ARTWORK_SLIDES;
+let regionInstance = 0;
 @Component({
   selector: 'app-perspective-slide',
   imports: [PublicTrack, RouterLink],
@@ -28,6 +30,14 @@ export type ArtworkSlide = keyof typeof ARTWORK_SLIDES;
   styleUrl: './perspective-slide.scss',
 })
 export class PerspectiveSlide {
+  readonly regionPrefix = `perspective-region-${++regionInstance}-`;
+  readonly regions = computed(() => PERSPECTIVE_REGIONS[this.kind()]);
+  readonly motionPaused = signal(false);
+  readonly artworkSource = signal('');
+  captureArtwork(event: Event): void {
+    const image = event.target;
+    if (image instanceof HTMLImageElement) this.artworkSource.set(image.currentSrc);
+  }
   readonly pageHeading = input(false);
   readonly showExplore = input(true);
   readonly kind = input.required<ArtworkSlide>();
