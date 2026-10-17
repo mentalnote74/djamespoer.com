@@ -23,3 +23,7 @@ Secondary opacity is attenuated by layer: far atmosphere 40%, mid atmosphere 32%
 ## Navbar emitter integration
 
 The reusable engine contract and CSS motion remain unchanged. Far atmosphere/texture opacity reduced another 25%, mid atmosphere/fronts/fragments/particles another 20%, strongest near atmosphere unchanged. Header supplies only composition/stacking; no extra renderer, timer or dependency. Grain is a finite irregular source-anchored fragment rather than a rectangular full-field texture.
+
+## Controlled palette contrast
+
+`derivedColorMix` (0-1, default .6) and `hueRotation` (-180 to 180 degrees, default 150) let each instance blend original theme colors with alternating rotated counterparts. Relative OKLCH clamps derived lightness to .38-.76 and chroma to .055-.14, with alternating .06 lightness offsets. Semantic color inputs continue cascading live; no computed-style reads, extra random draws or frame work. Secondary opacity reduced a further 15% for far atmosphere/texture and 12% for mid atmosphere/fronts/fragments/particles. Strongest near-field opacity, geometry and motion unchanged.

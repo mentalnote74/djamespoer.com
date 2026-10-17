@@ -20,6 +20,8 @@ export interface BedlamConfig {
   readonly positionX?: number;
   readonly positionY?: number;
   readonly depth?: number;
+  readonly derivedColorMix?: number;
+  readonly hueRotation?: number;
 }
 export interface BedlamLayer {
   readonly id: string;
@@ -58,6 +60,14 @@ export function createBedlam(
     n ^= n + Math.imul(n ^ (n >>> 7), 61 | n);
     return ((n ^ (n >>> 14)) >>> 0) / 4294967296;
   };
+  const derivedMix = bounded(config.derivedColorMix, 0.6);
+  const hueRotation = bounded(config.hueRotation, 150, -180, 180);
+  const contrastColor = (source: string, index: number) => {
+    const rotation = index % 2 ? -hueRotation : hueRotation;
+    const offset = index % 2 ? -0.06 : 0.06;
+    const derived = `oklch(from ${source} clamp(0.38, calc(l + ${offset}), 0.76) clamp(0.055, calc(c + 0.035), 0.14) calc(h + ${rotation}))`;
+    return `color-mix(in oklch, ${source}, ${derived} ${derivedMix * 100}%)`;
+  };
   const intensity = bounded(config.intensity, 0.95);
   const density = bounded(config.density, 0.4);
   const symmetry = bounded(config.symmetry, 0.08);
@@ -81,8 +91,8 @@ export function createBedlam(
       : []),
   ];
   return kinds.flatMap((kind, index) => {
-    const a = colors[index % colors.length],
-      b = colors[(index + 1) % colors.length];
+    const a = contrastColor(colors[index % colors.length], index),
+      b = contrastColor(colors[(index + 1) % colors.length], index + 1);
     const x = 50 + (random() - 0.5) * 85 * (1 - symmetry);
     const y = 50 + (random() - 0.5) * 70 * (1 - symmetry);
     const angle = Math.round((random() - 0.5) * 48),
@@ -99,13 +109,13 @@ export function createBedlam(
     const secondaryOpacity =
       kind === 'nebula'
         ? distance < 0.3
-          ? 0.45
+          ? 0.3825
           : distance < 0.7
-            ? 0.544
+            ? 0.47872
             : 1
         : kind === 'grain'
-          ? 0.45
-          : 0.52;
+          ? 0.3825
+          : 0.4576;
     const style: Record<string, string> = {
       'background-image': gradients[kind],
       opacity: String(
