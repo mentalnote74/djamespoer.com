@@ -40,31 +40,17 @@ app-carousel {
   }
 }
 
-.home-editorial > .home-construction {
-  margin-block-start: clamp(3rem, 7vw, 6rem);
+// Restored right-column placement; keep the feature surface within its available width.
+.home-updates > .home-construction {
   padding: var(--surface-padding);
-  grid-template-columns: minmax(0, 1fr);
+  margin-block-end: 2rem;
   h2 {
-    grid-column: 1;
     margin-block: 0 1rem;
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(2rem, 3vw, 3.5rem);
     line-height: 1.05;
     letter-spacing: -0.035em;
   }
   p {
-    grid-column: 1;
     margin-block: 0.65rem;
-  }
-  @media (min-width: 60rem) {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
-    column-gap: clamp(2rem, 5vw, 5rem);
-    h2 {
-      grid-column: 1;
-      grid-row: 1 / span 7;
-      max-inline-size: 7ch;
-    }
-    p {
-      grid-column: 2;
-    }
   }
 }
