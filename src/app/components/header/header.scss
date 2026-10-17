@@ -71,7 +71,7 @@
     padding: 0.5rem;
     background: var(--navigation-surface);
     color: var(--navigation-foreground);
-    border: 1px solid currentColor;
+    border: 1px solid var(--panel-border);
     border-radius: 0.25rem;
   }
   &__submenu[hidden] {

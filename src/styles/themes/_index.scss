@@ -16,7 +16,6 @@ $themes: (
     'section-surface': #eef1f4,
     'panel-surface': #fff,
     'secondary-text': #454b52,
-    'panel-border': #aab2bb,
     'selected-background': #202020,
     'selected-foreground': #fff,
     'component-surface': Canvas,
@@ -24,9 +23,7 @@ $themes: (
     'component-border': currentColor,
     'input-surface': Field,
     'input-text': FieldText,
-    'grid-border': #767676,
     'grid-disabled-text': #595959,
-    'footer-divider': #d8d8d8,
     'disabled-opacity': 0.6,
   ),
   'tequila-sunrise': (
@@ -44,7 +41,6 @@ $themes: (
     'section-surface': #ffd5b5,
     'panel-surface': #fff9ed,
     'secondary-text': #633b2e,
-    'panel-border': #873323,
     'selected-background': #873323,
     'selected-foreground': #fff9ed,
     'component-surface': #ffe4b5,
@@ -52,9 +48,7 @@ $themes: (
     'component-border': #873323,
     'input-surface': #fff9ed,
     'input-text': #421b18,
-    'grid-border': #873323,
     'grid-disabled-text': #633b2e,
-    'footer-divider': #873323,
     'disabled-opacity': 1,
     'focus-inner': #fff,
     'focus-outer': #111,
@@ -75,7 +69,6 @@ $themes: (
     'section-surface': #ccebd5,
     'panel-surface': #f6fff7,
     'secondary-text': #355747,
-    'panel-border': #256447,
     'selected-background': #256447,
     'selected-foreground': #f6fff7,
     'component-surface': #d7f1df,
@@ -83,9 +76,7 @@ $themes: (
     'component-border': #256447,
     'input-surface': #f6fff7,
     'input-text': #173e31,
-    'grid-border': #256447,
     'grid-disabled-text': #355747,
-    'footer-divider': #256447,
     'disabled-opacity': 1,
     'focus-inner': #fff,
     'focus-outer': #111,
@@ -106,7 +97,6 @@ $themes: (
     'section-surface': #f3e4b6,
     'panel-surface': #fffdf4,
     'secondary-text': #515438,
-    'panel-border': #42652c,
     'selected-background': #42652c,
     'selected-foreground': #fffdf4,
     'component-surface': #f3e4b6,
@@ -114,9 +104,7 @@ $themes: (
     'component-border': #42652c,
     'input-surface': #fffdf4,
     'input-text': #283c24,
-    'grid-border': #42652c,
     'grid-disabled-text': #515438,
-    'footer-divider': #42652c,
     'disabled-opacity': 1,
     'focus-inner': #fff,
     'focus-outer': #111,
@@ -137,7 +125,6 @@ $themes: (
     'section-surface': #e9c59c,
     'panel-surface': #fff5e5,
     'secondary-text': #5c3b2a,
-    'panel-border': #703c22,
     'selected-background': #703c22,
     'selected-foreground': #fff5e5,
     'component-surface': #f1d3a9,
@@ -145,9 +132,7 @@ $themes: (
     'component-border': #703c22,
     'input-surface': #fff5e5,
     'input-text': #3d281d,
-    'grid-border': #703c22,
     'grid-disabled-text': #5c3b2a,
-    'footer-divider': #703c22,
     'disabled-opacity': 1,
     'focus-inner': #fff,
     'focus-outer': #111,
@@ -168,7 +153,6 @@ $themes: (
     'section-surface': #dfb9ac,
     'panel-surface': #fff3e8,
     'secondary-text': #593448,
-    'panel-border': #74334c,
     'selected-background': #74334c,
     'selected-foreground': #fff3e8,
     'component-surface': #eac3c1,
@@ -176,9 +160,7 @@ $themes: (
     'component-border': #74334c,
     'input-surface': #fff3e8,
     'input-text': #392031,
-    'grid-border': #74334c,
     'grid-disabled-text': #593448,
-    'footer-divider': #74334c,
     'disabled-opacity': 1,
     'focus-inner': #fff,
     'focus-outer': #111,
@@ -199,7 +181,6 @@ $themes: (
     'section-surface': #2b1c32,
     'panel-surface': #36283a,
     'secondary-text': #dfc5d7,
-    'panel-border': #cfa3bd,
     'selected-background': #e5bacf,
     'selected-foreground': #2d1930,
     'component-surface': #302238,
@@ -207,9 +188,7 @@ $themes: (
     'component-border': #cfa3bd,
     'input-surface': #211827,
     'input-text': #fff0df,
-    'grid-border': #cfa3bd,
     'grid-disabled-text': #dfc5d7,
-    'footer-divider': #cfa3bd,
     'disabled-opacity': 1,
     'focus-inner': #fff,
     'focus-outer': #111,
@@ -230,7 +209,6 @@ $themes: (
     'section-surface': #2e3430,
     'panel-surface': #353c35,
     'secondary-text': #d8cfb9,
-    'panel-border': #c6bc83,
     'selected-background': #e3a17b,
     'selected-foreground': #321f19,
     'component-surface': #28332c,
@@ -238,15 +216,42 @@ $themes: (
     'component-border': #c6bc83,
     'input-surface': #1e2421,
     'input-text': #fff0d2,
-    'grid-border': #c6bc83,
     'grid-disabled-text': #d8cfb9,
-    'footer-divider': #c6bc83,
     'disabled-opacity': 1,
     'focus-inner': #fff,
     'focus-outer': #111,
     'native-color-scheme': dark,
   ),
 );
+// Passive edges and separators follow the live foreground without changing control/state colors.
+:root {
+  --border-surface-strength: 12%;
+  --border-separator-strength: 22%;
+  --border-surface: color-mix(
+    in srgb,
+    var(--page-foreground) var(--border-surface-strength),
+    transparent
+  );
+  --border-separator: color-mix(
+    in srgb,
+    var(--page-foreground) var(--border-separator-strength),
+    transparent
+  );
+  --panel-border: var(--border-surface);
+  --grid-border: var(--border-separator);
+  --footer-divider: var(--border-surface);
+}
+:root[data-theme='rum-runner'],
+:root[data-theme='bloody-mary'] {
+  --border-surface-strength: 9%;
+  --border-separator-strength: 18%;
+}
+@media (forced-colors: active) {
+  :root {
+    --border-surface: CanvasText;
+    --border-separator: CanvasText;
+  }
+}
 @mixin properties($tokens) {
   @each $role, $value in $tokens {
     --#{$role}: #{$value};
