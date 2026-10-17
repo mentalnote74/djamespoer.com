@@ -14,6 +14,17 @@
   table {
     inline-size: 100%;
   }
+  tbody tr:nth-child(even):not([aria-selected='true']) {
+    background-color: color-mix(in srgb, var(--page-foreground) 2.5%, var(--page-background));
+  }
+  tbody tr:focus-within:not([aria-selected='true']) {
+    background-color: color-mix(in srgb, var(--page-foreground) 6%, var(--page-background));
+  }
+  @media (hover: hover) {
+    tbody tr:hover:not([aria-selected='true']) {
+      background-color: color-mix(in srgb, var(--page-foreground) 6%, var(--page-background));
+    }
+  }
   caption {
     padding-block: 0.75rem;
   }
