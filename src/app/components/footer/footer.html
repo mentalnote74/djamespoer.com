@@ -13,7 +13,10 @@
       </button>
 
       <nav class="site-footer__cookies" aria-label="Cookie preferences">
-        <button type="button" (click)="openCookieSettings($event)">Cookie settings</button>
+        <button type="button" (click)="openCookieSettings($event)">
+          <svg lucideCookie class="action-icon" aria-hidden="true" focusable="false"></svg>Cookie
+          settings
+        </button>
         <a routerLink="/cookie-policy">Cookie Policy</a>
       </nav>
 

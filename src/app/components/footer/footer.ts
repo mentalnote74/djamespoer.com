@@ -1,4 +1,4 @@
-import { LucideAccessibility } from '@lucide/angular';
+import { LucideAccessibility, LucideCookie } from '@lucide/angular';
 import { PublicAnalytics } from '../../services/public-analytics';
 import { RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
@@ -7,7 +7,7 @@ import { CookiePreferencesService } from '../../features/cookie-preferences/cook
 import { Component, model } from '@angular/core';
 
 @Component({
-  imports: [LucideAccessibility, RouterLink, CookiePreferences],
+  imports: [LucideAccessibility, LucideCookie, RouterLink, CookiePreferences],
   selector: 'app-footer',
   styleUrl: './footer.scss',
   templateUrl: './footer.html',
