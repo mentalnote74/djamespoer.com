@@ -15,7 +15,7 @@ describe('Header', () => {
     expect(component.caseStudies.map((link) => link.path)).toEqual([
       '/work/djamespoer',
       '/thingamajob',
-      ...component.work.map((link) => link.path),
+      ...component.work.map((link) => link.path.replace('/work/', '/case-studies/')),
     ]);
   });
   it('offers Thingamajob under Case Studies with a current-page state', async () => {
@@ -135,10 +135,10 @@ describe('Header', () => {
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '/work/djamespoer',
       '/thingamajob',
-      '/work/exl',
-      '/work/ips',
-      '/work/tcc',
-      '/work/dr',
+      '/case-studies/exl',
+      '/case-studies/ips',
+      '/case-studies/tcc',
+      '/case-studies/dr',
     ]);
     expect(links[0].getAttribute('aria-current')).toBe('page');
   });

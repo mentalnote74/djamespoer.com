@@ -43,18 +43,6 @@
     text-decoration: underline;
     text-decoration-thickness: foundation.$link-hover-thickness;
   }
-  &__group > button::after {
-    content: '';
-    inline-size: 0.4rem;
-    block-size: 0.4rem;
-    margin-inline-start: 0.75rem;
-    border-inline-end: 2px solid currentColor;
-    border-block-end: 2px solid currentColor;
-    transform: rotate(45deg);
-  }
-  &__group > button[aria-expanded='true']::after {
-    transform: rotate(225deg);
-  }
   &__menu {
     position: relative;
     z-index: 2;
@@ -118,6 +106,6 @@
 .site-header__theme-chevron {
   flex: none;
 }
-.site-header__theme-trigger[aria-expanded='true'] .site-header__theme-chevron {
+.site-header__group > button[aria-expanded='true'] .site-header__theme-chevron {
   transform: rotate(180deg);
 }

@@ -1,3 +1,4 @@
+import { LucideChevronLeft, LucideChevronRight } from '@lucide/angular';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -18,7 +19,7 @@ let nextGridId = 0;
 
 @Component({
   selector: 'app-smart-grid',
-  imports: [NgTemplateOutlet],
+  imports: [LucideChevronLeft, LucideChevronRight, NgTemplateOutlet],
   templateUrl: './smart-grid.html',
   styleUrl: './smart-grid.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

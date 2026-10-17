@@ -1,3 +1,4 @@
+import { LucideMail, LucideDownload } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 import { AfterViewInit, Component, input, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -12,7 +13,7 @@ type ParticlesWindow = Window & {
 };
 
 @Component({
-  imports: [PublicTrack, RouterLink],
+  imports: [LucideMail, LucideDownload, PublicTrack, RouterLink],
   selector: 'app-hero',
   styleUrl: './hero.scss',
   templateUrl: './hero.html',

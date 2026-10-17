@@ -51,3 +51,15 @@ button {
   }
 }
 // Shared focus-visible outlines are supplied by base/accessibility.
+
+// Decorative action glyphs share sizing; native controls retain their accessible labels.
+.action-icon {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  flex: 0 0 auto;
+  vertical-align: -0.15em;
+  pointer-events: none;
+}
+a:has(> .action-icon) {
+  gap: 0.5rem;
+}

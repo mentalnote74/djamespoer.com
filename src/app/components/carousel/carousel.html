@@ -29,7 +29,8 @@
       <div class="carousel__controls" aria-label="Carousel controls" role="group">
         @if (showPreviousNext()) {
           <button type="button" aria-label="Previous slide" (click)="showPreviousSlide()">
-            Previous
+            <svg lucideChevronLeft class="action-icon" aria-hidden="true" focusable="false"></svg
+            >Previous
           </button>
         }
         @if (showPausePlay()) {
@@ -42,11 +43,23 @@
             [disabled]="prefersReducedMotion() || slides().length < 2"
             (click)="toggleRotation()"
           >
+            @if (isPlaying()) {
+              <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+            } @else {
+              <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+            }
             {{ isPlaying() ? 'Pause' : 'Play' }}
           </button>
         }
         @if (showPreviousNext()) {
-          <button type="button" aria-label="Next slide" (click)="showNextSlide()">Next</button>
+          <button type="button" aria-label="Next slide" (click)="showNextSlide()">
+            Next<svg
+              lucideChevronRight
+              class="action-icon"
+              aria-hidden="true"
+              focusable="false"
+            ></svg>
+          </button>
         }
       </div>
     }

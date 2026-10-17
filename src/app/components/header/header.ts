@@ -1,3 +1,10 @@
+import {
+  LucideMenu,
+  LucideChevronDown,
+  LucideDownload,
+  LucideMail,
+  LucideExternalLink,
+} from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 import { ThemeState, type ThemeSelection } from '../../services/theme-state';
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
@@ -6,7 +13,17 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
 import { Bedlam } from '../bedlam/bedlam';
 
 @Component({
-  imports: [PublicTrack, RouterLink, RouterLinkActive, Bedlam],
+  imports: [
+    LucideMenu,
+    LucideChevronDown,
+    LucideDownload,
+    LucideMail,
+    LucideExternalLink,
+    PublicTrack,
+    RouterLink,
+    RouterLinkActive,
+    Bedlam,
+  ],
   selector: 'app-header',
   styleUrl: './header.scss',
   templateUrl: './header.html',

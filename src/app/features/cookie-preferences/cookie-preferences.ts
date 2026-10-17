@@ -1,3 +1,4 @@
+import { LucideX } from '@lucide/angular';
 import {
   Component,
   ElementRef,
@@ -12,7 +13,7 @@ import { CookiePreferencesService } from './cookie-preferences.service';
 import { COOKIE_VARIETIES } from './preferences';
 @Component({
   selector: 'app-cookie-preferences',
-  imports: [RouterLink],
+  imports: [LucideX, RouterLink],
   templateUrl: './cookie-preferences.html',
   styleUrl: './cookie-preferences.scss',
 })

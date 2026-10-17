@@ -4,6 +4,10 @@
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
 
+## Button icons ? October 17, 2026
+
+Approved @lucide/angular 1.59.0 replaces the requested legacy package because lucide-angular rejects Angular 22. Eleven named standalone icons only: Menu, ChevronDown, Download, Mail, ExternalLink, ChevronLeft, ChevronRight, Pause, Play, X, Accessibility. Shared 18px decorative currentColor SVG pattern; original labels, focus and button borders preserved. Header, carousel, grid pagination, cookie close, footer accessibility and existing hero actions updated. Build/budgets passed (386.57 kB raw / 95.89 kB estimated initial transfer; about +43.61/+3.33 kB). Focused control tests 55 passed after stale case-study route expectations were aligned. Eight themes desktop/390, keyboard, forced colors and four scoped axe regions passed with no overflow/errors. No protected/API changes.
+
 ## Editorial depth pass ? October 17, 2026
 
 Shared flush/card/feature/inset roles extend the existing theme lighting tokens. Pardon the Dust moved below the opening row into a padded full-width feature with asymmetric desktop layout. Selected case-study outcomes/decisions and perspective evidence summaries receive opt-in depth; constraints use inset treatment. Content unchanged, most sections remain open. Related-page links use restrained underline feedback, disabled under reduced motion. Fixed the pre-existing router-input undefined title default so case studies retain H1s; refreshed stale TCC content expectations. Build/budgets and existing renderer tests 6/6 passed. Eight themes at 1440/390 plus eight representative routes checked: below-fold placement, no overflow/errors, one H1, scoped axe clean, 3px focus, reduced motion and forced colors. Protected implementation, carousel, Bedlam and journal code untouched.

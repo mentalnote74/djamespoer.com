@@ -1,3 +1,4 @@
+import { LucideChevronLeft, LucideChevronRight, LucidePause, LucidePlay } from '@lucide/angular';
 import {
   AfterContentInit,
   Component,
@@ -16,7 +17,7 @@ import { CarouselSlide } from './carousel-slide';
 export const CAROUSEL_INTERVAL_MS = 5_000;
 
 @Component({
-  imports: [NgTemplateOutlet],
+  imports: [LucideChevronLeft, LucideChevronRight, LucidePause, LucidePlay, NgTemplateOutlet],
   selector: 'app-carousel',
   styleUrl: './carousel.scss',
   templateUrl: './carousel.html',

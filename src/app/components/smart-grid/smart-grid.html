@@ -68,14 +68,14 @@
       [attr.aria-disabled]="loading() || pageIndex() === 0"
       (click)="requestPage(pageIndex() - 1)"
     >
-      Previous
+      <svg lucideChevronLeft class="action-icon" aria-hidden="true" focusable="false"></svg>Previous
     </button>
     <button
       type="button"
       [attr.aria-disabled]="loading() || pageIndex() + 1 >= pageCount()"
       (click)="requestPage(pageIndex() + 1)"
     >
-      Next
+      Next<svg lucideChevronRight class="action-icon" aria-hidden="true" focusable="false"></svg>
     </button>
     <label
       >Items per page
