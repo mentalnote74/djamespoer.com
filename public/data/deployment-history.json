@@ -1,9 +1,17 @@
 {
   "schemaVersion": 4,
-  "checkedAt": "2026-10-17T01:18:32.906Z",
-  "generatedAt": "2026-10-17T01:18:32.906Z",
+  "checkedAt": "2026-10-17T01:26:34.635Z",
+  "generatedAt": "2026-10-17T01:26:34.635Z",
   "refreshStatus": "ok",
   "rows": [
+    {
+      "id": "attempt-69d6c66337389ed8c24e8a5bd52a2f726a821d913a82a8c64b92684344aef3e0",
+      "createdAt": "2026-10-17T01:18:49.470Z",
+      "environment": "production",
+      "status": "succeeded",
+      "summary": "Production deployment",
+      "stage": "deployed"
+    },
     {
       "id": "attempt-2f418113a1a06b1360036ac3555e1128c82a598b704901d2207df9c15f590353",
       "createdAt": "2026-10-17T01:09:17.117Z",

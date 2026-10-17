@@ -96,11 +96,22 @@ export function createBedlam(
       grain: `radial-gradient(circle at 7px 9px, ${a} 0 0.45px, transparent 0.8px), radial-gradient(circle at 19px 5px, ${b} 0 0.6px, transparent 1px)`,
       particles: `radial-gradient(circle, ${b} 0 30%, ${a} 35%, transparent 70%)`,
     };
+    const secondaryOpacity =
+      kind === 'nebula'
+        ? distance < 0.3
+          ? 0.6
+          : distance < 0.7
+            ? 0.68
+            : 1
+        : kind === 'grain'
+          ? 0.6
+          : 0.65;
     const style: Record<string, string> = {
       'background-image': gradients[kind],
       opacity: String(
         opacity *
           intensity *
+          secondaryOpacity *
           (kind === 'grain' ? 0.18 : kind === 'rings' ? 0.22 : 0.42 + distance * 0.45),
       ),
       'mix-blend-mode': blend,

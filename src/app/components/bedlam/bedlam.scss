@@ -6,7 +6,7 @@
   position: relative;
   display: block;
   block-size: 4rem;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
   pointer-events: none;
   background: transparent;
@@ -23,7 +23,7 @@
     position: absolute;
     inset: 0;
     overflow: hidden;
-    background: var(--navigation-surface);
+    mask-image: radial-gradient(ellipse closest-side at center, #000 55%, transparent 100%);
   }
   &__layer {
     position: absolute;
@@ -48,7 +48,12 @@
   &__layer--grain {
     animation: none;
   }
+  // Filter the transparent parent of the masked shape, never the rectangular field.
   &__identity {
+    filter: drop-shadow(
+      var(--shadow-x) var(--shadow-y) calc(var(--shadow-blur) / 2)
+        rgb(var(--shadow-ink) / var(--shadow-opacity))
+    );
     position: absolute;
     inset: 0.5rem;
   }
@@ -61,12 +66,13 @@
 }
 :host-context([data-theme='rum-runner']),
 :host-context([data-theme='bloody-mary']) {
-  .bedlam {
-    background: #000;
-  }
   .bedlam__scene {
     inset: 0.5rem;
     opacity: 1;
+    filter: drop-shadow(
+      var(--shadow-x) var(--shadow-y) calc(var(--shadow-blur) / 2)
+        rgb(var(--shadow-ink) / var(--shadow-opacity))
+    );
   }
   .bedlam__field {
     mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
@@ -97,9 +103,6 @@
   }
 }
 @media (forced-colors: active) {
-  .bedlam {
-    background: Canvas;
-  }
   .bedlam__scene {
     display: none;
   }

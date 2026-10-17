@@ -724,3 +724,7 @@ Release `release/seeded-bedlam` starts from public PROD `b48e051`. Pure theme/se
 ## Bedlam visual recipe correction - 2026-10-16
 
 Release `release/bedlam-cosmic-recipe` starts from PROD `d2415fa`. All lettering/scene perimeter filters and field bevels removed. Existing engine/config contract retained; recipe now emphasizes asymmetric near/mid/far forms, small clipped debris, depth-specific scale/blur/drift and static seeded SVG surface distortion/lighting. Canonical mask unchanged. Actual composites visually inspected. Build/budgets pass; existing Bedlam tests 5/5, SVG integrity 1/1, eight-theme desktop/390 checks pass, scoped logo axe zero, Home focus/reduced-motion/forced-colors pass. No unrelated source changes; authorized public release next.
+
+## Bedlam calm silhouette and theme shadow - 2026-10-16
+
+Release `release/bedlam-calm-silhouette` starts from PROD `1203d01`. Secondary layer opacity reduced 32-40%, near layer unchanged. Removed light field base/dark tile; feathered only surrounding field edges, canonical mask unchanged. Transparent silhouette parents cast shared-theme directional shadows (half box blur for equivalent filter softness); no rectangular shadow, stroke or bevel. Build/budgets, Bedlam 5/5 and immutable SVG 1/1 pass. Actual eight-theme desktop/390 composites inspected; no overflow/browser errors, theme shadow tokens verified, reduced-motion/forced-colors and Home focus pass. No unrelated backend/TEST/Erica changes. Authorized next step: push/deploy public release and verify LIVE.
