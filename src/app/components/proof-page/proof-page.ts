@@ -2,11 +2,10 @@ import { Component, input } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { CaseStudy } from '../case-study/case-study';
 import { CaseStudy as StudyContent } from '../case-study/case-study.model';
-import { PerspectiveCandidate } from '../perspective-candidate/perspective-candidate';
-import { PerspectiveCandidateKey } from '../perspective-candidate/perspective-candidate.config';
+import { ArtworkSlide, PerspectiveSlide } from '../perspective-slide/perspective-slide';
 
 @Component({
-  imports: [NgOptimizedImage, CaseStudy, PerspectiveCandidate],
+  imports: [NgOptimizedImage, CaseStudy, PerspectiveSlide],
   selector: 'app-proof-page',
   styleUrl: './proof-page.scss',
   templateUrl: './proof-page.html',
@@ -14,7 +13,7 @@ import { PerspectiveCandidateKey } from '../perspective-candidate/perspective-ca
 export class ProofPage {
   readonly heading = input.required<string>();
   readonly content = input<StudyContent>();
-  readonly composition = input<PerspectiveCandidateKey>();
+  readonly composition = input<ArtworkSlide>();
   readonly artwork = input<{
     src: string;
     alt: string;

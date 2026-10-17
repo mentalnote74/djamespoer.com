@@ -374,48 +374,40 @@ describe('App', () => {
       expect(main?.querySelector('app-proof-page')).not.toBeNull();
       const artwork = main?.querySelector<HTMLImageElement>('app-proof-page img');
       if (path === '/engineering') {
-        expect(main?.querySelector('app-perspective-candidate')).not.toBeNull();
-        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.textContent).toContain('Build it. Test it. Ship it. Verify it.');
         expect(main?.querySelectorAll('h2').length).toBeGreaterThan(5);
       }
       if (path === '/ux-product') {
-        expect(
-          main?.querySelector('app-perspective-candidate [data-theme="journey"]'),
-        ).not.toBeNull();
-        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.textContent).toContain('The product carried the complexity.');
         expect(main?.querySelectorAll('h2')).toHaveLength(13);
-        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(76);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(77);
       }
       if (path === '/accessibility') {
-        expect(
-          main?.querySelector('app-perspective-candidate [data-theme="open-door"]'),
-        ).not.toBeNull();
-        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.textContent).toContain('internal tcc-primeng library');
         expect(main?.querySelectorAll('h2')).toHaveLength(14);
-        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(93);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(94);
       }
       if (path === '/ai') {
-        expect(
-          main?.querySelector('app-perspective-candidate [data-theme="signal"]'),
-        ).not.toBeNull();
-        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.textContent).toContain(
           'It is human-directed, AI-amplified product development.',
         );
         expect(main?.querySelectorAll('h2')).toHaveLength(13);
-        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(113);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(114);
       }
       if (path === '/impact') {
-        expect(
-          main?.querySelector('app-perspective-candidate [data-theme="outcomes"]'),
-        ).not.toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
         expect(main?.querySelector('.candidate__copy')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.querySelectorAll('h2')).toHaveLength(6);
@@ -436,7 +428,9 @@ describe('App', () => {
         expect(artwork?.height).toBe(724);
         expect(artwork?.alt).toContain('interconnected autobiographical scenes');
       } else {
-        expect(artwork).toBeNull();
+        expect(artwork?.getAttribute('src')).toContain('/assets/perspectives/overnight/');
+        expect(main?.querySelectorAll('h1')).toHaveLength(1);
+        expect(main?.querySelector('app-perspective-slide a')).toBeNull();
       }
       expect(activeLink?.getAttribute('aria-current')).toBe('page');
       expect(document.title).toBe(`${heading} | D. James Poer`);

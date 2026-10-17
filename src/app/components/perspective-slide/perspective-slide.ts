@@ -28,6 +28,8 @@ export type ArtworkSlide = keyof typeof ARTWORK_SLIDES;
   styleUrl: './perspective-slide.scss',
 })
 export class PerspectiveSlide {
+  readonly pageHeading = input(false);
+  readonly showExplore = input(true);
   readonly kind = input.required<ArtworkSlide>();
   readonly copy = computed(() => ARTWORK_SLIDES[this.kind()]);
   readonly sizes = '(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)';

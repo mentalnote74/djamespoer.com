@@ -14,16 +14,22 @@
     />
   </picture>
   <div class="slide-copy">
-    <h2>{{ copy().title }}</h2>
+    @if (pageHeading()) {
+      <h1>{{ copy().title }}</h1>
+    } @else {
+      <h2>{{ copy().title }}</h2>
+    }
     <p>{{ copy().line }}</p>
-    <a
-      publicTrack
-      trackLocation="carousel"
-      trackSource="carousel"
-      [trackSlide]="kind()"
-      [routerLink]="copy().route"
-      [attr.aria-label]="'Explore ' + copy().title"
-      >Explore</a
-    >
+    @if (showExplore()) {
+      <a
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        [trackSlide]="kind()"
+        [routerLink]="copy().route"
+        [attr.aria-label]="'Explore ' + copy().title"
+        >Explore</a
+      >
+    }
   </div>
 </div>
