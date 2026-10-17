@@ -1,7 +1,14 @@
-<span #field class="bedlam" aria-hidden="true">
-  <canvas #layer class="bedlam__layer"></canvas>
-  <canvas #layer class="bedlam__layer"></canvas>
-  <canvas #layer class="bedlam__layer"></canvas>
-  <span class="bedlam__anchor"></span>
-  <span class="bedlam__mask"></span>
+<span #field class="bedlam" aria-hidden="true" [style.--bedlam-motion]="motion()">
+  <span class="bedlam__scene">
+    <span class="bedlam__field">
+      @for (layer of layers(); track layer.id) {
+        <span
+          class="bedlam__layer"
+          [class]="'bedlam__layer--' + layer.kind"
+          [style]="layer.style"
+        ></span>
+      }
+    </span>
+  </span>
+  <span class="bedlam__identity"><span class="bedlam__mask"></span></span>
 </span>
