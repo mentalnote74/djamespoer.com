@@ -14,16 +14,6 @@
   align-items: center;
   gap: 1rem;
 }
-.site-footer__cookies button {
-  font-family: var(--font-ui);
-  color: var(--control-foreground);
-  background: var(--control-background);
-  border: 1px solid var(--button-border-rest);
-  border-radius: 0.25rem;
-  padding: 0.5rem 0.75rem;
-  min-block-size: 44px;
-  cursor: pointer;
-}
 .site-footer__cookies a {
   padding-block: 0.75rem;
 }
@@ -54,11 +44,4 @@
     justify-self: end;
     text-align: end;
   }
-}
-
-.site-footer__cookies button:hover {
-  border-color: var(--button-border-hover);
-}
-.site-footer__cookies button:active {
-  border-color: var(--control-border);
 }
