@@ -1,5 +1,5 @@
 @if (content(); as study) {
-  <app-case-study [study]="study">
+  <app-case-study [study]="study" [showTitle]="!composition()" [titleVisuallyHidden]="!!artwork()">
     @if (artwork(); as image) {
       <img
         class="proof-page__artwork editorial-wide"
@@ -14,10 +14,11 @@
       />
     }
     @if (composition(); as facet) {
-      <app-perspective-candidate
+      <app-perspective-slide
         class="proof-page__composition editorial-wide"
-        [facet]="facet"
-        [showCopy]="false"
+        [kind]="facet"
+        [pageHeading]="true"
+        [showExplore]="false"
       />
     }
   </app-case-study>

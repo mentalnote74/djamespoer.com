@@ -12,6 +12,11 @@
         <span>Committed to Accessibility</span>
       </button>
 
+      <nav class="site-footer__cookies" aria-label="Cookie preferences">
+        <button type="button" (click)="openCookieSettings($event)">Cookie settings</button>
+        <a routerLink="/cookie-policy">Cookie Policy</a>
+      </nav>
+
       <p class="site-footer__copyright">
         &copy; {{ currentYear }} D. James Poer. All rights reserved.
       </p>
@@ -51,3 +56,5 @@
     }
   </div>
 </footer>
+
+<app-cookie-preferences />

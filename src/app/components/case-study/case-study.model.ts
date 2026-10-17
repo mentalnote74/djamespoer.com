@@ -1,7 +1,13 @@
 /** Public, explicitly approved content only. Never import the private Career Truth Archive. */
 export interface CaseStudy {
   readonly title: string;
-  readonly introduction?: string;
+  readonly subtitle?: string;
+  readonly introduction?: string | readonly string[];
+  readonly relatedPage?: {
+    readonly href: string;
+    readonly label: string;
+    readonly kind: 'work' | 'case-study';
+  };
   readonly sections: readonly CaseStudySection[];
 }
 

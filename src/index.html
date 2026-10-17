@@ -40,16 +40,43 @@
     />
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WQBYGF4Z8F"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
+      (() => {
+        if (!['djamespoer.com', 'www.djamespoer.com'].includes(window.location.hostname)) return;
+        // Explicit browser opt-out, not bot classification or an authentication signal.
+        // Visit ?internal=1 once; ?internal=0 clears it for this browser/origin.
+        try {
+          const marker = new URLSearchParams(window.location.search).get('internal');
+          if (marker === '1') window.localStorage.setItem('portfolio.analytics.internal', '1');
+          if (marker === '0') window.localStorage.removeItem('portfolio.analytics.internal');
+          if (window.localStorage.getItem('portfolio.analytics.internal') === '1') return;
+        } catch {
+          return;
+        }
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        window.gtag('js', new Date());
+        window.gtag('config', 'G-WQBYGF4Z8F');
 
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-
-      gtag('js', new Date());
-      gtag('config', 'G-WQBYGF4Z8F');
+        // Keep third-party startup off the rendering path; clicks can queue before it loads.
+        const loadAnalytics = () => {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=G-WQBYGF4Z8F';
+          document.head.append(script);
+        };
+        window.addEventListener(
+          'portfolio-ready',
+          () => {
+            if ('requestIdleCallback' in window)
+              window.requestIdleCallback(loadAnalytics, { timeout: 2000 });
+            else window.setTimeout(loadAnalytics, 0);
+          },
+          { once: true },
+        );
+      })();
     </script>
   </head>
 

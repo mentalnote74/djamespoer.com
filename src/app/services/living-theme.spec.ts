@@ -49,6 +49,21 @@ describe('Living theme controlled clock', () => {
     expect(() => livingFrame(-1)).toThrow();
     expect(() => livingFrame(0, { interpolationMs: 0, wipeMs: 400 })).toThrow();
   });
+  it('interpolates shared light geometry and opacity without inventing another clock', () => {
+    expect(
+      interpolatePalette(
+        { '--shadow-x': '9px', '--shadow-y': '8px', '--shadow-opacity': '0.13' },
+        { '--shadow-x': '-9px', '--shadow-y': '3px', '--shadow-opacity': '0.10' },
+        0.5,
+      ),
+    ).toEqual({ '--shadow-x': '0px', '--shadow-y': '5.5px', '--shadow-opacity': '0.115' });
+    expect(
+      interpolatePalette({ '--shadow-x': '9px' }, { '--shadow-x': '-9px' }, 1)['--shadow-x'],
+    ).toBe('-9px');
+    expect(
+      interpolatePalette({ '--unrelated': '9px' }, { '--unrelated': '-9px' }, 0.5)['--unrelated'],
+    ).toBe('9px');
+  });
   it('interpolates semantic colors only and preserves non-color values', () => {
     expect(
       interpolatePalette({ '--a': '#000', '--b': 'light' }, { '--a': '#fff', '--b': 'dark' }, 0.5),
@@ -110,6 +125,31 @@ describe('Living theme runtime', () => {
     now += ms;
     await vi.advanceTimersByTimeAsync(ms);
   }
+  it('discovers, updates and clears lighting tokens through the existing runtime', async () => {
+    Reflect.deleteProperty(document, 'startViewTransition');
+    vi.mocked(window.getComputedStyle).mockImplementation(
+      () =>
+        ({
+          0: '--shadow-x',
+          1: '--page-background',
+          length: 2,
+          getPropertyValue: (role: string) =>
+            role === '--page-background'
+              ? '#fff'
+              : document.documentElement.dataset['theme'] === 'tequila-sunrise'
+                ? '9px'
+                : document.documentElement.dataset['theme'] === 'mojito'
+                  ? '4px'
+                  : '0px',
+        }) as unknown as CSSStyleDeclaration,
+    );
+    stop = startLivingTheme(document, { interpolationMs: 2000, wipeMs: 400 });
+    await advance(3800);
+    expect(document.documentElement.style.getPropertyValue('--shadow-x')).toBe('6.5px');
+    stop();
+    stop = undefined;
+    expect(document.documentElement.style.getPropertyValue('--shadow-x')).toBe('');
+  });
   it('uses distinct complete-state wipes and resumes/wraps without DOM copies', async () => {
     const snapshots: { direction: string; old: string; next: string }[] = [];
     vi.spyOn(document, 'startViewTransition').mockImplementation((update) => {

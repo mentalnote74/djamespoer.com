@@ -146,21 +146,97 @@ export const routes: Routes = [
     title: `${heading} | D. James Poer`,
     data: {
       description:
-        path === 'dr'
-          ? 'Dreyer & Reinbold case study: dealership digital operations, vehicle photography and month-end commission reporting within an existing intranet.'
-          : path === 'ips'
-            ? 'Indianapolis Public Schools case study: dynamic PowerSchool forms, conditional validation and state reporting requirements.'
-            : `${heading} case study and supporting evidence.`,
+        path === 'exl'
+          ? 'EXL work history: Senior Web Designer on LifePRO, UX, accessibility and front-end engineering.'
+          : path === 'dr'
+            ? 'Dreyer & Reinbold Work History: Digital Presence Coordinator, dealership websites, vendor integrations and classic-ASP intranet development, September 2011 through May 2015.'
+            : path === 'ips'
+              ? 'IPS Work History: customizing the existing PowerSchool environment with JavaScript, jQuery, HTML and CSS.'
+              : path === 'tcc'
+                ? 'TCC Work History: UX research, Ascend and Oregon delivery, corporate front-end work and Vertex Angular development, May 2015 through June 2019.'
+                : `${heading} case study and supporting evidence.`,
     },
     resolve: {
       study: () =>
-        import('./components/case-study/case-study.content').then(
-          ({ CASE_STUDIES }) => CASE_STUDIES[path],
-        ),
+        path === 'exl'
+          ? import('./components/case-study/exl-work.content').then(
+              ({ EXL_WORK_HISTORY }) => EXL_WORK_HISTORY,
+            )
+          : path === 'ips'
+            ? import('./components/case-study/ips-work.content').then(
+                ({ IPS_WORK_HISTORY }) => IPS_WORK_HISTORY,
+              )
+            : path === 'tcc'
+              ? import('./components/case-study/tcc-work.content').then(
+                  ({ TCC_WORK_HISTORY }) => TCC_WORK_HISTORY,
+                )
+              : path === 'dr'
+                ? import('./components/case-study/dr-work.content').then(
+                    ({ DR_WORK_HISTORY }) => DR_WORK_HISTORY,
+                  )
+                : import('./components/case-study/case-study.content').then(
+                    ({ CASE_STUDIES }) => CASE_STUDIES[path],
+                  ),
     },
     loadComponent: () =>
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
   })),
+  {
+    path: 'case-studies/exl',
+    title: 'EXL Case Study | D. James Poer',
+    data: {
+      description:
+        'LifePRO case study: investigating accessibility, Angular modernization and technical debt at the right architectural layer.',
+    },
+    resolve: {
+      study: () =>
+        import('./components/case-study/exl.content').then(({ EXL_CASE_STUDY }) => EXL_CASE_STUDY),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
+  },
+  {
+    path: 'case-studies/ips',
+    title: 'IPS Case Study | D. James Poer',
+    data: {
+      description:
+        'Translating district policy into predictable PowerSchool behavior through conditional validation and collaboration with IPS leadership.',
+    },
+    resolve: {
+      study: () =>
+        import('./components/case-study/ips.content').then(({ IPS_CASE_STUDY }) => IPS_CASE_STUDY),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
+  },
+  {
+    path: 'case-studies/tcc',
+    title: 'TCC Case Study | D. James Poer',
+    data: {
+      description:
+        'How observing Oregon users shaped Ascend and connected research, business analysis and front-end engineering at TCC.',
+    },
+    resolve: {
+      study: () =>
+        import('./components/case-study/tcc.content').then(({ TCC_CASE_STUDY }) => TCC_CASE_STUDY),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
+  },
+  {
+    path: 'case-studies/dr',
+    title: 'Dreyer & Reinbold Case Study | D. James Poer',
+    data: {
+      description:
+        'The 15-Minute Month End: configurable incentive rules and commission processing inside an existing classic-ASP intranet.',
+    },
+    resolve: {
+      study: () =>
+        import('./components/case-study/dr.content').then(({ DR_CASE_STUDY }) => DR_CASE_STUDY),
+    },
+    loadComponent: () =>
+      import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
+  },
   {
     path: 'about',
     title: 'About | D. James Poer',
@@ -173,5 +249,26 @@ export const routes: Routes = [
   createProofRoute('ai', 'AI & Innovation'),
   createProofRoute('creative', 'Creative'),
   createProofRoute('impact', 'Impact'),
+  {
+    path: 'thingamajob',
+    title: 'Thingamajob | D. James Poer',
+    data: {
+      description:
+        'Thingamajob is a reusable career platform built around source-backed evidence and owner review.',
+    },
+    loadComponent: () =>
+      import('./components/thingamajob-product/thingamajob-product').then(
+        ({ ThingamajobProduct }) => ThingamajobProduct,
+      ),
+  },
+  {
+    path: 'cookie-policy',
+    title: 'Cookie Policy | D. James Poer',
+    data: { description: 'How the site remembers your playful cookie preferences.' },
+    loadComponent: () =>
+      import('./features/cookie-preferences/cookie-policy').then(
+        ({ CookiePolicy }) => CookiePolicy,
+      ),
+  },
   { path: '**', redirectTo: '' },
 ];

@@ -34,6 +34,7 @@ let nextId = 0;
 
 @Component({
   selector: 'app-perspective-candidate',
+  host: { '[class.carousel-frame]': 'carouselFrame()' },
   imports: [RouterLink],
   templateUrl: './perspective-candidate.html',
   styleUrl: './perspective-candidate.scss',
@@ -41,6 +42,7 @@ let nextId = 0;
 export class PerspectiveCandidate implements AfterViewInit, OnDestroy {
   readonly facet = input.required<PerspectiveCandidateKey>();
   readonly showCopy = input(true);
+  readonly carouselFrame = input(false);
   readonly candidate = computed(() => PERSPECTIVE_CANDIDATES[this.facet()]);
   readonly paused = signal(false);
   readonly reducedMotion = signal(false);

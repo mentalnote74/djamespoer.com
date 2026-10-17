@@ -40,6 +40,19 @@ export function livingFrame(elapsed: number, timing = livingTiming) {
 }
 
 type Palette = Record<string, string>;
+const lightingRoles = new Set([
+  '--shadow-x',
+  '--shadow-y',
+  '--shadow-blur',
+  '--shadow-spread',
+  '--shadow-opacity',
+]);
+function interpolateLighting(from: string, to: string, progress: number) {
+  const a = /^(-?[\d.]+)(px)?$/.exec(from),
+    b = /^(-?[\d.]+)(px)?$/.exec(to);
+  if (!a || !b || a[2] !== b[2]) return from;
+  return String(Number(a[1]) + (Number(b[1]) - Number(a[1])) * progress) + (a[2] ?? '');
+}
 function color(value: string): number[] | null {
   const hex = value.trim().match(/^#([\da-f]{3}|[\da-f]{6})$/i)?.[1];
   if (hex)
@@ -54,6 +67,8 @@ export function interpolatePalette(from: Palette, to: Palette, progress: number)
     throw new Error('Invalid palette progress');
   return Object.fromEntries(
     Object.entries(from).map(([role, value]) => {
+      if (lightingRoles.has(role))
+        return [role, interpolateLighting(value, to[role] ?? value, progress)];
       const a = color(value),
         b = color(to[role] ?? '');
       return [
@@ -81,7 +96,9 @@ export function startLivingTheme(document: Document, timing = livingTiming): () 
       roles = Array.from(styles).filter(
         (role) =>
           role.startsWith('--') &&
-          (color(styles.getPropertyValue(role)) !== null || role === '--disabled-opacity'),
+          (color(styles.getPropertyValue(role)) !== null ||
+            role === '--disabled-opacity' ||
+            lightingRoles.has(role)),
       );
     palettes[anchor] = Object.fromEntries(
       roles.map((role) => [role, styles.getPropertyValue(role).trim()]),

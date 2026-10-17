@@ -502,3 +502,7 @@ Server-only foundation in server/thingamajob: signed Cloudflare Access human JWT
 Security tests 25/25 use real signed fictional JWTs and SQLite-backed production queries; server TypeScript check passed. Full Angular 234/234, combined Node 192/192, normal npm production build (304.98 kB initial / 81.35 kB estimated transfer), Prettier and whitespace passed. Existing jsdom canvas warnings remain. Generated timestamp restored; unrelated edits/private/evidence artifacts excluded.
 
 Live Access configuration, real James/Erica subject bindings, D1 provisioning and protected deployment are not verified by local tests. No credentials/private identifiers were requested or committed. Runtime/resource integration is deferred to SCRUM-81 after Coach review; do not begin it automatically. Setup/trust boundaries and test commands: server/thingamajob/README.md.
+
+## Public main baseline reconciliation - 2026-10-17
+
+Owner-approved path-scoped alignment from main beb5a7b to deployed public source d40a670; no wholesale merge. New workflow-port.ts holds public method signatures; portfolio-workflow no longer imports protected WorkflowApi. Server tree, protected API/tests/hosts/entrypoints/build config excluded. Build/budgets pass. Public demo mounts with zero API requests; build inputs exclude protected API/host/server/entrypoints. No new visual/product changes in baseline. Next: Daily Scrum Brief/Product Journal through Cloudflare Git integration.

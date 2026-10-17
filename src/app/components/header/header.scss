@@ -1,6 +1,10 @@
 @use '../../../styles/abstracts' as foundation;
 
 .site-header {
+  position: relative;
+  isolation: isolate;
+  // Header context sits above page content; Bedlam/nav keep their local 0/1/2 layers.
+  z-index: 1;
   padding-block: 1rem;
   &__content {
     display: flex;
@@ -18,6 +22,8 @@
     min-block-size: foundation.$control-target;
   }
   &__nav {
+    position: relative;
+    z-index: 2;
     margin-inline: auto;
   }
   &__nav-list,
@@ -50,6 +56,8 @@
     transform: rotate(225deg);
   }
   &__menu {
+    position: relative;
+    z-index: 2;
     display: none;
   }
   &__group {
@@ -63,7 +71,7 @@
     padding: 0.5rem;
     background: var(--navigation-surface);
     color: var(--navigation-foreground);
-    border: 1px solid currentColor;
+    border: 1px solid var(--panel-border);
     border-radius: 0.25rem;
   }
   &__submenu[hidden] {
@@ -99,4 +107,17 @@
       inline-size: 100%;
     }
   }
+}
+
+.site-header__group > .site-header__theme-trigger {
+  user-select: none;
+  &::after {
+    content: none;
+  }
+}
+.site-header__theme-chevron {
+  flex: none;
+}
+.site-header__theme-trigger[aria-expanded='true'] .site-header__theme-chevron {
+  transform: rotate(180deg);
 }

@@ -1,21 +1,23 @@
+import { PublicTrack } from '../../services/public-track';
 import { Aside } from '../../layout/aside/aside';
 import { Thingamajob } from '../thingamajob/thingamajob';
+import { PerspectiveSlide } from '../perspective-slide/perspective-slide';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
 import { CarouselSlide } from '../carousel/carousel-slide';
 import { DeploymentHistory } from '../deployment-history/deployment-history';
-import { Hero } from '../hero/hero';
-import { PerspectiveCandidate } from '../perspective-candidate/perspective-candidate';
 
 @Component({
   imports: [
+    PublicTrack,
+    RouterLink,
+    PerspectiveSlide,
     Aside,
     Thingamajob,
     Carousel,
     CarouselSlide,
-    Hero,
     DeploymentHistory,
-    PerspectiveCandidate,
   ],
   selector: 'app-home',
   templateUrl: './home.html',

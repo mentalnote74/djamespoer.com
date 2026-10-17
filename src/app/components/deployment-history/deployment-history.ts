@@ -23,7 +23,11 @@ export class DeploymentHistory {
   readonly sampleData = input(false);
   readonly rows = computed<readonly BuildDeploymentHistoryRow[]>(() => {
     const source = this.source();
-    return source.status === 'ready' ? source.records : [];
+    return source.status === 'ready'
+      ? [...source.records].sort(
+          (a, b) => b.createdAt.localeCompare(a.createdAt) || a.id.localeCompare(b.id),
+        )
+      : [];
   });
   readonly freshness = computed(() => {
     const source = this.source();

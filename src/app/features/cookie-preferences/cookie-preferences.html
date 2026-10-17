@@ -1,0 +1,59 @@
+<dialog
+  #dialog
+  aria-labelledby="cookie-heading"
+  aria-describedby="cookie-description"
+  class="cookie-dialog surface-raised surface-textured"
+  (cancel)="close($event)"
+>
+  <div class="cookie-dialog__content">
+    <h2 #heading id="cookie-heading" tabindex="-1">We like cookies.</h2>
+    @if (!choosing()) {
+      <p>Chocolate Chip. Snickerdoodles. Maybe peanut butter.</p>
+    }
+    <p id="cookie-description">
+      @if (choosing()) {
+        Pick your favorites.
+      } @else {
+        Tell me what kind you like and I’ll remember so I don’t keep asking.
+      }
+    </p>
+    @if (choosing()) {
+      <fieldset>
+        <legend>Which cookies do you like?</legend>
+        <div class="cookie-options">
+          @for (variety of varieties; track variety.id) {
+            <label
+              ><input
+                type="checkbox"
+                [checked]="selected().includes(variety.id)"
+                (change)="toggle(variety.id, $event)"
+              />
+              {{ variety.label }}</label
+            >
+          }
+        </div>
+      </fieldset>
+      <button type="button" class="cookie-save" (click)="preferences.save(selected())">
+        Save my choices
+      </button>
+    } @else {
+      <div class="cookie-actions">
+        <button type="button" (click)="acceptAll()">All of them</button>
+        <button type="button" (click)="rejectAll()">None for me</button>
+        <button type="button" (click)="choosing.set(true)">Pick some</button>
+      </div>
+    }
+    @if (preferences.error()) {
+      <p role="alert">{{ preferences.error() }}</p>
+    }
+    <a class="cookie-policy-link" routerLink="/cookie-policy" (click)="close()">Cookie Policy</a>
+    <button
+      class="cookie-close"
+      type="button"
+      aria-label="Close cookie preferences without saving"
+      (click)="close()"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+</dialog>

@@ -1,8 +1,18 @@
 <article class="case-study editorial-content">
-  <h1>{{ study().title }}</h1>
+  @if (showTitle()) {
+    <h1 [class.visually-hidden]="titleVisuallyHidden()">{{ study().title }}</h1>
+  }
+  @if (study().subtitle; as subtitle) {
+    <p>{{ subtitle }}</p>
+  }
+  @if (study().relatedPage; as related) {
+    <nav aria-label="Related page">
+      <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
+    </nav>
+  }
   <ng-content />
-  @if (study().introduction; as introduction) {
-    <p>{{ introduction }}</p>
+  @for (paragraph of introductionParagraphs(); track $index) {
+    <p>{{ paragraph }}</p>
   }
   @for (section of study().sections; track $index) {
     <section>
@@ -29,7 +39,7 @@
         @switch (evidence.kind) {
           @case ('link') {
             <p>
-              <a [href]="evidence.href">{{ evidence.label }}</a>
+              <a publicTrack [href]="evidence.href">{{ evidence.label }}</a>
             </p>
           }
           @case ('image') {
@@ -49,5 +59,10 @@
         }
       }
     </section>
+  }
+  @if (study().relatedPage; as related) {
+    <nav aria-label="Related page">
+      <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
+    </nav>
   }
 </article>

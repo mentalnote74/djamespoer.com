@@ -1,3 +1,4 @@
+import { PublicTrack } from '../../services/public-track';
 import { AfterViewInit, Component, input, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BUILD_TIME } from '../../generated/build-info';
@@ -11,7 +12,7 @@ type ParticlesWindow = Window & {
 };
 
 @Component({
-  imports: [RouterLink],
+  imports: [PublicTrack, RouterLink],
   selector: 'app-hero',
   styleUrl: './hero.scss',
   templateUrl: './hero.html',

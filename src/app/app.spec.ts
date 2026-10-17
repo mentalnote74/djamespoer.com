@@ -1,3 +1,4 @@
+import { PREFERENCE_COOKIE } from './features/cookie-preferences/preferences';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router, TitleStrategy, withComponentInputBinding } from '@angular/router';
 import { App } from './app';
@@ -18,7 +19,38 @@ const proofPages = [
 ] as const;
 
 describe('App', () => {
+  // Route/landmark tests model a returning visitor; first-visit dialog is browser-tested separately.
+  beforeEach(() => {
+    document.cookie = PREFERENCE_COOKIE + '=1.0; Path=/';
+  });
+  it.each(['/', '/thingamajob', '/about'])(
+    'skips to the shared current main on %s without router navigation',
+    async (path) => {
+      const fixture = TestBed.createComponent(App);
+      fixture.detectChanges();
+      const router = TestBed.inject(Router);
+      await router.navigateByUrl(path);
+      await fixture.whenStable();
+      fixture.detectChanges();
+      const root = fixture.nativeElement as HTMLElement;
+      const main = root.querySelector<HTMLElement>('main#main-content')!;
+      const focus = vi.spyOn(main, 'focus');
+      const navigation = vi.spyOn(router, 'navigateByUrl');
+      const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+      const skip = root.querySelector<HTMLAnchorElement>('.skip-link')!;
+      skip.dispatchEvent(click);
+      expect(click.defaultPrevented).toBe(true);
+      expect(focus).toHaveBeenCalledOnce();
+      expect(document.activeElement).toBe(main);
+      expect(router.url).toBe(path);
+      expect(navigation).not.toHaveBeenCalled();
+      expect(root.querySelectorAll('main')).toHaveLength(1);
+      expect(root.querySelectorAll('#main-content')).toHaveLength(1);
+      expect(skip.textContent?.trim()).toBe('Skip to main content');
+    },
+  );
   afterEach(() => {
+    document.cookie = PREFERENCE_COOKIE + '=; Path=/; Max-Age=0';
     TestBed.inject(HttpTestingController)
       .match('/data/deployment-history.json')
       .forEach((request) => {
@@ -227,8 +259,14 @@ describe('App', () => {
     expect(main?.querySelector('.carousel')?.getAttribute('aria-label')).toBe(
       'Portfolio Perspectives',
     );
-    for (const slide of slides) {
-      expect(slide.querySelector('h2')).not.toBeNull();
+    for (const [index, slide] of slides.entries()) {
+      if (index === 5) {
+        expect(slide.querySelector('h2')).toBeNull();
+        expect(slide.getAttribute('aria-label')).toBe('Slide 6 of 7: Creative');
+        expect(slide.querySelector('img.home-creative')).not.toBeNull();
+      } else {
+        expect(slide.querySelector('h2')).not.toBeNull();
+      }
       expect(slide.querySelector('h3')).toBeNull();
     }
     main?.querySelectorAll('[aria-labelledby]').forEach((element) => {
@@ -336,48 +374,40 @@ describe('App', () => {
       expect(main?.querySelector('app-proof-page')).not.toBeNull();
       const artwork = main?.querySelector<HTMLImageElement>('app-proof-page img');
       if (path === '/engineering') {
-        expect(main?.querySelector('app-perspective-candidate')).not.toBeNull();
-        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.textContent).toContain('Build it. Test it. Ship it. Verify it.');
         expect(main?.querySelectorAll('h2').length).toBeGreaterThan(5);
       }
       if (path === '/ux-product') {
-        expect(
-          main?.querySelector('app-perspective-candidate [data-theme="journey"]'),
-        ).not.toBeNull();
-        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.textContent).toContain('The product carried the complexity.');
         expect(main?.querySelectorAll('h2')).toHaveLength(13);
-        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(76);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(77);
       }
       if (path === '/accessibility') {
-        expect(
-          main?.querySelector('app-perspective-candidate [data-theme="open-door"]'),
-        ).not.toBeNull();
-        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.textContent).toContain('internal tcc-primeng library');
         expect(main?.querySelectorAll('h2')).toHaveLength(14);
-        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(93);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(94);
       }
       if (path === '/ai') {
-        expect(
-          main?.querySelector('app-perspective-candidate [data-theme="signal"]'),
-        ).not.toBeNull();
-        expect(main?.querySelector('app-perspective-candidate .candidate__copy')).toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
+        expect(main?.querySelector('app-perspective-candidate')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.textContent).toContain(
           'It is human-directed, AI-amplified product development.',
         );
         expect(main?.querySelectorAll('h2')).toHaveLength(13);
-        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(113);
+        expect(main?.querySelectorAll('app-case-study p')).toHaveLength(114);
       }
       if (path === '/impact') {
-        expect(
-          main?.querySelector('app-perspective-candidate [data-theme="outcomes"]'),
-        ).not.toBeNull();
+        expect(main?.querySelector('app-perspective-slide h1')).not.toBeNull();
         expect(main?.querySelector('.candidate__copy')).toBeNull();
         expect(main?.querySelector('app-case-study [href="/work"]')).toBeNull();
         expect(main?.querySelectorAll('h2')).toHaveLength(6);
@@ -398,7 +428,9 @@ describe('App', () => {
         expect(artwork?.height).toBe(724);
         expect(artwork?.alt).toContain('interconnected autobiographical scenes');
       } else {
-        expect(artwork).toBeNull();
+        expect(artwork?.getAttribute('src')).toContain('/assets/perspectives/overnight/');
+        expect(main?.querySelectorAll('h1')).toHaveLength(1);
+        expect(main?.querySelector('app-perspective-slide a')).toBeNull();
       }
       expect(activeLink?.getAttribute('aria-current')).toBe('page');
       expect(document.title).toBe(`${heading} | D. James Poer`);

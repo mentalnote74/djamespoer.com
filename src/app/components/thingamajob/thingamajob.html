@@ -1,20 +1,41 @@
-<div class="thingamajob">
-  <div class="thingamajob__roof" aria-hidden="true"></div>
-  <h2>THINGAMAJOB</h2>
+<div class="thingamajob surface-raised surface-textured">
+  <h2>Thingamajob</h2>
   <p>
-    Thingamajob is under construction. This is a visual mockup; job evaluation is not available yet.
+    I’m building a career assistant that evaluates jobs against verified career evidence instead of
+    guessing from résumé keywords.
   </p>
-  <div class="thingamajob__bezel">
-    <div class="thingamajob__screen">
-      <p>A future place to explore job fit.</p>
-      <fieldset disabled>
-        <legend>Preview controls: not functional</legend>
-        <label>Job description file <input type="file" /></label>
-        <button type="button">Choose file</button>
-        <div class="thingamajob__actions"><button type="button">Evaluate job</button></div>
-      </fieldset>
-      <p class="thingamajob__status">No job has been evaluated.</p>
-    </div>
-  </div>
-  <div class="thingamajob__tape" aria-hidden="true">UNDER CONSTRUCTION</div>
+  <p>
+    Thingamajob starts with a Library of Truth built from real career evidence—résumés, project
+    work, public professional material, and owner-reviewed claims. AI can extract, connect, and
+    explain evidence, but the person controls what becomes truth.
+  </p>
+  <p>Candidate-to-job matching is described with four outcomes:</p>
+  <ul>
+    <li>Strong Match</li>
+    <li>Supported Match</li>
+    <li>Needs Candidate Confirmation</li>
+    <li>Match Gap</li>
+  </ul>
+  <p>
+    The goal is simple: make job matching more accurate, more explainable, and less dependent on
+    résumé keyword theater.
+  </p>
+  <p>
+    Thingamajob is an active product that continues to evolve through real job-search workflows.
+  </p>
+  <p class="construction-notice">
+    <strong>Under active construction.</strong> Some features of the real working prototype may be
+    incomplete or temporarily unavailable. This public example is historical, not the current
+    evaluator.
+  </p>
+  <p>
+    This historical example uses fictional data in this tab only. It cannot access private career
+    records.
+  </p>
+  <details #demo (toggle)="demo.open && demoInitialized.set(true)">
+    <summary>View historical before-state demo (fictional data)</summary>
+    @if (demoInitialized()) {
+      <app-thingamajob-workflow />
+    }
+  </details>
 </div>

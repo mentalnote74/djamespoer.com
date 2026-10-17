@@ -5,6 +5,34 @@ import { Header } from './header';
 import { ThemeState } from '../../services/theme-state';
 
 describe('Header', () => {
+  it('keeps Work restricted to employment history and makes project case studies available separately', () => {
+    expect(component.work.map((link) => link.path)).toEqual([
+      '/work/exl',
+      '/work/ips',
+      '/work/tcc',
+      '/work/dr',
+    ]);
+    expect(component.caseStudies.map((link) => link.path)).toEqual([
+      '/work/djamespoer',
+      '/thingamajob',
+      ...component.work.map((link) => link.path),
+    ]);
+  });
+  it('offers Thingamajob under Case Studies with a current-page state', async () => {
+    await TestBed.inject(Router).navigateByUrl('/thingamajob');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const link = (fixture.nativeElement as HTMLElement).querySelector<HTMLAnchorElement>(
+      '#case-studies-navigation a[href="/thingamajob"]',
+    );
+    expect(link?.textContent?.trim()).toBe('Thingamajob');
+    expect(link?.getAttribute('aria-current')).toBe('page');
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'nav[aria-label="Primary"] > ul > li > a[href="/thingamajob"]',
+      ),
+    ).toBeNull();
+  });
   it('offers global theme selection through the shared disclosure with an accessible current state', () => {
     const root = fixture.nativeElement as HTMLElement;
     const trigger = root.querySelector<HTMLButtonElement>('[aria-controls="theme-navigation"]')!;
@@ -23,6 +51,10 @@ describe('Header', () => {
     expect(trigger.classList.contains('nav-menu-button')).toBe(false);
     expect(options[0].getAttribute('aria-pressed')).toBe('true');
     options.forEach((option, index) => {
+      if (list.hidden) {
+        trigger.click();
+        fixture.detectChanges();
+      }
       option.click();
       fixture.detectChanges();
       expect(document.documentElement.getAttribute('data-theme')).toBe(
@@ -31,6 +63,11 @@ describe('Header', () => {
           : state.availableThemes[index].id,
       );
       expect(option.getAttribute('aria-pressed')).toBe('true');
+      expect(list.hidden).toBe(true);
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
+      expect(document.activeElement).toBe(trigger);
+      expect(trigger.isContentEditable).not.toBe(true);
+      expect(trigger.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
       expect(
         options.filter((button) => button.getAttribute('aria-pressed') === 'true'),
       ).toHaveLength(1);
@@ -38,6 +75,8 @@ describe('Header', () => {
     options[0].click();
     fixture.detectChanges();
     expect(document.documentElement.getAttribute('data-theme')).toBe('teetotaler');
+    trigger.click();
+    fixture.detectChanges();
     options[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     fixture.detectChanges();
     expect(list.hidden).toBe(true);
@@ -50,7 +89,7 @@ describe('Header', () => {
       Array.from(root.querySelectorAll('.site-header__nav-list > li > button'), (button) =>
         button.textContent?.trim(),
       ),
-    ).toEqual(['About', 'Work', 'Perspectives', 'Theme']);
+    ).toEqual(['About', 'Work', 'Case Studies', 'Perspectives', 'Theme']);
     const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
     const list = root.querySelector<HTMLUListElement>('#about-navigation')!;
     expect(list.hidden).toBe(true);
@@ -85,16 +124,17 @@ describe('Header', () => {
     fixture.detectChanges();
     const links = Array.from(
       (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>(
-        '#work-navigation a',
+        '#case-studies-navigation a',
       ),
     );
     expect(links.map((link) => link.getAttribute('href')).slice(0, 2)).toEqual([
       '/work/djamespoer',
-      '/work/exl',
+      '/thingamajob',
     ]);
     expect(links[0].textContent?.trim()).toBe('djamespoer.com');
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '/work/djamespoer',
+      '/thingamajob',
       '/work/exl',
       '/work/ips',
       '/work/tcc',

@@ -3,43 +3,130 @@
   inline-size: clamp(12rem, 25vw, 18rem);
 }
 .bedlam {
-  --mask-color: #c9f5ed;
-  --mask-opacity: 1;
-  --mask-depth: 2px;
   position: relative;
   display: block;
   block-size: 4rem;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
-  border-radius: 0.3rem;
-  &__layer {
+  pointer-events: none;
+  background: transparent;
+  &__filters {
+    position: absolute;
+    pointer-events: none;
+  }
+  &__scene {
     position: absolute;
     inset: 0;
-    inline-size: 100%;
-    block-size: 100%;
-    opacity: var(--layer-opacity, 0.2);
-    transform: translate(var(--layer-x, 0), var(--layer-y, 0)) rotate(var(--layer-angle, 0deg))
-      scale(var(--layer-scale, 1.1));
+    opacity: 0.72;
   }
-  &__anchor,
-  &__mask {
-    z-index: 2;
+  &__field {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+  }
+  &__layer {
+    position: absolute;
+    inset: -25%;
+    border-radius: 50%;
+    filter: blur(var(--bedlam-blur))
+      drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 2px rgb(0 0 0 / 0.45));
+    transform: translate(var(--bedlam-x), var(--bedlam-y)) rotate(var(--bedlam-angle))
+      scale(var(--bedlam-scale));
+    animation: bedlam-drift var(--bedlam-duration) ease-in-out var(--bedlam-delay) infinite
+      alternate;
+    animation-direction: var(--bedlam-direction);
+    animation-play-state: var(--bedlam-motion, running);
+  }
+  &__layer--nebula {
+    filter: var(--bedlam-distortion-filter) blur(var(--bedlam-blur))
+      drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 3px rgb(0 0 0 / 0.4));
+  }
+  &__layer--rays {
+    animation-name: bedlam-orbit;
+  }
+  &__layer--grain {
+    animation: none;
+  }
+  // Filter the transparent parent of the masked shape, never the rectangular field.
+  &__identity {
+    filter: drop-shadow(
+      var(--shadow-x) var(--shadow-y) calc(var(--shadow-blur) / 2)
+        rgb(var(--shadow-ink) / var(--shadow-opacity))
+    );
     position: absolute;
     inset: 0.5rem;
-    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
-  }
-  &__anchor {
-    background: #fff;
-    filter: drop-shadow(0 0 1px #111827);
   }
   &__mask {
-    background: var(--mask-color);
-    opacity: var(--mask-opacity);
-    filter: drop-shadow(0 var(--mask-depth) var(--mask-depth) #050b16);
+    position: absolute;
+    inset: 0;
+    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
+    background: #000;
+  }
+}
+:host-context([data-theme='rum-runner']),
+:host-context([data-theme='bloody-mary']) {
+  .bedlam__mask {
+    background: var(--navigation-foreground);
+  }
+}
+
+// The header is the clipping field; the home-link footprint only anchors emission.
+:host(.navbar-bedlam) {
+  .bedlam {
+    position: static;
+    isolation: auto;
+  }
+  .bedlam__scene {
+    inset: 0;
+    overflow: clip;
+    z-index: 0;
+  }
+  .bedlam__field {
+    inset: 1rem auto auto
+      max(var(--layout-gutter-inline), calc((100% - var(--layout-shell-max-inline-size)) / 2));
+    inline-size: clamp(12rem, 25vw, 18rem);
+    block-size: 4rem;
+  }
+  .bedlam__identity {
+    display: block;
+    position: relative;
+    inset: auto;
+    block-size: 4rem;
+    z-index: 1;
+  }
+  .bedlam__mask {
+    inset: 0.5rem;
+  }
+}
+@keyframes bedlam-drift {
+  to {
+    transform: translate(
+        calc(var(--bedlam-x) + var(--bedlam-travel)),
+        calc(var(--bedlam-y) + var(--bedlam-rise))
+      )
+      rotate(calc(var(--bedlam-angle) + var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.14));
+  }
+}
+@keyframes bedlam-orbit {
+  to {
+    transform: translate(var(--bedlam-x), var(--bedlam-y))
+      rotate(calc(var(--bedlam-angle) - var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.06));
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .bedlam__layer {
-    transform: none;
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .bedlam__scene {
+    display: none;
+  }
+  .bedlam .bedlam__identity {
+    display: block;
+    filter: none;
+  }
+  .bedlam__mask {
+    background: CanvasText;
   }
 }

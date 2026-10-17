@@ -7,28 +7,23 @@
   [autoRotate]="true"
   [rotationInterval]="5000"
 >
-  <ng-template appCarouselSlide label="Under Construction / djamespoer.com">
-    <app-hero [carouselPresentation]="true" />
-  </ng-template>
-
   <ng-template appCarouselSlide label="Engineering">
-    <app-perspective-candidate facet="engineering" />
+    <app-perspective-slide kind="engineering" />
   </ng-template>
 
   <ng-template appCarouselSlide label="UX &amp; Product">
-    <app-perspective-candidate facet="ux" />
+    <app-perspective-slide kind="ux" />
   </ng-template>
 
   <ng-template appCarouselSlide label="Accessibility">
-    <app-perspective-candidate facet="accessibility" />
+    <app-perspective-slide kind="accessibility" />
   </ng-template>
 
   <ng-template appCarouselSlide label="AI &amp; Innovation">
-    <app-perspective-candidate facet="ai" />
+    <app-perspective-slide kind="ai" />
   </ng-template>
 
-  <ng-template appCarouselSlide label="Creative">
-    <h2 class="home-slide-heading">Creative</h2>
+  <ng-template appCarouselSlide label="Creative Town">
     <img
       class="home-creative"
       src="/assets/perspectives/creative-2172.webp"
@@ -38,7 +33,7 @@
         /assets/perspectives/creative-1800.webp 1800w,
         /assets/perspectives/creative-2172.webp 2172w
       "
-      sizes="(min-width: 1344px) 1152px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - clamp(1.5rem, 6vw, 4rem) * 2 - 2px)"
+      sizes="(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
       width="2172"
       height="724"
       loading="lazy"
@@ -48,39 +43,82 @@
   </ng-template>
 
   <ng-template appCarouselSlide label="Impact">
-    <app-perspective-candidate facet="impact" />
+    <app-perspective-slide kind="impact" />
   </ng-template>
 </app-carousel>
 
 <div class="home-editorial layout-container editorial-content">
   <div class="editorial-pair editorial-pair--supporting-first">
-    <app-aside label="Thingamajob"><app-thingamajob /></app-aside>
-    <section class="home-construction" aria-labelledby="construction-site-heading">
-      <h2 id="construction-site-heading">Pardon the dust.</h2>
-      <p>
-        <strong>You're standing in the middle of a working construction site. On purpose.</strong>
-      </p>
-      <p>
-        Most portfolios show you the finished house after the tools, sawdust, mistakes, experiments,
-        and bad ideas have been swept away.
-      </p>
-      <p>I'm doing the opposite.</p>
-      <p>
-        djamespoer.com is being designed and built in public. The unfinished pieces are part of the
-        portfolio: UX decisions, accessibility work, Angular architecture, experiments, failures,
-        fixes, testing, AI-assisted development—and the occasional spectacularly bad idea that gets
-        replaced by a better one.
-      </p>
-      <p>
-        Some rooms are finished. Some still have studs showing. Some may change while you're
-        standing in them.
-      </p>
-      <p>
-        <strong>
-          That's the point. You're not just looking at what I built. You're watching how I build.
-        </strong>
-      </p>
-    </section>
+    <app-aside label="Thingamajob"
+      ><div class="home-thingamajob-entry">
+        <app-thingamajob />
+        <p>
+          <a
+            publicTrack
+            trackLocation="home-thingamajob"
+            trackSource="homepage"
+            routerLink="/thingamajob"
+            >View Thingamajob Case Study</a
+          >
+        </p>
+      </div></app-aside
+    >
+    <div class="home-updates">
+      <section class="home-construction" aria-labelledby="construction-site-heading">
+        <h2 id="construction-site-heading">Pardon the dust.</h2>
+        <p>
+          <strong>You're standing in the middle of a working construction site. On purpose.</strong>
+        </p>
+        <p>
+          Most portfolios show you the finished house after the tools, sawdust, mistakes,
+          experiments, and bad ideas have been swept away.
+        </p>
+        <p>I'm doing the opposite.</p>
+        <p>
+          djamespoer.com is being designed and built in public. The unfinished pieces are part of
+          the portfolio: UX decisions, accessibility work, Angular architecture, experiments,
+          failures, fixes, testing, AI-assisted development—and the occasional spectacularly bad
+          idea that gets replaced by a better one.
+        </p>
+        <p>
+          Some rooms are finished. Some still have studs showing. Some may change while you're
+          standing in them.
+        </p>
+        <p>
+          <strong>
+            That's the point. You're not just looking at what I built. You're watching how I build.
+          </strong>
+        </p>
+      </section>
+      <section aria-labelledby="executive-scrum-heading">
+        <h2 id="executive-scrum-heading">
+          Executive Scrum Brief — <time datetime="2026-10-16">October 16, 2026</time>
+        </h2>
+        <h3>Thingamajob</h3>
+        <p>
+          Client #1 proved exception-based review: clean, directly supported facts are established
+          automatically, routine discrepancies are resolved behind the scenes, and false-positive
+          questions were eliminated. No human-required questions remain. Protected TEST now presents
+          a usable résumé assembly, with provenance, correction history and diagnostics preserved
+          behind the protected admin surface. JD evaluation and benchmark comparison have not
+          started.
+        </p>
+        <h3>Public site</h3>
+        <p>
+          Home and the case study share one public Thingamajob component. Candidate-to-job outcomes
+          are now Strong Match, Supported Match, Needs Candidate Confirmation and Match Gap. The
+          corrected homepage layout and construction status, global texture and depth, and
+          living-theme sun-following shadows are live. Five reviewed responsive artwork slides
+          replaced the temporary designs; Creative Town is unchanged. AVIF/WebP delivery is live,
+          and production returned to perfect Lighthouse scores after the visual overhaul.
+        </p>
+        <h3>Current focus</h3>
+        <p>
+          Keep the public visual system stable. Next: compare the independently built Client #1
+          truth set against the sealed benchmark. If it holds up, proceed to real JD evaluation.
+        </p>
+      </section>
+    </div>
   </div>
 </div>
 

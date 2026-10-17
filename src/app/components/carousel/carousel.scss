@@ -6,12 +6,13 @@
 
 .carousel {
   padding-block-start: var(--carousel-padding-start, clamp(3rem, 8vw, 6rem));
-  padding-block-end: clamp(3rem, 8vw, 6rem);
+  padding-block-end: var(--carousel-padding-end, clamp(3rem, 8vw, 6rem));
   background: var(--section-surface);
 
   &__content {
     display: grid;
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--carousel-content-gap, 1.5rem);
   }
 
   &__position,
@@ -20,16 +21,22 @@
   }
 
   &__viewport {
-    min-block-size: 12rem;
+    --perspective-play-state: paused;
+    &[aria-live='off'] {
+      --perspective-play-state: running;
+    }
+    min-block-size: var(--carousel-min-height, 12rem);
     border: 1px solid var(--panel-border);
-    border-radius: 0.5rem;
+    border-radius: 0;
     background: var(--panel-surface);
   }
 
   &__slide {
     display: grid;
-    min-block-size: 12rem;
-    padding: clamp(1.5rem, 6vw, 4rem);
+    grid-template-columns: minmax(0, 1fr);
+    min-block-size: var(--carousel-min-height, 12rem);
+    padding: var(--carousel-slide-padding, clamp(1.5rem, 6vw, 4rem));
+    aspect-ratio: var(--carousel-slide-ratio, auto);
     place-items: center;
     text-align: center;
 

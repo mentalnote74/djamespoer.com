@@ -1,0 +1,91 @@
+﻿<div class="artwork-slide">
+  <picture aria-hidden="true">
+    <source type="image/avif" [srcset]="srcset('avif')" [sizes]="sizes" />
+    <img
+      [src]="'/assets/perspectives/overnight/' + kind() + '-1200.webp'"
+      [srcset]="srcset('webp')"
+      [sizes]="sizes"
+      width="2172"
+      height="724"
+      alt=""
+      [loading]="kind() === 'engineering' ? 'eager' : 'lazy'"
+      [attr.fetchpriority]="kind() === 'engineering' ? 'high' : null"
+      decoding="async"
+      (load)="captureArtwork($event)"
+    />
+  </picture>
+  <svg
+    class="artwork-regions"
+    viewBox="0 0 1200 400"
+    preserveAspectRatio="xMidYMid meet"
+    aria-hidden="true"
+    focusable="false"
+    [style.--region-play-state]="motionPaused() ? 'paused' : null"
+  >
+    <defs>
+      @for (region of regions(); track region.id) {
+        <clipPath [attr.id]="regionPrefix + region.id" clipPathUnits="userSpaceOnUse">
+          <path [attr.d]="region.clip" />
+        </clipPath>
+      }
+    </defs>
+    @for (region of regions(); track region.id) {
+      <g [attr.clip-path]="'url(#' + regionPrefix + region.id + ')'">
+        @if (artworkSource(); as source) {
+          <image
+            class="region-material"
+            [class]="'region-material--' + region.behavior"
+            [attr.href]="source"
+            width="1200"
+            height="400"
+            preserveAspectRatio="xMidYMid meet"
+            [style.--region-duration]="region.duration + 's'"
+            [style.--region-delay]="region.delay + 's'"
+          />
+        }
+        <path
+          class="region-light"
+          [class]="'region-light--' + region.behavior"
+          [attr.d]="region.flow"
+          pathLength="100"
+          fill="none"
+          stroke-linecap="round"
+          [attr.stroke]="region.color"
+          [attr.stroke-width]="region.width"
+          [style.--region-duration]="region.duration + 's'"
+          [style.--region-delay]="region.delay + 's'"
+        />
+      </g>
+    }
+  </svg>
+  <div class="slide-copy">
+    @if (pageHeading()) {
+      <h1>{{ copy().title }}</h1>
+    } @else {
+      <h2>{{ copy().title }}</h2>
+    }
+    <p>{{ copy().line }}</p>
+    @if (showExplore()) {
+      <a
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        [trackSlide]="kind()"
+        [routerLink]="copy().route"
+        [attr.aria-label]="'Explore ' + copy().title"
+        >Explore</a
+      >
+    }
+  </div>
+</div>
+
+@if (pageHeading()) {
+  <button
+    class="artwork-motion"
+    type="button"
+    (click)="motionPaused.set(!motionPaused())"
+    [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"
+  >
+    <span aria-hidden="true">{{ motionPaused() ? 'Resume' : 'Pause' }}</span>
+  </button>
+}

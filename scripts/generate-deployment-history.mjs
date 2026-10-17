@@ -1,3 +1,4 @@
+import { readPublishedHistory } from './deployment-history/published-history.mjs';
 import { fileURLToPath } from 'node:url';
 import { createCloudflareBuildAcquisition } from './deployment-history/cloudflare-build-history.mjs';
 import { generateSnapshot } from './deployment-history/snapshot.mjs';
@@ -5,6 +6,8 @@ import { generateSnapshot } from './deployment-history/snapshot.mjs';
 const output = fileURLToPath(new URL('../public/data/deployment-history.json', import.meta.url));
 try {
   const snapshot = await generateSnapshot(output, {
+    retainHistory: true,
+    acquireArchive: readPublishedHistory,
     acquire: createCloudflareBuildAcquisition({
       accountId: process.env.CLOUDFLARE_ACCOUNT_ID,
       getToken: () => process.env.CLOUDFLARE_API_TOKEN,
