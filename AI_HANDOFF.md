@@ -736,3 +736,7 @@ Release `release/bedlam-navbar-emitter` from PROD `8e1a914`: navbar is the clipp
 ## Bedlam controlled palette contrast - 2026-10-16
 
 Release `release/bedlam-derived-palette` from PROD `a8bf493`: only engine color recipe/secondary opacity changed. Theme-derived bounded relative OKLCH rotations, configurable derived mix/hue rotation; no extra seed draws or geometry/motion changes (direct recipe comparison passed). Secondary far/texture -15%, mid/fragments -12%, near unchanged. Build/budgets, existing Bedlam 5/5 + canonical asset 1/1 pass. Eight-theme desktop/390 renders show working gradients/no overflow/errors; scoped header axe zero, keyboard focus/reduced motion/forced colors pass. Navbar emitter/transparent dark field/silhouette shadow untouched. Authorized public deployment next, verify LIVE.
+
+## Header stacking hotfix - 2026-10-16
+
+Release `release/header-stacking-hotfix` from PROD `000fe36`. Bedlam header isolation trapped menus in an auto-level context under later carousel artwork. Header now explicitly z-index 1 above page content; local Bedlam/nav/menu layers unchanged. Only header SCSS functional change, documented inline. Build/budgets pass, four existing relevant header tests pass (nine unrelated skipped). Browser reproduced PROD coverage at 144/160 dropdown sample points; corrected eight-theme desktop/390 hit-tests have zero covered points, no overflow/errors/clipping. Keyboard Enter/Tab/Escape recovery passes. Public deploy authorized; no backend/Erica/protected work touched.

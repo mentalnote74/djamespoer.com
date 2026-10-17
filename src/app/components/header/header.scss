@@ -3,6 +3,8 @@
 .site-header {
   position: relative;
   isolation: isolate;
+  // Header context sits above page content; Bedlam/nav keep their local 0/1/2 layers.
+  z-index: 1;
   padding-block: 1rem;
   &__content {
     display: flex;
