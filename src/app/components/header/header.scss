@@ -1,6 +1,8 @@
 @use '../../../styles/abstracts' as foundation;
 
 .site-header {
+  position: relative;
+  isolation: isolate;
   padding-block: 1rem;
   &__content {
     display: flex;
@@ -18,6 +20,8 @@
     min-block-size: foundation.$control-target;
   }
   &__nav {
+    position: relative;
+    z-index: 2;
     margin-inline: auto;
   }
   &__nav-list,
@@ -50,6 +54,8 @@
     transform: rotate(225deg);
   }
   &__menu {
+    position: relative;
+    z-index: 2;
     display: none;
   }
   &__group {

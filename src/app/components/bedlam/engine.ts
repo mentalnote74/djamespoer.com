@@ -99,13 +99,13 @@ export function createBedlam(
     const secondaryOpacity =
       kind === 'nebula'
         ? distance < 0.3
-          ? 0.6
+          ? 0.45
           : distance < 0.7
-            ? 0.68
+            ? 0.544
             : 1
         : kind === 'grain'
-          ? 0.6
-          : 0.65;
+          ? 0.45
+          : 0.52;
     const style: Record<string, string> = {
       'background-image': gradients[kind],
       opacity: String(
@@ -147,7 +147,11 @@ export function createBedlam(
       style['clip-path'] =
         'polygon(0 68%, 22% 42%, 36% 51%, 65% 7%, 57% 49%, 100% 62%, 53% 71%, 35% 100%, 24% 73%)';
     }
-    if (kind === 'grain') style['background-size'] = '23px 17px, 31px 29px';
+    if (kind === 'grain') {
+      style['background-size'] = '23px 17px, 31px 29px';
+      style['clip-path'] =
+        'polygon(6% 48%, 24% 30%, 35% 48%, 54% 21%, 73% 38%, 91% 46%, 70% 59%, 43% 65%, 25% 54%)';
+    }
     if (kind === 'particles') {
       style['inset'] = 'auto';
       style['left'] = `${x}%`;

@@ -22,8 +22,7 @@
   &__field {
     position: absolute;
     inset: 0;
-    overflow: hidden;
-    mask-image: radial-gradient(ellipse closest-side at center, #000 55%, transparent 100%);
+    overflow: visible;
   }
   &__layer {
     position: absolute;
@@ -66,20 +65,37 @@
 }
 :host-context([data-theme='rum-runner']),
 :host-context([data-theme='bloody-mary']) {
+  .bedlam__mask {
+    background: var(--navigation-foreground);
+  }
+}
+
+// The header is the clipping field; the home-link footprint only anchors emission.
+:host(.navbar-bedlam) {
+  .bedlam {
+    position: static;
+    isolation: auto;
+  }
   .bedlam__scene {
-    inset: 0.5rem;
-    opacity: 1;
-    filter: drop-shadow(
-      var(--shadow-x) var(--shadow-y) calc(var(--shadow-blur) / 2)
-        rgb(var(--shadow-ink) / var(--shadow-opacity))
-    );
+    inset: 0;
+    overflow: clip;
+    z-index: 0;
   }
   .bedlam__field {
-    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
-    background: var(--selected-background);
+    inset: 1rem auto auto
+      max(var(--layout-gutter-inline), calc((100% - var(--layout-shell-max-inline-size)) / 2));
+    inline-size: clamp(12rem, 25vw, 18rem);
+    block-size: 4rem;
   }
   .bedlam__identity {
-    display: none;
+    display: block;
+    position: relative;
+    inset: auto;
+    block-size: 4rem;
+    z-index: 1;
+  }
+  .bedlam__mask {
+    inset: 0.5rem;
   }
 }
 @keyframes bedlam-drift {
