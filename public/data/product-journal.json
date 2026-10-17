@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "latestDate": "2026-10-16",
+  "entries": [
+    {
+      "date": "2026-10-16",
+      "generatedDate": "2026-10-16",
+      "publishedDate": "2026-10-16",
+      "brief": {
+        "date": "2026-10-16",
+        "sections": [
+          {
+            "heading": "Thingamajob",
+            "paragraph": "Client #1 proved exception-based review: clean, directly supported facts are established automatically, routine discrepancies are resolved behind the scenes, and false-positive questions were eliminated. No human-required questions remain. Protected TEST now presents a usable résumé assembly, with provenance, correction history and diagnostics preserved behind the protected admin surface. JD evaluation and benchmark comparison have not started."
+          },
+          {
+            "heading": "Public site",
+            "paragraph": "Home and the case study share one public Thingamajob component. Candidate-to-job outcomes are now Strong Match, Supported Match, Needs Candidate Confirmation and Match Gap. The corrected homepage layout and construction status, global texture and depth, and living-theme sun-following shadows are live. Five reviewed responsive artwork slides replaced the temporary designs; Creative Town is unchanged. AVIF/WebP delivery is live, and production returned to perfect Lighthouse scores after the visual overhaul."
+          },
+          {
+            "heading": "Current focus",
+            "paragraph": "Keep the public visual system stable. Next: compare the independently built Client #1 truth set against the sealed benchmark. If it holds up, proceed to real JD evaluation."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "3067c0e4c379a896bad269e93362c8505e8dea63",
+          "method": "Exact approved October 16 brief migration; whitespace normalized only"
+        }
+      }
+    }
+  ]
+}

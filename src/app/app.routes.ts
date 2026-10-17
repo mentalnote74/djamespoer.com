@@ -270,5 +270,14 @@ export const routes: Routes = [
         ({ CookiePolicy }) => CookiePolicy,
       ),
   },
+  ...['product-journal', 'product-journal/:date'].map((path): Route => ({
+    path,
+    title: 'Product Journal | D. James Poer',
+    data: { description: 'Daily Scrum briefs and the history of building djamespoer.com.' },
+    loadComponent: () =>
+      import('./components/daily-scrum-brief/product-journal').then(
+        ({ ProductJournal }) => ProductJournal,
+      ),
+  })),
   { path: '**', redirectTo: '' },
 ];

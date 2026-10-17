@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "verifiedOn": "2026-10-17",
+  "validThrough": "2026-10-24",
+  "sourceCommit": "e5bddbd4b648450cc230e92da06c2678ec020d67",
+  "recentlyShipped": [
+    "The five perspective pages now share the carousel artwork, with one page heading and registered dynamic regions; Accessibility and Impact received clearer travelling light.",
+    "Bedlam now radiates through the navbar with controlled theme-derived contrast; the theme dropdown stays above carousel content.",
+    "Passive borders are quieter across all eight themes, while control, selected and focus states retain their contrast.",
+    "The approved public frontend has been reconciled onto main without promoting protected API, server or TEST implementation."
+  ],
+  "currentFocus": [
+    "Establish daily publication and permanent Product Journal history from verified project metadata.",
+    "Keep the public site stable while preserving the separation of public demos and protected product infrastructure."
+  ],
+  "next": "Verify today's published brief and journal, then maintain the status metadata as the next approved project checkpoints land."
+}

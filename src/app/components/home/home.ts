@@ -1,3 +1,4 @@
+import { DailyScrumBrief } from '../daily-scrum-brief/daily-scrum-brief';
 import { PublicTrack } from '../../services/public-track';
 import { Aside } from '../../layout/aside/aside';
 import { Thingamajob } from '../thingamajob/thingamajob';
@@ -10,6 +11,7 @@ import { DeploymentHistory } from '../deployment-history/deployment-history';
 
 @Component({
   imports: [
+    DailyScrumBrief,
     PublicTrack,
     RouterLink,
     PerspectiveSlide,

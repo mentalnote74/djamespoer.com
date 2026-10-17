@@ -1,0 +1,47 @@
+name: Daily Scrum Brief publication
+on:
+  schedule:
+    - cron: '0 14,15 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: daily-public-brief-main
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.repository == 'mentalnote74/djamespoer.com' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Gate Eastern hour (manual runs bypass time gate)
+        id: clock
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          node --input-type=module <<'JS'
+          import {appendFileSync} from 'node:fs';
+          const hour = new Intl.DateTimeFormat('en-US', {timeZone:'America/New_York',hour:'2-digit',hourCycle:'h23'}).format(new Date());
+          const due = process.env.EVENT_NAME === 'workflow_dispatch' || hour === '10';
+          appendFileSync(process.env.GITHUB_OUTPUT, 'due=' + due + '\n');
+          console.log(due ? 'Publishing current Eastern date.' : 'Other DST candidate: no publication.');
+          JS
+      - uses: actions/checkout@v4
+        if: steps.clock.outputs.due == 'true'
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        if: steps.clock.outputs.due == 'true'
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+        if: steps.clock.outputs.due == 'true'
+      - name: Validate generator and immutable history
+        if: steps.clock.outputs.due == 'true'
+        run: node --test scripts/scrum-brief/generate.test.mjs
+      - name: Generate, build, commit content and confirm Cloudflare publication
+        if: steps.clock.outputs.due == 'true'
+        run: node scripts/scrum-brief/publish.mjs
+# No push trigger or Cloudflare credentials. Real content commits use the existing Git integration.

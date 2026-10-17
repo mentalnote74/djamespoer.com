@@ -1,0 +1,36 @@
+<article class="editorial-content">
+  <h1>Product Journal</h1>
+  <p>Daily notes on building and improving djamespoer.com.</p>
+  @if (error()) {
+    <p role="status">The journal could not be loaded.</p>
+    <button type="button" (click)="load()">Try again</button>
+  } @else if (journal(); as history) {
+    <nav aria-label="Journal dates">
+      <ul>
+        @for (entry of history.entries; track entry.date) {
+          <li>
+            <a
+              [routerLink]="['/product-journal', entry.date]"
+              [attr.aria-current]="selected()?.date === entry.date ? 'page' : null"
+              ><time [attr.datetime]="entry.date">{{ entry.date }}</time></a
+            >
+          </li>
+        }
+      </ul>
+    </nav>
+    @if (selected(); as entry) {
+      <app-daily-scrum-brief
+        [brief]="entry.brief"
+        [showJournalLink]="false"
+        headingId="journal-brief-heading"
+      />
+    } @else {
+      <p>
+        This journal date is not available.
+        <a routerLink="/product-journal">View the latest brief</a>.
+      </p>
+    }
+  } @else {
+    <p role="status">Loading the journal...</p>
+  }
+</article>
