@@ -20,7 +20,7 @@
   &__scene {
     position: absolute;
     inset: 0;
-    opacity: 0.648;
+    opacity: 0.72;
   }
   &__field {
     position: absolute;
@@ -35,7 +35,7 @@
       drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 2px rgb(0 0 0 / 0.45));
     transform: translate(var(--bedlam-x), var(--bedlam-y)) rotate(var(--bedlam-angle))
       scale(var(--bedlam-scale));
-    animation: bedlam-drift calc(var(--bedlam-duration) / 1.2) ease-in-out var(--bedlam-delay)
+    animation: bedlam-drift calc(var(--bedlam-duration) / 1.44) ease-in-out var(--bedlam-delay)
       infinite alternate;
     animation-direction: var(--bedlam-direction);
     animation-play-state: var(--bedlam-motion, running);
@@ -148,7 +148,7 @@
   }
   .bedlam__field {
     inset: -0.5rem;
-    opacity: 0.648;
+    opacity: 0.72;
   }
   .bedlam__identity {
     display: none;
