@@ -4,6 +4,10 @@
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
 
+## Public typography/button checkpoint ? October 17, 2026
+
+Shared resting button borders now use theme-derived 24% alpha (18% in dark themes), hover 60%, pressed/selected full control border. Focus, geometry and grid borders remain unchanged. Locally packaged Latin variable Manrope serves display/navigation/buttons/labels; Inter serves body/dense reading. Optional font display avoids late swapping. Production build/budgets passed; all eight themes at 1440/390 checked for reflow, button state separation and 3px keyboard focus; header/footer scoped axe zero violations, forced colors and interior route smoke passed. No protected/backend changes.
+
 ## Current Objective
 
 TCC production acceptance follow-up: James reported Lighthouse 98 Performance, 100 Accessibility/Best Practices, 92 SEO, PWA 3/3, with a root-only canonical. Shared route metadata now generates the production canonical per route, omitting query/fragment; static root canonical removed. Focused metadata 16/16 and full Angular 189/189 passed. Approved TCC content is unchanged. Production browser canonical and repeat Lighthouse acceptance remain pending after shipment.

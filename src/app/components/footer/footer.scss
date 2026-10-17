@@ -15,10 +15,10 @@
   gap: 1rem;
 }
 .site-footer__cookies button {
-  font: inherit;
+  font-family: var(--font-ui);
   color: var(--control-foreground);
   background: var(--control-background);
-  border: 1px solid var(--control-border);
+  border: 1px solid var(--button-border-rest);
   border-radius: 0.25rem;
   padding: 0.5rem 0.75rem;
   min-block-size: 44px;
@@ -54,4 +54,11 @@
     justify-self: end;
     text-align: end;
   }
+}
+
+.site-footer__cookies button:hover {
+  border-color: var(--button-border-hover);
+}
+.site-footer__cookies button:active {
+  border-color: var(--control-border);
 }

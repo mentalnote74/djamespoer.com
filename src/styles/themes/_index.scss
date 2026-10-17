@@ -225,6 +225,13 @@ $themes: (
 );
 // Passive edges and separators follow the live foreground without changing control/state colors.
 :root {
+  --button-border-strength: 24%;
+  --button-border-rest: color-mix(
+    in srgb,
+    var(--control-border) var(--button-border-strength),
+    transparent
+  );
+  --button-border-hover: color-mix(in srgb, var(--control-border) 60%, transparent);
   --border-surface-strength: 12%;
   --border-separator-strength: 22%;
   --border-surface: color-mix(
@@ -243,11 +250,14 @@ $themes: (
 }
 :root[data-theme='rum-runner'],
 :root[data-theme='bloody-mary'] {
+  --button-border-strength: 18%;
   --border-surface-strength: 9%;
   --border-separator-strength: 18%;
 }
 @media (forced-colors: active) {
   :root {
+    --button-border-rest: ButtonText;
+    --button-border-hover: Highlight;
     --border-surface: CanvasText;
     --border-separator: CanvasText;
   }

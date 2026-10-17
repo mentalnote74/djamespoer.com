@@ -4,3 +4,18 @@
 @use 'styles/layout';
 
 @use 'styles/themes/depth';
+
+@font-face {
+  font-family: 'Manrope Variable';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: optional;
+  src: url('@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: optional;
+  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2');
+}

@@ -7,7 +7,7 @@
 }
 
 html {
-  font-family: foundation.$font-stack;
+  font-family: var(--font-body);
   line-height: foundation.$body-line-height;
 }
 
@@ -29,6 +29,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: var(--font-display);
   font-weight: foundation.$heading-weight;
 }
 
@@ -61,4 +62,16 @@ caption {
 th,
 td {
   text-align: start;
+}
+
+:root {
+  --font-body: 'Inter Variable', Inter, system-ui, sans-serif;
+  --font-display: 'Manrope Variable', system-ui, sans-serif;
+  --font-ui: var(--font-display);
+}
+nav,
+button,
+label,
+summary {
+  font-family: var(--font-ui);
 }

@@ -9,20 +9,27 @@ button {
   min-inline-size: foundation.$control-target;
   min-block-size: foundation.$control-target;
   padding: 0.55rem 0.9rem;
-  border: 2px solid var(--control-border);
+  border: 2px solid var(--button-border-rest);
   border-radius: 0.35rem;
   background: var(--control-background);
   color: var(--control-foreground);
   cursor: pointer;
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
+    border-color: var(--button-border-hover);
     background: var(--control-hover-background);
     color: var(--control-hover-foreground);
   }
 
   &:active:not(:disabled):not([aria-disabled='true']) {
+    border-color: var(--control-border);
     background: var(--control-active-background);
     color: var(--control-active-foreground);
+  }
+
+  &[aria-pressed='true'],
+  &[aria-selected='true'] {
+    border-color: var(--control-border);
   }
 
   &:disabled,
