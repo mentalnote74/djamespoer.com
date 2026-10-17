@@ -147,6 +147,7 @@ export const TCC_CASE_STUDY = {
     },
     {
       heading: 'What Went Right',
+      surface: 'card',
       paragraphs: [
         'The Oregon research produced evidence instead of another round of internal opinions.',
         'Testing both concepts showed us that neither design contained the complete answer.',
@@ -162,6 +163,7 @@ export const TCC_CASE_STUDY = {
     },
     {
       heading: "What Didn't",
+      surface: 'inset',
       paragraphs: [
         'Not every interface decision followed the recommendation I would have made.',
         'Not every accessibility issue I identified was corrected.',

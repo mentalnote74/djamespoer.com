@@ -28,6 +28,7 @@ export const ACCESSIBILITY_CONTENT: CaseStudy = {
     },
     {
       heading: 'Solve The Systemic Problem',
+      surface: 'feature',
       paragraphs: [
         'At EXL, Section 508 requirements exposed a much larger architectural problem.',
         'The existing approach would have required accessibility-related changes across approximately 1.5 million lines of HTML.',
@@ -95,6 +96,7 @@ export const ACCESSIBILITY_CONTENT: CaseStudy = {
     },
     {
       heading: 'Keyboard Is Not An Edge Case',
+      surface: 'inset',
       paragraphs: [
         'If an interaction requires a pointer, it is incomplete.',
         'Interactive elements need logical focus behavior, visible focus indication, predictable keyboard operation, and a usable sequence through the interface.',

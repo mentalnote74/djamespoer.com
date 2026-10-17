@@ -34,6 +34,7 @@ export const DR_CASE_STUDY = {
     },
     {
       heading: 'From Two and a Half Days to 15 Minutes',
+      surface: 'feature',
       paragraphs: [
         'The result was straightforward to measure. A month-end process that had previously taken approximately 2.5 days could be completed in about 15 minutes.',
         'The improvement did not come from making finance work disappear. It came from recognizing that two different kinds of work had been mixed together. Understanding and configuring incentive rules required human knowledge of the business. Applying those rules repeatedly across a collection of transactions did not.',
@@ -42,6 +43,7 @@ export const DR_CASE_STUDY = {
     },
     {
       heading: 'Working With the System We Had',
+      surface: 'inset',
       paragraphs: [
         'The legacy intranet remained a constraint throughout the work. There was no clean greenfield architecture, and replacing the application was outside the scope of the problem I was trying to solve. That meant understanding existing behavior before modifying it and resisting the temptation to turn every piece of ugly code into a separate modernization project.',
         'Legacy software often contains more institutional knowledge than its architecture suggests. Code that appears awkward may exist because of a business requirement that is no longer documented anywhere else. Changing it safely requires understanding what it does before deciding what it should become.',

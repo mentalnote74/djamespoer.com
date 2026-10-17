@@ -13,6 +13,7 @@ export interface CaseStudy {
 
 /** Section headings/order belong to the content, not an imposed employer narrative. */
 export interface CaseStudySection {
+  readonly surface?: 'card' | 'feature' | 'inset';
   readonly heading: string;
   readonly paragraphs?: readonly string[];
   readonly items?: readonly string[];

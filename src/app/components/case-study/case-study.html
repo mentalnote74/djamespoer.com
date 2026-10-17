@@ -15,7 +15,12 @@
     <p>{{ paragraph }}</p>
   }
   @for (section of study().sections; track $index) {
-    <section>
+    <section
+      [class.surface-card]="section.surface === 'card'"
+      [class.surface-feature]="section.surface === 'feature'"
+      [class.surface-inset]="section.surface === 'inset'"
+      [class.case-study__group]="!!section.surface"
+    >
       <h2>{{ section.heading }}</h2>
       @for (paragraph of section.paragraphs ?? []; track $index) {
         <p>{{ paragraph }}</p>

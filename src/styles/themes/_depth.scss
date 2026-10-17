@@ -143,3 +143,58 @@ body,
     box-shadow: none;
   }
 }
+
+// Editorial roles reuse the same live lighting environment; no second shadow system.
+:root {
+  --surface-flush: var(--page-background);
+  --surface-card: color-mix(in srgb, var(--page-background) 97%, var(--page-foreground));
+  --surface-feature: color-mix(in srgb, var(--page-background) 94%, var(--page-foreground));
+  --surface-inset: color-mix(in srgb, var(--page-background) 96%, rgb(var(--shadow-ink)));
+  --surface-highlight: linear-gradient(
+    145deg,
+    rgb(255 255 255 / var(--material-sheen)),
+    transparent 60%
+  );
+  --elevation-feature: var(--elevation-floating);
+  --elevation-inset: inset calc(var(--shadow-x) * 0.15) 2px 7px rgb(var(--shadow-ink) / 0.18);
+  --surface-radius: 0.65rem;
+  --surface-padding: clamp(1.5rem, 4vw, 3rem);
+}
+.surface-flush {
+  background-color: var(--surface-flush);
+}
+.surface-card,
+.surface-feature,
+.surface-inset {
+  border-radius: var(--surface-radius);
+  color: var(--page-foreground);
+}
+.surface-card {
+  background-color: var(--surface-card);
+  background-image: var(--surface-highlight);
+  box-shadow: var(--elevation-raised);
+}
+.surface-feature {
+  background-color: var(--surface-feature);
+  background-image: var(--surface-highlight);
+  box-shadow: var(--elevation-feature);
+}
+.surface-inset {
+  background-color: var(--surface-inset);
+  box-shadow: var(--elevation-inset);
+}
+@media (forced-colors: active) {
+  .surface-flush,
+  .surface-card,
+  .surface-feature,
+  .surface-inset {
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+  .surface-card,
+  .surface-feature,
+  .surface-inset {
+    border: 1px solid CanvasText;
+  }
+}

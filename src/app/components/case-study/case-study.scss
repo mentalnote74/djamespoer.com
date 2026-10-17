@@ -20,3 +20,64 @@
     block-size: auto;
   }
 }
+
+.case-study {
+  > section {
+    margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  h2 {
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  > h1 {
+    font-size: clamp(2.25rem, 5vw, 4.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+  > .case-study__group {
+    padding: var(--surface-padding);
+    grid-template-columns: minmax(0, 1fr);
+    > * {
+      grid-column: 1;
+    }
+    h2 {
+      margin-block-start: 0;
+    }
+    > :last-child {
+      margin-block-end: 0;
+    }
+  }
+  > .surface-inset {
+    max-inline-size: 76ch;
+    justify-self: center;
+    inline-size: 100%;
+  }
+  > .surface-feature h2 {
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+  }
+  @media (min-width: 64rem) {
+    > .surface-feature {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr);
+      column-gap: clamp(2rem, 4vw, 4rem);
+      h2 {
+        grid-column: 1;
+        grid-row: 1 / span 30;
+      }
+      > :not(h2) {
+        grid-column: 2;
+      }
+    }
+  }
+  > nav a {
+    text-underline-offset: 0.3em;
+    transition: text-underline-offset 160ms ease;
+  }
+  > nav a:hover {
+    text-underline-offset: 0.45em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-study > nav a {
+    transition: none;
+  }
+}

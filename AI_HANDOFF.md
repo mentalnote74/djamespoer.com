@@ -4,6 +4,10 @@
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
 
+## Editorial depth pass ? October 17, 2026
+
+Shared flush/card/feature/inset roles extend the existing theme lighting tokens. Pardon the Dust moved below the opening row into a padded full-width feature with asymmetric desktop layout. Selected case-study outcomes/decisions and perspective evidence summaries receive opt-in depth; constraints use inset treatment. Content unchanged, most sections remain open. Related-page links use restrained underline feedback, disabled under reduced motion. Fixed the pre-existing router-input undefined title default so case studies retain H1s; refreshed stale TCC content expectations. Build/budgets and existing renderer tests 6/6 passed. Eight themes at 1440/390 plus eight representative routes checked: below-fold placement, no overflow/errors, one H1, scoped axe clean, 3px focus, reduced motion and forced colors. Protected implementation, carousel, Bedlam and journal code untouched.
+
 ## Public typography/button checkpoint ? October 17, 2026
 
 Shared resting button borders now use theme-derived 24% alpha (18% in dark themes), hover 60%, pressed/selected full control border. Focus, geometry and grid borders remain unchanged. Locally packaged Latin variable Manrope serves display/navigation/buttons/labels; Inter serves body/dense reading. Optional font display avoids late swapping. Production build/budgets passed; all eight themes at 1440/390 checked for reflow, button state separation and 3px keyboard focus; header/footer scoped axe zero violations, forced colors and interior route smoke passed. No protected/backend changes.

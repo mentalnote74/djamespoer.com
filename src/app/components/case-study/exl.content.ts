@@ -62,6 +62,7 @@ export const EXL_CASE_STUDY = {
     },
     {
       heading: 'Moving Upstream',
+      surface: 'feature',
       paragraphs: [
         'I traced the behavior back through the presentation architecture.',
         'The repeated markup was where the accessibility problem appeared.',
@@ -206,6 +207,7 @@ export const EXL_CASE_STUDY = {
     },
     {
       heading: "What Didn't",
+      surface: 'inset',
       paragraphs: [
         'Not every architectural problem could be fixed within the scope available to us.',
         "LifePRO's production application remained on Angular 7.",

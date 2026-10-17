@@ -83,6 +83,7 @@ export const ENGINEERING_CONTENT: CaseStudy = {
     },
     {
       heading: 'Evidence Over Assumption',
+      surface: 'card',
       paragraphs: [
         'The development workflow leaves receipts.',
         'Git records what changed. Tests verify expected behavior. Production builds prove the application compiles. Deployment records identify what reached production. Lighthouse measures production characteristics. axe checks automated accessibility rules. Browser inspection catches problems those tools cannot understand.',

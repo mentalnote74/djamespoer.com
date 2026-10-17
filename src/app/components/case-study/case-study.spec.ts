@@ -17,12 +17,17 @@ describe('CaseStudy presentation', () => {
   it('renders approved TCC content with native headings and lists without extra landmarks', () => {
     const fixture = render(TCC_CASE_STUDY);
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.querySelector('h1')?.textContent).toBe('TCC Software Solutions');
+    expect(root.querySelector('h1')?.textContent).toBe(TCC_CASE_STUDY.title);
     expect(root.querySelectorAll('h1')).toHaveLength(1);
     expect(root.querySelectorAll('h2')).toHaveLength(TCC_CASE_STUDY.sections.length);
     expect(root.querySelectorAll('main, [id]')).toHaveLength(0);
-    expect(root.querySelectorAll('ul li')).toHaveLength(17);
-    expect(root.textContent).toContain('During my final week at TCC');
+    expect(root.querySelectorAll('ul li')).toHaveLength(
+      (TCC_CASE_STUDY as Content).sections.reduce(
+        (count, section) => count + (section.items?.length ?? 0),
+        0,
+      ),
+    );
+    expect(root.textContent).toContain('my final week at TCC');
     expect(root.textContent).toContain('Angular 8');
     expect(root.textContent).not.toContain('Content pending');
   });

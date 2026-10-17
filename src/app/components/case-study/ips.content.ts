@@ -66,6 +66,7 @@ export const IPS_CASE_STUDY = {
     },
     {
       heading: 'Conditional Validation Was the Bridge',
+      surface: 'card',
       paragraphs: [
         "The forms couldn't simply mark every potentially relevant field as required.",
         "That would force users to provide information that didn't apply to their situation.",
@@ -109,6 +110,7 @@ export const IPS_CASE_STUDY = {
     },
     {
       heading: 'What Was Difficult',
+      surface: 'inset',
       paragraphs: [
         "The difficult part wasn't JavaScript.",
         'It was ambiguity.',

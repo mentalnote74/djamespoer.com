@@ -130,6 +130,7 @@ export const UX_PRODUCT_CONTENT: CaseStudy = {
     },
     {
       heading: 'What This Perspective Demonstrates',
+      surface: 'card',
       paragraphs: [
         'My UX and product work sits between people, business requirements, technology, and delivery.',
         'I research before assuming. I translate complicated rules into understandable behavior. I use evidence to challenge design decisions, including my own. I build reusable systems without allowing the system to erase the identity of the product. I prioritize what needs to ship now while preserving what belongs next.',

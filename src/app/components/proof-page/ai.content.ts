@@ -105,6 +105,7 @@ export const AI_CONTENT: CaseStudy = {
     },
     {
       heading: 'AI Needs Review, Not Deference',
+      surface: 'inset',
       paragraphs: [
         'AI can be remarkably capable and remarkably wrong within the same task.',
         'It can misunderstand a requirement, use stale context, invent evidence, modify something outside scope, or confidently solve a different problem than the one assigned.',

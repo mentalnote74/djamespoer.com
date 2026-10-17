@@ -10,7 +10,9 @@ import { CaseStudy as CaseStudyContent } from './case-study.model';
   styleUrl: './case-study.scss',
 })
 export class CaseStudy {
-  readonly showTitle = input(true);
+  readonly showTitle = input(true, {
+    transform: (value: boolean | undefined) => value !== false,
+  });
   readonly titleVisuallyHidden = input(false);
   readonly introductionParagraphs = computed(() => {
     const introduction = this.study().introduction;
