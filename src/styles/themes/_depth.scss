@@ -67,32 +67,50 @@ $light: (
 }
 :root {
   --shadow-ink: 0 0 0;
+  --material-sheen: 0.22;
+  --material-edge-light: 0.6;
+  --material-edge-shade: 0.08;
+  --material-relief:
+    inset 0 1px 0 rgb(255 255 255 / var(--material-edge-light)),
+    inset 0 -1px 0 rgb(var(--shadow-ink) / var(--material-edge-shade));
   --elevation-flat: none;
   --elevation-ambient:
     0 3px 8px rgb(var(--shadow-ink) / 0.14),
     0 0 0 1px color-mix(in srgb, var(--page-foreground) 6%, transparent);
   --elevation-raised:
-    var(--elevation-ambient),
+    var(--material-relief), var(--elevation-ambient),
     var(--shadow-x) var(--shadow-y) var(--shadow-blur) var(--shadow-spread)
       rgb(var(--shadow-ink) / var(--shadow-opacity));
   --elevation-floating:
-    var(--elevation-ambient),
+    var(--material-relief), var(--elevation-ambient),
     calc(var(--shadow-x) * 1.6) calc(var(--shadow-y) * 1.8) calc(var(--shadow-blur) * 1.45)
       calc(var(--shadow-spread) * 0.5)
       rgb(var(--shadow-ink) / min(0.6, calc(var(--shadow-opacity) * 1.2)));
   --surface-texture:
     radial-gradient(
       circle at 1px 2px,
-      color-mix(in srgb, var(--page-foreground) 4.5%, transparent) 0 0.4px,
+      color-mix(in srgb, var(--page-foreground) 6%, transparent) 0 0.45px,
       transparent 0.85px
     ),
     radial-gradient(
       circle at 3px 4px,
-      color-mix(in srgb, var(--page-foreground) 2.5%, transparent) 0 0.4px,
+      color-mix(in srgb, var(--page-foreground) 3.5%, transparent) 0 0.45px,
       transparent 0.85px
+    ),
+    radial-gradient(ellipse at 12% 0%, rgb(255 255 255 / var(--material-sheen)), transparent 65%),
+    linear-gradient(
+      135deg,
+      transparent 35%,
+      color-mix(in srgb, var(--page-foreground) 3%, transparent)
     );
-  --texture-size: 3px 5px, 5px 7px;
+  --texture-size: 3px 5px, 5px 7px, 100% 100%, 100% 100%;
   @include light(map.get($light, 'teetotaler'));
+}
+:root[data-theme='rum-runner'],
+:root[data-theme='bloody-mary'] {
+  --material-sheen: 0.035;
+  --material-edge-light: 0.16;
+  --material-edge-shade: 0.24;
 }
 @each $name, $values in $light {
   :root[data-theme='#{$name}'] {
