@@ -11,8 +11,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { BedlamConfig, BedlamPalette, bedlamThemePalette, createBedlam } from './engine';
+let instanceSequence = 0;
+
 @Component({ selector: 'app-bedlam', templateUrl: './bedlam.html', styleUrl: './bedlam.scss' })
 export class Bedlam {
+  readonly filterPrefix = `bedlam-cloud-${++instanceSequence}-`;
   readonly seed = input<string | number>('djamespoer-header');
   readonly palette = input<BedlamPalette>(bedlamThemePalette);
   readonly config = input<BedlamConfig>({});

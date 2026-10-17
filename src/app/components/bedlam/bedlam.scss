@@ -8,21 +8,22 @@
   block-size: 4rem;
   overflow: hidden;
   isolation: isolate;
-  border-radius: 0.3rem;
   pointer-events: none;
-  background: #000;
+  background: transparent;
+  &__filters {
+    position: absolute;
+    pointer-events: none;
+  }
   &__scene {
     position: absolute;
     inset: 0;
+    opacity: 0.72;
   }
   &__field {
     position: absolute;
     inset: 0;
     overflow: hidden;
-    background: var(--page-background);
-    box-shadow:
-      inset 0 1px 2px rgb(255 255 255 / 0.35),
-      inset 0 -3px 8px rgb(0 0 0 / 0.45);
+    background: var(--navigation-surface);
   }
   &__layer {
     position: absolute;
@@ -37,10 +38,9 @@
     animation-direction: var(--bedlam-direction);
     animation-play-state: var(--bedlam-motion, running);
   }
-  &__layer--rings {
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.5),
-      0 2px 5px rgb(0 0 0 / 0.4);
+  &__layer--nebula {
+    filter: var(--bedlam-distortion-filter) blur(var(--bedlam-blur))
+      drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 3px rgb(0 0 0 / 0.4));
   }
   &__layer--rays {
     animation-name: bedlam-orbit;
@@ -51,8 +51,6 @@
   &__identity {
     position: absolute;
     inset: 0.5rem;
-    filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff)
-      drop-shadow(0 -1px 0 #fff) drop-shadow(0 2px 1px #000);
   }
   &__mask {
     position: absolute;
@@ -63,10 +61,12 @@
 }
 :host-context([data-theme='rum-runner']),
 :host-context([data-theme='bloody-mary']) {
+  .bedlam {
+    background: #000;
+  }
   .bedlam__scene {
     inset: 0.5rem;
-    filter: drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff)
-      drop-shadow(0 -1px 0 #fff);
+    opacity: 1;
   }
   .bedlam__field {
     mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
@@ -80,15 +80,15 @@
   to {
     transform: translate(
         calc(var(--bedlam-x) + var(--bedlam-travel)),
-        calc(var(--bedlam-y) - var(--bedlam-travel))
+        calc(var(--bedlam-y) + var(--bedlam-rise))
       )
-      rotate(calc(var(--bedlam-angle) + var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.08));
+      rotate(calc(var(--bedlam-angle) + var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.14));
   }
 }
 @keyframes bedlam-orbit {
   to {
     transform: translate(var(--bedlam-x), var(--bedlam-y))
-      rotate(calc(var(--bedlam-angle) - var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.04));
+      rotate(calc(var(--bedlam-angle) - var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.06));
   }
 }
 @media (prefers-reduced-motion: reduce) {
