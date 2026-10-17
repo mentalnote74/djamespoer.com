@@ -1,4 +1,4 @@
-﻿:host {
+:host {
   display: block;
   position: relative;
   inline-size: 100%;
@@ -115,15 +115,14 @@ a:focus-visible {
   pointer-events: none;
 }
 .region-light {
-  opacity: 0.22;
-  stroke-dasharray: 12 88;
+  opacity: 0.85;
+  stroke-dasharray: 22 10 4 64;
   animation: region-flow var(--region-duration) linear var(--region-delay) infinite;
-  animation-play-state: var(--region-play-state, var(--perspective-play-state, running));
 }
-.region-light--wash {
-  opacity: 0.16;
-  stroke-dasharray: 20 80;
-  filter: blur(3px);
+:is(.region-light--wash, .region-light--branch) {
+  opacity: 0.64;
+  stroke-dasharray: 22 12 6 60;
+  filter: blur(1px);
 }
 .region-light--guidance {
   stroke-dasharray: 26 74;
@@ -132,16 +131,14 @@ a:focus-visible {
   animation-name: region-guide;
   animation-timing-function: ease-in-out;
 }
-.region-light--ribbon {
-  opacity: 0.3;
-  stroke-dasharray: 9 91;
+.region-light--branch {
+  animation-direction: reverse;
 }
-.region-light--wake {
-  mix-blend-mode: soft-light;
-  opacity: 0.68;
-  stroke-dasharray: 18 9 5 68;
-  filter: drop-shadow(0 0 1.5px rgb(232 216 189 / 0.5));
-  animation-timing-function: linear;
+.region-light--crater {
+  opacity: 0.85;
+  stroke-dasharray: 16 84;
+  mix-blend-mode: overlay;
+  animation-timing-function: ease-in-out;
 }
 .artwork-motion {
   display: block;
@@ -191,28 +188,28 @@ a:focus-visible {
 
 // Reuse the browser-selected raster itself inside each window: no reinterpreted art.
 .region-material {
-  opacity: 0.65;
+  opacity: 0.85;
   animation: region-material-light var(--region-duration) ease-in-out var(--region-delay) infinite
     alternate;
-  animation-play-state: var(--region-play-state, var(--perspective-play-state, running));
 }
 .region-material--wash {
-  --material-x: 0px;
-  --material-y: -0.6px;
+  --material-y: -1.2px;
 }
 .region-material--ribbon {
-  --material-x: 0.5px;
-  --material-y: -0.35px;
-}
-.region-material--wake {
-  --material-x: 0.4px;
-  --material-y: 0.4px;
+  --material-x: 0.9px;
+  --material-y: -0.7px;
 }
 .region-material--guidance {
+  opacity: 0.65;
   animation-name: region-guidance-material;
 }
-.region-material--wake {
-  animation-name: region-impact-material;
+.region-material--ribbon {
+  opacity: 0.9;
+  --material-brightness: 1.9;
+}
+.region-material--crater {
+  animation-name: region-crater-material;
+  opacity: 0.75;
 }
 @keyframes region-guidance-material {
   from {
@@ -222,14 +219,14 @@ a:focus-visible {
     filter: brightness(1.3);
   }
 }
-@keyframes region-impact-material {
+@keyframes region-crater-material {
   from {
-    filter: brightness(0.96);
-    transform: translate(0, 0);
+    filter: brightness(0.82);
+    transform: translate(-0.25px, 0.25px);
   }
   to {
-    filter: brightness(1.48);
-    transform: translate(0.4px, 0.4px);
+    filter: brightness(1.35);
+    transform: translate(0.35px, -0.35px);
   }
 }
 @keyframes region-material-light {
@@ -238,7 +235,7 @@ a:focus-visible {
     transform: translate(0, 0);
   }
   to {
-    filter: brightness(1.13);
+    filter: brightness(var(--material-brightness, 1.65));
     transform: translate(var(--material-x, 0px), var(--material-y, 0px));
   }
 }
@@ -251,4 +248,8 @@ a:focus-visible {
 
 :host:has(.artwork-motion) {
   aspect-ratio: auto;
+}
+
+:is(.region-light, .region-material) {
+  animation-play-state: var(--region-play-state, var(--perspective-play-state, running));
 }

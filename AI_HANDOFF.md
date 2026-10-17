@@ -4,6 +4,10 @@
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
 
+## Perspective magic ? October 17, 2026
+
+Canonical artwork and shared renderer unchanged. Engineering uses brighter/wider shaft and rail travel at 4.8/6.2/5.5s. UX paths use 6.8/9.4s independent timing and opposite light direction. AI ribbon/output flow uses 4.6/6.1/3.7s with strongest material brightness. Impact ridge/wake regions removed; three artwork-traced crater clips use narrow overlay-blended rim sweeps plus source-image wall shading/parallax at staggered 8.6/6.7/7.9s. CSS consolidated within existing budgets. All eight themes desktop/390, carousel/interior registration, pause, reduced motion, forced colors and scoped axe passed. Accessibility region metadata unchanged; frozen frames pixel-identical to prior PROD at both widths. Base assets untouched; no dependencies or JS motion loop added.
+
 ## Bedlam polish ? October 17, 2026
 
 Production seeded CSS/SVG implementation retained. Bedlam scene opacity 0.72 to 0.648 (-10%); animation duration divided by 1.2 (+20% speed), engine/config/geometry unchanged. Added transparent emission wrapper: light mode uses display:contents; dark mode masks the existing field to the canonical wordmark at the original inset, with shared silhouette-only theme drop shadow. No dark navbar radiation/panel. Forced colors hides emission and retains plain canonical identity. Build/budgets clean; all eight themes at 1440/390 inspected, no overflow/errors; dropdown stacking, reduced motion and forced colors pass. Root protected worktree preserved.
