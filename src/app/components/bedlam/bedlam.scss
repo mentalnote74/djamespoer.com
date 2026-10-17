@@ -14,10 +14,13 @@
     position: absolute;
     pointer-events: none;
   }
+  &__emission {
+    display: contents;
+  }
   &__scene {
     position: absolute;
     inset: 0;
-    opacity: 0.72;
+    opacity: 0.648;
   }
   &__field {
     position: absolute;
@@ -32,8 +35,8 @@
       drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 2px rgb(0 0 0 / 0.45));
     transform: translate(var(--bedlam-x), var(--bedlam-y)) rotate(var(--bedlam-angle))
       scale(var(--bedlam-scale));
-    animation: bedlam-drift var(--bedlam-duration) ease-in-out var(--bedlam-delay) infinite
-      alternate;
+    animation: bedlam-drift calc(var(--bedlam-duration) / 1.2) ease-in-out var(--bedlam-delay)
+      infinite alternate;
     animation-direction: var(--bedlam-direction);
     animation-play-state: var(--bedlam-motion, running);
   }
@@ -63,13 +66,6 @@
     background: #000;
   }
 }
-:host-context([data-theme='rum-runner']),
-:host-context([data-theme='bloody-mary']) {
-  .bedlam__mask {
-    background: var(--navigation-foreground);
-  }
-}
-
 // The header is the clipping field; the home-link footprint only anchors emission.
 :host(.navbar-bedlam) {
   .bedlam {
@@ -128,5 +124,50 @@
   }
   .bedlam__mask {
     background: CanvasText;
+  }
+}
+
+// Dark themes clip the field to the canonical letters, not the navbar or image bounds.
+// The transparent parent filters that silhouette using the same theme shadow as identity.
+:host-context([data-theme='rum-runner']),
+:host-context([data-theme='bloody-mary']) {
+  .bedlam__emission {
+    display: block;
+    position: absolute;
+    inset: 0.5rem;
+    filter: drop-shadow(
+      var(--shadow-x) var(--shadow-y) calc(var(--shadow-blur) / 2)
+        rgb(var(--shadow-ink) / var(--shadow-opacity))
+    );
+  }
+  .bedlam__scene {
+    inset: 0;
+    opacity: 1;
+    background: var(--navigation-foreground);
+    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
+  }
+  .bedlam__field {
+    inset: -0.5rem;
+    opacity: 0.648;
+  }
+  .bedlam__identity {
+    display: none;
+  }
+}
+:host(.navbar-bedlam) .bedlam__emission {
+  inset: 1.5rem auto auto
+    calc(
+      max(var(--layout-gutter-inline), calc((100% - var(--layout-shell-max-inline-size)) / 2)) +
+        0.5rem
+    );
+  inline-size: calc(clamp(12rem, 25vw, 18rem) - 1rem);
+  block-size: 3rem;
+}
+@media (forced-colors: active) {
+  .bedlam .bedlam__emission {
+    display: none;
+  }
+  .bedlam .bedlam__identity {
+    display: block;
   }
 }

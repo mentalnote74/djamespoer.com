@@ -42,16 +42,18 @@
       }
     </defs>
   </svg>
-  <span class="bedlam__scene">
-    <span class="bedlam__field">
-      @for (layer of layers(); track layer.id) {
-        <span
-          class="bedlam__layer"
-          [class]="'bedlam__layer--' + layer.kind"
-          [style]="layer.style"
-          [style.--bedlam-distortion-filter]="'url(#' + filterPrefix + layer.id + ')'"
-        ></span>
-      }
+  <span class="bedlam__emission">
+    <span class="bedlam__scene">
+      <span class="bedlam__field">
+        @for (layer of layers(); track layer.id) {
+          <span
+            class="bedlam__layer"
+            [class]="'bedlam__layer--' + layer.kind"
+            [style]="layer.style"
+            [style.--bedlam-distortion-filter]="'url(#' + filterPrefix + layer.id + ')'"
+          ></span>
+        }
+      </span>
     </span>
   </span>
   <span class="bedlam__identity"><span class="bedlam__mask"></span></span>

@@ -4,6 +4,10 @@
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
 
+## Bedlam polish ? October 17, 2026
+
+Production seeded CSS/SVG implementation retained. Bedlam scene opacity 0.72 to 0.648 (-10%); animation duration divided by 1.2 (+20% speed), engine/config/geometry unchanged. Added transparent emission wrapper: light mode uses display:contents; dark mode masks the existing field to the canonical wordmark at the original inset, with shared silhouette-only theme drop shadow. No dark navbar radiation/panel. Forced colors hides emission and retains plain canonical identity. Build/budgets clean; all eight themes at 1440/390 inspected, no overflow/errors; dropdown stacking, reduced motion and forced colors pass. Root protected worktree preserved.
+
 ## Button icons ? October 17, 2026
 
 Approved @lucide/angular 1.59.0 replaces the requested legacy package because lucide-angular rejects Angular 22. Eleven named standalone icons only: Menu, ChevronDown, Download, Mail, ExternalLink, ChevronLeft, ChevronRight, Pause, Play, X, Accessibility. Shared 18px decorative currentColor SVG pattern; original labels, focus and button borders preserved. Header, carousel, grid pagination, cookie close, footer accessibility and existing hero actions updated. Build/budgets passed (386.57 kB raw / 95.89 kB estimated initial transfer; about +43.61/+3.33 kB). Focused control tests 55 passed after stale case-study route expectations were aligned. Eight themes desktop/390, keyboard, forced colors and four scoped axe regions passed with no overflow/errors. No protected/API changes.
