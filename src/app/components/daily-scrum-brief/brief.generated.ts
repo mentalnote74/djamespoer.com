@@ -1,26 +1,33 @@
-// Generated snapshot. Update through scripts/scrum-brief/generate.mjs.
+// Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  date: '2026-10-16',
-  sections: [
+  "date": "2026-10-17",
+  "sections": [
     {
-      heading: 'Thingamajob',
-      paragraph:
-        'Client #1 proved exception-based review: clean, directly supported facts are established automatically, routine discrepancies are resolved behind the scenes, and false-positive questions were eliminated. No human-required questions remain. Protected TEST now presents a usable résumé assembly, with provenance, correction history and diagnostics preserved behind the protected admin surface. JD evaluation and benchmark comparison have not started.',
+      "heading": "Recently shipped",
+      "items": [
+        "The five perspective pages now share the carousel artwork, with one page heading and registered dynamic regions; Accessibility and Impact received clearer travelling light.",
+        "Bedlam now radiates through the navbar with controlled theme-derived contrast; the theme dropdown stays above carousel content.",
+        "Passive borders are quieter across all eight themes, while control, selected and focus states retain their contrast.",
+        "The approved public frontend has been reconciled onto main without promoting protected API, server or TEST implementation."
+      ]
     },
     {
-      heading: 'Public site',
-      paragraph:
-        'Home and the case study share one public Thingamajob component. Candidate-to-job outcomes are now Strong Match, Supported Match, Needs Candidate Confirmation and Match Gap. The corrected homepage layout and construction status, global texture and depth, and living-theme sun-following shadows are live. Five reviewed responsive artwork slides replaced the temporary designs; Creative Town is unchanged. AVIF/WebP delivery is live, and production returned to perfect Lighthouse scores after the visual overhaul.',
+      "heading": "Current focus",
+      "items": [
+        "Establish daily publication and permanent Product Journal history from verified project metadata.",
+        "Keep the public site stable while preserving the separation of public demos and protected product infrastructure."
+      ]
     },
     {
-      heading: 'Current focus',
-      paragraph:
-        'Keep the public visual system stable. Next: compare the independently built Client #1 truth set against the sealed benchmark. If it holds up, proceed to real JD evaluation.',
-    },
+      "heading": "Next",
+      "paragraph": "Verify today's published brief and journal, then maintain the status metadata as the next approved project checkpoints land."
+    }
   ],
-  provenance: {
-    sourceCommit: '3067c0e4c379a896bad269e93362c8505e8dea63',
-    method: 'Exact approved October 16 brief migration; whitespace normalized only',
-  },
+  "provenance": {
+    "sourceCommit": "e5bddbd4b648450cc230e92da06c2678ec020d67",
+    "generatorCommit": "102a3071731c0da8f3f3c2383ae12339f8226983",
+    "statusSha256": "4b0c91fd34093ae9aae359eb31004e7fd9250b6fd714544da328899323f3c07d",
+    "method": "Explicit public status metadata; checkpoint ancestry verified; no commit-message inference"
+  }
 };

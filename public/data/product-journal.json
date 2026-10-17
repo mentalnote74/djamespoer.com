@@ -1,7 +1,43 @@
 {
   "schemaVersion": 1,
-  "latestDate": "2026-10-16",
+  "latestDate": "2026-10-17",
   "entries": [
+    {
+      "date": "2026-10-17",
+      "generatedDate": "2026-10-17",
+      "publishedDate": "2026-10-17",
+      "brief": {
+        "date": "2026-10-17",
+        "sections": [
+          {
+            "heading": "Recently shipped",
+            "items": [
+              "The five perspective pages now share the carousel artwork, with one page heading and registered dynamic regions; Accessibility and Impact received clearer travelling light.",
+              "Bedlam now radiates through the navbar with controlled theme-derived contrast; the theme dropdown stays above carousel content.",
+              "Passive borders are quieter across all eight themes, while control, selected and focus states retain their contrast.",
+              "The approved public frontend has been reconciled onto main without promoting protected API, server or TEST implementation."
+            ]
+          },
+          {
+            "heading": "Current focus",
+            "items": [
+              "Establish daily publication and permanent Product Journal history from verified project metadata.",
+              "Keep the public site stable while preserving the separation of public demos and protected product infrastructure."
+            ]
+          },
+          {
+            "heading": "Next",
+            "paragraph": "Verify today's published brief and journal, then maintain the status metadata as the next approved project checkpoints land."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "e5bddbd4b648450cc230e92da06c2678ec020d67",
+          "generatorCommit": "102a3071731c0da8f3f3c2383ae12339f8226983",
+          "statusSha256": "4b0c91fd34093ae9aae359eb31004e7fd9250b6fd714544da328899323f3c07d",
+          "method": "Explicit public status metadata; checkpoint ancestry verified; no commit-message inference"
+        }
+      }
+    },
     {
       "date": "2026-10-16",
       "generatedDate": "2026-10-16",
