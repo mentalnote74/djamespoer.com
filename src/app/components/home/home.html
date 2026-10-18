@@ -1,29 +1,30 @@
 <h1 class="visually-hidden">D. James Poer</h1>
 
 <app-carousel
+  [mobileProfile]="true"
   [showPreviousNext]="true"
   [showPausePlay]="true"
   [showSlideNavigation]="false"
   [autoRotate]="true"
   [rotationInterval]="5000"
 >
-  <ng-template appCarouselSlide label="Engineering">
-    <app-perspective-slide [homepageOptimized]="true" kind="engineering" />
+  <ng-template appCarouselSlide let-active label="Engineering">
+    <app-perspective-slide [homepageOptimized]="true" [active]="active" kind="engineering" />
   </ng-template>
 
-  <ng-template appCarouselSlide label="UX &amp; Product">
-    <app-perspective-slide [homepageOptimized]="true" kind="ux" />
+  <ng-template appCarouselSlide let-active label="UX &amp; Product">
+    <app-perspective-slide [homepageOptimized]="true" [active]="active" kind="ux" />
   </ng-template>
 
-  <ng-template appCarouselSlide label="Accessibility">
-    <app-perspective-slide [homepageOptimized]="true" kind="accessibility" />
+  <ng-template appCarouselSlide let-active label="Accessibility">
+    <app-perspective-slide [homepageOptimized]="true" [active]="active" kind="accessibility" />
   </ng-template>
 
-  <ng-template appCarouselSlide label="AI &amp; Innovation">
-    <app-perspective-slide [homepageOptimized]="true" kind="ai" />
+  <ng-template appCarouselSlide let-active label="AI &amp; Innovation">
+    <app-perspective-slide [homepageOptimized]="true" [active]="active" kind="ai" />
   </ng-template>
 
-  <ng-template appCarouselSlide label="Creative Town">
+  <ng-template appCarouselSlide let-active label="Creative Town">
     <picture>
       <source
         media="(max-width: 600px)"
@@ -64,8 +65,8 @@
     </picture>
   </ng-template>
 
-  <ng-template appCarouselSlide label="Impact">
-    <app-perspective-slide [homepageOptimized]="true" kind="impact" />
+  <ng-template appCarouselSlide let-active label="Impact">
+    <app-perspective-slide [homepageOptimized]="true" [active]="active" kind="impact" />
   </ng-template>
 </app-carousel>
 
@@ -115,7 +116,14 @@
           </strong>
         </p>
       </section>
-      <app-daily-scrum-brief />
+      @defer (
+        on immediate;
+        hydrate when !delivery.mobile();
+        hydrate on viewport;
+        hydrate on interaction
+      ) {
+        <app-daily-scrum-brief />
+      }
     </div>
   </div>
 </div>

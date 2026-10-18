@@ -20,7 +20,22 @@
           [attr.aria-hidden]="index === currentIndex() ? null : 'true'"
           [hidden]="index !== currentIndex()"
         >
-          <ng-container [ngTemplateOutlet]="slide.template" />
+          @if (!mobileProfile() || index === 0) {
+            <ng-container
+              [ngTemplateOutlet]="slide.template"
+              [ngTemplateOutletContext]="{ $implicit: index === currentIndex() }"
+            />
+          } @else {
+            @defer (
+              when !mobileProfile() || !delivery.mobile() || index === currentIndex();
+              hydrate when !mobileProfile() || !delivery.mobile() || index === currentIndex()
+            ) {
+              <ng-container
+                [ngTemplateOutlet]="slide.template"
+                [ngTemplateOutletContext]="{ $implicit: index === currentIndex() }"
+              />
+            }
+          }
         </section>
       }
     </div>

@@ -1,3 +1,4 @@
+import { MobileDelivery } from '../../services/mobile-delivery';
 import { LucideChevronLeft, LucideChevronRight, LucidePause, LucidePlay } from '@lucide/angular';
 import {
   afterNextRender,
@@ -26,6 +27,10 @@ export const CAROUSEL_INTERVAL_MS = 5_000;
 export class Carousel implements AfterContentInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly browserReady = signal(false);
+
+  readonly delivery = inject(MobileDelivery);
+  readonly mobileProfile = input(false);
+  private readonly explicitPlay = signal(false);
 
   readonly showPreviousNext = input(true);
   readonly showPausePlay = input(true);
@@ -57,6 +62,10 @@ export class Carousel implements AfterContentInit {
 
     if (
       !this.browserReady() ||
+      (this.mobileProfile() &&
+        this.delivery.mobile() &&
+        !this.delivery.settled() &&
+        !this.explicitPlay()) ||
       !this.isPlaying() ||
       this.prefersReducedMotion() ||
       slideCount < 2
@@ -113,6 +122,7 @@ export class Carousel implements AfterContentInit {
     }
 
     if (!this.prefersReducedMotion() && this.slides().length > 1) {
+      this.explicitPlay.set(true);
       this.rotationRequested.set(true);
     }
   }

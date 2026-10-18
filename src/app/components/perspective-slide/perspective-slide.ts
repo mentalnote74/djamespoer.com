@@ -1,3 +1,4 @@
+import { MobileDelivery } from '../../services/mobile-delivery';
 import { PublicTrack } from '../../services/public-track';
 import {
   afterNextRender,
@@ -5,6 +6,7 @@ import {
   computed,
   DestroyRef,
   ElementRef,
+  effect,
   inject,
   input,
   signal,
@@ -40,20 +42,35 @@ export type ArtworkSlide = keyof typeof ARTWORK_SLIDES;
 })
 export class PerspectiveSlide {
   readonly homepageOptimized = input(false);
+  readonly active = input(true);
+  private readonly delivery = inject(MobileDelivery);
+  private readonly rendered = signal(false);
   readonly magicReady = signal(false);
   readonly motionPaused = signal(false);
   private readonly destroyRef = inject(DestroyRef);
   private scheduled = false;
   private readonly artwork = viewChild<ElementRef<HTMLImageElement>>('artwork');
   private deferOnMobile(): boolean {
-    return this.homepageOptimized() && window.matchMedia('(max-width: 600px)').matches;
+    return this.homepageOptimized() && this.delivery.mobile();
   }
   constructor() {
     afterNextRender(() => {
+      this.rendered.set(true);
       // A parser-discovered image can finish before hydration attaches its load listener.
       const image = this.artwork()?.nativeElement;
       if (image?.complete && image.naturalWidth) this.activateArtwork(image);
       else if (!this.deferOnMobile()) this.magicReady.set(true);
+    });
+    effect(() => {
+      if (
+        this.rendered() &&
+        this.deferOnMobile() &&
+        this.delivery.settled() &&
+        this.active() &&
+        this.artworkSource()
+      ) {
+        this.scheduleMagic();
+      }
     });
   }
   private scheduleMagic(): void {
@@ -85,8 +102,9 @@ export class PerspectiveSlide {
   }
   private activateArtwork(image: HTMLImageElement): void {
     this.artworkSource.set(image.currentSrc);
-    if (this.deferOnMobile()) this.scheduleMagic();
-    else this.magicReady.set(true);
+    if (this.deferOnMobile()) {
+      if (this.delivery.settled() && this.active()) this.scheduleMagic();
+    } else this.magicReady.set(true);
   }
   readonly pageHeading = input(false);
   readonly showExplore = input(true);

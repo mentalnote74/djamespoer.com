@@ -70,9 +70,15 @@
         window.addEventListener(
           'portfolio-ready',
           () => {
-            if ('requestIdleCallback' in window)
-              window.requestIdleCallback(loadAnalytics, { timeout: 2000 });
-            else window.setTimeout(loadAnalytics, 0);
+            const mobile = window.matchMedia('(max-width: 600px)').matches;
+            const schedule = () => {
+              if ('requestIdleCallback' in window)
+                window.requestIdleCallback(loadAnalytics, { timeout: 2000 });
+              else window.setTimeout(loadAnalytics, 0);
+            };
+            // Preserve the queue; mobile third-party work starts after its quiet window.
+            if (mobile) window.setTimeout(schedule, 8000);
+            else schedule();
           },
           { once: true },
         );
