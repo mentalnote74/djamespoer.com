@@ -147,3 +147,69 @@ export const BUG_PENDING: readonly PendingMetric[] = [
       'Needs an agreed rework classification and denominator. Bug fixes are not automatically rework.',
   },
 ];
+
+export interface DashboardMetric {
+  readonly id: string;
+  readonly label: string;
+  readonly value: string;
+  readonly note: string;
+  readonly state: 'ready' | 'unavailable' | 'loading' | 'error';
+  readonly level: number | null;
+}
+/** Presentation-independent signals. Skin code never receives sources or changes calculations. */
+export function dashboardMetrics(
+  completion: Completion | null,
+  shipping: ShippingSignal | null,
+  loading: boolean,
+  failed: boolean,
+): readonly DashboardMetric[] {
+  const pending = (id: string, label: string, note: string): DashboardMetric => ({
+    id,
+    label,
+    value: 'Not measured',
+    note,
+    state: 'unavailable',
+    level: null,
+  });
+  return [
+    {
+      id: 'completion',
+      label: 'Project complete',
+      value: completion ? `${completion.percent}%` : '\u2014%',
+      note: completion ? 'of committed scope' : 'Scope baseline needed',
+      state: completion ? 'ready' : 'unavailable',
+      level: completion?.percent ?? null,
+    },
+    {
+      id: 'stories',
+      label: 'Done / remaining',
+      value: completion ? `${completion.completed} / ${completion.remaining}` : '\u2014 / \u2014',
+      note: 'committed stories',
+      state: completion ? 'ready' : 'unavailable',
+      level: null,
+    },
+    pending('velocity', 'Velocity', 'points / week'),
+    pending('throughput', 'Throughput', 'items / week'),
+    {
+      id: 'shipping',
+      label: 'Deployments',
+      value: shipping
+        ? String(shipping.count)
+        : failed
+          ? 'Unavailable'
+          : loading
+            ? 'Loading'
+            : 'No evidence',
+      note: shipping
+        ? shipping.stale
+          ? '7 days / stale snapshot'
+          : '7 days / recorded'
+        : 'production activations',
+      state: shipping ? 'ready' : failed ? 'error' : loading ? 'loading' : 'unavailable',
+      level: null,
+    },
+    pending('scope', 'Scope change', 'dated membership needed'),
+    pending('burndown', 'Burndown', 'remaining-work history needed'),
+    pending('bugs', 'Bug health', 'lifecycle / rework data needed'),
+  ];
+}

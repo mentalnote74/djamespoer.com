@@ -55,3 +55,22 @@ Verification: six focused derivation tests; production build/budgets; desktop/39
 ## Next source gate
 
 Agree the initial committed scope/version and publish a complete sanitized work-item snapshot with lifecycle/estimate coverage. Until then, completion and work/bug rates remain unavailable. Do not substitute repository commit count or subjective progress percentages.
+
+
+## SCRUM-120: dynamic instrument skins
+
+The previous page required reading a report before finding the project signals. The primary viewport now contains eight instruments in semantic order: completion, done/remaining, velocity, throughput, deployments, scope change, burndown and bug health. Interpretation, evidence/journal, and methodology follow. No data contracts or formulas changed.
+
+Architecture: sources -> existing validated derivation -> normalized DashboardMetric array -> one InstrumentCluster HTML tree -> selected InstrumentSkin recipe. The cluster owns presentation only. Each recipe declares identity, geometry and bounded presentation tokens. Business values never enter recipe code and selecting a skin never reloads sources. Async recipe loads use a request counter, so the latest selection wins. Failed skin loads retain the previous presentation (or host-theme fallback) with a visible status; metrics stay readable. Skin choice is session-local; no new persistence.
+
+Reference: Night Driver, K.I.T.T.-inspired but using original CSS/SVG rather than franchise artwork. Recessed dark instrument housings, segmented main scale, warm high-contrast digital readouts, open/solid source lamps with explicit text, chassis highlight/shading and a slow decorative scanner. Workshop proves independent geometry with an analog scale and host-theme materials. Both use the identical metric DOM. Actual completion drives the progress arc and analog needle only when level is non-null; unknown completion has neither. Scanner motion is atmosphere, never a fabricated rate or healthy status.
+
+Conceptual layers: rear chassis (cockpit surface/gradient); instrument face (housing, scale/bezel); motion (conditional arc/needle and scanner); atmosphere (restrained scanner light and material highlight); semantic HTML (names, values, notes/status); interaction (native labelled select, links and disclosures). Decorative geometry is aria-hidden. Forced colors removes art while preserving text and selection; reduced motion freezes the scanner. No animation is necessary to read a value.
+
+Desktop uses a 12-column instrument cluster: prominent completion spans four columns and two rows, six compact readouts and a wider bug-health housing fill the remainder. At 1440x900 the cluster ends around 745px including site header. Mobile uses a full-width completion instrument, paired compact metrics and full-width bug health, not a scaled-down desktop cockpit. DOM/focus order stays unchanged.
+
+Recipe modules are dynamically imported on selection behind the already-lazy Buildometer route. Only the chosen recipe is requested; shared layout/art CSS remains with the cluster. No chart library, images, new dependencies, JS animation loop or homepage source fetch. Build verification tracks the small shared compiler-byte change separately from route-local skin code.
+
+Future skins: General Lee-inspired analog racing, Batmobile-inspired tactical arcs, Speed Racer-inspired retro instruments and Hydrogen Generating Astro Balloon lift/pressure instruments are design directions, NOT selectable implementations. Add a typed recipe/loader and scoped decorative treatment as needed; reuse DashboardMetric and semantic cluster. Do not invent data to animate an instrument or create per-skin dashboards. Load substantial future artwork only for the selected skin.
+
+Verification: eight focused derivation/normalized-model tests; Chrome desktop/390px switching with identical values, no source refetch, eight-theme reflow, labelled native selector/focus, reduced motion and forced colors. Four scoped axe runs (two skins x two widths) have zero violations. Homepage requests neither the Buildometer route nor deployment snapshot. Data honesty and original metric rationale above remain authoritative.

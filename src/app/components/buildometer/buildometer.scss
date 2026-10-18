@@ -31,83 +31,6 @@ p {
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
-.console {
-  display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: clamp(1.5rem, 4vw, 4rem);
-  padding: clamp(1.25rem, 4vw, 3rem);
-  position: relative;
-}
-.completion {
-  text-align: center;
-  min-inline-size: 0;
-}
-.completion h2 {
-  margin-block: 0 1rem;
-}
-.dial {
-  position: relative;
-  max-inline-size: 28rem;
-  margin: auto;
-  aspect-ratio: 1.45;
-  border-radius: 50% 50% 1rem 1rem;
-  background-image: var(--surface-highlight);
-}
-.dial svg {
-  inline-size: 100%;
-  display: block;
-  padding: 0.5rem;
-}
-.dial-track {
-  stroke: var(--border-separator);
-  stroke-width: 12;
-  fill: none;
-}
-.dial-ticks {
-  stroke: var(--instrument-ink);
-  stroke-width: 2;
-  fill: none;
-}
-.readout {
-  position: absolute;
-  inset: 25% 0 auto;
-  margin: 0;
-  font: 700 clamp(4rem, 10vw, 7rem)/1 var(--font-display, sans-serif);
-  letter-spacing: -0.06em;
-}
-.readout span {
-  font-size: 0.36em;
-  margin-inline-start: 0.2em;
-}
-.calibration {
-  position: absolute;
-  inset: auto 0.8rem 10%;
-  margin: 0;
-  font-size: 0.85rem;
-}
-.instrument-note {
-  margin-inline: auto;
-  font-size: 0.85rem;
-}
-.scope {
-  align-self: center;
-  min-inline-size: 0;
-}
-.scope-counts {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  padding-block: 1rem;
-  border-block: 1px solid var(--border-separator);
-}
-dt {
-  font-size: 0.85rem;
-}
-dd {
-  margin: 0.4rem 0 0;
-  font-family: var(--font-ui);
-  font-weight: 700;
-}
 .delivery {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -235,8 +158,38 @@ li,
 dd {
   overflow-wrap: anywhere;
 }
-@media (max-width: 700px) {
-  .console,
+
+.skin-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-block-end: 0.75rem;
+}
+select {
+  font: inherit;
+  min-block-size: 44px;
+  padding: 0.4rem;
+  color: var(--control-foreground);
+  background: var(--control-background);
+  border: 1px solid var(--control-border);
+  border-radius: 0.25rem;
+}
+.interpretation {
+  margin-block: 2.5rem;
+  max-inline-size: 65rem;
+}
+.masthead {
+  margin-block-end: 1rem;
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-block: 0.2rem 0.5rem;
+}
+.buildometer {
+  padding-block-start: 0.5rem;
+}
+@media (max-width: 800px) {
   .delivery,
   .scope-change,
   .bug-instruments,
@@ -246,31 +199,7 @@ dd {
   .journal-entry h3 {
     grid-row: auto;
   }
-  .scope-counts {
-    gap: 1rem;
-  }
-  .readout {
-    font-size: clamp(4rem, 20vw, 6rem);
-  }
-  .calibration {
-    font-size: 0.75rem;
-  }
   .bug-instruments {
     gap: 0.5rem;
-  }
-  .bug-instruments section + section {
-    border-block-start: 1px solid var(--border-separator);
-    padding-block-start: 1rem;
-  }
-}
-@media (forced-colors: active) {
-  .dial-track,
-  .dial-ticks {
-    stroke: CanvasText;
-  }
-  .trend i {
-    background: CanvasText;
-    opacity: 1;
-    forced-color-adjust: none;
   }
 }

@@ -1,0 +1,236 @@
+:host {
+  display: block;
+}
+.cockpit {
+  --cockpit-panel: var(--surface-feature);
+  --cockpit-face: var(--surface-inset);
+  --cockpit-ink: var(--page-foreground);
+  --cockpit-accent: var(--page-foreground);
+  --cockpit-muted: var(--page-foreground);
+  --cockpit-edge: var(--border-separator);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: var(--cockpit-panel);
+  color: var(--cockpit-ink);
+  border-radius: 1rem;
+  box-shadow: var(--elevation-feature);
+}
+.instrument {
+  grid-column: span 2;
+  position: relative;
+  isolation: isolate;
+  min-inline-size: 0;
+  padding: 1rem;
+  background: var(--cockpit-face);
+  border: 1px solid var(--cockpit-edge);
+  border-radius: 0.5rem;
+  box-shadow:
+    inset 0 2px 6px #0004,
+    0 1px 0 #fff2;
+}
+.instrument h2 {
+  font-size: 0.85rem;
+  margin: 0 0 0.7rem;
+  font-weight: 600;
+}
+.instrument--primary {
+  grid-column: span 4;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  min-block-size: 19rem;
+}
+[aria-labelledby='metric-bugs'] {
+  grid-column: span 4;
+}
+.metric-value {
+  font: 700 clamp(1rem, 2vw, 1.4rem)/1.2 var(--font-ui);
+  margin: 0;
+}
+.instrument--primary .metric-value {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  margin-block-start: 3rem;
+}
+.metric-note,
+.instrument-status {
+  font-size: 0.75rem;
+  color: var(--cockpit-muted);
+  margin-block: 0.5rem 0;
+}
+.instrument-status {
+  display: block;
+}
+.instrument-status::before {
+  content: '';
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  border: 1px solid currentColor;
+  margin-inline-end: 0.4rem;
+  border-radius: 50%;
+}
+[data-state='ready'] .instrument-status::before {
+  background: currentColor;
+}
+.instrument-face {
+  pointer-events: none;
+  position: absolute;
+  inset: 0.5rem;
+  z-index: -1;
+}
+.instrument-face svg {
+  width: 100%;
+  height: 100%;
+}
+.scale,
+.segment-face {
+  stroke: var(--cockpit-edge);
+  stroke-width: 11;
+  fill: none;
+}
+.ticks {
+  stroke: var(--cockpit-ink);
+  stroke-width: 1.5;
+  fill: none;
+}
+.segment-face {
+  stroke-dasharray: 2 1.5;
+  stroke-width: 14;
+}
+.progress-arc {
+  stroke: var(--cockpit-accent);
+  stroke-width: 14;
+  fill: none;
+}
+.needle {
+  stroke: var(--cockpit-accent);
+  stroke-width: 3;
+}
+.segment-face {
+  display: none;
+}
+.indicator-rail {
+  display: flex;
+  gap: 3px;
+  position: absolute;
+  inset: auto 0.5rem 0.1rem auto;
+  opacity: 0.35;
+}
+.indicator-rail i {
+  width: 4px;
+  height: 4px;
+  border: 1px solid var(--cockpit-edge);
+}
+.cockpit-caption {
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+  color: var(--cockpit-muted);
+  margin: 0;
+}
+.scanner {
+  display: none;
+}
+[data-skin='night-driver'] {
+  padding-block-start: 2.3rem;
+  border-radius: 0.25rem 2rem 0.25rem 0.25rem;
+  background-image: linear-gradient(165deg, #ffffff0d, transparent 40%, #0005);
+}
+
+[data-skin='night-driver'] .instrument--primary .metric-value {
+  color: var(--cockpit-accent);
+}
+[data-geometry='segmented'] .analog-face,
+[data-geometry='segmented'] .needle {
+  display: none;
+}
+[data-geometry='segmented'] .segment-face {
+  display: block;
+}
+[data-skin='night-driver'] .scanner {
+  display: block;
+  position: absolute;
+  inset: 0.9rem 2rem auto;
+  height: 0.3rem;
+  background: var(--cockpit-face);
+  overflow: hidden;
+}
+.scanner i {
+  display: block;
+  width: 14%;
+  height: 100%;
+  background: var(--cockpit-accent);
+  box-shadow: 0 0 9px var(--cockpit-accent);
+  animation: scan 5s ease-in-out infinite alternate;
+}
+@keyframes scan {
+  to {
+    transform: translateX(600%);
+  }
+}
+
+@media (max-width: 800px) {
+  .cockpit {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  .instrument--primary {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-block-size: 11rem;
+  }
+  .instrument--primary .instrument-face {
+    width: 17rem;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+  .instrument--primary .metric-value {
+    font-size: 3rem;
+    margin-block-start: 1rem;
+  }
+  .instrument--primary h2 {
+    margin-block-end: 0;
+  }
+  .instrument {
+    grid-column: span 1;
+    padding: 0.75rem;
+  }
+  [aria-labelledby='metric-bugs'] {
+    grid-column: 1 / -1;
+  }
+  .metric-value {
+    font-size: 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scanner i {
+    animation: none;
+    transform: translateX(300%);
+  }
+}
+@media (forced-colors: active) {
+  .chassis-art,
+  .instrument-face,
+  .scanner {
+    display: none;
+  }
+  .cockpit,
+  .instrument {
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+    border: 1px solid CanvasText;
+  }
+  .metric-note,
+  .instrument-status,
+  .cockpit-caption,
+  [data-skin='night-driver'] .instrument--primary .metric-value {
+    color: CanvasText;
+  }
+}

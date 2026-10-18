@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { deriveCompletion, deriveShipping, parseJournal } from './buildometer.model';
+import {
+  dashboardMetrics,
+  deriveCompletion,
+  deriveShipping,
+  parseJournal,
+} from './buildometer.model';
 import type { DeploymentHistorySnapshot } from '../deployment-history/deployment-history-snapshot';
 
 describe('Buildometer evidence derivation', () => {
@@ -71,5 +76,25 @@ describe('Buildometer evidence derivation', () => {
     expect(() => parseJournal({ entries: [] })).toThrow();
     expect(parseJournal({ schemaVersion: 1, entries: [] })).toEqual([]);
     expect(() => parseJournal({ schemaVersion: 1, entries: [{ date: '2026-10-18' }] })).toThrow();
+  });
+});
+
+describe('normalized cockpit metrics', () => {
+  it('keeps missing data unavailable, with no decorative numeric levels', () => {
+    const metrics = dashboardMetrics(null, null, false, false);
+    expect(metrics).toHaveLength(8);
+    expect(metrics.every((m) => m.level === null)).toBe(true);
+    expect(metrics.find((m) => m.id === 'completion')?.state).toBe('unavailable');
+  });
+  it('binds actual completion to the one normalized arc level', () => {
+    const metrics = dashboardMetrics(
+      { percent: 72, completed: 72, remaining: 28, scopeVersion: 'v1' },
+      null,
+      false,
+      true,
+    );
+    expect(metrics[0].value).toBe('72%');
+    expect(metrics[0].level).toBe(72);
+    expect(metrics.find((m) => m.id === 'shipping')?.state).toBe('error');
   });
 });

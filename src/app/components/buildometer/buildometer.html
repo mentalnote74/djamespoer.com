@@ -2,59 +2,36 @@
   <header class="masthead">
     <p class="eyebrow">djamespoer.com / project instruments</p>
     <h1>Buildometer</h1>
-    <p>
-      Are we moving toward done? Delivery, scope and project health, with the receipts attached.
-    </p>
+    <p>Completion. Momentum. Shipping. Quality.</p>
   </header>
-  <section class="console surface-feature" aria-labelledby="completion-title">
-    <div class="completion">
-      <h2 id="completion-title">Project complete</h2>
-      <div class="dial surface-inset">
-        <svg viewBox="0 0 240 150" aria-hidden="true" focusable="false">
-          <path class="dial-track" d="M22 126a98 98 0 0 1 196 0" />
-          <path
-            class="dial-ticks"
-            d="M22 126h10m-3-37 10 4m12-36 7 8m25-29 4 10m33-18v11m37-3-4 10m33 11-7 8m29 24-10 4m17 33h-10"
-          />
-        </svg>
-        <p class="readout">{{ completion ? completion.percent : '—' }}<span>%</span></p>
-        <p class="calibration">
-          {{ completion ? 'of committed scope' : 'Awaiting scope baseline' }}
-        </p>
-      </div>
-      <p class="instrument-note">No scope denominator, no made-up percentage.</p>
-    </div>
-    <div class="scope">
-      <p class="eyebrow">Scope register / not connected</p>
-      <h3>Define done before measuring it.</h3>
-      <p>
-        Completion needs a dated, versioned set of committed work. The backlog alone cannot tell us
-        how close the project is to done.
-      </p>
-      <dl class="scope-counts">
-        <div>
-          <dt>Stories complete</dt>
-          <dd>{{ completion ? completion.completed : 'Not measured' }}</dd>
-        </div>
-        <div>
-          <dt>Stories remaining</dt>
-          <dd>{{ completion ? completion.remaining : 'Not measured' }}</dd>
-        </div>
-      </dl>
-      <details>
-        <summary>How completion will be calculated</summary>
-        <p>
-          Done committed items divided by all active committed items, multiplied by 100, rounded to
-          a whole percent. Uncommitted backlog, cancelled and superseded items are excluded. Scope
-          changes require a new version; they are reported separately, never hidden inside a changed
-          denominator.
-        </p>
-      </details>
-    </div>
+  <div class="skin-controls">
+    <label for="instrument-skin">Instrument skin</label>
+    <select
+      id="instrument-skin"
+      [value]="skin()?.id || 'night-driver'"
+      (change)="changeSkin($event)"
+    >
+      @for (option of skinOptions; track option.id) {
+        <option [value]="option.id">{{ option.label }}</option>
+      }
+    </select>
+    <a href="#interpretation">Read the signals</a>
+    @if (skinError()) {
+      <span role="status">Skin unavailable. Dashboard values remain available.</span>
+    }
+  </div>
+  <app-instrument-cluster [metrics]="metrics()" [skin]="skin()" />
+  <section id="interpretation" class="interpretation" aria-labelledby="interpretation-title">
+    <p class="eyebrow">Interpretation</p>
+    <h2 id="interpretation-title">Shipping is visible. Completion is not yet measurable.</h2>
+    <p>
+      The deployment instrument counts recorded activations, not completed stories. Scope, pace and
+      bug health need a complete work-item source before we can interpret progress toward done.
+    </p>
   </section>
   <section class="delivery" aria-labelledby="delivery-title">
     <div class="section-heading">
-      <p class="eyebrow">01 / momentum</p>
+      <p class="eyebrow">Evidence / shipping</p>
       <h2 id="delivery-title">Shipping is visible. Pace needs context.</h2>
     </div>
     <div class="shipping surface-card">
@@ -189,7 +166,16 @@
     }
   </section>
   <footer class="source-notes surface-inset">
-    <h2>Know what the instruments know.</h2>
+    <h2>Methodology / know what the instruments know.</h2>
+    <details>
+      <summary>Completion denominator</summary>
+      <p>
+        Done committed items divided by all active committed items, multiplied by 100 and rounded to
+        a whole percent. Uncommitted backlog, cancelled and superseded items are excluded. Scope
+        changes require a new version and separate reporting. No committed scope snapshot is
+        connected yet.
+      </p>
+    </details>
     <p>
       Deployment freshness and journal publication dates are separate. Journal notes are qualitative
       evidence; they do not establish completion, velocity or bug rates. Missing metrics stay
