@@ -73,5 +73,22 @@ export function parseData(input: unknown): BuildometerData {
     !Array.isArray(d['journal'])
   )
     throw Error('Invalid evidence');
+  if (facts['eventSummary'] !== undefined) {
+    const summary = record(facts['eventSummary']);
+    for (const key of [
+      'historyIssuesMissing',
+      'throughputEvents',
+      'recompletions',
+      'ignoredDuplicates',
+      'bugCohort',
+      'resolvedCycles',
+      'resolvedBugItems',
+      'openCycles',
+    ]) {
+      const value = summary[key];
+      if (value !== null && (typeof value !== 'number' || !Number.isInteger(value) || value < 0))
+        throw Error('Invalid event summary');
+    }
+  }
   return input as BuildometerData;
 }

@@ -54,6 +54,16 @@ export interface BuildometerData {
     };
   }[];
   supportingFacts: {
+    eventSummary?: {
+      historyIssuesMissing: number;
+      throughputEvents: number | null;
+      recompletions: number | null;
+      ignoredDuplicates: number;
+      bugCohort: number | null;
+      resolvedCycles: number | null;
+      resolvedBugItems: number | null;
+      openCycles: number | null;
+    };
     inventory: number | null;
     excludedSamples: number | null;
     historyComplete: boolean;

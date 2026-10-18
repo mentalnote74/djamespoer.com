@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-18T15:26:35.345Z",
+  "generatedAt": "2026-10-18T17:30:16.117Z",
   "sources": {
     "jira": {
       "status": "snapshot",
-      "fetchedAt": "2026-10-18T15:26:35.345Z",
+      "fetchedAt": "2026-10-18T17:30:16.117Z",
       "message": "Connected Jira capture; live runtime not configured."
     },
     "deployments": {
@@ -25,7 +25,7 @@
       "reason": null
     },
     "remaining": {
-      "value": 85,
+      "value": 86,
       "unit": "tracked open items",
       "reason": null
     },
@@ -36,7 +36,7 @@
     },
     "throughput": {
       "value": 1,
-      "unit": "currently done items resolved / 7 days",
+      "unit": "completion cycles / 7 days",
       "reason": null
     },
     "deployments": {
@@ -56,27 +56,27 @@
     },
     "bugHealth": {
       "value": 1,
-      "unit": "open bug-labelled work items",
+      "unit": "open issues in historical bug cohort",
       "reason": null
     },
     "bugCreated": {
       "value": 0,
-      "unit": "newly classified bugs / 7 days",
+      "unit": "first bug classifications / 7 days",
       "reason": null
     },
     "bugEliminated": {
       "value": 0,
-      "unit": "Done transitions / 7 days",
+      "unit": "completed bug cycles / 7 days",
       "reason": null
     },
     "bugDuration": {
       "value": 51.2,
-      "unit": "mean classification to latest Done hours (2 resolved pairs)",
+      "unit": "mean cycle hours; n=2 resolved cycles across 2 issues",
       "reason": null
     },
     "reopens": {
       "value": 0,
-      "unit": "bug reopen events / 7 days",
+      "unit": "evidenced bug reopens / 7 days",
       "reason": null
     },
     "rework": {
@@ -90,59 +90,59 @@
     "velocity": [],
     "throughput": [
       {
-        "date": "2026-10-05T15:26:35.345Z",
+        "date": "2026-10-05T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-06T15:26:35.345Z",
+        "date": "2026-10-06T17:30:16.117Z",
         "value": 12
       },
       {
-        "date": "2026-10-07T15:26:35.345Z",
+        "date": "2026-10-07T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-08T15:26:35.345Z",
+        "date": "2026-10-08T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-09T15:26:35.345Z",
+        "date": "2026-10-09T17:30:16.117Z",
         "value": 2
       },
       {
-        "date": "2026-10-10T15:26:35.345Z",
+        "date": "2026-10-10T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-11T15:26:35.345Z",
+        "date": "2026-10-11T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-12T15:26:35.345Z",
+        "date": "2026-10-12T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-13T15:26:35.345Z",
+        "date": "2026-10-13T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-14T15:26:35.345Z",
+        "date": "2026-10-14T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-15T15:26:35.345Z",
+        "date": "2026-10-15T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-16T15:26:35.345Z",
+        "date": "2026-10-16T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-17T15:26:35.345Z",
+        "date": "2026-10-17T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-18T15:26:35.345Z",
+        "date": "2026-10-18T17:30:16.117Z",
         "value": 0
       }
     ],
@@ -150,197 +150,207 @@
     "scope": [],
     "bugCreated": [
       {
-        "date": "2026-10-05T15:26:35.345Z",
+        "date": "2026-10-05T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-06T15:26:35.345Z",
+        "date": "2026-10-06T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-07T15:26:35.345Z",
+        "date": "2026-10-07T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-08T15:26:35.345Z",
+        "date": "2026-10-08T17:30:16.117Z",
         "value": 2
       },
       {
-        "date": "2026-10-09T15:26:35.345Z",
+        "date": "2026-10-09T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-10T15:26:35.345Z",
+        "date": "2026-10-10T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-11T15:26:35.345Z",
+        "date": "2026-10-11T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-12T15:26:35.345Z",
+        "date": "2026-10-12T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-13T15:26:35.345Z",
+        "date": "2026-10-13T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-14T15:26:35.345Z",
+        "date": "2026-10-14T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-15T15:26:35.345Z",
+        "date": "2026-10-15T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-16T15:26:35.345Z",
+        "date": "2026-10-16T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-17T15:26:35.345Z",
+        "date": "2026-10-17T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-18T15:26:35.345Z",
+        "date": "2026-10-18T17:30:16.117Z",
         "value": 0
       }
     ],
     "bugEliminated": [
       {
-        "date": "2026-10-05T15:26:35.345Z",
+        "date": "2026-10-05T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-06T15:26:35.345Z",
+        "date": "2026-10-06T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-07T15:26:35.345Z",
+        "date": "2026-10-07T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-08T15:26:35.345Z",
+        "date": "2026-10-08T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-09T15:26:35.345Z",
+        "date": "2026-10-09T17:30:16.117Z",
         "value": 2
       },
       {
-        "date": "2026-10-10T15:26:35.345Z",
+        "date": "2026-10-10T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-11T15:26:35.345Z",
+        "date": "2026-10-11T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-12T15:26:35.345Z",
+        "date": "2026-10-12T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-13T15:26:35.345Z",
+        "date": "2026-10-13T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-14T15:26:35.345Z",
+        "date": "2026-10-14T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-15T15:26:35.345Z",
+        "date": "2026-10-15T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-16T15:26:35.345Z",
+        "date": "2026-10-16T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-17T15:26:35.345Z",
+        "date": "2026-10-17T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-18T15:26:35.345Z",
+        "date": "2026-10-18T17:30:16.117Z",
         "value": 0
       }
     ],
     "bugOpen": [
       {
-        "date": "2026-10-05T15:26:35.345Z",
+        "date": "2026-10-05T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-06T15:26:35.345Z",
+        "date": "2026-10-06T17:30:16.117Z",
         "value": 0
       },
       {
-        "date": "2026-10-07T15:26:35.345Z",
+        "date": "2026-10-07T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-08T15:26:35.345Z",
+        "date": "2026-10-08T17:30:16.117Z",
         "value": 3
       },
       {
-        "date": "2026-10-09T15:26:35.345Z",
+        "date": "2026-10-09T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-10T15:26:35.345Z",
+        "date": "2026-10-10T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-11T15:26:35.345Z",
+        "date": "2026-10-11T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-12T15:26:35.345Z",
+        "date": "2026-10-12T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-13T15:26:35.345Z",
+        "date": "2026-10-13T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-14T15:26:35.345Z",
+        "date": "2026-10-14T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-15T15:26:35.345Z",
+        "date": "2026-10-15T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-16T15:26:35.345Z",
+        "date": "2026-10-16T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-17T15:26:35.345Z",
+        "date": "2026-10-17T17:30:16.117Z",
         "value": 1
       },
       {
-        "date": "2026-10-18T15:26:35.345Z",
+        "date": "2026-10-18T17:30:16.117Z",
         "value": 1
       }
     ],
     "bugLifecycle": [
       {
-        "date": "2026-10-09T12:16:07.602Z",
-        "value": 58.83931333333334
+        "date": "2026-10-09T12:16:07.619Z",
+        "value": 58.83931805555556
       },
       {
-        "date": "2026-10-09T13:49:37.817Z",
-        "value": 43.508290277777775
+        "date": "2026-10-09T13:49:37.839Z",
+        "value": 43.50829638888889
       }
     ]
   },
   "journal": [],
   "supportingFacts": {
-    "inventory": 101,
+    "inventory": 102,
     "excludedSamples": 4,
     "historyComplete": true,
-    "pointCoverage": "0 of 101 tracked work items estimated",
+    "pointCoverage": "0 of 102 tracked work items estimated",
     "scope": "No approved committed project scope.",
-    "bugPolicy": "Bug type or explicit bug label; rework is not inferred.",
-    "shippingCheckedAt": null
+    "bugPolicy": "Ever classified Bug type or explicit bug label while eligible; label/type removal does not erase membership. Classification is not real-world detection. Rework is not inferred.",
+    "shippingCheckedAt": null,
+    "eventSummary": {
+      "historyIssuesMissing": 0,
+      "throughputEvents": 16,
+      "recompletions": 0,
+      "ignoredDuplicates": 0,
+      "bugCohort": 3,
+      "resolvedCycles": 2,
+      "resolvedBugItems": 2,
+      "openCycles": 1
+    }
   }
 }

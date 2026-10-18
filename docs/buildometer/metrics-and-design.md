@@ -19,12 +19,12 @@ The first implementation does not fetch Jira directly or publish issue descripti
 | Complete | 100 x done committed items / all active committed items; whole-percent rounding | Pending a complete versioned committed-scope snapshot |
 | Completed / remaining | Done / open items in that same committed scope | Pending |
 | Velocity | Sum of completed estimates per agreed interval, with estimate coverage | Pending estimates, dates and stable scope; item counts cannot substitute |
-| Throughput | Distinct completed work items per interval | Pending completion events; commits/deployments/journal bullets cannot substitute |
+| Throughput | Historical completion cycles per interval; a later completion requires an evidenced reopen | Pending completion events; commits/deployments/journal bullets cannot substitute |
 | Burndown | Remaining committed work at each dated snapshot; scope changes separate | Pending historical scoped snapshots |
 | Deployments / 7 days | Count distinct retained activation IDs with production + succeeded + deployed; timestamp in (checkedAt - 7 days, checkedAt] | Available; explicitly recorded deployments, not features or unique revisions |
 | Scope change | Entries/exits from committed scope, net = added - removed, same window/version lineage | Pending membership events; total backlog noise excluded |
-| Bug duration | Mean verified elimination minus detection time for resolved bugs; disclose sample, reopened cycles and unresolved exclusions | Pending lifecycle events; no mean from open ages |
-| Bug creation / elimination | Distinct detected / verified eliminated bugs per matched window | Pending classified bug events |
+| Bug duration | Mean classification-or-reopen to Done time for observed closed cycles; show cycle/issue sample sizes and exclude open cycles | Pending lifecycle events; no mean from open ages |
+| Bug creation / elimination | First evidenced classifications / closed bug cycles per matched window | Pending classified bug events |
 | Bug rate : rework rate | Separate events with an agreed denominator and explicit rework classification | Pending taxonomy; fixes are not automatically rework |
 
 Completion contract: explicit `committed` items only. Uncommitted backlog, cancelled and superseded items are excluded. No scope or zero scoped items means unavailable. Duplicate work IDs are rejected, not silently counted twice. A scope version is mandatory. Changes to membership require a new version and scope-change reporting. This is a proposed committed-scope policy, not an assertion that Jira already encodes it.
@@ -74,3 +74,8 @@ Recipe modules are dynamically imported on selection behind the already-lazy Bui
 Future skins: General Lee-inspired analog racing, Batmobile-inspired tactical arcs, Speed Racer-inspired retro instruments and Hydrogen Generating Astro Balloon lift/pressure instruments are design directions, NOT selectable implementations. Add a typed recipe/loader and scoped decorative treatment as needed; reuse DashboardMetric and semantic cluster. Do not invent data to animate an instrument or create per-skin dashboards. Load substantial future artwork only for the selected skin.
 
 Verification: eight focused derivation/normalized-model tests; Chrome desktop/390px switching with identical values, no source refetch, eight-theme reflow, labelled native selector/focus, reduced motion and forced colors. Four scoped axe runs (two skins x two widths) have zero violations. Homepage requests neither the Buildometer route nor deployment snapshot. Data honesty and original metric rationale above remain authoritative.
+
+
+### Throughput / bug cohort correction
+
+Current definitions supersede the first-pass current-state/resolution cohort described in earlier checkpoints. Throughput comes from actual Done transitions, not only today's Done items. Historically bug-classified issues remain in the analytics cohort after label/type removal. Recompletion counts only after an actual reopen; duplicate transitions do not count. Classification is not real-world detection. Current capture remains one seven-day completion and 51.2 mean hours from only two resolved cycles across two issues; the dashboard explicitly warns about this sparse sample. No metric value was forced to increase. See data-api.md for exact event/cohort and time-bucket rules. Completion, velocity, scope, burndown and deployment definitions are unchanged.

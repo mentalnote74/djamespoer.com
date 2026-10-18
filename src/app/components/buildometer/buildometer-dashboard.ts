@@ -26,7 +26,7 @@ export class BuildometerDashboard {
       ['shipping', 'Deployments', 'deployments'],
       ['scope', 'Scope change', 'scopeChange'],
       ['burndown', 'Burndown', 'burndown'],
-      ['bugs', 'Open bug-labelled items', 'bugHealth'],
+      ['bugs', 'Open bugs', 'bugHealth'],
     ];
     return rows.map(([id, label, key]) => {
       const m = d?.metrics[key],
@@ -34,7 +34,9 @@ export class BuildometerDashboard {
           id === 'stories' && m?.value !== null && m?.value !== undefined
             ? `${m.value} / ${d?.metrics.remaining.value}`
             : m?.value === null || m?.value === undefined
-              ? (id === 'completion' ? '\u2014%' : 'Not measured')
+              ? id === 'completion'
+                ? '\u2014%'
+                : 'Not measured'
               : String(m.value) + (id === 'completion' ? '%' : '');
       return {
         id,

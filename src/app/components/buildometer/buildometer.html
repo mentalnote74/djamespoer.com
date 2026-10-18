@@ -30,6 +30,22 @@
     <section class="bugs surface-card">
       <h2>Bug lifecycle / detail</h2>
       <p>{{ data.supportingFacts.bugPolicy }}</p>
+      @if (data.supportingFacts.eventSummary; as sample) {
+        <p>
+          <strong
+            >Sample: {{ sample.resolvedCycles ?? 'Unmeasured' }} resolved cycles /
+            {{ sample.resolvedBugItems ?? 'unknown' }} issues.</strong
+          >
+          {{ sample.openCycles ?? 'Unknown' }} open cycles are excluded. First cycles run from
+          classification to Done; later cycles run from a source reopen to Done. Label/type removal
+          does not erase the cohort.
+          @if (sample.resolvedCycles !== null && sample.resolvedCycles < 5) {
+            <strong
+              >Sparse sample; do not interpret this mean as a reliable health estimate.</strong
+            >
+          }
+        </p>
+      }
       <dl>
         <dt>New classifications, 7 days</dt>
         <dd>
@@ -41,7 +57,7 @@
           {{ data.metrics.bugEliminated.value ?? 'Unmeasured' }} /
           {{ data.metrics.bugEliminated.reason || data.metrics.bugEliminated.unit }}
         </dd>
-        <dt>Average lifecycle</dt>
+        <dt>Mean resolved bug cycle</dt>
         <dd>
           {{ data.metrics.bugDuration.value ?? 'Unmeasured' }} /
           {{ data.metrics.bugDuration.reason || data.metrics.bugDuration.unit }}
@@ -99,10 +115,10 @@
         <summary>Velocity, throughput and history</summary>
         <p>{{ data.metrics.velocity.reason }}</p>
         <p>
-          Throughput counts currently Done work with resolution dates, or complete
-          last-Done-transition evidence. This is a dated Jira resolution cohort, not every historic
-          completion/reopen event and not shipped features. History dates remain source dates; no
-          dates are backfilled from journal copy.
+          Throughput counts historical eligible non-Done to Done transitions, even when the issue is
+          now open. Repeated Done entries do not count again without an evidenced reopen. Seven-day
+          counts and 14-day charts end at the source capture timestamp; buckets are open on the
+          start and closed on the end. No resolution-date fallback invents a completion event.
         </p>
       </details>
       <details>

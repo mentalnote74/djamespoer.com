@@ -36,6 +36,18 @@
         </p>
       }
     </div>
+    @if (data.supportingFacts.eventSummary; as sample) {
+      <p class="sample-note">
+        Bug lifecycle sample:
+        <strong
+          >{{ sample.resolvedCycles ?? 'Unmeasured' }} resolved cycles across
+          {{ sample.resolvedBugItems ?? 'unknown' }} issues</strong
+        >. {{ sample.openCycles ?? 'Unknown' }} open cycles are excluded from the mean.
+        @if (sample.resolvedCycles !== null && sample.resolvedCycles < 5) {
+          <strong>Sparse sample: descriptive only, not a reliable project-health estimate.</strong>
+        }
+      </p>
+    }
     <div class="charts">
       <app-metric-chart
         class="burn"
@@ -47,11 +59,11 @@
       />
       <app-metric-chart
         title="Jira-recorded throughput"
-        unit="currently done work items"
+        unit="completion cycles"
         [points]="data.series.throughput"
         [description]="
           data.metrics.throughput.reason ||
-          'Resolution dates (or complete Done-transition history), not production release dates. Seven-day headline; 14-day history.'
+          'Historical non-Done to Done events, regardless of current status. A further completion requires an evidenced reopen. Seven-day headline; 14 exact 24-hour buckets ending at source time.'
         "
       />
       <app-metric-chart
@@ -67,24 +79,28 @@
         unit="new classifications"
         [points]="data.series.bugCreated"
         [comparison]="data.series.bugEliminated"
-        compareLabel="Done transitions"
+        compareLabel="completed bug cycles"
         [description]="
           data.metrics.bugCreated.reason ||
-          'Current bug-labelled cohort; classification and Done events. Reopens are preserved, not counted as new defects.'
+          'Ever-classified bug cohort, including removed labels/types. First classification is counted once; later completed cycles require an evidenced reopen. Not real-world detection time.'
         "
       />
       <app-metric-chart
-        title="Open bug-labelled work"
+        title="Open historically classified bugs"
         kind="line"
         unit="open items"
         [points]="data.series.bugOpen"
         [description]="
           data.metrics.bugCreated.reason ||
-          'Status history for currently bug-labelled work items, after first classification.'
+          'After first evidenced bug classification, label/type removal does not erase history or open cycles.'
         "
       />
       <app-metric-chart
-        title="Resolved bug lifecycle"
+        [title]="
+          'Resolved bug cycles (n=' +
+          (data.supportingFacts.eventSummary?.resolvedCycles ?? 'unknown') +
+          ')'
+        "
         unit="hours"
         [points]="data.series.bugLifecycle"
         [description]="data.metrics.bugDuration.reason || data.metrics.bugDuration.unit"
