@@ -253,11 +253,20 @@
             @for (theme of themeState.availableThemes; track theme.id) {
               <li>
                 <button
-                  class="nav-menu-button"
+                  class="nav-menu-button site-header__theme-option"
                   type="button"
                   [attr.aria-pressed]="themeState.activeTheme() === theme.id"
                   (click)="selectTheme(theme.id, themeButton)"
                 >
+                  <img
+                    class="site-header__theme-art"
+                    [src]="'/assets/theme-icons/' + theme.id + '.svg'"
+                    alt=""
+                    aria-hidden="true"
+                    width="24"
+                    height="24"
+                    loading="lazy"
+                  >
                   {{ theme.label }}
                 </button>
               </li>

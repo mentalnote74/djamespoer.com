@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Approved theme-menu artwork integration ? October 18, 2026
+
+Nine approved fixed-palette SVGs are copied unchanged to public/assets/theme-icons/, including the revised Dusk-to-Dusk day cycle. Header options use decorative 24px img elements (empty alt, aria-hidden), reserved dimensions and native lazy loading. Existing labels, aria-pressed, selection/focus/close behavior and 44px targets remain unchanged. Only header template/styles and assets change runtime behavior. Build/budgets pass (441.79 kB initial, 108.53 kB estimated transfer); 14 existing header/theme tests pass. Chrome desktop/390px checks exercised all nine themes, icon loads, selection, Tab/Enter/Escape, outside close, focus return and visible outline: zero CLS, overflow or browser errors.
+
 ## Purpose
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
