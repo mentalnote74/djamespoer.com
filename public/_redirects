@@ -23,3 +23,6 @@
 /work/* /index.csr 200
 /case-studies/* /index.csr 200
 /product-journal/* /index.csr 200
+
+/buildometer /index.csr 200
+/buildometer/ /index.csr 200

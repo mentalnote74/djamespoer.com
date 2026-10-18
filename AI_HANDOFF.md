@@ -4,6 +4,10 @@
 
 Nine approved fixed-palette SVGs are copied unchanged to public/assets/theme-icons/, including the revised Dusk-to-Dusk day cycle. Header options use decorative 24px img elements (empty alt, aria-hidden), reserved dimensions and native lazy loading. Existing labels, aria-pressed, selection/focus/close behavior and 44px targets remain unchanged. Only header template/styles and assets change runtime behavior. Build/budgets pass (441.79 kB initial, 108.53 kB estimated transfer); 14 existing header/theme tests pass. Chrome desktop/390px checks exercised all nine themes, icon loads, selection, Tab/Enter/Escape, outside close, focus return and visible outline: zero CLS, overflow or browser errors.
 
+## Buildometer first implementation - October 18, 2026
+
+Lazy /buildometer provides a large completion instrument, real seven-day retained deployment counts/history, recent dated Product Journal excerpts, and explicit unmeasured pace/scope/bug instruments. No complete public Jira scope/estimate/lifecycle snapshot exists; no percentage, story counts or bug rates are invented. Completion policy is versioned committed scope only; see docs/buildometer/metrics-and-design.md for formulas, unavailable inputs and decisions. Journal links to the new route; homepage unchanged. Existing deployment/journal artifacts and release refresh pipeline reused, no backend changes. Initial raw bundle remains 441.79 kB; new route chunk about 21.3 kB/6.5 kB transfer. Six focused model tests and build/budgets pass. Desktop/390px Chrome direct+SPA, real-count integrity, eight-theme reflow, focus, reduced motion, forced colors and source-error/retry checks pass; two main-content axe checks zero violations. Homepage requests neither Buildometer chunk nor history data. No Lighthouse.
+
 ## Purpose
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.

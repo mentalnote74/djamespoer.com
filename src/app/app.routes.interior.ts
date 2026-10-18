@@ -268,5 +268,11 @@ export const interiorRoutes: Routes = [
         ({ ProductJournal }) => ProductJournal,
       ),
   })),
+  {
+    path: 'buildometer',
+    title: 'Buildometer | D. James Poer',
+    data: { description: 'Project completion, shipping frequency, scope and quality: evidence-backed project instruments.' },
+    loadComponent: () => import('./components/buildometer/buildometer').then(({ Buildometer }) => Buildometer),
+  },
   { path: '**', redirectTo: '' },
 ];

@@ -1,0 +1,203 @@
+<article class="buildometer">
+  <header class="masthead">
+    <p class="eyebrow">djamespoer.com / project instruments</p>
+    <h1>Buildometer</h1>
+    <p>
+      Are we moving toward done? Delivery, scope and project health, with the receipts attached.
+    </p>
+  </header>
+  <section class="console surface-feature" aria-labelledby="completion-title">
+    <div class="completion">
+      <h2 id="completion-title">Project complete</h2>
+      <div class="dial surface-inset">
+        <svg viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+          <path class="dial-track" d="M22 126a98 98 0 0 1 196 0" />
+          <path
+            class="dial-ticks"
+            d="M22 126h10m-3-37 10 4m12-36 7 8m25-29 4 10m33-18v11m37-3-4 10m33 11-7 8m29 24-10 4m17 33h-10"
+          />
+        </svg>
+        <p class="readout">{{ completion ? completion.percent : '—' }}<span>%</span></p>
+        <p class="calibration">
+          {{ completion ? 'of committed scope' : 'Awaiting scope baseline' }}
+        </p>
+      </div>
+      <p class="instrument-note">No scope denominator, no made-up percentage.</p>
+    </div>
+    <div class="scope">
+      <p class="eyebrow">Scope register / not connected</p>
+      <h3>Define done before measuring it.</h3>
+      <p>
+        Completion needs a dated, versioned set of committed work. The backlog alone cannot tell us
+        how close the project is to done.
+      </p>
+      <dl class="scope-counts">
+        <div>
+          <dt>Stories complete</dt>
+          <dd>{{ completion ? completion.completed : 'Not measured' }}</dd>
+        </div>
+        <div>
+          <dt>Stories remaining</dt>
+          <dd>{{ completion ? completion.remaining : 'Not measured' }}</dd>
+        </div>
+      </dl>
+      <details>
+        <summary>How completion will be calculated</summary>
+        <p>
+          Done committed items divided by all active committed items, multiplied by 100, rounded to
+          a whole percent. Uncommitted backlog, cancelled and superseded items are excluded. Scope
+          changes require a new version; they are reported separately, never hidden inside a changed
+          denominator.
+        </p>
+      </details>
+    </div>
+  </section>
+  <section class="delivery" aria-labelledby="delivery-title">
+    <div class="section-heading">
+      <p class="eyebrow">01 / momentum</p>
+      <h2 id="delivery-title">Shipping is visible. Pace needs context.</h2>
+    </div>
+    <div class="shipping surface-card">
+      <h3>Production deployments / last 7 days</h3>
+      @if (shipping(); as signal) {
+        <p class="counter">{{ signal.count }} <span>recorded deployments</span></p>
+        <p>
+          Seven days ending
+          <time [attr.datetime]="signal.checkedAt">{{ formatDate(signal.checkedAt) }} UTC</time>.
+        </p>
+        @if (signal.stale) {
+          <p class="notice">
+            Snapshot is more than 24 hours old or its clock is ahead. This is retained evidence, not
+            a live count.
+          </p>
+        }
+        <div class="trend" aria-hidden="true">
+          @for (day of signal.days; track day.date) {
+            <div>
+              <i [style.height.%]="day.height"></i><span>{{ formatDate(day.date, true) }}</span>
+            </div>
+          }
+        </div>
+        <details>
+          <summary>Read the shipping history and method</summary>
+          <p>
+            Successful production activations only. Preview builds, failed attempts and successful
+            builds without a deployment are excluded. Counts reflect retained records, not distinct
+            features.
+          </p>
+          <ul>
+            @for (day of signal.days; track day.date) {
+              <li>24 hours ending {{ formatDate(day.date) }} UTC: {{ day.count }} deployments</li>
+            }
+          </ul>
+          <a href="/data/deployment-history.json">Inspect the public deployment snapshot</a>
+        </details>
+      } @else if (shippingError()) {
+        <p role="status">Deployment evidence could not be loaded. No count is being estimated.</p>
+      } @else if (loading()) {
+        <p role="status">Loading deployment evidence...</p>
+      } @else {
+        <p>No deployment evidence available.</p>
+      }
+    </div>
+    <div class="pace surface-inset">
+      @for (metric of deliveryPending; track metric.name) {
+        <section>
+          <h3>{{ metric.name }}</h3>
+          <p class="pending">
+            Not measured <span>{{ metric.unit }}</span>
+          </p>
+          <p>{{ metric.reason }}</p>
+        </section>
+      }
+    </div>
+  </section>
+  <section class="scope-change" aria-labelledby="scope-title">
+    <div>
+      <p class="eyebrow">02 / moving the finish line</p>
+      <h2 id="scope-title">Is scope growing?</h2>
+    </div>
+    <div>
+      <p class="pending">Added: not measured / Removed: not measured / Net: not measured</p>
+      <p>
+        Not measured. We need dated additions and removals from the committed scope. A new journal
+        entry is not evidence of a new story.
+      </p>
+    </div>
+  </section>
+  <section class="bugs surface-card" aria-labelledby="bugs-title">
+    <p class="eyebrow">03 / quality &amp; recovery</p>
+    <h2 id="bugs-title">The bug lifecycle</h2>
+    <p>How quickly do problems disappear, and how much work comes back?</p>
+    <div class="bug-instruments">
+      @for (metric of bugPending; track metric.name) {
+        <section>
+          <h3>{{ metric.name }}</h3>
+          <p class="pending">
+            Not measured <span>{{ metric.unit }}</span>
+          </p>
+          <p>{{ metric.reason }}</p>
+        </section>
+      }
+    </div>
+    <details>
+      <summary>Why there is no bug chart yet</summary>
+      <p>
+        Creation and resolution events, reopened cycles and a reliable distinction between new work
+        and rework are missing. A candlestick chart would imply lifecycle distributions we do not
+        have. Nothing here treats deployments as resolved bugs.
+      </p>
+    </details>
+  </section>
+  <section class="activity" aria-labelledby="activity-title">
+    <div class="section-heading">
+      <p class="eyebrow">04 / the paper trail</p>
+      <h2 id="activity-title">What changed recently?</h2>
+      <p>Published project notes, not an inferred count of shipped stories.</p>
+    </div>
+    @if (journal(); as entries) {
+      @for (entry of entries.slice(0, 3); track entry.date) {
+        <article class="journal-entry">
+          <h3>
+            <a [routerLink]="['/product-journal', entry.date]">{{ entry.date }}</a>
+          </h3>
+          <p class="stamp">
+            Generated {{ entry.generatedDate }} / Published {{ entry.publishedDate }}
+          </p>
+          @for (section of entry.brief.sections.slice(0, 1); track section.heading) {
+            <h4>{{ section.heading }}</h4>
+            @if (section.paragraph) {
+              <p>{{ section.paragraph }}</p>
+            }
+            @if (section.items) {
+              <ul>
+                @for (item of section.items; track $index) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            }
+          }
+        </article>
+      } @empty {
+        <p>No journal entries have been published.</p>
+      }
+      <a routerLink="/product-journal">Browse the complete Product Journal</a>
+    } @else if (journalError()) {
+      <p role="status">The Product Journal could not be loaded.</p>
+    } @else if (loading()) {
+      <p role="status">Loading published project notes...</p>
+    }
+  </section>
+  <footer class="source-notes surface-inset">
+    <h2>Know what the instruments know.</h2>
+    <p>
+      Deployment freshness and journal publication dates are separate. Journal notes are qualitative
+      evidence; they do not establish completion, velocity or bug rates. Missing metrics stay
+      unmeasured until their source is connected.
+    </p>
+    @if (shippingError() || journalError()) {
+      <button type="button" (click)="load()" [disabled]="loading()">Retry evidence sources</button>
+    }
+    <a routerLink="/">Back to the portfolio</a>
+  </footer>
+</article>

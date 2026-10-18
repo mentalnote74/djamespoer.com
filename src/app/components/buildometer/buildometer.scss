@@ -1,0 +1,276 @@
+:host {
+  display: block;
+}
+.buildometer {
+  --instrument-ink: var(--page-foreground);
+  padding-block: clamp(1rem, 4vw, 3rem);
+}
+.masthead {
+  max-inline-size: 58rem;
+  margin-block-end: 2rem;
+}
+h1 {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 1.05;
+  margin-block: 0.3rem 1rem;
+  letter-spacing: -0.04em;
+}
+h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1.2;
+}
+h3 {
+  line-height: 1.3;
+}
+p {
+  max-inline-size: 68ch;
+}
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.console {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(1.25rem, 4vw, 3rem);
+  position: relative;
+}
+.completion {
+  text-align: center;
+  min-inline-size: 0;
+}
+.completion h2 {
+  margin-block: 0 1rem;
+}
+.dial {
+  position: relative;
+  max-inline-size: 28rem;
+  margin: auto;
+  aspect-ratio: 1.45;
+  border-radius: 50% 50% 1rem 1rem;
+  background-image: var(--surface-highlight);
+}
+.dial svg {
+  inline-size: 100%;
+  display: block;
+  padding: 0.5rem;
+}
+.dial-track {
+  stroke: var(--border-separator);
+  stroke-width: 12;
+  fill: none;
+}
+.dial-ticks {
+  stroke: var(--instrument-ink);
+  stroke-width: 2;
+  fill: none;
+}
+.readout {
+  position: absolute;
+  inset: 25% 0 auto;
+  margin: 0;
+  font: 700 clamp(4rem, 10vw, 7rem)/1 var(--font-display, sans-serif);
+  letter-spacing: -0.06em;
+}
+.readout span {
+  font-size: 0.36em;
+  margin-inline-start: 0.2em;
+}
+.calibration {
+  position: absolute;
+  inset: auto 0.8rem 10%;
+  margin: 0;
+  font-size: 0.85rem;
+}
+.instrument-note {
+  margin-inline: auto;
+  font-size: 0.85rem;
+}
+.scope {
+  align-self: center;
+  min-inline-size: 0;
+}
+.scope-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-block: 1rem;
+  border-block: 1px solid var(--border-separator);
+}
+dt {
+  font-size: 0.85rem;
+}
+dd {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-ui);
+  font-weight: 700;
+}
+.delivery {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.5rem;
+  margin-block: clamp(2.5rem, 6vw, 5rem);
+}
+.section-heading {
+  grid-column: 1 / -1;
+}
+.section-heading h2 {
+  margin-block: 0.4rem;
+}
+.shipping,
+.pace,
+.bugs,
+.source-notes {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  min-inline-size: 0;
+}
+.counter {
+  font: 700 clamp(3rem, 7vw, 5rem)/1.1 var(--font-display, sans-serif);
+  margin-block: 1rem;
+}
+.counter span {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.trend {
+  display: flex;
+  gap: 0.5rem;
+  block-size: 9rem;
+  margin-block: 1.5rem;
+}
+.trend > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  flex: 1;
+  min-inline-size: 0;
+  border-block-end: 1px solid var(--border-separator);
+}
+.trend i {
+  display: block;
+  min-block-size: 1px;
+  background: var(--page-foreground);
+  opacity: 0.7;
+  border-radius: 0.15rem 0.15rem 0 0;
+}
+.trend span {
+  font-size: 0.65rem;
+  padding-block: 0.5rem;
+  white-space: nowrap;
+}
+.pace section + section {
+  border-block-start: 1px solid var(--border-separator);
+  padding-block-start: 0.7rem;
+}
+.pace h3,
+.bug-instruments h3 {
+  margin-block: 0.5rem;
+}
+.pending {
+  font: 600 1.05rem/1.4 var(--font-ui);
+}
+.pending span {
+  display: block;
+  font: 400 0.85rem/1.5 var(--font-body, sans-serif);
+}
+.notice {
+  border-inline-start: 3px solid currentColor;
+  padding-inline-start: 1rem;
+}
+.scope-change {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+  margin-block: 3rem;
+}
+.bugs {
+  margin-block: 3rem;
+}
+.bug-instruments {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin-block: 1.5rem;
+}
+.activity {
+  margin-block: 3rem;
+}
+.journal-entry {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  gap: 0 2rem;
+  padding-block: 1.5rem;
+  border-block-end: 1px solid var(--border-separator);
+}
+.journal-entry h3 {
+  grid-row: span 4;
+  margin-block: 0.5rem;
+}
+.journal-entry h4 {
+  margin-block: 0.5rem;
+}
+.stamp {
+  font-size: 0.8rem;
+}
+.source-notes a {
+  display: inline-block;
+  margin-block: 0.5rem;
+}
+summary {
+  cursor: pointer;
+  padding-block: 0.75rem;
+}
+details p,
+details ul {
+  font-size: 0.9rem;
+}
+a,
+p,
+li,
+dd {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .console,
+  .delivery,
+  .scope-change,
+  .bug-instruments,
+  .journal-entry {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .journal-entry h3 {
+    grid-row: auto;
+  }
+  .scope-counts {
+    gap: 1rem;
+  }
+  .readout {
+    font-size: clamp(4rem, 20vw, 6rem);
+  }
+  .calibration {
+    font-size: 0.75rem;
+  }
+  .bug-instruments {
+    gap: 0.5rem;
+  }
+  .bug-instruments section + section {
+    border-block-start: 1px solid var(--border-separator);
+    padding-block-start: 1rem;
+  }
+}
+@media (forced-colors: active) {
+  .dial-track,
+  .dial-ticks {
+    stroke: CanvasText;
+  }
+  .trend i {
+    background: CanvasText;
+    opacity: 1;
+    forced-color-adjust: none;
+  }
+}
