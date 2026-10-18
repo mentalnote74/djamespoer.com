@@ -21,12 +21,37 @@ export class Bedlam {
   readonly config = input<BedlamConfig>({});
   readonly speed = input(0.12);
   readonly paused = model(false);
-  readonly layers = computed(() =>
-    createBedlam(this.palette(), this.seed(), {
-      ...this.config(),
-      speed: this.config().speed ?? this.speed(),
-    }),
-  );
+  private readonly mobile = signal(false);
+  readonly layers = computed(() => {
+    const config = this.config();
+    const mobile = this.mobile();
+    const recipe = createBedlam(this.palette(), this.seed(), {
+      ...config,
+      ...(mobile
+        ? {
+            density: Math.min(config.density ?? 0.4, 0.4),
+            particles: false,
+            particleCount: 0,
+            layers: { ...config.layers, rings: false },
+          }
+        : {}),
+      speed: config.speed ?? this.speed(),
+    });
+    if (!mobile) return recipe;
+    // Keep the strongest near-field material from the same seeded recipe.
+    // Removing the other atmospheres also removes their SVG filter surfaces.
+    const nearest = recipe
+      .filter((layer) => layer.kind === 'nebula')
+      .reduce(
+        (near, layer) =>
+          !near ||
+          parseFloat(layer.style['--bedlam-depth']) > parseFloat(near.style['--bedlam-depth'])
+            ? layer
+            : near,
+        undefined as (typeof recipe)[number] | undefined,
+      );
+    return recipe.filter((layer) => layer.kind !== 'nebula' || layer === nearest);
+  });
   private readonly field = viewChild<ElementRef<HTMLElement>>('field');
   private readonly visible = signal(true);
   private readonly foreground = signal(true);
@@ -43,6 +68,13 @@ export class Bedlam {
     afterNextRender(() => {
       const host = this.field()?.nativeElement;
       if (!host) return;
+      // Both server and hydration start with the identical full recipe. Reduce only
+      // after browser rendering, and restore the original recipe on wider viewports.
+      const viewport = window.matchMedia('(max-width: 600px)');
+      const profile = () => this.mobile.set(viewport.matches);
+      profile();
+      viewport.addEventListener('change', profile);
+      destroy.onDestroy(() => viewport.removeEventListener('change', profile));
       const document = host.ownerDocument;
       const visibility = () => this.foreground.set(!document.hidden);
       visibility();
