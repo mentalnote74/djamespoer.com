@@ -21,10 +21,6 @@
   }
 
   &__viewport {
-    --perspective-play-state: paused;
-    &[aria-live='off'] {
-      --perspective-play-state: running;
-    }
     min-block-size: var(--carousel-min-height, 12rem);
     border: 1px solid var(--panel-border);
     border-radius: 0;
