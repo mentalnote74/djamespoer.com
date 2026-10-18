@@ -4,6 +4,22 @@
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
 
+## Mobile performance investigation CLOSED - October 18, 2026
+
+Authoritative runtime PROD: `658e63de1c39395687474558ecba25a2402cc916`; Worker version `ea810306-6315-4f6a-97f7-b91d06d6250f`. Source: Coach/QB's `C:/Users/djame/Downloads/authoritative-lighthouse-2026-10-18.json`, Lighthouse 13.4.1, fetchTime `2026-10-18T12:36:15.600Z` (8:36:15 AM Eastern). The original same-run trace is unavailable; the JSON itself supplies the observed metrics and filmstrip. Never substitute a different run's trace.
+
+Timing-model reconciliation is definitive:
+
+- `configSettings.throttlingMethod = "simulate"`: Lighthouse/Lantern targets CPU 4x, RTT 150 ms, throughput 1638.4 Kbps. Stored request-level preset fields also include requestLatencyMs 562.5, downloadThroughputKbps 1474.56, uploadThroughputKbps 675; these are not additional intervals to add to observed timing.
+- Headline SIMULATED FCP: **2769.5023 ms**; SIMULATED LCP: **2971.5023 ms**; Performance score 90. Sources: `audits["first-contentful-paint"].numericValue` and `audits["largest-contentful-paint"].numericValue`. These are slow-device model predictions, not observed browser paint timestamps.
+- OBSERVED first paint/FCP: **165.537 ms**; OBSERVED LCP: **173.825 ms**. Source: `audits.metrics.details.items[0]`; subtract `observedNavigationStartTs` (368548117869) from the respective `observed*Ts` values and divide microseconds by 1000. Rounded observed fields show 166/174 ms.
+- Other observed metrics: first visual change 170 ms, DOMContentLoaded 198.322 ms, load 208.499 ms, Speed Index 215.339 ms, CLS 0. The embedded 375 ms filmstrip frame visibly contains header, Engineering artwork, controls and cookie prompt.
+- `audits["lcp-breakdown-insight"]` uses the OBSERVED timeline: TTFB 50.996 + resource load delay 20.447 + load duration 46.576 + render delay 55.806 = **173.825 ms** exactly. There is no missing 2.8-second interval; the ~2972 ms headline belongs to a separate simulated timeline, not a delayed segment of the observed one.
+
+Decision: close the apparent 2.77-second browser paint-suppression investigation. No compositor/GPU, Bedlam, carousel, image, font, theme-startup or hydration blocker was proven. The original trace would be required for detailed GPU/raster attribution; do not infer it from the simulated score or our separate controlled traces. Existing mobile delivery reductions remain valid, but this reconciliation does not itself constitute another optimization.
+
+Reopen this area only if NEW evidence shows a real observed regression, with same-run JSON/original trace and observed versus simulated timing explicitly separated. Do not optimize effects speculatively to fix an observed 2.77-second blank screen that this report does not record. No runtime changes, Lighthouse run, optimization, build or deployment for this documentation closeout. Documentation pushed on a separate docs branch so it cannot trigger the production-main deployment pipeline.
+
 ## Mobile pre-paint startup pass 2 ? October 18, 2026
 
 Two bounded changes from 206428e: App incrementally hydrates Footer on mobile viewport/interaction (desktop immediately), while CookiePreferences moves unchanged into the immediate app shell so first-visit behavior stays intact. Cookie settings continue sharing the same service. Full interior route configuration moves verbatim to app.routes.interior.ts behind a componentless lazy route; Home keeps its original full-match route/metadata. Initial bundle 450.33 -> 441.41 kB raw and 110.17 -> 108.39 kB estimated transfer (-8.92/-1.78). Footer 4.01 kB and interior routes 6.38 kB are lazy; browser confirmed neither requests at initial 390px startup. Eager service count is not claimed lower; savings are component hydration/code parsing. Local timing samples were noisy with no reliable total main-thread improvement claim.
