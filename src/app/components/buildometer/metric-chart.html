@@ -1,0 +1,68 @@
+<figure>
+  <figcaption>
+    <h3>{{ title() }}</h3>
+    <p>{{ description() }}</p>
+  </figcaption>
+  @if (points().length) {
+    <svg viewBox="0 0 500 200" aria-hidden="true" focusable="false">
+      <path class="axis" d="M40 20v140h440" />
+      <text x="30" y="165" text-anchor="end">0</text>
+      <text x="30" y="35" text-anchor="end">{{ maxLabel() }}</text>
+      @if (kind() === 'line') {
+        <polyline class="actual" [attr.points]="line()" />
+      } @else {
+        @for (bar of bars(); track bar.date) {
+          <rect
+            [attr.x]="bar.x"
+            [attr.y]="bar.y"
+            [attr.width]="bar.width"
+            [attr.height]="bar.height"
+          />
+        }
+      }
+      @if (comparison().length) {
+        <polyline class="comparison" [attr.points]="compareLine()" />
+      }
+      <text x="40" y="185">{{ label(points()[0].date) }}</text>
+      <text x="480" y="185" text-anchor="end">{{ label(points()[points().length - 1].date) }}</text>
+    </svg>
+    @if (comparison().length) {
+      <p class="legend">Bars/solid: {{ unit() }}. Dashed line: {{ compareLabel() }}.</p>
+    }
+    <details>
+      <summary>Read {{ title() }} data</summary>
+      <table>
+        <caption>
+          {{
+            title()
+          }}
+          ({{
+            unit()
+          }})
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">UTC observation</th>
+            <th scope="col">{{ unit() }}</th>
+            @if (comparison().length) {
+              <th scope="col">{{ compareLabel() }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (point of points(); track $index) {
+            <tr>
+              <th scope="row">{{ point.date }}</th>
+              <td>{{ point.value }}</td>
+              @if (comparison().length) {
+                <td>{{ comparison()[$index]?.value }}</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </details>
+  } @else {
+    <p class="missing">Unmeasured: {{ description() }}</p>
+  }
+</figure>

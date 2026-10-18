@@ -1,0 +1,346 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-18T15:26:35.345Z",
+  "sources": {
+    "jira": {
+      "status": "snapshot",
+      "fetchedAt": "2026-10-18T15:26:35.345Z",
+      "message": "Connected Jira capture; live runtime not configured."
+    },
+    "deployments": {
+      "status": "unavailable",
+      "fetchedAt": null,
+      "message": "Deployment evidence unavailable."
+    }
+  },
+  "metrics": {
+    "completion": {
+      "value": null,
+      "unit": "%",
+      "reason": "No approved project committed-scope denominator."
+    },
+    "done": {
+      "value": 16,
+      "unit": "tracked done items",
+      "reason": null
+    },
+    "remaining": {
+      "value": 85,
+      "unit": "tracked open items",
+      "reason": null
+    },
+    "velocity": {
+      "value": null,
+      "unit": "points / period",
+      "reason": "Story point estimate field exists but no tracked work items are estimated."
+    },
+    "throughput": {
+      "value": 1,
+      "unit": "currently done items resolved / 7 days",
+      "reason": null
+    },
+    "deployments": {
+      "value": null,
+      "unit": "activations / 7 days",
+      "reason": "Deployment evidence unavailable."
+    },
+    "scopeChange": {
+      "value": null,
+      "unit": "items",
+      "reason": "Backlog inventory is not committed scope; sprint history has no defensible real starting cohort."
+    },
+    "burndown": {
+      "value": null,
+      "unit": "items",
+      "reason": "No real committed starting cohort can be reconstructed from sprint membership/history."
+    },
+    "bugHealth": {
+      "value": 1,
+      "unit": "open bug-labelled work items",
+      "reason": null
+    },
+    "bugCreated": {
+      "value": 0,
+      "unit": "newly classified bugs / 7 days",
+      "reason": null
+    },
+    "bugEliminated": {
+      "value": 0,
+      "unit": "Done transitions / 7 days",
+      "reason": null
+    },
+    "bugDuration": {
+      "value": 51.2,
+      "unit": "mean classification to latest Done hours (2 resolved pairs)",
+      "reason": null
+    },
+    "reopens": {
+      "value": 0,
+      "unit": "bug reopen events / 7 days",
+      "reason": null
+    },
+    "rework": {
+      "value": null,
+      "unit": "rate",
+      "reason": "No existing approved rework classification/denominator."
+    }
+  },
+  "series": {
+    "burndown": [],
+    "velocity": [],
+    "throughput": [
+      {
+        "date": "2026-10-05T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-06T15:26:35.345Z",
+        "value": 12
+      },
+      {
+        "date": "2026-10-07T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-08T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-09T15:26:35.345Z",
+        "value": 2
+      },
+      {
+        "date": "2026-10-10T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-11T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-12T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-13T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-14T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-15T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-16T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-17T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-18T15:26:35.345Z",
+        "value": 0
+      }
+    ],
+    "deployments": [],
+    "scope": [],
+    "bugCreated": [
+      {
+        "date": "2026-10-05T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-06T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-07T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-08T15:26:35.345Z",
+        "value": 2
+      },
+      {
+        "date": "2026-10-09T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-10T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-11T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-12T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-13T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-14T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-15T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-16T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-17T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-18T15:26:35.345Z",
+        "value": 0
+      }
+    ],
+    "bugEliminated": [
+      {
+        "date": "2026-10-05T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-06T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-07T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-08T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-09T15:26:35.345Z",
+        "value": 2
+      },
+      {
+        "date": "2026-10-10T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-11T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-12T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-13T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-14T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-15T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-16T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-17T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-18T15:26:35.345Z",
+        "value": 0
+      }
+    ],
+    "bugOpen": [
+      {
+        "date": "2026-10-05T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-06T15:26:35.345Z",
+        "value": 0
+      },
+      {
+        "date": "2026-10-07T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-08T15:26:35.345Z",
+        "value": 3
+      },
+      {
+        "date": "2026-10-09T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-10T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-11T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-12T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-13T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-14T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-15T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-16T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-17T15:26:35.345Z",
+        "value": 1
+      },
+      {
+        "date": "2026-10-18T15:26:35.345Z",
+        "value": 1
+      }
+    ],
+    "bugLifecycle": [
+      {
+        "date": "2026-10-09T12:16:07.602Z",
+        "value": 58.83931333333334
+      },
+      {
+        "date": "2026-10-09T13:49:37.817Z",
+        "value": 43.508290277777775
+      }
+    ]
+  },
+  "journal": [],
+  "supportingFacts": {
+    "inventory": 101,
+    "excludedSamples": 4,
+    "historyComplete": true,
+    "pointCoverage": "0 of 101 tracked work items estimated",
+    "scope": "No approved committed project scope.",
+    "bugPolicy": "Bug type or explicit bug label; rework is not inferred.",
+    "shippingCheckedAt": null
+  }
+}

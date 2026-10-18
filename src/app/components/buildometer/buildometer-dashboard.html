@@ -1,0 +1,113 @@
+<section aria-label="Buildometer project-health dashboard">
+  <div class="controls">
+    <label for="buildometer-skin">Instrument skin</label
+    ><select
+      id="buildometer-skin"
+      [value]="skin()?.id || 'night-driver'"
+      (change)="changeSkin($event)"
+    >
+      @for (option of skinOptions; track option.id) {
+        <option [value]="option.id">{{ option.label }}</option>
+      }
+    </select>
+    @if (skinError()) {
+      <span role="status">Skin unavailable; values remain readable.</span>
+    }
+  </div>
+  @if (store.error()) {
+    <p role="status">
+      Project data could not be loaded. Retained values, if shown, have not been refreshed.
+    </p>
+    <button type="button" (click)="store.load(true)" [disabled]="store.loading()">
+      Retry project data
+    </button>
+  }
+  <app-instrument-cluster [metrics]="metrics()" [skin]="skin()" />
+  @if (store.data(); as data) {
+    <div class="freshness">
+      @for (source of ['jira', 'deployments']; track source) {
+        <p>
+          {{ source }}:
+          {{ source === 'jira' ? data.sources.jira.status : data.sources.deployments.status }} /
+          {{ source === 'jira' ? data.sources.jira.fetchedAt : data.sources.deployments.fetchedAt
+          }}<br />{{
+            source === 'jira' ? data.sources.jira.message : data.sources.deployments.message
+          }}
+        </p>
+      }
+    </div>
+    <div class="charts">
+      <app-metric-chart
+        class="burn"
+        title="Burndown"
+        kind="line"
+        unit="remaining committed items"
+        [points]="data.series.burndown"
+        [description]="data.metrics.burndown.reason || data.supportingFacts.scope"
+      />
+      <app-metric-chart
+        title="Jira-recorded throughput"
+        unit="currently done work items"
+        [points]="data.series.throughput"
+        [description]="
+          data.metrics.throughput.reason ||
+          'Resolution dates (or complete Done-transition history), not production release dates. Seven-day headline; 14-day history.'
+        "
+      />
+      <app-metric-chart
+        title="Production shipping"
+        unit="activations"
+        [points]="data.series.deployments"
+        [description]="
+          'Daily retained activations ending at ' + data.supportingFacts.shippingCheckedAt
+        "
+      />
+      <app-metric-chart
+        title="Bug classification / elimination"
+        unit="new classifications"
+        [points]="data.series.bugCreated"
+        [comparison]="data.series.bugEliminated"
+        compareLabel="Done transitions"
+        [description]="
+          data.metrics.bugCreated.reason ||
+          'Current bug-labelled cohort; classification and Done events. Reopens are preserved, not counted as new defects.'
+        "
+      />
+      <app-metric-chart
+        title="Open bug-labelled work"
+        kind="line"
+        unit="open items"
+        [points]="data.series.bugOpen"
+        [description]="
+          data.metrics.bugCreated.reason ||
+          'Status history for currently bug-labelled work items, after first classification.'
+        "
+      />
+      <app-metric-chart
+        title="Resolved bug lifecycle"
+        unit="hours"
+        [points]="data.series.bugLifecycle"
+        [description]="data.metrics.bugDuration.reason || data.metrics.bugDuration.unit"
+      />
+      @if (data.series.scope.length) {
+        <app-metric-chart
+          title="Committed scope"
+          kind="line"
+          unit="items"
+          [points]="data.series.scope"
+          [description]="data.supportingFacts.scope"
+        />
+      }
+      @if (data.series.velocity.length) {
+        <app-metric-chart
+          title="Velocity"
+          unit="points"
+          [points]="data.series.velocity"
+          [description]="data.metrics.velocity.unit"
+        />
+      }
+    </div>
+  } @else if (store.loading()) {
+    <p role="status">Loading normalized project evidence...</p>
+  }
+</section>

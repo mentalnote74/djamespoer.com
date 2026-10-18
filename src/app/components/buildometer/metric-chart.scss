@@ -1,0 +1,81 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+figure {
+  margin: 0;
+  padding: 1rem;
+  background: var(--surface-card);
+  border-radius: var(--surface-radius);
+  box-shadow: var(--elevation-inset);
+}
+h3 {
+  margin: 0;
+}
+p {
+  font-size: 0.85rem;
+}
+svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  color: var(--page-foreground);
+}
+rect {
+  fill: currentColor;
+  opacity: 0.7;
+}
+.actual,
+.comparison,
+.axis {
+  fill: none;
+  stroke: currentColor;
+}
+.actual {
+  stroke-width: 3;
+}
+.comparison {
+  stroke-width: 2;
+  stroke-dasharray: 7 4;
+}
+.axis {
+  stroke-width: 1;
+}
+text {
+  fill: currentColor;
+  font: 12px sans-serif;
+}
+summary {
+  padding-block: 0.75rem;
+  cursor: pointer;
+}
+table {
+  width: 100%;
+  font-size: 0.75rem;
+  border-collapse: collapse;
+}
+th,
+td {
+  text-align: start;
+  padding: 0.4rem;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border-separator);
+}
+.missing {
+  min-height: 5rem;
+}
+@media (forced-colors: active) {
+  rect {
+    fill: CanvasText;
+    opacity: 1;
+  }
+  .actual,
+  .comparison,
+  .axis {
+    stroke: CanvasText;
+  }
+  text {
+    fill: CanvasText;
+  }
+}
