@@ -1,4 +1,9 @@
 import {
+  LucideUserRound,
+  LucideBriefcaseBusiness,
+  LucideBookOpen,
+  LucideLayers,
+  LucidePalette,
   LucideMenu,
   LucideChevronDown,
   LucideDownload,
@@ -14,6 +19,11 @@ import { Bedlam } from '../bedlam/bedlam';
 
 @Component({
   imports: [
+    LucideUserRound,
+    LucideBriefcaseBusiness,
+    LucideBookOpen,
+    LucideLayers,
+    LucidePalette,
     LucideMenu,
     LucideChevronDown,
     LucideDownload,
