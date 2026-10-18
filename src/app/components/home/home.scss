@@ -27,19 +27,6 @@ app-carousel {
   block-size: auto;
 }
 
-.home-history {
-  padding-block-start: clamp(2rem, 5vw, 4rem);
-  padding-block-end: clamp(0.75rem, 2vw, 1.5rem);
-
-  &__content {
-    min-inline-size: 0;
-  }
-
-  h2 {
-    margin-block: 0 1.5rem;
-  }
-}
-
 // Restored right-column placement; keep the feature surface within its available width.
 .home-updates > .home-construction {
   padding: var(--surface-padding);

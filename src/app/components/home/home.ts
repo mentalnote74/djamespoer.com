@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
 import { CarouselSlide } from '../carousel/carousel-slide';
-import { DeploymentHistory } from '../deployment-history/deployment-history';
 
 @Component({
   imports: [
@@ -19,7 +18,6 @@ import { DeploymentHistory } from '../deployment-history/deployment-history';
     Thingamajob,
     Carousel,
     CarouselSlide,
-    DeploymentHistory,
   ],
   selector: 'app-home',
   templateUrl: './home.html',

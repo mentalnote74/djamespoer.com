@@ -4,6 +4,10 @@
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
 
+## Deployment History parked ? October 17, 2026
+
+Removed homepage section, import and spacing. Reusable grid/component, snapshot and generation pipeline retained unchanged. Component requests its cold loader only on viewport intersection after rendering, with teardown; no preload or explicit high priority existed. No Buildometer placement. Build/budgets and nine existing focused tests passed. Desktop/390 homepage checks after scrolling: no history DOM/preload/request, overflow or console errors. No Buildometer placement.
+
 ## Homepage mobile delivery ? October 17, 2026
 
 Homepage-only mobile picture sources: 384/768/1200px AVIF q26 and WebP q48, metadata stripped/opaque, generated from unchanged canonical 2172px art by scripts/optimize-home-artwork.mjs. New /assets/perspectives/mobile/* cache lifetime one hour; desktop assets/policies unchanged. At 390px DPR2 Engineering 11916?5564 bytes (-53.3%), Creative Town 255464?14123 (-94.5%). Mobile-only Engineering preload in build HTML; no other slides preloaded. Existing SVG/material magic moved intact into native Angular @defer chunk (8.06 kB raw/2.73 kB estimated transfer). Mobile homepage waits for base image load, two paint callbacks and idle (1500ms bound); desktop/non-home activates immediately. Reuses selected image URL; carousel state is not touched. Deliberately blocking magic proved base visibility, manual navigation before enhancement, current-slide activation and zero CLS. Build/budgets, carousel 23 tests, render helper 2 tests, homepage DPR1/2/3 and desktop, all six slides, Pause/Play/reduced motion, and scoped carousel axe passed. No interior performance sweep or Lighthouse run; authoritative live performance baton to Coach/QB. Font/Bedlam payload unchanged.

@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  ElementRef,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { SmartGrid } from '../smart-grid/smart-grid';
 import {
   SmartGridColumn,
@@ -7,7 +16,7 @@ import {
   SmartGridPagination,
 } from '../smart-grid/smart-grid.types';
 import { BuildDeploymentHistoryRow } from './deployment-history-row';
-import { DeploymentHistoryLoader } from './deployment-history-loader';
+import { DeploymentHistoryLoader, DeploymentHistoryLoadState } from './deployment-history-loader';
 
 @Component({
   selector: 'app-deployment-history',
@@ -17,9 +26,24 @@ import { DeploymentHistoryLoader } from './deployment-history-loader';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeploymentHistory {
-  readonly source = toSignal(inject(DeploymentHistoryLoader).load(), {
-    initialValue: { status: 'loading' } as const,
-  });
+  readonly source = signal<DeploymentHistoryLoadState>({ status: 'loading' });
+
+  constructor() {
+    const loader = inject(DeploymentHistoryLoader);
+    const element = inject(ElementRef<HTMLElement>).nativeElement;
+    const destroyRef = inject(DestroyRef);
+    // Noncritical evidence: no request until a rendered consumer enters the viewport.
+    afterNextRender(() => {
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        const subscription = loader.load().subscribe((state) => this.source.set(state));
+        destroyRef.onDestroy(() => subscription.unsubscribe());
+      });
+      observer.observe(element);
+      destroyRef.onDestroy(() => observer.disconnect());
+    });
+  }
   readonly sampleData = input(false);
   readonly rows = computed<readonly BuildDeploymentHistoryRow[]>(() => {
     const source = this.source();

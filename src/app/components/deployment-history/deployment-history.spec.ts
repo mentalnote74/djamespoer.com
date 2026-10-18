@@ -7,6 +7,7 @@ import { SAMPLE_DEPLOYMENTS } from './deployment-history.samples';
 import { normalizeDeploymentHistory } from './deployment-history-data';
 import { DeploymentHistoryLoader, DeploymentHistoryLoadState } from './deployment-history-loader';
 import { ReplaySubject } from 'rxjs';
+import { afterEach, vi } from 'vitest';
 
 const normalized = normalizeDeploymentHistory(SAMPLE_DEPLOYMENTS);
 if (!normalized.ok) throw new Error('Invalid test fixtures');
@@ -21,6 +22,8 @@ const ready: DeploymentHistoryLoadState = {
 };
 
 describe('DeploymentHistory consumer foundation', () => {
+  let intersection: IntersectionObserverCallback;
+  afterEach(() => vi.unstubAllGlobals());
   it('sorts unsorted production history newest first while retaining every older row and five-row paging', async () => {
     const { component, grid, states, fixture } = await setup();
     const records = Array.from({ length: 12 }, (_, index) => ({
@@ -59,6 +62,16 @@ describe('DeploymentHistory consumer foundation', () => {
   });
 
   async function setup() {
+    vi.stubGlobal(
+      'IntersectionObserver',
+      class {
+        constructor(callback: IntersectionObserverCallback) {
+          intersection = callback;
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
     const states = new ReplaySubject<DeploymentHistoryLoadState>(1);
     states.next(ready);
     await TestBed.configureTestingModule({
@@ -70,6 +83,13 @@ describe('DeploymentHistory consumer foundation', () => {
     const fixture = TestBed.createComponent(DeploymentHistory);
     states.next(ready);
     fixture.componentRef.setInput('sampleData', true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.rows()).toHaveLength(0);
+    intersection(
+      [{ isIntersecting: true } as IntersectionObserverEntry],
+      {} as IntersectionObserver,
+    );
     fixture.detectChanges();
     const grid = fixture.debugElement.query(By.directive(SmartGrid))
       .componentInstance as SmartGrid<BuildDeploymentHistoryRow>;
