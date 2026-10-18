@@ -1,5 +1,19 @@
-﻿<div class="artwork-slide">
+<div class="artwork-slide">
   <picture aria-hidden="true">
+    @if (homepageOptimized()) {
+      <source
+        media="(max-width: 600px)"
+        type="image/avif"
+        [srcset]="mobileSrcset('avif')"
+        [sizes]="sizes"
+      />
+      <source
+        media="(max-width: 600px)"
+        type="image/webp"
+        [srcset]="mobileSrcset('webp')"
+        [sizes]="sizes"
+      />
+    }
     <source type="image/avif" [srcset]="srcset('avif')" [sizes]="sizes" />
     <img
       [src]="'/assets/perspectives/overnight/' + kind() + '-1200.webp'"
@@ -14,50 +28,9 @@
       (load)="captureArtwork($event)"
     />
   </picture>
-  <svg
-    class="artwork-regions"
-    viewBox="0 0 1200 400"
-    preserveAspectRatio="xMidYMid meet"
-    aria-hidden="true"
-    focusable="false"
-    [style.--region-play-state]="motionPaused() ? 'paused' : null"
-  >
-    <defs>
-      @for (region of regions(); track region.id) {
-        <clipPath [attr.id]="regionPrefix + region.id" clipPathUnits="userSpaceOnUse">
-          <path [attr.d]="region.clip" />
-        </clipPath>
-      }
-    </defs>
-    @for (region of regions(); track region.id) {
-      <g [attr.clip-path]="'url(#' + regionPrefix + region.id + ')'">
-        @if (artworkSource(); as source) {
-          <image
-            class="region-material"
-            [class]="'region-material--' + region.behavior"
-            [attr.href]="source"
-            width="1200"
-            height="400"
-            preserveAspectRatio="xMidYMid meet"
-            [style.--region-duration]="region.duration + 's'"
-            [style.--region-delay]="region.delay + 's'"
-          />
-        }
-        <path
-          class="region-light"
-          [class]="'region-light--' + region.behavior"
-          [attr.d]="region.flow"
-          pathLength="100"
-          fill="none"
-          stroke-linecap="round"
-          [attr.stroke]="region.color"
-          [attr.stroke-width]="region.width"
-          [style.--region-duration]="region.duration + 's'"
-          [style.--region-delay]="region.delay + 's'"
-        />
-      </g>
-    }
-  </svg>
+  @defer (when magicReady()) {
+    <app-perspective-magic [kind]="kind()" [source]="artworkSource()" [paused]="motionPaused()" />
+  }
   <div class="slide-copy">
     @if (pageHeading()) {
       <h1>{{ copy().title }}</h1>

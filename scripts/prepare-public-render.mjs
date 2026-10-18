@@ -57,12 +57,24 @@ export async function preparePublicRender(
       )
       .replace('<noscript></noscript>', '');
   }
+  // Only the actual first mobile homepage slide gets an image preload.
+  const imageSizes = '(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)';
+  const engineeringCandidates = [
+    ['(max-width: 600px)', 'mobile/engineering', [384, 768, 1200]],
+  ].map(([media, name, widths]) => ({
+    media,
+    srcset: widths
+      .map((width) => `/assets/perspectives/${name}-${width}.avif ${width}w`)
+      .join(', '),
+  }));
+  const homeHint = `<script data-home-artwork-preload>if(location.pathname==='/'){for(const item of ${JSON.stringify(engineeringCandidates)}){const link=document.createElement('link');link.rel='preload';link.as='image';link.type='image/avif';link.media=item.media;link.imageSrcset=item.srcset;link.imageSizes=${JSON.stringify(imageSizes)};link.fetchPriority='high';document.head.append(link);}}</script>`;
   const hint = `<script data-route-preloads>if(location.pathname.replace(/\\/$/,'')==='/thingamajob'){for(const href of ${JSON.stringify(assets)}){const link=document.createElement('link');link.rel='modulepreload';link.href='/'+href;document.head.append(link);}}</script>`;
   await writeFile(
     file,
     html
       .replace(/<script data-route-preloads>[\s\S]*?<\/script>/, '')
-      .replace('<head>', '<head>' + hint),
+      .replace(/<script data-home-artwork-preload>[\s\S]*?<\/script>/, '')
+      .replace('<head>', '<head>' + homeHint + hint),
   );
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))

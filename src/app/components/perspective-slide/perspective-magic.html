@@ -1,0 +1,44 @@
+<svg
+  class="artwork-regions"
+  viewBox="0 0 1200 400"
+  preserveAspectRatio="xMidYMid meet"
+  aria-hidden="true"
+  focusable="false"
+  [style.--region-play-state]="paused() ? 'paused' : null"
+>
+  <defs>
+    @for (region of regions(); track region.id) {
+      <clipPath [attr.id]="regionPrefix + region.id" clipPathUnits="userSpaceOnUse">
+        <path [attr.d]="region.clip" />
+      </clipPath>
+    }
+  </defs>
+  @for (region of regions(); track region.id) {
+    <g [attr.clip-path]="'url(#' + regionPrefix + region.id + ')'">
+      @if (source(); as source) {
+        <image
+          class="region-material"
+          [class]="'region-material--' + region.behavior"
+          [attr.href]="source"
+          width="1200"
+          height="400"
+          preserveAspectRatio="xMidYMid meet"
+          [style.--region-duration]="region.duration + 's'"
+          [style.--region-delay]="region.delay + 's'"
+        />
+      }
+      <path
+        class="region-light"
+        [class]="'region-light--' + region.behavior"
+        [attr.d]="region.flow"
+        pathLength="100"
+        fill="none"
+        stroke-linecap="round"
+        [attr.stroke]="region.color"
+        [attr.stroke-width]="region.width"
+        [style.--region-duration]="region.duration + 's'"
+        [style.--region-delay]="region.delay + 's'"
+      />
+    </g>
+  }
+</svg>
