@@ -2,12 +2,11 @@ import { LucideAccessibility, LucideCookie } from '@lucide/angular';
 import { PublicAnalytics } from '../../services/public-analytics';
 import { RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
-import { CookiePreferences } from '../../features/cookie-preferences/cookie-preferences';
 import { CookiePreferencesService } from '../../features/cookie-preferences/cookie-preferences.service';
 import { Component, model } from '@angular/core';
 
 @Component({
-  imports: [LucideAccessibility, LucideCookie, RouterLink, CookiePreferences],
+  imports: [LucideAccessibility, LucideCookie, RouterLink],
   selector: 'app-footer',
   styleUrl: './footer.scss',
   templateUrl: './footer.html',

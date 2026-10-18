@@ -2,4 +2,12 @@
 
 <app-header [identityPaused]="identityPaused()"></app-header>
 <app-page></app-page>
-<app-footer [(identityPaused)]="identityPaused"></app-footer>
+@defer (
+  on immediate;
+  hydrate when !delivery.mobile();
+  hydrate on viewport;
+  hydrate on interaction
+) {
+  <app-footer [(identityPaused)]="identityPaused"></app-footer>
+}
+<app-cookie-preferences />

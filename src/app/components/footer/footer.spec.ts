@@ -39,11 +39,14 @@ describe('Footer', () => {
 
   it('keeps persistent cookie controls in the shared footer', () => {
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.querySelector('.site-footer__cookies button')?.textContent).toBe('Cookie settings');
+    expect(root.querySelector('.site-footer__cookies button')?.textContent?.trim()).toBe(
+      'Cookie settings',
+    );
     expect(root.querySelector('.site-footer__cookies a')?.getAttribute('href')).toBe(
       '/cookie-policy',
     );
-    expect(root.querySelectorAll('app-cookie-preferences')).toHaveLength(1);
+    // The app shell owns the immediate first-visit prompt independently of footer hydration.
+    expect(root.querySelectorAll('app-cookie-preferences')).toHaveLength(0);
   });
   it('should create', () => {
     expect(component).toBeTruthy();

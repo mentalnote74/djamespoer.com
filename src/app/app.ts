@@ -1,15 +1,18 @@
+import { MobileDelivery } from './services/mobile-delivery';
+import { CookiePreferences } from './features/cookie-preferences/cookie-preferences';
 import { Component, ElementRef, inject, signal } from '@angular/core';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { Page } from './layout/page/page';
 
 @Component({
-  imports: [Footer, Header, Page],
+  imports: [Footer, Header, Page, CookiePreferences],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
 })
 export class App {
+  readonly delivery = inject(MobileDelivery);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly identityPaused = signal(false);
 
