@@ -2,7 +2,7 @@
 
 ## Theme drink artwork ? pending Coach review
 
-Nine standalone fixed-palette 64?64 SVG illustrations and a contact sheet are in artwork/theme-drinks/ on art/theme-drink-icons. Not integrated or deployed. Chrome review at 24px/32px plus alpha-bound checks found no clipping or visible rectangular backgrounds; XML, palette literals and gradient references verified. Dusk-to-Dusk uses existing sunset/night/sunrise anchors because it has no separate static palette. No runtime files changed; build not required for these isolated review assets.
+Nine standalone fixed-palette 64?64 SVG illustrations and a contact sheet are in artwork/theme-drinks/ on art/theme-drink-icons. Not integrated or deployed. Chrome review at 24px/32px plus alpha-bound checks found no clipping or visible rectangular backgrounds; XML, palette literals and gradient references verified. Dusk-to-Dusk is a day-cycle illustration (horizon, sunset, moon/star, sunrise/day arc), not a drink; it uses existing sunset/night/sunrise anchors because it has no separate static palette. Revised alone; other eight SVGs unchanged. No runtime files changed; build not required for these isolated review assets.
 
 ## Purpose
 
