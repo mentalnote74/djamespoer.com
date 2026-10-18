@@ -1,5 +1,9 @@
 # AI Engineering Handoff
 
+## Theme drink artwork ? pending Coach review
+
+Nine standalone fixed-palette 64?64 SVG illustrations and a contact sheet are in artwork/theme-drinks/ on art/theme-drink-icons. Not integrated or deployed. Chrome review at 24px/32px plus alpha-bound checks found no clipping or visible rectangular backgrounds; XML, palette literals and gradient references verified. Dusk-to-Dusk uses existing sunset/night/sunrise anchors because it has no separate static palette. No runtime files changed; build not required for these isolated review assets.
+
 ## Purpose
 
 This is a concise, repository-local continuity document for James, ChatGPT, and Codex. It records the engineering state needed to resume work without reconstructing chat history. It is not a transcript, backlog, or replacement for Jira. See `AGENTS.md` for authoritative standing project instructions.
