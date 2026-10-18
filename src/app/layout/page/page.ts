@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, makeStateKey, signal, TransferState } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+
+const INITIAL_LAYOUT = makeStateKey<boolean>('page-independent-layout');
 
 @Component({
   imports: [RouterOutlet],
@@ -8,8 +10,11 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './page.html',
 })
 export class Page {
-  readonly independentLayout = signal(false);
+  private readonly transferState = inject(TransferState);
+  readonly independentLayout = signal(this.transferState.get(INITIAL_LAYOUT, false));
   setLayout(layout: unknown): void {
-    this.independentLayout.set(layout === 'independent');
+    const independent = layout === 'independent';
+    this.independentLayout.set(independent);
+    this.transferState.set(INITIAL_LAYOUT, independent);
   }
 }

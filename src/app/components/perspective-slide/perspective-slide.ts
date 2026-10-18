@@ -4,9 +4,11 @@ import {
   Component,
   computed,
   DestroyRef,
+  ElementRef,
   inject,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
 import { PerspectiveMagic } from './perspective-magic';
 import { RouterLink } from '@angular/router';
@@ -42,12 +44,16 @@ export class PerspectiveSlide {
   readonly motionPaused = signal(false);
   private readonly destroyRef = inject(DestroyRef);
   private scheduled = false;
+  private readonly artwork = viewChild<ElementRef<HTMLImageElement>>('artwork');
   private deferOnMobile(): boolean {
     return this.homepageOptimized() && window.matchMedia('(max-width: 600px)').matches;
   }
   constructor() {
     afterNextRender(() => {
-      if (!this.deferOnMobile()) this.magicReady.set(true);
+      // A parser-discovered image can finish before hydration attaches its load listener.
+      const image = this.artwork()?.nativeElement;
+      if (image?.complete && image.naturalWidth) this.activateArtwork(image);
+      else if (!this.deferOnMobile()) this.magicReady.set(true);
     });
   }
   private scheduleMagic(): void {
@@ -74,10 +80,13 @@ export class PerspectiveSlide {
   captureArtwork(event: Event): void {
     const image = event.target;
     if (image instanceof HTMLImageElement) {
-      this.artworkSource.set(image.currentSrc);
-      if (this.deferOnMobile()) this.scheduleMagic();
-      else this.magicReady.set(true);
+      this.activateArtwork(image);
     }
+  }
+  private activateArtwork(image: HTMLImageElement): void {
+    this.artworkSource.set(image.currentSrc);
+    if (this.deferOnMobile()) this.scheduleMagic();
+    else this.magicReady.set(true);
   }
   readonly pageHeading = input(false);
   readonly showExplore = input(true);

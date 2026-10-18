@@ -1,5 +1,6 @@
 import { LucideChevronLeft, LucideChevronRight, LucidePause, LucidePlay } from '@lucide/angular';
 import {
+  afterNextRender,
   AfterContentInit,
   Component,
   computed,
@@ -24,7 +25,7 @@ export const CAROUSEL_INTERVAL_MS = 5_000;
 })
 export class Carousel implements AfterContentInit {
   private readonly destroyRef = inject(DestroyRef);
-  private readonly motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  private readonly browserReady = signal(false);
 
   readonly showPreviousNext = input(true);
   readonly showPausePlay = input(true);
@@ -44,7 +45,7 @@ export class Carousel implements AfterContentInit {
     source: () => this.slides().length,
     computation: (count, previous) => Math.max(0, Math.min(previous?.value ?? 0, count - 1)),
   });
-  readonly prefersReducedMotion = signal(this.motionPreference.matches);
+  readonly prefersReducedMotion = signal(false);
   private readonly rotationRequested = linkedSignal(() => this.autoRotate());
   readonly isPlaying = computed(
     () => this.rotationRequested() && !this.prefersReducedMotion() && this.slides().length > 1,
@@ -54,7 +55,12 @@ export class Carousel implements AfterContentInit {
   private readonly rotationEffect = effect((onCleanup) => {
     const slideCount = this.slides().length;
 
-    if (!this.isPlaying() || this.prefersReducedMotion() || slideCount < 2) {
+    if (
+      !this.browserReady() ||
+      !this.isPlaying() ||
+      this.prefersReducedMotion() ||
+      slideCount < 2
+    ) {
       return;
     }
 
@@ -63,9 +69,14 @@ export class Carousel implements AfterContentInit {
   });
 
   constructor() {
-    this.motionPreference.addEventListener('change', this.handleMotionPreferenceChange);
-    this.destroyRef.onDestroy(() => {
-      this.motionPreference.removeEventListener('change', this.handleMotionPreferenceChange);
+    afterNextRender(() => {
+      const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.prefersReducedMotion.set(motionPreference.matches);
+      this.browserReady.set(true);
+      motionPreference.addEventListener('change', this.handleMotionPreferenceChange);
+      this.destroyRef.onDestroy(() => {
+        motionPreference.removeEventListener('change', this.handleMotionPreferenceChange);
+      });
     });
   }
 

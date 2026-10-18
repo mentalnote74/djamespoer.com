@@ -1,3 +1,4 @@
+import { provideClientHydration } from '@angular/platform-browser';
 import { ThemeState } from './services/theme-state';
 import {
   ApplicationConfig,
@@ -6,12 +7,7 @@ import {
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import {
-  provideRouter,
-  TitleStrategy,
-  withComponentInputBinding,
-  withEnabledBlockingInitialNavigation,
-} from '@angular/router';
+import { provideRouter, TitleStrategy, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { PageMetadataStrategy } from './services/page-metadata-strategy';
 
@@ -22,7 +18,8 @@ export const appConfig: ApplicationConfig = {
     }),
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
-    provideRouter(routes, withComponentInputBinding(), withEnabledBlockingInitialNavigation()),
+    provideClientHydration(),
+    provideRouter(routes, withComponentInputBinding()),
     { provide: TitleStrategy, useExisting: PageMetadataStrategy },
   ],
 };

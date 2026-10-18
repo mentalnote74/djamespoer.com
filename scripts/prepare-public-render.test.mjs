@@ -51,7 +51,15 @@ test('built hints and inline CSS are idempotent and preload only the requested p
         },
       }),
     );
+    await writeFile(
+      join(dir, 'browser', 'index.csr.html'),
+      '<html><head><link rel="stylesheet" href="styles-abc.css"></head><body><app-root></app-root></body></html>',
+    );
     await preparePublicRender(dir);
+    const csr = await readFile(join(dir, 'browser', 'index.csr.html'), 'utf8');
+    assert.equal(csr.includes('data-public-styles'), true);
+    assert.equal(csr.includes('data-home-artwork-preload'), false);
+    assert.equal(csr.includes('<app-root></app-root>'), true);
     const first = await readFile(join(dir, 'browser', 'index.html'), 'utf8');
     await preparePublicRender(dir);
     assert.equal(await readFile(join(dir, 'browser', 'index.html'), 'utf8'), first);

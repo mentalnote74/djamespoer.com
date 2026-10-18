@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 
@@ -36,46 +36,48 @@ export async function preparePublicRender(
       ...routePreloads(stats, 'src/app/components/thingamajob-product/thingamajob-product.ts'),
     ]),
   ];
-  const file = resolve(directory, 'browser/index.html');
-  let html = await readFile(file, 'utf8');
-  // The complete public stylesheet is only ~2 kB compressed. Inline it to remove
-  // a render-blocking round trip; Angular's critical-CSS scanner cannot see lazy views.
-  if (!html.includes('data-public-styles')) {
-    const link = html.match(/<link rel="stylesheet" href="(styles-[\w-]+\.css)"[^>]*>/);
-    if (!link) throw new Error('Public stylesheet unavailable.');
-    const css = await readFile(resolve(directory, 'browser', link[1]), 'utf8');
-    if (/<\/style/i.test(css)) throw new Error('Unsafe stylesheet content.');
-    let first = true;
-    html = html
-      .replace(
-        new RegExp('<link rel="stylesheet" href="' + link[1].replace('.', '\\.') + '"[^>]*>', 'g'),
-        () => {
-          if (!first) return '';
-          first = false;
-          return '<style data-public-styles>' + css + '</style>';
-        },
-      )
-      .replace('<noscript></noscript>', '');
+  // Preserve the CSR shell for direct interior requests on the static host.
+  for (const name of ['index.html', 'index.csr.html']) {
+    const file = resolve(directory, 'browser', name);
+    if (name === 'index.csr.html') {
+      try {
+        await access(file);
+      } catch {
+        continue;
+      }
+    }
+    let html = await readFile(file, 'utf8');
+    // The complete public stylesheet is only ~2 kB compressed. Inline it to remove
+    // a render-blocking round trip; Angular's critical-CSS scanner cannot see lazy views.
+    if (!html.includes('data-public-styles')) {
+      const link = html.match(/<link rel="stylesheet" href="(styles-[\w-]+\.css)"[^>]*>/);
+      if (!link) throw new Error('Public stylesheet unavailable.');
+      const css = await readFile(resolve(directory, 'browser', link[1]), 'utf8');
+      if (/<\/style/i.test(css)) throw new Error('Unsafe stylesheet content.');
+      let first = true;
+      html = html
+        .replace(
+          new RegExp(
+            '<link rel="stylesheet" href="' + link[1].replace('.', '\\.') + '"[^>]*>',
+            'g',
+          ),
+          () => {
+            if (!first) return '';
+            first = false;
+            return '<style data-public-styles>' + css + '</style>';
+          },
+        )
+        .replace('<noscript></noscript>', '');
+    }
+    const hint = `<script data-route-preloads>if(location.pathname.replace(/\\/$/,'')==='/thingamajob'){for(const href of ${JSON.stringify(assets)}){const link=document.createElement('link');link.rel='modulepreload';link.href='/'+href;document.head.append(link);}}</script>`;
+    await writeFile(
+      file,
+      html
+        .replace(/<script data-route-preloads>[\s\S]*?<\/script>/, '')
+        .replace(/<script data-home-artwork-preload>[\s\S]*?<\/script>/, '')
+        .replace('<head>', '<head>' + hint),
+    );
   }
-  // Only the actual first mobile homepage slide gets an image preload.
-  const imageSizes = '(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)';
-  const engineeringCandidates = [
-    ['(max-width: 600px)', 'mobile/engineering', [384, 768, 1200]],
-  ].map(([media, name, widths]) => ({
-    media,
-    srcset: widths
-      .map((width) => `/assets/perspectives/${name}-${width}.avif ${width}w`)
-      .join(', '),
-  }));
-  const homeHint = `<script data-home-artwork-preload>if(location.pathname==='/'){for(const item of ${JSON.stringify(engineeringCandidates)}){const link=document.createElement('link');link.rel='preload';link.as='image';link.type='image/avif';link.media=item.media;link.imageSrcset=item.srcset;link.imageSizes=${JSON.stringify(imageSizes)};link.fetchPriority='high';document.head.append(link);}}</script>`;
-  const hint = `<script data-route-preloads>if(location.pathname.replace(/\\/$/,'')==='/thingamajob'){for(const href of ${JSON.stringify(assets)}){const link=document.createElement('link');link.rel='modulepreload';link.href='/'+href;document.head.append(link);}}</script>`;
-  await writeFile(
-    file,
-    html
-      .replace(/<script data-route-preloads>[\s\S]*?<\/script>/, '')
-      .replace(/<script data-home-artwork-preload>[\s\S]*?<\/script>/, '')
-      .replace('<head>', '<head>' + homeHint + hint),
-  );
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   await preparePublicRender();
