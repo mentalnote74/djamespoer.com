@@ -16,3 +16,16 @@ Links above are reserved destinations, not a claim that binaries have arrived. N
 ## SCRUM-63 production history evidence
 
 James reports 29 live attempts, restored Oct. 7 history, and distinct failed/successful-retry attempts for `08e134c`. The retry's temporary `In progress · Stage unavailable` display is the expected prebuild observation lag. The next successful refresh should capture its completed state; verification of that subsequent update is pending. See the chronological acceptance record above.
+
+## The Infrared Fart Build ? Living Logo visual iteration
+
+Recorded October 19, 2026 from owner visual review.
+
+- Build SHA: `406a35e42d3c10563bfe2451e3e31451aea853d8`
+- Deployment: `d92d915b-8010-4f4d-b75d-155395022e40`
+- Internal working label: **The Infrared Fart Build**
+- Recording: **pending receipt**. No supplied clip was available in the accessible attachments or repository when this note was recorded. No substitute recording has been archived. On receipt, retain the original bytes and filename beside this evidence note, and record its SHA-256 here.
+
+The implementation moved materially closer to the Living Logo brief: Bedlam became visibly alive, emissions originated from the wordmark, and behavior became centrally configurable. But the large, soft-edged, persistent individual emissions created an unintended thermal/gas-plume appearance. That observation led directly to the next tuning direction: smaller, weaker, overlapping disturbances that collectively form an evolving field rather than recognizable individual puffs.
+
+This is owner-reported case-study/product-history evidence, not a new feature or a claim that the recording has already been received. The historical build remains identifiable through the SHA and deployment above; subsequent tuning does not replace that provenance.
