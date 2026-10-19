@@ -23,6 +23,7 @@
     background: #000;
   }
   &__containment {
+    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
     position: absolute;
     inset: 0.5rem;
   }
@@ -40,9 +41,6 @@
 :host-context([data-theme='bloody-mary']) {
   .bedlam__mask {
     background: var(--navigation-foreground);
-  }
-  .bedlam__containment {
-    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
   }
 }
 @media (prefers-reduced-motion: reduce), (forced-colors: active) {

@@ -40,3 +40,9 @@ The tuning investigation established that the old birth/growth/travel/disappeara
 The replacement uses the canonical SVG's actual alpha as its domain, two persistent seeded noise fields, alpha dilation/displacement and theme-derived material shading. Browser-native SVG animation changes noise frequencies on unequal clocks; there are no spawned objects, growth/fade envelopes, particle counts or travel paths. The original wordmark geometry is unchanged. The original mud-cloud implementation, Infrared Fart Build, tuning attempts and fallback remain in Git history; the original recording and build association above remain intact.
 
 Local result: no plume/launch cycle, but the visible composite still reads more like textured/roughened lettering than a convincing disturbed space. This is an implementation checkpoint, not visual acceptance. Do not promote it solely because it builds; retain the recruiter-safe production fallback pending a satisfactory visual result.
+
+## Corrected BEANO visual model - October 19
+
+Owner correction: Bedlam exists underneath the mask; the wordmark is only a window. Letter-driven influence and edge reactions were unnecessary constraints. Removed alpha dilation and silhouette displacement. The underlying rectangular field now has no letter geometry as input; one unchanged canonical CSS alpha mask clips its final output in every theme. No field rectangle is visible.
+
+Scale increased from 0.65 to 1.5, strength 0.4 to 0.65, detail 2 to 1, opacity 0.45 to 0.8, softness 0.2 to 0.08 and colorInfluence 0.65 to 0.85; speed 0.65 and irregularity 0.75 retained. Retired reach because there is no outside-mask coverage. A measured redraw concern prompted reuse of seeded noise textures with independently animated sampling/warp offsets instead of recalculating turbulence frequency every frame. This remains a field composite with no object births, growth, fades or launch paths.

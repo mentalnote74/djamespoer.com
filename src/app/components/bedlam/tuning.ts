@@ -1,19 +1,18 @@
 import { BedlamConfig } from './engine';
 
-/** Operation BEANO: persistent silhouette disturbance, not emissions.
- * scale 0.4?2: larger = coarser features. All other continuous controls 0?1.
- * detail 1?3: noise octaves (mobile caps at 1). speed 0 freezes evolution.
- * reach extends the actual alpha silhouette, never a rectangular field.
+/** Operation BEANO: a continuous field viewed through the canonical mask.
+ * scale 0.4-2: larger = coarser features. All other continuous controls 0-1.
+ * detail 1-3: noise octaves (mobile caps at 1). speed 0 freezes evolution.
+ * strength warps the field only; the wordmark never deforms.
  */
 export const BEDLAM_TUNING: BedlamConfig = {
   enabled: true,
-  scale: 0.65,
-  strength: 0.4,
+  scale: 1.5,
+  strength: 0.65,
   speed: 0.65,
-  detail: 2,
+  detail: 1,
   irregularity: 0.75,
-  reach: 0.1,
-  opacity: 0.45,
-  softness: 0.2,
-  colorInfluence: 0.65,
+  opacity: 0.8,
+  softness: 0.08,
+  colorInfluence: 0.85,
 };

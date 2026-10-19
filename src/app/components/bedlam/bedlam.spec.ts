@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { Bedlam } from './bedlam';
 import { bedlamThemePalette, createBedlam } from './engine';
 
-describe('silhouette disturbance recipe', () => {
+describe('masked field recipe', () => {
   it('is deterministic and preserves independent seed/configuration choices', () => {
     const a = createBedlam(bedlamThemePalette, 'one');
     expect(createBedlam(bedlamThemePalette, 'one')).toEqual(a);
@@ -15,10 +15,8 @@ describe('silhouette disturbance recipe', () => {
       detail: 10000,
       scale: Infinity,
       strength: NaN,
-      reach: 900,
     });
     expect(recipe.detail).toBe(3);
-    expect(recipe.reach).toBe(16);
     expect(JSON.stringify(recipe)).not.toMatch(/NaN|Infinity/);
     expect(createBedlam(bedlamThemePalette, 42, { speed: 0 }).moving).toBe(false);
   });
@@ -37,9 +35,9 @@ describe('Bedlam field presentation', () => {
     expect(root.querySelectorAll('.bedlam__layer').length).toBe(0);
     expect(root.querySelectorAll('filter').length).toBe(1);
     expect(root.querySelectorAll('feTurbulence').length).toBe(2);
-    expect(root.querySelector('image')?.getAttribute('href')).toBe(
-      '/assets/brand/djamespoer.com.logo.svg',
-    );
+    expect(root.querySelector('rect')).not.toBeNull();
+    expect(root.querySelector('feMorphology')).toBeNull();
+    expect(root.querySelector('image')).toBeNull();
     expect(root.querySelector('.bedlam')?.getAttribute('aria-hidden')).toBe('true');
     f.componentInstance.paused.set(true);
     f.detectChanges();

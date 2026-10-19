@@ -673,3 +673,7 @@ Owner review still rejects plume behavior at minimum scale/persistence and maxim
 
 ## Operation BEANO - isolated, not deployed
 Replaced emission slots/envelopes with one silhouette-derived SVG field, two seeded noise clocks and centralized field controls. Local build/budgets and five focused tests pass; Chrome checked eight themes at desktop/mobile, reduced motion, forced colors, offscreen pause and 56 seconds of active evolution. Visual result still reads as fine textured/roughened lettering; active filter redraw cost needs care (see docs/bedlam.md). Keep recruiter-safe bd9f3bf on PROD. Preserve this experiment on feature/operation-beano only; no automatic promotion. Prior evidence/recording and historical descriptions retained.
+
+
+## Corrected BEANO: field beneath mask (not deployed)
+Removed letter influence/dilation entirely. Canonical alpha clips an independent seeded field in every theme; no object envelopes or outside coverage. Coarser/higher-contrast field reads as restrained internal material movement with clean outer geometry. Cached-noise/offset variant did not materially lower observed task cost (~7.6s/56s including seven screenshots; negligible JS). Local build and focused five tests/browser checks pass, but rendering cost/visual impact remain below release confidence. Preserve on feature/operation-beano; PROD remains recruiter-safe bd9f3bf, not this experiment. See docs/bedlam.md for current controls and evidence caveats.

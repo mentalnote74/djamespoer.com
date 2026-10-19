@@ -12,10 +12,10 @@
       <defs>
         <filter
           [attr.id]="filterId"
-          x="-15%"
-          y="-45%"
-          width="130%"
-          height="190%"
+          x="0"
+          y="0"
+          width="100%"
+          height="100%"
           color-interpolation-filters="sRGB"
         >
           <feTurbulence
@@ -23,67 +23,74 @@
             [attr.baseFrequency]="recipe().frequency"
             [attr.numOctaves]="recipe().detail"
             [attr.seed]="recipe().noiseSeed"
+            x="-10%"
+            y="-100%"
+            width="120%"
+            height="300%"
             result="detail"
-          >
+          />
+          <feOffset in="detail" result="detailFlow">
             <animate
-              attributeName="baseFrequency"
-              [attr.values]="recipe().fineValues"
+              attributeName="dx"
+              [attr.values]="recipe().fineX"
               [attr.dur]="recipe().fineDuration"
               repeatCount="indefinite"
               calcMode="spline"
               keyTimes="0;0.33;0.67;1"
               keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
             />
-          </feTurbulence>
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.009 0.026"
-            numOctaves="1"
-            [attr.seed]="recipe().noiseSeed + 17"
-            result="flow"
-          >
             <animate
-              attributeName="baseFrequency"
-              [attr.values]="recipe().coarseValues"
+              attributeName="dy"
+              [attr.values]="recipe().fineY"
               [attr.dur]="recipe().coarseDuration"
               repeatCount="indefinite"
               calcMode="spline"
               keyTimes="0;0.33;0.67;1"
               keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
             />
-          </feTurbulence>
-          <feMorphology
-            in="SourceAlpha"
-            operator="dilate"
-            [attr.radius]="recipe().reach"
-            result="silhouette"
+          </feOffset>
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.009 0.026"
+            numOctaves="1"
+            [attr.seed]="recipe().noiseSeed + 17"
+            x="-10%"
+            y="-100%"
+            width="120%"
+            height="300%"
+            result="flow"
           />
+          <feOffset in="flow" result="warpFlow">
+            <animate
+              attributeName="dx"
+              [attr.values]="recipe().coarseX"
+              [attr.dur]="recipe().coarseDuration"
+              repeatCount="indefinite"
+              calcMode="spline"
+              keyTimes="0;0.33;0.67;1"
+              keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
+            />
+          </feOffset>
           <feDisplacementMap
-            in="silhouette"
-            in2="flow"
+            in="detailFlow"
+            in2="warpFlow"
             [attr.scale]="recipe().strength"
             xChannelSelector="R"
             yChannelSelector="G"
-            result="disturbed"
+            result="fieldNoise"
           />
           <feColorMatrix
-            in="detail"
+            in="fieldNoise"
             type="matrix"
-            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 1 1 0 -1"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.5 1.5 1.5 0 -1.7"
             result="variation"
           />
           <feFlood class="bedlam__color" result="color" />
           <feComposite in="color" in2="variation" operator="in" result="material" />
-          <feComposite in="material" in2="disturbed" operator="in" result="field" />
-          <feGaussianBlur in="field" [attr.stdDeviation]="recipe().softness" />
+          <feGaussianBlur in="material" [attr.stdDeviation]="recipe().softness" />
         </filter>
       </defs>
-      <image
-        href="/assets/brand/djamespoer.com.logo.svg"
-        width="1448"
-        height="172"
-        [attr.filter]="'url(#' + filterId + ')'"
-      />
+      <rect width="1448" height="172" [attr.filter]="'url(#' + filterId + ')'" />
     </svg>
   </span>
 </span>
