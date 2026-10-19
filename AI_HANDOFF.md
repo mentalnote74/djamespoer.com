@@ -1,5 +1,15 @@
 # AI Engineering Handoff
 
+## Scrum dispatch runtime binding — October 19
+
+Cloudflare Builds secret storage is separate from Worker runtime secrets. The
+configured SCRUM_BRIEF_GITHUB_TOKEN was absent from the runtime secret-name inventory.
+After successful build/prerender, bind-runtime-secret.mjs passes that existing build
+secret to Wrangler secret put over stdin, only in Workers Builds on main, before
+the normal deploy. No credential rotation, value logging, file, or browser exposure.
+Binding failure stops the build; local/preview builds do not bind secrets.
+Production dispatch/publication verification pending the resulting Cloudflare build.
+
 ## Automatic production Daily Scrum / Dev Reports
 
 Production generation/read-back succeeded for daily-dev-report:2026-10-18 at SHA

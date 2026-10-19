@@ -16,7 +16,7 @@
     "check:thingamajob": "tsc -p server/thingamajob/tsconfig.json",
     "build:production": "node scripts/deployment-history/production-refresh.mjs && npm run build",
     "deploy:production": "npm run build:production && wrangler deploy",
-    "postbuild": "node scripts/prepare-public-render.mjs"
+    "postbuild": "node scripts/prepare-public-render.mjs && node scripts/scrum-brief/bind-runtime-secret.mjs"
   },
   "private": true,
   "packageManager": "npm@11.19.0",

@@ -70,6 +70,12 @@ workflow_dispatch call. GitHub run history had no October 19 editorial run; the 
 journal latestDate remained October 17. Worker secret inventory had no dispatch credential.
 Thus this was a missing bridge/configuration, not a rejected dispatch or failed publication job.
 
+Cloudflare Builds secrets are not runtime bindings. The successful main-build
+postbuild hook binds the existing SCRUM_BRIEF_GITHUB_TOKEN build secret to the
+Worker via Wrangler stdin before normal deployment. It does not rotate the value,
+write it to disk, or print child output. Local/preview builds skip this step.
+Missing build secret or binding failure stops production build/publication.
+
 Worker secret SCRUM_BRIEF_GITHUB_TOKEN must be a fine-grained token scoped to
 mentalnote74/djamespoer.com with Actions write permission (metadata read implicit).
 Configure it in Cloudflare dashboard > Workers & Pages > djamespoer-com > Settings >
