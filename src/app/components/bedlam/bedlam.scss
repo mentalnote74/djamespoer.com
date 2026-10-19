@@ -20,12 +20,35 @@
   &__scene {
     position: absolute;
     inset: 0;
-    opacity: 0.72;
+    opacity: var(--bedlam-scene-opacity, 0.72);
   }
   &__field {
     position: absolute;
     inset: 0;
     overflow: visible;
+  }
+  &__layer {
+    position: absolute;
+    inset: -25%;
+    border-radius: 50%;
+    filter: blur(var(--bedlam-blur))
+      drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 2px rgb(0 0 0 / 0.45));
+    transform: translate(var(--bedlam-x), var(--bedlam-y)) rotate(var(--bedlam-angle))
+      scale(var(--bedlam-scale));
+    animation: bedlam-drift calc(var(--bedlam-duration) / var(--bedlam-motion-rate, 1.44))
+      ease-in-out var(--bedlam-delay) infinite alternate;
+    animation-direction: var(--bedlam-direction);
+    animation-play-state: var(--bedlam-motion, running);
+  }
+  &__layer--nebula {
+    filter: var(--bedlam-distortion-filter) blur(var(--bedlam-blur))
+      drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 3px rgb(0 0 0 / 0.4));
+  }
+  &__layer--rays {
+    animation-name: bedlam-orbit;
+  }
+  &__layer--grain {
+    animation: none;
   }
   // Filter the transparent parent of the masked shape, never the rectangular field.
   &__identity {
@@ -71,6 +94,21 @@
     inset: 0.5rem;
   }
 }
+@keyframes bedlam-drift {
+  to {
+    transform: translate(
+        calc(var(--bedlam-x) + var(--bedlam-travel)),
+        calc(var(--bedlam-y) + var(--bedlam-rise))
+      )
+      rotate(calc(var(--bedlam-angle) + var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.14));
+  }
+}
+@keyframes bedlam-orbit {
+  to {
+    transform: translate(var(--bedlam-x), var(--bedlam-y))
+      rotate(calc(var(--bedlam-angle) - var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.06));
+  }
+}
 @media (forced-colors: active) {
   .bedlam__scene {
     display: none;
@@ -105,7 +143,7 @@
   }
   .bedlam__field {
     inset: -0.5rem;
-    opacity: 0.72;
+    opacity: var(--bedlam-scene-opacity, 0.72);
   }
   .bedlam__identity {
     display: none;
@@ -126,36 +164,5 @@
   }
   .bedlam .bedlam__identity {
     display: block;
-  }
-}
-
-// Material renderer only; composition rules above are unchanged from 909072d.
-.bedlam {
-  &__plane {
-    position: absolute;
-    // Light-theme material is no longer letter-clipped: backing edges must lie
-    // beyond the historical navbar clipping boundary, never inside the header.
-    inset: min(-250px, -100vw);
-    background-repeat: repeat;
-    filter: blur(var(--bedlam-softness));
-    transform-origin: center;
-    animation: bedlam-material var(--bedlam-duration) linear var(--bedlam-delay) infinite;
-    animation-direction: var(--bedlam-direction);
-    animation-play-state: var(--bedlam-motion, running);
-  }
-}
-@keyframes bedlam-material {
-  from {
-    transform: rotate(var(--bedlam-angle)) translateX(0);
-  }
-  to {
-    transform: rotate(var(--bedlam-angle)) translateX(calc(-1 * var(--bedlam-tile)));
-  }
-}
-
-:host-context([data-theme='rum-runner']),
-:host-context([data-theme='bloody-mary']) {
-  .bedlam__plane {
-    inset: -250px;
   }
 }

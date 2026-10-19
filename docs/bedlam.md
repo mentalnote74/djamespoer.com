@@ -1,3 +1,11 @@
+# Current Bedlam: exact rollback to 22f2590
+
+Owner rejected the moving-material treatments. All six Bedlam files and the manual tuning guide are restored byte-for-byte from 22f2590e41c564fb7a4e26315515ab1d9b7f2c93. See [the restored tuning guide](bedlam-pre-fart-tuning.md). No artistic changes: historical blob, historical values, centralized handles, no reduced-motion suppression, forced-colors identity and resource pausing are restored exactly.
+
+Later experiments and evidence remain in Git and the historical records below. They are not the current renderer.
+
+---
+
 # Current composition: historical pre-fart rules + new moving material
 
 Composition is restored directly from 909072dbb5471198d253031c8eb526b6e99b8736. Teetotaler and the five other non-dark anchors use an opaque black canonical wordmark over material in the header-clipped navbar field. Rum Runner and Bloody Mary use the canonical letter mask on the scene, navigation-foreground backing, silhouette shadow, hidden separate identity and the historical field opacity. Header/field positioning, default transparency, z-index, overflow and forced-colors rules are the historical rules, not a unified all-theme mask.

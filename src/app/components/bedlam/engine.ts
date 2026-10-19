@@ -1,76 +1,180 @@
+export type BedlamLayerKind = 'nebula' | 'rings' | 'rays' | 'grain' | 'particles';
 export interface BedlamPalette {
   readonly primary: string;
   readonly secondary: string;
   readonly accent: string;
 }
 export interface BedlamConfig {
-  readonly enabled?: boolean;
+  readonly horizontalTravel?: number;
+  readonly verticalTravel?: number;
+  readonly blur?: number;
+  readonly sceneOpacity?: number;
+  readonly motionRate?: number;
+  readonly intensity?: number;
+  readonly density?: number;
+  readonly layers?: Partial<Record<BedlamLayerKind, boolean>>;
+  readonly particles?: boolean;
+  readonly particleCount?: number;
+  readonly symmetry?: number;
+  readonly turbulence?: number;
+  readonly opacity?: number;
+  readonly blend?: 'normal' | 'screen' | 'overlay' | 'soft-light';
   readonly speed?: number;
+  readonly direction?: 'normal' | 'reverse';
   readonly scale?: number;
-  readonly variation?: number;
-  readonly contrast?: number;
-  readonly softness?: number;
-  readonly colorInfluence?: number;
-  readonly planes?: number;
+  readonly positionX?: number;
+  readonly positionY?: number;
+  readonly depth?: number;
+  readonly derivedColorMix?: number;
+  readonly hueRotation?: number;
+}
+export interface BedlamLayer {
+  readonly id: string;
+  readonly kind: BedlamLayerKind;
+  readonly style: Readonly<Record<string, string>>;
 }
 export const bedlamThemePalette: BedlamPalette = {
   primary: 'var(--selected-background)',
   secondary: 'var(--navigation-surface)',
   accent: 'var(--page-foreground)',
 };
-export interface BedlamPlane {
-  readonly id: number;
-  readonly style: Readonly<Record<string, string>>;
-}
-const bound = (n: number | undefined, fallback: number, min = 0, max = 1) =>
-  Number.isFinite(n) ? Math.min(max, Math.max(min, n!)) : fallback;
-/** Static, seeded material tiles. Only their transforms animate; no per-frame JS or raster noise. */
+const bounded = (value: number | undefined, fallback: number, min = 0, max = 1) =>
+  Number.isFinite(value) ? Math.max(min, Math.min(max, value!)) : fallback;
+
+/** Pure seeded recipe. Theme references cascade live; geometry has no clock or DOM. */
 export function createBedlam(
   palette: BedlamPalette,
   seed: string | number,
   config: BedlamConfig = {},
-): readonly BedlamPlane[] {
-  for (const color of Object.values(palette))
-    if (
-      !/^(?:#[\da-f]{3,8}|var\(--[a-z][a-z\d-]*\)|(?:rgb|rgba|hsl|hsla|color|oklab|oklch)\([a-z\d%., /+\-]+\))$/i.test(
-        color,
-      )
+): readonly BedlamLayer[] {
+  const colors = [palette.primary, palette.secondary, palette.accent];
+  if (
+    colors.some(
+      (color) =>
+        !/^(?:#[\da-f]{3,8}|var\(--[a-z][a-z\d-]*\)|(?:rgb|rgba|hsl|hsla|color|oklab|oklch)\([a-z\d%., /+\-]+\))$/i.test(
+          color,
+        ),
     )
-      throw new Error('Bedlam requires colors or semantic theme references.');
-  if (config.enabled === false) return [];
-  let hash = 2166136261;
-  for (const c of String(seed)) hash = Math.imul(hash ^ c.charCodeAt(0), 16777619);
+  )
+    throw new Error('Bedlam requires colors or semantic theme references.');
+  let state = 2166136261;
+  for (const char of String(seed)) state = Math.imul(state ^ char.charCodeAt(0), 16777619);
   const random = () => {
-    hash = Math.imul(hash ^ (hash >>> 15), 2246822519);
-    return (hash >>> 0) / 4294967296;
+    state = (state + 0x6d2b79f5) | 0;
+    let n = Math.imul(state ^ (state >>> 15), 1 | state);
+    n ^= n + Math.imul(n ^ (n >>> 7), 61 | n);
+    return ((n ^ (n >>> 14)) >>> 0) / 4294967296;
   };
-  const scale = bound(config.scale, 1, 0.5, 2);
-  const variation = bound(config.variation, 0.7);
-  const influence = bound(config.colorInfluence, 0.7);
-  const contrast = bound(config.contrast, 0.7);
-  const speed = bound(config.speed, 1, 0.1, 3);
-  return Array.from({ length: Math.round(bound(config.planes, 3, 1, 3)) }, (_, i) => {
-    const source = [palette.primary, palette.secondary, palette.accent][i];
-    const derived = `oklch(from ${source} clamp(0.58, calc(l + 0.28), 0.76) clamp(0.04, calc(c + 0.04), 0.16) calc(h + ${i % 2 ? -125 : 145}))`;
-    const a = `color-mix(in oklch, ${source}, ${derived} ${influence * 100}%)`;
-    const b = `oklch(from ${a} clamp(0.25, calc(l - 0.22), 0.65) c calc(h + 70))`;
-    const tile = Math.round((116 + random() * 73 + i * 17) * scale);
-    const pitch = (6 + random() * 7 + i * 2) * scale;
-    const angle = [-23, 37, 78][i] + (random() - 0.5) * variation * 22;
-    const duration = [31.73, 47.29, 68.87][i] / speed;
-    return {
-      id: i,
-      style: {
-        'background-image': `repeating-linear-gradient(90deg, transparent 0 ${pitch * 0.3}px, ${a} ${pitch * 0.42}px ${pitch * 0.64}px, transparent ${pitch * 0.8}px ${pitch * 1.7}px, ${b} ${pitch * 1.85}px ${pitch * 2.2}px, transparent ${pitch * 2.5}px ${pitch * 3.1}px), repeating-linear-gradient(${48 + variation * 37}deg, transparent 0 ${pitch}px, ${b} ${pitch * 1.2}px ${pitch * 1.6}px, transparent ${pitch * 2}px ${pitch * 3.7}px)`,
-        'background-size': `${tile}px ${tile}px`,
-        opacity: String(contrast * (i === 0 ? 0.85 : 0.65)),
-        '--bedlam-tile': `${tile}px`,
-        '--bedlam-angle': `${angle}deg`,
-        '--bedlam-duration': `${duration}s`,
-        '--bedlam-delay': `${-duration * random()}s`,
-        '--bedlam-direction': i % 2 ? 'reverse' : 'normal',
-        '--bedlam-softness': `${bound(config.softness, 0.08) * 1.5}px`,
-      },
+  const derivedMix = bounded(config.derivedColorMix, 0.6);
+  const hueRotation = bounded(config.hueRotation, 150, -180, 180);
+  const contrastColor = (source: string, index: number) => {
+    const rotation = index % 2 ? -hueRotation : hueRotation;
+    const offset = index % 2 ? -0.06 : 0.06;
+    const derived = `oklch(from ${source} clamp(0.38, calc(l + ${offset}), 0.76) clamp(0.055, calc(c + 0.035), 0.14) calc(h + ${rotation}))`;
+    return `color-mix(in oklch, ${source}, ${derived} ${derivedMix * 100}%)`;
+  };
+  const intensity = bounded(config.intensity, 0.95);
+  const density = bounded(config.density, 0.4);
+  const symmetry = bounded(config.symmetry, 0.08);
+  const turbulence = bounded(config.turbulence, 0.8);
+  const opacity = bounded(config.opacity, 0.95);
+  const depth = bounded(config.depth, 0.9);
+  const speed = bounded(config.speed, 0.12);
+  const scale = bounded(config.scale, 0.95, 0.7, 2);
+  const blend = ['normal', 'screen', 'overlay', 'soft-light'].includes(config.blend ?? '')
+    ? config.blend!
+    : 'normal';
+  const kinds: BedlamLayerKind[] = [
+    ...Array<BedlamLayerKind>(2 + Math.round(density * 3)).fill('nebula'),
+    'rings',
+    'rays',
+    'grain',
+    ...(config.particles
+      ? Array<BedlamLayerKind>(Math.round(bounded(config.particleCount, 8, 0, 24))).fill(
+          'particles',
+        )
+      : []),
+  ];
+  return kinds.flatMap((kind, index) => {
+    const a = contrastColor(colors[index % colors.length], index),
+      b = contrastColor(colors[(index + 1) % colors.length], index + 1);
+    const x = 50 + (random() - 0.5) * 85 * (1 - symmetry);
+    const y = 50 + (random() - 0.5) * 70 * (1 - symmetry);
+    const angle = Math.round((random() - 0.5) * 48),
+      distance = kind === 'nebula' ? [0.12, 0.5, 0.9][index % 3] : 0.4 + random() * 0.6;
+    const duration = 22 + (1 - distance) * 55 + random() * 15,
+      phase = random();
+    const gradients: Record<BedlamLayerKind, string> = {
+      nebula: `radial-gradient(ellipse at 24% 18%, color-mix(in srgb, ${a} 25%, white) 0%, ${a} 9%, color-mix(in srgb, ${b} 75%, black) 34%, color-mix(in srgb, ${b} 70%, transparent) 48%, transparent 69%), radial-gradient(ellipse at 65% 75%, ${a}, transparent 65%)`,
+      rings: `linear-gradient(165deg, transparent 38%, color-mix(in srgb, ${a} 20%, transparent) 46%, ${palette.accent} 48%, ${b} 49%, transparent 57%)`,
+      rays: `linear-gradient(115deg, transparent 24%, ${b} 31%, ${a} 42%, ${palette.accent} 43%, ${b} 48%, transparent 68%)`,
+      grain: `radial-gradient(circle at 7px 9px, ${a} 0 0.45px, transparent 0.8px), radial-gradient(circle at 19px 5px, ${b} 0 0.6px, transparent 1px)`,
+      particles: `radial-gradient(circle, ${b} 0 30%, ${a} 35%, transparent 70%)`,
     };
+    const secondaryOpacity =
+      kind === 'nebula'
+        ? distance < 0.3
+          ? 0.3825
+          : distance < 0.7
+            ? 0.47872
+            : 1
+        : kind === 'grain'
+          ? 0.3825
+          : 0.4576;
+    const style: Record<string, string> = {
+      'background-image': gradients[kind],
+      opacity: String(
+        opacity *
+          intensity *
+          secondaryOpacity *
+          (kind === 'grain' ? 0.18 : kind === 'rings' ? 0.22 : 0.42 + distance * 0.45),
+      ),
+      'mix-blend-mode': blend,
+      '--bedlam-angle': `${angle}deg`,
+      '--bedlam-turn': `${(index % 2 ? -1 : 1) * (2 + turbulence * 9) * distance}deg`,
+      '--bedlam-scale': String(scale + distance * depth * 0.7),
+      '--bedlam-travel': `${(index % 2 ? -1 : 1) * (0.5 + turbulence * distance * 10) * bounded(config.horizontalTravel, 1, 0, 4)}%`,
+      '--bedlam-rise': `${(index % 3 ? 1 : -1) * (0.3 + distance * 5) * bounded(config.verticalTravel, 1, 0, 4)}%`,
+      '--bedlam-duration': `${duration / (0.25 + speed * 1.75)}s`,
+      '--bedlam-delay': `${-duration * phase}s`,
+      '--bedlam-direction': config.direction === 'reverse' ? 'reverse' : 'normal',
+      '--bedlam-blur': `${kind === 'nebula' ? (1 - distance) * depth * bounded(config.blur, 7, 0, 20) : 0}px`,
+      '--bedlam-depth': `${distance * depth * 4}px`,
+      '--bedlam-noise-seed': String(Math.round(phase * 65535)),
+      '--bedlam-distortion': String(12 + turbulence * 35 + distance * 15),
+      '--bedlam-x': `${bounded(config.positionX, 0, -25, 25)}%`,
+      '--bedlam-y': `${bounded(config.positionY, 0, -25, 25)}%`,
+    };
+    if (kind === 'nebula') {
+      style['inset'] = 'auto';
+      style['left'] = `${x - (distance < 0.3 ? 65 : distance < 0.7 ? 30 : 8)}%`;
+      style['top'] = `${y - (distance < 0.3 ? 100 : 55)}%`;
+      style['width'] = `${distance < 0.3 ? 145 : distance < 0.7 ? 90 : 28}%`;
+      style['height'] = `${distance < 0.3 ? 230 : distance < 0.7 ? 200 : 105}%`;
+      style['border-radius'] = '38% 66% 42% 60% / 55% 40% 68% 45%';
+    }
+    if (kind === 'rays') {
+      style['inset'] = 'auto';
+      style['left'] = `${x}%`;
+      style['top'] = `${y - 70}%`;
+      style['width'] = '34%';
+      style['height'] = '170%';
+      style['clip-path'] =
+        'polygon(0 68%, 22% 42%, 36% 51%, 65% 7%, 57% 49%, 100% 62%, 53% 71%, 35% 100%, 24% 73%)';
+    }
+    if (kind === 'grain') {
+      style['background-size'] = '23px 17px, 31px 29px';
+      style['clip-path'] =
+        'polygon(6% 48%, 24% 30%, 35% 48%, 54% 21%, 73% 38%, 91% 46%, 70% 59%, 43% 65%, 25% 54%)';
+    }
+    if (kind === 'particles') {
+      style['inset'] = 'auto';
+      style['left'] = `${x}%`;
+      style['top'] = `${y}%`;
+      style['width'] = style['height'] = `${2 + distance * 5}px`;
+    }
+    return config.layers?.[kind] === false
+      ? []
+      : [Object.freeze({ id: `${kind}-${index}`, kind, style: Object.freeze(style) })];
   });
 }

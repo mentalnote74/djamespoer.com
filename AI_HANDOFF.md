@@ -689,3 +689,7 @@ Replaced historical blob with 3 static gradient planes (2 mobile), transform-onl
 
 ## Historical composition correction
 Restored 909072d composition wrappers/theme CSS around unchanged 40c29f1 moving material. Non-dark themes: black wordmark over header-clipped material; Rum Runner/Bloody Mary: canonical masked scene, navigation-foreground backing, silhouette shadow. No engine/seed/tuning/motion/resource edits. Material backing extent adjusted only to eliminate visible rotated backing edges. Browser comparison to independently compiled historical CSS passes all eight themes at 1440/390; build/budgets and five focused tests pass. Authorized PROD release follows. Earlier all-theme-mask documentation is historical, not current.
+
+
+## Owner-directed exact Bedlam rollback
+Restored every file under src/app/components/bedlam and docs/bedlam-pre-fart-tuning.md byte-for-byte from 22f2590e41c564fb7a4e26315515ab1d9b7f2c93. No material-plane code or later tuning retained in runtime. Historical defaults, removal of reduced-motion suppression, forced colors and resource pausing are exactly target state. Later experiments/evidence remain in history. Authorized PROD rollback uses normal release build; verify target-byte equality and live legacy layer/duration behavior.
