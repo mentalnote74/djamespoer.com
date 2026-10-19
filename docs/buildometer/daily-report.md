@@ -5,9 +5,12 @@ calendar date. Its hourly UTC Cron checks Eastern time: first collection is at 1
 later hourly checks through 11 PM recover a missed/failed collection. Before 10 AM it does
 nothing. DST is handled by Intl timezone conversion, not a fixed UTC offset.
 
-The former GitHub editorial-status republishing schedule is removed. Its manual workflow,
-component and existing Product Journal history are preserved. No recurring model calls,
-ChatGPT tasks or report-content commits/deployments are needed for measurement collection.
+The GitHub workflow remains workflow_dispatch-only: no Actions cron is added. After the
+same Eastern 10 AM gate, production Worker Cron independently collects measurements and
+dispatches the existing daily-scrum-brief.yml workflow on main. A report collection failure
+does not prevent the dispatch attempt. The existing generator, content format and Git/Cloudflare
+publication path are unchanged. No recurring model calls or ChatGPT tasks are introduced.
+Measurement collection itself still requires no report-content commits/deployments.
 
 ## Durable evidence and idempotence
 
@@ -57,3 +60,33 @@ REPORT_GENERATION_TOKEN is a Worker secret; no ambient browser identity grants a
 CLOUDFLARE_ACCOUNT_ID and DEPLOYMENT_HISTORY_READ_TOKEN reuse secure read-only configuration.
 JIRA_BASE_URL, JIRA_EMAIL, JIRA_API_TOKEN and JIRA_PROJECT_KEY remain the existing optional
 runtime Jira configuration. Never put credentials in client code, query strings or reports.
+
+
+## Editorial workflow dispatch bridge
+
+October 19 diagnosis: production retained daily-dev-report:2026-10-19 with trigger scheduled
+at 14:00:44.696Z (10:00:44 AM Eastern), but deployed scheduled code contained no GitHub
+workflow_dispatch call. GitHub run history had no October 19 editorial run; the public
+journal latestDate remained October 17. Worker secret inventory had no dispatch credential.
+Thus this was a missing bridge/configuration, not a rejected dispatch or failed publication job.
+
+Worker secret SCRUM_BRIEF_GITHUB_TOKEN must be a fine-grained token scoped to
+mentalnote74/djamespoer.com with Actions write permission (metadata read implicit).
+Configure it in Cloudflare dashboard > Workers & Pages > djamespoer-com > Settings >
+Variables and Secrets > Add secret. Never put it in source, browser code, logs or chat.
+The scheduled code targets only the existing workflow/main; callers cannot override them.
+
+POST /api/buildometer/reports/dispatch-brief is the authenticated run-now/recovery entrypoint,
+using the existing REPORT_GENERATION_TOKEN. It accepts no body/query/date/branch parameters
+and invokes the same function as Cron. A missing credential returns a specific 503 before
+any dispatch. No GitHub dispatch attempt should be claimed until actual acceptance is recorded.
+
+Private receipts use the existing R2 bucket, keys scrum-brief-dispatch/YYYY-MM-DD.json.
+A conditional write claims each attempt. Already published dates and accepted dispatches do
+not repeat. HTTP 200 acceptance retains GitHub's run ID/URL; legacy 204 is also accepted.
+A concrete rejection is retained with its status and can retry after correction. Timeout or
+an unresolved in-flight attempt blocks automatic redispatch: inspect GitHub runs before
+repairing that private receipt. Do not delete accepted receipts simply to retry a failed job;
+inspect/rerun the recorded workflow in GitHub. The existing workflow concurrency and same-date
+journal upsert remain in force. Publication success is confirmed by reading PROD journal,
+not merely a successful dispatch response. Logs include no credentials or response bodies.

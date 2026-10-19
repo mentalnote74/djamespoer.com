@@ -693,3 +693,7 @@ Restored 909072d composition wrappers/theme CSS around unchanged 40c29f1 moving 
 
 ## Owner-directed exact Bedlam rollback
 Restored every file under src/app/components/bedlam and docs/bedlam-pre-fart-tuning.md byte-for-byte from 22f2590e41c564fb7a4e26315515ab1d9b7f2c93. No material-plane code or later tuning retained in runtime. Historical defaults, removal of reduced-motion suppression, forced colors and resource pausing are exactly target state. Later experiments/evidence remain in history. Authorized PROD rollback uses normal release build; verify target-byte equality and live legacy layer/duration behavior.
+
+
+## Daily Scrum dispatch diagnosis/fix - October 19
+Actual production Cron captured the Oct19 measurement report at 10:00:44 Eastern, but scheduled Worker had no GitHub dispatch code; GH run history has no Oct19 editorial run, journal still Oct17. Added narrow Worker -> existing workflow_dispatch bridge with private per-date conditional R2 receipts and authenticated run-now endpoint /api/buildometer/reports/dispatch-brief. No Actions cron, workflow/generator/status/content changes. Existing measurement collector remains independent. Tests/typecheck pass. Live completion requires SCRUM_BRIEF_GITHUB_TOKEN (repo-only Actions write) configured as Worker secret; inventory currently lacks it and Windows User env has no GH dispatch credential. Do not claim today's publication until real GitHub run and PROD journal readback. Keep exact pre-fart Bedlam unchanged.

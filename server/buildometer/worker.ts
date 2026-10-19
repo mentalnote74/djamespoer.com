@@ -3,14 +3,9 @@ import { acquireJira, type JiraConfig } from './jira.ts';
 import { applyDeployments, deriveJira, emptyData } from './derive.ts';
 import { applyProject } from './project.ts';
 import type { BuildometerData } from '../../src/app/components/buildometer/data/contract.ts';
-import {
-  readReports,
-  generateDailyReport,
-  applyDailyHistory,
-  reportDue,
-  type ReportEnv,
-} from './daily-report.ts';
-export interface Env extends ReportEnv {
+import { readReports, generateDailyReport, applyDailyHistory, reportDue } from './daily-report.ts';
+import { dispatchScrumBrief, type ScrumDispatchEnv } from './scrum-dispatch.ts';
+export interface Env extends ScrumDispatchEnv {
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
 export function createHandler(acquire = acquireJira) {
@@ -125,6 +120,28 @@ const handle = createHandler();
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (url.pathname === '/api/buildometer/reports/dispatch-brief') {
+      if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+      if (
+        !env.REPORT_GENERATION_TOKEN ||
+        request.headers.get('Authorization') !== 'Bearer ' + env.REPORT_GENERATION_TOKEN
+      )
+        return new Response('Unauthorized', { status: 401 });
+      if (url.search || request.body !== null)
+        return new Response('No parameters supported', { status: 400 });
+      try {
+        return Response.json(await dispatchScrumBrief(env), {
+          headers: { 'Cache-Control': 'no-store' },
+        });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Scrum dispatch failed';
+        console.error(message);
+        return Response.json(
+          { error: message },
+          { status: 503, headers: { 'Cache-Control': 'no-store' } },
+        );
+      }
+    }
     if (url.pathname.startsWith('/api/buildometer/reports')) {
       if (url.search) return new Response('No query parameters supported', { status: 400 });
       if (url.pathname === '/api/buildometer/reports/generate') {
@@ -166,20 +183,30 @@ export default {
   },
   async scheduled(controller: { scheduledTime: number }, env: Env): Promise<void> {
     if (!reportDue(controller.scheduledTime)) return;
-    try {
-      const result = await generateDailyReport(env, { trigger: 'scheduled' });
-      console.log(
-        JSON.stringify({
-          operation: 'daily-dev-report',
-          id: result.report.id,
-          existing: result.existing,
-        }),
-      );
-    } catch {
-      console.error(
-        'Daily report scheduled collection failed; prior archive retained. Next hourly trigger retries.',
-      );
-      throw Error('Daily report collection failed');
-    }
+    const results = await Promise.allSettled([
+      (async () => {
+        const result = await generateDailyReport(env, { trigger: 'scheduled' });
+        console.log(
+          JSON.stringify({
+            operation: 'daily-dev-report',
+            id: result.report.id,
+            existing: result.existing,
+          }),
+        );
+      })(),
+      (async () => {
+        const result = await dispatchScrumBrief(env);
+        console.log(JSON.stringify({ operation: 'daily-scrum-dispatch', ...result }));
+      })(),
+    ]);
+    for (const result of results)
+      if (result.status === 'rejected')
+        console.error(
+          result.reason instanceof Error
+            ? result.reason.message
+            : 'Scheduled daily operation failed',
+        );
+    if (results.some((r) => r.status === 'rejected'))
+      throw Error('Scheduled daily automation incomplete; prior reports/publication retained');
   },
 };
