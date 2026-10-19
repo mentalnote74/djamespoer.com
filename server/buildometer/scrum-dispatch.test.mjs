@@ -127,3 +127,18 @@ test('run-now endpoint requires existing owner secret and refuses branch/date pa
     400,
   );
 });
+
+test('an empty POST stream reaches the credential check rather than failing parameter validation', async () => {
+  const e = env();
+  delete e.SCRUM_BRIEF_GITHUB_TOKEN;
+  const response = await worker.fetch(
+    new Request('https://djamespoer.com/api/buildometer/reports/dispatch-brief', {
+      method: 'POST',
+      body: '',
+      headers: { Authorization: 'Bearer fictional-owner' },
+    }),
+    e,
+  );
+  assert.equal(response.status, 503);
+  assert.match((await response.json()).error, /SCRUM_BRIEF_GITHUB_TOKEN missing/);
+});

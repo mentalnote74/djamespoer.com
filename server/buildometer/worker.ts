@@ -127,7 +127,7 @@ export default {
         request.headers.get('Authorization') !== 'Bearer ' + env.REPORT_GENERATION_TOKEN
       )
         return new Response('Unauthorized', { status: 401 });
-      if (url.search || request.body !== null)
+      if (url.search || (await request.text()) !== '')
         return new Response('No parameters supported', { status: 400 });
       try {
         return Response.json(await dispatchScrumBrief(env), {
