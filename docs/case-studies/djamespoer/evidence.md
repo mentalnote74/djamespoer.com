@@ -50,3 +50,9 @@ Scale increased from 0.65 to 1.5, strength 0.4 to 0.65, detail 2 to 1, opacity 0
 ## Owner-directed return to pre-fart blob - October 19
 
 Restored the immediate pre-emission implementation from 909072d (Bedlam last changed in 9ee64f2), without artistic tuning. Extracted genuine historical parameters into tuning.ts and removed Bedlam reduced-motion suppression as requested. Exact generated recipe equality was checked against the historical engine. Full controls and limits, including prior evaluation/media-state evidence, are documented in [the restoration guide](../../bedlam-pre-fart-tuning.md). Infrared Fart recording, BEANO experiments and static PROD fallback remain preserved; restoration is feature-branch-only.
+
+## No-blob masked material replacement - October 19
+
+Owner rejected the live historical blob as too large and barely moving, authorizing a new renderer. Replaced it with static seeded gradient material sampled by continuously moving, independently phased planes under the unchanged mask. No spawned objects, animated growth/fading, SVG turbulence filters or letter interaction. Desktop three planes, mobile two; per-plane wraps are seamless and combined periods differ. A 72-second desktop/40-second mobile observation found no recognizable blob lifecycle or obvious shared restart. Forced colors/static identity and resource pausing remain; reduced motion does not suppress it per owner decision.
+
+The isolated 12-second active/paused browser comparison measured ~0.04326s/~0.00176s main-thread task work respectively, with zero measured script/layout work in the active window. Whole-page cost was substantially higher and cannot be attributed to Bedlam alone. This is not a GPU/battery benchmark. Current technique/control details are in docs/bedlam.md. Historical blob, original recording, tuning guide, fallback and BEANO checkpoints remain in Git and evidence history.

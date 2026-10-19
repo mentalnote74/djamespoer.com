@@ -1,3 +1,21 @@
+# Current Bedlam: moving material underneath the mask
+
+Three static, seeded gradient planes (two on mobile) move under the unchanged canonical CSS alpha mask. Only transforms animate. There are no blobs, SVG noise/displacement filters, emissions, particles, object lifetimes or per-frame JavaScript. Parent shadow follows the actual masked silhouette using the existing theme tokens.
+
+Central controls: src/app/components/bedlam/tuning.ts. Defaults: speed 1.4 (0.1-3), scale 0.85 (0.5-2), variation 0.8 (0-1), contrast 0.85 (0-1), softness 0.05 (0-1), colorInfluence 0.85 (0-1), planes 3 (1-3, mobile capped at 2), enabled true; seed bedlam-material-01. Larger scale means coarser material; variation changes crossing angles/pattern structure; contrast changes plane opacity; softness adds a small static blur. Enabled=false retains the static identity. Instances can independently override seed/config/palette.
+
+Each plane translates by exactly one repeating texture tile per cycle, giving a seamless individual wrap. Different angles, phases and unequal clocks (about 22.66, 33.78 and 49.19 seconds at default speed) prevent a short shared composite restart. This is practical perceptual non-repetition, not a claim of mathematical randomness/infinity. No opacity/scale envelope is animated; linear motion has no dwell/easing endpoints.
+
+Reduced motion deliberately does not suppress Bedlam, per owner instruction. Forced colors hides material and keeps the static CanvasText identity. Offscreen/document-hidden/manual pause still suspend animation. The initial prerender/hydration markup is stable; mobile reduces planes after browser rendering.
+
+Verification: production build/prerender/budgets and five directly affected tests passed. Chrome checked all eight themes at desktop/390px, moving transforms, reduced-motion-on behavior, forced-colors static identity, offscreen pause, no overflow/page errors. Observed 72 seconds desktop and 40 seconds mobile across multiple individual wraps, with no obvious composite restart or blob/puff formation.
+
+Whole-page observation task times were ~8.57s/72s desktop and ~4.58s/40s mobile, including screenshots and other homepage effects; these do NOT isolate Bedlam. A controlled mobile-viewport sample paused other CSS animations and carousel rotation: 12 seconds all-paused used ~0.00176s TaskDuration; Bedlam-only active used ~0.04326s, with zero measured ScriptDuration/LayoutDuration. This is a local main-thread comparison, not a GPU/battery/real-device benchmark. Do not infer rendering cost from JS size.
+
+---
+
+Prior implementations and investigations below are preserved historical evidence, not the current renderer.
+
 # Current feature branch: restored pre-fart blob
 
 Manual baseline restored from 909072d with no artistic tuning. See [the complete control/evidence guide](bedlam-pre-fart-tuning.md) and `src/app/components/bedlam/tuning.ts`. Bedlam deliberately ignores prefers-reduced-motion on this feature branch, per owner instruction; forced-colors identity and resource pausing remain. NOT deployed. PROD remains the static recruiter-safe fallback.

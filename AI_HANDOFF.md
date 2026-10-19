@@ -681,3 +681,7 @@ Removed letter influence/dilation entirely. Canonical alpha clips an independent
 
 ## Owner-directed pre-fart restoration (feature branch only)
 Restored 909072d Bedlam (last engine revision 9ee64f2); verified exact seeded recipe equality and extracted real X/Y travel, blur, scene-opacity and CSS playback handles with unchanged defaults. Central tuning.ts and docs/bedlam-pre-fart-tuning.md are authoritative. Removed only Bedlam prefers-reduced-motion suppression by explicit owner instruction; forced colors and visibility pausing retained. Local build, five focused tests and Chrome desktop/mobile motion checks pass for both media settings. No art direction or PROD deployment. Preserve BEANO/evidence branches; PROD stays bd9f3bf.
+
+
+## No-blob masked-material release
+Replaced historical blob with 3 static gradient planes (2 mobile), transform-only motion behind canonical alpha. Central new tuning.ts controls; no emissions/noise filters/JS frame loop. Unequal seamless cycles avoid short composite restart. Observed desktop 72s/mobile 40s; all themes, reduced-motion-on motion, forced colors, offscreen pause and no overflow/page errors verified. Build/prerender/budgets + five scoped tests pass. Isolated 12s mobile-viewport sample: paused task .00176s vs Bedlam-only active .04326s, script/layout zero; not GPU/battery evidence. Proceeding through authorized PROD release after visual acceptance. Earlier algorithms/artifacts remain historical in Git/docs.

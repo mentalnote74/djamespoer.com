@@ -1,3 +1,5 @@
+> Historical restoration guide for commit 22f2590, not the current renderer. See docs/bedlam.md and src/app/components/bedlam/tuning.ts for current moving-material controls. This guide is preserved as case-study history.
+
 # Restored pre-fart Bedlam: manual controls
 
 Feature branch only. No artistic tuning; no production deployment.

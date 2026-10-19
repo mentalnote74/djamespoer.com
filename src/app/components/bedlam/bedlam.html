@@ -1,67 +1,9 @@
-<span
-  #field
-  class="bedlam"
-  aria-hidden="true"
-  [style.--bedlam-motion]="motion()"
-  [style.--bedlam-scene-opacity]="presentation().opacity"
-  [style.--bedlam-motion-rate]="presentation().rate"
->
-  <svg class="bedlam__filters" width="0" height="0" aria-hidden="true" focusable="false">
-    <defs>
+<span #field class="bedlam" aria-hidden="true" [style.--bedlam-motion]="motion()">
+  <span class="bedlam__identity">
+    <span class="bedlam__mask">
       @for (layer of layers(); track layer.id) {
-        @if (layer.kind === 'nebula') {
-          <filter
-            [attr.id]="filterPrefix + layer.id"
-            x="-30%"
-            y="-30%"
-            width="160%"
-            height="160%"
-            color-interpolation-filters="sRGB"
-          >
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.018 0.045"
-              numOctaves="2"
-              [attr.seed]="layer.style['--bedlam-noise-seed']"
-              result="cloud"
-            />
-            <feColorMatrix in="cloud" type="luminanceToAlpha" result="height" />
-            <feDiffuseLighting
-              in="height"
-              surfaceScale="10"
-              diffuseConstant="1.1"
-              lighting-color="white"
-              result="light"
-            >
-              <feDistantLight azimuth="225" elevation="38" />
-            </feDiffuseLighting>
-            <feBlend in="SourceGraphic" in2="light" mode="multiply" result="shaded" />
-            <feComposite in="shaded" in2="SourceGraphic" operator="in" result="surface" />
-            <feDisplacementMap
-              in="surface"
-              in2="cloud"
-              [attr.scale]="layer.style['--bedlam-distortion']"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        }
+        <span class="bedlam__plane" [style]="layer.style"></span>
       }
-    </defs>
-  </svg>
-  <span class="bedlam__emission">
-    <span class="bedlam__scene">
-      <span class="bedlam__field">
-        @for (layer of layers(); track layer.id) {
-          <span
-            class="bedlam__layer"
-            [class]="'bedlam__layer--' + layer.kind"
-            [style]="layer.style"
-            [style.--bedlam-distortion-filter]="'url(#' + filterPrefix + layer.id + ')'"
-          ></span>
-        }
-      </span>
     </span>
   </span>
-  <span class="bedlam__identity"><span class="bedlam__mask"></span></span>
 </span>
