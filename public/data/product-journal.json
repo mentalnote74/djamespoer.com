@@ -63,6 +63,370 @@
           "method": "Exact approved October 16 brief migration; whitespace normalized only"
         }
       }
+    },
+    {
+      "date": "2026-10-15",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-15",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Built protected workflow presentation, explicit UNKNOWN resolution, correction history and audit navigation."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Develop the public Thingamajob experience and Client #1 proof, move review toward exceptions, present a resume assembly, and refine shared public presentation, depth and perspective artwork."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Manual review of every candidate and false-positive questions about tailored titles or time-relative summaries were creating unnecessary owner work; these were addressed during the day."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "e7c13022697acf1b78954314037598d87be2f165",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-14",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-14",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Built protected workspace access, private evidence intake and owner-only assertion review."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Add explicit UNKNOWN resolution, verify isolated client workflows, build reusable protected presentation, and preserve correction history and audit navigation."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Corrections must preserve approved-claim history; unresolved evidence must remain explicit rather than silently becoming truth."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "6c8cecde7e7a6840c5891116da2ca42006e8aefe",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-13",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-13",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Added static theme anchors and Living Mode with polarity transitions."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Establish trusted workspace ownership and protected TEST access, private storage, evidence intake and owner-only assertion review."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Remote TEST ownership required trusted approval rather than browser-supplied identity; private storage readiness had to be established."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "09e0068b67e65e5f4b75431ad02eb6e0afaa441b",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-12",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-12",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Reorganized navigation and page composition, introduced the construction carousel and started the theme foundation."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Add the remaining static cocktail themes, verify rendered theme behavior and implement Living Mode with accessible polarity transitions."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Living-theme light/dark polarity transitions required explicit accessible handling."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "398d96266185a8a1410ff985485278b2660e1e0a",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-11",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-11",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Expanded employer and perspective pages and added the homepage construction introduction."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Reorganize navigation, add About content, move the construction hero into the carousel, refine page spacing and begin the cocktail-theme foundation."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Carousel heading hierarchy and shared page spacing needed correction."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "88132264ffaf6709f42a7984868fbd2c9e6943c2",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-10",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-10",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Published authored case studies and perspective baseline work, refreshed build history and corrected canonical metadata."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Expand employer and perspective pages, deliver responsive Creative artwork and add the homepage construction introduction."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Creative artwork delivery required responsive optimization."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "a9c4437f1cc38634d43040dc5aff3c39b6a60009",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-09",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-09",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "No separately dated October 8 implementation activity was found."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Validate authored case studies, publish portfolio and employer evidence, introduce the approved perspective baseline, refresh sanitized build history and correct route canonical metadata."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Shared route canonical metadata required correction."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "30cc5d4682d5e0f922a9e3e47a37b356c01b4e2a",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-08",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-08",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Worked on route layout stability, navigation and the case-study foundation."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "No separately dated implementation activity or daily plan was found for October 8 in the inspected Git history."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "No October 8 impediment record was found; the absence of a record does not establish that work was unblocked."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "63d293bf2e347699c40844300382a0e0e6dceb37",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-07",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-07",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Integrated deployment history and corrected the mobile grid layout."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Address initial-route layout shift, reorganize navigation and Work routes, and establish reusable case-study presentation."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Initial-route layout shift needed investigation and correction. A later verification attempt also recorded a Node/libuv runtime assertion blocking tests and build."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "63d293bf2e347699c40844300382a0e0e6dceb37",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-06",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-06",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Added routed pages, navigation, the carousel shell and reusable grid."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Integrate sanitized Build & Deployment History, establish the Sass foundation and correct the grid mobile layout."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Mobile grid layout required correction."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "cc0e3724c913ec4150db90b51692c99ef3d94fae",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-05",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-05",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Built the construction page, resume access, metadata and optimized hero."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Establish routed pages, shared containers, primary navigation, six perspective routes, an accessible carousel shell and a reusable grid. Keep the private career archive excluded."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "Perspective labels and proof-page copy are temporary; substantive evidence content remains future work."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "b4384a51d34fbc1a443e3ce727582f40478340e2",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-04",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-04",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Established the Angular scaffold, shell and deployment configuration."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Build the accessible construction page and resume access; add search metadata, agent guidance and favicons; optimize the hero image."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "The construction hero image needed optimization; successive image optimization and compression changes are recorded."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "529f1f4cbfabaf50b3a984f8f69b53044bbaac81",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-03",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-03",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Created the project repository."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Establish the Angular 22 scaffold, portfolio shell and Cloudflare deployment configuration."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "No specific impediment is recorded."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "f668ba5df88c5700ac84d7270771257044dda3ce",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
+    },
+    {
+      "date": "2026-10-02",
+      "generatedDate": "2026-10-18",
+      "publishedDate": "2026-10-18",
+      "brief": {
+        "date": "2026-10-02",
+        "sections": [
+          {
+            "heading": "YESTERDAY",
+            "paragraph": "Project opening; no earlier project delivery is recorded."
+          },
+          {
+            "heading": "TODAY",
+            "paragraph": "Create the djamespoer.com repository."
+          },
+          {
+            "heading": "IMPEDIMENTS",
+            "paragraph": "No specific impediment is recorded."
+          }
+        ],
+        "provenance": {
+          "sourceCommit": "efb87ddeebd94324b4165afd3b6a0a79f5b57971",
+          "method": "Retrospective journal reconstructed October 18 from dated Git changes and contemporaneous handoff records, interpreted in America/New_York. TODAY describes work recorded that day, not an invented morning forecast. Missing plans or blockers are stated as unknown. No historical measurements reconstructed."
+        }
+      }
     }
   ]
 }
