@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  margin-block-start: clamp(2rem, 5vw, 4rem);
+}
+app-instrument-cluster {
+  --completion-height: 12rem;
+  --completion-size: 3rem;
+}
+.teaser {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: 1.5rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border-radius: var(--surface-radius);
+  background: var(--surface-feature);
+  box-shadow: var(--elevation-feature);
+  color: var(--page-foreground);
+  text-decoration: none;
+}
+h2 {
+  margin-block: 0 0.5rem;
+}
+p {
+  margin-block: 0.5rem;
+}
+.destination {
+  display: block;
+  margin-block: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  font-family: var(--font-ui);
+}
+small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.teaser:hover .destination {
+  text-decoration-thickness: 2px;
+}
+.teaser:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 5px;
+}
+@media (max-width: 600px) {
+  .teaser {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (forced-colors: active) {
+  .teaser {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+}

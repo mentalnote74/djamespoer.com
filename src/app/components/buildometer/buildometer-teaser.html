@@ -1,0 +1,15 @@
+<a class="teaser" routerLink="/buildometer">
+  <div class="intro">
+    <h2>Buildometer</h2>
+    <p>How far has this project come?</p>
+    <p>Explore project progress, shipping and quality.</p>
+    <span class="destination">View the full dashboard <span aria-hidden="true">→</span></span>
+    <small
+      >Known-scope estimate · observed
+      <time [attr.datetime]="summary.observedAt"
+        >{{ summary.observedAt.slice(0, 10) }} UTC</time
+      ></small
+    >
+  </div>
+  <app-instrument-cluster [metrics]="metrics" [compact]="true" />
+</a>

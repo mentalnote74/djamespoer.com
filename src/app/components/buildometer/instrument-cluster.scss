@@ -32,7 +32,7 @@
     inset 0 2px 6px #0004,
     0 1px 0 #fff2;
 }
-.instrument h2 {
+.metric-label {
   font-size: 0.85rem;
   margin: 0 0 0.7rem;
   font-weight: 600;
@@ -44,7 +44,7 @@
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  min-block-size: 19rem;
+  min-block-size: var(--completion-height, 19rem);
 }
 [aria-labelledby='metric-bugs'] {
   grid-column: span 4;
@@ -54,18 +54,17 @@
   margin: 0;
 }
 .instrument--primary .metric-value {
-  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-size: var(--completion-size, clamp(3rem, 6vw, 5.5rem));
   margin-block-start: 3rem;
 }
 .metric-note,
 .instrument-status {
+  display: block;
   font-size: 0.75rem;
   color: var(--cockpit-muted);
   margin-block: 0.5rem 0;
 }
-.instrument-status {
-  display: block;
-}
+
 .instrument-status::before {
   content: '';
   display: inline-block;

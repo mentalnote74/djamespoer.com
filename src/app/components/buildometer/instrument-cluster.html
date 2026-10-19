@@ -1,5 +1,9 @@
 <section
   class="cockpit"
+  [style.display]="compact() ? 'block' : null"
+  [style.padding]="compact() ? '0' : null"
+  [style.background]="compact() ? 'none' : null"
+  [style.box-shadow]="compact() ? 'none' : null"
   aria-label="Project instruments"
   [attr.data-skin]="skin()?.id || 'workshop'"
   [attr.data-geometry]="skin()?.geometry || 'analog'"
@@ -47,17 +51,25 @@
           <div class="indicator-rail"><i></i><i></i><i></i><i></i><i></i></div>
         }
       </div>
-      <h2 [id]="'metric-' + metric.id">{{ metric.label }}</h2>
+      @if (compact()) {
+        <h3 class="metric-label" [id]="'metric-' + metric.id">{{ metric.label }}</h3>
+      } @else {
+        <h2 class="metric-label" [id]="'metric-' + metric.id">{{ metric.label }}</h2>
+      }
       <p class="metric-value">{{ metric.value }}</p>
       <p class="metric-note">{{ metric.note }}</p>
-      <span class="instrument-status">{{
-        metric.state === 'ready'
-          ? 'Source connected'
-          : metric.state === 'unavailable'
-            ? 'Not measured'
-            : metric.state
-      }}</span>
+      @if (!compact()) {
+        <span class="instrument-status">{{
+          metric.state === 'ready'
+            ? 'Source connected'
+            : metric.state === 'unavailable'
+              ? 'Not measured'
+              : metric.state
+        }}</span>
+      }
     </section>
   }
-  <p class="cockpit-caption">No inferred health scores. Unmeasured instruments await evidence.</p>
+  @if (!compact()) {
+    <p class="cockpit-caption">No inferred health scores. Unmeasured instruments await evidence.</p>
+  }
 </section>

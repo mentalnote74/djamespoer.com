@@ -8,6 +8,7 @@ import type { InstrumentSkin } from './skins/skin.model';
   styleUrl: './instrument-cluster.scss',
 })
 export class InstrumentCluster {
+  readonly compact = input(false);
   readonly metrics = input.required<readonly DashboardMetric[]>();
   readonly skin = input<InstrumentSkin | null>(null);
 }

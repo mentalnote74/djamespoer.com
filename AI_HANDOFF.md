@@ -1,5 +1,18 @@
 # AI Engineering Handoff
 
+## Homepage Buildometer teaser
+
+Bottom-of-content linked card reuses InstrumentCluster with one compact completion instrument,
+theme tokens and native whole-card RouterLink semantics. No primary-nav addition or full Dashboard on Home.
+The existing approved-ledger generator also emits a tiny typed summary using the same API calculation;
+Home shows 38.5%, supporting points and the actual observation date without any provider/API fetch.
+Prerendered markup remains readable before JS; teaser hydration/code loading waits for viewport/interaction.
+Default full-dashboard instrument behavior is unchanged. Build/budgets pass with no warnings;
+two existing dashboard/instrument tests pass. Local real-Worker desktop/390 checks confirm native
+keyboard navigation to /buildometer, zero Home Buildometer requests, one detail-page API request,
+no overflow/browser errors and zero scoped axe violations. Desktop/mobile rendered cards inspected.
+Approved T₀ ledger and totals are unchanged. Production promotion authorized for this teaser only.
+
 ## SCRUM-53 approved known-project T₀ baseline — October 18, 2026
 
 Owner-approved item-level scope is persisted in scripts/buildometer/project-ledger.json:
