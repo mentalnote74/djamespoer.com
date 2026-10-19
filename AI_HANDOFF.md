@@ -24,8 +24,15 @@ forced-colors/reduced-motion reflow and scoped axe zero violations. Actual model
 check against the accepted canonical snapshot produced 13 criteria: 9 MET,
 3 UNKNOWN, 1 NOT MET. Private artifacts under career-source/jd-evaluations/
 2026-10-19, not committed or published. See server/thingamajob/jd-evaluation.md.
-TEST rollout/live integrity verification follows checkpoint; real owner browser
-session not available to the agent, so do not claim live authenticated UI testing.
+Implementation 5e36d0f37b408f8668a19454536641cb6770f4c2 deployed to TEST:
+Worker f298dd26-166b-42f8-ac72-d63f6eea2493, deployment
+31ade653-41e6-443b-ab13-69c72b08c640. TEST migration and runtime model/secret
+binding verified. Live exact canonical SQL returns all 267 truths/qualifications;
+10 raw claims, 12 reviews and zero open UNKNOWNs unchanged. No owner evaluation
+was fabricated or persisted from the local diagnostic. Unauthenticated app/API
+requests remain Access redirects. Real owner browser session not available to
+the agent: do not claim live authenticated UI/provider end-to-end verification.
+Next: owner opens the protected /#/evaluate route and submits an actual JD.
 
 ## October 19 authoritative-master TEST ingestion
 
