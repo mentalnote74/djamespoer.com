@@ -1,5 +1,34 @@
 # AI Engineering Handoff
 
+## October 19 authoritative-master TEST ingestion
+
+Validated the separately supplied authoritative master before ingestion (distinct
+from the older document, expected markers/current-work sections/truth rules).
+Private TEST original and faithful offline OOXML text are both archived and
+hash-verified. Source-grounded factual decomposition/crosswalk is operator
+preparation, not a newly implemented native Word semantic parser or model call.
+Existing immutable proposal/baseline/usage ledgers were sufficient; no application
+or schema change, fabricated owner acceptance, backdating, PROD or JD work.
+
+Actual TEST canonical consumer-query read-back: 267 truths = 263 automatic,
+2 accepted, 2 corrected. 185 master-source truths added, 77 supporting duplicates,
+five earlier canonical representations consolidated (net +180); original accepted
+records/reviews and all 606 prior ledger rows preserved. Both original/text
+provenance references survive. Zero open career UNKNOWNs. Private, rejected,
+superseded, duplicate and historical-only representations remain excluded.
+All 209 body paragraphs accounted for, including non-claim source metadata.
+
+Private job, lineage, snapshots and complete canonical review are under ignored
+career-source/master-ingestions/full-truth-20261019-57281a77. Local append-only
+rehearsal/replay and actual remote consumer-query equality passed; canonical
+boundary tests 4/4 passed. No build required for data/documentation-only work.
+No authenticated human Access session was available: live consumer SQL was
+verified directly against TEST D1; unauthenticated HTTP remains Access-protected.
+TEST runtime remains 3465831529e7e0fd1629f7a10c395cfbc591f5bc,
+Worker 4decf2da-f179-414b-96c4-aa3598b7a08d,
+deployment b024846e-0571-4a91-9252-e56245b8cd33. Stop for owner inspection;
+this is not authorization to start JD evaluation.
+
 ## October 19 Client #1 canonical truth QA
 
 Protected TEST only; public main/PROD, Erica and JD evaluation untouched. Faithful
