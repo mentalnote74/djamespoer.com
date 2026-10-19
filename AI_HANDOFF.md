@@ -677,3 +677,7 @@ Replaced emission slots/envelopes with one silhouette-derived SVG field, two see
 
 ## Corrected BEANO: field beneath mask (not deployed)
 Removed letter influence/dilation entirely. Canonical alpha clips an independent seeded field in every theme; no object envelopes or outside coverage. Coarser/higher-contrast field reads as restrained internal material movement with clean outer geometry. Cached-noise/offset variant did not materially lower observed task cost (~7.6s/56s including seven screenshots; negligible JS). Local build and focused five tests/browser checks pass, but rendering cost/visual impact remain below release confidence. Preserve on feature/operation-beano; PROD remains recruiter-safe bd9f3bf, not this experiment. See docs/bedlam.md for current controls and evidence caveats.
+
+
+## Owner-directed pre-fart restoration (feature branch only)
+Restored 909072d Bedlam (last engine revision 9ee64f2); verified exact seeded recipe equality and extracted real X/Y travel, blur, scene-opacity and CSS playback handles with unchanged defaults. Central tuning.ts and docs/bedlam-pre-fart-tuning.md are authoritative. Removed only Bedlam prefers-reduced-motion suppression by explicit owner instruction; forced colors and visibility pausing retained. Local build, five focused tests and Chrome desktop/mobile motion checks pass for both media settings. No art direction or PROD deployment. Preserve BEANO/evidence branches; PROD stays bd9f3bf.

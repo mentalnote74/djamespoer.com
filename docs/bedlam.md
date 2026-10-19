@@ -1,3 +1,11 @@
+# Current feature branch: restored pre-fart blob
+
+Manual baseline restored from 909072d with no artistic tuning. See [the complete control/evidence guide](bedlam-pre-fart-tuning.md) and `src/app/components/bedlam/tuning.ts`. Bedlam deliberately ignores prefers-reduced-motion on this feature branch, per owner instruction; forced-colors identity and resource pausing remain. NOT deployed. PROD remains the static recruiter-safe fallback.
+
+The following BEANO records are preserved history, not the current feature-branch implementation.
+
+---
+
 # Current BEANO checkpoint: field beneath the mask
 
 Status: experimental feature branch only; recruiter-safe PROD is unchanged.

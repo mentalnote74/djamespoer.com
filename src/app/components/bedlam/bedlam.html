@@ -1,96 +1,67 @@
-<span class="bedlam" aria-hidden="true">
-  <span class="bedlam__identity"><span class="bedlam__mask"></span></span>
-  <span class="bedlam__containment" [hidden]="!recipe().enabled">
-    <svg
-      #field
-      class="bedlam__field"
-      viewBox="0 0 1448 172"
-      focusable="false"
-      [style.opacity]="recipe().opacity"
-      [style.--bedlam-color]="recipe().color"
-    >
-      <defs>
-        <filter
-          [attr.id]="filterId"
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-          color-interpolation-filters="sRGB"
-        >
-          <feTurbulence
-            type="fractalNoise"
-            [attr.baseFrequency]="recipe().frequency"
-            [attr.numOctaves]="recipe().detail"
-            [attr.seed]="recipe().noiseSeed"
-            x="-10%"
-            y="-100%"
-            width="120%"
-            height="300%"
-            result="detail"
-          />
-          <feOffset in="detail" result="detailFlow">
-            <animate
-              attributeName="dx"
-              [attr.values]="recipe().fineX"
-              [attr.dur]="recipe().fineDuration"
-              repeatCount="indefinite"
-              calcMode="spline"
-              keyTimes="0;0.33;0.67;1"
-              keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
+<span
+  #field
+  class="bedlam"
+  aria-hidden="true"
+  [style.--bedlam-motion]="motion()"
+  [style.--bedlam-scene-opacity]="presentation().opacity"
+  [style.--bedlam-motion-rate]="presentation().rate"
+>
+  <svg class="bedlam__filters" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      @for (layer of layers(); track layer.id) {
+        @if (layer.kind === 'nebula') {
+          <filter
+            [attr.id]="filterPrefix + layer.id"
+            x="-30%"
+            y="-30%"
+            width="160%"
+            height="160%"
+            color-interpolation-filters="sRGB"
+          >
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.018 0.045"
+              numOctaves="2"
+              [attr.seed]="layer.style['--bedlam-noise-seed']"
+              result="cloud"
             />
-            <animate
-              attributeName="dy"
-              [attr.values]="recipe().fineY"
-              [attr.dur]="recipe().coarseDuration"
-              repeatCount="indefinite"
-              calcMode="spline"
-              keyTimes="0;0.33;0.67;1"
-              keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
+            <feColorMatrix in="cloud" type="luminanceToAlpha" result="height" />
+            <feDiffuseLighting
+              in="height"
+              surfaceScale="10"
+              diffuseConstant="1.1"
+              lighting-color="white"
+              result="light"
+            >
+              <feDistantLight azimuth="225" elevation="38" />
+            </feDiffuseLighting>
+            <feBlend in="SourceGraphic" in2="light" mode="multiply" result="shaded" />
+            <feComposite in="shaded" in2="SourceGraphic" operator="in" result="surface" />
+            <feDisplacementMap
+              in="surface"
+              in2="cloud"
+              [attr.scale]="layer.style['--bedlam-distortion']"
+              xChannelSelector="R"
+              yChannelSelector="G"
             />
-          </feOffset>
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.009 0.026"
-            numOctaves="1"
-            [attr.seed]="recipe().noiseSeed + 17"
-            x="-10%"
-            y="-100%"
-            width="120%"
-            height="300%"
-            result="flow"
-          />
-          <feOffset in="flow" result="warpFlow">
-            <animate
-              attributeName="dx"
-              [attr.values]="recipe().coarseX"
-              [attr.dur]="recipe().coarseDuration"
-              repeatCount="indefinite"
-              calcMode="spline"
-              keyTimes="0;0.33;0.67;1"
-              keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
-            />
-          </feOffset>
-          <feDisplacementMap
-            in="detailFlow"
-            in2="warpFlow"
-            [attr.scale]="recipe().strength"
-            xChannelSelector="R"
-            yChannelSelector="G"
-            result="fieldNoise"
-          />
-          <feColorMatrix
-            in="fieldNoise"
-            type="matrix"
-            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.5 1.5 1.5 0 -1.7"
-            result="variation"
-          />
-          <feFlood class="bedlam__color" result="color" />
-          <feComposite in="color" in2="variation" operator="in" result="material" />
-          <feGaussianBlur in="material" [attr.stdDeviation]="recipe().softness" />
-        </filter>
-      </defs>
-      <rect width="1448" height="172" [attr.filter]="'url(#' + filterId + ')'" />
-    </svg>
+          </filter>
+        }
+      }
+    </defs>
+  </svg>
+  <span class="bedlam__emission">
+    <span class="bedlam__scene">
+      <span class="bedlam__field">
+        @for (layer of layers(); track layer.id) {
+          <span
+            class="bedlam__layer"
+            [class]="'bedlam__layer--' + layer.kind"
+            [style]="layer.style"
+            [style.--bedlam-distortion-filter]="'url(#' + filterPrefix + layer.id + ')'"
+          ></span>
+        }
+      </span>
+    </span>
   </span>
+  <span class="bedlam__identity"><span class="bedlam__mask"></span></span>
 </span>
