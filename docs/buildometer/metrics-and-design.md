@@ -16,18 +16,20 @@ The first implementation does not fetch Jira directly or publish issue descripti
 
 | Instrument | Formula / inclusion | Current availability |
 | --- | --- | --- |
-| Complete | 100 x done committed items / all active committed items; whole-percent rounding | Pending a complete versioned committed-scope snapshot |
-| Completed / remaining | Done / open items in that same committed scope | Pending |
+| Complete | 100 x shipped story points / total known project points; one decimal | Approved T₀: 152 / 395 = 38.5% |
+| Shipped / remaining | Whole-story shipped points / known total minus shipped points | Approved T₀: 152 / 243 |
 | Velocity | Sum of completed estimates per agreed interval, with estimate coverage | Pending estimates, dates and stable scope; item counts cannot substitute |
 | Throughput | Historical completion cycles per interval; a later completion requires an evidenced reopen | Pending completion events; commits/deployments/journal bullets cannot substitute |
-| Burndown | Remaining committed work at each dated snapshot; scope changes separate | Pending historical scoped snapshots |
+| Burndown | Remaining known-project story points at each recorded observation | Starts at T₀ with one point: 243; no invented past |
 | Deployments / 7 days | Count distinct retained activation IDs with production + succeeded + deployed; timestamp in (checkedAt - 7 days, checkedAt] | Available; explicitly recorded deployments, not features or unique revisions |
-| Scope change | Entries/exits from committed scope, net = added - removed, same window/version lineage | Pending membership events; total backlog noise excluded |
+| Scope change | Total point change since T₀; additions, removals and reestimates retained separately | Opening net change 0 |
 | Bug duration | Mean classification-or-reopen to Done time for observed closed cycles; show cycle/issue sample sizes and exclude open cycles | Pending lifecycle events; no mean from open ages |
 | Bug creation / elimination | First evidenced classifications / closed bug cycles per matched window | Pending classified bug events |
 | Bug rate : rework rate | Separate events with an agreed denominator and explicit rework classification | Pending taxonomy; fixes are not automatically rework |
 
-Completion contract: explicit `committed` items only. Uncommitted backlog, cancelled and superseded items are excluded. No scope or zero scoped items means unavailable. Duplicate work IDs are rejected, not silently counted twice. A scope version is mandatory. Changes to membership require a new version and scope-change reporting. This is a proposed committed-scope policy, not an assertion that Jira already encodes it.
+Completion contract: owner-approved known djamespoer.com backlog, not only a sprint/release commitment. Git-versioned scripts/buildometer/project-ledger.json preserves item identities, estimates, whole-story shipped dispositions, exclusions and immutable dated observations. The public projection contains aggregate points only. Initial Rigby scope is SCRUM-123–127 (34 points); no epic rollup credit. Superseded SCRUM-37/38, overlapping SCRUM-93, standalone protected Thingamajob, Erica, samples and duplicate archives are excluded. SCRUM-25/65 remain included without shipped credit. Zero-point records remain zero. T₀ estimates and administrative status corrections do not establish historical estimates, shipment dates or velocity. Future scope growth can decrease completion.
+
+Prospective updates: prepare a complete approved member snapshot, then run `npm run buildometer:observe -- candidate-members.json "approved change reason"`. The command records the actual current timestamp, validates all points/unique keys and appends a full observation. Membership removals remain in earlier snapshots with the dated change reason. Ordinary builds only validate/project; they do not append observations or relabel stale evidence as current. An explicit verified unchanged snapshot can record a flat prospective burndown interval; ordinary builds and page loads never do so. Build validation rejects edits to any committed prior observation or baseline header. Review and commit approved changes through the existing release path. No daily sampling/automatic Jira-to-shipped inference is claimed.
 
 Shipping time: seven exact rolling 24-hour buckets end at the source check timestamp, not browser render time. Boundary timestamps belong to one bucket only. Future records and records exactly on the opening boundary are excluded. A source older than 24 hours, or ahead of the client clock, is flagged. Snapshot retention is not proof of complete lifetime history; the UI names the count as retained/recorded evidence. Failed builds and preview deployments are excluded. Repeated activations of the same revision count because they are separate shipping operations.
 

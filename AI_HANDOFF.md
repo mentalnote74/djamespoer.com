@@ -1,5 +1,31 @@
 # AI Engineering Handoff
 
+## SCRUM-53 approved known-project T₀ baseline — October 18, 2026
+
+Owner-approved item-level scope is persisted in scripts/buildometer/project-ledger.json:
+84 members, 395 points total, 152 shipped, 243 remaining, 38.5% estimated complete.
+Actual T₀ is 2026-10-19T00:10:06Z (October 18 Eastern); no historical estimates or shipment dates are invented.
+Rigby children SCRUM-123–127 carry 3/5/8/13/5 points under unpointed SCRUM-119.
+SCRUM-37/38 and overlapping SCRUM-93 are excluded, as are protected standalone Thingamajob,
+Erica, samples, duplicates and epic rollups. SCRUM-25/65 remain estimated but non-shipped;
+zero estimates remain unchanged. All 84 Jira point/parent/shipped-status mappings were read back without mismatches;
+23 previously To Do shipped records were reconciled to Done now, with administrative T₀ history metadata.
+Finite boundaries and exclusions are recorded in Jira comments. Do not interpret these administrative
+transitions as newly shipped work or reconstruct historical velocity from T₀ estimates.
+
+The build validates/projects the Git ledger into aggregate-only public/data/buildometer-project.json.
+The existing Worker/API applies this independently of retained Jira throughput/bug data; browser still
+makes one API request and homepage none. Whole-story shipped credit, known total, remaining,
+gross additions/removals/reestimates, net scope change and prospective remaining-point series are exposed.
+T₀ has one visible chart point and accessible table, no invented historical curve or ideal line.
+Explicit approved observations use npm run buildometer:observe with a complete member snapshot and reason;
+builds/page requests never advance its date. Committed baseline/prior observations are immutable.
+No automatic daily observation acquisition is claimed. Velocity remains unmeasured.
+Focused verification: server typecheck, 18 server tests, 2 existing dashboard tests, build/budgets,
+real Worker/Chrome desktop and 390px with approved values, one API, no homepage request,
+keyboard table/focus, zero scoped axe violations, overflow or browser errors.
+Production promotion is authorized for this contained measurement slice; no unrelated feature work.
+
 ## Approved theme-menu artwork integration ? October 18, 2026
 
 Nine approved fixed-palette SVGs are copied unchanged to public/assets/theme-icons/, including the revised Dusk-to-Dusk day cycle. Header options use decorative 24px img elements (empty alt, aria-hidden), reserved dimensions and native lazy loading. Existing labels, aria-pressed, selection/focus/close behavior and 44px targets remain unchanged. Only header template/styles and assets change runtime behavior. Build/budgets pass (441.79 kB initial, 108.53 kB estimated transfer); 14 existing header/theme tests pass. Chrome desktop/390px checks exercised all nine themes, icon loads, selection, Tab/Enter/Escape, outside close, focus return and visible outline: zero CLS, overflow or browser errors.

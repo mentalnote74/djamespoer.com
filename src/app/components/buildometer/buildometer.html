@@ -9,17 +9,19 @@
     <section class="interpretation">
       <h2>Interpretation / what the data says</h2>
       <p>
-        Jira-recorded completion and production shipping are different clocks. Releases do not
-        automatically mark Jira work Done. Tracked done/open inventory is not an approved
-        committed-scope denominator.
+        Project Complete estimates shipped story points divided by total story points in the known
+        djamespoer.com backlog. A story earns full shipped credit only when its deliverable ships.
+        Scope growth may lower the percentage. Jira status alone does not establish shipment.
       </p>
       <p>
+        Separate Jira capture inventory (including work outside this portfolio scope):
         {{ data.supportingFacts.inventory }} tracked top-level work items;
         {{ data.supportingFacts.excludedSamples }} onboarding samples excluded. Epics and subtasks
         are excluded to avoid counting work twice.
       </p>
       <p>
-        Estimate coverage: {{ data.supportingFacts.pointCoverage }}. History complete:
+        Estimate coverage at that Jira capture: {{ data.supportingFacts.pointCoverage }}. History
+        complete:
         {{
           data.supportingFacts.historyComplete
             ? 'Yes'
@@ -105,10 +107,13 @@
         <p>{{ data.metrics.completion.reason }}</p>
         <p>{{ data.supportingFacts.scope }}</p>
         <p>
-          Tracked inventory counts current top-level non-epic work excluding explicitly labelled
-          onboarding samples. It is not project completion. A committed scope needs an approved
-          baseline. Sprint burndown requires a real non-sample starting cohort and complete
-          membership/status history; no ideal line is invented.
+          Project points come from an owner-approved, Git-versioned item-level baseline and
+          append-only observations. Protected standalone Thingamajob and Erica work, samples,
+          duplicate records, superseded scope and epic rollups are excluded. Burndown shows observed
+          remaining points from T₀ onward; no historical trajectory or ideal line is invented. Scope
+          records additions, removals and estimate changes separately. The initial observation is
+          one point, not a trend. Updates require an approved observation; page loads do not advance
+          the observation date. Jira inventory and throughput retain their separate source dates.
         </p>
       </details>
       <details>

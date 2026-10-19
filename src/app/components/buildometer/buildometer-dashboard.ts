@@ -20,7 +20,7 @@ export class BuildometerDashboard {
     const d = this.store.data();
     const rows: [string, string, keyof NonNullable<typeof d>['metrics']][] = [
       ['completion', 'Project complete', 'completion'],
-      ['stories', 'Tracked done / open', 'done'],
+      ['stories', 'Shipped / remaining points', 'done'],
       ['velocity', 'Velocity', 'velocity'],
       ['throughput', 'Jira throughput', 'throughput'],
       ['shipping', 'Deployments', 'deployments'],

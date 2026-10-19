@@ -54,6 +54,18 @@ export interface BuildometerData {
     };
   }[];
   supportingFacts: {
+    project?: {
+      baselineId: string;
+      t0: string;
+      observedAt: string;
+      total: number;
+      shipped: number;
+      remaining: number;
+      observationCount: number;
+      added: number;
+      removed: number;
+      reestimated: number;
+    };
     eventSummary?: {
       historyIssuesMissing: number;
       throughputEvents: number | null;

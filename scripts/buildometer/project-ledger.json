@@ -1,0 +1,633 @@
+{
+  "schemaVersion": 1,
+  "project": "djamespoer.com",
+  "baselineId": "portfolio-known-scope-t0-v1",
+  "sourceCheckpoint": "451d51f747b704faa3e3c8c59d0adf0bb5672375",
+  "approvedOpening": {
+    "total": 395,
+    "shipped": 152,
+    "remaining": 243
+  },
+  "exclusions": {
+    "superseded": ["SCRUM-37", "SCRUM-38"],
+    "consolidated": ["SCRUM-93"],
+    "standaloneProtected": [
+      "SCRUM-80",
+      "SCRUM-81",
+      "SCRUM-82",
+      "SCRUM-83",
+      "SCRUM-84",
+      "SCRUM-85",
+      "SCRUM-86",
+      "SCRUM-98"
+    ],
+    "erica": ["SCRUM-88", "SCRUM-89", "SCRUM-90", "SCRUM-91", "SCRUM-92"],
+    "duplicateArchives": [
+      "SCRUM-112",
+      "SCRUM-113",
+      "SCRUM-114",
+      "SCRUM-115",
+      "SCRUM-116",
+      "SCRUM-117",
+      "SCRUM-118"
+    ],
+    "epics": "No epic points; approved initial Rigby scope is represented by SCRUM-123–127."
+  },
+  "observations": [
+    {
+      "id": "t0",
+      "observedAt": "2026-10-19T00:10:06Z",
+      "reason": "Owner-approved prospective T0. Shipped dispositions adjudicated from existing release evidence; not historical estimate or shipment timestamps.",
+      "members": [
+        {
+          "key": "SCRUM-12",
+          "title": "Establish Angular portfolio repository and application scaffold — DTS",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-13",
+          "title": "Register and configure djamespoer.com domain — DTS",
+          "points": 2,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-14",
+          "title": "Build semantic routed application shell and shared container",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-15",
+          "title": "Establish AI-assisted engineering workflow and handoff documentation",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-16",
+          "title": "Protect private Career Truth Archive from source control and client access",
+          "points": 2,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-17",
+          "title": "Optimize construction hero production image",
+          "points": 2,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-18",
+          "title": "Add build-time last-updated indicator",
+          "points": 2,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-19",
+          "title": "Establish initial analytics and metadata baseline",
+          "points": 2,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-20",
+          "title": "Build accessible primary navigation",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-21",
+          "title": "Scaffold six proof-of-value routes",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-22",
+          "title": "Build accessible six-slide carousel shell",
+          "points": 8,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-23",
+          "title": "Place existing construction Hero into carousel — DTS",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-25",
+          "title": "Authenticate djamespoer.com email domain and validate DNS",
+          "points": 3,
+          "shipped": false,
+          "disposition": "decision"
+        },
+        {
+          "key": "SCRUM-26",
+          "title": "Add portfolio 404 and route fallback experience",
+          "points": 3,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-27",
+          "title": "Publish recruiter-ready résumé download",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-28",
+          "title": "Build accessible recruiter contact path",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-29",
+          "title": "Run and document accessibility and Lighthouse quality baseline",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-30",
+          "title": "Create production favicon and application icon set",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-31",
+          "title": "Inventory and preserve historical career evidence corpus",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-32",
+          "title": "Build canonical Career Truth Cannon with provenance",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-33",
+          "title": "Build evidence-backed JD fit evaluator",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-34",
+          "title": "Add CI/CD quality gates for main",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-39",
+          "title": "Build reusable accessible paginated grid component",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-40",
+          "title": "Build deployment history from reusable grid component",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-41",
+          "title": "Capture screenshot and Lighthouse evidence after production deployments",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-42",
+          "title": "Design and publish accessible AI-generated music experiences",
+          "points": 5,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-43",
+          "title": "Establish Shady White Van as the AI-assisted music project",
+          "points": 5,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-44",
+          "title": "Produce Zuck Phuckerberg as Shady White Van study track #1",
+          "points": 5,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-45",
+          "title": "Run participatory usability study for accessible music experiences",
+          "points": 8,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-46",
+          "title": "Add live portfolio case-study context — SBS",
+          "points": 0,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-47",
+          "title": "Add Lighthouse performance self-check — SBS",
+          "points": 1,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-48",
+          "title": "Build accessible responsive navigation system — SBS",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-49",
+          "title": "Build Employment History deep-dive section — SBS",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-50",
+          "title": "Create milestone screenshot archive — DTS",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-51",
+          "title": "Add local date and time clock to site footer — DTS",
+          "points": 2,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-53",
+          "title": "Sally: Build Jira executive project summary — DTS",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-54",
+          "title": "Sally: Build GitHub executive engineering summary — DTS",
+          "points": 5,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-55",
+          "title": "Sally: Present Cloudflare shipping status as executive summary — DTS",
+          "points": 3,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-56",
+          "title": "Sally: Build axe accessibility verification summary — DTS",
+          "points": 5,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-57",
+          "title": "Sally: Compose four perspectives into daily executive summary — DTS",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-58",
+          "title": "[BUG] Smart Grid pipeline history breaks on iPhone viewport — SBS",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-59",
+          "title": "Rework primary navigation and scaffold Work case-study routes — DTS",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-60",
+          "title": "Capture and attach Sprint 0 production quality evidence — DTS",
+          "points": 2,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-61",
+          "title": "[BUG] Hero particles not rendering on Samsung Galaxy S23 Ultra — DTS",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-62",
+          "title": "Define multi-agent division of labor and Jira handoff protocol",
+          "points": 0,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-63",
+          "title": "[BUG] Build & Deployment History is stale and omits Oct. 7 Cloudflare attempts — DTS",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-64",
+          "title": "Create Creative carousel treasure-hunt mural",
+          "points": 8,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-65",
+          "title": "Stage Three Crackheads V1 assets for SCRUM-64 comparison",
+          "points": 1,
+          "shipped": false,
+          "disposition": "decision"
+        },
+        {
+          "key": "SCRUM-66",
+          "title": "Automate multi-agent story relay and eliminate James as message bus",
+          "points": 3,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-67",
+          "title": "Build bidirectional SBS/DTS ↔ Larry relay and contain unreliable image-generation paths",
+          "points": 13,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-68",
+          "title": "Publish EXL LifePRO case-study content",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-70",
+          "title": "Add djamespoer.com as current top Job History case study",
+          "points": 5,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-71",
+          "title": "Creative Town — add Operation Pig Lips Easter egg",
+          "points": 2,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-72",
+          "title": "SBS — Home hero restructure and Building in Public messaging",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-73",
+          "title": "TEAM CANON — LLL universal capture and shared knowledge protocol",
+          "points": 2,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-74",
+          "title": "DISTRIBUTE — LLL universal capture protocol",
+          "points": 1,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-75",
+          "title": "Operation Pig Lips — Living djamespoer.com identity / permanent shadow",
+          "points": 8,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-76",
+          "title": "CANON — Cocktail theme selector / Designated Driver baseline",
+          "points": 2,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-77",
+          "title": "Pig Lips — Beach Drink Theme System + Dusk-to-Dusk Living Theme",
+          "points": 8,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-79",
+          "title": "BUG — Dusk-to-Dusk appears visually inactive in live site",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-94",
+          "title": "MAINTENANCE — Dependency Closet Cleanup",
+          "points": 3,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-95",
+          "title": "Replace randomized Bedlam effects with a native theme-driven generative algorithm",
+          "points": 8,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-96",
+          "title": "Enrich Bedlam with inverse dark-theme mask mode",
+          "points": 3,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-97",
+          "title": "Refine Living Theme with material depth, texture, and global environmental lighting",
+          "points": 8,
+          "shipped": true,
+          "disposition": "shipped"
+        },
+        {
+          "key": "SCRUM-100",
+          "title": "Document the Creative Town origin story and production fiasco",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-101",
+          "title": "Build canonical Creative Town character and prop registry",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-102",
+          "title": "Design the repeatable Creative Town square with controlled variation",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-103",
+          "title": "Build reusable Creative Town character asset pipeline",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-104",
+          "title": "Define Creative Town vs Bedlam rivalry canon",
+          "points": 2,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-105",
+          "title": "Capture Creative Town Easter eggs and silent micro-story library",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-106",
+          "title": "Produce Creative Town portfolio case study",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-107",
+          "title": "Define Creative Town population, cameo, and mostly-static scene model",
+          "points": 3,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-108",
+          "title": "Document real-time human–AI development pitfalls, workarounds, and efficiency protocol",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-109",
+          "title": "Enshrine the Python homage and Creative Town Ring of Honor",
+          "points": 2,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-110",
+          "title": "djamespoer.com header logo outer container is not fully clickable to Home",
+          "points": 2,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-111",
+          "title": "Thingamajob case-study screenshot archive — capture now, curate later",
+          "points": 2,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-120",
+          "title": "Buildometer — Dynamic Instrument Skin Architecture",
+          "points": 13,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-121",
+          "title": "Produce Thingamajob portfolio case study",
+          "points": 8,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-122",
+          "title": "Produce Buildometer portfolio case study",
+          "points": 5,
+          "shipped": false,
+          "disposition": "partial"
+        },
+        {
+          "key": "SCRUM-123",
+          "title": "Journey and interaction specification",
+          "points": 3,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-124",
+          "title": "Production Rigby and biscuit asset package",
+          "points": 5,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-125",
+          "title": "Accessible entrance and first biscuit encounter",
+          "points": 8,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-126",
+          "title": "Cross-route trail and session recovery",
+          "points": 13,
+          "shipped": false,
+          "disposition": "not"
+        },
+        {
+          "key": "SCRUM-127",
+          "title": "Complete journey, conversion handoff and measurement",
+          "points": 5,
+          "shipped": false,
+          "disposition": "not"
+        }
+      ]
+    }
+  ]
+}

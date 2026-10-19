@@ -1,6 +1,7 @@
 import { parseData } from '../../src/app/components/buildometer/data/parse.ts';
 import { acquireJira, type JiraConfig } from './jira.ts';
 import { applyDeployments, deriveJira, emptyData } from './derive.ts';
+import { applyProject } from './project.ts';
 import type { BuildometerData } from '../../src/app/components/buildometer/data/contract.ts';
 export interface Env extends JiraConfig {
   ASSETS: { fetch(request: Request): Promise<Response> };
@@ -73,6 +74,25 @@ export function createHandler(acquire = acquireJira) {
               data.journal = [];
             }),
         ]);
+        try {
+          applyProject(data, await asset('/data/buildometer-project.json'));
+        } catch {
+          // Never substitute Jira inventory or sprint scope for approved project evidence.
+          data.metrics.completion = {
+            value: null,
+            unit: '%',
+            reason: 'Approved project observation unavailable.',
+          };
+          for (const key of ['done', 'remaining', 'scopeChange', 'burndown'] as const)
+            data.metrics[key] = {
+              value: null,
+              unit: 'story points',
+              reason: 'Approved project observation unavailable.',
+            };
+          data.series.scope = [];
+          data.series.burndown = [];
+          data.supportingFacts.project = undefined;
+        }
         data.generatedAt = now;
         cached = data;
         cachedAt = Date.now();

@@ -24,6 +24,16 @@
   }
   <app-instrument-cluster [metrics]="metrics()" [skin]="skin()" />
   @if (store.data(); as data) {
+    @if (data.supportingFacts.project; as project) {
+      <p class="sample-note">
+        Known project scope: <strong>{{ project.total }} story points</strong>;
+        {{ project.shipped }} shipped / {{ project.remaining }} remaining. T₀: {{ project.t0 }}.
+        Latest observation: {{ project.observedAt }}. {{ project.observationCount }} recorded
+        observation(s). Scope since T₀: +{{ project.added }} added / {{ project.removed }} removed /
+        {{ project.reestimated }} re-estimated points. Future scope growth may lower estimated
+        completion.
+      </p>
+    }
     <div class="freshness">
       @for (source of ['jira', 'deployments']; track source) {
         <p>
@@ -53,7 +63,7 @@
         class="burn"
         title="Burndown"
         kind="line"
-        unit="remaining committed items"
+        unit="remaining story points"
         [points]="data.series.burndown"
         [description]="data.metrics.burndown.reason || data.supportingFacts.scope"
       />
@@ -107,9 +117,9 @@
       />
       @if (data.series.scope.length) {
         <app-metric-chart
-          title="Committed scope"
+          title="Known project scope"
           kind="line"
-          unit="items"
+          unit="story points"
           [points]="data.series.scope"
           [description]="data.supportingFacts.scope"
         />

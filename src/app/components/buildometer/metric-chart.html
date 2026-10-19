@@ -10,6 +10,14 @@
       <text x="30" y="35" text-anchor="end">{{ maxLabel() }}</text>
       @if (kind() === 'line') {
         <polyline class="actual" [attr.points]="line()" />
+        @if (points().length === 1) {
+          <circle
+            cx="40"
+            [attr.cy]="160 - (points()[0].value / max()) * 130"
+            r="4"
+            fill="currentColor"
+          />
+        }
       } @else {
         @for (bar of bars(); track bar.date) {
           <rect

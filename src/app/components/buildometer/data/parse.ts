@@ -90,5 +90,28 @@ export function parseData(input: unknown): BuildometerData {
         throw Error('Invalid event summary');
     }
   }
+  if (facts['project'] !== undefined) {
+    const p = record(facts['project']);
+    if (typeof p['baselineId'] !== 'string' || !date(p['t0']) || !date(p['observedAt']))
+      throw Error('Invalid project provenance');
+    for (const key of [
+      'total',
+      'shipped',
+      'remaining',
+      'observationCount',
+      'added',
+      'removed',
+      'reestimated',
+    ])
+      if (typeof p[key] !== 'number' || !Number.isSafeInteger(p[key]))
+        throw Error('Invalid project points');
+    if (
+      Number(p['total']) <= 0 ||
+      Number(p['shipped']) < 0 ||
+      Number(p['remaining']) < 0 ||
+      Number(p['total']) !== Number(p['shipped']) + Number(p['remaining'])
+    )
+      throw Error('Inconsistent project points');
+  }
   return input as BuildometerData;
 }
