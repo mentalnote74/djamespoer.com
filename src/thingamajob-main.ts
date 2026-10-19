@@ -12,6 +12,12 @@ bootstrapApplication(ThingamajobTestHost, {
     provideRouter(
       [
         {
+          path: 'evaluate',
+          title: 'Thingamajob — evaluate a job description',
+          loadComponent: () =>
+            import('./app/features/thingamajob/jd-evaluation').then((m) => m.JdEvaluation),
+        },
+        {
           path: '',
           pathMatch: 'full',
           title: 'Thingamajob - your career record',

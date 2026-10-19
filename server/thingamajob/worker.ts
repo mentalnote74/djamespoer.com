@@ -33,6 +33,10 @@ import { boundedBytes } from './evidence-validation.ts';
 import { supersedeClaim } from './claim-lifecycle.ts';
 import { workflowSnapshot } from './workflow-snapshot.ts';
 import { canonicalTruth } from './canonical-truth.ts';
+import { evaluateJob, readEvaluation } from './jd-service.ts';
+import { EvaluationConflict, EvaluationInputError, EvaluationUnavailable } from './jd-contract.ts';
+import { openAiReasoner } from './jd-provider.ts';
+import type { JdReasoner } from './jd-provider.ts';
 import {
   createUnknown,
   answerUnknown,
@@ -45,6 +49,8 @@ import {
 } from './unknown-service.ts';
 
 export interface WorkerEnvironment {
+  OPENAI_API_KEY?: string;
+  JD_EVALUATION_MODEL?: string;
   ACCESS_ISSUER: string;
   ACCESS_AUDIENCE: string;
   IDENTITY_DB: IdentityDatabase;
@@ -63,7 +69,7 @@ function reply(status: number, body: object): Response {
 }
 
 /** Keys are an operator/test construction seam, never request-supplied. */
-export function createWorker(keys?: JWTVerifyGetKey) {
+export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
   return {
     async fetch(request: Request, env: WorkerEnvironment): Promise<Response> {
       const path = new URL(request.url).pathname;
@@ -81,6 +87,8 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const verification = path === '/api/thingamajob/test/two-client-verification';
       const workflow = path === '/api/thingamajob/test/workflow';
       const truth = path === '/api/thingamajob/test/truth';
+      const evaluation =
+        /^\/api\/thingamajob\/test\/evaluations(?:\/([a-zA-Z0-9_-]{1,100}))?$/.exec(path);
       const uiPrefix = '/api/thingamajob/test/app/';
       const ui = path === uiPrefix.slice(0, -1) || path.startsWith(uiPrefix);
       const extraction = testEnabled
@@ -134,11 +142,13 @@ export function createWorker(keys?: JWTVerifyGetKey) {
             verification ||
             workflow ||
             truth ||
+            evaluation ||
             ui)
         )
       )
         return reply(404, { error: 'Not found' });
       const expectedMethod =
+        (evaluation && !evaluation[1]) ||
         bootstrap ||
         claims ||
         (evidence && !evidence[2]) ||
@@ -169,6 +179,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       if (
         (bootstrap ||
+          (evaluation && request.method === 'POST') ||
           ((extraction ||
             roundtrip ||
             verification ||
@@ -195,6 +206,23 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       }
       try {
         const identity = await authenticate(request);
+        if (evaluation) {
+          const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          if (evaluation[1]) {
+            const result = await readEvaluation(env.IDENTITY_DB, scope, evaluation[1]);
+            return reply(result.status, result.body);
+          }
+          if (!jdReasoner && (!env.OPENAI_API_KEY || !env.JD_EVALUATION_MODEL))
+            return reply(503, { error: 'Evaluation provider unavailable' });
+          const result = await evaluateJob(
+            request,
+            env.IDENTITY_DB,
+            scope,
+            jdReasoner ?? openAiReasoner(env.OPENAI_API_KEY!, env.JD_EVALUATION_MODEL!),
+            env.JD_EVALUATION_MODEL ?? 'test-reasoner',
+          );
+          return reply(result.status, result.body);
+        }
         if (extraction) {
           const scope = await authorizeWorkspace(env.IDENTITY_DB, identity, extraction[1], 'owner');
           if (extraction[3]) {
@@ -450,6 +478,19 @@ export function createWorker(keys?: JWTVerifyGetKey) {
         await authorizeWorkspace(env.IDENTITY_DB, identity, workspace, 'owner');
         return reply(200, { authorized: true, operation: 'owner' });
       } catch (error) {
+        if (error instanceof EvaluationInputError)
+          return reply(400, {
+            error: 'Provide a job description between 20 and 24,000 characters.',
+          });
+        if (error instanceof EvaluationConflict)
+          return reply(409, {
+            error: 'Evaluation is pending or the Library of Truth changed. Reload or submit again.',
+          });
+        if (error instanceof EvaluationUnavailable)
+          return reply(503, {
+            error:
+              'Evaluation could not be grounded in canonical evidence. No LoT changes were made.',
+          });
         if (error instanceof UnknownInputError)
           return reply(400, { error: 'Invalid UNKNOWN input' });
         if (error instanceof UnknownConflict) return reply(409, { error: 'UNKNOWN conflict' });

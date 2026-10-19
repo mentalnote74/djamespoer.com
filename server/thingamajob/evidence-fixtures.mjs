@@ -107,7 +107,7 @@ export async function signedEvidenceRequest(path, subject = 'one', options = {})
     },
   });
 }
-export function evidenceFixture() {
+export function evidenceFixture(jdReasoner) {
   const db = new DatabaseSync(':memory:');
   for (const file of ['identity.sql', 'originals.sql', 'evidence.sql'])
     db.exec(readFileSync(new URL(file, import.meta.url), 'utf8'));
@@ -180,7 +180,7 @@ export function evidenceFixture() {
     get reads() {
       return reads;
     },
-    worker: createWorker(keys),
+    worker: createWorker(keys, jdReasoner),
     env: {
       ACCESS_ISSUER: issuer,
       ACCESS_AUDIENCE: audience,

@@ -1,5 +1,32 @@
 # AI Engineering Handoff
 
+## October 19 protected JD evaluator vertical slice (SCRUM-78 / SCRUM-33)
+
+The owner accepted the 267-truth LoT and authorized JD evaluation, not resume
+generation. Reuses protected Worker/Access/workspace authorization, canonical
+views and Angular host. Lazy route /api/thingamajob/test/app/#/evaluate accepts
+a pasted JD and returns per-requirement MET / NOT MET / UNKNOWN with priority,
+reasoning and relevant canonical statements/qualifications. Missing evidence
+stays UNKNOWN; historical skill listing does not establish current proficiency.
+No archive/traceability UI, public demo replacement, LoT mutation or PROD work.
+
+Additive private evaluation table retains JD/input digest/result/policy/model;
+idempotent keys, per-workspace pending reservation, bounded provider call and
+stale-truth guards. One small provider seam reuses existing OpenAI Responses
+approach with strict output and store:false. Explicit owner approval for external
+canonical/JD processing received after automatic approval review blocked the
+initial attempt; no blocked call was bypassed. Runtime secret is TEST-only.
+
+Verification: strict server TS, 20 focused server tests, 10 focused Angular tests,
+protected build/budgets (265.51 kB initial; evaluator lazy 7.08 kB). Optimized
+fictional-response desktop/390 browser checks: no overflow/errors, heading focus,
+forced-colors/reduced-motion reflow and scoped axe zero violations. Actual model
+check against the accepted canonical snapshot produced 13 criteria: 9 MET,
+3 UNKNOWN, 1 NOT MET. Private artifacts under career-source/jd-evaluations/
+2026-10-19, not committed or published. See server/thingamajob/jd-evaluation.md.
+TEST rollout/live integrity verification follows checkpoint; real owner browser
+session not available to the agent, so do not claim live authenticated UI testing.
+
 ## October 19 authoritative-master TEST ingestion
 
 Validated the separately supplied authoritative master before ingestion (distinct

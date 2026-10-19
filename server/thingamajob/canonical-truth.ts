@@ -16,6 +16,7 @@ export async function canonicalTruth(database: IdentityDatabase, scope: Workspac
   if (!(await canonicalUsageAvailable(database))) throw new AccessDenied();
   const row = await database.prepare(`SELECT
     (SELECT json_group_array(json_object('truthId',t.proposal_id,'claimId',t.claim_id,'candidateId',t.candidate_id,'runId',t.run_id,'statement',t.statement,'state',t.state,'policyVersion',t.policy_version,
+      'qualifications',json(coalesce((SELECT json_extract(c.value,'$.uncertainties') FROM thingamajob_extraction_runs r,json_each(r.document_json,'$.claims') c WHERE r.workspace_id=t.workspace_id AND r.run_id=t.run_id AND json_extract(c.value,'$.id')=t.candidate_id),'[]')),
       'evidence',json((SELECT json_group_array(json_object('sourceId',s.source_id,'filename',e.filename,'locator',s.locator,'supportProposalId',s.proposal_id))
       FROM (SELECT p.workspace_id,p.proposal_id,p.source_id,p.locator FROM thingamajob_proposal_sources p
         JOIN thingamajob_proposals pr ON pr.workspace_id=p.workspace_id AND pr.proposal_id=p.proposal_id

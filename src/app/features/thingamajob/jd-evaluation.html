@@ -1,0 +1,82 @@
+<a routerLink="/">Back to Thingamajob</a>
+<h1>Evaluate a job description</h1>
+<p>
+  Compare the job’s requirements with your canonical Library of Truth. Missing evidence means
+  UNKNOWN, not that you lack the qualification.
+</p>
+<form (submit)="evaluate($event)" [attr.aria-busy]="busy()">
+  <p>Evaluation sends this description and your canonical career facts to OpenAI. Original source documents and private-only history are excluded.</p>
+  <label for="job-description">Job description</label>
+  <p id="jd-help">
+    Paste the complete description, including required and preferred qualifications. Maximum 24,000
+    characters.
+  </p>
+  <textarea
+    id="job-description"
+    name="jobDescription"
+    required
+    minlength="20"
+    maxlength="24000"
+    [value]="jd()"
+    (input)="edit($event)"
+    [disabled]="busy()"
+    aria-describedby="jd-help"
+  ></textarea>
+  <button type="submit" [disabled]="busy() || jd().trim().length < 20">
+    {{ busy() ? 'Evaluating…' : 'Evaluate against my LoT' }}
+  </button>
+</form>
+<p role="status" [class.error]="failed()">{{ status() }}</p>
+@if (result(); as evaluation) {
+  <section aria-labelledby="evaluation-heading">
+    <h2 id="evaluation-heading" #resultHeading tabindex="-1">Your evaluation</h2>
+    <p>
+      Compared with {{ evaluation.canonicalTruthCount }} canonical truths. These are evidence-based
+      findings, not a match percentage.
+    </p>
+    <ul class="summary" aria-label="Requirement outcomes">
+      @for (outcome of outcomes; track outcome) {
+        <li>
+          <strong>{{ outcome }}</strong
+          >: {{ count(outcome) }}
+        </li>
+      }
+    </ul>
+    <p>
+      MET: established by evidence. NOT MET: explicitly incompatible evidence. UNKNOWN: more
+      information is needed.
+    </p>
+    @for (requirement of evaluation.requirements; track requirement.id) {
+      <section class="requirement" [attr.aria-labelledby]="'criterion-' + requirement.id">
+        <h3 [id]="'criterion-' + requirement.id">{{ requirement.requirement }}</h3>
+        <p>
+          <strong>{{ requirement.outcome }}</strong> ·
+          {{
+            requirement.importance === 'unspecified'
+              ? 'Priority not stated'
+              : requirement.importance
+          }}
+        </p>
+        <blockquote>{{ requirement.jdQuote }}</blockquote>
+        <p>{{ requirement.reasoning }}</p>
+        @if (requirement.evidence.length) {
+          <h4>Relevant career evidence</h4>
+          <ul>
+            @for (fact of requirement.evidence; track $index) {
+              <li>
+                {{ fact.statement }}
+                @for (qualification of fact.qualifications; track $index) {
+                  <p class="qualification">{{ qualification }}</p>
+                }
+              </li>
+            }
+          </ul>
+        }
+        @if (requirement.question) {
+          <p><strong>Needs clarification:</strong> {{ requirement.question }}</p>
+        }
+      </section>
+    }
+    <p class="record-id">Evaluation {{ evaluation.evaluationId }} · {{ evaluation.evaluatedAt }}</p>
+  </section>
+}
