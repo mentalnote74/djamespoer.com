@@ -1,3 +1,4 @@
+import type { DailyDevReport } from './daily-report';
 export interface Metric {
   value: number | null;
   unit: string;
@@ -13,6 +14,8 @@ export interface Source {
   message: string;
 }
 export interface BuildometerData {
+  dailyReports?: DailyDevReport[];
+  dailyReportsStatus?: 'available' | 'unavailable';
   schemaVersion: 1;
   generatedAt: string;
   sources: { jira: Source; deployments: Source };
@@ -33,6 +36,8 @@ export interface BuildometerData {
     rework: Metric;
   };
   series: {
+    projectCompletion?: Point[];
+    projectShipped?: Point[];
     burndown: Point[];
     velocity: Point[];
     throughput: Point[];

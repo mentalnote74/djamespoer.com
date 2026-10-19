@@ -1,7 +1,5 @@
-name: Daily Scrum Brief publication
+name: Editorial Scrum Brief publication (manual)
 on:
-  schedule:
-    - cron: '0 14,15 * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -44,4 +42,4 @@ jobs:
       - name: Generate, build, commit content and confirm Cloudflare publication
         if: steps.clock.outputs.due == 'true'
         run: node scripts/scrum-brief/publish.mjs
-# No push trigger or Cloudflare credentials. Real content commits use the existing Git integration.
+# Editorial history remains available manually. Production Worker Cron owns automatic daily measurement reports.

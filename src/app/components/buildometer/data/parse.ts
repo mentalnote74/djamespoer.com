@@ -113,5 +113,18 @@ export function parseData(input: unknown): BuildometerData {
     )
       throw Error('Inconsistent project points');
   }
+  if (d['dailyReports'] !== undefined && !Array.isArray(d['dailyReports']))
+    throw Error('Invalid daily report history');
+  for (const key of ['projectCompletion', 'projectShipped']) {
+    if (
+      series[key] !== undefined &&
+      (!Array.isArray(series[key]) ||
+        (series[key] as unknown[]).some((v) => {
+          const p = record(v);
+          return !date(p['date']) || typeof p['value'] !== 'number' || !Number.isFinite(p['value']);
+        }))
+    )
+      throw Error('Invalid daily series');
+  }
   return input as BuildometerData;
 }

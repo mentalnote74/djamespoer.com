@@ -55,6 +55,16 @@ async function atomic(url, value) {
 }
 if (process.argv[2] === 'observe') await atomic(file, ledger);
 await atomic(output, projection);
+await writeFile(
+  new URL('../../server/buildometer/project-members.generated.ts', import.meta.url),
+  '// Generated from approved project membership. Server-only.\nexport const PROJECT_MEMBERS = ' +
+    JSON.stringify(ledger.observations.at(-1).members.map((m) => m.key)) +
+    ' as const;\n',
+);
+await atomic(new URL('../../public/data/buildometer-release.json', import.meta.url), {
+  schemaVersion: 1,
+  sha: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
+});
 // Same validated calculation as the API; Home needs no provider or dashboard request.
 const data = emptyData(projection.observedAt);
 applyProject(data, projection);

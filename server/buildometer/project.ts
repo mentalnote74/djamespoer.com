@@ -180,6 +180,11 @@ export function applyProject(data: BuildometerData, input: unknown): void {
   data.metrics.burndown = metric(current.remaining, 'remaining story points');
   data.series.scope = observations.map((o) => ({ date: o.date, value: o.total }));
   data.series.burndown = observations.map((o) => ({ date: o.date, value: o.remaining }));
+  data.series.projectCompletion = observations.map((o) => ({
+    date: o.date,
+    value: Math.round((o.shipped / o.total) * 1000) / 10,
+  }));
+  data.series.projectShipped = observations.map((o) => ({ date: o.date, value: o.shipped }));
   data.supportingFacts.project = {
     baselineId: p['baselineId'],
     t0: first.date,

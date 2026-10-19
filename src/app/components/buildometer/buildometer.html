@@ -73,6 +73,89 @@
         <dd>{{ data.metrics.rework.reason || data.metrics.rework.value }}</dd>
       </dl>
     </section>
+    <section
+      id="daily-dev-reports"
+      class="source-notes surface-inset"
+      aria-labelledby="daily-report-heading"
+    >
+      <h2 id="daily-report-heading">Daily Scrum / Dev Reports</h2>
+      <p>
+        Daily observations of known scope, shipment and project evidence. Provider gaps remain
+        visible. Scope uses approved shipped credit, not automatic inference from Jira status.
+      </p>
+      @if (data.dailyReportsStatus === 'unavailable') {
+        <p role="status">The retained report archive is temporarily unavailable.</p>
+      }
+      @for (report of data.dailyReports ?? []; track report.id) {
+        <details [attr.id]="'daily-report-' + report.date">
+          <summary>
+            {{ report.date }} —
+            @if (report.project; as project) {
+              {{ project.completion }}% estimated complete
+            } @else {
+              Project measurement unavailable
+            }
+          </summary>
+          <p>
+            Observed {{ report.observedAt }}. Window starts {{ report.windowStart }}.
+            {{
+              report.previousId
+                ? 'Compared with ' + report.previousId
+                : 'First daily observation; comparison begins at approved T₀.'
+            }}
+          </p>
+          <dl>
+            <dt>Known / shipped / remaining story points</dt>
+            <dd>
+              @if (report.project; as project) {
+                {{ project.total }} / {{ project.shipped }} / {{ project.remaining }}.
+                {{ report.projectStatus }}; approved source observed {{ project.sourceObservedAt }}.
+              } @else {
+                Unavailable
+              }
+            </dd>
+            <dt>Scope change since previous observation</dt>
+            <dd>
+              @if (report.scopeChange; as change) {
+                {{ change.net }} net points; {{ change.added }} added / {{ change.removed }} removed
+                / {{ change.reestimated }} re-estimated.
+              } @else {
+                Unavailable — no complete comparable scope evidence.
+              }
+            </dd>
+            <dt>Jira completion cycles / currently open bug-labelled work</dt>
+            <dd>
+              {{ report.jira.completed ?? 'Unavailable' }} /
+              {{ report.jira.openBugLabelled ?? 'Unavailable' }}. {{ report.jira.status }};
+              {{ report.jira.fetchedAt ?? 'No current acquisition' }}. {{ report.jira.note }}
+            </dd>
+            <dt>Production deployments in observation window</dt>
+            <dd>
+              {{ report.deployments.count ?? 'Unavailable' }}. {{ report.deployments.status }};
+              {{ report.deployments.fetchedAt ?? 'No current acquisition' }}.
+              {{ report.deployments.note }}
+            </dd>
+            <dt>Production SHA / Worker release</dt>
+            <dd>
+              <code>{{ report.release.sha ?? 'Unavailable' }}</code> /
+              <code>{{ report.release.workerVersion ?? 'Unavailable' }}</code>
+            </dd>
+          </dl>
+          <a [href]="'/api/buildometer/reports/' + report.date"
+            >Read {{ report.date }} report evidence</a
+          >
+        </details>
+      } @empty {
+        @if (data.dailyReportsStatus !== 'unavailable') {
+          <p>No daily report has been recorded yet.</p>
+        }
+      }
+      <p>
+        Showing the latest 30 daily reports.
+        <a href="/api/buildometer/reports">Read the complete retained archive</a>. No history before
+        T₀ or historical velocity is manufactured.
+      </p>
+    </section>
     <section class="activity">
       <h2>Product Journal / receipts</h2>
       @for (entry of data.journal.slice(0, 3); track entry.date) {

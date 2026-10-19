@@ -120,6 +120,21 @@ function timeline(i: Issue, f: JiraFacts): Timeline {
   if (category !== i.category) result.valid = false;
   return result;
 }
+/** Daily reports reuse the same completion replay, with an explicit observation window. */
+export function completionWindow(f: JiraFacts, from: string, through: string): number | null {
+  const rows = f.issues.map((i) => timeline(i, f)).filter((t) => !t.excluded);
+  if (rows.some((t) => !t.valid)) return null;
+  const start = Date.parse(from),
+    end = Date.parse(through);
+  if (!Number.isFinite(start) || !Number.isFinite(end) || start > end) return null;
+  return rows.reduce(
+    (n, t) =>
+      n +
+      t.events.filter((e) => e.kind === 'complete' && e.eligible && e.at > start && e.at <= end)
+        .length,
+    0,
+  );
+}
 /** Only throughput + bug metrics are modified. Inventory, scope, estimates and deployments stay separate. */
 export function applyEventMetrics(data: BuildometerData, f: JiraFacts): void {
   const end = Date.parse(f.fetchedAt),

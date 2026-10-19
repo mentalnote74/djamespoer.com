@@ -46,5 +46,8 @@ Thumbs.db
 # Private Career Truth Archive
 career-source/
 
+# Built release identity; generated from the actual release checkout during prebuild.
+/public/data/buildometer-release.json
+
 # Private Career Truth Archive
 career-source/

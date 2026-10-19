@@ -1,5 +1,27 @@
 # AI Engineering Handoff
 
+## Automatic production Daily Scrum / Dev Reports
+
+Existing Buildometer Worker owns the daily measurement collector and hourly UTC Cron,
+gated to Eastern hour >=10: first daily record at 10 AM, later hourly catch-up without duplicates.
+Private R2 djamespoer-daily-reports/daily-dev-reports/v1.json uses conditional ETag writes.
+Prior records are immutable; same-day calls return the retained result. Authenticated run-now
+POST and Cron use the same collector; public callers cannot generate records.
+GET /api/buildometer/reports and dated suffix provide sanitized read-back evidence.
+Buildometer has bounded native-disclosure history at #daily-dev-reports, and merges actual
+daily point observations into scope/burndown/completion/shipped series. No homepage requests
+or dashboard redesign. T₀ remains exactly 395/152/243/38.5%; shipped credit is still approved
+ledger evidence, never automatic Jira Done inference. No historical velocity/backfill.
+Existing Jira acquisition/completion replay and deployment acquisition are reused.
+Live Jira credentials remain optional/unavailable; report nulls explain the gap. Production
+read-only deployment credentials and run-now token are secrets, never browser values.
+The old GitHub editorial workflow is manual-only; its prior Journal/component remain intact.
+Focused verification: server typecheck, 23 server checks, 2 existing dashboard tests and
+build/budgets pass. Production acceptance requires real authenticated generation, immutable
+same-day retry/read-back and live desktop/390 report rendering; use the retained archive
+as the flight recorder rather than inventing dates in this handoff.
+Operational details: docs/buildometer/daily-report.md. Release/promotion authorized.
+
 ## Homepage Buildometer teaser
 
 Bottom-of-content linked card reuses InstrumentCluster with one compact completion instrument,
