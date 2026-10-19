@@ -2,71 +2,64 @@ import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 import { Bedlam } from './bedlam';
 import { bedlamThemePalette, createBedlam } from './engine';
-describe('seeded Bedlam recipe', () => {
-  it('repeats identical inputs and distinguishes seeds and instance configurations', () => {
+
+describe('silhouette disturbance recipe', () => {
+  it('is deterministic and preserves independent seed/configuration choices', () => {
     const a = createBedlam(bedlamThemePalette, 'one');
     expect(createBedlam(bedlamThemePalette, 'one')).toEqual(a);
-    expect(createBedlam(bedlamThemePalette, 'two')).not.toEqual(a);
-    expect(
-      createBedlam(bedlamThemePalette, 'one', { symmetry: 1, density: 1, depth: 0 }),
-    ).not.toEqual(a);
-    expect(a.some((layer) => layer.kind === 'particles')).toBe(false);
+    expect(createBedlam(bedlamThemePalette, 'two').noiseSeed).not.toBe(a.noiseSeed);
+    expect(createBedlam(bedlamThemePalette, 'one', { scale: 2, strength: 0 })).not.toEqual(a);
   });
-  it('toggles modules without changing retained slots and bounds particles/numerical inputs', () => {
-    const a = createBedlam(bedlamThemePalette, 42);
-    expect(createBedlam(bedlamThemePalette, 42, { layers: { rings: false } })).toEqual(
-      a.filter((x) => x.kind !== 'rings'),
-    );
-    const extreme = createBedlam(bedlamThemePalette, 42, {
-      particles: true,
-      particleCount: 10000,
-      density: 100,
+  it('bounds work and numerical inputs without particles or lifetimes', () => {
+    const recipe = createBedlam(bedlamThemePalette, 42, {
+      detail: 10000,
       scale: Infinity,
-      turbulence: NaN,
-      positionX: 900,
+      strength: NaN,
+      reach: 900,
     });
-    expect(extreme.filter((x) => x.kind === 'particles')).toHaveLength(24);
-    expect(JSON.stringify(extreme)).not.toMatch(/NaN|Infinity/);
-    expect(extreme.length).toBeLessThanOrEqual(32);
+    expect(recipe.detail).toBe(3);
+    expect(recipe.reach).toBe(16);
+    expect(JSON.stringify(recipe)).not.toMatch(/NaN|Infinity/);
+    expect(createBedlam(bedlamThemePalette, 42, { speed: 0 }).moving).toBe(false);
   });
-  it('accepts distinct palettes while rejecting non-color CSS payloads', () => {
-    expect(
-      createBedlam({ primary: '#ff9900', secondary: '#33bbff', accent: '#fff' }, 1),
-    ).not.toEqual(createBedlam(bedlamThemePalette, 1));
+  it('rejects non-color CSS payloads', () => {
     expect(() =>
       createBedlam({ ...bedlamThemePalette, primary: 'url(https://example.com)' }, 1),
     ).toThrow();
   });
 });
-describe('Bedlam presentation', () => {
-  it('renders decorative 2D layers and preserves the canonical identity without canvas', () => {
+describe('Bedlam field presentation', () => {
+  it('uses the canonical silhouette, a single filter and persistent noise instead of emitted objects', () => {
     const f = TestBed.createComponent(Bedlam);
     f.detectChanges();
-    expect(f.nativeElement.querySelector('canvas')).toBeNull();
-    expect(f.nativeElement.querySelectorAll('.bedlam__layer').length).toBe(6);
-    expect(f.nativeElement.querySelector('.bedlam').getAttribute('aria-hidden')).toBe('true');
-    expect(f.nativeElement.querySelector('.bedlam__mask')).not.toBeNull();
+    const root = f.nativeElement as HTMLElement;
+    expect(root.querySelector('canvas')).toBeNull();
+    expect(root.querySelectorAll('.bedlam__layer').length).toBe(0);
+    expect(root.querySelectorAll('filter').length).toBe(1);
+    expect(root.querySelectorAll('feTurbulence').length).toBe(2);
+    expect(root.querySelector('image')?.getAttribute('href')).toBe(
+      '/assets/brand/djamespoer.com.logo.svg',
+    );
+    expect(root.querySelector('.bedlam')?.getAttribute('aria-hidden')).toBe('true');
     f.componentInstance.paused.set(true);
     f.detectChanges();
-    expect(f.nativeElement.querySelector('.bedlam').style.getPropertyValue('--bedlam-motion')).toBe(
-      'paused',
-    );
+    expect(f.componentInstance.motion()).toBe('paused');
     f.destroy();
   });
-  it('keeps instances independent and regenerates only for recipe input changes', () => {
+  it('keeps instance recipes independent and the static identity available when disabled', () => {
     const a = TestBed.createComponent(Bedlam),
       b = TestBed.createComponent(Bedlam);
     a.detectChanges();
     b.detectChanges();
-    const original = b.componentInstance.layers();
+    const original = b.componentInstance.recipe();
     a.componentRef.setInput('seed', 'independent');
-    a.componentRef.setInput('config', { particles: true, particleCount: 3 });
+    a.componentRef.setInput('config', { enabled: false });
     a.detectChanges();
-    expect(a.componentInstance.layers()).not.toEqual(original);
-    expect(b.componentInstance.layers()).toBe(original);
-    b.componentInstance.paused.set(true);
     b.detectChanges();
-    expect(b.componentInstance.layers()).toBe(original);
+    expect(a.componentInstance.recipe().enabled).toBe(false);
+    expect(a.nativeElement.querySelector('.bedlam__containment').hidden).toBe(true);
+    expect(a.nativeElement.querySelector('.bedlam__mask')).not.toBeNull();
+    expect(b.componentInstance.recipe()).toBe(original);
     a.destroy();
     b.destroy();
   });

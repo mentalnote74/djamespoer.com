@@ -669,3 +669,7 @@ Final tuning-only pass: scale 0.32 to 0.3, opacity 0.38 to 0.28, persistence 0.1
 ## Bedlam recruiter-safe production fallback
 Owner review still rejects plume behavior at minimum scale/persistence and maximum density/depth. Disabled all procedural layer types through existing tuning.ts switches; preserved engine, recipe values, canonical identity and theme shadow. No redesign or animation-speed increase. Archived original recording and provenance remain under docs/case-studies/djamespoer. Build/deploy plus live wordmark/zero-layer verification is acceptance.
 
+
+
+## Operation BEANO - isolated, not deployed
+Replaced emission slots/envelopes with one silhouette-derived SVG field, two seeded noise clocks and centralized field controls. Local build/budgets and five focused tests pass; Chrome checked eight themes at desktop/mobile, reduced motion, forced colors, offscreen pause and 56 seconds of active evolution. Visual result still reads as fine textured/roughened lettering; active filter redraw cost needs care (see docs/bedlam.md). Keep recruiter-safe bd9f3bf on PROD. Preserve this experiment on feature/operation-beano only; no automatic promotion. Prior evidence/recording and historical descriptions retained.

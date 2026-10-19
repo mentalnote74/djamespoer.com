@@ -32,3 +32,11 @@ Recorded October 19, 2026 from owner visual review.
 The implementation moved materially closer to the Living Logo brief: Bedlam became visibly alive, emissions originated from the wordmark, and behavior became centrally configurable. But the large, soft-edged, persistent individual emissions created an unintended thermal/gas-plume appearance. That observation led directly to the next tuning direction: smaller, weaker, overlapping disturbances that collectively form an evolving field rather than recognizable individual puffs.
 
 This is owner-reported case-study/product-history evidence, not a new feature. The historical build remains identifiable through the SHA and deployment above; subsequent tuning does not replace that provenance.
+
+## Operation BEANO - architecture replacement (local checkpoint)
+
+The tuning investigation established that the old birth/growth/travel/disappearance envelope encoded recognizable puffs; it could not be tuned into a continuously disturbed field. Scale and persistence were at their minimums, desktop density/depth at their maximums, and mobile retained only one nebula. Origins were a rectangular letter band, not sampled contours. Animated rings also bypassed their calculated opacity. The recruiter-safe production fallback disabled every procedural layer at `bd9f3bf1161bb8bb0204b95e63cc2ae672103685`.
+
+The replacement uses the canonical SVG's actual alpha as its domain, two persistent seeded noise fields, alpha dilation/displacement and theme-derived material shading. Browser-native SVG animation changes noise frequencies on unequal clocks; there are no spawned objects, growth/fade envelopes, particle counts or travel paths. The original wordmark geometry is unchanged. The original mud-cloud implementation, Infrared Fart Build, tuning attempts and fallback remain in Git history; the original recording and build association above remain intact.
+
+Local result: no plume/launch cycle, but the visible composite still reads more like textured/roughened lettering than a convincing disturbed space. This is an implementation checkpoint, not visual acceptance. Do not promote it solely because it builds; retain the recruiter-safe production fallback pending a satisfactory visual result.

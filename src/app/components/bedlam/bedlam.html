@@ -1,60 +1,89 @@
-<span #field class="bedlam" aria-hidden="true" [style.--bedlam-motion]="motion()">
-  <svg class="bedlam__filters" width="0" height="0" aria-hidden="true" focusable="false">
-    <defs>
-      @for (layer of layers(); track layer.id) {
-        @if (layer.kind === 'nebula') {
-          <filter
-            [attr.id]="filterPrefix + layer.id"
-            x="-30%"
-            y="-30%"
-            width="160%"
-            height="160%"
-            color-interpolation-filters="sRGB"
-          >
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.018 0.045"
-              numOctaves="2"
-              [attr.seed]="layer.style['--bedlam-noise-seed']"
-              result="cloud"
-            />
-            <feColorMatrix in="cloud" type="luminanceToAlpha" result="height" />
-            <feDiffuseLighting
-              in="height"
-              surfaceScale="10"
-              diffuseConstant="1.1"
-              lighting-color="white"
-              result="light"
-            >
-              <feDistantLight azimuth="225" elevation="38" />
-            </feDiffuseLighting>
-            <feBlend in="SourceGraphic" in2="light" mode="multiply" result="shaded" />
-            <feComposite in="shaded" in2="SourceGraphic" operator="in" result="surface" />
-            <feDisplacementMap
-              in="surface"
-              in2="cloud"
-              [attr.scale]="layer.style['--bedlam-distortion']"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        }
-      }
-    </defs>
-  </svg>
-  <span class="bedlam__emission">
-    <span class="bedlam__scene">
-      <span class="bedlam__field">
-        @for (layer of layers(); track layer.id) {
-          <span
-            class="bedlam__layer"
-            [class]="'bedlam__layer--' + layer.kind"
-            [style]="layer.style"
-            [style.--bedlam-distortion-filter]="'url(#' + filterPrefix + layer.id + ')'"
-          ></span>
-        }
-      </span>
-    </span>
-  </span>
+<span class="bedlam" aria-hidden="true">
   <span class="bedlam__identity"><span class="bedlam__mask"></span></span>
+  <span class="bedlam__containment" [hidden]="!recipe().enabled">
+    <svg
+      #field
+      class="bedlam__field"
+      viewBox="0 0 1448 172"
+      focusable="false"
+      [style.opacity]="recipe().opacity"
+      [style.--bedlam-color]="recipe().color"
+    >
+      <defs>
+        <filter
+          [attr.id]="filterId"
+          x="-15%"
+          y="-45%"
+          width="130%"
+          height="190%"
+          color-interpolation-filters="sRGB"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            [attr.baseFrequency]="recipe().frequency"
+            [attr.numOctaves]="recipe().detail"
+            [attr.seed]="recipe().noiseSeed"
+            result="detail"
+          >
+            <animate
+              attributeName="baseFrequency"
+              [attr.values]="recipe().fineValues"
+              [attr.dur]="recipe().fineDuration"
+              repeatCount="indefinite"
+              calcMode="spline"
+              keyTimes="0;0.33;0.67;1"
+              keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
+            />
+          </feTurbulence>
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.009 0.026"
+            numOctaves="1"
+            [attr.seed]="recipe().noiseSeed + 17"
+            result="flow"
+          >
+            <animate
+              attributeName="baseFrequency"
+              [attr.values]="recipe().coarseValues"
+              [attr.dur]="recipe().coarseDuration"
+              repeatCount="indefinite"
+              calcMode="spline"
+              keyTimes="0;0.33;0.67;1"
+              keySplines="0.42 0 0.58 1;0.42 0 0.58 1;0.42 0 0.58 1"
+            />
+          </feTurbulence>
+          <feMorphology
+            in="SourceAlpha"
+            operator="dilate"
+            [attr.radius]="recipe().reach"
+            result="silhouette"
+          />
+          <feDisplacementMap
+            in="silhouette"
+            in2="flow"
+            [attr.scale]="recipe().strength"
+            xChannelSelector="R"
+            yChannelSelector="G"
+            result="disturbed"
+          />
+          <feColorMatrix
+            in="detail"
+            type="matrix"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1 1 1 0 -1"
+            result="variation"
+          />
+          <feFlood class="bedlam__color" result="color" />
+          <feComposite in="color" in2="variation" operator="in" result="material" />
+          <feComposite in="material" in2="disturbed" operator="in" result="field" />
+          <feGaussianBlur in="field" [attr.stdDeviation]="recipe().softness" />
+        </filter>
+      </defs>
+      <image
+        href="/assets/brand/djamespoer.com.logo.svg"
+        width="1448"
+        height="172"
+        [attr.filter]="'url(#' + filterId + ')'"
+      />
+    </svg>
+  </span>
 </span>

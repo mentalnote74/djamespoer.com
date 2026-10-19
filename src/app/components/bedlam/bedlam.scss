@@ -6,57 +6,15 @@
   position: relative;
   display: block;
   block-size: 4rem;
-  overflow: visible;
-  isolation: isolate;
   pointer-events: none;
   background: transparent;
-  &__filters {
-    position: absolute;
-    pointer-events: none;
-  }
-  &__emission {
-    display: contents;
-  }
-  &__scene {
-    position: absolute;
-    inset: 0;
-    opacity: 0.72;
-  }
-  &__field {
-    position: absolute;
-    inset: 0;
-    overflow: visible;
-  }
-  &__layer {
-    position: absolute;
-    inset: -25%;
-    border-radius: 50%;
-    filter: blur(var(--bedlam-blur))
-      drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 2px rgb(0 0 0 / 0.45));
-    transform: translate(var(--bedlam-x), var(--bedlam-y)) rotate(var(--bedlam-angle))
-      scale(var(--bedlam-scale));
-    animation: bedlam-emission var(--bedlam-duration) linear var(--bedlam-delay) infinite;
-    animation-direction: var(--bedlam-direction);
-    animation-play-state: var(--bedlam-motion, running);
-  }
-  &__layer--nebula {
-    filter: var(--bedlam-distortion-filter) blur(var(--bedlam-blur))
-      drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 3px rgb(0 0 0 / 0.4));
-  }
-  &__layer--rays {
-    animation-name: bedlam-emission;
-  }
-  &__layer--grain {
-    animation: none;
-  }
-  // Filter the transparent parent of the masked shape, never the rectangular field.
   &__identity {
+    position: absolute;
+    inset: 0.5rem;
     filter: drop-shadow(
       var(--shadow-x) var(--shadow-y) calc(var(--shadow-blur) / 2)
         rgb(var(--shadow-ink) / var(--shadow-opacity))
     );
-    position: absolute;
-    inset: 0.5rem;
   }
   &__mask {
     position: absolute;
@@ -64,112 +22,39 @@
     mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
     background: #000;
   }
-}
-// The header is the clipping field; the home-link footprint only anchors emission.
-:host(.navbar-bedlam) {
-  .bedlam {
-    position: static;
-    isolation: auto;
-  }
-  .bedlam__scene {
-    inset: 0;
-    overflow: clip;
-    z-index: 0;
-  }
-  .bedlam__field {
-    inset: 1rem auto auto
-      max(var(--layout-gutter-inline), calc((100% - var(--layout-shell-max-inline-size)) / 2));
-    inline-size: clamp(12rem, 25vw, 18rem);
-    block-size: 4rem;
-  }
-  .bedlam__identity {
-    display: block;
-    position: relative;
-    inset: auto;
-    block-size: 4rem;
-    z-index: 1;
-  }
-  .bedlam__mask {
+  &__containment {
+    position: absolute;
     inset: 0.5rem;
   }
-}
-@keyframes bedlam-emission {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(var(--bedlam-angle)) scale(0.25);
+  &__field {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
   }
-  18% {
-    opacity: var(--bedlam-peak, 0.25);
-  }
-  55% {
-    opacity: calc(var(--bedlam-peak, 0.25) * var(--bedlam-persistence));
-  }
-  100% {
-    opacity: 0;
-    transform: translate(var(--bedlam-travel), var(--bedlam-rise))
-      rotate(calc(var(--bedlam-angle) + var(--bedlam-turn))) scale(var(--bedlam-scale));
+  &__color {
+    flood-color: var(--bedlam-color);
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .bedlam__layer {
-    animation: none;
-    opacity: var(--bedlam-peak, 0.25);
+:host-context([data-theme='rum-runner']),
+:host-context([data-theme='bloody-mary']) {
+  .bedlam__mask {
+    background: var(--navigation-foreground);
+  }
+  .bedlam__containment {
+    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
+  }
+}
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  .bedlam__containment {
+    display: none;
   }
 }
 @media (forced-colors: active) {
-  .bedlam__scene {
-    display: none;
-  }
-  .bedlam .bedlam__identity {
-    display: block;
+  .bedlam__identity {
     filter: none;
   }
   .bedlam__mask {
     background: CanvasText;
-  }
-}
-
-// Dark themes clip the field to the canonical letters, not the navbar or image bounds.
-// The transparent parent filters that silhouette using the same theme shadow as identity.
-:host-context([data-theme='rum-runner']),
-:host-context([data-theme='bloody-mary']) {
-  .bedlam__emission {
-    display: block;
-    position: absolute;
-    inset: 0.5rem;
-    filter: drop-shadow(
-      var(--shadow-x) var(--shadow-y) calc(var(--shadow-blur) / 2)
-        rgb(var(--shadow-ink) / var(--shadow-opacity))
-    );
-  }
-  .bedlam__scene {
-    inset: 0;
-    opacity: 1;
-    background: var(--navigation-foreground);
-    mask: url('/assets/brand/djamespoer.com.logo.svg') center / contain no-repeat;
-  }
-  .bedlam__field {
-    inset: -0.5rem;
-    opacity: 0.72;
-  }
-  .bedlam__identity {
-    display: none;
-  }
-}
-:host(.navbar-bedlam) .bedlam__emission {
-  inset: 1.5rem auto auto
-    calc(
-      max(var(--layout-gutter-inline), calc((100% - var(--layout-shell-max-inline-size)) / 2)) +
-        0.5rem
-    );
-  inline-size: calc(clamp(12rem, 25vw, 18rem) - 1rem);
-  block-size: 3rem;
-}
-@media (forced-colors: active) {
-  .bedlam .bedlam__emission {
-    display: none;
-  }
-  .bedlam .bedlam__identity {
-    display: block;
   }
 }
