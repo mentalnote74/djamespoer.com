@@ -653,3 +653,7 @@ Public main baseline reconciled at e5bddbd (Cloudflare Git build succeeded, Work
 ## Historical Product Journal backfill
 Added retrospective October 2-15 editorial entries from dated Git/handoff evidence; preserved October 16/17 entries and latest pointer. Missing October 8 activity/plans and unrecorded impediments remain explicitly unknown. Historical editorial notes do not add or alter Buildometer observations or production daily-report history. Backfill generation/publication is dated October 18, not falsely backdated. Production readback is the acceptance check.
 
+
+## Bedlam emitter correction
+Replaced oversized slow cloud drift with small, staggered outward emissions anchored along the canonical letter band. Shared seeded engine and per-instance overrides remain; tuning is centralized in src/app/components/bedlam/tuning.ts. Desktop four layers, mobile two; dark-theme silhouette containment/shadow unchanged. Local Chrome checked eight themes at 1440/390, evolving transforms, reduced motion, no overflow or page errors; inspected light/dark composites. Production build/budgets pass. No additional test campaign.
+

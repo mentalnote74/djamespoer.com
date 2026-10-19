@@ -5,6 +5,8 @@ export interface BedlamPalette {
   readonly accent: string;
 }
 export interface BedlamConfig {
+  readonly spread?: number;
+  readonly persistence?: number;
   readonly intensity?: number;
   readonly density?: number;
   readonly layers?: Partial<Record<BedlamLayerKind, boolean>>;
@@ -75,7 +77,9 @@ export function createBedlam(
   const opacity = bounded(config.opacity, 0.95);
   const depth = bounded(config.depth, 0.9);
   const speed = bounded(config.speed, 0.12);
-  const scale = bounded(config.scale, 0.95, 0.7, 2);
+  const scale = bounded(config.scale, 0.95, 0.3, 2);
+  const spread = bounded(config.spread, 0.65, 0, 2);
+  const persistence = bounded(config.persistence, 0.62, 0.1, 0.9);
   const blend = ['normal', 'screen', 'overlay', 'soft-light'].includes(config.blend ?? '')
     ? config.blend!
     : 'normal';
@@ -97,7 +101,7 @@ export function createBedlam(
     const y = 50 + (random() - 0.5) * 70 * (1 - symmetry);
     const angle = Math.round((random() - 0.5) * 48),
       distance = kind === 'nebula' ? [0.12, 0.5, 0.9][index % 3] : 0.4 + random() * 0.6;
-    const duration = 22 + (1 - distance) * 55 + random() * 15,
+    const duration = 5 + (1 - distance) * 4 + random() * 3,
       phase = random();
     const gradients: Record<BedlamLayerKind, string> = {
       nebula: `radial-gradient(ellipse at 24% 18%, color-mix(in srgb, ${a} 25%, white) 0%, ${a} 9%, color-mix(in srgb, ${b} 75%, black) 34%, color-mix(in srgb, ${b} 70%, transparent) 48%, transparent 69%), radial-gradient(ellipse at 65% 75%, ${a}, transparent 65%)`,
@@ -128,10 +132,11 @@ export function createBedlam(
       '--bedlam-angle': `${angle}deg`,
       '--bedlam-turn': `${(index % 2 ? -1 : 1) * (2 + turbulence * 9) * distance}deg`,
       '--bedlam-scale': String(scale + distance * depth * 0.7),
-      '--bedlam-travel': `${(index % 2 ? -1 : 1) * (0.5 + turbulence * distance * 10)}%`,
-      '--bedlam-rise': `${(index % 3 ? 1 : -1) * (0.3 + distance * 5)}%`,
+      '--bedlam-travel': `${(index % 2 ? -1 : 1) * spread * (45 + distance * 55)}%`,
+      '--bedlam-rise': `${(index % 3 ? 1 : -1) * spread * (35 + distance * 65)}%`,
+      '--bedlam-persistence': String(persistence),
       '--bedlam-duration': `${duration / (0.25 + speed * 1.75)}s`,
-      '--bedlam-delay': `${-duration * phase}s`,
+      '--bedlam-delay': `${-duration / (0.25 + speed * 1.75) * phase}s`,
       '--bedlam-direction': config.direction === 'reverse' ? 'reverse' : 'normal',
       '--bedlam-blur': `${kind === 'nebula' ? (1 - distance) * depth * 7 : 0}px`,
       '--bedlam-depth': `${distance * depth * 4}px`,
@@ -140,22 +145,18 @@ export function createBedlam(
       '--bedlam-x': `${bounded(config.positionX, 0, -25, 25)}%`,
       '--bedlam-y': `${bounded(config.positionY, 0, -25, 25)}%`,
     };
-    if (kind === 'nebula') {
+    if (kind === 'nebula' || kind === 'rays' || kind === 'particles') {
+      // Emission starts along the letter band, not at arbitrary points in the navbar.
+      // Small independent forms leave open gaps; no enclosing field/fade surface.
       style['inset'] = 'auto';
-      style['left'] = `${x - (distance < 0.3 ? 65 : distance < 0.7 ? 30 : 8)}%`;
-      style['top'] = `${y - (distance < 0.3 ? 100 : 55)}%`;
-      style['width'] = `${distance < 0.3 ? 145 : distance < 0.7 ? 90 : 28}%`;
-      style['height'] = `${distance < 0.3 ? 230 : distance < 0.7 ? 200 : 105}%`;
+      style['left'] = `${8 + (index * 23 + phase * 9) % 79}%`;
+      style['top'] = `${34 + phase * 20}%`;
+      style['width'] = `${(kind === 'rays' ? 10 : 15 + distance * 12) * scale}%`;
+      style['height'] = `${(kind === 'rays' ? 75 : 45 + distance * 45) * scale}%`;
+      style['transform-origin'] = '50% 50%';
       style['border-radius'] = '38% 66% 42% 60% / 55% 40% 68% 45%';
-    }
-    if (kind === 'rays') {
-      style['inset'] = 'auto';
-      style['left'] = `${x}%`;
-      style['top'] = `${y - 70}%`;
-      style['width'] = '34%';
-      style['height'] = '170%';
-      style['clip-path'] =
-        'polygon(0 68%, 22% 42%, 36% 51%, 65% 7%, 57% 49%, 100% 62%, 53% 71%, 35% 100%, 24% 73%)';
+      style['--bedlam-peak'] = style['opacity'];
+      delete style['opacity'];
     }
     if (kind === 'grain') {
       style['background-size'] = '23px 17px, 31px 29px';

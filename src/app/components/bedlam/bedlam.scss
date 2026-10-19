@@ -35,8 +35,7 @@
       drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 2px rgb(0 0 0 / 0.45));
     transform: translate(var(--bedlam-x), var(--bedlam-y)) rotate(var(--bedlam-angle))
       scale(var(--bedlam-scale));
-    animation: bedlam-drift calc(var(--bedlam-duration) / 1.44) ease-in-out var(--bedlam-delay)
-      infinite alternate;
+    animation: bedlam-emission var(--bedlam-duration) linear var(--bedlam-delay) infinite;
     animation-direction: var(--bedlam-direction);
     animation-play-state: var(--bedlam-motion, running);
   }
@@ -45,7 +44,7 @@
       drop-shadow(var(--shadow-x, 0px) var(--bedlam-depth) 3px rgb(0 0 0 / 0.4));
   }
   &__layer--rays {
-    animation-name: bedlam-orbit;
+    animation-name: bedlam-emission;
   }
   &__layer--grain {
     animation: none;
@@ -94,24 +93,27 @@
     inset: 0.5rem;
   }
 }
-@keyframes bedlam-drift {
-  to {
-    transform: translate(
-        calc(var(--bedlam-x) + var(--bedlam-travel)),
-        calc(var(--bedlam-y) + var(--bedlam-rise))
-      )
-      rotate(calc(var(--bedlam-angle) + var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.14));
+@keyframes bedlam-emission {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--bedlam-angle)) scale(0.25);
   }
-}
-@keyframes bedlam-orbit {
-  to {
-    transform: translate(var(--bedlam-x), var(--bedlam-y))
-      rotate(calc(var(--bedlam-angle) - var(--bedlam-turn))) scale(calc(var(--bedlam-scale) + 0.06));
+  18% {
+    opacity: var(--bedlam-peak, 0.25);
+  }
+  55% {
+    opacity: calc(var(--bedlam-peak, 0.25) * var(--bedlam-persistence));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--bedlam-travel), var(--bedlam-rise))
+      rotate(calc(var(--bedlam-angle) + var(--bedlam-turn))) scale(var(--bedlam-scale));
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .bedlam__layer {
     animation: none;
+    opacity: var(--bedlam-peak, 0.25);
   }
 }
 @media (forced-colors: active) {

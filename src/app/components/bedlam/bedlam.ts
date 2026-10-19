@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { BedlamConfig, BedlamPalette, bedlamThemePalette, createBedlam } from './engine';
+import { BEDLAM_TUNING } from './tuning';
 let instanceSequence = 0;
 
 @Component({ selector: 'app-bedlam', templateUrl: './bedlam.html', styleUrl: './bedlam.scss' })
@@ -19,11 +20,11 @@ export class Bedlam {
   readonly seed = input<string | number>('djamespoer-header');
   readonly palette = input<BedlamPalette>(bedlamThemePalette);
   readonly config = input<BedlamConfig>({});
-  readonly speed = input(0.12);
+  readonly speed = input(BEDLAM_TUNING.speed!);
   readonly paused = model(false);
   private readonly mobile = signal(false);
   readonly layers = computed(() => {
-    const config = this.config();
+    const config = { ...BEDLAM_TUNING, ...this.config(), layers: { ...BEDLAM_TUNING.layers, ...this.config().layers } };
     const mobile = this.mobile();
     const recipe = createBedlam(this.palette(), this.seed(), {
       ...config,
@@ -35,7 +36,7 @@ export class Bedlam {
             layers: { ...config.layers, rings: false },
           }
         : {}),
-      speed: config.speed ?? this.speed(),
+      speed: this.config().speed ?? this.speed(),
     });
     if (!mobile) return recipe;
     // Keep the strongest near-field material from the same seeded recipe.
