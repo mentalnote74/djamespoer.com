@@ -21,5 +21,7 @@ export const BEDLAM_TUNING: BedlamConfig = {
   hueRotation: 150,
   particles: false,
   particleCount: 0,
-  layers: { rings: true, grain: false },
+  // Recruiter-safe production fallback. Keep the recipe above for later tuning;
+  // disable procedural work rather than leaving invisible animated/filter layers.
+  layers: { nebula: false, rings: false, rays: false, grain: false, particles: false },
 };

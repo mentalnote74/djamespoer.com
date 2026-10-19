@@ -665,3 +665,7 @@ Kept evolution speed 0.7; reduced feature scale, opacity and persistence; increa
 ## Recruiter-safe Bedlam follow-up
 Final tuning-only pass: scale 0.32 to 0.3, opacity 0.38 to 0.28, persistence 0.18 to 0.1, verticalSpread 0.12 to 0.06. Density remains maximum 1; speed remains 0.7. Historical failure note retained, but original recording is still unavailable and explicitly pending. Inspect live result before retaining enabled treatment; no redesign or new test campaign.
 
+
+## Bedlam recruiter-safe production fallback
+Owner review still rejects plume behavior at minimum scale/persistence and maximum density/depth. Disabled all procedural layer types through existing tuning.ts switches; preserved engine, recipe values, canonical identity and theme shadow. No redesign or animation-speed increase. Archived original recording and provenance remain under docs/case-studies/djamespoer. Build/deploy plus live wordmark/zero-layer verification is acceptance.
+
