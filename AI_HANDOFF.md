@@ -657,3 +657,7 @@ Added retrospective October 2-15 editorial entries from dated Git/handoff eviden
 ## Bedlam emitter correction
 Replaced oversized slow cloud drift with small, staggered outward emissions anchored along the canonical letter band. Shared seeded engine and per-instance overrides remain; tuning is centralized in src/app/components/bedlam/tuning.ts. Desktop four layers, mobile two; dark-theme silhouette containment/shadow unchanged. Local Chrome checked eight themes at 1440/390, evolving transforms, reduced motion, no overflow or page errors; inspected light/dark composites. Production build/budgets pass. No additional test campaign.
 
+
+## Bedlam anti-plume tuning
+Kept evolution speed 0.7; reduced feature scale, opacity and persistence; increased density, depth and lateral spread, enabling the existing thin ribbon layer. Added only an independent verticalSpread knob because the shared spread previously coupled lateral and vertical travel. No engine redesign, particles or unrelated UI changes. Production build/deploy and live behavior are the acceptance path.
+

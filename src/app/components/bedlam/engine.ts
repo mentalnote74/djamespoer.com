@@ -6,6 +6,7 @@ export interface BedlamPalette {
 }
 export interface BedlamConfig {
   readonly spread?: number;
+  readonly verticalSpread?: number;
   readonly persistence?: number;
   readonly intensity?: number;
   readonly density?: number;
@@ -79,6 +80,7 @@ export function createBedlam(
   const speed = bounded(config.speed, 0.12);
   const scale = bounded(config.scale, 0.95, 0.3, 2);
   const spread = bounded(config.spread, 0.65, 0, 2);
+  const verticalSpread = bounded(config.verticalSpread, spread, 0, 2);
   const persistence = bounded(config.persistence, 0.62, 0.1, 0.9);
   const blend = ['normal', 'screen', 'overlay', 'soft-light'].includes(config.blend ?? '')
     ? config.blend!
@@ -133,7 +135,7 @@ export function createBedlam(
       '--bedlam-turn': `${(index % 2 ? -1 : 1) * (2 + turbulence * 9) * distance}deg`,
       '--bedlam-scale': String(scale + distance * depth * 0.7),
       '--bedlam-travel': `${(index % 2 ? -1 : 1) * spread * (45 + distance * 55)}%`,
-      '--bedlam-rise': `${(index % 3 ? 1 : -1) * spread * (35 + distance * 65)}%`,
+      '--bedlam-rise': `${(index % 3 ? 1 : -1) * verticalSpread * (35 + distance * 65)}%`,
       '--bedlam-persistence': String(persistence),
       '--bedlam-duration': `${duration / (0.25 + speed * 1.75)}s`,
       '--bedlam-delay': `${-duration / (0.25 + speed * 1.75) * phase}s`,
