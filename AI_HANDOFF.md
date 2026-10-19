@@ -661,3 +661,7 @@ Replaced oversized slow cloud drift with small, staggered outward emissions anch
 ## Bedlam anti-plume tuning
 Kept evolution speed 0.7; reduced feature scale, opacity and persistence; increased density, depth and lateral spread, enabling the existing thin ribbon layer. Added only an independent verticalSpread knob because the shared spread previously coupled lateral and vertical travel. No engine redesign, particles or unrelated UI changes. Production build/deploy and live behavior are the acceptance path.
 
+
+## Recruiter-safe Bedlam follow-up
+Final tuning-only pass: scale 0.32 to 0.3, opacity 0.38 to 0.28, persistence 0.18 to 0.1, verticalSpread 0.12 to 0.06. Density remains maximum 1; speed remains 0.7. Historical failure note retained, but original recording is still unavailable and explicitly pending. Inspect live result before retaining enabled treatment; no redesign or new test campaign.
+
