@@ -24,8 +24,11 @@ Recorded October 19, 2026 from owner visual review.
 - Build SHA: `406a35e42d3c10563bfe2451e3e31451aea853d8`
 - Deployment: `d92d915b-8010-4f4d-b75d-155395022e40`
 - Internal working label: **The Infrared Fart Build**
-- Recording: **pending receipt**. No supplied clip was available in the accessible attachments or repository when this note was recorded. No substitute recording has been archived. On receipt, retain the original bytes and filename beside this evidence note, and record its SHA-256 here.
+- Recording: [D. James Poer _ UX Engineer & Front-End Architect - Google Chrome 2026-10-19 00-55-46.mp4](<D. James Poer _ UX Engineer & Front-End Architect - Google Chrome 2026-10-19 00-55-46.mp4>), archived unchanged from the owner-supplied capture.
+- Recording SHA-256: `5a913a14de361f7f331dbc627c403ae343d36102d8573ad73c3b0874ca3c2034` (original and archive match).
+- Recording size: 33830058 bytes.
+- Build association is owner-supplied; the capture filename timestamp is not independent proof of the deployed revision.
 
 The implementation moved materially closer to the Living Logo brief: Bedlam became visibly alive, emissions originated from the wordmark, and behavior became centrally configurable. But the large, soft-edged, persistent individual emissions created an unintended thermal/gas-plume appearance. That observation led directly to the next tuning direction: smaller, weaker, overlapping disturbances that collectively form an evolving field rather than recognizable individual puffs.
 
-This is owner-reported case-study/product-history evidence, not a new feature or a claim that the recording has already been received. The historical build remains identifiable through the SHA and deployment above; subsequent tuning does not replace that provenance.
+This is owner-reported case-study/product-history evidence, not a new feature. The historical build remains identifiable through the SHA and deployment above; subsequent tuning does not replace that provenance.
