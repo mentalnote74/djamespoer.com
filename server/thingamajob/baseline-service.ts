@@ -112,6 +112,9 @@ export async function baselineForProposal(
     (await sourceContexts(database, scope, row.run_id)) as { candidateId: string; kind: string }[]
   ).find((c) => c.candidateId === row.candidate_id);
   await recheckWorkspace(scope);
+  const usageAvailable = !!(await database.prepare("SELECT name FROM sqlite_master WHERE type='view' AND name='thingamajob_current_truth_usage'").first());
+  const usage = usageAvailable ? await database.prepare('SELECT usage,canonical_proposal_id FROM thingamajob_current_truth_usage WHERE workspace_id=? AND proposal_id=?').bind(scope.workspaceId, proposalId).first<{usage:string;canonical_proposal_id:string|null}>() : null;
+  await recheckWorkspace(scope);
   return {
     runId: row.run_id,
     candidateId: row.candidate_id,
@@ -120,7 +123,8 @@ export async function baselineForProposal(
     policyVersion: row.policy_version,
     recordedAt: row.recorded_at,
     reasons: JSON.parse(row.reasons_json) as unknown,
-    active: row.category === 'baseline' && row.disposition === 'proposed',
+    active: row.category === 'baseline' && row.disposition === 'proposed' && (!usage || usage.usage === 'usable'),
+    ...(usage ? { consumerUsage: usage.usage, canonicalProposalId: usage.canonical_proposal_id } : {}),
     transition: row.disposition === 'proposed' ? 'source_established' : 'replaced_by_owner_review',
   };
 }

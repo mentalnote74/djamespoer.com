@@ -1,5 +1,33 @@
 # AI Engineering Handoff
 
+## October 19 Client #1 canonical truth QA
+
+Protected TEST only; public main/PROD, Erica and JD evaluation untouched. Faithful
+approved-source facts remain automatic truth, not a mass owner-acceptance queue.
+Append-only usage policy preserves raw history while removing duplicate fork and
+title representations from canonical counting; IPS departure context is omitted
+from the consumer statement without rewriting its source/proposal. Two explicit
+lifecycle-test UNKNOWNs are retired from career uncertainty, not falsely resolved
+or deleted. Twelve candidates reassessed; 24 cited missing skills/project-context
+facts added through existing candidate/baseline ledgers. No model calls, new
+evidence uploads, invented measurements, fabricated owner reviews or backdating.
+
+Actual TEST D1: 87 canonical truths = 80 automatic + 5 accepted + 2 corrected;
+zero open career UNKNOWNs. All prior James rows preserved; 10 raw claims and 12
+reviews unchanged. One nonactive headline remains; historical summary/as-of
+qualifications and duplicate support remain inspectable. Private job/snapshots
+under ignored career-source/lot-qa/2026-10-19. Rehearsal twice is idempotent;
+actual private/superseded/duplicate exclusions verified. D1 import endpoint denied
+authentication before applying anything; standard D1 query API applied the patch.
+
+Owner-only /api/thingamajob/test/truth fails closed without canonical migration.
+Workflow overview uses sanitized views; original source/review/history remains
+on explicit owner audit routes. See server/thingamajob/canonical-truth.md.
+Focused tests, strict TypeScript and protected Angular build/budgets passed.
+Deploy matching Worker to TEST only. Full PDF/current career corpus/current
+independent work remain coverage gaps; 87 is not an exhaustive career inventory.
+
+
 ## Resume presentation cleanup (2026-10-15)
 
 Normal protected resume is a conventional document: no assembly/source explanation, provenance/audit controls, evidence links, diagnostic navigation or More experience disclosures. Six selected bullets per employer remain visible; secondary facts remain in internal tools. Historical open-ended employment is shown as Started plus the supported start date, never Present or an invented end. Deterministic wording removes repeated employer/first-person prefixes and simplifies approved action phrasing without changing claims. Redacted identity/contact remains omitted. Internal tools/LoT ledger are available only at the direct protected hash route /api/thingamajob/test/app/#/admin, with no client link; hash routing reuses the existing authenticated shell and requires no Worker/API/Access change. Focused tests 13/13, protected build/budgets, snapshot-backed desktop/390/320 checks passed: no internal copy/expanders or overflow, one main/h1, focus and direct audit access preserved, corrected fork wording visible and obsolete broad claim absent. No model/extraction/benchmark/JD/data/schema/Erica/PROD work. TEST deployment and 32-table integrity comparison follow checkpoint.

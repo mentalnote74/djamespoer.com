@@ -137,6 +137,8 @@ export async function getUnknown(
       }
     >();
   if (!row) throw new AccessDenied();
+  const retirementAvailable = !!(await database.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='thingamajob_unknown_retirements'").first());
+  const retirement = retirementAvailable ? await database.prepare('SELECT reason,authorization_reference,recorded_at FROM thingamajob_unknown_retirements WHERE workspace_id=? AND unknown_id=?').bind(scope.workspaceId, unknownId).first<{reason:string;authorization_reference:string;recorded_at:number}>() : null;
   await recheckWorkspace(scope);
   return {
     unknownId: row.unknown_id,
@@ -145,6 +147,7 @@ export async function getUnknown(
     context: row.context,
     version: row.version,
     state: row.state,
+    ...(retirement ? { careerState: 'retired_test', retirement } : {}),
     answers: JSON.parse(row.answers_json) as unknown,
     proposals: JSON.parse(row.proposals_json) as unknown,
     resolution: row.resolution_json ? (JSON.parse(row.resolution_json) as unknown) : null,
@@ -153,10 +156,12 @@ export async function getUnknown(
 }
 export async function listUnknowns(database: IdentityDatabase, scope: WorkspaceAccess) {
   await recheckWorkspace(scope);
+  const retired = !!(await database.prepare("SELECT name FROM sqlite_master WHERE type='view' AND name='thingamajob_career_unknowns'").first());
+  const view = retired ? 'thingamajob_career_unknowns' : 'thingamajob_unknowns';
   const row = await database
     .prepare(
       `SELECT json_group_array(json_object('unknownId',unknown_id,'question',question,'version',version,'state',state)) AS items
-  FROM (SELECT u.unknown_id,u.question,u.version,u.state FROM thingamajob_unknowns u JOIN thingamajob_unknown_events e
+  FROM (SELECT u.unknown_id,u.question,u.version,u.state FROM ${view} u JOIN thingamajob_unknown_events e
    ON e.workspace_id=u.workspace_id AND e.event_id=u.last_event_id WHERE u.workspace_id=? ORDER BY e.recorded_at DESC,u.unknown_id LIMIT 100)`,
     )
     .bind(scope.workspaceId)

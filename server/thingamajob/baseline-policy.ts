@@ -3,7 +3,16 @@ import { approvedTitleGroups } from './title-policy.ts';
 // Bounded first-proof policy. Never treats model confidence or a citation match alone as entailment.
 // The input digest pins this policy to the independently inspected candidate/source package;
 // new extraction outputs require their own source vetting, not automatic reuse of this approval.
-export const POLICY_VERSION = 'client-one-source-vetting-v3';
+export const POLICY_VERSION = 'client-one-source-vetting-v4';
+// Explicit October 19 QA: attribution, approximation and source-title variation
+// do not invalidate faithfully captured testimony. This approval is run-bound;
+// it is not a confidence-only or literal-citation-only auto-promotion heuristic.
+export const QA_SOURCE_RUN = '1f96a7ab-1567-4678-bcef-15b840439cc7';
+export const QA_DIRECT_CANDIDATES = [
+  'ips-001', 'resume-010', 'resume-013', 'tcc-001',
+  'resume-039', 'resume-040', 'resume-047',
+  'tcc-005', 'tcc-008', 'tcc-010', 'tcc-011', 'tcc-012',
+] as const;
 export const APPROVED_TEMPLATE = '76528b67452512eebf4b63830eab7ecef5f45086c8f3bd19473c68cb2bfde0cd';
 export interface VettingDocument {
   extractionRunId: string;
@@ -71,6 +80,12 @@ export function classifyBaseline(document: VettingDocument) {
         candidateId: c.id,
         category: context.category as 'baseline' | 'qualified',
         reasons: [context.reason],
+      };
+    if (document.extractionRunId === QA_SOURCE_RUN && QA_DIRECT_CANDIDATES.some((id) => id === c.id))
+      return {
+        candidateId: c.id,
+        category: 'baseline' as const,
+        reasons: ['Faithful approved-source testimony. Preserve collaborative attribution, approximation and historical wording; no separate owner reconfirmation or independent corroboration is required.'],
       };
     if (titleClaims.has(c.id))
       return {

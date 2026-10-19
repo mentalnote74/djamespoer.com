@@ -1,5 +1,8 @@
 # SCRUM-80 identity and workspace ownership
 
+Current canonical truth/QA policy and protected consumer boundary:
+[canonical-truth.md](canonical-truth.md). Earlier sections below preserve foundation history.
+
 Server-only foundation. Angular imports none of this directory. The SCRUM-80 checkpoint had no Worker entry point. Coach has now authorized the bounded SCRUM-81 read-only entry slice below; R2, evidence intake, claim/UNKNOWN implementation and public provisioning routes remain absent.
 
 ## Trust boundary

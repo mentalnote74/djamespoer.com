@@ -32,6 +32,7 @@ import { verificationPage } from './verification-page.ts';
 import { boundedBytes } from './evidence-validation.ts';
 import { supersedeClaim } from './claim-lifecycle.ts';
 import { workflowSnapshot } from './workflow-snapshot.ts';
+import { canonicalTruth } from './canonical-truth.ts';
 import {
   createUnknown,
   answerUnknown,
@@ -79,6 +80,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
       const ownUnknowns = path === '/api/thingamajob/test/unknowns';
       const verification = path === '/api/thingamajob/test/two-client-verification';
       const workflow = path === '/api/thingamajob/test/workflow';
+      const truth = path === '/api/thingamajob/test/truth';
       const uiPrefix = '/api/thingamajob/test/app/';
       const ui = path === uiPrefix.slice(0, -1) || path.startsWith(uiPrefix);
       const extraction = testEnabled
@@ -131,6 +133,7 @@ export function createWorker(keys?: JWTVerifyGetKey) {
             ownUnknowns ||
             verification ||
             workflow ||
+            truth ||
             ui)
         )
       )
@@ -250,6 +253,10 @@ export function createWorker(keys?: JWTVerifyGetKey) {
               ? await createProposal(request, env.IDENTITY_DB, scope, undefined, claims[2])
               : await supersedeClaim(request, env.IDENTITY_DB, scope, claims[2]),
           );
+        }
+        if (truth) {
+          const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          return reply(200, await canonicalTruth(env.IDENTITY_DB, scope));
         }
         if (workflow) {
           const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
