@@ -685,3 +685,7 @@ Restored 909072d Bedlam (last engine revision 9ee64f2); verified exact seeded re
 
 ## No-blob masked-material release
 Replaced historical blob with 3 static gradient planes (2 mobile), transform-only motion behind canonical alpha. Central new tuning.ts controls; no emissions/noise filters/JS frame loop. Unequal seamless cycles avoid short composite restart. Observed desktop 72s/mobile 40s; all themes, reduced-motion-on motion, forced colors, offscreen pause and no overflow/page errors verified. Build/prerender/budgets + five scoped tests pass. Isolated 12s mobile-viewport sample: paused task .00176s vs Bedlam-only active .04326s, script/layout zero; not GPU/battery evidence. Proceeding through authorized PROD release after visual acceptance. Earlier algorithms/artifacts remain historical in Git/docs.
+
+
+## Historical composition correction
+Restored 909072d composition wrappers/theme CSS around unchanged 40c29f1 moving material. Non-dark themes: black wordmark over header-clipped material; Rum Runner/Bloody Mary: canonical masked scene, navigation-foreground backing, silhouette shadow. No engine/seed/tuning/motion/resource edits. Material backing extent adjusted only to eliminate visible rotated backing edges. Browser comparison to independently compiled historical CSS passes all eight themes at 1440/390; build/budgets and five focused tests pass. Authorized PROD release follows. Earlier all-theme-mask documentation is historical, not current.

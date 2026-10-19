@@ -1,9 +1,12 @@
 <span #field class="bedlam" aria-hidden="true" [style.--bedlam-motion]="motion()">
-  <span class="bedlam__identity">
-    <span class="bedlam__mask">
-      @for (layer of layers(); track layer.id) {
-        <span class="bedlam__plane" [style]="layer.style"></span>
-      }
+  <span class="bedlam__emission">
+    <span class="bedlam__scene">
+      <span class="bedlam__field">
+        @for (layer of layers(); track layer.id) {
+          <span class="bedlam__plane" [style]="layer.style"></span>
+        }
+      </span>
     </span>
   </span>
+  <span class="bedlam__identity"><span class="bedlam__mask"></span></span>
 </span>

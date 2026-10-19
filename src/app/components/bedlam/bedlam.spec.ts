@@ -34,6 +34,8 @@ describe('masked material presentation', () => {
     expect(f.nativeElement.querySelector('canvas, svg')).toBeNull();
     expect(f.nativeElement.querySelector('.bedlam').getAttribute('aria-hidden')).toBe('true');
     expect(f.nativeElement.querySelector('.bedlam__mask')).not.toBeNull();
+    expect(f.nativeElement.querySelectorAll('.bedlam__field .bedlam__plane').length).toBe(3);
+    expect(f.nativeElement.querySelector('.bedlam__identity .bedlam__plane')).toBeNull();
     f.componentInstance.paused.set(true);
     f.detectChanges();
     expect(f.componentInstance.motion()).toBe('paused');

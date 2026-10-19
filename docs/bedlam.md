@@ -1,3 +1,15 @@
+# Current composition: historical pre-fart rules + new moving material
+
+Composition is restored directly from 909072dbb5471198d253031c8eb526b6e99b8736. Teetotaler and the five other non-dark anchors use an opaque black canonical wordmark over material in the header-clipped navbar field. Rum Runner and Bloody Mary use the canonical letter mask on the scene, navigation-foreground backing, silhouette shadow, hidden separate identity and the historical field opacity. Header/field positioning, default transparency, z-index, overflow and forced-colors rules are the historical rules, not a unified all-theme mask.
+
+The material engine, seed, tuning.ts and component motion/resource handling are unchanged from 40c29f1. Only the renderer wrappers/composition CSS changed. Material backing planes extend beyond the light-theme navbar clip so rotated backing edges are not visible; dark masked planes retain their smaller backing footprint. No new fade mask, palette, theme interpretation or tuning value was introduced. Historical reduced-motion suppression remains removed per owner instruction.
+
+Verification compared computed composition properties against independently compiled historical SCSS in Chrome for all eight anchors at 1440/390px. Matching properties included masks, backgrounds, opacity, shadow filters, positioning, overflow and stacking. Build/prerender/budgets and five focused tests passed, with no overflow/page errors. This is composition parity, not a claim that the new material matches old blob pixels.
+
+---
+
+Earlier descriptions below are preserved history; the all-themes letter-clipped composition was explicitly rejected and corrected above.
+
 # Current Bedlam: moving material underneath the mask
 
 Three static, seeded gradient planes (two on mobile) move under the unchanged canonical CSS alpha mask. Only transforms animate. There are no blobs, SVG noise/displacement filters, emissions, particles, object lifetimes or per-frame JavaScript. Parent shadow follows the actual masked silhouette using the existing theme tokens.
