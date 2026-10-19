@@ -18,7 +18,7 @@ export function createProductionDeploymentAcquisition({ accountId, getToken, fet
             `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/scripts/djamespoer-com/deployments?page=${page}&per_page=100`,
             {
               method: 'GET',
-              redirect: 'error',
+              redirect: 'manual',
               signal: AbortSignal.timeout(15000),
               headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
             },

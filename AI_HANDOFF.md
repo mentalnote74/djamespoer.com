@@ -2,6 +2,16 @@
 
 ## Automatic production Daily Scrum / Dev Reports
 
+Production generation/read-back succeeded for daily-dev-report:2026-10-18 at SHA
+1e8d70ee717371e4dae37f982baeb9a2b4353341 / Worker ac856b47-2cb5-454b-b5a9-f372dca1c163.
+Same-day retry retained exactly one unchanged record; public generation returned 401.
+Actual Cloudflare schedules read-back confirmed 0 * * * *.
+Initial Jira fields are unavailable (no runtime credentials). Initial deployment count is
+retained as unavailable: native Workers rejected redirect:error. The same adapter succeeded
+in Node, and an in-memory Workers diagnostic isolated the unsupported redirect mode.
+Both adapters now use manual redirects with existing non-2xx rejection; no credential forwarding.
+Preserve the first record's original availability/release metadata; do not silently repair history.
+
 Existing Buildometer Worker owns the daily measurement collector and hourly UTC Cron,
 gated to Eastern hour >=10: first daily record at 10 AM, later hourly catch-up without duplicates.
 Private R2 djamespoer-daily-reports/daily-dev-reports/v1.json uses conditional ETag writes.

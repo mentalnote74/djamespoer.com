@@ -29,7 +29,7 @@ export async function acquireJira(
   const read = async (path: string, body?: unknown): Promise<Record<string, unknown>> => {
     const r = await fetcher(new URL(path, base), {
       method: body ? 'POST' : 'GET',
-      redirect: 'error',
+      redirect: 'manual',
       signal: AbortSignal.timeout(15000),
       headers: {
         Authorization: auth,
@@ -45,7 +45,7 @@ export async function acquireJira(
   // Discover actual schema IDs; do not assume a customfield number across sites.
   const fieldResponse = await fetcher(new URL('/rest/api/3/field', base), {
     headers: { Authorization: auth, Accept: 'application/json' },
-    redirect: 'error',
+    redirect: 'manual',
     signal: AbortSignal.timeout(15000),
   });
   if (!fieldResponse.ok) throw Error('Jira field discovery unavailable');
@@ -65,7 +65,7 @@ export async function acquireJira(
     new URL('/rest/api/3/project/' + config.JIRA_PROJECT_KEY + '/statuses', base),
     {
       headers: { Authorization: auth, Accept: 'application/json' },
-      redirect: 'error',
+      redirect: 'manual',
       signal: AbortSignal.timeout(15000),
     },
   );

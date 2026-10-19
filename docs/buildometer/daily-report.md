@@ -35,6 +35,10 @@ Archive failures are logged in Workers observability; later hourly triggers retr
   people or raw changelogs are published. Missing runtime Jira credentials yield nulls.
 - Deployments reuse the existing production-deployments adapter, not a new ingestion path.
   Missing live acquisition leaves the daily count unavailable; old snapshots are labelled stale.
+  Native Workers requires manual redirect mode: both provider adapters reject non-2xx responses
+  without following redirects or forwarding credentials. Node's error redirect mode is unsupported
+  by the Workers runtime. The first October 18 record retained this acquisition failure honestly;
+  its unavailable deployment count is preserved rather than rewritten after the compatibility fix.
 - Release SHA is generated from the build checkout; release ID is the Worker version binding.
   The first window begins at T₀; later windows begin at the prior report cutoff.
   No historical velocity or pre-T₀ records are manufactured.

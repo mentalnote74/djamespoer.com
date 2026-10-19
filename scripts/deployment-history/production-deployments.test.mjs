@@ -58,6 +58,7 @@ test('GETs only pinned production Worker, follows numeric pages and publishes mi
   const rows = await acquire();
   assert.equal(rows.length, 101);
   assert.equal(calls[0].options.method, 'GET');
+  assert.equal(calls[0].options.redirect, 'manual');
   assert.match(
     calls[1].url,
     /\/workers\/scripts\/djamespoer-com\/deployments\?page=2&per_page=100$/,
