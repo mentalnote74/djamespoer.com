@@ -1,5 +1,22 @@
 # AI Engineering Handoff
 
+## October 20 unfinished public Thingamajob evaluator
+
+The existing Thingamajob component on Home and /thingamajob now hosts the portable
+Text/URL/File evaluator, replacing the historical demo as the primary interaction.
+One Evaluate action normalizes internally; results are one concise paragraph.
+Construction tape and the exact working-prototype disclaimer are prominent.
+Shared themes, Manrope/Inter roles and native controls apply; no startup API call.
+It uses the existing same-origin /test/thingamajob intake/evaluate endpoints and
+their canonical-only, fixed-workspace, usage/security controls. No protected server
+implementation, private source or credential is copied into the public build.
+Detailed assessments remain private in the evaluator Worker's existing R2 storage.
+D1 quota failures retain input and honestly report temporary unavailability.
+Classification remains v6; no paid acceptance evaluation or cached fresh result.
+LinkedIn ingestion stays queued until the reported 8 PM New York reset; no probes
+or plan upgrades. Six focused UI tests and production build/budgets pass.
+Public case-study record: /thingamajob#case-study-heading; release tracking SCRUM-33.
+
 ## Scrum dispatch runtime binding — October 19
 
 Cloudflare Builds secret storage is separate from Worker runtime secrets. The

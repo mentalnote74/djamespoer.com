@@ -1,48 +1,28 @@
 import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { By } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
-import { Aside } from '../../layout/aside/aside';
+import { provideRouter } from '@angular/router';
 import { Thingamajob } from './thingamajob';
-import { ThingamajobWorkflow } from '../../features/thingamajob/workflow';
-@Component({
-  imports: [Aside, Thingamajob],
-  template: '<app-aside label="Thingamajob"><app-thingamajob /></app-aside>',
-})
-class Host {}
-describe('Homepage Thingamajob workflow', () => {
-  it('uses the real controller for comparison, explicit correction, history and reset without HTTP', async () => {
+
+describe('public unfinished Thingamajob', () => {
+  it('mounts the portable one-action evaluator without historical demo or startup requests', () => {
     TestBed.configureTestingModule({
-      imports: [Host],
-      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+      imports: [Thingamajob],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     });
-    const fixture = TestBed.createComponent(Host);
-    fixture.detectChanges();
-    const widget = fixture.debugElement.query(By.directive(ThingamajobWorkflow))
-      .componentInstance as ThingamajobWorkflow;
-    await vi.waitFor(() => expect(widget.proposal()).not.toBeNull());
+    const fixture = TestBed.createComponent(Thingamajob);
     fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.querySelector('aside')?.getAttribute('aria-label')).toBe('Thingamajob');
-    expect(root.querySelector('h2')?.textContent).toBe('Before: phrase-overlap demo');
-    expect(root.querySelector('a')?.textContent).toBe('View Thingamajob Case Study');
-    expect(root.querySelector('a')?.getAttribute('href')).toBe('/thingamajob');
-    widget.compareJobDescription(new Event('submit'), root.querySelector('form')!);
-    expect(widget.jobComparison()?.matched).toContain('Accessibility');
-    expect(widget.claims()).toHaveLength(0);
-    widget.correction.set('Morgan facilitated three accessibility workshops.');
-    await widget.review('corrected');
-    expect(widget.proposal()?.reviewDisposition).toBe('corrected');
-    expect(widget.proposal()?.history).toHaveLength(2);
-    await widget.resetSample();
-    expect(widget.proposal()?.reviewDisposition).toBe('proposed');
-    expect(widget.claims()).toHaveLength(0);
-    fixture.detectChanges();
-    expect(root.textContent).not.toMatch(
-      /sample-proposal|sample-claim|fictional-portfolio|api-test|Erica/,
+    expect(root.textContent?.replace(/\s+/g, ' ')).toContain(
+      'Working prototype — actively under development. Evaluations may be incomplete or incorrect. Review the findings before acting on them.',
     );
+    expect(root.querySelector('app-jd-evaluation')).not.toBeNull();
+    expect(root.querySelector('app-thingamajob-workflow')).toBeNull();
+    expect(root.querySelector('h1')).toBeNull();
+    expect(root.querySelector('h2')?.textContent).toBe('Thingamajob');
+    expect(root.querySelectorAll('input[type=radio]')).toHaveLength(3);
+    expect(root.querySelectorAll('button[type=submit]')).toHaveLength(1);
+    expect(root.querySelector('button[type=submit]')?.textContent).toBe('Evaluate');
     TestBed.inject(HttpTestingController).expectNone(() => true);
   });
 });

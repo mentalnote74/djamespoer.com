@@ -1,0 +1,77 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+fieldset {
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+legend {
+  font-weight: 700;
+}
+.methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-block: 0.75rem;
+}
+.methods label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-block-size: 2.75rem;
+}
+label {
+  display: block;
+  font-weight: 700;
+  font-family: var(--font-ui, inherit);
+}
+input[type='url'],
+input[type='file'],
+textarea {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  margin-block: 0.75rem;
+  font: inherit;
+}
+input[type='url'],
+textarea {
+  padding: 0.75rem;
+  color: var(--control-foreground, CanvasText);
+  background: var(--control-background, Canvas);
+  border: 1px solid var(--control-border, ButtonBorder);
+  border-radius: 0.25rem;
+}
+textarea {
+  min-block-size: 12rem;
+  resize: vertical;
+}
+:is(input, textarea, button, a):focus-visible {
+  outline: 3px solid var(--focus-outer, Highlight);
+  outline-offset: 3px;
+}
+:is(h2, h3):focus {
+  outline: 3px solid var(--focus-outer, Highlight);
+  outline-offset: 3px;
+}
+.data-notice {
+  font-size: 0.9rem;
+}
+.error {
+  font-weight: 700;
+}
+.evaluation-summary {
+  line-height: 1.65;
+}
+@media (forced-colors: active) {
+  textarea,
+  input[type='url'] {
+    border-color: CanvasText;
+  }
+}

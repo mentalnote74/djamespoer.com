@@ -6,31 +6,14 @@
       guessing.
     </p>
     <p>AI may propose. Evidence supports. The person decides.</p>
-    <h2 class="result-heading">How Thingamajob evaluates a candidate against a job description</h2>
-    <div class="result-key">
-      <details class="surface-raised">
-        <summary>Strong Match</summary>
-        <p>The candidate's verified career evidence directly supports the job requirement.</p>
-      </details>
-      <details class="surface-raised">
-        <summary>Supported Match</summary>
-        <p>
-          The candidate has related verified evidence that supports the requirement, but less
-          directly or completely.
-        </p>
-      </details>
-      <details class="surface-raised">
-        <summary>Needs Candidate Confirmation</summary>
-        <p>
-          Existing career evidence suggests the candidate may meet the requirement, but
-          clarification is needed before Thingamajob treats it as supported.
-        </p>
-      </details>
-      <details class="surface-raised">
-        <summary>Match Gap</summary>
-        <p>Current verified career evidence does not support the job requirement.</p>
-      </details>
-    </div>
+    <h2 class="result-heading">An unfinished, evidence-led evaluator</h2>
+    <p>
+      The working prototype below evaluates a job against James's canonical career evidence.
+      Internally, MET means the requirement is supported; NOT MET means an explicit incompatibility
+      or a professional qualification absent from his confirmed-complete record; UNKNOWN retains
+      genuine situational, current-state, ambiguous or conflicting matters. Other clients do not
+      inherit the completeness assumption.
+    </p>
   </header>
   <div class="product-columns">
     <app-thingamajob class="product-workspace" />
@@ -109,10 +92,10 @@
           source-backed application material.
         </p>
         <p>
-          The four match outcomes describe how the candidate's verified career evidence matches each
-          job requirement, not a fabricated match percentage. A match gap means the current verified
-          career evidence does not support a requirement; it does not prove the person lacks that
-          experience.
+          The current prototype presents one concise fit paragraph while retaining detailed
+          requirement assessments privately. Required and preferred qualifications keep their
+          distinction. Missing professional qualifications are known gaps only for a confirmed
+          comprehensive career record; incomplete source coverage is not a fabricated negative.
         </p>
       </section>
       <section>

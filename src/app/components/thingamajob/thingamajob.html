@@ -1,41 +1,14 @@
-<div class="thingamajob surface-raised surface-textured">
-  <h2>Thingamajob</h2>
-  <p>
-    I’m building a career assistant that evaluates jobs against verified career evidence instead of
-    guessing from résumé keywords.
+<section
+  id="thingamajob"
+  class="thingamajob surface-raised surface-textured"
+  aria-labelledby="thingamajob-title"
+>
+  <h2 id="thingamajob-title">Thingamajob</h2>
+  <p class="prototype-notice">
+    <strong
+      >Working prototype &mdash; actively under development. Evaluations may be incomplete or incorrect.
+      Review the findings before acting on them.</strong
+    >
   </p>
-  <p>
-    Thingamajob starts with a Library of Truth built from real career evidence—résumés, project
-    work, public professional material, and owner-reviewed claims. AI can extract, connect, and
-    explain evidence, but the person controls what becomes truth.
-  </p>
-  <p>Candidate-to-job matching is described with four outcomes:</p>
-  <ul>
-    <li>Strong Match</li>
-    <li>Supported Match</li>
-    <li>Needs Candidate Confirmation</li>
-    <li>Match Gap</li>
-  </ul>
-  <p>
-    The goal is simple: make job matching more accurate, more explainable, and less dependent on
-    résumé keyword theater.
-  </p>
-  <p>
-    Thingamajob is an active product that continues to evolve through real job-search workflows.
-  </p>
-  <p class="construction-notice">
-    <strong>Under active construction.</strong> Some features of the real working prototype may be
-    incomplete or temporarily unavailable. This public example is historical, not the current
-    evaluator.
-  </p>
-  <p>
-    This historical example uses fictional data in this tab only. It cannot access private career
-    records.
-  </p>
-  <details #demo (toggle)="demo.open && demoInitialized.set(true)">
-    <summary>View historical before-state demo (fictional data)</summary>
-    @if (demoInitialized()) {
-      <app-thingamajob-workflow />
-    }
-  </details>
-</div>
+  <app-jd-evaluation [showBackLink]="false" [headingLevel]="3" clientLabel="James's" />
+</section>

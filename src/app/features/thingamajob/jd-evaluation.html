@@ -1,0 +1,111 @@
+@if (showBackLink()) {
+  <a routerLink="/">Back to Thingamajob</a>
+}
+@if (headingLevel() === 3) {
+  <h3>Evaluate a job description</h3>
+} @else {
+  <h1>Evaluate a job description</h1>
+}
+<p>Compare a job with {{ clientLabel() }} canonical career evidence.</p>
+<form (submit)="evaluate($event)" [attr.aria-busy]="busy()">
+  <fieldset [disabled]="busy()">
+    <legend>Provide a job description</legend>
+    <div class="methods">
+      <label
+        ><input
+          type="radio"
+          name="method"
+          [checked]="mode() === 'text'"
+          (change)="choose('text')"
+        />Text</label
+      >
+      <label
+        ><input
+          type="radio"
+          name="method"
+          [checked]="mode() === 'url'"
+          (change)="choose('url')"
+        />URL</label
+      >
+      <label
+        ><input
+          type="radio"
+          name="method"
+          [checked]="mode() === 'file'"
+          (change)="choose('file')"
+        />File</label
+      >
+    </div>
+    @switch (mode()) {
+      @case ('text') {
+        <label for="job-description">Job description</label>
+        <p id="jd-help">
+          Paste the posting, including required and preferred qualifications. Obvious webpage noise
+          is removed automatically.
+        </p>
+        <textarea
+          id="job-description"
+          name="jobDescription"
+          required
+          minlength="20"
+          maxlength="100000"
+          [value]="jd()"
+          (input)="edit($event)"
+          aria-describedby="jd-help"
+        ></textarea>
+      }
+      @case ('url') {
+        <label for="job-url">Public job-posting URL</label>
+        <p id="url-help">
+          Use one specific posting. If the page blocks retrieval or requires sign-in, paste its text
+          instead.
+        </p>
+        <input
+          id="job-url"
+          name="url"
+          type="url"
+          required
+          maxlength="2000"
+          [value]="url()"
+          (input)="editUrl($event)"
+          aria-describedby="url-help"
+        />
+      }
+      @case ('file') {
+        <label for="jd-file">Job-description document</label>
+        <p id="file-help">
+          TXT, Markdown, HTML or DOCX, up to 1 MB. For PDF or legacy DOC, paste the text or export a
+          supported format.
+        </p>
+        <input
+          id="jd-file"
+          name="file"
+          type="file"
+          accept=".txt,.md,.markdown,.html,.htm,.docx"
+          required
+          (change)="selectFile($event)"
+          aria-describedby="file-help"
+        />
+      }
+    }
+    <p class="data-notice">
+      Evaluate sends the job text and canonical career facts to OpenAI. Private career-source
+      documents and private-only history are excluded.
+    </p>
+    <button type="submit">{{ busy() ? 'Evaluating…' : 'Evaluate' }}</button>
+  </fieldset>
+</form>
+<p role="status" [class.error]="failed()">{{ status() }}</p>
+@if (failed() && mode() !== 'text') {
+  <button type="button" (click)="useText()">Use pasted text instead</button>
+}
+@if (result(); as evaluation) {
+  <section aria-labelledby="evaluation-heading">
+    @if (headingLevel() === 3) {
+      <h3 id="evaluation-heading" #resultHeading tabindex="-1">Evaluation</h3>
+    } @else {
+      <h2 id="evaluation-heading" #resultHeading tabindex="-1">Evaluation</h2>
+    }
+    <p class="evaluation-summary">{{ evaluation.summary }}</p>
+  </section>
+}

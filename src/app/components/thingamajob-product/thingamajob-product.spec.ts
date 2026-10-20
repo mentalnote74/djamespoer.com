@@ -1,195 +1,24 @@
-﻿import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { routes } from '../../app.routes';
-import { ThingamajobWorkflow } from '../../features/thingamajob/workflow';
-import { PortfolioReview } from '../../features/thingamajob/portfolio-review';
-async function start() {
-  TestBed.configureTestingModule({
-    providers: [provideRouter(routes), provideHttpClient(), provideHttpClientTesting()],
-  });
-  const harness = await RouterTestingHarness.create('/thingamajob');
-  const demo = harness.routeNativeElement!.querySelector(
-    'app-thingamajob details',
-  ) as HTMLDetailsElement;
-  expect(harness.routeNativeElement!.querySelector('app-thingamajob-workflow')).toBeNull();
-  demo.open = true;
-  demo.dispatchEvent(new Event('toggle'));
-  harness.detectChanges();
-  const widget = harness.routeDebugElement!.query(By.directive(ThingamajobWorkflow))
-    .componentInstance as ThingamajobWorkflow;
-  await vi.waitFor(() => expect(widget.proposal()).not.toBeNull());
-  harness.detectChanges();
-  return { harness, widget, root: harness.routeNativeElement! };
-}
-describe('Thingamajob case study and real workflow component', () => {
-  it('explains the durable evidence-led product and clearly labels the separate public demo', async () => {
-    const { root } = await start();
-    const overview = root.querySelector('.product-introduction')!;
-    expect(overview.textContent).toContain('A career assistant built around verified evidence');
-    expect(overview.textContent).toContain('The person decides.');
-    expect(root.querySelector('.product-workspace')?.textContent).toContain(
-      'fictional data in this tab only',
-    );
-    expect(root.querySelector<HTMLDetailsElement>('app-thingamajob details')?.open).toBe(true);
-    expect(root.querySelector('.result-key')?.closest('app-thingamajob')).toBeNull();
-    expect(root.querySelector('app-thingamajob a[href="/thingamajob"]')).toBeNull();
-    expect(root.textContent).toContain(
-      'Clean, directly supported facts may be established automatically',
-    );
-    expect(root.textContent).toContain('Under active construction');
-    expect(
-      Array.from(root.querySelectorAll('.result-key summary'), (e) => e.textContent?.trim()),
-    ).toEqual(['Strong Match', 'Supported Match', 'Needs Candidate Confirmation', 'Match Gap']);
-    expect(
-      Array.from(root.querySelectorAll('.result-key details p'), (e) => e.textContent?.trim()),
-    ).toEqual([
-      "The candidate's verified career evidence directly supports the job requirement.",
-      'The candidate has related verified evidence that supports the requirement, but less directly or completely.',
-      'Existing career evidence suggests the candidate may meet the requirement, but clarification is needed before Thingamajob treats it as supported.',
-      'Current verified career evidence does not support the job requirement.',
-    ]);
-    expect(root.querySelectorAll('.result-key details[open]')).toHaveLength(0);
-    const study = root.querySelector('.case-study')!;
-    for (const heading of [
-      'The problem',
-      'The Library of Truth',
-      'Human control and provenance',
-      'The first proof',
-      'Job evaluation',
-      'Multi-client architecture',
-      'Graceful degradation',
-      'Active product',
-    ]) {
-      expect(study.textContent).toContain(heading);
-    }
-    expect(study.textContent).not.toContain('not wired into');
-    expect(root.querySelector('app-thingamajob-workflow')?.textContent).toContain(
-      'not the Thingamajob evaluator',
-    );
-    expect(root.querySelector('a[href*="api"], iframe')).toBeNull();
-    TestBed.inject(HttpTestingController).expectNone(() => true);
-  });
-  it('retains its independent fictional state when the disclosure closes and reopens', async () => {
-    const { widget, harness, root } = await start();
-    await widget.review('accepted');
-    const demo = root.querySelector('app-thingamajob details') as HTMLDetailsElement;
-    demo.open = false;
-    demo.dispatchEvent(new Event('toggle'));
-    harness.detectChanges();
-    demo.open = true;
-    demo.dispatchEvent(new Event('toggle'));
-    harness.detectChanges();
-    expect(
-      harness.routeDebugElement!.query(By.directive(ThingamajobWorkflow)).componentInstance,
-    ).toBe(widget);
-    expect(widget.proposal()?.reviewDisposition).toBe('accepted');
-  });
-  it('compares job text with fictional evidence without inventing fit or approving a claim', async () => {
-    const { widget, harness, root } = await start();
-    const form = root.querySelector<HTMLFormElement>('app-thingamajob-workflow form')!;
-    widget.compareJobDescription(new Event('submit'), form);
-    harness.detectChanges();
-    expect(widget.jobComparison()?.matched).toEqual(['Accessibility', 'Workshops', 'Facilitation']);
-    expect(widget.claims()).toHaveLength(0);
-    expect(widget.proposal()?.reviewDisposition).toBe('proposed');
-    expect(root.querySelector('#job-task-heading')?.textContent).toBe(
-      'Before: phrase-overlap demo',
-    );
-    expect(root.textContent).toContain('not a fit score');
-    widget.jobDescription.set('SQL database administration');
-    harness.detectChanges();
-    widget.compareJobDescription(new Event('submit'), form);
-    harness.detectChanges();
-    expect(widget.jobComparison()?.matched).toEqual([]);
-    expect(widget.claims()).toHaveLength(0);
-    await widget.resetSample();
-    expect(widget.jobComparison()).toBeNull();
-    TestBed.inject(HttpTestingController).expectNone(() => true);
-  });
 
-  it('surfaces missing correction wording without claiming success', async () => {
-    const { widget, harness, root } = await start();
-    await widget.review('corrected');
-    harness.detectChanges();
-    expect(root.querySelector('.notice')?.textContent).toContain('Enter corrected wording');
-    expect(widget.proposal()?.reviewDisposition).toBe('proposed');
-    expect(widget.claims()).toHaveLength(0);
-  });
-  it('embeds the existing controller with no private API or identifiers and one page heading', async () => {
-    const { root, widget } = await start();
-    expect(widget.portfolio).not.toBeNull();
+describe('Thingamajob case study integration', () => {
+  it('uses the same unfinished evaluator and preserves the case-study context and page heading', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideRouter(routes), provideHttpClient(), provideHttpClientTesting()],
+    });
+    const harness = await RouterTestingHarness.create('/thingamajob');
+    const root = harness.routeNativeElement!;
     expect(root.querySelectorAll('h1')).toHaveLength(1);
-    expect(root.querySelector('app-thingamajob-workflow')).not.toBeNull();
-    expect(root.querySelector('main,iframe,input[type=file]')).toBeNull();
-    expect(root.textContent).toContain('fictional sample');
-    expect(root.textContent).not.toContain('Erica');
-    expect(root.textContent).not.toContain('Jobs can enter through');
-    expect(root.textContent).not.toContain('POC budget');
-    expect(root.textContent).not.toMatch(
-      /UNKNOWN|VERIFIED|ASSERTED|REVIEWING|TEST|LIVE|sample-proposal|sample-claim|fictional-portfolio|api-test/,
-    );
+    expect(root.querySelector('app-thingamajob app-jd-evaluation')).not.toBeNull();
+    expect(root.querySelector('app-thingamajob-workflow')).toBeNull();
+    expect(root.textContent).toContain('Working prototype');
+    expect(root.querySelector('.case-study')?.textContent).toContain('The Library of Truth');
+    expect(root.querySelector('.case-study')?.textContent).toContain('retaining detailed');
+    expect(root.querySelector('iframe')).toBeNull();
     TestBed.inject(HttpTestingController).expectNone(() => true);
-  });
-  it('preserves draft text and offers recovery without exposing a raw prototype error', async () => {
-    const { root, widget, harness } = await start();
-    widget.correction.set('My unfinished sample wording.');
-    widget.jobDescription.set('My sample job description.');
-    vi.spyOn(widget.api, 'review').mockRejectedValueOnce(new Error('RAW_PROVIDER_DETAILS'));
-    await widget.review('accepted');
-    harness.detectChanges();
-    expect(widget.correction()).toBe('My unfinished sample wording.');
-    expect(widget.jobDescription()).toBe('My sample job description.');
-    expect(root.textContent).toContain('Your text is preserved.');
-    expect(root.textContent).not.toContain('RAW_PROVIDER_DETAILS');
-  });
-  it.each(['accepted', 'rejected', 'corrected'] as const)(
-    'runs the real component review handler for %s and preserves original history',
-    async (decision) => {
-      const { harness, widget, root } = await start();
-      const original = widget.proposal()!.statement;
-      if (decision === 'corrected') {
-        widget.correction.set('Morgan facilitated three workshops for a sample team.');
-        harness.detectChanges();
-      }
-      const label =
-        decision === 'accepted'
-          ? 'Use this statement'
-          : decision === 'rejected'
-            ? 'Do not use'
-            : 'Use corrected wording';
-      [...root.querySelectorAll<HTMLButtonElement>('button')]
-        .find((b) => b.textContent?.trim() === label)!
-        .click();
-      await vi.waitFor(() => expect(widget.proposal()?.reviewDisposition).toBe(decision));
-      harness.detectChanges();
-      expect(widget.proposal()!.statement).toBe(original);
-      expect(widget.proposal()!.history).toHaveLength(2);
-      expect(widget.claims()).toHaveLength(decision === 'rejected' ? 0 : 1);
-      await widget.resetSample();
-      harness.detectChanges();
-      expect(widget.proposal()?.reviewDisposition).toBe('proposed');
-      expect(widget.claims()).toHaveLength(0);
-      TestBed.inject(HttpTestingController).expectNone(() => true);
-    },
-  );
-  it('escapes corrected text rather than executing content', async () => {
-    const { widget, harness, root } = await start();
-    widget.correction.set('<img src=x onerror=attack()>');
-    await widget.review('corrected');
-    harness.detectChanges();
-    expect(root.querySelector('app-thingamajob-workflow img')).toBeNull();
-    expect(root.textContent).toContain('<img src=x onerror=attack()>');
-  });
-  it('rejects stale local decisions and never exposes unsupported upload or private operations', async () => {
-    const api = new PortfolioReview();
-    const proposal = (await api.overview()).proposals[0];
-    await api.review(proposal, 'accepted');
-    await expect(api.review(proposal, 'rejected')).rejects.toMatchObject({ status: 409 });
-    await expect(api.upload()).rejects.toThrow('No uploads');
-    await expect(api.unknown()).rejects.toThrow('Not offered');
   });
 });

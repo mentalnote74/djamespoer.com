@@ -3,10 +3,9 @@
   min-inline-size: 0;
 }
 .thingamajob {
-  padding: 1rem;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
   background-color: var(--component-surface, Canvas);
   color: var(--component-text, CanvasText);
-  border: 3px double var(--component-border, currentColor);
   border-radius: 0.5rem;
   overflow-wrap: anywhere;
 }
@@ -14,27 +13,31 @@ h2 {
   margin-block-start: 0;
   font-size: clamp(1.25rem, 2vw, 1.75rem);
 }
-.construction-notice {
-  border-block-start: 0.5rem double var(--control-border, currentColor);
-  padding-block-start: 0.75rem;
+.prototype-notice {
+  line-height: 1.6;
+  margin-block: 1rem 1.5rem;
 }
-summary {
-  cursor: pointer;
-  padding-block: 0.75rem;
-}
-summary:focus-visible {
-  outline: 3px solid var(--focus-outer, currentColor);
-  outline-offset: 3px;
-}
-
-.thingamajob::before {
+.thingamajob::before,
+.thingamajob::after {
   content: '';
   display: block;
-  block-size: 0.75rem;
-  margin-block-end: 1rem;
+  block-size: 1rem;
   background: repeating-linear-gradient(
     135deg,
     var(--construction-tape-dark, #171717) 0 0.75rem,
     var(--construction-tape-light, #ffd54f) 0.75rem 1.5rem
   );
+}
+.thingamajob::before {
+  margin-block-end: 1rem;
+}
+.thingamajob::after {
+  margin-block-start: 1rem;
+}
+@media (forced-colors: active) {
+  .thingamajob::before,
+  .thingamajob::after {
+    background: Canvas;
+    border-block: 2px solid CanvasText;
+  }
 }

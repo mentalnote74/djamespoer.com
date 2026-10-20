@@ -1,14 +1,19 @@
-import { Component, signal } from '@angular/core';
-import { ThingamajobWorkflow } from '../../features/thingamajob/workflow';
-import { PORTFOLIO_WORKFLOW } from '../../features/thingamajob/portfolio-workflow';
-import { PortfolioReview } from '../../features/thingamajob/portfolio-review';
+import { Component } from '@angular/core';
+import { JdEvaluation, JD_EVALUATION_API } from '../../features/thingamajob/jd-evaluation';
 @Component({
-  imports: [ThingamajobWorkflow],
-  providers: [{ provide: PORTFOLIO_WORKFLOW, useClass: PortfolioReview }],
+  imports: [JdEvaluation],
+  providers: [
+    {
+      provide: JD_EVALUATION_API,
+      useValue: {
+        input: '/test/thingamajob/jd-input',
+        evaluate: '/test/thingamajob/evaluate',
+        public: true,
+      },
+    },
+  ],
   selector: 'app-thingamajob',
   templateUrl: './thingamajob.html',
   styleUrl: './thingamajob.scss',
 })
-export class Thingamajob {
-  readonly demoInitialized = signal(false);
-}
+export class Thingamajob {}
