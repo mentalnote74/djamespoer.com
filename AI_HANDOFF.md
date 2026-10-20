@@ -23,6 +23,14 @@ both builds/budgets pass. Existing six-method desktop/390 optimized component
 checks pass with fixture provider responses: preview/result focus, URL-to-paste
 recovery, forced colors/reduced motion, zero axe violations/overflow/page errors.
 No prior JD or real model acceptance specimen submitted; Coach supplies a new JD.
+Deployed final correction c2f7d8d66aaece22936aee342c6074cf32c42be0:
+Worker cd70f3fd-652b-4d53-858d-d690d84acb40, deployment
+2a24b188-3e31-4558-a9d4-0a13c88b5931. Live desktop/390 confirms real component,
+all three controls, actual Text/File normalization/preview, no auth requests,
+zero axe violations/overflow/console errors. Public canonical counts remain
+263/2/2. Cloudflare's auto-injected beacon initially conflicted with CSP; scoped
+Cache-Control: no-store, no-transform now keeps the sandbox response intact
+without widening script permissions or changing zone-wide analytics settings.
 
 ## October 19 disposable public JD harness
 
