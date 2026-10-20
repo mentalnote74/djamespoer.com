@@ -30,6 +30,14 @@ other-client incompleteness, historical/current and situational uncertainty,
 semantic-combination fixtures and criterion-local recency checks. Both optimized
 TEST hosts build within budgets (271.14/255.29 kB initial); UI assets unchanged.
 
+Deployed implementation b2b51f5aba433a2603a912eac78ea3f9b270b89b to
+thingamajob-api-test; version 8e361abb-65dd-4fd0-b8d9-c9c4036b1472,
+deployment 390ae8f1-9d4d-4347-baa8-105079600a45. Live 1440/390 assets/noindex/
+focus/reflow pass with zero scoped axe violations or console errors and no model
+requests. Read-only canonical integrity: 267 (263/2/2), approved digest unchanged,
+zero writes. SCRUM-33 records causes, v4 behavior, original-result preservation,
+release and offline-versus-model acceptance limits. No paid semantic rerun claimed.
+
 ## BAAKO follow-up: no-cost path comparison
 
 No retained BAAKO JD/provider response found; screenshot text was not reconstructed.
