@@ -96,7 +96,9 @@ export async function jdHarness(
     url.search = '';
     const response = await env.TEST_UI.fetch(new Request(url, { method: 'GET' }));
     const headers = new Headers(response.headers);
-    headers.set('Cache-Control', 'no-store');
+    // Keep the sandbox payload intact; Cloudflare's injected beacon conflicts
+    // with this deliberately self-only script policy.
+    headers.set('Cache-Control', 'no-store, no-transform');
     headers.set('X-Robots-Tag', 'noindex, nofollow');
     headers.set('X-Content-Type-Options', 'nosniff');
     headers.set('Referrer-Policy', 'no-referrer');
