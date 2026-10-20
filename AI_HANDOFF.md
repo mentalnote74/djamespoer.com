@@ -26,7 +26,11 @@ jd-evaluations/live-failure-20261019. Original failed records remain unchanged.
 Strict server TS, 25 focused server/format/isolation checks, three UI tests and
 protected build/budgets pass. Six desktop/390 method states passed: no overflow,
 browser errors or scoped axe violations; preview/result focus, forced-colors and
-URL-to-paste recovery verified. TEST release follows checkpoint.
+URL-to-paste recovery verified. Implementation fae2fa05be792494aac13e32659d82519da1ed1d
+deployed to TEST, Worker e2ec65bc-a47f-4bae-ac61-71bef92af533, deployment
+63866eb3-a817-4776-bd8e-79fd1ff5ee90. Post-release read-back preserves both
+original failed requests byte-for-byte and the 263/2/2 canonical state counts,
+zero open career UNKNOWNs. App/intake/evaluation endpoints remain Access-protected.
 No authenticated owner browser is available to the agent; distinguish private
 provider replays and fixture UI checks from a live owner-authenticated submission.
 
