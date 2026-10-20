@@ -23,6 +23,15 @@ with mocked failures only. Optimized protected/sandbox builds and budgets pass.
 Additive diagnostic table applied to TEST D1; no historical evaluation/career rows
 rewritten. Original BAAKO cause remains unknown, not declared fixed by this work.
 
+Deployed implementation a652e15abb9728236b04e224bf6a25462c142dd2 to
+thingamajob-api-test, version 765e656f-bd12-43a8-93a5-0590f4baa778,
+deployment 1e32b9cd-63c6-407f-8d51-f1ec98b215c9. Live 1440/390 assets and
+policy copy pass; intercepted fictional failure verifies support reference,
+source/edited-preview retention and explicit retry availability with zero model
+calls. Scoped axe zero, no overflow/page errors. Private diagnostic-table readback
+HTTP 200, no manufactured rows. SCRUM-33 records cause limits, correction and
+verification; original successful evaluation remains unclaimed. No portfolio PROD.
+
 ## October 20 evaluator completeness-policy correction
 
 Coach superseded blanket missing-evidence=UNKNOWN for James's authoritative
