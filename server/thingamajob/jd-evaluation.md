@@ -16,6 +16,26 @@ workspace, truth, outcome or evidence IDs can authorize/change the evaluation.
 `Idempotency-Key`. `GET .../evaluations/<id>` reads only that owner's result.
 Both are TEST-gated, Access-authenticated and non-cacheable. No CORS grant.
 
+The input screen now accepts Text, URL or File through one protected
+`POST /api/thingamajob/test/jd-input` endpoint. It returns an editable text preview
+before a paid evaluation. Pasted input can contain up to 100,000 characters;
+normalized evaluation text remains limited to 24,000 without silent truncation.
+The common deterministic normalizer removes obvious web chrome, repeated lines,
+similar-job/footer tails and retains requirements, preferences, dates, work-mode,
+eligibility and compensation. It flags explicit removed/expired-posting notices.
+Uncertain content remains visible for owner review rather than invented/filled.
+
+URL intake anonymously fetches HTTPS public Built In, Lever, Greenhouse or Ashby
+postings only, revalidating every redirect. No cookies or Access credentials are
+forwarded. A single JobPosting JSON-LD description/metadata is preferred, with
+bounded HTML text fallback. Unsupported hosts, multiple postings, blocked pages,
+sign-in/JS-only pages, excessive response size or timeout return paste recovery.
+File intake supports UTF-8 TXT/Markdown/HTML and validated DOCX up to 1 MB. The
+existing OOXML validator/decompressor is reused with a smaller XML bound; no
+macros/entities execute and no new parser dependency is installed. PDF, legacy
+DOC, scans/encrypted/malformed documents require paste/export. Intake is ephemeral:
+no document archive, LoT ingestion or claim mutation is added.
+
 The evaluator extracts meaningful criteria, literal JD passages and
 required/preferred/unspecified priority. Each outcome contains reasoning,
 canonical evidence IDs/literal quotes and, where useful, an UNKNOWN question.
@@ -28,7 +48,10 @@ the evaluation, without a source-document browser or resume traceability UI.
 
 One bounded reasoning request handles role extraction and comparison; this is
 model-assisted semantic reasoning, not deterministic proof of every entailment.
-Server checks reject invented IDs, nonliteral JD/evidence quotes, malformed or
+Request-local canonical/line references are constrained by the provider schema;
+the server resolves real canonical IDs and verbatim source passages, rather than
+asking the model to reproduce UUIDs or quoted text. Server checks still reject
+invented IDs, nonliteral JD/evidence quotes, malformed or
 oversized outputs. MET without direct support and NOT MET without incompatible
 support are downgraded to UNKNOWN. Historical-only support cannot establish
 explicit current/recent/proficient/expert criteria. The prompt also preserves
@@ -54,9 +77,34 @@ is retired on the next explicit submission; the provider call times out at 120
 seconds. Stale canonical snapshots are not served as current evaluations: a LoT
 change during evaluation or before a later read requires reevaluation.
 
+`jd-diagnostics.sql` adds a private per-evaluation failure record containing stage,
+bounded error code and safe provider HTTP/request-ID/token metadata where
+available. It stores no raw provider body, key, JD excerpts or career text. The
+client receives an evaluation reference for support; failures remain failed and
+never auto-retry. Original failed evaluations are preserved, not retrospectively
+assigned an invented diagnosis.
+
+## October 19 live-path correction
+
+The two original owner submissions reached canonical retrieval/reservation (267
+truths each, 13,473 JD characters) and were marked failed after 74 seconds each.
+The original implementation discarded provider/validator exceptions; historical
+responses were not retained, so their exact provider status/persistence-attempt
+stage cannot be reconstructed. An unchanged-code exact-input replay reached
+OpenAI HTTP 200/completed, returned 44 requirements, then failed on four unknown
+canonical UUID references. Thus noise was not established as the root cause.
+Free-form citation copying was a demonstrated defect, addressed by schema-bound
+references without relaxing evaluation semantics or citation validation.
+
+The corrected uncleaned replay validated 37 criteria. The final normalized
+Hyperproof input validated 45 (18 MET, 27 UNKNOWN). These are private diagnostic
+results, not a new owner evaluation or LoT mutation. Real URL extraction of the
+Hyperproof Built In posting succeeded. Private evidence is retained under
+career-source/jd-evaluations/live-failure-20261019, never public assets or Git.
+
 ## TEST deployment
 
-Apply `jd-evaluation.sql` to the existing TEST D1, not public PROD. Bind the
+Apply `jd-evaluation.sql` and `jd-diagnostics.sql` to the existing TEST D1, not public PROD. Bind the
 operator-approved `OPENAI_API_KEY` as a Worker **runtime secret** and set
 `JD_EVALUATION_MODEL` explicitly. The initial adapter reuses the existing
 source-extraction Responses API/model approach (`gpt-5.6-sol`). Its small

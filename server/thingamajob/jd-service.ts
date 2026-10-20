@@ -11,6 +11,9 @@ import {
 } from './jd-contract.ts';
 import type { EvaluationTruth } from './jd-contract.ts';
 import type { JdReasoner } from './jd-provider.ts';
+import { providerMetadata } from './jd-provider.ts';
+import { normalizeJd } from './jd-intake.ts';
+import { AccessDenied } from './access-identity.ts';
 type Row = {
   evaluation_id: string;
   fingerprint: string;
@@ -116,9 +119,9 @@ export async function evaluateJob(
     Object.keys(value).join(',') !== 'jobDescription'
   )
     throw new EvaluationInputError();
-  const jd = (value as { jobDescription: unknown }).jobDescription;
-  if (typeof jd !== 'string' || jd.trim().length < 20 || jd.length > 24000)
-    throw new EvaluationInputError();
+  const rawJd = (value as { jobDescription: unknown }).jobDescription;
+  if (typeof rawJd !== 'string' || rawJd.trim().length < 20) throw new EvaluationInputError();
+  const jd = normalizeJd(rawJd).jobDescription;
   const fingerprint = await digest({ jd, policy: JD_POLICY });
   const old = await row(db, scope, key, true);
   if (old) {
@@ -157,13 +160,14 @@ export async function evaluateJob(
     if (raced && raced.fingerprint === fingerprint) return present(db, scope, raced);
     throw new EvaluationConflict('An evaluation is already running.');
   }
+  let stage = 'provider';
+  let metadata: Record<string, string | number | null> = {};
   try {
     await recheckWorkspace(scope);
-    const result = validateEvaluation(
-      await reasoner.evaluate(jd, snapshot.truths),
-      jd,
-      snapshot.truths,
-    );
+    const raw = await reasoner.evaluate(jd, snapshot.truths);
+    metadata = providerMetadata(raw);
+    stage = 'validation';
+    const result = validateEvaluation(raw, jd, snapshot.truths);
     await recheckWorkspace(scope);
     if ((await currentTruth(db, scope)).hash !== snapshot.hash)
       throw new EvaluationConflict('LoT changed; evaluate again.');
@@ -175,6 +179,7 @@ export async function evaluateJob(
       model,
       canonicalTruthCount: snapshot.truths.length,
       truthDigest: snapshot.hash,
+      jobDescription: jd,
       requirements: result.requirements.map((r) => ({
         ...r,
         evidence: r.evidence.map((e) => ({
@@ -183,6 +188,7 @@ export async function evaluateJob(
         })),
       })),
     };
+    stage = 'persistence';
     await db.batch([
       db
         .prepare(
@@ -193,13 +199,31 @@ export async function evaluateJob(
     await recheckWorkspace(scope);
     return { status: 200, body };
   } catch (error) {
+    const code =
+      error instanceof EvaluationUnavailable
+        ? error.code
+        : error instanceof EvaluationConflict
+          ? 'truth_changed'
+          : error instanceof Error && error.name === 'TimeoutError'
+            ? 'provider_timeout'
+            : 'evaluation_failed';
+    const details = {
+      ...metadata,
+      ...(error instanceof EvaluationUnavailable ? error.details : {}),
+    };
     await db.batch([
       db
         .prepare(
           "UPDATE thingamajob_jd_evaluations SET state='failed',completed_at=unixepoch() WHERE workspace_id=? AND evaluation_id=? AND state='pending'",
         )
         .bind(scope.workspaceId, id),
+      db
+        .prepare(
+          'INSERT INTO thingamajob_jd_diagnostics(workspace_id,evaluation_id,stage,code,details_json) VALUES(?,?,?,?,?) ON CONFLICT DO NOTHING',
+        )
+        .bind(scope.workspaceId, id, stage, code, JSON.stringify(details)),
     ]);
-    throw error;
+    if (error instanceof AccessDenied || error instanceof EvaluationConflict) throw error;
+    throw new EvaluationUnavailable(code, { ...details, evaluationId: id, stage });
   }
 }

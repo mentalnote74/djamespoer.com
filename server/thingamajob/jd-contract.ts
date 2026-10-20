@@ -1,4 +1,4 @@
-export const JD_POLICY = 'canonical-jd-v1';
+export const JD_POLICY = 'canonical-jd-v2';
 export interface EvaluationTruth {
   truthId: string;
   statement: string;
@@ -22,7 +22,16 @@ export interface RoleEvaluation {
 }
 export class EvaluationInputError extends Error {}
 export class EvaluationConflict extends Error {}
-export class EvaluationUnavailable extends Error {}
+export class EvaluationUnavailable extends Error {
+  readonly code: string;
+  readonly details: Record<string, string | number | null>;
+  constructor(code = 'unavailable', details: Record<string, string | number | null> = {}) {
+    super(code);
+    this.name = 'EvaluationUnavailable';
+    this.code = code;
+    this.details = details;
+  }
+}
 const string = { type: 'string' };
 export const evaluationSchema = {
   type: 'object',
@@ -80,11 +89,13 @@ First-party source-established, accepted and corrected truths are equally usable
 Cite actual supplied truth IDs with a literal quote from each canonical statement. relation meets means direct entailment of that criterion, contradicts means explicit incompatibility, context means partial/historical/contextual support. No evidence is allowed for an unknown fact that has no relevant truth. Do not invent IDs, sources, quotes, proficiency, metrics, percentage match or overall recommendation. Reasons must explain how the evidence applies to this criterion and preserve relevant dates/qualifications. NOT MET must explain the positive incompatibility. Return only the strict schema.`;
 
 function record(v: unknown): Record<string, unknown> {
-  if (!v || typeof v !== 'object' || Array.isArray(v)) throw new EvaluationUnavailable();
+  if (!v || typeof v !== 'object' || Array.isArray(v))
+    throw new EvaluationUnavailable('output_shape');
   return v as Record<string, unknown>;
 }
 function words(v: unknown, max = 3000): string {
-  if (typeof v !== 'string' || !v.trim() || v.length > max) throw new EvaluationUnavailable();
+  if (typeof v !== 'string' || !v.trim() || v.length > max)
+    throw new EvaluationUnavailable('output_string');
   return v;
 }
 /** Literal references and conservative outcome guards; semantic reasoning is model-assisted. */
@@ -94,14 +105,15 @@ export function validateEvaluation(
   truths: EvaluationTruth[],
 ): RoleEvaluation {
   const rows = record(value)['requirements'];
-  if (!Array.isArray(rows) || !rows.length || rows.length > 60) throw new EvaluationUnavailable();
+  if (!Array.isArray(rows) || !rows.length || rows.length > 60)
+    throw new EvaluationUnavailable('requirement_count');
   const ids = new Set<string>();
   const requirements = rows.map((v): EvaluatedRequirement => {
     const r = record(v),
       id = words(r['id'], 50),
       requirement = words(r['requirement']),
       jdQuote = words(r['jdQuote'], 5000);
-    if (ids.has(id) || !jd.includes(jdQuote)) throw new EvaluationUnavailable();
+    if (ids.has(id) || !jd.includes(jdQuote)) throw new EvaluationUnavailable('jd_citation');
     ids.add(id);
     const importance = r['importance'],
       outcome = r['outcome'];
@@ -124,7 +136,7 @@ export function validateEvaluation(
         !truth.statement.includes(quote) ||
         !['meets', 'contradicts', 'context'].includes(String(relation))
       )
-        throw new EvaluationUnavailable();
+        throw new EvaluationUnavailable('truth_citation');
       return { truthId, quote, relation: relation as 'meets' | 'contradicts' | 'context' };
     });
     const result: EvaluatedRequirement = {

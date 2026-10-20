@@ -47,6 +47,7 @@ async function fixture(reason) {
     'source-contexts.sql',
     'canonical-truth.sql',
     'jd-evaluation.sql',
+    'jd-diagnostics.sql',
   ])
     f.db.exec(readFileSync(new URL(name, import.meta.url), 'utf8'));
   const root = '/api/thingamajob/workspaces/workspace-one';
@@ -251,6 +252,11 @@ test('invalid references, provider failures and LoT changes fail closed without 
         f.db.prepare('SELECT state FROM thingamajob_jd_evaluations').get().state,
         'failed',
       );
+      const diagnostic = f.db
+        .prepare('SELECT stage,code,details_json FROM thingamajob_jd_diagnostics')
+        .get();
+      assert.equal(diagnostic.stage, mode === 'failure' ? 'provider' : 'validation');
+      assert.equal(JSON.stringify(diagnostic).includes('Private provider failure'), false);
       await f.post(endpoint, { jobDescription: description });
       assert.equal(f.calls, 1);
     } finally {
@@ -323,7 +329,7 @@ test('reservation prevents concurrent provider calls and expired interrupted res
     f.db.close();
   }
 });
-test('provider uses strict structured output, no retention or tools, and never leaks upstream body', async () => {
+test('provider uses strict structured output, store:false and no tools, and never leaks upstream body', async () => {
   let body;
   const transport = async (url, init) => {
     assert.equal(url, 'https://api.openai.com/v1/responses');
@@ -348,4 +354,51 @@ test('provider uses strict structured output, no retention or tools, and never l
       Response.json({ private: 'do not leak' }, { status: 429 }),
     ).evaluate('', []),
   );
+});
+
+test('citation choices are constrained compact refs and rebound only to real canonical IDs', async () => {
+  let schema;
+  const truths = [
+    {
+      truthId: 'fictional-canonical-uuid',
+      statement: 'The candidate builds Angular applications.',
+      state: 'source_established',
+      qualifications: [],
+    },
+  ];
+  const transport = async (_url, init) => {
+    const request = JSON.parse(init.body);
+    assert.equal(JSON.parse(request.input).canonicalTruths[0].truthId, 't1');
+    schema = request.text.format.schema;
+    return Response.json({
+      status: 'completed',
+      model: 'fictional-model',
+      output: [
+        {
+          type: 'message',
+          content: [
+            {
+              type: 'output_text',
+              text: JSON.stringify({
+                requirements: [
+                  requirement('r1', 'j1', 'MET', [{ truthId: 't1', relation: 'meets' }]),
+                ],
+              }),
+            },
+          ],
+        },
+      ],
+    });
+  };
+  const raw = await openAiReasoner('fictional', 'fictional-model', transport).evaluate(
+    description,
+    truths,
+  );
+  assert.equal(raw.requirements[0].evidence[0].truthId, truths[0].truthId);
+  assert.deepEqual(
+    schema.properties.requirements.items.properties.evidence.items.properties.truthId.enum,
+    ['t1'],
+  );
+  assert.equal(schema.properties.requirements.items.properties.requirement.enum, undefined);
+  assert.equal(validateEvaluation(raw, description, truths).requirements[0].outcome, 'MET');
 });

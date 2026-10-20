@@ -4,29 +4,125 @@
   Compare the job’s requirements with your canonical Library of Truth. Missing evidence means
   UNKNOWN, not that you lack the qualification.
 </p>
-<form (submit)="evaluate($event)" [attr.aria-busy]="busy()">
-  <p>Evaluation sends this description and your canonical career facts to OpenAI. Original source documents and private-only history are excluded.</p>
-  <label for="job-description">Job description</label>
-  <p id="jd-help">
-    Paste the complete description, including required and preferred qualifications. Maximum 24,000
-    characters.
+<form (submit)="prepare($event)" [attr.aria-busy]="preparing()">
+  <p>
+    Evaluation sends this description and your canonical career facts to OpenAI. Original source
+    documents and private-only history are excluded.
   </p>
-  <textarea
-    id="job-description"
-    name="jobDescription"
-    required
-    minlength="20"
-    maxlength="24000"
-    [value]="jd()"
-    (input)="edit($event)"
-    [disabled]="busy()"
-    aria-describedby="jd-help"
-  ></textarea>
-  <button type="submit" [disabled]="busy() || jd().trim().length < 20">
-    {{ busy() ? 'Evaluating…' : 'Evaluate against my LoT' }}
-  </button>
+  <fieldset [disabled]="busy() || preparing()">
+    <legend>How would you like to provide the job description?</legend>
+    <div class="methods">
+      <label
+        ><input
+          type="radio"
+          name="method"
+          [checked]="mode() === 'text'"
+          (change)="choose('text')"
+        />
+        Paste text</label
+      >
+      <label
+        ><input type="radio" name="method" [checked]="mode() === 'url'" (change)="choose('url')" />
+        URL</label
+      >
+      <label
+        ><input
+          type="radio"
+          name="method"
+          [checked]="mode() === 'file'"
+          (change)="choose('file')"
+        />
+        File</label
+      >
+    </div>
+    @switch (mode()) {
+      @case ('text') {
+        <label for="job-description">Pasted job description</label>
+        <p id="jd-help">
+          Paste the complete posting, including required and preferred qualifications. Surrounding
+          webpage text is OK; review the extracted text before evaluating.
+        </p>
+        <textarea
+          id="job-description"
+          name="jobDescription"
+          required
+          minlength="20"
+          maxlength="100000"
+          [value]="jd()"
+          (input)="edit($event)"
+          aria-describedby="jd-help"
+        ></textarea>
+      }
+      @case ('url') {
+        <label for="job-url">Public job-posting URL</label>
+        <p id="url-help">
+          Built In, Lever, Greenhouse and Ashby. Pages requiring sign-in or scripts may need Paste
+          text instead.
+        </p>
+        <input
+          id="job-url"
+          name="url"
+          type="url"
+          required
+          maxlength="2000"
+          [value]="url()"
+          (input)="editUrl($event)"
+          aria-describedby="url-help"
+        />
+      }
+      @case ('file') {
+        <label for="jd-file">Job-description document</label>
+        <p id="file-help">
+          TXT, Markdown, HTML or DOCX, up to 1 MB. For PDF, legacy DOC or scanned documents, paste
+          the text or export a supported format.
+        </p>
+        <input
+          id="jd-file"
+          name="file"
+          type="file"
+          accept=".txt,.md,.markdown,.html,.htm,.docx"
+          required
+          (change)="selectFile($event)"
+          aria-describedby="file-help"
+        />
+      }
+    }
+    <button type="submit">{{ preparing() ? 'Reading…' : 'Read job description' }}</button>
+  </fieldset>
 </form>
 <p role="status" [class.error]="failed()">{{ status() }}</p>
+@if (failed() && mode() !== 'text') {
+  <button type="button" (click)="choose('text')">Use Paste text instead</button>
+}
+@if (prepared(); as input) {
+  <section aria-labelledby="preview-heading">
+    <h2 id="preview-heading" #previewHeading tabindex="-1">Review the job description</h2>
+    <p>Read from {{ input.sourceLabel }} · {{ normalized().length }} characters.</p>
+    @for (notice of input.notices; track $index) {
+      <p>{{ notice }}</p>
+    }
+    <label for="prepared-jd">Text to evaluate</label>
+    <p id="preview-help">
+      Check that the intended job, requirements, preferences and eligibility constraints are
+      present. You can edit this text. Maximum 24,000 characters.
+    </p>
+    <textarea
+      id="prepared-jd"
+      maxlength="24000"
+      [value]="normalized()"
+      (input)="editPreview($event)"
+      [disabled]="busy()"
+      aria-describedby="preview-help"
+    ></textarea>
+    <button
+      type="button"
+      (click)="evaluate($event)"
+      [disabled]="busy() || normalized().trim().length < 20"
+    >
+      {{ busy() ? 'Evaluating…' : 'Evaluate against my LoT' }}
+    </button>
+  </section>
+}
 @if (result(); as evaluation) {
   <section aria-labelledby="evaluation-heading">
     <h2 id="evaluation-heading" #resultHeading tabindex="-1">Your evaluation</h2>

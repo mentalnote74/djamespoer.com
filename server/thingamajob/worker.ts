@@ -37,6 +37,7 @@ import { evaluateJob, readEvaluation } from './jd-service.ts';
 import { EvaluationConflict, EvaluationInputError, EvaluationUnavailable } from './jd-contract.ts';
 import { openAiReasoner } from './jd-provider.ts';
 import type { JdReasoner } from './jd-provider.ts';
+import { intakeJd, JdIntakeError } from './jd-intake.ts';
 import {
   createUnknown,
   answerUnknown,
@@ -87,6 +88,7 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
       const verification = path === '/api/thingamajob/test/two-client-verification';
       const workflow = path === '/api/thingamajob/test/workflow';
       const truth = path === '/api/thingamajob/test/truth';
+      const jdInput = path === '/api/thingamajob/test/jd-input';
       const evaluation =
         /^\/api\/thingamajob\/test\/evaluations(?:\/([a-zA-Z0-9_-]{1,100}))?$/.exec(path);
       const uiPrefix = '/api/thingamajob/test/app/';
@@ -143,11 +145,13 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
             workflow ||
             truth ||
             evaluation ||
+            jdInput ||
             ui)
         )
       )
         return reply(404, { error: 'Not found' });
       const expectedMethod =
+        jdInput ||
         (evaluation && !evaluation[1]) ||
         bootstrap ||
         claims ||
@@ -180,6 +184,7 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
       if (
         (bootstrap ||
           (evaluation && request.method === 'POST') ||
+          jdInput ||
           ((extraction ||
             roundtrip ||
             verification ||
@@ -206,6 +211,13 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
       }
       try {
         const identity = await authenticate(request);
+        if (jdInput) {
+          const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          await recheckWorkspace(scope);
+          const prepared = await intakeJd(request);
+          await recheckWorkspace(scope);
+          return reply(200, prepared);
+        }
         if (evaluation) {
           const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
           if (evaluation[1]) {
@@ -478,6 +490,7 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
         await authorizeWorkspace(env.IDENTITY_DB, identity, workspace, 'owner');
         return reply(200, { authorized: true, operation: 'owner' });
       } catch (error) {
+        if (error instanceof JdIntakeError) return reply(error.status, { error: error.message });
         if (error instanceof EvaluationInputError)
           return reply(400, {
             error: 'Provide a job description between 20 and 24,000 characters.',
@@ -489,7 +502,13 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
         if (error instanceof EvaluationUnavailable)
           return reply(503, {
             error:
-              'Evaluation could not be grounded in canonical evidence. No LoT changes were made.',
+              error.code === 'provider_timeout'
+                ? 'The evaluation service timed out. Your reviewed text is retained. No LoT changes were made.'
+                : error.code.startsWith('provider_')
+                  ? 'The evaluation service did not complete. Your reviewed text is retained. No LoT changes were made.'
+                  : 'Evaluation evidence references could not be validated. Your reviewed text is retained. No LoT changes were made.',
+            code: error.code,
+            evaluationId: error.details['evaluationId'],
           });
         if (error instanceof UnknownInputError)
           return reply(400, { error: 'Invalid UNKNOWN input' });

@@ -1,5 +1,35 @@
 # AI Engineering Handoff
 
+## October 19 live evaluator failure + three-method intake
+
+Two real owner attempts reached 267-truth retrieval/reservation and failed after
+74 seconds; 13,473-character inputs were within the prior size limit. Original
+provider/validator exceptions were discarded, so do not invent a precise
+historical upstream error. Exact-input unchanged-code replay: OpenAI HTTP 200,
+completed 44-requirement output, rejected four unknown truth UUID references.
+Corrected provider uses schema-enumerated local truth/line refs; server binds
+actual canonical IDs and verbatim passages. Semantics/qualifications remain
+unchanged. A small private diagnostic table now retains safe failure stage/code/
+provider request metadata, with user-visible support reference, not raw payloads.
+
+Text, URL and File feed one deterministic normalizer and editable preview before
+the same evaluator. URL: public HTTPS Built In/Lever/Greenhouse/Ashby, bounded,
+redirect-checked, no forwarded credentials; paste recovery for blocked/JS/auth
+pages. Files: UTF-8 TXT/Markdown/HTML and validated DOCX <=1 MB using the existing
+OOXML machinery; PDF/legacy DOC/scans need paste/export. No dependencies, LoT
+mutation, raw LoT transmission, resume generation, other-client changes or PROD.
+
+Actual corrected raw Hyperproof replay passed 37 criteria; final normalized input
+passed 45 (18 MET, 27 UNKNOWN). Actual public Hyperproof URL extraction passed.
+Private originals, replay responses and diagnostics preserved under career-source/
+jd-evaluations/live-failure-20261019. Original failed records remain unchanged.
+Strict server TS, 25 focused server/format/isolation checks, three UI tests and
+protected build/budgets pass. Six desktop/390 method states passed: no overflow,
+browser errors or scoped axe violations; preview/result focus, forced-colors and
+URL-to-paste recovery verified. TEST release follows checkpoint.
+No authenticated owner browser is available to the agent; distinguish private
+provider replays and fixture UI checks from a live owner-authenticated submission.
+
 ## October 19 protected JD evaluator vertical slice (SCRUM-78 / SCRUM-33)
 
 The owner accepted the 267-truth LoT and authorized JD evaluation, not resume

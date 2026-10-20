@@ -25,6 +25,14 @@ export interface JdResult {
   canonicalTruthCount: number;
   requirements: Requirement[];
 }
+export interface PreparedJd {
+  method: 'text' | 'url' | 'file';
+  sourceLabel: string;
+  jobDescription: string;
+  notices: string[];
+  removedLines: number;
+  originalCharacters: number;
+}
 @Component({
   selector: 'app-jd-evaluation',
   imports: [RouterLink],
@@ -34,6 +42,13 @@ export interface JdResult {
 export class JdEvaluation {
   private readonly http = inject(HttpClient);
   readonly jd = signal('');
+  readonly mode = signal<'text' | 'url' | 'file'>('text');
+  readonly url = signal('');
+  readonly preparing = signal(false);
+  readonly prepared = signal<PreparedJd | null>(null);
+  readonly normalized = signal('');
+  readonly previewHeading = viewChild<ElementRef<HTMLElement>>('previewHeading');
+  private file: File | null = null;
   readonly busy = signal(false);
   readonly result = signal<JdResult | null>(null);
   readonly status = signal('');
@@ -45,12 +60,86 @@ export class JdEvaluation {
   }
   edit(event: Event) {
     this.jd.set((event.target as HTMLTextAreaElement).value);
+    this.prepared.set(null);
     this.result.set(null);
     this.status.set('');
   }
+  choose(method: 'text' | 'url' | 'file') {
+    this.mode.set(method);
+    this.prepared.set(null);
+    this.result.set(null);
+    this.status.set('');
+    this.failed.set(false);
+  }
+  selectFile(event: Event) {
+    this.file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.prepared.set(null);
+    this.result.set(null);
+  }
+  editUrl(event: Event) {
+    this.url.set((event.target as HTMLInputElement).value);
+    this.prepared.set(null);
+    this.result.set(null);
+  }
+  editPreview(event: Event) {
+    this.normalized.set((event.target as HTMLTextAreaElement).value);
+    this.result.set(null);
+  }
+  async prepare(event: Event) {
+    event.preventDefault();
+    if (this.busy() || this.preparing()) return;
+    this.preparing.set(true);
+    this.failed.set(false);
+    this.result.set(null);
+    this.prepared.set(null);
+    this.status.set('Reading the job description.');
+    try {
+      let body: object;
+      if (this.mode() === 'file') {
+        if (!this.file) throw new Error('Choose a file.');
+        const form = new FormData();
+        form.set('file', this.file);
+        body = form;
+      } else
+        body =
+          this.mode() === 'url'
+            ? { method: 'url', url: this.url() }
+            : { method: 'text', text: this.jd() };
+      const prepared = await firstValueFrom(
+        this.http.post<PreparedJd>('/api/thingamajob/test/jd-input', body),
+      );
+      this.prepared.set(prepared);
+      this.normalized.set(prepared.jobDescription);
+      this.status.set('Job description read. Review the text, then evaluate.');
+      setTimeout(() => this.previewHeading()?.nativeElement.focus());
+    } catch (error) {
+      this.failed.set(true);
+      this.status.set(this.failure(error, 'The input could not be read. Try Paste text instead.'));
+    } finally {
+      this.preparing.set(false);
+    }
+  }
+  private failure(error: unknown, fallback: string) {
+    if (error instanceof HttpErrorResponse && error.status === 403) {
+      this.jd.set('');
+      this.url.set('');
+      this.normalized.set('');
+      this.file = null;
+      this.prepared.set(null);
+      return 'Your session no longer has access. Sign in again.';
+    }
+    if (error instanceof HttpErrorResponse && typeof error.error?.error === 'string')
+      return (
+        error.error.error +
+        (typeof error.error.evaluationId === 'string'
+          ? ' Reference: ' + error.error.evaluationId
+          : '')
+      );
+    return fallback;
+  }
   async evaluate(event: Event) {
     event.preventDefault();
-    if (this.busy()) return;
+    if (this.busy() || this.preparing() || !this.prepared()) return;
     this.busy.set(true);
     this.failed.set(false);
     this.result.set(null);
@@ -59,7 +148,7 @@ export class JdEvaluation {
       const result = await firstValueFrom(
         this.http.post<JdResult | { state: string; error: string }>(
           '/api/thingamajob/test/evaluations',
-          { jobDescription: this.jd() },
+          { jobDescription: this.normalized() },
           { headers: { 'Idempotency-Key': crypto.randomUUID() } },
         ),
       );
@@ -74,17 +163,12 @@ export class JdEvaluation {
       setTimeout(() => this.resultHeading()?.nativeElement.focus());
     } catch (error) {
       this.failed.set(true);
-      if (error instanceof HttpErrorResponse && error.status === 403) {
-        this.jd.set('');
-        this.status.set('Your session no longer has access. Sign in again.');
-      } else if (error instanceof HttpErrorResponse && error.status === 409)
-        this.status.set(
-          'An evaluation is running or your Library of Truth changed. Wait for it to finish, then submit again.',
-        );
-      else
-        this.status.set(
-          'The evaluation did not complete. Your description is retained; submit again to retry. Your Library of Truth was not changed.',
-        );
+      this.status.set(
+        this.failure(
+          error,
+          'The evaluation did not complete. Your reviewed description is retained; submit again to retry. Your Library of Truth was not changed.',
+        ),
+      );
     } finally {
       this.busy.set(false);
     }

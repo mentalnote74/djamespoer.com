@@ -4,6 +4,42 @@
   overflow-wrap: anywhere;
   color: var(--page-foreground, CanvasText);
 }
+fieldset {
+  min-inline-size: 0;
+  padding: 1rem;
+  border: 1px solid var(--panel-border, ButtonBorder);
+}
+.methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-block: 1rem;
+}
+.methods label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-block-size: 2.75rem;
+}
+input[type='url'],
+input[type='file'] {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  margin-block: 1rem;
+  font: inherit;
+}
+input[type='url'] {
+  padding: 0.75rem;
+  color: var(--input-text, CanvasText);
+  background: var(--input-surface, Canvas);
+  border: 1px solid var(--control-border, ButtonBorder);
+}
+input:focus-visible {
+  outline: 3px solid var(--focus-ring, Highlight);
+  outline-offset: 3px;
+}
 h1,
 h2,
 h3,

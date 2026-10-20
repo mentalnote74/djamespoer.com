@@ -85,7 +85,7 @@ function crc32(bytes: Uint8Array) {
   for (const b of bytes) crc = (crc >>> 8) ^ crcTable[(crc ^ b) & 255];
   return (crc ^ 0xffffffff) >>> 0;
 }
-async function docx(bytes: Uint8Array) {
+async function docx(bytes: Uint8Array, xmlLimit = 8_000_000) {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   let end = -1;
   for (let i = bytes.length - 22; i >= Math.max(0, bytes.length - 65557); i--)
@@ -159,14 +159,14 @@ async function docx(bytes: Uint8Array) {
     )
       throw new EvidenceInputError();
     if (required.has(name)) {
-      if (expanded > 8_000_000) throw new EvidenceInputError();
+      if (expanded > xmlLimit) throw new EvidenceInputError();
       const packed = Uint8Array.from(bytes.subarray(data, data + compressed));
       let unpacked = packed;
       if (method === 8) {
         try {
           unpacked = await boundedBytes(
             new Blob([packed]).stream().pipeThrough(new DecompressionStream('deflate-raw')),
-            8_000_000,
+            xmlLimit,
           );
         } catch {
           throw new EvidenceInputError();
@@ -193,6 +193,12 @@ async function docx(bytes: Uint8Array) {
     )
   )
     throw new EvidenceInputError();
+  return xml.get('word/document.xml')!;
+}
+
+/** Reuses validated OOXML/container handling; no macros, external entities or execution. */
+export function jdDocxXml(bytes: Uint8Array) {
+  return docx(bytes, 500_000);
 }
 
 /** Structural type/container checks only, not malware scanning or career verification. */
