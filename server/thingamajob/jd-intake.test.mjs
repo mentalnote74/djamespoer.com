@@ -1,6 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeJd, fromJdFile, fromJobUrl, intakeJd, htmlText } from './jd-intake.ts';
+import {
+  normalizeJd,
+  fromJdFile,
+  fromJobUrl as readUrl,
+  intakeJd as readInput,
+  htmlText,
+} from './jd-intake.ts';
+const publicDns = async () => ['93.184.215.14'];
+const fromJobUrl = (url, transport) => readUrl(url, transport, publicDns);
+const intakeJd = (request, transport) => readInput(request, transport, publicDns);
 import { fictionalDocx, evidenceFixture, signedEvidenceRequest } from './evidence-fixtures.mjs';
 const clean =
   'Senior UX Engineer\nRequired qualifications\nBuild accessible Angular applications.\nPreferred qualifications\nExperience with design systems.\nLocation: Remote, eligible applicants in Peru or Ecuador.\nCompensation: $100,000–$120,000.';
@@ -71,17 +80,20 @@ test('URL intake extracts a single JobPosting including structured compensation 
     baseSalary: { currency: 'USD', value: 100000 },
     eligibilityToWorkRequirement: 'Authorized to work in Peru',
   };
-  const result = await fromJobUrl('https://builtin.com/job/example', async (url, init) => {
-    assert.equal(init.redirect, 'manual');
-    assert.equal(init.headers.Cookie, undefined);
-    assert.equal(init.headers.Authorization, undefined);
-    return new Response(
-      '<nav>Noise</nav><script type="application/ld+json">' +
-        JSON.stringify(job) +
-        '</script><footer>Wrong content</footer>',
-      { headers: { 'Content-Type': 'text/html' } },
-    );
-  });
+  const result = await fromJobUrl(
+    'https://careers.acme.org/openings/frontend-engineer',
+    async (url, init) => {
+      assert.equal(init.redirect, 'manual');
+      assert.equal(init.headers.Cookie, undefined);
+      assert.equal(init.headers.Authorization, undefined);
+      return new Response(
+        '<nav>Noise</nav><script type="application/ld+json">' +
+          JSON.stringify(job) +
+          '</script><footer>Wrong content</footer>',
+        { headers: { 'Content-Type': 'text/html' } },
+      );
+    },
+  );
   for (const text of ['Required qualifications', 'Preferred', 'TELECOMMUTE', 'Peru', '100000'])
     assert(result.jobDescription.includes(text));
   assert(!result.jobDescription.includes('Wrong content'));
@@ -98,7 +110,7 @@ test('URL intake extracts a single JobPosting including structured compensation 
     /multiple job postings/,
   );
 });
-test('URL allowlist, redirects, unreadable pages and blocked providers fail safely before evaluation', async () => {
+test('public URL guards, redirects, unreadable pages and blocked providers fail safely before evaluation', async () => {
   let calls = 0;
   const fetcher = async () => {
     calls++;
@@ -138,6 +150,94 @@ test('URL allowlist, redirects, unreadable pages and blocked providers fail safe
           }),
       ),
     /scripts|paste/i,
+  );
+});
+
+test('general non-ATS page extraction keeps job context and distinguishes search results', async () => {
+  const html =
+    '<html><head><title>Noise title</title></head><nav>Login and links</nav><main><header><h1>Senior UX Engineer</h1></header><p>Location: Remote in Peru</p><p>Compensation: $100,000</p><div class="job-description"><h2>Required qualifications</h2><p>Accessible Angular applications.</p><h2>Preferred qualifications</h2><p>Design systems.</p></div><section><h2>Similar jobs</h2><p>Wrong posting</p></section></main><footer>Privacy policy</footer></html>';
+  const result = await fromJobUrl(
+    'https://careers.acme.org/openings/frontend',
+    async () => new Response(html, { headers: { 'Content-Type': 'text/html' } }),
+  );
+  for (const value of [
+    'Senior UX Engineer',
+    'Remote in Peru',
+    '$100,000',
+    'Required qualifications',
+    'Preferred qualifications',
+    'Design systems',
+  ])
+    assert(result.jobDescription.includes(value));
+  for (const value of ['Wrong posting', 'Noise title', 'Login and links'])
+    assert(!result.jobDescription.includes(value));
+  await assert.rejects(
+    () =>
+      fromJobUrl(
+        'https://www.monster.com/jobs/search?q=engineer',
+        async () =>
+          new Response('<main><h1>Engineering jobs</h1><p>Search jobs</p></main>', {
+            headers: { 'Content-Type': 'text/html' },
+          }),
+      ),
+    /search\/results page/,
+  );
+  await assert.rejects(
+    () =>
+      fromJobUrl(
+        'https://careers.acme.org/results',
+        async () =>
+          new Response(
+            '<main><h1>23 jobs found</h1><a href="/jobs/one">One</a><a href="/jobs/two">Two</a><p>Required skills vary.</p></main>',
+            { headers: { 'Content-Type': 'text/html' } },
+          ),
+      ),
+    /search\/results page/,
+  );
+});
+
+test('private/mixed DNS answers and redirected private hosts never receive a request', async () => {
+  let calls = 0;
+  const forbidden = async () => {
+    calls++;
+    throw Error('Must not fetch');
+  };
+  for (const address of [
+    '10.0.0.1',
+    '127.0.0.1',
+    '169.254.169.254',
+    '100.64.0.1',
+    '::1',
+    'fd00::1',
+    'fe80::1',
+    '::ffff:127.0.0.1',
+    '2001:db8::1',
+  ])
+    await assert.rejects(
+      () =>
+        readUrl('https://careers.acme.org/job', forbidden, async () => ['93.184.215.14', address]),
+      /private or reserved/,
+    );
+  assert.equal(calls, 0);
+  await assert.rejects(
+    () =>
+      readUrl(
+        'https://careers.acme.org/job',
+        async () => {
+          calls++;
+          return new Response(null, {
+            status: 302,
+            headers: { Location: 'https://private.acme.org/job' },
+          });
+        },
+        async (host) => (host.startsWith('private.') ? ['192.168.1.2'] : ['93.184.215.14']),
+      ),
+    /private or reserved/,
+  );
+  assert.equal(calls, 1);
+  await assert.rejects(
+    () => readUrl('https://careers.acme.org/job', forbidden, async () => []),
+    /no usable public DNS/,
   );
 });
 test('intake is same-origin, TEST-only, own-owner scoped, and never writes evidence/claims/evaluations', async () => {

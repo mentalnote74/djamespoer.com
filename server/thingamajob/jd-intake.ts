@@ -1,4 +1,11 @@
 import { boundedBytes, jdDocxXml } from './evidence-validation.ts';
+import {
+  publicPageUrl,
+  checkPublicHost,
+  resolvePublicHost,
+  PublicPageError,
+} from './jd-public-url.ts';
+import type { PublicHostResolver } from './jd-public-url.ts';
 export class JdIntakeError extends Error {
   readonly status: number;
   constructor(message: string, status = 400) {
@@ -160,6 +167,8 @@ function jsonJob(html: string): string | null {
       jobs.push(obj);
     if (obj['@graph']) visit(obj['@graph']);
     if (obj['mainEntity']) visit(obj['mainEntity']);
+    if (obj['itemListElement']) visit(obj['itemListElement']);
+    if (obj['item']) visit(obj['item']);
   }
   for (const match of html.matchAll(
     /<script\b[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([^]*?)<\/script\s*>/gi,
@@ -203,73 +212,132 @@ function jsonJob(html: string): string | null {
   }
   return values.join('\n');
 }
-const boards = [
-  'builtin.com',
-  'jobs.lever.co',
-  'boards.greenhouse.io',
-  'job-boards.greenhouse.io',
-  'jobs.ashbyhq.com',
-];
-function publicJobUrl(value: string) {
-  let url: URL;
-  try {
-    url = new URL(value);
-  } catch {
-    throw new JdIntakeError('Enter a complete HTTPS job-posting URL, or use Paste text.');
+function searchUrl(url: URL) {
+  if (['jobid', 'job_id', 'gh_jid', 'jk'].some((key) => url.searchParams.has(key))) return false;
+  return (
+    /\/(?:jobs?\/search|job-search|search-jobs|search-results)\/?$/i.test(url.pathname) ||
+    (/\/(?:jobs|careers)\/?$/i.test(url.pathname) &&
+      ['q', 'query', 'keywords', 'search'].some((key) => url.searchParams.has(key)))
+  );
+}
+const searchRecovery =
+  'This is a job search/results page, not a single job posting. Open one specific posting and use its URL, or paste/upload that job description.';
+
+/** Select a balanced semantic/content element, retaining nested sections. No script execution. */
+function contentElement(html: string, predicate: (tag: string, attributes: string) => boolean) {
+  const tags = /<\/?([a-z][\w:-]*)\b[^>]*>/gi;
+  let match: RegExpExecArray | null,
+    selected = '',
+    start = 0,
+    depth = 0;
+  while ((match = tags.exec(html))) {
+    const tag = match[1].toLowerCase(),
+      closing = match[0].startsWith('</');
+    if (!selected && !closing && predicate(tag, match[0])) {
+      selected = tag;
+      start = tags.lastIndex;
+      depth = 1;
+    } else if (selected === tag) {
+      depth += closing ? -1 : 1;
+      if (!depth) return html.slice(start, match.index);
+    }
   }
+  return null;
+}
+function generalJobText(html: string, url: URL) {
+  html = html.replace(/<!--[^]*?-->|<(head|script|style)\b[^>]*>[^]*?<\/\1\s*>/gi, '');
+  const main = contentElement(
+    html,
+    (tag, attrs) => tag === 'main' || /\brole\s*=\s*["']main["']/i.test(attrs),
+  );
+  const candidate = contentElement(
+    html,
+    (_tag, attrs) =>
+      /\bitemprop\s*=\s*["']description["']/i.test(attrs) ||
+      /\b(?:id|class)\s*=\s*["'][^"']*(?:job[-_ ]?description|posting[-_ ]?description|job[-_ ]?details?\b)[^"']*["']/i.test(
+        attrs,
+      ),
+  );
+  const article = contentElement(html, (tag) => tag === 'article');
+  const page = main ?? html;
+  const heading = /<h1\b[^>]*>([^]*?)<\/h1>/i.exec(page)?.[1];
+  const visibleHeading = heading ? htmlText(heading) : '';
+  const links = [...page.matchAll(/href\s*=\s*["']([^"']+)["']/gi)].map((m) => m[1]);
+  const jobLinks = new Set(
+    links.filter((href) => /\/(?:jobs?|positions?|job-openings|job-detail)[\/?-]/i.test(href)),
+  );
   if (
-    url.protocol !== 'https:' ||
-    url.username ||
-    url.password ||
-    (url.port && url.port !== '443') ||
-    !boards.some(
-      (host) =>
-        url.hostname === host || (host === 'builtin.com' && url.hostname.endsWith('.builtin.com')),
-    )
+    searchUrl(url) ||
+    (/search results|\b\d[\d,]*\s+(?:jobs|results|vacancies)\b|\bjobs\s+(?:in|near)\b/i.test(
+      visibleHeading,
+    ) &&
+      jobLinks.size > 1)
   )
-    throw new JdIntakeError(
-      'URL extraction currently supports Built In, Lever, Greenhouse and Ashby public postings. For other sites, paste the job text or upload a document.',
-    );
-  url.hash = '';
-  return url;
+    throw new JdIntakeError(searchRecovery);
+  // Keep surrounding title/location/pay/eligibility within the main/article, not
+  // just a description div that could drop material constraints.
+  const region = main ?? article;
+  const selected =
+    region && htmlText(region).length <= 100000 ? region : (candidate ?? region ?? html);
+  const text = htmlText(selected);
+  return visibleHeading && !text.includes(visibleHeading) ? visibleHeading + '\n' + text : text;
 }
 export async function fromJobUrl(
   value: string,
   transport: typeof fetch = fetch,
+  resolve: PublicHostResolver = resolvePublicHost,
 ): Promise<PreparedJd> {
   if (value.length > 2000)
     throw new JdIntakeError('The URL is too long. Open the posting and paste its text.');
-  let url = publicJobUrl(value);
   try {
+    let url = publicPageUrl(value);
     for (let n = 0; n < 4; n++) {
+      await checkPublicHost(url, resolve);
       const response = await transport(url.toString(), {
         redirect: 'manual',
         signal: AbortSignal.timeout(12000),
+        credentials: 'omit',
         headers: { Accept: 'text/html,text/plain', 'User-Agent': 'Thingamajob JD intake' },
       });
       if (response.status >= 300 && response.status < 400) {
         const next = response.headers.get('Location');
-        if (!next) break;
-        url = publicJobUrl(new URL(next, url).toString());
+        if (!next)
+          throw new JdIntakeError(
+            'The job site returned a redirect without a destination. Open the posting and paste its text.',
+          );
+        url = publicPageUrl(new URL(next, url).toString());
         continue;
       }
       if (!response.ok)
         throw new JdIntakeError(
-          'The job site blocked extraction or the posting is unavailable. Open it yourself and paste the job text.',
+          (searchUrl(url) ? searchRecovery + ' ' : '') +
+            'The site returned HTTP ' +
+            response.status +
+            '. Open the page yourself; if it requires sign-in, verification or is unavailable, paste the job text or upload a document.',
         );
       const type = response.headers.get('Content-Type') ?? '';
       if (!/text\/html|text\/plain/i.test(type))
         throw new JdIntakeError(
           'The URL did not return a readable job page. Paste the job text instead.',
         );
-      const bytes = await boundedBytes(response.body, 2_000_000),
-        body = new TextDecoder('utf-8', { fatal: true }).decode(bytes);
-      let text = /text\/html/i.test(type) ? (jsonJob(body) ?? htmlText(body)) : body;
+      let body: string;
+      try {
+        body = new TextDecoder('utf-8', { fatal: true }).decode(
+          await boundedBytes(response.body, 2_000_000),
+        );
+      } catch {
+        throw new JdIntakeError(
+          'The page response exceeded 2 MB or could not be decoded as UTF-8. Paste the job text or upload a document.',
+        );
+      }
+      const structured = /text\/html/i.test(type) ? jsonJob(body) : null;
+      const text = structured ?? (/text\/html/i.test(type) ? generalJobText(body, url) : body);
       if (text.length > 100000)
         throw new JdIntakeError(
           'The page has too much surrounding content. Paste only the intended job posting.',
         );
       if (
+        !structured &&
         !/responsibilit|qualificat|requirements|required|preferred|experience|what you|the role|job description/i.test(
           text,
         )
@@ -282,7 +350,14 @@ export async function fromJobUrl(
     throw new JdIntakeError('The job page redirected too many times. Paste the job text instead.');
   } catch (error) {
     if (error instanceof JdIntakeError) throw error;
-    throw new JdIntakeError('The job page could not be read. Paste its text or upload a document.');
+    if (error instanceof PublicPageError) throw new JdIntakeError(error.message);
+    if (error instanceof Error && (error.name === 'TimeoutError' || error.name === 'AbortError'))
+      throw new JdIntakeError(
+        'The job site did not finish responding within 12 seconds. Retry or paste/upload the job description.',
+      );
+    throw new JdIntakeError(
+      'The HTTPS connection to the job site failed. Check the URL or paste/upload the job description.',
+    );
   }
 }
 export async function fromJdFile(file: File): Promise<PreparedJd> {
@@ -319,6 +394,7 @@ export async function fromJdFile(file: File): Promise<PreparedJd> {
 export async function intakeJd(
   request: Request,
   transport: typeof fetch = fetch,
+  resolve: PublicHostResolver = resolvePublicHost,
 ): Promise<PreparedJd> {
   let bytes: Uint8Array;
   try {
@@ -359,6 +435,6 @@ export async function intakeJd(
   if (body['method'] === 'text' && typeof body['text'] === 'string')
     return { method: 'text', sourceLabel: 'Pasted text', ...normalizeJd(body['text']) };
   if (body['method'] === 'url' && typeof body['url'] === 'string')
-    return fromJobUrl(body['url'], transport);
+    return fromJobUrl(body['url'], transport, resolve);
   throw new JdIntakeError('Choose Paste text, URL or File.');
 }

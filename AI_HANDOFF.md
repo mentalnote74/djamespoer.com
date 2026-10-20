@@ -1,5 +1,30 @@
 # AI Engineering Handoff
 
+## October 20 general public URL ingestion correction
+
+Removed the four-site hostname gate and matching UI limitation. Any public HTTPS
+job-posting hostname may now use the same URL intake and normalized/editable
+preview. Structured JobPosting remains preferred; general semantic main/article/
+job-description HTML supplies the fallback. Preserve title, location, pay and
+eligibility context; never choose one result from a search/listing page. Strict
+search URL patterns and visible multi-result headings produce specific recovery.
+Upstream HTTP status, DNS, timeout, content type/size and unreadable content now
+have actionable errors, not an unsupported-domain message.
+
+Retains HTTPS-only, no credentials/custom ports, manual bounded redirects,
+12-second per-fetch deadline, 2 MB responses and existing normalization limits.
+New public-host/DNS preflight checks A/AAAA at every redirect; IP literals,
+local/special-use hosts and any private/reserved DNS answer fail before fetching.
+Uses ordinary public Internet fetch, no VPC or forwarded caller credentials.
+No paid evaluations, LoT changes, auth changes or portfolio UI changes.
+
+Seven focused intake/security tests, Worker typecheck and both build/budgets pass.
+Actual local public SmartRecruiters intake (outside old allowlist) returned 8,958
+characters. Representative Monster /jobs/search URL correctly reported results
+page plus actual HTTP 403. The exact rejected Monster URL was not supplied/found;
+do not imply it was tested. Private verification: career-source/jd-evaluations/
+url-ingestion-20261020. Next operation is live TEST URL-to-preview read-back.
+
 ## October 19 sandbox component correction
 
 /test/thingamajob now hosts the real JdEvaluation Angular component with its

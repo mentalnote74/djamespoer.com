@@ -25,11 +25,13 @@ similar-job/footer tails and retains requirements, preferences, dates, work-mode
 eligibility and compensation. It flags explicit removed/expired-posting notices.
 Uncertain content remains visible for owner review rather than invented/filled.
 
-URL intake anonymously fetches HTTPS public Built In, Lever, Greenhouse or Ashby
-postings only, revalidating every redirect. No cookies or Access credentials are
-forwarded. A single JobPosting JSON-LD description/metadata is preferred, with
-bounded HTML text fallback. Unsupported hosts, multiple postings, blocked pages,
-sign-in/JS-only pages, excessive response size or timeout return paste recovery.
+URL intake anonymously fetches public HTTPS job postings on any domain. Hostname
+and public A/AAAA address checks apply before every fetch and redirect; IP literals,
+private/reserved targets, embedded credentials and custom ports are rejected.
+No cookies or Access credentials are forwarded. A single JobPosting JSON-LD is
+preferred, with general main/article/content extraction as fallback. Search/results
+pages require a specific posting; upstream HTTP errors, DNS/timeout failures,
+sign-in/JS-only or unreadable pages and excessive size return specific recovery.
 File intake supports UTF-8 TXT/Markdown/HTML and validated DOCX up to 1 MB. The
 existing OOXML validator/decompressor is reused with a smaller XML bound; no
 macros/entities execute and no new parser dependency is installed. PDF, legacy
