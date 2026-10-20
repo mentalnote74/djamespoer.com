@@ -296,7 +296,8 @@ export async function fromJobUrl(
       const response = await transport(url.toString(), {
         redirect: 'manual',
         signal: AbortSignal.timeout(12000),
-        credentials: 'omit',
+        // Fresh server request with explicit public headers only; no caller
+        // cookies, Access assertions or Authorization headers are forwarded.
         headers: { Accept: 'text/html,text/plain', 'User-Agent': 'Thingamajob JD intake' },
       });
       if (response.status >= 300 && response.status < 400) {

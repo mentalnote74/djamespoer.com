@@ -23,7 +23,14 @@ Actual local public SmartRecruiters intake (outside old allowlist) returned 8,95
 characters. Representative Monster /jobs/search URL correctly reported results
 page plus actual HTTP 403. The exact rejected Monster URL was not supplied/found;
 do not imply it was tested. Private verification: career-source/jd-evaluations/
-url-ingestion-20261020. Next operation is live TEST URL-to-preview read-back.
+url-ingestion-20261020. Live TEST URL-to-preview read-back passed at 390px with
+the real 8,958-character SmartRecruiters posting; desktop reflow, Monster search
+error/paste recovery, zero axe violations/runtime errors, and no /evaluate calls.
+Runtime correction: Cloudflare rejected the initial DNS preflight redirect:error
+before any HTTP request. The marked runtime tail identified the exact TypeError;
+resolver now uses redirect:manual and rejects non-2xx explicitly. Safe DNS-stage
+metadata (no target URL, payload, truth or credentials) remains for diagnosis.
+No paid evaluation or LoT mutation occurred.
 
 ## October 19 sandbox component correction
 

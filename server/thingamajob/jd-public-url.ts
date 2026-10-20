@@ -8,24 +8,47 @@ export async function resolvePublicHost(hostname: string): Promise<string[]> {
   try {
     const answers = await Promise.all(
       ['A', 'AAAA'].map(async (type) => {
-        const url = new URL('https://cloudflare-dns.com/dns-query');
-        url.searchParams.set('name', hostname);
-        url.searchParams.set('type', type);
-        const response = await fetch(url, {
-          headers: { Accept: 'application/dns-json' },
-          redirect: 'error',
-          signal: AbortSignal.timeout(4000),
-          credentials: 'omit',
-        });
-        if (!response.ok) throw new Error('DNS unavailable');
-        const data = JSON.parse(
-          new TextDecoder().decode(await boundedBytes(response.body, 32000)),
-        ) as {
-          Status: number;
-          Answer?: { type: number; data: string }[];
-        };
-        if (![0, 3].includes(data.Status)) throw new Error('DNS unavailable');
-        return (data.Answer ?? []).filter((a) => a.type === 1 || a.type === 28).map((a) => a.data);
+        let stage = 'request';
+        let status: number | null = null;
+        try {
+          const url = new URL('https://cloudflare-dns.com/dns-query');
+          url.searchParams.set('name', hostname);
+          url.searchParams.set('type', type);
+          const response = await fetch(url.toString(), {
+            headers: { Accept: 'application/dns-json' },
+            redirect: 'manual',
+            signal: AbortSignal.timeout(4000),
+          });
+          status = response.status;
+          stage = 'http';
+          if (!response.ok) throw new Error('DNS unavailable');
+          stage = 'json';
+          const data = JSON.parse(
+            new TextDecoder().decode(await boundedBytes(response.body, 32000)),
+          ) as {
+            Status: number;
+            Answer?: { type: number; data: string }[];
+          };
+          stage = 'dns-status-' + data.Status;
+          if (![0, 3].includes(data.Status)) throw new Error('DNS unavailable');
+          return (data.Answer ?? [])
+            .filter((a) => a.type === 1 || a.type === 28)
+            .map((a) => a.data);
+        } catch (error) {
+          // Safe operational metadata only: never log the target URL, answers,
+          // request contents, canonical truths or credentials.
+          console.error('jd-url-dns', {
+            type,
+            stage,
+            status,
+            error: error instanceof Error ? error.name : 'unknown',
+            detail:
+              error instanceof Error
+                ? error.message.replaceAll(hostname, '[host]').slice(0, 300)
+                : 'unknown',
+          });
+          throw error;
+        }
       }),
     );
     return answers.flat();
