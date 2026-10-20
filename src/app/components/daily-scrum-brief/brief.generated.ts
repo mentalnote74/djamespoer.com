@@ -1,7 +1,7 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "sections": [
     {
       "heading": "Recently shipped",
@@ -26,7 +26,7 @@ export const DAILY_SCRUM_BRIEF: ScrumBrief = {
   ],
   "provenance": {
     "sourceCommit": "e5bddbd4b648450cc230e92da06c2678ec020d67",
-    "generatorCommit": "f6422f345e825cd1e583f734724a226c89cb821a",
+    "generatorCommit": "1ff70a4c136f3953637bd194dd733f1bad1de6e0",
     "statusSha256": "4b0c91fd34093ae9aae359eb31004e7fd9250b6fd714544da328899323f3c07d",
     "method": "Explicit public status metadata; checkpoint ancestry verified; no commit-message inference"
   }
