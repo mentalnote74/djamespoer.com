@@ -20,3 +20,19 @@ main {
   outline: 3px solid var(--focus-outer, Highlight);
   outline-offset: 3px;
 }
+.action {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid currentColor;
+  border-radius: 0.35rem;
+  background: Canvas;
+  color: CanvasText;
+  font: inherit;
+  cursor: pointer;
+}
+.action:focus-visible {
+  outline: 3px solid var(--focus-outer, Highlight);
+  outline-offset: 3px;
+}

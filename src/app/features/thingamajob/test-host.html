@@ -1,2 +1,35 @@
 <a class="skip-link" href="#main-content" (click)="skip($event)">Skip to main content</a>
-<main id="main-content" tabindex="-1"><router-outlet /></main>
+<main id="main-content" tabindex="-1">
+  @switch (session.state()) {
+    @case ('ready') {
+      <router-outlet />
+    }
+    @case ('checking') {
+      <h1>Thingamajob</h1>
+      <p role="status">Checking your workspace access.</p>
+    }
+    @default {
+      <section aria-labelledby="session-heading">
+        <h1 id="session-heading" #recovery tabindex="-1">
+          {{ session.state() === 'denied' ? 'Sign in again' : 'Access check unavailable' }}
+        </h1>
+        <p role="status">
+          {{
+            session.state() === 'denied'
+              ? 'Your session could not access this workspace. Sign in again with your approved account to continue.'
+              : 'We could not check your workspace access. Check your connection and retry, or sign in again.'
+          }}
+        </p>
+        <p>
+          Your Library of Truth has not changed. Unsaved input must be entered again after sign-in.
+        </p>
+        <p><a class="action action--primary" [href]="signInUrl">Sign in again</a></p>
+        <button class="action" type="button" (click)="session.check()">Retry access check</button>
+        <p>
+          If sign-in succeeds but access is still denied, your workspace authorization needs an
+          operator check.
+        </p>
+      </section>
+    }
+  }
+</main>

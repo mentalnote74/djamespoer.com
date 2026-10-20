@@ -1,5 +1,30 @@
 # AI Engineering Handoff
 
+## October 19 protected TEST session recovery
+
+Evaluator 403 handling previously rendered "Sign in again" as text without an
+authentication action; Angular Back navigation could not renew Access. TEST now
+adds a host-wide session gate and same-origin API interceptor using Cloudflare's
+documented X-Requested-With header (expired AJAX requests return 401). Both
+401/403 remove routed private UI and clear workflow retry/workspace state. A
+native Sign in again link reaches a TEST-only fixed-destination Access login
+redirect; its post-login return restores the evaluator/home/admin route. A
+read-only session endpoint rechecks the signed human identity and existing D1
+owner membership before rendering. Back-cache restoration rechecks; network
+failures offer retry. No credentials/storage handling, logout across other apps,
+provisioning, authorization relaxation, LoT mutation, or PROD change.
+
+Live read-only checks show the existing owner/actor/membership still active;
+anonymous document requests reach Access login and AJAX requests return 401.
+The prior generic 403 does not establish which session check failed historically.
+34 focused identity/Worker/recovery checks, five Angular tests, strict server TS
+and protected build/budgets pass (271.12 kB initial). Optimized fictional-auth
+desktop/390 browser checks cover 401/403, keyboard sign-in, return/evaluation,
+Back-cache recheck, network retry, forced colors and zero scoped axe violations,
+overflow or page errors. These are not a live owner OTP acceptance. No connected
+owner browser is available; live owner sign-in/evaluation remains a required
+acceptance step. Private bounded evidence: career-source/auth-recovery/2026-10-19.
+
 ## October 19 live evaluator failure + three-method intake
 
 Two real owner attempts reached 267-truth retrieval/reservation and failed after

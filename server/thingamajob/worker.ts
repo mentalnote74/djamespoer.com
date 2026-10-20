@@ -78,6 +78,8 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
         env.TEST_BOOTSTRAP_ENABLED === 'true' &&
         new URL(request.url).origin === 'https://api-test.djamespoer.com';
       const start = path === '/api/thingamajob/test/start';
+      const signIn = path === '/api/thingamajob/test/sign-in';
+      const session = path === '/api/thingamajob/test/session';
       const bootstrap = path === '/api/thingamajob/bootstrap';
       const reference = path === '/api/thingamajob/test/reference-access';
       const ownStorage = path === '/api/thingamajob/test/storage';
@@ -134,6 +136,8 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
         !(
           testEnabled &&
           (start ||
+            signIn ||
+            session ||
             bootstrap ||
             reference ||
             ownStorage ||
@@ -210,7 +214,30 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
         return reply(503, { error: 'Service unavailable' });
       }
       try {
+        if (signIn) {
+          // Fixed TEST destinations only. This public redirect grants no data or workspace access.
+          // Matches Cloudflare's generateLoginURL contract; no logout of other Access applications.
+          const view = new URL(request.url).searchParams.get('view') ?? 'home';
+          if (!['home', 'evaluate', 'admin'].includes(view))
+            return reply(400, { error: 'Invalid return location' });
+          const login = new URL('/cdn-cgi/access/login/api-test.djamespoer.com', env.ACCESS_ISSUER);
+          login.searchParams.set('kid', env.ACCESS_AUDIENCE);
+          login.searchParams.set('redirect_url', '/api/thingamajob/test/app/?resume=' + view);
+          return new Response(null, {
+            status: 302,
+            headers: {
+              Location: login.href,
+              'Cache-Control': 'no-store',
+              'Referrer-Policy': 'no-referrer',
+            },
+          });
+        }
         const identity = await authenticate(request);
+        if (session) {
+          const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
+          await recheckWorkspace(scope);
+          return reply(200, { authorized: true });
+        }
         if (jdInput) {
           const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
           await recheckWorkspace(scope);
@@ -262,6 +289,18 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
         }
         if (ui) {
           if (!env.TEST_UI) return reply(503, { error: 'Presentation unavailable' });
+          if (path === uiPrefix && new URL(request.url).searchParams.has('resume')) {
+            const view = new URL(request.url).searchParams.get('resume');
+            if (!view || !['home', 'evaluate', 'admin'].includes(view))
+              return reply(400, { error: 'Invalid return location' });
+            return new Response(null, {
+              status: 302,
+              headers: {
+                Location: uiPrefix + (view === 'home' ? '' : '#/' + view),
+                'Cache-Control': 'no-store',
+              },
+            });
+          }
           if (path === uiPrefix.slice(0, -1))
             return Response.redirect(new URL(uiPrefix, request.url), 302);
           const assetPath = path.slice(uiPrefix.length);
