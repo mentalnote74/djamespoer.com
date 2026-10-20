@@ -251,7 +251,7 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
         if (evaluation) {
           const scope = await ownStorageWorkspace(env.IDENTITY_DB, identity);
           if (evaluation[1]) {
-            const result = await readEvaluation(env.IDENTITY_DB, scope, evaluation[1]);
+            const result = await readEvaluation(env.IDENTITY_DB, scope, evaluation[1], env);
             return reply(result.status, result.body);
           }
           if (!jdReasoner && (!env.OPENAI_API_KEY || !env.JD_EVALUATION_MODEL))
@@ -262,6 +262,7 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
             scope,
             jdReasoner ?? openAiReasoner(env.OPENAI_API_KEY!, env.JD_EVALUATION_MODEL!),
             env.JD_EVALUATION_MODEL ?? 'test-reasoner',
+            env,
           );
           return reply(result.status, result.body);
         }
@@ -539,7 +540,9 @@ export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
           });
         if (error instanceof EvaluationConflict)
           return reply(409, {
-            error: 'Evaluation is pending or the Library of Truth changed. Reload or submit again.',
+            error:
+              error.message ||
+              'Evaluation is pending or the Library of Truth changed. Reload or submit again.',
           });
         if (error instanceof EvaluationUnavailable)
           return reply(503, {

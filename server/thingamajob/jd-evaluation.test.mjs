@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs';
 import { evidenceFixture, signedEvidenceRequest, uploadForm } from './evidence-fixtures.mjs';
 import { validateEvaluation } from './jd-contract.ts';
 import { openAiReasoner } from './jd-provider.ts';
+import { canonicalInventoryDigest, evaluationContext } from './jd-policy.ts';
 const endpoint = '/api/thingamajob/test/evaluations';
 const description =
   'Required: Angular application development. Preferred: current PHP proficiency. Required: Rust expertise. Official product Angular 10 experience.';
@@ -22,6 +23,15 @@ function requirement(
     importance: id === 'r2' ? 'preferred' : 'required',
     currentEvidenceRequired: current,
     outcome,
+    kind: 'professional_qualification',
+    basis:
+      outcome === 'MET'
+        ? 'supported'
+        : outcome === 'UNKNOWN'
+          ? 'insufficient_evidence'
+          : evidence.some((e) => e.relation === 'contradicts')
+            ? 'explicit_incompatibility'
+            : 'absent_from_complete_record',
     reasoning,
     evidence,
     question: outcome === 'UNKNOWN' ? 'Can you supply relevant evidence?' : null,
@@ -230,6 +240,126 @@ test('real owner-scoped evaluation uses only canonical truth, preserves qualific
     f.db.close();
   }
 });
+
+test('complete professional inventory applies only to the configured owner and exact canonical snapshot', async () => {
+  const f = await fixture(valid);
+  try {
+    const truth = await f.worker.fetch(
+      await signedEvidenceRequest('/api/thingamajob/test/truth'),
+      f.env,
+    );
+    const canonical = (await truth.json()).claims;
+    f.env.TEST_REFERENCE_WORKSPACE = 'workspace-one';
+    f.env.JD_COMPLETE_CORPUS_DIGEST = await canonicalInventoryDigest(canonical);
+    assert.equal(
+      (await evaluationContext('workspace-two', canonical, f.env)).professionalInventory,
+      'unconfirmed',
+    );
+    assert.equal(
+      (await evaluationContext('workspace-one', canonical.slice(1), f.env)).professionalInventory,
+      'unconfirmed',
+    );
+    const before = f.db.prepare('SELECT count(*) n FROM thingamajob_proposals').get().n;
+    const response = await f.post(endpoint, { jobDescription: description }, 'complete');
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.evaluationContext.professionalInventory, 'complete');
+    assert.deepEqual(
+      body.requirements.map((r) => r.outcome),
+      ['MET', 'UNKNOWN', 'NOT MET', 'NOT MET'],
+    );
+    assert.equal(body.requirements[2].basis, 'absent_from_complete_record');
+    assert.equal(body.requirements[2].question, null);
+    assert(!body.requirements[2].reasoning.includes('UNKNOWN'));
+    f.env.JD_COMPLETE_CORPUS_DIGEST = '0'.repeat(64);
+    const unconfirmed = await f.post(
+      endpoint,
+      { jobDescription: description },
+      'coverage-mismatch',
+    );
+    assert.equal(unconfirmed.status, 200);
+    const other = await unconfirmed.json();
+    assert.equal(other.evaluationContext.professionalInventory, 'unconfirmed');
+    assert.equal(other.requirements[2].outcome, 'UNKNOWN');
+    assert.equal(f.db.prepare('SELECT count(*) n FROM thingamajob_proposals').get().n, before);
+    f.db.exec("UPDATE thingamajob_jd_evaluations SET policy_version='canonical-jd-v2'");
+    const historical = await f.worker.fetch(
+      await signedEvidenceRequest(endpoint + '/' + body.evaluationId),
+      f.env,
+    );
+    assert.equal(historical.status, 409);
+    assert((await historical.json()).error.includes('superseded policy'));
+  } finally {
+    f.db.close();
+  }
+});
+
+test('known specialist absence does not erase frontend matches or turn current-state/preferences/conflicts into NO', () => {
+  const truths = [
+    {
+      truthId: 'front',
+      statement: 'The candidate builds accessible frontend applications.',
+      state: 'source_established',
+      qualifications: [],
+    },
+    {
+      truthId: 'old',
+      statement: 'A historical source listed a nursing license; current active status is unknown.',
+      state: 'source_established',
+      qualifications: ['Historical credential only.'],
+    },
+    {
+      truthId: 'yes',
+      statement: 'Owner asserts willingness to relocate.',
+      state: 'accepted',
+      qualifications: [],
+    },
+    {
+      truthId: 'no',
+      statement: 'Owner asserts unwillingness to relocate.',
+      state: 'accepted',
+      qualifications: [],
+    },
+  ];
+  const jd =
+    'Required: accessible frontend applications. Required: quantum compiler technology. Required: active nursing license. Preferred: salary flexibility. Required: relocation.';
+  const rows = [
+    requirement('r1', 'accessible frontend applications', 'MET', [
+      { truthId: 'front', quote: truths[0].statement, relation: 'meets' },
+    ]),
+    { ...requirement('r2', 'quantum compiler technology', 'UNKNOWN'), importance: 'required' },
+    {
+      ...requirement('r3', 'active nursing license', 'UNKNOWN', [
+        { truthId: 'old', quote: truths[1].statement, relation: 'context' },
+      ]),
+      kind: 'current_state',
+    },
+    {
+      ...requirement('r4', 'salary flexibility', 'NOT MET'),
+      kind: 'preference',
+      importance: 'preferred',
+    },
+    {
+      ...requirement('r5', 'relocation', 'MET', [
+        { truthId: 'yes', quote: truths[2].statement, relation: 'meets' },
+        { truthId: 'no', quote: truths[3].statement, relation: 'contradicts' },
+      ]),
+      kind: 'situational',
+      basis: 'conflicting_evidence',
+    },
+  ];
+  const result = validateEvaluation({ requirements: rows }, jd, truths, {
+    professionalInventory: 'complete',
+    authority: 'Fixture owner approval',
+  });
+  assert.deepEqual(
+    result.requirements.map((r) => r.outcome),
+    ['MET', 'NOT MET', 'UNKNOWN', 'UNKNOWN', 'UNKNOWN'],
+  );
+  assert.equal(result.requirements[1].question, null);
+  assert.equal(result.requirements[4].basis, 'conflicting_evidence');
+  assert.equal(result.requirements[4].evidence.length, 2);
+});
 test('invalid references, provider failures and LoT changes fail closed without automatic paid retry', async () => {
   for (const mode of ['bad-id', 'bad-quote', 'failure', 'changed']) {
     const f = await fixture((jd, truths, ids, state) => {
@@ -369,6 +499,8 @@ test('citation choices are constrained compact refs and rebound only to real can
   const transport = async (_url, init) => {
     const request = JSON.parse(init.body);
     assert.equal(JSON.parse(request.input).canonicalTruths[0].truthId, 't1');
+    assert.equal(JSON.parse(request.input).evaluationContext.professionalInventory, 'complete');
+    assert(request.instructions.includes('absent_from_complete_record'));
     schema = request.text.format.schema;
     return Response.json({
       status: 'completed',
@@ -393,6 +525,7 @@ test('citation choices are constrained compact refs and rebound only to real can
   const raw = await openAiReasoner('fictional', 'fictional-model', transport).evaluate(
     description,
     truths,
+    { professionalInventory: 'complete', authority: 'Fixture owner approval' },
   );
   assert.equal(raw.requirements[0].evidence[0].truthId, truths[0].truthId);
   assert.deepEqual(
@@ -400,5 +533,7 @@ test('citation choices are constrained compact refs and rebound only to real can
     ['t1'],
   );
   assert.equal(schema.properties.requirements.items.properties.requirement.enum, undefined);
+  assert(schema.properties.requirements.items.required.includes('basis'));
+  assert(schema.properties.requirements.items.required.includes('kind'));
   assert.equal(validateEvaluation(raw, description, truths).requirements[0].outcome, 'MET');
 });

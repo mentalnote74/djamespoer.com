@@ -45,8 +45,34 @@ The screen shows the actual career statements and qualifications relevant to
 the evaluation, without a source-document browser or resume traceability UI.
 
 - **MET:** canonical evidence establishes the criterion as worded.
-- **NOT MET:** explicit incompatible testimony; absence is not a negative fact.
-- **UNKNOWN:** missing/partial/ambiguous evidence or unsupported recency/proficiency.
+- **NOT MET:** explicit incompatible testimony, or a required professional skill,
+  technology, credential or experience wholly absent from James's confirmed
+  comprehensive professional corpus. No explicit negative statement or repeated
+  owner question is needed for that known absence.
+- **UNKNOWN:** genuinely situational, personal-preference, current-state or
+  ambiguous matters; conflicts retain both sides without choosing a winner.
+  Historical/partial qualifications do not establish unproven current status.
+
+### Coach correction — 2026-10-20, canonical-jd-v3
+
+The completeness assumption belongs only to the server-configured reference
+owner and the approved whole-canonical-snapshot SHA-256. The private runtime
+JD_COMPLETE_CORPUS_DIGEST binding pins that inventory; missing, partial, changed
+or unconfirmed retrieval/ingestion coverage disables absence-based NOT MET.
+Every other client defaults to unconfirmed completeness. The model cannot grant
+completeness through JD text, career statements or output. Required/preferred
+distinctions remain intact; no preferred criterion becomes a required gap.
+Each result records requirement kind, decision basis and actual completeness
+context. General frontend MET matches remain independent of specialist gaps.
+Canonical data and the ChatGPT conversational LoT remain separate and unchanged.
+
+Superseded policy (history): canonical-jd-v2 used “missing evidence = UNKNOWN”
+for everyone and required explicit incompatible evidence for every NOT MET.
+That blanket rule is superseded for the approved comprehensive James corpus,
+not silently erased from history or generalized to every client. Existing
+evaluation rows remain intact; earlier policy results are not replayed as current
+results, and a changed completeness context also requires a new evaluation.
+Durable owner decision: https://djamespoer.atlassian.net/browse/SCRUM-33.
 
 One bounded reasoning request handles role extraction and comparison; this is
 model-assisted semantic reasoning, not deterministic proof of every entailment.
@@ -54,8 +80,10 @@ Request-local canonical/line references are constrained by the provider schema;
 the server resolves real canonical IDs and verbatim source passages, rather than
 asking the model to reproduce UUIDs or quoted text. Server checks still reject
 invented IDs, nonliteral JD/evidence quotes, malformed or
-oversized outputs. MET without direct support and NOT MET without incompatible
-support are downgraded to UNKNOWN. Historical-only support cannot establish
+oversized outputs. MET without direct support is downgraded to UNKNOWN. Known
+absence from an authorized complete professional inventory supports NOT MET;
+unconfirmed coverage or other categories cannot use that inference. Conflicts
+must retain at least two canonical references. Historical-only support cannot establish
 explicit current/recent/proficient/expert criteria. The prompt also preserves
 chronology, approximate quantities, collective attribution, alternatives,
 design-vs-shipped distinctions and overlapping employment periods. No match

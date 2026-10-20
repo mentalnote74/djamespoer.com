@@ -3,8 +3,9 @@
 }
 <h1>Evaluate a job description</h1>
 <p>
-  Compare the job’s requirements with your canonical Library of Truth. Missing evidence means
-  UNKNOWN, not that you lack the qualification.
+  Compare the job’s requirements with your canonical Library of Truth. A missing required
+  professional qualification is NOT MET when your authoritative career record is confirmed complete.
+  Situational, preference, current-state and ambiguous matters may remain UNKNOWN.
 </p>
 <form (submit)="prepare($event)" [attr.aria-busy]="preparing()">
   <p>
@@ -141,12 +142,25 @@
       }
     </ul>
     <p>
-      MET: established by evidence. NOT MET: explicitly incompatible evidence. UNKNOWN: more
-      information is needed.
+      MET: established by canonical evidence. NOT MET: explicit incompatibility or a required
+      professional qualification absent from a confirmed complete record. UNKNOWN: situational,
+      preference, current-state, ambiguous or conflicting evidence, or unconfirmed source coverage.
     </p>
+    @if (evaluation.evaluationContext; as context) {
+      <p>
+        {{
+          context.professionalInventory === 'complete'
+            ? 'This evaluation used the owner-approved comprehensive professional corpus. Missing required professional qualifications are known gaps.'
+            : 'Professional inventory completeness is unconfirmed. Missing ingestion or retrieval coverage is not a known qualification gap.'
+        }}
+      </p>
+    }
     @for (requirement of evaluation.requirements; track requirement.id) {
       <section class="requirement" [attr.aria-labelledby]="'criterion-' + requirement.id">
         <h3 [id]="'criterion-' + requirement.id">{{ requirement.requirement }}</h3>
+        @if (requirement.basis === 'conflicting_evidence') {
+          <p><strong>Conflicting authoritative evidence — no resolution assumed.</strong></p>
+        }
         <p>
           <strong>{{ requirement.outcome }}</strong> ·
           {{

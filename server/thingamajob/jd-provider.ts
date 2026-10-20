@@ -1,7 +1,9 @@
 import { evaluationInstructions, evaluationSchema, EvaluationUnavailable } from './jd-contract.ts';
 import type { EvaluationTruth } from './jd-contract.ts';
+import { incompleteInventory } from './jd-policy.ts';
+import type { EvaluationContext } from './jd-policy.ts';
 export interface JdReasoner {
-  evaluate(jd: string, truths: EvaluationTruth[]): Promise<unknown>;
+  evaluate(jd: string, truths: EvaluationTruth[], context?: EvaluationContext): Promise<unknown>;
 }
 const observations = new WeakMap<object, Record<string, string | number | null>>();
 export function providerMetadata(value: unknown) {
@@ -14,7 +16,7 @@ export function openAiReasoner(
   transport: typeof fetch = fetch,
 ): JdReasoner {
   return {
-    async evaluate(jd, truths) {
+    async evaluate(jd, truths, context = incompleteInventory) {
       // Request-local refs avoid copying UUIDs through model output. The provider
       // schema constrains the complete choice set; only the server maps to truth IDs.
       const references = new Map(truths.map((t, i) => ['t' + (i + 1), t.truthId]));
@@ -53,6 +55,7 @@ export function openAiReasoner(
             evaluationInstructions +
             '\nTransport binding: jobDescription is supplied as sourceLines. In jdQuote, select the jN source-line reference that contains the criterion. In evidence, select a tN truth reference and relation; do not reproduce a quote. The server resolves the chosen source line and canonical statement verbatim. These reference fields are constrained by the schema. Keep all substantive evaluation rules above.',
           input: JSON.stringify({
+            evaluationContext: context,
             jobDescription: { sourceLines },
             canonicalTruths: truths.map((t, i) => ({ ...t, truthId: 't' + (i + 1) })),
           }),

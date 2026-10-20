@@ -5,8 +5,10 @@ import { openAiReasoner } from './jd-provider.ts';
 import type { JdReasoner } from './jd-provider.ts';
 import { validateEvaluation, EvaluationUnavailable, JD_POLICY } from './jd-contract.ts';
 import type { EvaluationTruth } from './jd-contract.ts';
+import { evaluationContext } from './jd-policy.ts';
+import type { CompletenessConfiguration } from './jd-policy.ts';
 
-export interface JdHarnessEnvironment {
+export interface JdHarnessEnvironment extends CompletenessConfiguration {
   IDENTITY_DB: IdentityDatabase;
   TEST_REFERENCE_WORKSPACE?: string;
   OPENAI_API_KEY?: string;
@@ -147,10 +149,11 @@ export async function jdHarness(
     if (!(await env.JD_HARNESS_LIMIT.limit({ key: 'temporary-jd-harness' })).success)
       return reply(429, { error: 'The test evaluator is busy. Wait a minute and try again.' });
     const truths = await snapshot(env);
+    const context = await evaluationContext(env.TEST_REFERENCE_WORKSPACE!, truths, env);
     const raw = await (
       reasoner ?? openAiReasoner(env.OPENAI_API_KEY!, env.JD_EVALUATION_MODEL!)
-    ).evaluate(jd, truths);
-    const result = validateEvaluation(raw, jd, truths);
+    ).evaluate(jd, truths, context);
+    const result = validateEvaluation(raw, jd, truths, context);
     if (JSON.stringify(await snapshot(env)) !== JSON.stringify(truths))
       return reply(409, { error: 'The Library of Truth changed during evaluation. Submit again.' });
     return reply(200, {
@@ -158,6 +161,7 @@ export async function jdHarness(
       evaluatedAt: new Date().toISOString(),
       state: 'complete',
       policyVersion: JD_POLICY,
+      evaluationContext: context,
       canonicalTruthCount: truths.length,
       requirements: result.requirements.map((r) => ({
         ...r,

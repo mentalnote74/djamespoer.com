@@ -1,5 +1,38 @@
 # AI Engineering Handoff
 
+## October 20 evaluator completeness-policy correction
+
+Coach superseded blanket missing-evidence=UNKNOWN for James's authoritative
+comprehensive professional corpus. canonical-jd-v3 updates prompt, structured
+decision basis/kind, server validation and UI explanations: established evidence
+MET; wholly absent required professional qualification NOT MET without fabricated
+negative quotes or repeated owner questions; situational/preference/current-state/
+ambiguity UNKNOWN. Genuine conflicts retain both sides and remain unresolved.
+General frontend matches stay MET independently of specialist gaps.
+
+Server-only TEST_REFERENCE_WORKSPACE plus JD_COMPLETE_CORPUS_DIGEST scope this
+assumption to the exact approved canonical inventory. Other clients, missing/
+changed/partial snapshots and unconfirmed coverage cannot infer absence as NO.
+Required/preferred, chronology and historical proficiency qualifications remain.
+Protected and public paths use the same context/policy/validator. Older policy
+rows remain history, never silently reclassified or replayed as current results.
+No career record, source, approval, ChatGPT LoT or Thingamajob LoT is rewritten.
+Durable decision recorded in SCRUM-33 with original story criteria preserved.
+Repository policy/history: server/thingamajob/jd-evaluation.md.
+
+Eight focused evaluator tests and strict Worker TS pass without paid calls:
+complete vs other-client/partial coverage, frontend MET + specialist NOT MET,
+current-state/preferences, conflict references, qualifications, old-policy history,
+isolation/idempotence and provider schema. Coach still accepts actual semantic
+model output with a real JD separately; no paid evaluation is authorized here.
+
+Verification: shared evaluator component tests 3/3; optimized combined TEST runtime
+build/budgets pass (protected 271.14 kB, sandbox 255.19 kB initial). Local built
+sandbox at 1440/390 passes preview/result focus, policy rendering, no overflow or
+page errors and scoped axe (zero violations), including forced-colors/reduced-motion
+reflow. Read-only TEST snapshot confirmed 267 truths (263 source-established,
+2 accepted, 2 corrected); its digest is pinned privately, without career writes.
+
 ## October 20 general public URL ingestion correction
 
 Removed the four-site hostname gate and matching UI limitation. Any public HTTPS

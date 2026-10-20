@@ -16,6 +16,7 @@ interface Requirement {
   jdQuote: string;
   importance: 'required' | 'preferred' | 'unspecified';
   outcome: 'MET' | 'NOT MET' | 'UNKNOWN';
+  basis?: string;
   reasoning: string;
   question: string | null;
   evidence: {
@@ -31,6 +32,7 @@ export interface JdResult {
   state: 'complete';
   evaluatedAt: string;
   canonicalTruthCount: number;
+  evaluationContext?: { professionalInventory: 'complete' | 'unconfirmed' };
   requirements: Requirement[];
 }
 export interface PreparedJd {
