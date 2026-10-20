@@ -25,6 +25,13 @@ budgets and Wrangler Worker dry-run passed. Exact remote read-only query returns
 267 canonical truths (263 source-established, 2 accepted, 2 corrected), no writes.
 No Hyperproof/prior JD or new model acceptance specimen was submitted by the agent;
 Coach supplies a NEW JD at the direct URL for the actual evaluation acceptance.
+Implementation 31729a2c515d0b6ffbd7f2c2cde07530b80dda7c deployed: Worker
+f9593382-5788-4dfe-8c5f-97f51a710993, deployment
+1fcc491b-8e2c-4e19-9c6b-e5bdcd143e09. Live anonymous desktop/390 checks pass:
+200 form/scripts/styles, robots headers/meta, keyboard, no Angular/auth requests,
+zero scoped axe violations, overflow or page errors. Real invalid-input POST 400
+confirms the endpoint/config is reachable without a model call. Protected truth
+API remains Access 302. Public portfolio Worker/main and LoT data were untouched.
 
 ## October 19 protected TEST session recovery
 
