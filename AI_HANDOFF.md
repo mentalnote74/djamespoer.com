@@ -1,5 +1,23 @@
 # AI Engineering Handoff
 
+## BAAKO follow-up: no-cost path comparison
+
+No retained BAAKO JD/provider response found; screenshot text was not reconstructed.
+New TEST diagnostic table still empty on read-back. Sandbox/protected hosts share
+runtime provider configuration, normalizer, adapter, v3 policy, reference mapping
+and validator. Existing fictional fixtures through both actual hosts + mocked
+Responses transport produce identical requests/results (200), and matching
+provider_http failures (503); canonical data unchanged. Focused tests 9/9 pass.
+Retained 267-truth snapshot fits current size limits. Live empty-object preflight
+returns expected 400 before LoT/provider work, proving configuration presence only.
+
+No deterministic BAAKO evaluator defect established; prior recovery work remains
+diagnostic improvement, not a proven evaluator fix. Original provider/error/request
+ID/validation code and exact 744-character input remain unavailable. No paid calls,
+runtime edits or deployment. SCRUM-33 records comparison and the smallest further
+step: separately authorized single instrumented evaluation of exact retained input,
+with tail attached and immediate support-reference read-back. Stop before cost.
+
 ## October 20 BAAKO sandbox failure investigation
 
 Website Developer / BAAKO screenshot: 744-character normalized preview retained,
