@@ -54,7 +54,31 @@ the evaluation, without a source-document browser or resume traceability UI.
   ambiguous matters; conflicts retain both sides without choosing a winner.
   Historical/partial qualifications do not establish unproven current status.
 
-### Current correction — 2026-10-20, canonical-jd-v5
+### Current correction — 2026-10-20, canonical-jd-v6
+
+SCRUM-33 comment 10096 / retained evaluation 65f34550-e33a-490b-8a1d-cc0872e4a368
+exposed unsupported cross-project qualifier combination and an overlooked concrete
+implementation narrative. The shared reasoner now binds action, system/project,
+scope and scale before MET. Enterprise design in one context plus independent
+production operation in another cannot establish enterprise-scale operation.
+Keep both true partial matches as context and report the missing qualified activity
+in materialGaps; the existing server guard prevents MET with such a gap.
+
+Before a professional absence conclusion, examine the entire canonical inventory
+for implementation narratives beyond skill-list labels. A collaboration listing
+is not a ceiling on separate implementation evidence. Automated publication and
+production-delivery implementation can establish generic CI/CD experience without
+literal acronym matching, while explicit specialist/scale requirements still need
+their own support. Manual tool use alone is insufficient. Cite only supplied
+canonical statements; repository receipts are offline verification, not new
+runtime evidence or an implicit LoT edit. No employer-specific exception.
+
+Offline retained-case checks distinguish reconstructed semantic acceptance rows
+from original model output. They exercise prompt transport and deterministic
+validation without a paid rerun; they do not prove a fresh model classification.
+The original result, all career records and verbose diagnostic UI are unchanged.
+
+### Previous correction — 2026-10-20, canonical-jd-v5
 
 Coach's retained research-intern evaluation a120f07d-002e-42a7-967a-23ca45d86314
 exposed v4's explicit priority gate. Required/preferred/unspecified now indicate

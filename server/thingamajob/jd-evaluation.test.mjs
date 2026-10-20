@@ -602,6 +602,118 @@ test('functional language matching can combine education and substantive use wit
   assert.equal(result.requirements[0].question, null);
   assert(result.requirements[0].evidence.every((e) => truths.some((t) => t.statement === e.quote)));
 });
+test('qualified activities cannot borrow scale from an unrelated project; partial matches survive', () => {
+  const truths = [
+    {
+      truthId: 'enterprise',
+      statement: 'Designed UX for an enterprise insurance product.',
+      state: 'accepted',
+      qualifications: [],
+    },
+    {
+      truthId: 'portfolio',
+      statement: 'Designed and operated an independent production portfolio application.',
+      state: 'source_established',
+      qualifications: [],
+    },
+  ];
+  const jd =
+    'Design and operate production systems at enterprise scale. Enterprise UX design. Independent production operation.';
+  const cite = (i) => ({
+    truthId: truths[i].truthId,
+    quote: truths[i].statement,
+    relation: 'meets',
+  });
+  // Semantic assessment reports the missing context linkage. The server must not
+  // allow individually true citations to override that material gap.
+  const rows = [
+    {
+      ...requirement('qualified', jd.split('. ')[0], 'MET', [cite(0), cite(1)]),
+      materialGaps: [
+        'Operating responsibility at enterprise scale is not established for either undertaking.',
+      ],
+    },
+    requirement('design', 'Enterprise UX design', 'MET', [cite(0)]),
+    requirement('operation', 'Independent production operation', 'MET', [cite(1)]),
+  ];
+  const result = validateEvaluation({ requirements: rows }, jd, truths, {
+    professionalInventory: 'complete',
+    authority: 'Fixture approval',
+  });
+  assert.deepEqual(
+    result.requirements.map((r) => r.outcome),
+    ['NOT MET', 'MET', 'MET'],
+  );
+  assert.equal(result.requirements[0].evidence.length, 2);
+  assert(result.requirements[0].evidence.every((e) => e.relation === 'context'));
+  assert.equal(result.requirements[0].question, null);
+  assert.equal(
+    validateEvaluation({ requirements: rows }, jd, truths).requirements[0].outcome,
+    'UNKNOWN',
+  );
+});
+
+test('concrete delivery implementation can establish a generic qualification without specialist inflation', () => {
+  const truths = [
+    {
+      truthId: 'listed',
+      statement: 'A historical source lists CI/CD collaboration.',
+      state: 'source_established',
+      qualifications: ['Source-listed skill; no unsupported current-use inference.'],
+    },
+    {
+      truthId: 'chain',
+      statement:
+        'Implemented an automated publication workflow with production deployment integration for an independent web product.',
+      state: 'source_established',
+      qualifications: [],
+    },
+    {
+      truthId: 'quality',
+      statement: 'Implemented build validation and live publication verification in that workflow.',
+      state: 'accepted',
+      qualifications: [],
+    },
+  ];
+  const jd =
+    'Implement CI/CD pipelines and modern software delivery practices. Implement enterprise device-fleet CI/CD pipelines.';
+  const evidence = truths
+    .slice(1)
+    .map((t) => ({ truthId: t.truthId, quote: t.statement, relation: 'meets' }));
+  const rows = [
+    requirement(
+      'generic',
+      jd.split('. ')[0],
+      'MET',
+      evidence,
+      'Concrete delivery implementation establishes the generic requirement at independent web-product scope, beyond the skill-list collaboration label.',
+    ),
+    {
+      ...requirement(
+        'specialist',
+        'Implement enterprise device-fleet CI/CD pipelines',
+        'MET',
+        evidence,
+      ),
+      materialGaps: ['Enterprise device-fleet pipeline implementation.'],
+    },
+  ];
+  const result = validateEvaluation({ requirements: rows }, jd, truths, {
+    professionalInventory: 'complete',
+    authority: 'Fixture approval',
+  });
+  assert.deepEqual(
+    result.requirements.map((r) => r.outcome),
+    ['MET', 'NOT MET'],
+  );
+  assert.deepEqual(
+    result.requirements[0].evidence.map((e) => e.truthId),
+    ['chain', 'quality'],
+  );
+  assert(result.requirements[1].evidence.every((e) => e.relation === 'context'));
+  assert.equal(result.requirements[0].question, null);
+});
+
 test('invalid references, provider failures and LoT changes fail closed without automatic paid retry', async () => {
   for (const mode of ['bad-id', 'bad-quote', 'failure', 'changed']) {
     const f = await fixture((jd, truths, ids, state) => {

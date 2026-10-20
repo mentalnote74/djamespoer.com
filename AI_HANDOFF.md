@@ -1,5 +1,29 @@
 # AI Engineering Handoff
 
+## October 20 evidence-context binding / concrete implementation matching
+
+SCRUM-33 comment 10096 is implemented in canonical-jd-v6. The shared reasoner
+must bind action, project/system and material scope/scale rather than borrow a
+qualifier from an unrelated activity. Before a professional absence conclusion,
+it must inspect implementation narratives beyond skill-list labels; collaboration
+wording is not a ceiling on separate implementation evidence. Generic delivery
+automation can qualify without implying enterprise/specialist pipeline ownership.
+Existing materialGaps guards, partial matches and completeness boundaries remain.
+
+Retained Starbucks evaluation is unchanged; private offline acceptance evidence is
+under career-source/jd-evaluations/starbucks-evidence-assessment-20261020.
+Real prompt transport/reference resolution and validator produce NOT MET for the
+unsupported qualified activity and MET for generic portfolio CI/CD using the
+existing publication-chain truth. These are reconstructed semantic acceptance
+rows, not a fresh model result. No paid calls, career data edits or UI changes;
+verbose diagnostics remain. Existing 267-truth snapshot/digest is unchanged.
+
+Worker typecheck and 15 focused evaluator tests pass. Both optimized TEST builds
+and budgets pass (271.14/255.45 kB initial, unchanged). First sandboxed build was
+blocked by Windows source-directory access; the authorized build outside that
+sandbox passed. Release is TEST only; record deployment identifiers and read-back
+in SCRUM-33. Fresh model semantic compliance remains for Coach acceptance.
+
 ## October 20 priority-independent classification / language matching
 
 Retained research-intern evaluation a120f07d-002e-42a7-967a-23ca45d86314
