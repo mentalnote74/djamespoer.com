@@ -1,11 +1,10 @@
 import type { IdentityDatabase } from './workspace-access.ts';
 import { boundedBytes } from './evidence-validation.ts';
-import { normalizeJd, JdIntakeError } from './jd-intake.ts';
+import { intakeJd, normalizeJd, JdIntakeError } from './jd-intake.ts';
 import { openAiReasoner } from './jd-provider.ts';
 import type { JdReasoner } from './jd-provider.ts';
 import { validateEvaluation, EvaluationUnavailable, JD_POLICY } from './jd-contract.ts';
 import type { EvaluationTruth } from './jd-contract.ts';
-import { jdHarnessPage, jdHarnessScript, jdHarnessStyles } from './jd-harness-page.ts';
 
 export interface JdHarnessEnvironment {
   IDENTITY_DB: IdentityDatabase;
@@ -14,6 +13,7 @@ export interface JdHarnessEnvironment {
   JD_EVALUATION_MODEL?: string;
   JD_HARNESS_ENABLED?: string;
   JD_HARNESS_LIMIT?: { limit(options: { key: string }): Promise<{ success: boolean }> };
+  TEST_UI?: { fetch(request: Request): Promise<Response> };
 }
 const root = '/test/thingamajob';
 export function isJdHarness(request: Request, env: JdHarnessEnvironment) {
@@ -84,12 +84,30 @@ export async function jdHarness(
   if (!isJdHarness(request, env)) return reply(404, { error: 'Not found' });
   const path = new URL(request.url).pathname;
   if (request.method === 'GET') {
-    if (path === root || path === root + '/') return reply(200, jdHarnessPage, 'text/html');
-    if (path === root + '/harness.js') return reply(200, jdHarnessScript, 'text/javascript');
-    if (path === root + '/style.css') return reply(200, jdHarnessStyles, 'text/css');
-    return reply(404, { error: 'Not found' });
+    const asset = path === root || path === root + '/' ? 'index.html' : path.slice(root.length + 1);
+    if (
+      !/^[a-zA-Z0-9_-]+\.(?:html|js|css)$/.test(asset) ||
+      (asset.endsWith('.html') && asset !== 'index.html')
+    )
+      return reply(404, { error: 'Not found' });
+    if (!env.TEST_UI) return reply(503, { error: 'Sandbox presentation unavailable.' });
+    const url = new URL(request.url);
+    url.pathname = '/sandbox/' + asset;
+    url.search = '';
+    const response = await env.TEST_UI.fetch(new Request(url, { method: 'GET' }));
+    const headers = new Headers(response.headers);
+    headers.set('Cache-Control', 'no-store');
+    headers.set('X-Robots-Tag', 'noindex, nofollow');
+    headers.set('X-Content-Type-Options', 'nosniff');
+    headers.set('Referrer-Policy', 'no-referrer');
+    headers.set(
+      'Content-Security-Policy',
+      "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'",
+    );
+    return new Response(response.body, { status: response.status, headers });
   }
-  if (path !== root + '/evaluate') return reply(404, { error: 'Not found' });
+  if (path !== root + '/evaluate' && path !== root + '/jd-input')
+    return reply(404, { error: 'Not found' });
   if (request.method !== 'POST') return reply(405, { error: 'Use POST.' });
   if (
     request.headers.get('Origin') !== 'https://djamespoer.com' ||
@@ -104,6 +122,7 @@ export async function jdHarness(
   )
     return reply(503, { error: 'The evaluator is not available.' });
   try {
+    if (path === root + '/jd-input') return reply(200, await intakeJd(request));
     if (!request.headers.get('Content-Type')?.startsWith('application/json'))
       return reply(400, { error: 'Paste a job description.' });
     let value: unknown;
@@ -133,6 +152,8 @@ export async function jdHarness(
     if (JSON.stringify(await snapshot(env)) !== JSON.stringify(truths))
       return reply(409, { error: 'The Library of Truth changed during evaluation. Submit again.' });
     return reply(200, {
+      evaluationId: crypto.randomUUID(),
+      evaluatedAt: new Date().toISOString(),
       state: 'complete',
       policyVersion: JD_POLICY,
       canonicalTruthCount: truths.length,

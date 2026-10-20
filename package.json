@@ -16,7 +16,9 @@
     "build:thingamajob-test": "ng build --configuration thingamajob-test",
     "build:production": "node scripts/deployment-history/production-refresh.mjs && npm run build",
     "deploy:production": "npm run build:production && wrangler deploy",
-    "postbuild": "node scripts/prepare-public-render.mjs"
+    "postbuild": "node scripts/prepare-public-render.mjs",
+    "build:thingamajob-sandbox": "ng build --configuration thingamajob-sandbox",
+    "build:thingamajob-runtime": "npm run build:thingamajob-test && npm run build:thingamajob-sandbox && node scripts/thingamajob/prepare-runtime-assets.mjs"
   },
   "private": true,
   "packageManager": "npm@11.19.0",

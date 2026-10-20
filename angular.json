@@ -78,6 +78,39 @@
                   "maximumError": "8kB"
                 }
               ]
+            },
+            "thingamajob-sandbox": {
+              "browser": "src/thingamajob-sandbox-main.ts",
+              "index": {
+                "input": "src/thingamajob-sandbox-index.html",
+                "output": "index.html"
+              },
+              "styles": ["src/thingamajob-styles.scss"],
+              "assets": [],
+              "outputPath": "dist/thingamajob-sandbox",
+              "baseHref": "/test/thingamajob/",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": false
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

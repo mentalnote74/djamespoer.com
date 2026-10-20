@@ -1,5 +1,29 @@
 # AI Engineering Handoff
 
+## October 19 sandbox component correction
+
+/test/thingamajob now hosts the real JdEvaluation Angular component with its
+existing Text / URL / File intake, normalized editable preview, result rendering
+and recovery. Removed the standalone reduced text-only page/script/styles.
+The component has host-injected API addresses (protected defaults preserved) and
+an optional Back link; the sandbox supplies public endpoints and hides that link.
+No TestSession, protected host, onboarding or authentication providers are mounted.
+Public jd-input delegates directly to the same intakeJd implementation. Existing
+canonical-only read/evaluation/rate limit remains; response includes execution
+ID/date expected by the real component. No LoT mutations or model policy changes.
+
+Build with npm run build:thingamajob-runtime: protected and sandbox assets are
+packaged into dist/thingamajob-runtime/browser with sandbox/ underneath. Private
+Worker TEST_UI asset directory must point there. Sandbox critical-CSS inlining is
+off to avoid Angular's generated inline helper conflicting with self-only script
+CSP; component styles use the existing inline-style allowance. Robots/header
+noindex/nofollow, no-store and no internal links remain. Portfolio main unchanged.
+Strict Worker TS, 11 existing intake/evaluator server tests, three component tests,
+both builds/budgets pass. Existing six-method desktop/390 optimized component
+checks pass with fixture provider responses: preview/result focus, URL-to-paste
+recovery, forced colors/reduced motion, zero axe violations/overflow/page errors.
+No prior JD or real model acceptance specimen submitted; Coach supplies a new JD.
+
 ## October 19 disposable public JD harness
 
 Owner explicitly authorized public unauthenticated canonical-evidence evaluation

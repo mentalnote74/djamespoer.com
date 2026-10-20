@@ -1,4 +1,12 @@
-import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  InjectionToken,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -33,6 +41,17 @@ export interface PreparedJd {
   removedLines: number;
   originalCharacters: number;
 }
+/** Host-supplied transport addresses; the evaluator and intake UX stay identical. */
+export const JD_EVALUATION_API = new InjectionToken<{ input: string; evaluate: string }>(
+  'JD_EVALUATION_API',
+  {
+    providedIn: 'root',
+    factory: () => ({
+      input: '/api/thingamajob/test/jd-input',
+      evaluate: '/api/thingamajob/test/evaluations',
+    }),
+  },
+);
 @Component({
   selector: 'app-jd-evaluation',
   imports: [RouterLink],
@@ -41,6 +60,8 @@ export interface PreparedJd {
 })
 export class JdEvaluation {
   private readonly http = inject(HttpClient);
+  private readonly api = inject(JD_EVALUATION_API);
+  readonly showBackLink = input(true);
   readonly jd = signal('');
   readonly mode = signal<'text' | 'url' | 'file'>('text');
   readonly url = signal('');
@@ -105,9 +126,7 @@ export class JdEvaluation {
           this.mode() === 'url'
             ? { method: 'url', url: this.url() }
             : { method: 'text', text: this.jd() };
-      const prepared = await firstValueFrom(
-        this.http.post<PreparedJd>('/api/thingamajob/test/jd-input', body),
-      );
+      const prepared = await firstValueFrom(this.http.post<PreparedJd>(this.api.input, body));
       this.prepared.set(prepared);
       this.normalized.set(prepared.jobDescription);
       this.status.set('Job description read. Review the text, then evaluate.');
@@ -147,7 +166,7 @@ export class JdEvaluation {
     try {
       const result = await firstValueFrom(
         this.http.post<JdResult | { state: string; error: string }>(
-          '/api/thingamajob/test/evaluations',
+          this.api.evaluate,
           { jobDescription: this.normalized() },
           { headers: { 'Idempotency-Key': crypto.randomUUID() } },
         ),
