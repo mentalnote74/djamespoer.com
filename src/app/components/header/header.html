@@ -258,15 +258,16 @@
                   [attr.aria-pressed]="themeState.activeTheme() === theme.id"
                   (click)="selectTheme(theme.id, themeButton)"
                 >
-                  <img
+                  <svg
                     class="site-header__theme-art"
-                    [src]="'/assets/theme-icons/' + theme.id + '.svg'"
-                    alt=""
                     aria-hidden="true"
+                    focusable="false"
                     width="24"
                     height="24"
-                    loading="lazy"
+                    viewBox="0 0 64 64"
                   >
+                    <use [attr.href]="'/assets/theme-icons/menu-c5609b8f166a.svg#' + theme.id"></use>
+                  </svg>
                   {{ theme.label }}
                 </button>
               </li>

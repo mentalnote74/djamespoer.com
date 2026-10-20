@@ -117,5 +117,7 @@
   inline-size: 24px;
   block-size: 24px;
   flex: 0 0 24px;
-  object-fit: contain;
+  // Fixed-palette illustrations, including in forced colors; selection/focus
+  // remain on the native button and never depend on the artwork's colors.
+  forced-color-adjust: none;
 }

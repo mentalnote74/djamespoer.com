@@ -1,5 +1,39 @@
 # djamespoer.com evidence bank
 
+## SCRUM-77 theme-menu icon delivery - October 20, 2026
+
+Starting public baseline: `3cdd4af0ce82ac9399ed6a06d2a6ef6b7843d7d9`.
+The approved illustrations were not large assets: nine standalone SVGs totaled
+17,499 bytes. The delay was late discovery: native lazy images inside the hidden
+theme disclosure started nine requests only when it opened. A cold-cache Chrome
+check with 150ms emulated network latency observed no icon requests before open
+and roughly 173-234ms request durations afterward, at 1440px and 390px.
+
+Decision: preserve all nine originals and package their unchanged drawing content
+as namespaced symbols in one external, content-hashed SVG sprite. Decorative SVG
+`use` instances reuse it at the existing 24px size. Browser discovery now fetches
+one resource before menu opening; opening makes zero further icon requests. No
+preload, custom loader, global icon registry or application behavior change.
+The hashed asset has a one-year immutable cache policy. Run
+`node scripts/generate-theme-icon-sprite.mjs` to reproduce it from approved SVGs;
+if artwork changes, use the new printed filename in the header and cache rule.
+
+Evidence: original SVGs 6,625 bytes summed gzip; sprite 3,298 bytes gzip
+(17,561 bytes raw). Actual local Worker transfer was approximately 3.5KB,
+versus approximately 11.3KB for the nine production responses including headers.
+These are scoped delivery observations, not Lighthouse scores or an LCP claim.
+Chrome pixel comparison found zero differing channels for every original/symbol
+pair at 24px and 32px. Desktop/390px checks covered all nine theme selections,
+pressed state, labels, keyboard focus/Enter/Escape/focus-leave, forced colors and
+no horizontal overflow/browser errors. Scoped menu axe checks found no WCAG AA
+violations. Existing Header/ThemeState tests: 14/14. Production build/budgets pass:
+442.34KB initial, 107.91KB estimated transfer. No Thingamajob changes.
+
+Tracking: [SCRUM-77](https://djamespoer.atlassian.net/browse/SCRUM-77).
+The release/version and live read-back outcome are recorded in that story's
+release comment. The existing public case-study destination is
+[/work/djamespoer](https://djamespoer.com/work/djamespoer).
+
 ## 2026-10-09 production acceptance
 
 Exact deployed SHA: `08e134c34d51035c129e261274de4953db252f5f`. Target: <https://djamespoer.com/>.

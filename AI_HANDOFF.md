@@ -1,5 +1,18 @@
 # AI Engineering Handoff
 
+## October 20 theme-menu icon delivery (SCRUM-77)
+
+Replaced nine first-open lazy SVG image requests with one shared external SVG
+symbol sprite, content-hashed and immutably cached. Artwork originals remain
+unchanged; 24/32px Chrome comparisons are pixel-identical. Existing labels,
+pressed/focus/keyboard behavior and 24px sizing are preserved. Fixed-palette
+decorative SVGs stay hidden from AT and retain color in forced-colors mode.
+Generator: scripts/generate-theme-icon-sprite.mjs. Update the header reference
+and exact public/_headers rule if regenerating changed artwork. Browser verifies
+one request before opening and none on open, at desktop/390px. Fourteen existing
+header/theme tests and build/budgets pass; scoped menu axe reports zero violations.
+Evidence: docs/case-studies/djamespoer/evidence.md. Thingamajob is untouched.
+
 ## October 20 unfinished public Thingamajob evaluator
 
 The existing Thingamajob component on Home and /thingamajob now hosts the portable

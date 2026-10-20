@@ -1,2 +1,5 @@
 /assets/perspectives/mobile/*
   Cache-Control: public, max-age=3600
+
+/assets/theme-icons/menu-c5609b8f166a.svg
+  Cache-Control: public, max-age=31536000, immutable
