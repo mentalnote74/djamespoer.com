@@ -187,7 +187,7 @@ export class JdEvaluation {
       this.status.set(
         this.failure(
           error,
-          'The evaluation did not complete. Your reviewed description is retained; submit again to retry. Your Library of Truth was not changed.',
+          'The evaluation did not complete. Your supplied description and editable preview are retained. Check your connection; if the problem continues, report the time of the attempt before retrying. Your Library of Truth was not changed.',
         ),
       );
     } finally {

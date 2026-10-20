@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { evidenceFixture, signedEvidenceRequest, uploadForm } from './evidence-fixtures.mjs';
-import { validateEvaluation } from './jd-contract.ts';
+import { validateEvaluation, EvaluationUnavailable } from './jd-contract.ts';
 import { openAiReasoner } from './jd-provider.ts';
 import { canonicalInventoryDigest, evaluationContext } from './jd-policy.ts';
 const endpoint = '/api/thingamajob/test/evaluations';
@@ -58,6 +58,7 @@ async function fixture(reason) {
     'canonical-truth.sql',
     'jd-evaluation.sql',
     'jd-diagnostics.sql',
+    'jd-harness-diagnostics.sql',
   ])
     f.db.exec(readFileSync(new URL(name, import.meta.url), 'utf8'));
   const root = '/api/thingamajob/workspaces/workspace-one';
@@ -393,6 +394,70 @@ test('invalid references, provider failures and LoT changes fail closed without 
       f.db.close();
     }
   }
+});
+
+test('public sandbox failures retain a safe operator-readable reference without storing JD or career text', async (t) => {
+  const log = t.mock.method(console, 'error', () => {});
+  for (const mode of ['provider', 'validation', 'diagnostic-store']) {
+    const f = await fixture((jd, truths, ids) => {
+      if (mode !== 'validation')
+        throw new EvaluationUnavailable('provider_http', {
+          httpStatus: 400,
+          requestId: 'req_fixture',
+          providerCode: 'invalid_json_schema',
+          rawBody: 'Private provider payload and career text.',
+        });
+      const result = valid(jd, truths, ids);
+      result.requirements[0].evidence[0].truthId = 'unknown-id';
+      return result;
+    });
+    try {
+      if (mode === 'diagnostic-store') f.db.exec('DROP TABLE thingamajob_jd_harness_diagnostics');
+      const before = JSON.stringify(
+        f.db.prepare('SELECT * FROM thingamajob_canonical_truth').all(),
+      );
+      const env = {
+        ...f.env,
+        JD_HARNESS_ENABLED: 'true',
+        TEST_REFERENCE_WORKSPACE: 'workspace-one',
+        JD_HARNESS_LIMIT: { limit: async () => ({ success: true }) },
+      };
+      const response = await f.worker.fetch(
+        new Request('https://djamespoer.com/test/thingamajob/evaluate', {
+          method: 'POST',
+          headers: { Origin: 'https://djamespoer.com', 'Content-Type': 'application/json' },
+          body: JSON.stringify({ jobDescription: description }),
+        }),
+        env,
+      );
+      assert.equal(response.status, 503);
+      const body = await response.json();
+      assert.match(body.evaluationId, /^jd-[a-f0-9-]{36}$/);
+      assert.match(body.error, /editable preview are retained/);
+      assert.match(body.error, /support reference/);
+      assert.equal(JSON.stringify(body).includes('invalid_json_schema'), false);
+      assert.equal(JSON.stringify(body).includes('Private'), false);
+      if (mode !== 'diagnostic-store') {
+        const record = f.db.prepare('SELECT * FROM thingamajob_jd_harness_diagnostics').get();
+        assert.equal(record.reference_id, body.evaluationId);
+        assert.equal(record.stage, mode);
+        assert.equal(record.code, mode === 'provider' ? 'provider_http' : 'truth_citation');
+        assert.equal(JSON.parse(record.details_json).canonicalTruthCount, 3);
+        assert.equal(record.details_json.includes('Private'), false);
+        assert.equal(record.details_json.includes(description), false);
+      }
+      assert.equal(
+        JSON.stringify(f.db.prepare('SELECT * FROM thingamajob_canonical_truth').all()),
+        before,
+      );
+      assert.equal(f.db.prepare('SELECT count(*) n FROM thingamajob_jd_evaluations').get().n, 0);
+      assert.equal(f.calls, 1);
+    } finally {
+      f.db.close();
+    }
+  }
+  assert(log.mock.calls.some((c) => c.arguments[0] === 'jd-harness-diagnostic-write-failed'));
+  assert.equal(JSON.stringify(log.mock.calls).includes('Private'), false);
 });
 test('cross-origin, malformed scope/input, revoked membership and disabled TEST never invoke provider', async () => {
   const f = await fixture(valid);

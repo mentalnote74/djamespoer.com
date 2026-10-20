@@ -132,6 +132,33 @@ results, not a new owner evaluation or LoT mutation. Real URL extraction of the
 Hyperproof Built In posting succeeded. Private evidence is retained under
 career-source/jd-evaluations/live-failure-20261019, never public assets or Git.
 
+## October 20 BAAKO failure / diagnostic coverage correction
+
+Coach's Website Developer / BAAKO Bus Company screenshot shows the v3 policy,
+744-character editable preview and a generic sandbox evaluation failure. Existing
+TEST D1 diagnostics contain no record for that sandbox attempt: the public host
+bypassed the protected evaluation persistence/diagnostic path. Its catch block
+logged only a bounded error code and discarded stage/provider metadata and a
+client support reference. No stored Worker logging configuration was present;
+historical telemetry lookup returned 403 with the existing operator credential.
+Aggregate telemetry near the screenshot includes a handled invocation at
+12:37:17 UTC with one subrequest; that cannot identify a provider response or
+validator error. The exact original failure cause is therefore **not established**.
+No paid replay was performed, and no semantic/provider fix is claimed from guesses.
+
+The established diagnostic/recovery gap is corrected: apply
+`jd-harness-diagnostics.sql` to TEST before deployment. Public sandbox failures
+return an opaque `jd-<UUID>` support reference and preserve the supplied text and
+editable preview. Private TEST D1 stores only reference, stage, bounded error code,
+policy, timestamp and allowlisted provider request/status/token metadata plus
+canonical count/completeness and elapsed time when available. No JD, LoT text,
+workspace identifiers, credentials or provider body is stored in this table or
+returned with an error. There is no public diagnostic lookup endpoint. A failed
+diagnostic write still returns the safe reference and emits a bounded fallback log.
+Success remains ephemeral; career data and canonical-jd-v3 are unchanged. No
+automatic retry or paid verification is introduced. Future references can be read
+by the trusted operator from this dedicated TEST table without a paid resubmission.
+
 ## TEST deployment
 
 Apply `jd-evaluation.sql` and `jd-diagnostics.sql` to the existing TEST D1, not public PROD. Bind the

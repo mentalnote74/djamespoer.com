@@ -22,16 +22,14 @@ describe('protected JD evaluation screen', () => {
     const { fixture, http, component } = setup();
     component.jd.set('Required: fictional Angular development.');
     const reading = component.prepare(new Event('submit'));
-    http
-      .expectOne('/api/thingamajob/test/jd-input')
-      .flush({
-        method: 'text',
-        sourceLabel: 'Pasted text',
-        jobDescription: component.jd(),
-        notices: [],
-        removedLines: 0,
-        originalCharacters: 40,
-      });
+    http.expectOne('/api/thingamajob/test/jd-input').flush({
+      method: 'text',
+      sourceLabel: 'Pasted text',
+      jobDescription: component.jd(),
+      notices: [],
+      removedLines: 0,
+      originalCharacters: 40,
+    });
     await reading;
     const pending = component.evaluate(new Event('submit'));
     const req = http.expectOne('/api/thingamajob/test/evaluations');
@@ -89,25 +87,38 @@ describe('protected JD evaluation screen', () => {
     const { fixture, http, component } = setup();
     component.jd.set('A sufficiently long fictional description.');
     const reading = component.prepare(new Event('submit'));
-    http
-      .expectOne('/api/thingamajob/test/jd-input')
-      .flush({
-        method: 'text',
-        sourceLabel: 'Pasted text',
-        jobDescription: component.jd(),
-        notices: [],
-        removedLines: 0,
-        originalCharacters: 42,
-      });
+    http.expectOne('/api/thingamajob/test/jd-input').flush({
+      method: 'text',
+      sourceLabel: 'Pasted text',
+      jobDescription: component.jd(),
+      notices: [],
+      removedLines: 0,
+      originalCharacters: 42,
+    });
     await reading;
+    component.editPreview({
+      target: { value: 'Reviewed fictional Angular job description.' },
+    } as unknown as Event);
     let pending = component.evaluate(new Event('submit'));
-    http
-      .expectOne('/api/thingamajob/test/evaluations')
-      .flush({ error: 'Unavailable' }, { status: 503, statusText: 'Unavailable' });
+    const failedRequest = http.expectOne('/api/thingamajob/test/evaluations');
+    expect(failedRequest.request.body.jobDescription).toBe(
+      'Reviewed fictional Angular job description.',
+    );
+    failedRequest.flush(
+      {
+        error:
+          'The evaluation response could not be validated. Share this support reference before retrying.',
+        evaluationId: 'jd-fictional-reference',
+      },
+      { status: 503, statusText: 'Unavailable' },
+    );
     await pending;
     expect(component.jd()).not.toBe('');
     expect(component.failed()).toBe(true);
     expect(component.result()).toBeNull();
+    expect(component.normalized()).toBe('Reviewed fictional Angular job description.');
+    expect(component.prepared()).not.toBeNull();
+    expect(component.status()).toContain('Reference: jd-fictional-reference');
     pending = component.evaluate(new Event('submit'));
     http
       .expectOne('/api/thingamajob/test/evaluations')

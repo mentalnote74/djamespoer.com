@@ -1,5 +1,28 @@
 # AI Engineering Handoff
 
+## October 20 BAAKO sandbox failure investigation
+
+Website Developer / BAAKO screenshot: 744-character normalized preview retained,
+v3 policy present, generic caught evaluation failure. Read existing TEST D1
+diagnostics (no corresponding sandbox record), Worker settings (no stored logging
+configuration) and aggregate telemetry (handled 12:37:17 UTC invocation with one
+subrequest; not provider/validator proof). Historical telemetry API returned 403.
+Exact original provider/validation failure cannot be recovered from these records.
+No paid replay, guessed semantic fix or LoT mutation.
+
+Established defect: public sandbox catch discarded stage/provider metadata and
+returned no support reference, bypassing protected diagnostics. Added private
+TEST-only jd-harness-diagnostics.sql and bounded failure recording with jd-UUID
+reference shown by the existing shared UI. Source and editable preview remain;
+recovery asks for reference investigation before retrying. No JD/career text,
+credentials/provider body or public diagnostic lookup; success stays ephemeral.
+Classification v3 and completeness pin unchanged. See jd-evaluation.md for limits.
+
+Verification: strict Worker TS, 9 focused server tests and 3 shared UI tests pass
+with mocked failures only. Optimized protected/sandbox builds and budgets pass.
+Additive diagnostic table applied to TEST D1; no historical evaluation/career rows
+rewritten. Original BAAKO cause remains unknown, not declared fixed by this work.
+
 ## October 20 evaluator completeness-policy correction
 
 Coach superseded blanket missing-evidence=UNKNOWN for James's authoritative

@@ -1,7 +1,7 @@
 import type { IdentityDatabase } from './workspace-access.ts';
 import { boundedBytes } from './evidence-validation.ts';
 import { intakeJd, normalizeJd, JdIntakeError } from './jd-intake.ts';
-import { openAiReasoner } from './jd-provider.ts';
+import { openAiReasoner, providerMetadata } from './jd-provider.ts';
 import type { JdReasoner } from './jd-provider.ts';
 import { validateEvaluation, EvaluationUnavailable, JD_POLICY } from './jd-contract.ts';
 import type { EvaluationTruth } from './jd-contract.ts';
@@ -18,6 +18,70 @@ export interface JdHarnessEnvironment extends CompletenessConfiguration {
   TEST_UI?: { fetch(request: Request): Promise<Response> };
 }
 const root = '/test/thingamajob';
+
+// Explicit allowlist: never serialize Error.message, request input or provider bodies.
+function safeDetails(details: Record<string, string | number | null>) {
+  const safe: Record<string, string | number | null> = {};
+  for (const key of [
+    'httpStatus',
+    'inputTokens',
+    'outputTokens',
+    'canonicalTruthCount',
+    'elapsedMs',
+  ]) {
+    const value = details[key];
+    if (typeof value === 'number' && Number.isFinite(value) && value >= 0) safe[key] = value;
+  }
+  for (const key of ['requestId', 'providerCode', 'status', 'reason', 'professionalInventory']) {
+    const value = details[key];
+    if (typeof value === 'string' && /^[a-z0-9_-]{1,100}$/i.test(value)) safe[key] = value;
+  }
+  return safe;
+}
+
+async function failure(
+  env: JdHarnessEnvironment,
+  reference: string,
+  stage: string,
+  error: unknown,
+  metadata: Record<string, string | number | null>,
+) {
+  const code =
+    error instanceof EvaluationUnavailable && /^[a-z0-9_]{1,80}$/.test(error.code)
+      ? error.code
+      : error instanceof Error && error.name === 'TimeoutError'
+        ? 'provider_timeout'
+        : 'evaluation_failed';
+  const details = safeDetails({
+    ...metadata,
+    ...(error instanceof EvaluationUnavailable ? error.details : {}),
+  });
+  try {
+    await env.IDENTITY_DB.batch([
+      env.IDENTITY_DB.prepare(
+        'INSERT INTO thingamajob_jd_harness_diagnostics(reference_id,stage,code,policy_version,details_json) VALUES(?,?,?,?,?)',
+      ).bind(reference, stage, code, JD_POLICY, JSON.stringify(details)),
+    ]);
+  } catch {
+    // A diagnostic-store failure must not replace the safe original response.
+    console.error('jd-harness-diagnostic-write-failed', reference);
+  }
+  console.error('jd-harness-failure', JSON.stringify({ reference, stage, code, ...details }));
+  const problem =
+    stage === 'canonical'
+      ? 'The career evidence could not be loaded.'
+      : stage === 'validation'
+        ? 'The evaluation response could not be validated.'
+        : code === 'provider_timeout'
+          ? 'The evaluation service timed out.'
+          : 'The evaluation did not complete.';
+  return reply(503, {
+    error:
+      problem +
+      ' Your supplied description and editable preview are retained. Share this support reference to investigate before retrying. No automatic retry was made. The Library of Truth was not changed.',
+    evaluationId: reference,
+  });
+}
 export function isJdHarness(request: Request, env: JdHarnessEnvironment) {
   const url = new URL(request.url);
   return (
@@ -119,13 +183,18 @@ export async function jdHarness(
       request.headers.get('Sec-Fetch-Site') !== 'same-origin')
   )
     return reply(403, { error: 'Submit from the test page.' });
-  if (
-    !env.TEST_REFERENCE_WORKSPACE ||
-    !env.JD_HARNESS_LIMIT ||
-    (!reasoner && (!env.OPENAI_API_KEY || !env.JD_EVALUATION_MODEL))
-  )
-    return reply(503, { error: 'The evaluator is not available.' });
+  const reference = 'jd-' + crypto.randomUUID();
+  const started = Date.now();
+  let stage = 'configuration';
+  let metadata: Record<string, string | number | null> = {};
   try {
+    if (
+      !env.TEST_REFERENCE_WORKSPACE ||
+      !env.JD_HARNESS_LIMIT ||
+      (!reasoner && (!env.OPENAI_API_KEY || !env.JD_EVALUATION_MODEL))
+    )
+      throw new EvaluationUnavailable('configuration');
+    stage = 'input';
     if (path === root + '/jd-input') return reply(200, await intakeJd(request));
     if (!request.headers.get('Content-Type')?.startsWith('application/json'))
       return reply(400, { error: 'Paste a job description.' });
@@ -148,12 +217,21 @@ export async function jdHarness(
     const jd = normalizeJd((value as { jobDescription: string }).jobDescription).jobDescription;
     if (!(await env.JD_HARNESS_LIMIT.limit({ key: 'temporary-jd-harness' })).success)
       return reply(429, { error: 'The test evaluator is busy. Wait a minute and try again.' });
+    stage = 'canonical';
     const truths = await snapshot(env);
     const context = await evaluationContext(env.TEST_REFERENCE_WORKSPACE!, truths, env);
+    metadata = {
+      canonicalTruthCount: truths.length,
+      professionalInventory: context.professionalInventory,
+    };
+    stage = 'provider';
     const raw = await (
       reasoner ?? openAiReasoner(env.OPENAI_API_KEY!, env.JD_EVALUATION_MODEL!)
     ).evaluate(jd, truths, context);
+    metadata = { ...metadata, ...providerMetadata(raw) };
+    stage = 'validation';
     const result = validateEvaluation(raw, jd, truths, context);
+    stage = 'canonical_recheck';
     if (JSON.stringify(await snapshot(env)) !== JSON.stringify(truths))
       return reply(409, { error: 'The Library of Truth changed during evaluation. Submit again.' });
     return reply(200, {
@@ -173,13 +251,6 @@ export async function jdHarness(
     });
   } catch (error) {
     if (error instanceof JdIntakeError) return reply(error.status, { error: error.message });
-    // Codes only: never log the pasted JD, canonical truth or provider payloads.
-    console.error(
-      'jd-harness',
-      error instanceof EvaluationUnavailable ? error.code : 'unavailable',
-    );
-    return reply(503, {
-      error: 'The evaluation did not complete. The Library of Truth was not changed.',
-    });
+    return failure(env, reference, stage, error, { ...metadata, elapsedMs: Date.now() - started });
   }
 }
