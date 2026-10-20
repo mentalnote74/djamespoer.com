@@ -24,6 +24,13 @@ Back-cache recheck, network retry, forced colors and zero scoped axe violations,
 overflow or page errors. These are not a live owner OTP acceptance. No connected
 owner browser is available; live owner sign-in/evaluation remains a required
 acceptance step. Private bounded evidence: career-source/auth-recovery/2026-10-19.
+Implementation c32b0a13756f75167f1d03131fc3979148a5e7f5 deployed to TEST only:
+Worker fc58e7dd-763f-41af-87b4-211b49710818, deployment
+b97c501c-c584-4849-bbb0-fce0e9a64e08. Live unauthenticated recovery URL returns
+Access 302, its real login page returns 200, AJAX returns 401, and the app return
+location is preserved. Existing secret binding names remain present. Owner must
+open https://api-test.djamespoer.com/api/thingamajob/test/sign-in?view=evaluate
+and complete normal Access sign-in, then prepare/evaluate the Hyperproof JD.
 
 ## October 19 live evaluator failure + three-method intake
 
