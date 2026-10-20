@@ -33,6 +33,13 @@ page errors and scoped axe (zero violations), including forced-colors/reduced-mo
 reflow. Read-only TEST snapshot confirmed 267 truths (263 source-established,
 2 accepted, 2 corrected); its digest is pinned privately, without career writes.
 
+TEST release: implementation 0ce4df5b8e2817800d1167295d7ee0eab0e0159a;
+Worker thingamajob-api-test, version b0e1f0f2-a4a2-4c4e-99df-39ebcbbe3190,
+deployment 2ce03d5d-9cbf-4d9c-9bba-c51dab83a4b2. Live /test/thingamajob
+1440/390 checks pass: new policy copy, all three intake modes, focus, zero scoped
+axe violations, overflow or console errors; initial HTML/assets match the build,
+noindex retained. No paid evaluation request made. Portfolio PROD untouched.
+
 ## October 20 general public URL ingestion correction
 
 Removed the four-site hostname gate and matching UI limitation. Any public HTTPS
