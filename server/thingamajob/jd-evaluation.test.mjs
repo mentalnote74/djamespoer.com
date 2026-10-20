@@ -33,6 +33,7 @@ function requirement(
             ? 'explicit_incompatibility'
             : 'absent_from_complete_record',
     reasoning,
+    materialGaps: [],
     evidence,
     question: outcome === 'UNKNOWN' ? 'Can you supply relevant evidence?' : null,
   };
@@ -361,6 +362,142 @@ test('known specialist absence does not erase frontend matches or turn current-s
   assert.equal(result.requirements[4].basis, 'conflicting_evidence');
   assert.equal(result.requirements[4].evidence.length, 2);
 });
+
+test('related context cannot hide a required professional gap or establish material domain/scale qualifiers', () => {
+  const truths = [
+    {
+      truthId: 'api',
+      statement: 'The fictional candidate collaborated on REST integrations.',
+      state: 'source_established',
+      qualifications: [],
+    },
+    {
+      truthId: 'testing',
+      statement: 'The fictional candidate used TestBed for component tests.',
+      state: 'source_established',
+      qualifications: [],
+    },
+    {
+      truthId: 'lead',
+      statement: 'The fictional candidate led frontend technical delivery.',
+      state: 'accepted',
+      qualifications: [],
+    },
+    {
+      truthId: 'history',
+      statement: 'A historical resume listed Node; current proficiency is not established.',
+      state: 'source_established',
+      qualifications: ['Historical listing only.'],
+    },
+    {
+      truthId: 'explicit',
+      statement: 'The fictional license was revoked.',
+      state: 'accepted',
+      qualifications: [],
+    },
+  ];
+  const jd =
+    'API design and development. Building testing infrastructure. Own a user-growth area. Scale initiatives from 1 to 10. Current Node proficiency. Work in Seattle. Ambiguous platform experience. Active license.';
+  const context = { professionalInventory: 'complete', authority: 'Fictional owner approval' };
+  const cite = (i, relation = 'context') => [
+    { truthId: truths[i].truthId, quote: truths[i].statement, relation },
+  ];
+  const rows = [
+    requirement('r1', 'API design and development', 'UNKNOWN', cite(0)),
+    {
+      ...requirement('r3', 'Building testing infrastructure', 'UNKNOWN', cite(1)),
+      materialGaps: ['Building testing infrastructure rather than using a test tool.'],
+    },
+    {
+      ...requirement('r4', 'Own a user-growth area', 'MET', cite(2, 'meets')),
+      materialGaps: ['User-growth domain ownership.'],
+    },
+    {
+      ...requirement('r5', 'Scale initiatives from 1 to 10', 'MET', cite(2, 'meets')),
+      importance: 'preferred',
+      materialGaps: ['Scaling initiatives from 1 to 10.'],
+    },
+    {
+      ...requirement(
+        'r6',
+        'Current Node proficiency',
+        'UNKNOWN',
+        cite(3),
+        'Historical listing only.',
+        true,
+      ),
+      materialGaps: ['Current proficiency.'],
+    },
+    { ...requirement('r7', 'Work in Seattle', 'UNKNOWN'), kind: 'situational' },
+    {
+      ...requirement('r8', 'Ambiguous platform experience', 'UNKNOWN', cite(2)),
+      basis: 'ambiguous_requirement',
+    },
+    {
+      ...requirement('r9', 'Active license', 'NOT MET', cite(4, 'contradicts')),
+      materialGaps: ['Active license.'],
+    },
+  ];
+  const result = validateEvaluation({ requirements: rows }, jd, truths, context);
+  assert.deepEqual(
+    result.requirements.map((r) => r.outcome),
+    ['NOT MET', 'NOT MET', 'NOT MET', 'UNKNOWN', 'UNKNOWN', 'UNKNOWN', 'UNKNOWN', 'NOT MET'],
+  );
+  for (const r of result.requirements.slice(0, 3)) {
+    assert.equal(r.question, null);
+    assert(r.evidence.every((e) => e.relation === 'context'));
+    assert.match(r.reasoning, /comprehensive career record/);
+  }
+  const unconfirmed = validateEvaluation({ requirements: rows }, jd, truths);
+  assert.equal(unconfirmed.requirements[0].outcome, 'UNKNOWN');
+  assert.equal(unconfirmed.requirements[2].outcome, 'UNKNOWN');
+});
+
+test('semantic combination and independent frontend support do not inherit unrelated current-skill qualifiers', () => {
+  const truths = [
+    {
+      truthId: 'offshore',
+      statement:
+        'The fictional candidate guided offshore engineering teams in India in a globally distributed environment.',
+      state: 'accepted',
+      qualifications: [],
+    },
+    {
+      truthId: 'uk',
+      statement: 'The fictional candidate advised UK leadership.',
+      state: 'source_established',
+      qualifications: [],
+    },
+    {
+      truthId: 'ui',
+      statement: 'A historical source lists Angular frontend work.',
+      state: 'corrected',
+      qualifications: ['Historical listing only.'],
+    },
+  ];
+  const jd =
+    'Collaborate with globally distributed teams across multiple time zones. Modern frontend familiarity and current backend proficiency.';
+  const a = requirement(
+    'r1',
+    'Collaborate with globally distributed teams across multiple time zones.',
+    'MET',
+    truths.slice(0, 2).map((t) => ({ truthId: t.truthId, quote: t.statement, relation: 'meets' })),
+  );
+  const b = {
+    ...requirement('r3', jd.split('. ')[1], 'MET', [
+      { truthId: 'ui', quote: truths[2].statement, relation: 'meets' },
+    ]),
+    requirement: 'Modern frontend familiarity',
+    currentEvidenceRequired: false,
+  };
+  const result = validateEvaluation({ requirements: [a, b] }, jd, truths);
+  assert.deepEqual(
+    result.requirements.map((r) => r.outcome),
+    ['MET', 'MET'],
+  );
+  assert(result.requirements.every((r) => r.question === null));
+  assert(result.requirements.every((r) => r.materialGaps.length === 0));
+});
 test('invalid references, provider failures and LoT changes fail closed without automatic paid retry', async () => {
   for (const mode of ['bad-id', 'bad-quote', 'failure', 'changed']) {
     const f = await fixture((jd, truths, ids, state) => {
@@ -600,5 +737,6 @@ test('citation choices are constrained compact refs and rebound only to real can
   assert.equal(schema.properties.requirements.items.properties.requirement.enum, undefined);
   assert(schema.properties.requirements.items.required.includes('basis'));
   assert(schema.properties.requirements.items.required.includes('kind'));
+  assert(schema.properties.requirements.items.required.includes('materialGaps'));
   assert.equal(validateEvaluation(raw, description, truths).requirements[0].outcome, 'MET');
 });

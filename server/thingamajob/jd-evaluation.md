@@ -46,14 +46,46 @@ the evaluation, without a source-document browser or resume traceability UI.
 
 - **MET:** canonical evidence establishes the criterion as worded.
 - **NOT MET:** explicit incompatible testimony, or a required professional skill,
-  technology, credential or experience wholly absent from James's confirmed
-  comprehensive professional corpus. No explicit negative statement or repeated
+  technology, credential or experience not established as worded by James's confirmed
+  comprehensive professional corpus. Related context alone does not establish the
+  missing experience, material domain or scale. No explicit negative statement or repeated
   owner question is needed for that known absence.
 - **UNKNOWN:** genuinely situational, personal-preference, current-state or
   ambiguous matters; conflicts retain both sides without choosing a winner.
   Historical/partial qualifications do not establish unproven current status.
 
-### Coach correction — 2026-10-20, canonical-jd-v3
+### Coach correction — 2026-10-20, canonical-jd-v4
+
+Coach's retained TikTok evaluation 5742505c-3ed0-4ce7-a044-d0e58c7e1474
+demonstrated classification failures despite successful execution. V3's absence
+guard required zero citations, incorrectly preserving UNKNOWN whenever merely
+related evidence was cited. Its prompt also treated partial professional support
+too broadly as uncertainty; MET checks only required a self-labelled supporting
+citation, without an explicit material-qualification check.
+
+V4 preserves related citations as context while classifying missing REQUIRED
+professional experience under the confirmed-complete policy as NOT MET. The
+structured output requires materialGaps for unestablished material parts; MET
+cannot survive such a gap. Unsupported preferred qualifications stay UNKNOWN.
+Explicit historical/current uncertainty and genuinely ambiguous requirements
+remain UNKNOWN, as do situational matters such as Seattle willingness. Current
+qualification checks use the individual criterion rather than unrelated wording
+in its enclosing source line. Contradictions still require cited incompatible
+facts; related context is never rewritten as a negative career fact.
+
+Semantic matching combines compatible canonical facts and necessary geographic
+implications without requiring literal JD phrases. Offshore/Noida and UK/global
+collaboration may establish multiple-time-zone collaboration; this does not
+establish unrecorded working-hour availability or relocation preferences. Domain
+and scale qualifiers must not be stripped to inflate a general experience match.
+No new evaluator/provider call, career ingestion, schema migration or UI feature
+is introduced. The existing per-instance completeness pin remains unchanged.
+
+Historical policy: V3 introduced James-only complete-corpus absence, but required
+empty evidence for that inference. It is superseded here, not erased from history.
+The original PDF/evaluation is preserved; private offline checks explicitly
+distinguish visible-record reconstruction and semantic acceptance fixtures from
+a newly generated model result. No paid semantic rerun is claimed.
 
 The completeness assumption belongs only to the server-configured reference
 owner and the approved whole-canonical-snapshot SHA-256. The private runtime
@@ -81,7 +113,8 @@ the server resolves real canonical IDs and verbatim source passages, rather than
 asking the model to reproduce UUIDs or quoted text. Server checks still reject
 invented IDs, nonliteral JD/evidence quotes, malformed or
 oversized outputs. MET without direct support is downgraded to UNKNOWN. Known
-absence from an authorized complete professional inventory supports NOT MET;
+absence or unestablished required professional experience/material qualification
+in an authorized complete professional inventory supports NOT MET;
 unconfirmed coverage or other categories cannot use that inference. Conflicts
 must retain at least two canonical references. Historical-only support cannot establish
 explicit current/recent/proficient/expert criteria. The prompt also preserves

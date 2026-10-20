@@ -1,5 +1,35 @@
 # AI Engineering Handoff
 
+## October 20 TikTok classification correction
+
+Reviewed all 11 pages of Coach's retained image-only PDF for evaluation
+5742505c-3ed0-4ce7-a044-d0e58c7e1474, unchanged SHA-256
+66912bc92bee83461d4b636eab6725d2aa91ce8eb8e0b1f5d72cbfa3eef37422.
+V3's zero-citation absence guard let related evidence block required-professional
+NOT MET; prompt overused UNKNOWN for partial professional support. Broad MET
+citations lacked explicit material-domain/scale gap checks.
+
+canonical-jd-v4 corrects these shared prompt/schema/validator rules: related
+context remains cited but cannot establish missing required professional work;
+materialGaps forbids MET with missing material parts; supported frontend matches,
+historical/current uncertainty, genuine ambiguity/conflicts and Seattle-style
+situational UNKNOWN remain. Current-state checks inspect the criterion rather
+than unrelated clauses in its source line. Semantic matching combines compatible
+canonical/geographic evidence without requiring literal JD wording or inventing
+availability. Existing client/snapshot completeness boundary remains unchanged.
+
+Private retained-case checks under career-source/jd-evaluations/
+tiktok-classification-20261020 use visible PDF entries plus existing canonical
+evidence. They explicitly identify reconstructed internal fields and an expected
+semantic time-zone fixture, not a new model response. No paid call, LoT mutation,
+original-result rewrite, database migration, UI change or portfolio PROD release.
+
+Verification: Worker typecheck and 11 focused tests pass, including context-backed
+required gaps, material domain/scale gaps, explicit incompatible evidence,
+other-client incompleteness, historical/current and situational uncertainty,
+semantic-combination fixtures and criterion-local recency checks. Both optimized
+TEST hosts build within budgets (271.14/255.29 kB initial); UI assets unchanged.
+
 ## BAAKO follow-up: no-cost path comparison
 
 No retained BAAKO JD/provider response found; screenshot text was not reconstructed.
