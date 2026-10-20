@@ -1,5 +1,33 @@
 # AI Engineering Handoff
 
+## October 20 priority-independent classification / language matching
+
+Retained research-intern evaluation a120f07d-002e-42a7-967a-23ca45d86314
+showed v4 explicitly gating professional NOT MET by required priority. V5 removes
+that gate from server policy, prompt, explanations and shared UI: required,
+preferred and unspecified are importance only. Completeness remains scoped to
+the same approved client/snapshot; other clients and retrieval gaps are not NOs.
+
+Semantic matching combines education and substantive professional communication
+for ordinary functional language ability without a verbatim skills declaration,
+native-speaker claim, certificate or numeric level. Compound criteria split known
+professional qualifications from future availability/location, retaining supported
+material parts and known gaps; absent PhD remains NOT MET, genuine situational
+matters UNKNOWN. No employer-specific patch or career-record changes.
+
+Private specimen copies/hashes and offline checks live under career-source/
+jd-evaluations/research-intern-classification-20261020. Original input hash
+2785e8b733973bd0745e23d8ab3d46e660d25a236ab06654c3544b05021056a3;
+result hash 65b8f29907179afd831c91f0771dc3eee416fb153fdbf6ab0e6538093f258d5a.
+Original 15 result entries preserved; unavailable internal fields are identified
+as offline reconstruction. Combined language MET is a semantic acceptance fixture,
+not a new model response. No paid rerun, source ingestion or LoT mutation.
+
+Verification: Worker typecheck, 13 focused evaluator tests and 3 shared UI tests
+pass. Both optimized TEST builds/budgets pass (271.14/255.45 kB initial). Offline
+specimen checks preserve PhD NOT MET, future-location/availability UNKNOWN and
+supported research MET while correcting preferred/unspecified professional gaps.
+
 ## October 20 TikTok classification correction
 
 Reviewed all 11 pages of Coach's retained image-only PDF for evaluation

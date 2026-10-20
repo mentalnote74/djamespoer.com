@@ -3,9 +3,10 @@
 }
 <h1>Evaluate a job description</h1>
 <p>
-  Compare the job’s requirements with your canonical Library of Truth. A missing required
-  professional qualification is NOT MET when your authoritative career record is confirmed complete.
-  Situational, preference, current-state and ambiguous matters may remain UNKNOWN.
+  Compare the job’s requirements with your canonical Library of Truth. A missing professional
+  qualification is NOT MET when your authoritative career record is confirmed complete. Required,
+  preferred and unstated priority indicate importance, not evidence status. Situational,
+  personal-preference, current-state and ambiguous matters may remain UNKNOWN.
 </p>
 <form (submit)="prepare($event)" [attr.aria-busy]="preparing()">
   <p>
@@ -142,15 +143,16 @@
       }
     </ul>
     <p>
-      MET: established by canonical evidence. NOT MET: explicit incompatibility or a required
-      professional qualification absent from a confirmed complete record. UNKNOWN: situational,
-      preference, current-state, ambiguous or conflicting evidence, or unconfirmed source coverage.
+      MET: established by canonical evidence. NOT MET: explicit incompatibility or a professional
+      qualification absent from a confirmed complete record. UNKNOWN: situational,
+      personal-preference, current-state, ambiguous or conflicting evidence, or unconfirmed source
+      coverage. Required, preferred and unstated priority do not change evidence status.
     </p>
     @if (evaluation.evaluationContext; as context) {
       <p>
         {{
           context.professionalInventory === 'complete'
-            ? 'This evaluation used the owner-approved comprehensive professional corpus. Missing required professional qualifications are known gaps.'
+            ? 'This evaluation used the owner-approved comprehensive professional corpus. Missing professional qualifications are known gaps at every priority.'
             : 'Professional inventory completeness is unconfirmed. Missing ingestion or retrieval coverage is not a known qualification gap.'
         }}
       </p>

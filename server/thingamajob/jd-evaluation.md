@@ -45,7 +45,7 @@ The screen shows the actual career statements and qualifications relevant to
 the evaluation, without a source-document browser or resume traceability UI.
 
 - **MET:** canonical evidence establishes the criterion as worded.
-- **NOT MET:** explicit incompatible testimony, or a required professional skill,
+- **NOT MET:** explicit incompatible testimony, or a professional skill,
   technology, credential or experience not established as worded by James's confirmed
   comprehensive professional corpus. Related context alone does not establish the
   missing experience, material domain or scale. No explicit negative statement or repeated
@@ -54,7 +54,37 @@ the evaluation, without a source-document browser or resume traceability UI.
   ambiguous matters; conflicts retain both sides without choosing a winner.
   Historical/partial qualifications do not establish unproven current status.
 
-### Coach correction — 2026-10-20, canonical-jd-v4
+### Current correction — 2026-10-20, canonical-jd-v5
+
+Coach's retained research-intern evaluation a120f07d-002e-42a7-967a-23ca45d86314
+exposed v4's explicit priority gate. Required/preferred/unspecified now indicate
+importance only. A known professional gap in the confirmed-complete corpus is
+NOT MET at every importance; a preferred qualification is not a personal
+preference. The server guard, prompt, explanatory text and shared UI use this
+same rule. Other clients/unconfirmed coverage still default to UNKNOWN.
+
+Ordinary functional language competence may be established jointly by relevant
+education and substantive professional communication/use. A separate literal
+skill declaration is unnecessary; current proficiency wording does not invalidate
+demonstrated functional use. Country/document language alone does not suffice,
+and no native-speaker status, certified level or score is inferred. This is a
+general semantic-matching rule, without employer/role-specific patches.
+
+Split compound criteria into independently decidable material parts, especially
+professional qualifications versus situational availability. Retain supported
+matches and missing professional parts without converting the whole compound to
+UNKNOWN. AND/OR alternatives remain faithful; do not duplicate a compound parent
+and its children as counted requirements. Absent PhD enrollment remains NOT MET;
+future location/availability and application-document possession may be UNKNOWN.
+
+Original supplied input/result files remain unchanged, with private byte hashes
+and offline checks under career-source/jd-evaluations/
+research-intern-classification-20261020. Visible result fields are retained;
+unavailable internal fields are labelled offline reconstruction. Combined language
+support is a semantic acceptance fixture, not a paid/new model result. No career
+records, provider architecture or database schema changed.
+
+### Superseded implementation — 2026-10-20, canonical-jd-v4
 
 Coach's retained TikTok evaluation 5742505c-3ed0-4ce7-a044-d0e58c7e1474
 demonstrated classification failures despite successful execution. V3's absence
@@ -93,7 +123,7 @@ JD_COMPLETE_CORPUS_DIGEST binding pins that inventory; missing, partial, changed
 or unconfirmed retrieval/ingestion coverage disables absence-based NOT MET.
 Every other client defaults to unconfirmed completeness. The model cannot grant
 completeness through JD text, career statements or output. Required/preferred
-distinctions remain intact; no preferred criterion becomes a required gap.
+distinctions remain intact as importance; they do not change evidence status.
 Each result records requirement kind, decision basis and actual completeness
 context. General frontend MET matches remain independent of specialist gaps.
 Canonical data and the ChatGPT conversational LoT remain separate and unchanged.
@@ -113,7 +143,7 @@ the server resolves real canonical IDs and verbatim source passages, rather than
 asking the model to reproduce UUIDs or quoted text. Server checks still reject
 invented IDs, nonliteral JD/evidence quotes, malformed or
 oversized outputs. MET without direct support is downgraded to UNKNOWN. Known
-absence or unestablished required professional experience/material qualification
+absence or unestablished professional experience/material qualification
 in an authorized complete professional inventory supports NOT MET;
 unconfirmed coverage or other categories cannot use that inference. Conflicts
 must retain at least two canonical references. Historical-only support cannot establish

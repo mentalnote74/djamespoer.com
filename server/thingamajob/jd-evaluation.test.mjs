@@ -441,7 +441,7 @@ test('related context cannot hide a required professional gap or establish mater
   const result = validateEvaluation({ requirements: rows }, jd, truths, context);
   assert.deepEqual(
     result.requirements.map((r) => r.outcome),
-    ['NOT MET', 'NOT MET', 'NOT MET', 'UNKNOWN', 'UNKNOWN', 'UNKNOWN', 'UNKNOWN', 'NOT MET'],
+    ['NOT MET', 'NOT MET', 'NOT MET', 'NOT MET', 'UNKNOWN', 'UNKNOWN', 'UNKNOWN', 'NOT MET'],
   );
   for (const r of result.requirements.slice(0, 3)) {
     assert.equal(r.question, null);
@@ -497,6 +497,110 @@ test('semantic combination and independent frontend support do not inherit unrel
   );
   assert(result.requirements.every((r) => r.question === null));
   assert(result.requirements.every((r) => r.materialGaps.length === 0));
+});
+
+test('importance never changes complete-corpus professional gap classification, including compound parts', () => {
+  const truths = [
+    {
+      truthId: 'study',
+      statement: 'The fictional candidate designed comparative usability studies.',
+      state: 'source_established',
+      qualifications: [],
+    },
+  ];
+  const jd =
+    'Statistics knowledge. Experimental design. Current PhD enrollment. Future full-time availability.';
+  const rows = ['required', 'preferred', 'unspecified'].map((importance, i) => ({
+    ...requirement('gap' + i, 'Statistics knowledge', 'UNKNOWN', [
+      { truthId: 'study', quote: truths[0].statement, relation: 'context' },
+    ]),
+    importance,
+    materialGaps: ['Statistics knowledge.'],
+  }));
+  rows.push({
+    ...requirement('phd', 'Current PhD enrollment', 'UNKNOWN'),
+    importance: 'preferred',
+    currentEvidenceRequired: true,
+    materialGaps: ['PhD enrollment.'],
+  });
+  rows.push({
+    ...requirement('available', 'Future full-time availability', 'UNKNOWN'),
+    importance: 'preferred',
+    kind: 'situational',
+    materialGaps: ['Future availability.'],
+  });
+  rows.push({
+    ...requirement('design', 'Experimental design', 'MET', [
+      { truthId: 'study', quote: truths[0].statement, relation: 'meets' },
+    ]),
+    importance: 'preferred',
+  });
+  const result = validateEvaluation({ requirements: rows }, jd, truths, {
+    professionalInventory: 'complete',
+    authority: 'Fictional owner approval',
+  });
+  assert.deepEqual(
+    result.requirements.map((r) => r.outcome),
+    ['NOT MET', 'NOT MET', 'NOT MET', 'NOT MET', 'UNKNOWN', 'MET'],
+  );
+  assert.deepEqual(
+    result.requirements.slice(0, 3).map((r) => r.importance),
+    ['required', 'preferred', 'unspecified'],
+  );
+  assert(result.requirements.slice(0, 4).every((r) => r.question === null));
+  assert.match(result.requirements[4].question, /evidence/);
+  const incomplete = validateEvaluation({ requirements: rows }, jd, truths);
+  assert(incomplete.requirements.slice(0, 4).every((r) => r.outcome === 'UNKNOWN'));
+});
+
+test('functional language matching can combine education and substantive use without claiming a certified level', () => {
+  const truths = [
+    {
+      truthId: 'degree',
+      statement: 'The fictional candidate completed English-language university education.',
+      state: 'source_established',
+      qualifications: [],
+    },
+    {
+      truthId: 'work',
+      statement: 'The fictional candidate teaches and advises cross-functional teams in English.',
+      state: 'accepted',
+      qualifications: [],
+    },
+  ];
+  const jd =
+    'Professional English proficiency. Certified CEFR C2 English. Future internship location.';
+  const rows = [
+    {
+      ...requirement(
+        'language',
+        'Professional English proficiency',
+        'MET',
+        truths.map((t) => ({ truthId: t.truthId, quote: t.statement, relation: 'meets' })),
+      ),
+      currentEvidenceRequired: true,
+    },
+    {
+      ...requirement('certificate', 'Certified CEFR C2 English', 'UNKNOWN'),
+      importance: 'preferred',
+      materialGaps: ['CEFR C2 certification.'],
+    },
+    {
+      ...requirement('where', 'Future internship location', 'UNKNOWN'),
+      kind: 'situational',
+      importance: 'unspecified',
+    },
+  ];
+  const result = validateEvaluation({ requirements: rows }, jd, truths, {
+    professionalInventory: 'complete',
+    authority: 'Fictional owner approval',
+  });
+  assert.deepEqual(
+    result.requirements.map((r) => r.outcome),
+    ['MET', 'NOT MET', 'UNKNOWN'],
+  );
+  assert.equal(result.requirements[0].question, null);
+  assert(result.requirements[0].evidence.every((e) => truths.some((t) => t.statement === e.quote)));
 });
 test('invalid references, provider failures and LoT changes fail closed without automatic paid retry', async () => {
   for (const mode of ['bad-id', 'bad-quote', 'failure', 'changed']) {

@@ -79,6 +79,9 @@ describe('protected JD evaluation screen', () => {
     expect(root.querySelector('img')).toBeNull();
     expect(root.querySelector('h1')?.textContent).toContain('Evaluate a job');
     expect(root.querySelectorAll('h1')).toHaveLength(1);
+    expect(root.textContent?.replace(/\s+/g, ' ')).toContain(
+      'Required, preferred and unstated priority indicate importance, not evidence status.',
+    );
     expect(root.querySelector('textarea')?.labels?.length).toBe(1);
     expect(component.result()).not.toBeNull();
     http.verify();
