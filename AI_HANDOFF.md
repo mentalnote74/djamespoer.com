@@ -1,5 +1,31 @@
 # AI Engineering Handoff
 
+## October 19 disposable public JD harness
+
+Owner explicitly authorized public unauthenticated canonical-evidence evaluation
+and paid provider usage after disclosure. Direct URL /test/thingamajob is a tiny
+standalone text form, not the protected Angular UI. All responses no-store and
+noindex/nofollow; no navigation/sitemap links, auth, ingestion modes or storage.
+Existing provider, normalizer, output validation and canonical consumer view are
+reused. Server-only TEST_REFERENCE_WORKSPACE pins the reference owner; only active
+owner/workspace/membership and canonical truths/qualifications may participate.
+No request-supplied workspace, raw source/history, LoT mutations, approvals or
+evaluation persistence. Changed truth snapshot fails closed. Native rate-limit
+binding throttles this paid public endpoint (2/minute per Cloudflare location,
+not a global spending cap). Protected TEST authentication remains unchanged.
+
+Deployment uses the existing thingamajob-api-test Worker with a narrow additional
+djamespoer.com/test/thingamajob* route; public portfolio Worker/main is unchanged.
+Private deployment config in the harness worktree retains TEST resources/assets
+and adds JD_HARNESS_ENABLED=true plus JD_HARNESS_LIMIT namespace 120192026,
+simple limit 2/period 60. Disable that flag/remove the added route to retire it.
+Never copy TEST data/secrets into the public Angular client or main checkout.
+Eight existing evaluator/session tests, strict Worker TS, protected asset build/
+budgets and Wrangler Worker dry-run passed. Exact remote read-only query returns
+267 canonical truths (263 source-established, 2 accepted, 2 corrected), no writes.
+No Hyperproof/prior JD or new model acceptance specimen was submitted by the agent;
+Coach supplies a NEW JD at the direct URL for the actual evaluation acceptance.
+
 ## October 19 protected TEST session recovery
 
 Evaluator 403 handling previously rendered "Sign in again" as text without an

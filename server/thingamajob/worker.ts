@@ -38,6 +38,8 @@ import { EvaluationConflict, EvaluationInputError, EvaluationUnavailable } from 
 import { openAiReasoner } from './jd-provider.ts';
 import type { JdReasoner } from './jd-provider.ts';
 import { intakeJd, JdIntakeError } from './jd-intake.ts';
+import { isJdHarness, jdHarness } from './jd-harness.ts';
+import type { JdHarnessEnvironment } from './jd-harness.ts';
 import {
   createUnknown,
   answerUnknown,
@@ -49,7 +51,7 @@ import {
   UnknownConflict,
 } from './unknown-service.ts';
 
-export interface WorkerEnvironment {
+export interface WorkerEnvironment extends JdHarnessEnvironment {
   OPENAI_API_KEY?: string;
   JD_EVALUATION_MODEL?: string;
   ACCESS_ISSUER: string;
@@ -73,6 +75,7 @@ function reply(status: number, body: object): Response {
 export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
   return {
     async fetch(request: Request, env: WorkerEnvironment): Promise<Response> {
+      if (isJdHarness(request, env)) return jdHarness(request, env, jdReasoner);
       const path = new URL(request.url).pathname;
       const testEnabled =
         env.TEST_BOOTSTRAP_ENABLED === 'true' &&
