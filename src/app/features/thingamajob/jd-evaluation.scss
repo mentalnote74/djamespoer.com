@@ -2,18 +2,21 @@
   display: block;
   min-inline-size: 0;
   overflow-wrap: anywhere;
-  color: var(--page-foreground, CanvasText);
 }
 fieldset {
   min-inline-size: 0;
-  padding: 1rem;
-  border: 1px solid var(--panel-border, ButtonBorder);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+legend {
+  font-weight: 700;
 }
 .methods {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
-  margin-block: 1rem;
+  margin-block: 0.75rem;
 }
 .methods label {
   display: flex;
@@ -21,93 +24,54 @@ fieldset {
   gap: 0.4rem;
   min-block-size: 2.75rem;
 }
+label {
+  display: block;
+  font-weight: 700;
+  font-family: var(--font-ui, inherit);
+}
 input[type='url'],
-input[type='file'] {
+input[type='file'],
+textarea {
+  box-sizing: border-box;
   display: block;
   inline-size: 100%;
   min-inline-size: 0;
   max-inline-size: 100%;
-  margin-block: 1rem;
+  margin-block: 0.75rem;
   font: inherit;
 }
-input[type='url'] {
+input[type='url'],
+textarea {
   padding: 0.75rem;
-  color: var(--input-text, CanvasText);
-  background: var(--input-surface, Canvas);
+  color: var(--control-foreground, CanvasText);
+  background: var(--control-background, Canvas);
   border: 1px solid var(--control-border, ButtonBorder);
-}
-input:focus-visible {
-  outline: 3px solid var(--focus-ring, Highlight);
-  outline-offset: 3px;
-}
-h1,
-h2,
-h3,
-h4 {
-  line-height: 1.3;
-}
-label {
-  display: block;
-  font-weight: 700;
+  border-radius: 0.25rem;
 }
 textarea {
-  display: block;
-  box-sizing: border-box;
-  inline-size: 100%;
-  min-block-size: 15rem;
-  margin-block: 1rem;
-  padding: 0.75rem;
-  font: inherit;
-  color: var(--input-text, CanvasText);
-  background: var(--input-surface, Canvas);
-  border: 1px solid var(--control-border, ButtonBorder);
+  min-block-size: 12rem;
+  resize: vertical;
 }
-button {
-  font: inherit;
-  min-block-size: 2.75rem;
-  padding: 0.5rem 0.85rem;
-  color: var(--control-foreground, ButtonText);
-  background: var(--control-background, ButtonFace);
-  border: 1px solid var(--control-border, ButtonBorder);
-  cursor: pointer;
-}
-button:disabled {
-  cursor: default;
-  opacity: 0.65;
-}
-a {
-  color: inherit;
-}
-:is(a, button, textarea, h2):focus-visible {
-  outline: 3px solid var(--focus-ring, Highlight);
+:is(input, textarea, button, a):focus-visible {
+  outline: 3px solid var(--focus-outer, Highlight);
   outline-offset: 3px;
 }
-.summary {
-  display: flex;
-  gap: 1rem 2rem;
-  flex-wrap: wrap;
-  padding-inline-start: 1.25rem;
+:is(h2, h3):focus {
+  outline: 3px solid var(--focus-outer, Highlight);
+  outline-offset: 3px;
 }
-.requirement {
-  margin-block: 2rem;
-  padding-block-start: 1rem;
-  border-block-start: 1px solid var(--panel-border, GrayText);
-}
-blockquote {
-  margin-inline: 0;
-  padding-inline-start: 1rem;
-  border-inline-start: 2px solid var(--panel-border, GrayText);
-}
-.qualification,
-.record-id {
+.data-notice {
   font-size: 0.9rem;
 }
 .error {
   font-weight: 700;
 }
+.evaluation-summary {
+  line-height: 1.65;
+}
 @media (forced-colors: active) {
-  button,
-  textarea {
-    border-color: ButtonText;
+  textarea,
+  input[type='url'] {
+    border-color: CanvasText;
   }
 }

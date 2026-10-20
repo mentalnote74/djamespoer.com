@@ -7,6 +7,8 @@ import { validateEvaluation, EvaluationUnavailable, JD_POLICY } from './jd-contr
 import type { EvaluationTruth } from './jd-contract.ts';
 import { evaluationContext } from './jd-policy.ts';
 import type { CompletenessConfiguration } from './jd-policy.ts';
+import { evaluationSummary } from './jd-summary.ts';
+import type { OriginalBucket } from './original-storage.ts';
 
 export interface JdHarnessEnvironment extends CompletenessConfiguration {
   IDENTITY_DB: IdentityDatabase;
@@ -16,6 +18,7 @@ export interface JdHarnessEnvironment extends CompletenessConfiguration {
   JD_HARNESS_ENABLED?: string;
   JD_HARNESS_LIMIT?: { limit(options: { key: string }): Promise<{ success: boolean }> };
   TEST_UI?: { fetch(request: Request): Promise<Response> };
+  PRIVATE_ORIGINALS?: Partial<OriginalBucket>;
 }
 const root = '/test/thingamajob';
 
@@ -46,6 +49,9 @@ async function failure(
   error: unknown,
   metadata: Record<string, string | number | null>,
 ) {
+  const quota = /7500|exceeded.*(?:row.read|daily.*limit)|D1.*quota/i.test(
+    error instanceof Error ? error.message : '',
+  );
   const code =
     error instanceof EvaluationUnavailable && /^[a-z0-9_]{1,80}$/.test(error.code)
       ? error.code
@@ -56,19 +62,21 @@ async function failure(
     ...metadata,
     ...(error instanceof EvaluationUnavailable ? error.details : {}),
   });
-  try {
-    await env.IDENTITY_DB.batch([
-      env.IDENTITY_DB.prepare(
-        'INSERT INTO thingamajob_jd_harness_diagnostics(reference_id,stage,code,policy_version,details_json) VALUES(?,?,?,?,?)',
-      ).bind(reference, stage, code, JD_POLICY, JSON.stringify(details)),
-    ]);
-  } catch {
-    // A diagnostic-store failure must not replace the safe original response.
-    console.error('jd-harness-diagnostic-write-failed', reference);
-  }
+  if (!quota)
+    try {
+      await env.IDENTITY_DB.batch([
+        env.IDENTITY_DB.prepare(
+          'INSERT INTO thingamajob_jd_harness_diagnostics(reference_id,stage,code,policy_version,details_json) VALUES(?,?,?,?,?)',
+        ).bind(reference, stage, code, JD_POLICY, JSON.stringify(details)),
+      ]);
+    } catch {
+      // A diagnostic-store failure must not replace the safe original response.
+      console.error('jd-harness-diagnostic-write-failed', reference);
+    }
   console.error('jd-harness-failure', JSON.stringify({ reference, stage, code, ...details }));
-  const problem =
-    stage === 'canonical'
+  const problem = quota
+    ? 'Evaluation is temporarily unavailable because the career-evidence database has reached its daily allowance. Please try again later.'
+    : stage === 'canonical'
       ? 'The career evidence could not be loaded.'
       : stage === 'validation'
         ? 'The evaluation response could not be validated.'
@@ -78,7 +86,7 @@ async function failure(
   return reply(503, {
     error:
       problem +
-      ' Your supplied description and editable preview are retained. Share this support reference to investigate before retrying. No automatic retry was made. The Library of Truth was not changed.',
+      ' Your input is retained. Share this support reference if the problem continues. No automatic retry was made. The Library of Truth was not changed.',
     evaluationId: reference,
   });
 }
@@ -191,6 +199,7 @@ export async function jdHarness(
     if (
       !env.TEST_REFERENCE_WORKSPACE ||
       !env.JD_HARNESS_LIMIT ||
+      !env.PRIVATE_ORIGINALS?.put ||
       (!reasoner && (!env.OPENAI_API_KEY || !env.JD_EVALUATION_MODEL))
     )
       throw new EvaluationUnavailable('configuration');
@@ -234,8 +243,9 @@ export async function jdHarness(
     stage = 'canonical_recheck';
     if (JSON.stringify(await snapshot(env)) !== JSON.stringify(truths))
       return reply(409, { error: 'The Library of Truth changed during evaluation. Submit again.' });
-    return reply(200, {
-      evaluationId: crypto.randomUUID(),
+    const evaluationId = crypto.randomUUID();
+    const detail = {
+      evaluationId,
       evaluatedAt: new Date().toISOString(),
       state: 'complete',
       policyVersion: JD_POLICY,
@@ -248,6 +258,21 @@ export async function jdHarness(
           ...truths.find((t) => t.truthId === e.truthId)!,
         })),
       })),
+    };
+    const summary = evaluationSummary(result, context.professionalInventory === 'complete');
+    stage = 'persistence';
+    const stored = await env.PRIVATE_ORIGINALS!.put!(
+      `workspaces/${env.TEST_REFERENCE_WORKSPACE}/evaluations/${evaluationId}.json`,
+      new TextEncoder().encode(JSON.stringify({ ...detail, jobDescription: jd, summary })),
+      { onlyIf: { etagDoesNotMatch: '*' } },
+    );
+    if (!stored) throw new EvaluationUnavailable('result_store');
+    return reply(200, {
+      evaluationId,
+      evaluatedAt: detail.evaluatedAt,
+      state: 'complete',
+      policyVersion: JD_POLICY,
+      summary,
     });
   } catch (error) {
     if (error instanceof JdIntakeError) return reply(error.status, { error: error.message });

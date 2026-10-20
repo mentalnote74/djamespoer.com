@@ -1,5 +1,21 @@
 # AI Engineering Handoff
 
+## October 20 public working evaluator release
+
+Owner authorizes the unfinished real evaluator in the public Thingamajob component
+on Home and /thingamajob. Portable UI now has one Text/URL/File Evaluate flow and
+one concise result paragraph, with no preview gate or verbose evidence display.
+Current v6 classification is unchanged; summary is deterministic presentation of
+validated outcomes, not another evaluation/model call. Full assessments are saved
+privately in the existing R2 bucket, with no public record/source lookup route.
+The existing public sandbox endpoints and usage/security controls are reused.
+D1 quota failures preserve input with an honest unavailable/support-reference
+response and do not call the provider or retry automatically. LinkedIn work stays
+queued until 8 PM New York; no quota probes, career edits or fabricated results.
+24 focused server/intake checks, typecheck and both TEST builds pass. Public host
+is a narrow separate release from current main, not a protected-backend merge.
+Live paid semantic acceptance is not claimed; release IDs/checks go in SCRUM-33.
+
 ## October 20 evidence-context binding / concrete implementation matching
 
 SCRUM-33 comment 10096 is implemented in canonical-jd-v6. The shared reasoner

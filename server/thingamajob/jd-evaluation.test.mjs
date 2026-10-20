@@ -5,6 +5,7 @@ import { evidenceFixture, signedEvidenceRequest, uploadForm } from './evidence-f
 import { validateEvaluation, EvaluationUnavailable } from './jd-contract.ts';
 import { openAiReasoner } from './jd-provider.ts';
 import { canonicalInventoryDigest, evaluationContext } from './jd-policy.ts';
+import { evaluationSummary } from './jd-summary.ts';
 const endpoint = '/api/thingamajob/test/evaluations';
 const description =
   'Required: Angular application development. Preferred: current PHP proficiency. Required: Rust expertise. Official product Angular 10 experience.';
@@ -786,7 +787,7 @@ test('public sandbox failures retain a safe operator-readable reference without 
       assert.equal(response.status, 503);
       const body = await response.json();
       assert.match(body.evaluationId, /^jd-[a-f0-9-]{36}$/);
-      assert.match(body.error, /editable preview are retained/);
+      assert.match(body.error, /input is retained/);
       assert.match(body.error, /support reference/);
       assert.equal(JSON.stringify(body).includes('invalid_json_schema'), false);
       assert.equal(JSON.stringify(body).includes('Private'), false);
@@ -812,6 +813,101 @@ test('public sandbox failures retain a safe operator-readable reference without 
   assert(log.mock.calls.some((c) => c.arguments[0] === 'jd-harness-diagnostic-write-failed'));
   assert.equal(JSON.stringify(log.mock.calls).includes('Private'), false);
 });
+test('public summary keeps details private, preserves classification, and quota failure never calls the provider', async (t) => {
+  t.mock.method(console, 'error', () => {});
+  const f = await fixture(valid);
+  try {
+    let allowed = true;
+    const env = {
+      ...f.env,
+      JD_HARNESS_ENABLED: 'true',
+      TEST_REFERENCE_WORKSPACE: 'workspace-one',
+      JD_HARNESS_LIMIT: { limit: async () => ({ success: allowed }) },
+    };
+    const request = () =>
+      new Request('https://djamespoer.com/test/thingamajob/evaluate', {
+        method: 'POST',
+        headers: { Origin: 'https://djamespoer.com', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobDescription: description }),
+      });
+    const before = JSON.stringify(f.db.prepare('SELECT * FROM thingamajob_canonical_truth').all());
+    const response = await f.worker.fetch(request(), env);
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(typeof body.summary, 'string');
+    assert(!body.summary.includes('\n'));
+    assert.equal(body.requirements, undefined);
+    assert.equal(body.canonicalTruthCount, undefined);
+    const stored = await f.env.PRIVATE_ORIGINALS.get(
+      'workspaces/workspace-one/evaluations/' + body.evaluationId + '.json',
+    );
+    assert(stored);
+    const detail = JSON.parse(new TextDecoder().decode(await stored.arrayBuffer()));
+    assert.equal(detail.jobDescription, description);
+    assert.equal(detail.requirements.length, 4);
+    assert.equal(detail.requirements[0].outcome, 'MET');
+    assert.equal(detail.summary, body.summary);
+    assert.equal(f.calls, 1);
+    allowed = false;
+    assert.equal((await f.worker.fetch(request(), env)).status, 429);
+    assert.equal(f.calls, 1);
+    allowed = true;
+    const original = env.IDENTITY_DB.prepare.bind(env.IDENTITY_DB);
+    env.IDENTITY_DB = {
+      ...env.IDENTITY_DB,
+      prepare(sql) {
+        if (sql.includes('FROM thingamajob_workspaces w'))
+          throw Error(
+            "D1_ERROR: Your account has exceeded D1's free tier daily row read limit [7500]",
+          );
+        return original(sql);
+      },
+    };
+    const unavailable = await f.worker.fetch(request(), env);
+    assert.equal(unavailable.status, 503);
+    const error = await unavailable.json();
+    assert.match(error.error, /temporarily unavailable/);
+    assert.match(error.error, /input is retained/);
+    assert.match(error.evaluationId, /^jd-/);
+    assert.equal(error.summary, undefined);
+    assert.equal(f.calls, 1);
+    assert.equal(
+      JSON.stringify(f.db.prepare('SELECT * FROM thingamajob_canonical_truth').all()),
+      before,
+    );
+  } finally {
+    f.db.close();
+  }
+});
+
+test('concise presentation separates required/preferred gaps, strengths and genuine clarification', () => {
+  const rows = [
+    {
+      ...requirement('gap', 'Enterprise-scale operations', 'NOT MET'),
+      materialGaps: ['Enterprise operating responsibility'],
+    },
+    { ...requirement('strength', 'Generic CI/CD implementation', 'MET'), evidence: [] },
+    {
+      ...requirement('location', 'Seattle attendance', 'UNKNOWN'),
+      kind: 'situational',
+      question: 'Can you work onsite in Seattle?',
+    },
+  ];
+  const summary = evaluationSummary({ requirements: rows }, true);
+  assert.match(summary, /material gaps/);
+  assert.match(summary, /Decisive required gaps include: Enterprise-scale operations/);
+  assert.match(summary, /Relevant strengths include: Generic CI\/CD implementation/);
+  assert.match(summary, /Can you work onsite in Seattle/);
+  const preferred = evaluationSummary(
+    { requirements: [{ ...rows[0], importance: 'preferred' }, rows[1]] },
+    true,
+  );
+  assert.match(preferred, /supports the stated required qualifications/);
+  assert.match(preferred, /Preferred gaps/);
+  assert(!preferred.includes('Decisive required gaps'));
+  assert.equal(rows[0].outcome, 'NOT MET');
+});
+
 test('cross-origin, malformed scope/input, revoked membership and disabled TEST never invoke provider', async () => {
   const f = await fixture(valid);
   try {

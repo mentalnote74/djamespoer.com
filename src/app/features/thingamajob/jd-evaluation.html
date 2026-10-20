@@ -1,20 +1,15 @@
 @if (showBackLink()) {
   <a routerLink="/">Back to Thingamajob</a>
 }
-<h1>Evaluate a job description</h1>
-<p>
-  Compare the job’s requirements with your canonical Library of Truth. A missing professional
-  qualification is NOT MET when your authoritative career record is confirmed complete. Required,
-  preferred and unstated priority indicate importance, not evidence status. Situational,
-  personal-preference, current-state and ambiguous matters may remain UNKNOWN.
-</p>
-<form (submit)="prepare($event)" [attr.aria-busy]="preparing()">
-  <p>
-    Evaluation sends this description and your canonical career facts to OpenAI. Original source
-    documents and private-only history are excluded.
-  </p>
-  <fieldset [disabled]="busy() || preparing()">
-    <legend>How would you like to provide the job description?</legend>
+@if (headingLevel() === 3) {
+  <h3>Evaluate a job description</h3>
+} @else {
+  <h1>Evaluate a job description</h1>
+}
+<p>Compare a job with {{ clientLabel() }} canonical career evidence.</p>
+<form (submit)="evaluate($event)" [attr.aria-busy]="busy()">
+  <fieldset [disabled]="busy()">
+    <legend>Provide a job description</legend>
     <div class="methods">
       <label
         ><input
@@ -22,12 +17,15 @@
           name="method"
           [checked]="mode() === 'text'"
           (change)="choose('text')"
-        />
-        Paste text</label
+        />Text</label
       >
       <label
-        ><input type="radio" name="method" [checked]="mode() === 'url'" (change)="choose('url')" />
-        URL</label
+        ><input
+          type="radio"
+          name="method"
+          [checked]="mode() === 'url'"
+          (change)="choose('url')"
+        />URL</label
       >
       <label
         ><input
@@ -35,16 +33,15 @@
           name="method"
           [checked]="mode() === 'file'"
           (change)="choose('file')"
-        />
-        File</label
+        />File</label
       >
     </div>
     @switch (mode()) {
       @case ('text') {
-        <label for="job-description">Pasted job description</label>
+        <label for="job-description">Job description</label>
         <p id="jd-help">
-          Paste the complete posting, including required and preferred qualifications. Surrounding
-          webpage text is OK; review the extracted text before evaluating.
+          Paste the posting, including required and preferred qualifications. Obvious webpage noise
+          is removed automatically.
         </p>
         <textarea
           id="job-description"
@@ -60,8 +57,8 @@
       @case ('url') {
         <label for="job-url">Public job-posting URL</label>
         <p id="url-help">
-          Use the URL of one public job posting. Search results, pages requiring sign-in, or
-          script-only pages may need the specific posting URL, Paste text, or File instead.
+          Use one specific posting. If the page blocks retrieval or requires sign-in, paste its text
+          instead.
         </p>
         <input
           id="job-url"
@@ -77,8 +74,8 @@
       @case ('file') {
         <label for="jd-file">Job-description document</label>
         <p id="file-help">
-          TXT, Markdown, HTML or DOCX, up to 1 MB. For PDF, legacy DOC or scanned documents, paste
-          the text or export a supported format.
+          TXT, Markdown, HTML or DOCX, up to 1 MB. For PDF or legacy DOC, paste the text or export a
+          supported format.
         </p>
         <input
           id="jd-file"
@@ -91,106 +88,24 @@
         />
       }
     }
-    <button type="submit">{{ preparing() ? 'Reading…' : 'Read job description' }}</button>
+    <p class="data-notice">
+      Evaluate sends the job text and canonical career facts to OpenAI. Private career-source
+      documents and private-only history are excluded.
+    </p>
+    <button type="submit">{{ busy() ? 'Evaluating…' : 'Evaluate' }}</button>
   </fieldset>
 </form>
 <p role="status" [class.error]="failed()">{{ status() }}</p>
 @if (failed() && mode() !== 'text') {
-  <button type="button" (click)="choose('text')">Use Paste text instead</button>
-}
-@if (prepared(); as input) {
-  <section aria-labelledby="preview-heading">
-    <h2 id="preview-heading" #previewHeading tabindex="-1">Review the job description</h2>
-    <p>Read from {{ input.sourceLabel }} · {{ normalized().length }} characters.</p>
-    @for (notice of input.notices; track $index) {
-      <p>{{ notice }}</p>
-    }
-    <label for="prepared-jd">Text to evaluate</label>
-    <p id="preview-help">
-      Check that the intended job, requirements, preferences and eligibility constraints are
-      present. You can edit this text. Maximum 24,000 characters.
-    </p>
-    <textarea
-      id="prepared-jd"
-      maxlength="24000"
-      [value]="normalized()"
-      (input)="editPreview($event)"
-      [disabled]="busy()"
-      aria-describedby="preview-help"
-    ></textarea>
-    <button
-      type="button"
-      (click)="evaluate($event)"
-      [disabled]="busy() || normalized().trim().length < 20"
-    >
-      {{ busy() ? 'Evaluating…' : 'Evaluate against my LoT' }}
-    </button>
-  </section>
+  <button type="button" (click)="useText()">Use pasted text instead</button>
 }
 @if (result(); as evaluation) {
   <section aria-labelledby="evaluation-heading">
-    <h2 id="evaluation-heading" #resultHeading tabindex="-1">Your evaluation</h2>
-    <p>
-      Compared with {{ evaluation.canonicalTruthCount }} canonical truths. These are evidence-based
-      findings, not a match percentage.
-    </p>
-    <ul class="summary" aria-label="Requirement outcomes">
-      @for (outcome of outcomes; track outcome) {
-        <li>
-          <strong>{{ outcome }}</strong
-          >: {{ count(outcome) }}
-        </li>
-      }
-    </ul>
-    <p>
-      MET: established by canonical evidence. NOT MET: explicit incompatibility or a professional
-      qualification absent from a confirmed complete record. UNKNOWN: situational,
-      personal-preference, current-state, ambiguous or conflicting evidence, or unconfirmed source
-      coverage. Required, preferred and unstated priority do not change evidence status.
-    </p>
-    @if (evaluation.evaluationContext; as context) {
-      <p>
-        {{
-          context.professionalInventory === 'complete'
-            ? 'This evaluation used the owner-approved comprehensive professional corpus. Missing professional qualifications are known gaps at every priority.'
-            : 'Professional inventory completeness is unconfirmed. Missing ingestion or retrieval coverage is not a known qualification gap.'
-        }}
-      </p>
+    @if (headingLevel() === 3) {
+      <h3 id="evaluation-heading" #resultHeading tabindex="-1">Evaluation</h3>
+    } @else {
+      <h2 id="evaluation-heading" #resultHeading tabindex="-1">Evaluation</h2>
     }
-    @for (requirement of evaluation.requirements; track requirement.id) {
-      <section class="requirement" [attr.aria-labelledby]="'criterion-' + requirement.id">
-        <h3 [id]="'criterion-' + requirement.id">{{ requirement.requirement }}</h3>
-        @if (requirement.basis === 'conflicting_evidence') {
-          <p><strong>Conflicting authoritative evidence — no resolution assumed.</strong></p>
-        }
-        <p>
-          <strong>{{ requirement.outcome }}</strong> ·
-          {{
-            requirement.importance === 'unspecified'
-              ? 'Priority not stated'
-              : requirement.importance
-          }}
-        </p>
-        <blockquote>{{ requirement.jdQuote }}</blockquote>
-        <p>{{ requirement.reasoning }}</p>
-        @if (requirement.evidence.length) {
-          <h4>Relevant career evidence</h4>
-          <ul>
-            @for (fact of requirement.evidence; track $index) {
-              <li>
-                {{ fact.statement }}
-                @for (qualification of fact.qualifications; track $index) {
-                  <p class="qualification">{{ qualification }}</p>
-                }
-              </li>
-            }
-          </ul>
-        }
-        @if (requirement.question) {
-          <p><strong>Needs clarification:</strong> {{ requirement.question }}</p>
-        }
-      </section>
-    }
-    <p class="record-id">Evaluation {{ evaluation.evaluationId }} · {{ evaluation.evaluatedAt }}</p>
+    <p class="evaluation-summary">{{ evaluation.summary }}</p>
   </section>
 }

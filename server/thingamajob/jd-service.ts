@@ -13,6 +13,7 @@ import type { EvaluationTruth } from './jd-contract.ts';
 import type { JdReasoner } from './jd-provider.ts';
 import { providerMetadata } from './jd-provider.ts';
 import { normalizeJd } from './jd-intake.ts';
+import { evaluationSummary } from './jd-summary.ts';
 import { AccessDenied } from './access-identity.ts';
 import { evaluationContext } from './jd-policy.ts';
 import type { CompletenessConfiguration } from './jd-policy.ts';
@@ -88,7 +89,16 @@ async function present(
       throw new EvaluationConflict(
         'Evaluation completeness policy changed; the previous result is retained as history. Evaluate again.',
       );
-    return { status: 200, body: body as object };
+    return {
+      status: 200,
+      body: {
+        ...body,
+        summary: evaluationSummary(
+          body,
+          body.evaluationContext.professionalInventory === 'complete',
+        ),
+      },
+    };
   }
   return {
     status: r.state === 'pending' ? 202 : 503,

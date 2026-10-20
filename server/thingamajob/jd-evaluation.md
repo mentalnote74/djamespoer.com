@@ -7,6 +7,36 @@ public demo labels are not a separate evaluator or a source of client truth.
 
 ## User path and contract
 
+### Public working-prototype release — October 20, 2026
+
+The existing public Thingamajob component now hosts the portable evaluator on
+Home and `/thingamajob`. Prominent construction tape and the explicit unfinished
+prototype disclaimer remain visible. Text/URL/File use one Evaluate action:
+the existing intake endpoint normalizes internally, then the existing evaluator
+endpoint runs. There is no second preview/approval step. Failed requests retain
+input and normalized text for explicit retry; no result is cached as a new success.
+
+Classification remains canonical-jd-v6. A deterministic presentation function
+uses the final validated outcomes to produce one paragraph: overall fit, required
+versus preferred gaps, supported strengths and genuine clarification. It does
+not reclassify criteria, invent scores or add a second model call. Public success
+responses expose only the paragraph, evaluation ID/time and policy version.
+Detailed canonical assessments, qualifications, JD and summary are retained in
+the existing private R2 bucket under `workspaces/<id>/evaluations/<id>.json`,
+with create-only writes and no public lookup/download route. Source originals
+and private-only history are never sent to the model or public response.
+
+Existing same-origin, input/SSRF protections, server-fixed workspace, canonical
+filtering and shared 2-per-60-seconds evaluation limit remain. D1 daily-read-quota
+failure returns an honest temporary-unavailability response/support reference,
+skips the exhausted diagnostic store and never invokes the provider. No startup
+probe, automatic retry, canned result, LoT mutation or new database schema.
+LinkedIn ingestion remains queued until the reported 8 PM New York reset;
+this release neither probes that quota nor changes the corpus/completeness pin.
+
+The following protected API details and earlier diagnostic notes retain history;
+the former two-step preview UI is superseded by the shared one-action component.
+
 Open `/api/thingamajob/test/app/#/evaluate`, or choose **Evaluate a job description**
 from the existing private career-record home. Paste 20–24,000 characters. The
 authenticated owner submits only `jobDescription`; no browser-supplied actor,

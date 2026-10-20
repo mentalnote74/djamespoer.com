@@ -3,12 +3,25 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { provideRouter } from '@angular/router';
 import { describe, it, expect } from 'vitest';
-import { JdEvaluation } from './jd-evaluation';
-describe('protected JD evaluation screen', () => {
+import { JdEvaluation, JD_EVALUATION_API } from './jd-evaluation';
+
+describe('one-action JD evaluator', () => {
   function setup() {
     TestBed.configureTestingModule({
       imports: [JdEvaluation],
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+        {
+          provide: JD_EVALUATION_API,
+          useValue: {
+            input: '/test/thingamajob/jd-input',
+            evaluate: '/test/thingamajob/evaluate',
+            public: true,
+          },
+        },
+      ],
     });
     const fixture = TestBed.createComponent(JdEvaluation);
     fixture.detectChanges();
@@ -18,154 +31,114 @@ describe('protected JD evaluation screen', () => {
       component: fixture.componentInstance,
     };
   }
-  it('submits only the JD, presents text/evidence/states without traceability controls, and makes no LoT mutation', async () => {
+  const prepared = (text: string) => ({
+    method: 'text',
+    sourceLabel: 'Pasted text',
+    jobDescription: text,
+    notices: [],
+    removedLines: 0,
+    originalCharacters: text.length,
+  });
+  it('one Evaluate normalizes then evaluates, rendering only a safe concise paragraph', async () => {
     const { fixture, http, component } = setup();
-    component.jd.set('Required: fictional Angular development.');
-    const reading = component.prepare(new Event('submit'));
-    http.expectOne('/api/thingamajob/test/jd-input').flush({
-      method: 'text',
-      sourceLabel: 'Pasted text',
-      jobDescription: component.jd(),
-      notices: [],
-      removedLines: 0,
-      originalCharacters: 40,
-    });
-    await reading;
+    component.jd.set('A complete fictional job description.');
     const pending = component.evaluate(new Event('submit'));
-    const req = http.expectOne('/api/thingamajob/test/evaluations');
-    expect(Object.keys(req.request.body)).toEqual(['jobDescription']);
-    expect(req.request.headers.has('Idempotency-Key')).toBe(true);
-    req.flush({
+    http
+      .expectOne('/test/thingamajob/jd-input')
+      .flush(prepared('Normalized fictional job description.'));
+    await Promise.resolve();
+    const request = http.expectOne('/test/thingamajob/evaluate');
+    expect(request.request.body).toEqual({
+      jobDescription: 'Normalized fictional job description.',
+    });
+    request.flush({
       state: 'complete',
-      evaluationId: 'fictional-evaluation',
-      evaluatedAt: '2026-10-19',
-      canonicalTruthCount: 3,
-      requirements: [
-        {
-          id: 'r1',
-          requirement: 'Fictional Angular',
-          jdQuote: 'fictional Angular development',
-          importance: 'required',
-          outcome: 'MET',
-          reasoning: 'Fictional direct support.',
-          evidence: [
-            {
-              truthId: 'fictional',
-              statement: '<img src=x onerror=alert(1)> Fictional Angular experience.',
-              qualifications: ['Historical context preserved.'],
-            },
-          ],
-          question: null,
-        },
-        {
-          id: 'r2',
-          requirement: 'Another skill',
-          jdQuote: 'Fictional',
-          importance: 'preferred',
-          outcome: 'UNKNOWN',
-          reasoning: 'No evidence establishes this.',
-          evidence: [],
-          question: 'Can you clarify?',
-        },
-      ],
+      evaluationId: 'fixture',
+      evaluatedAt: '2026-10-20',
+      summary: 'Partial fit. <img src=x> is literal text.',
+      requirements: [{ evidence: 'Internal detail must not render.' }],
     });
     await pending;
     fixture.detectChanges();
     await fixture.whenStable();
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.textContent).toContain('MET: 1');
-    expect(root.textContent).toContain('UNKNOWN: 1');
-    expect(root.textContent).toContain('Historical context preserved.');
+    expect(root.querySelectorAll('.evaluation-summary')).toHaveLength(1);
+    expect(root.textContent).toContain('Partial fit.');
+    expect(root.textContent).not.toContain('Internal detail must not render');
     expect(root.querySelector('img')).toBeNull();
-    expect(root.querySelector('h1')?.textContent).toContain('Evaluate a job');
-    expect(root.querySelectorAll('h1')).toHaveLength(1);
-    expect(root.textContent?.replace(/\s+/g, ' ')).toContain(
-      'Required, preferred and unstated priority indicate importance, not evidence status.',
-    );
+    expect(root.querySelector('#prepared-jd')).toBeNull();
     expect(root.querySelector('textarea')?.labels?.length).toBe(1);
-    expect(component.result()).not.toBeNull();
     http.verify();
   });
-  it('retains a failed JD for explicit retry but clears private state when access is revoked', async () => {
+  it('quota failure retains input and normalized text, with explicit retry and no cached success', async () => {
     const { fixture, http, component } = setup();
-    component.jd.set('A sufficiently long fictional description.');
-    const reading = component.prepare(new Event('submit'));
-    http.expectOne('/api/thingamajob/test/jd-input').flush({
-      method: 'text',
-      sourceLabel: 'Pasted text',
-      jobDescription: component.jd(),
-      notices: [],
-      removedLines: 0,
-      originalCharacters: 42,
-    });
-    await reading;
-    component.editPreview({
-      target: { value: 'Reviewed fictional Angular job description.' },
-    } as unknown as Event);
+    component.jd.set('A complete fictional job description.');
     let pending = component.evaluate(new Event('submit'));
-    const failedRequest = http.expectOne('/api/thingamajob/test/evaluations');
-    expect(failedRequest.request.body.jobDescription).toBe(
-      'Reviewed fictional Angular job description.',
-    );
-    failedRequest.flush(
-      {
-        error:
-          'The evaluation response could not be validated. Share this support reference before retrying.',
-        evaluationId: 'jd-fictional-reference',
-      },
-      { status: 503, statusText: 'Unavailable' },
-    );
-    await pending;
-    expect(component.jd()).not.toBe('');
-    expect(component.failed()).toBe(true);
-    expect(component.result()).toBeNull();
-    expect(component.normalized()).toBe('Reviewed fictional Angular job description.');
-    expect(component.prepared()).not.toBeNull();
-    expect(component.status()).toContain('Reference: jd-fictional-reference');
-    pending = component.evaluate(new Event('submit'));
     http
-      .expectOne('/api/thingamajob/test/evaluations')
-      .flush({ error: 'Denied' }, { status: 403, statusText: 'Forbidden' });
+      .expectOne('/test/thingamajob/jd-input')
+      .flush(prepared('Normalized fictional job description.'));
+    await Promise.resolve();
+    http
+      .expectOne('/test/thingamajob/evaluate')
+      .flush(
+        {
+          error:
+            'Evaluation is temporarily unavailable. Your input is retained. Please try again later.',
+          evaluationId: 'jd-support',
+        },
+        { status: 503, statusText: 'Unavailable' },
+      );
     await pending;
+    expect(component.result()).toBeNull();
+    expect(component.jd()).not.toBe('');
+    expect(component.prepared()?.jobDescription).toContain('Normalized');
+    expect(component.status()).toContain('Reference: jd-support');
     fixture.detectChanges();
-    expect(component.jd()).toBe('');
-    expect(component.status()).toContain('Sign in again');
+    expect(fixture.nativeElement.querySelector('.evaluation-summary')).toBeNull();
+    pending = component.evaluate(new Event('submit'));
+    http.expectNone('/test/thingamajob/jd-input');
+    http
+      .expectOne('/test/thingamajob/evaluate')
+      .flush({ error: 'Try later.' }, { status: 503, statusText: 'Unavailable' });
+    await pending;
+    expect(component.result()).toBeNull();
     http.verify();
   });
-  it('URL and File use the same editable preview and extraction failures offer Paste text recovery', async () => {
+  it('URL failure retains URL; File follows the same one-action flow and can recover to text', async () => {
     const { fixture, http, component } = setup();
     component.choose('url');
-    component.url.set('https://builtin.com/job/fictional');
-    let pending = component.prepare(new Event('submit'));
-    const request = http.expectOne('/api/thingamajob/test/jd-input');
-    expect(request.request.body.method).toBe('url');
+    component.url.set('https://example.org/job');
+    let pending = component.evaluate(new Event('submit'));
+    const request = http.expectOne('/test/thingamajob/jd-input');
+    expect(request.request.body).toEqual({ method: 'url', url: component.url() });
     request.flush(
       { error: 'The page requires sign-in. Paste text instead.' },
       { status: 400, statusText: 'Bad Request' },
     );
     await pending;
     fixture.detectChanges();
-    expect(fixture.nativeElement.textContent).toContain('Use Paste text instead');
+    expect(component.url()).toBe('https://example.org/job');
+    expect(fixture.nativeElement.textContent).toContain('Use pasted text instead');
+    http.expectNone('/test/thingamajob/evaluate');
+    http.verify();
+  });
+  it('file intake chains evaluation without preview and preserves extracted text on failure', async () => {
+    const { http, component } = setup();
     component.choose('file');
-    const file = new File(['Required: fictional Angular development.'], 'job.txt');
+    const file = new File(['Fictional job description for unit verification.'], 'job.txt');
     component.selectFile({ target: { files: [file] } } as unknown as Event);
-    pending = component.prepare(new Event('submit'));
-    const upload = http.expectOne('/api/thingamajob/test/jd-input');
+    const pending = component.evaluate(new Event('submit'));
+    const upload = http.expectOne('/test/thingamajob/jd-input');
     expect((upload.request.body as FormData).get('file')).toBe(file);
-    upload.flush({
-      method: 'file',
-      sourceLabel: 'job.txt',
-      jobDescription: 'Required: fictional Angular development.',
-      notices: ['Review extracted content.'],
-      removedLines: 0,
-      originalCharacters: 40,
-    });
+    upload.flush(prepared('Fictional extracted job description.'));
+    await Promise.resolve();
+    http
+      .expectOne('/test/thingamajob/evaluate')
+      .flush({ error: 'Temporarily unavailable.' }, { status: 503, statusText: 'Unavailable' });
     await pending;
-    fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('#prepared-jd')).not.toBeNull();
-    expect(component.normalized()).toContain('Angular');
-    expect(fixture.nativeElement.textContent).toContain('Review extracted content.');
-    http.expectNone('/api/thingamajob/test/evaluations');
+    component.useText();
+    expect(component.mode()).toBe('text');
+    expect(component.jd()).toBe('Fictional extracted job description.');
     http.verify();
   });
 });
