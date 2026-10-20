@@ -31,6 +31,9 @@ before any HTTP request. The marked runtime tail identified the exact TypeError;
 resolver now uses redirect:manual and rejects non-2xx explicitly. Safe DNS-stage
 metadata (no target URL, payload, truth or credentials) remains for diagnosis.
 No paid evaluation or LoT mutation occurred.
+Final implementation fac20cc2bb81266f8f267a8a55fe8c9c4fe55422 deployed:
+Worker af99876e-2464-4e27-97a8-32f35842839c, deployment
+ae853485-f816-4308-a8ac-153c19d5b21e. Final route read-back 200/noindex/nofollow.
 
 ## October 19 sandbox component correction
 
