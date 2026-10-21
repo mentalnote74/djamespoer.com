@@ -14,6 +14,9 @@
     @if (section.paragraph) {
       <p>{{ section.paragraph }}</p>
     }
+    @for (paragraph of section.paragraphs ?? []; track $index) {
+      <p>{{ paragraph }}</p>
+    }
   }
   @if (showJournalLink()) {
     <p><a routerLink="/product-journal">Product Journal / previous briefs</a></p>

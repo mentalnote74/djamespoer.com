@@ -1,17 +1,21 @@
 {
-  "schemaVersion": 1,
-  "verifiedOn": "2026-10-17",
-  "validThrough": "2026-10-24",
-  "sourceCommit": "e5bddbd4b648450cc230e92da06c2678ec020d67",
-  "recentlyShipped": [
-    "The five perspective pages now share the carousel artwork, with one page heading and registered dynamic regions; Accessibility and Impact received clearer travelling light.",
-    "Bedlam now radiates through the navbar with controlled theme-derived contrast; the theme dropdown stays above carousel content.",
-    "Passive borders are quieter across all eight themes, while control, selected and focus states retain their contrast.",
-    "The approved public frontend has been reconciled onto main without promoting protected API, server or TEST implementation."
-  ],
-  "currentFocus": [
-    "Establish daily publication and permanent Product Journal history from verified project metadata.",
-    "Keep the public site stable while preserving the separation of public demos and protected product infrastructure."
-  ],
-  "next": "Verify today's published brief and journal, then maintain the status metadata as the next approved project checkpoints land."
+  "schemaVersion": 2,
+  "changes": [
+    {
+      "commit": "3cdd4af0ce82ac9399ed6a06d2a6ef6b7843d7d9",
+      "summary": "Thingamajob’s public experience changed substantially: the historical demo was replaced as the primary interaction by the unfinished Text/URL/File evaluator. It uses James’s canonical career evidence, clearly labels itself as a working prototype, retains detailed assessments privately, preserves the public/protected boundary, and uses the existing controlled same-origin evaluation path."
+    },
+    {
+      "commit": "ee1ce87142663293718dfcb061ce26bd7893a28b",
+      "summary": "The theme menu was also optimized without redesigning it. Nine first-open lazy SVG requests were consolidated into one content-hashed, immutably cached SVG sprite while preserving the approved artwork, labels, keyboard/focus behavior, forced-colors behavior and accessibility."
+    },
+    {
+      "commit": "30f6001f3f67fa27dcfeb1e7ff1ddb055c1d7653",
+      "summary": "The homepage restored the deployment grid beside the lightweight Buildometer teaser. The teaser matches Thingamajob’s desktop width, with natural stacking when the pair no longer fits."
+    },
+    {
+      "commit": "2f0c23998353c5b04e0d2cdf5c2c15c043547077",
+      "summary": "The deployment grid gained opt-in hidden columns, responsive visual ellipsis, compact semantic UTC timestamps and accessible status-based striping. Home uses the compact treatment while other consumers keep their existing defaults."
+    }
+  ]
 }

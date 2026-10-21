@@ -1,13 +1,63 @@
 # Daily Scrum Brief and Product Journal
 
-The existing standalone renderer shows the generated snapshot date, never browser time. Home links to `/product-journal`; `/product-journal/YYYY-MM-DD` addresses each dated entry. Public JSON at `public/data/product-journal.json` retains the complete model and provenance for every entry. The previously published October 16 brief is preserved verbatim as the initial history entry.
+The brief answers: **what materially changed since the previous successful brief?**
+It is not a project introduction or a repeating status attestation. The renderer
+uses the stored date; Home and `/product-journal[/YYYY-MM-DD]` keep their routes.
 
-Maintain only verified public metadata in `status.json`. The source commit must be an ancestor; the freshness window cannot exceed seven days. Expired/invalid inputs stop publication and retain the last valid snapshot/history. The scheduler does not invent new activity or silently renew an attestation; update metadata when approved work changes. Current attestation expires October 24, 2026.
+## Reporting window and evidence
 
-The generator prepares journal and snapshot together, restores previous bytes on a write error, and the workflow commits both atomically in Git only after a successful build. Prior dated entries are never edited; same-day input changes replace only today's entry. Unchanged same-day reruns retain the existing provenance/bytes and produce no duplicate commit. Backdated runs fail closed. Journal candidates become publicly published only when Cloudflare's build/deploy succeeds; the workflow confirms the exact served JSON hash before reporting success. Failed builds leave the previous site live; a failed Git candidate can be retried on the same day without duplicating history.
+`publish.mjs` reads the actual PROD journal before generation. The newest earlier
+published entry with a recorded cutoff establishes the exclusive lower bound;
+this run's generation instant is the inclusive upper bound. Both are persisted.
+Reconstructed entries never advance the successful-publication window. A missing
+publication/cutoff fails closed rather than guessing a reporting period.
 
-`.github/workflows/daily-scrum-brief.yml` runs daily, seven days a week, at both 14:00 and 15:00 UTC. An America/New_York hour==10 gate selects the correct DST candidate; workflow_dispatch bypasses only the time gate. GitHub scheduling can be delayed. One concurrency group serializes jobs. Checkout is fixed to main, with repository/ref guards and normal Actions contents:write permission. The job runs generator checks, generates, builds, commits only snapshot/journal files to main, then polls the public journal. It has no push trigger, no Cloudflare credential, no direct deployment command, no Slack and no model/Codex/ChatGPT invocation.
+Historical generation instants were not stored. The corrected October 17, 19, 20
+and 21 anchors explicitly use their original publication-commit timestamps and
+label that limitation. New publications record the actual generation cutoff.
+October 18 is reconstructed, not evidence that a brief successfully published then.
 
-Cloudflare configuration confirmed by James: main is production, build `npm run build`, deploy `npx wrangler deploy`, include `*`, exclude `node_modules/**`, `.git/`, `.github/**`. Workflow-only commits do not trigger Cloudflare; actual brief/journal content commits do. Git integration successfully deployed the reconciled public main baseline e5bddbd. The historical automation/daily-scrum-brief branch is retained; main now owns the active component/generator and workflow so old automation-branch application code cannot roll back the site.
+The deterministic generator reads first-parent main-history timestamps and changed
+paths. It includes only `(previous cutoff, current cutoff]`. It excludes automatic
+journal/deployment snapshots, generated build data and test/document-only changes
+from material product activity. Public implementation changes are grouped by area,
+not presented as commit logs. Raw private sources, provider payloads and secrets
+are never collected. No model call or new Jira/report acquisition path is added.
 
-Failures are visible in Actions logs/summary and in the content commit's Workers Builds check. No artifact is called successfully published until the served JSON matches. A push race rejects normally (never force-push); rerun after inspecting concurrent main changes. No separate Cloudflare Actions secret is needed.
+`status.json` now holds **source-commit-bound public change summaries**, not reusable
+recentlyShipped/currentFocus/next prose or an expiring attestation. A reviewed
+summary can appear only when its source commit is actually in this window.
+These summaries provide the richer outcome wording for the October 21 reference
+case and subsequent homepage/grid work. Other changes receive a bounded area-level
+summary; the generator does not infer an outcome, blocker or future plan from a
+filename. A quiet window produces one short sentence, with no minimum item quota.
+
+Same-day retries retain the day's original wording and cutoff. Afternoon changes
+cannot get pulled backward into a morning brief. New days include the intervening
+work. Tests exercise the actual October 20/21 Git windows, boundary timestamps,
+future-note exclusion, sparse output, reconstruction, retention and failure safety.
+
+## Archive and publication
+
+The owner-supplied October 2-21 correction replaces the inaccurate archive in place.
+One correction note is retained on the journal; no parallel bad-brief archive is
+created. Future publication preserves that note and every earlier dated entry.
+
+The generator prepares snapshot/history together and restores previous bytes on a
+write error. Only the two content files are committed after a successful build.
+Backdated generation fails closed. The workflow verifies the exact served JSON hash
+before reporting successful publication. Build/deployment failure leaves the last
+valid site available. Missing evidence is not converted into invented activity.
+
+Scheduling is unchanged: the production Worker has an hourly UTC Cron, gates at
+10 AM America/New_York with later same-day recovery checks, and dispatches the
+existing GitHub `workflow_dispatch`-only job. There is **no GitHub Actions cron**.
+Existing durable dispatch receipts, concurrency, credentials and runtime-secret
+binding are unchanged. The normal Actions content commit to main triggers
+Cloudflare Git integration (`npm run build` then `npx wrangler deploy`). Workflow-only
+files remain excluded from Cloudflare watch paths. No second deployment path,
+Slack, database, measurement formula or public/private boundary is introduced.
+
+Failures remain visible in Actions logs/summary and Workers Builds. A push race
+rejects normally; never force-push. No publication is claimed until PROD read-back
+matches the committed journal.

@@ -13,6 +13,7 @@ import type { ScrumBrief } from './brief.model';
 interface Journal {
   schemaVersion: 1;
   latestDate: string;
+  correctionNote?: string;
   entries: { date: string; generatedDate: string; publishedDate: string; brief: ScrumBrief }[];
 }
 @Component({

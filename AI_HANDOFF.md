@@ -1,5 +1,24 @@
 # AI Engineering Handoff
 
+## October 21 corrected Scrum archive and reporting windows
+
+Replaced October 2-21 journal copy with Coach's supplied correction, including
+reconstructed October 18 and one visible correction note. No parallel bad-brief
+archive. The generated Home snapshot matches corrected October 21.
+The old reusable status attestation is replaced by source-commit-bound summaries.
+New runs read the actual PROD journal, use its last successful cutoff through the
+current generation instant, and collect only timestamped first-parent main Git
+changes in (after, cutoff]. Reconstructed days do not advance that window.
+Unannotated changes roll up by public area without invented outcomes/plans; quiet
+windows stay sparse. Same-day retries freeze the original cutoff/copy. Historical
+anchors explicitly use publication-commit times because generation instants were
+not retained; future entries persist exact generation cutoffs.
+Schedule/Worker dispatch/workflow/Cloudflare release path are unchanged. No new
+Jira, provider, measurement, model or private-source acquisition. Ten generator
+checks include real October 20/21 history: sparse Oct 20; evaluator/sprite on Oct 21;
+no later telemetry leakage. Two renderer tests, build/budgets and desktop/390px
+journal/Home read-back, navigation, overflow/console and scoped axe checks pass.
+
 ## October 21 deployment-grid compact capabilities
 
 DeploymentHistory adds opt-in hiddenColumns, compact and statusStripes inputs.

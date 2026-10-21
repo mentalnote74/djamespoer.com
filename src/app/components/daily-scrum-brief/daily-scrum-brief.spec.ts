@@ -16,11 +16,15 @@ describe('DailyScrumBrief', () => {
     expect(root.querySelectorAll('h2')).toHaveLength(1);
     expect(root.querySelectorAll('h3')).toHaveLength(DAILY_SCRUM_BRIEF.sections.length);
     expect(root.querySelectorAll('main')).toHaveLength(0);
+    const paragraphs = DAILY_SCRUM_BRIEF.sections.flatMap((section) => [
+      ...(section.paragraph ? [section.paragraph] : []),
+      ...(section.paragraphs ?? []),
+    ]);
     expect(
       [...root.querySelectorAll('p')]
-        .slice(0, DAILY_SCRUM_BRIEF.sections.filter((s) => s.paragraph).length)
+        .slice(0, paragraphs.length)
         .map((p) => p.textContent?.replace(/\s+/g, ' ').trim()),
-    ).toEqual(DAILY_SCRUM_BRIEF.sections.filter((s) => s.paragraph).map((s) => s.paragraph));
+    ).toEqual(paragraphs);
     expect(root.textContent).not.toContain('sourceCommit');
   });
   it('supports a distinct heading id when reused without a duplicate landmark target', () => {

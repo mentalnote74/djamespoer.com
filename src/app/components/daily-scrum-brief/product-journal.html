@@ -1,10 +1,16 @@
 <article class="editorial-content">
   <h1>Product Journal</h1>
-  <p>Daily notes on building and improving djamespoer.com. <a routerLink="/buildometer">Open the Buildometer project instruments</a>.</p>
+  <p>
+    Daily notes on building and improving djamespoer.com.
+    <a routerLink="/buildometer">Open the Buildometer project instruments</a>.
+  </p>
   @if (error()) {
     <p role="status">The journal could not be loaded.</p>
     <button type="button" (click)="load()">Try again</button>
   } @else if (journal(); as history) {
+    @if (history.correctionNote) {
+      <p>{{ history.correctionNote }}</p>
+    }
     <nav aria-label="Journal dates">
       <ul>
         @for (entry of history.entries; track entry.date) {

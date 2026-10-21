@@ -34,7 +34,7 @@ try {
     throw Error(
       'Earlier journal candidate was not confirmed live; resolve its Workers Builds failure before advancing history.',
     );
-  const brief = await generate();
+  const brief = await generate({ publishedJournal: live });
   run('npm', ['run', 'build']);
   run('git', ['restore', '--', 'src/app/generated/build-info.ts']);
   const changed = git('diff', '--name-only', '--', ...files);

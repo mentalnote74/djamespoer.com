@@ -4,30 +4,23 @@ export const DAILY_SCRUM_BRIEF: ScrumBrief = {
   "date": "2026-10-21",
   "sections": [
     {
-      "heading": "Recently shipped",
-      "items": [
-        "The five perspective pages now share the carousel artwork, with one page heading and registered dynamic regions; Accessibility and Impact received clearer travelling light.",
-        "Bedlam now radiates through the navbar with controlled theme-derived contrast; the theme dropdown stays above carousel content.",
-        "Passive borders are quieter across all eight themes, while control, selected and focus states retain their contrast.",
-        "The approved public frontend has been reconciled onto main without promoting protected API, server or TEST implementation."
+      "heading": "Daily report",
+      "paragraphs": [
+        "Two meaningful product changes landed after the October 20 brief and before the October 21 morning cutoff.",
+        "Thingamajob’s public experience changed substantially: the historical demo was replaced as the primary interaction by the unfinished Text/URL/File evaluator. It uses James’s canonical career evidence, clearly labels itself as a working prototype, retains detailed assessments privately, preserves the public/protected boundary, and uses the existing controlled same-origin evaluation path.",
+        "The theme menu was also optimized without redesigning it. Nine first-open lazy SVG requests were consolidated into one content-hashed, immutably cached SVG sprite while preserving the approved artwork, labels, keyboard/focus behavior, forced-colors behavior and accessibility.",
+        "Those are the October 21 brief’s changes.",
+        "The Buildometer/homepage layout and deployment-grid work performed later on October 21 did not exist at this cutoff and belongs to the next brief."
       ]
-    },
-    {
-      "heading": "Current focus",
-      "items": [
-        "Establish daily publication and permanent Product Journal history from verified project metadata.",
-        "Keep the public site stable while preserving the separation of public demos and protected product infrastructure."
-      ]
-    },
-    {
-      "heading": "Next",
-      "paragraph": "Verify today's published brief and journal, then maintain the status metadata as the next approved project checkpoints land."
     }
   ],
   "provenance": {
-    "sourceCommit": "e5bddbd4b648450cc230e92da06c2678ec020d67",
-    "generatorCommit": "ee1ce87142663293718dfcb061ce26bd7893a28b",
-    "statusSha256": "4b0c91fd34093ae9aae359eb31004e7fd9250b6fd714544da328899323f3c07d",
-    "method": "Explicit public status metadata; checkpoint ancestry verified; no commit-message inference"
+    "sourceCommit": "2f0c23998353c5b04e0d2cdf5c2c15c043547077",
+    "method": "Owner-supplied corrected archive; dated wording retained as supplied.",
+    "evidenceSha256": "7e55a372169b389e942f4895b82bc3b15a7ac5e0112a972ebe5b5898c9644865",
+    "reportingWindow": {
+      "after": "2026-10-20T14:01:21.000Z",
+      "cutoff": "2026-10-21T14:01:36.000Z"
+    }
   }
 };
