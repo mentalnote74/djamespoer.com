@@ -1,4 +1,7 @@
+@use '../../../styles/themes/coast';
+
 :host {
+  @include coast.environment;
   display: block;
 }
 
@@ -36,6 +39,29 @@ app-carousel {
 
 .home-history h2 {
   margin-block: 0 1rem;
+}
+
+.home-history {
+  --page-background: var(--coast-card);
+  --grid-surface: var(--coast-card);
+  --grid-depth: var(--elevation-inset);
+  --grid-radius: var(--surface-radius);
+}
+
+// Keep the journal editorial/open rather than turning every section into a card.
+.home-updates > app-daily-scrum-brief {
+  border-inline-start: 2px solid color-mix(in srgb, var(--coast-water) 24%, transparent);
+  padding-inline-start: clamp(1rem, 2vw, 1.5rem);
+}
+
+@media (forced-colors: active) {
+  .home-history {
+    --grid-surface: Canvas;
+    --grid-depth: none;
+  }
+  .home-updates > app-daily-scrum-brief {
+    border-inline-start-color: CanvasText;
+  }
 }
 
 .home-construction {

@@ -7,7 +7,7 @@
 .carousel {
   padding-block-start: var(--carousel-padding-start, clamp(3rem, 8vw, 6rem));
   padding-block-end: var(--carousel-padding-end, clamp(3rem, 8vw, 6rem));
-  background: var(--section-surface);
+  background: var(--carousel-surface, var(--section-surface));
 
   &__content {
     display: grid;

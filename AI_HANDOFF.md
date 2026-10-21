@@ -1,5 +1,23 @@
 # AI Engineering Handoff
 
+## October 21 Operation Pig Lips: homepage coastal palette
+
+Home opts into src/styles/themes/_coast.scss (mixin only; no global output).
+Drink-theme tokens supply the sky; shared light/dark shell/sand and sea-glass/
+teal anchors supply ground/reflected light. Scoped surface roles unify existing
+TAMJ, construction feature, BOM and recessed grid; the journal stays editorial.
+Static gradients meet the existing header/footer atmosphere without a hard band.
+Existing depth directions/shadows, control/focus/selected colors and theme
+behavior remain. Living Mode drives the same variables without new JS.
+Carousel/grid/teaser receive only optional CSS surface hooks with unchanged
+fallbacks; no Thingamajob code, HTML, routes, data, layout ordering or dependencies
+change. Forced colors remove the new gradients/shadows. Initial bundle remains
+443.75KB; Home lazy chunk is 20.79KB (previous 18KB), CSS only.
+Build/budgets pass. Actual desktop/390px checks cover all nine theme selections,
+whole-Home scoped axe (zero violations), keyboard, forced colors/reduced motion,
+no overflow/console errors, deferred single history request and no Home BOM API
+request. Direct Engineering navigation has no coastal tokens; interiors unchanged.
+
 ## October 21 corrected Scrum archive and reporting windows
 
 Replaced October 2-21 journal copy with Coach's supplied correction, including

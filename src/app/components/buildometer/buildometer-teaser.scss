@@ -14,6 +14,7 @@ app-instrument-cluster {
   padding: clamp(1rem, 2vw, 1.5rem);
   border-radius: var(--surface-radius);
   background: var(--surface-feature);
+  background-image: var(--teaser-highlight, none);
   box-shadow: var(--elevation-feature);
   color: var(--page-foreground);
   text-decoration: none;

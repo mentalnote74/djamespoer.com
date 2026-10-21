@@ -10,6 +10,9 @@
   }
   &__viewport {
     overflow-x: auto;
+    background: var(--grid-surface, transparent);
+    box-shadow: var(--grid-depth, none);
+    border-radius: var(--grid-radius, 0);
   }
   table {
     inline-size: 100%;

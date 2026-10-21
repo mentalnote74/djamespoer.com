@@ -1,0 +1,65 @@
+// Homepage pilot: one coastal environment, not nine component palettes.
+// Existing drink tokens supply the sky; these anchors supply earth and water.
+// light-dark follows the existing theme polarity, including Living Mode.
+@mixin environment {
+  color-scheme: var(--native-color-scheme, light);
+  --coast-sand: light-dark(#eadcc5, #302c2a);
+  --coast-shell: light-dark(#fff9ee, #393736);
+  --coast-water: light-dark(#157f8c, #3da5b1);
+  --coast-sea-glass: light-dark(#a4d9d2, #21434b);
+  --coast-light: light-dark(rgb(255 255 255 / 0.72), rgb(211 234 229 / 0.08));
+  --coast-ground: color-mix(in srgb, var(--page-background) 65%, var(--coast-sand));
+  --coast-card: color-mix(in srgb, var(--panel-surface) 60%, var(--coast-shell));
+  --coast-recess: color-mix(in srgb, var(--coast-ground) 88%, var(--coast-sea-glass));
+  --coast-reflection: color-mix(in srgb, var(--coast-water) 9%, transparent);
+
+  // Shared material/depth roles; control, focus and selected tokens are untouched.
+  --surface-card: var(--coast-card);
+  --surface-feature: var(--coast-card);
+  --surface-inset: var(--coast-recess);
+  --surface-highlight:
+    linear-gradient(135deg, var(--coast-light), transparent 55%),
+    linear-gradient(325deg, var(--coast-reflection), transparent 65%);
+  --surface-texture: var(--surface-highlight);
+  --texture-size: 100% 100%;
+  --elevation-feature:
+    var(--elevation-floating),
+    0 24px 40px -28px color-mix(in srgb, var(--coast-water) 28%, transparent);
+  --component-surface: var(--coast-card);
+  --component-text: var(--page-foreground);
+  --teaser-highlight: var(--surface-highlight);
+  --carousel-surface: linear-gradient(
+    180deg,
+    transparent,
+    color-mix(in srgb, var(--coast-shell) 24%, transparent) 60%,
+    transparent
+  );
+
+  // Broad, static lighting: no illustration, particle field, backdrop filter or
+  // new animation. The endpoints meet the existing header/footer environment.
+  background:
+    radial-gradient(
+      ellipse at 8% 12%,
+      color-mix(in srgb, var(--section-surface) 65%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(ellipse at 100% 56%, var(--coast-reflection), transparent 65%),
+    linear-gradient(
+      175deg,
+      var(--page-background),
+      var(--coast-ground) 32%,
+      var(--coast-recess) 76%,
+      var(--page-background)
+    );
+
+  @media (forced-colors: active) {
+    background: Canvas;
+    --coast-card: Canvas;
+    --coast-recess: Canvas;
+    --surface-highlight: none;
+    --teaser-highlight: none;
+    --carousel-surface: Canvas;
+    --component-text: CanvasText;
+    --elevation-feature: none;
+  }
+}
