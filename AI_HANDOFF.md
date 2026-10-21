@@ -1,5 +1,21 @@
 # AI Engineering Handoff
 
+## October 20 LinkedIn PDF ingestion completed after quota reset
+
+Protected TEST canonical consumer read-back now contains 283 truths: 279 automatic
+source-established, 2 accepted, 2 corrected; zero open career UNKNOWNs. The authorized
+six-page LinkedIn export added 16 facts and supporting provenance to 50 existing
+truths. Original PDF and faithful text are hash-verified in existing private storage.
+All prior inspected rows, canonical wording/qualifications/citations and evaluations
+were preserved. No new genuine conflict was found; no owner approvals were fabricated.
+Recommendations/full skills are absent from this export, not presumed absent from
+the profile. The earlier Annie search-summary fragment retains its limited provenance.
+The queued work below is historical: the post-reset continuation succeeded.
+Existing TEST JD_COMPLETE_CORPUS_DIGEST pin is refreshed to the actual 283-truth
+consumer inventory. No classifier/LoT schema/application change or paid evaluation.
+Detailed private receipt: career-source/linkedin-ingestions/profile-pdf-20261020-37900b3c/resume-after-reset/.
+SCRUM-33 records the outcome; public frontend release is unchanged.
+
 ## October 20 public working evaluator release
 
 Owner authorizes the unfinished real evaluator in the public Thingamajob component
