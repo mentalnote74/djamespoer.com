@@ -1,5 +1,20 @@
 # AI Engineering Handoff
 
+## October 21 homepage Buildometer / deployment-history composition
+
+Home alone restores the preserved DeploymentHistory component beside the existing
+Buildometer teaser. The bottom row matches TAMJ's shared editorial 1:2 tracks/gap
+when both fit (1440px: TAMJ/BOM 416px, history 832px). Native flex wrapping stacks
+the row when BOM's track would fall below 24rem; no new viewport breakpoint or
+component-internal changes. Source/focus order remains BOM then history.
+DeploymentHistory remains viewport-deferred and uses its existing cold loader:
+no startup history request, one request when viewed; no homepage Buildometer API
+request. No data, dashboard, TAMJ, backend or shared grid changes.
+Production build/budgets pass (443.75KB initial / 108.92KB estimated transfer).
+Rendered checks: 1440/1280/1100/1025/1024/900/768/390/320px, no page overflow/errors;
+desktop/390px pagination/page size, keyboard order, BOM navigation/dashboard smoke
+and scoped axe pass. No new unit tests or broad regression campaign.
+
 ## October 20 theme-menu icon delivery (SCRUM-77)
 
 Replaced nine first-open lazy SVG image requests with one shared external SVG

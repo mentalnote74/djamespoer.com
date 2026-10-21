@@ -126,7 +126,17 @@
       }
     </div>
   </div>
-  @defer (on immediate; hydrate on viewport; hydrate on interaction) {
-    <app-buildometer-teaser />
-  }
+  <div class="home-telemetry editorial-pair editorial-pair--supporting-first">
+    @defer (on immediate; hydrate on viewport; hydrate on interaction) {
+      <app-buildometer-teaser />
+    }
+    <section class="home-history" aria-labelledby="build-deployment-history-heading">
+      <h2 id="build-deployment-history-heading">Build &amp; Deployment History</h2>
+      @defer (on viewport) {
+        <app-deployment-history />
+      } @placeholder {
+        <p>Deployment history loads when this section is in view.</p>
+      }
+    </section>
+  </div>
 </div>
