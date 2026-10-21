@@ -1,4 +1,4 @@
-<div class="smart-grid">
+<div class="smart-grid" [class.smart-grid--fixed]="fixedLayout()">
   <div
     #viewport
     class="smart-grid__viewport"
@@ -14,6 +14,11 @@
           caption()
         }}
       </caption>
+      <colgroup>
+        @for (column of columns(); track column.id) {
+          <col [style.width]="column.width ?? null" />
+        }
+      </colgroup>
       <thead>
         <tr>
           @for (column of columns(); track column.id; let columnIndex = $index) {
@@ -26,7 +31,7 @@
       <tbody>
         @if (!loading() && !error()) {
           @for (row of visibleRows(); track rowKey()(row); let rowIndex = $index) {
-            <tr>
+            <tr [attr.data-tone]="rowTone()?.(row) ?? null">
               @for (column of columns(); track column.id; let columnIndex = $index) {
                 @if (column.rowHeader) {
                   <th

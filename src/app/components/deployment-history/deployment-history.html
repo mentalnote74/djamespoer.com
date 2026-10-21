@@ -1,4 +1,20 @@
-<div class="deployment-history">
+<div class="deployment-history" [class.deployment-history--compact]="compact()">
+  <ng-template [appSmartGridCell]="rows()" #summaryCell="smartGridCell" let-row>
+    <span class="deployment-history__summary">
+      @if (statusStripes()) {
+        <span class="deployment-history__status" aria-hidden="true">{{ statusCue(row) }}</span>
+        <span class="visually-hidden">{{ formatStatus(row) }}. </span>
+      }
+      <span class="deployment-history__description" [title]="row.summary ?? 'Pipeline attempt'">{{
+        row.summary ?? 'Pipeline attempt'
+      }}</span>
+    </span>
+  </ng-template>
+  <ng-template [appSmartGridCell]="rows()" #createdCell="smartGridCell" let-row>
+    <time [attr.datetime]="row.createdAt" [title]="row.createdAt">{{
+      compact() ? formatCompactCreatedAt(row) : formatCreatedAt(row)
+    }}</time>
+  </ng-template>
   @if (sampleData()) {
     <p>
       Development sample data only. These entries are illustrative, not actual pipeline attempts.
@@ -9,7 +25,9 @@
     [rows]="rows()"
     [loading]="loading()"
     [error]="error()"
-    [columns]="columns"
+    [columns]="visibleColumns()"
+    [fixedLayout]="compact()"
+    [rowTone]="statusStripes() ? rowTone : null"
     [rowKey]="rowKey"
     [pagination]="pagination()"
     [pageSizes]="pageSizes"

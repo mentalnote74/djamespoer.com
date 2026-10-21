@@ -6,3 +6,27 @@
 .deployment-history > p {
   margin-block: 0 1rem;
 }
+
+.deployment-history__summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-inline-size: 0;
+}
+.deployment-history__status {
+  flex: none;
+  font-weight: 700;
+}
+.deployment-history--compact {
+  .deployment-history__description {
+    min-inline-size: 0;
+    max-inline-size: 48ch;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  time {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+}

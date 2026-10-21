@@ -54,6 +54,8 @@ export class SmartGrid<T> {
   readonly loading = input(false);
   readonly error = input<string | null>(null);
   readonly emptyMessage = input('No results.');
+  readonly fixedLayout = input(false);
+  readonly rowTone = input<((row: T) => 'positive' | 'negative' | 'neutral') | null>(null);
   readonly pageChange = output<SmartGridPage>();
 
   private readonly focusRecovery = effect((onCleanup) => {

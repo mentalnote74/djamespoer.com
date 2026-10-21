@@ -14,6 +14,9 @@
   table {
     inline-size: 100%;
   }
+  &--fixed table {
+    table-layout: fixed;
+  }
   tbody tr:nth-child(even):not([aria-selected='true']) {
     background-color: color-mix(in srgb, var(--page-foreground) 2.5%, var(--page-background));
   }
@@ -51,6 +54,47 @@
   &__viewport:focus-visible {
     outline: foundation.$focus-width solid currentColor;
     outline-offset: -3px;
+  }
+}
+
+// Opt-in row semantics. Patterns/edge shapes and the consumer's textual cue
+// carry meaning without red/green; normal grids retain their existing stripes.
+.smart-grid tbody tr[data-tone]:not([aria-selected='true']) {
+  background-color: color-mix(in srgb, var(--page-foreground) 2%, var(--page-background));
+  > :first-child {
+    border-inline-start: 3px solid transparent;
+  }
+}
+.smart-grid tbody tr[data-tone='positive']:not([aria-selected='true']) {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--page-foreground) 3%, transparent) 0 2px,
+    transparent 2px 9px
+  );
+}
+.smart-grid tbody tr[data-tone='negative']:not([aria-selected='true']) {
+  background-color: color-mix(in srgb, var(--page-foreground) 6%, var(--page-background));
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--page-foreground) 7%, transparent) 0 3px,
+    transparent 3px 11px
+  );
+  > :first-child {
+    border-inline-start-color: currentColor;
+    border-inline-start-style: double;
+  }
+}
+.smart-grid tbody tr[data-tone]:focus-within:not([aria-selected='true']) {
+  background-color: color-mix(in srgb, var(--page-foreground) 12%, var(--page-background));
+}
+@media (hover: hover) {
+  .smart-grid tbody tr[data-tone]:hover:not([aria-selected='true']) {
+    background-color: color-mix(in srgb, var(--page-foreground) 10%, var(--page-background));
+  }
+}
+@media (forced-colors: active) {
+  .smart-grid tbody tr[data-tone] {
+    background-image: none;
   }
 }
 

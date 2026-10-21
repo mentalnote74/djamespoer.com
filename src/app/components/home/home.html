@@ -133,7 +133,11 @@
     <section class="home-history" aria-labelledby="build-deployment-history-heading">
       <h2 id="build-deployment-history-heading">Build &amp; Deployment History</h2>
       @defer (on viewport) {
-        <app-deployment-history />
+        <app-deployment-history
+          [hiddenColumns]="['environment', 'status']"
+          [compact]="true"
+          [statusStripes]="true"
+        />
       } @placeholder {
         <p>Deployment history loads when this section is in view.</p>
       }

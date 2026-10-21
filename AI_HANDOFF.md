@@ -1,5 +1,23 @@
 # AI Engineering Handoff
 
+## October 21 deployment-grid compact capabilities
+
+DeploymentHistory adds opt-in hiddenColumns, compact and statusStripes inputs.
+Defaults retain all five columns/full UTC wording. Home alone hides Target/Result,
+uses a fixed 44% description column with CSS ellipsis (full DOM/title retained,
+48ch ceiling), and displays MM/DD HH:mmZ in time elements with exact datetime.
+Status patterns use theme foreground/background, success checkmarks and failed/
+terminated text plus double edges; full result/stage remains available to AT.
+SmartGrid adds optional column widths, fixed layout and row-tone hooks; default
+zebra/interaction behavior is preserved. No data/acquisition/pagination changes.
+Home layout CSS is unchanged: TAMJ/BOM widths match at 1440/1280/1248px; native
+stacking occurs at 1247px. No startup history request, one request when viewed.
+Build/budgets and 20 existing focused grid/history tests pass. Actual browser
+checks cover 320-1440px, nine theme choices, long text/mixed statuses, semantic
+headers/time, forced colors, hover/focus, pagination/page sizes, keyboard order
+and dashboard navigation. Scoped axe: zero violations; calculated worst stripe/
+state text contrast 7.46:1. Browser-only fixtures never alter persisted history.
+
 ## October 21 homepage Buildometer / deployment-history composition
 
 Home alone restores the preserved DeploymentHistory component beside the existing

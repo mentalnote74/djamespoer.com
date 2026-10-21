@@ -105,7 +105,7 @@ describe('DeploymentHistory consumer foundation', () => {
   it('passes the complete sample collection and consumer contract to Smart Grid', async () => {
     const { component, grid, root } = await setup();
     expect(grid.rows()).toBe(component.rows());
-    expect(grid.columns()).toBe(component.columns);
+    expect(grid.columns()).toBe(component.visibleColumns());
     expect(grid.rowKey()).toBe(component.rowKey);
     expect(grid.caption()).toBe('Sample pipeline attempts (development data)');
     expect(root.textContent).toContain('not actual pipeline attempts');

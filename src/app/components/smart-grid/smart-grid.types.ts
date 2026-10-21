@@ -9,6 +9,8 @@ export type SmartGridColumn<T> = {
   readonly id: string;
   readonly header: string;
   readonly rowHeader?: boolean;
+  /** Optional presentation width, used with fixed table layout. */
+  readonly width?: string;
 } & (
   | { readonly text: (row: T) => string | number; readonly cell?: never }
   | { readonly cell: TemplateRef<SmartGridCellContext<T>>; readonly text?: never }

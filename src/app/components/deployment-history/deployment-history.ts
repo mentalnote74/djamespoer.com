@@ -8,7 +8,9 @@ import {
   inject,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
+import { SmartGridCell } from '../smart-grid/smart-grid-cell';
 import { SmartGrid } from '../smart-grid/smart-grid';
 import {
   SmartGridColumn,
@@ -18,9 +20,11 @@ import {
 import { BuildDeploymentHistoryRow } from './deployment-history-row';
 import { DeploymentHistoryLoader, DeploymentHistoryLoadState } from './deployment-history-loader';
 
+type DeploymentColumnId = 'summary' | 'created' | 'environment' | 'status' | 'revision';
+
 @Component({
   selector: 'app-deployment-history',
-  imports: [SmartGrid],
+  imports: [SmartGrid, SmartGridCell],
   templateUrl: './deployment-history.html',
   styleUrl: './deployment-history.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +49,11 @@ export class DeploymentHistory {
     });
   }
   readonly sampleData = input(false);
+  readonly hiddenColumns = input<readonly DeploymentColumnId[]>([]);
+  readonly compact = input(false);
+  readonly statusStripes = input(false);
+  private readonly summaryCell = viewChild<SmartGridCell<BuildDeploymentHistoryRow>>('summaryCell');
+  private readonly createdCell = viewChild<SmartGridCell<BuildDeploymentHistoryRow>>('createdCell');
   readonly rows = computed<readonly BuildDeploymentHistoryRow[]>(() => {
     const source = this.source();
     return source.status === 'ready'
@@ -89,6 +98,58 @@ export class DeploymentHistory {
     { id: 'status', header: 'Result', text: (row) => this.formatStatus(row) },
     { id: 'revision', header: 'Revision', text: (row) => row.revision ?? 'Unavailable' },
   ];
+
+  readonly visibleColumns = computed<readonly SmartGridColumn<BuildDeploymentHistoryRow>[]>(() =>
+    this.columns
+      .filter((column) => !this.hiddenColumns().includes(column.id as DeploymentColumnId))
+      .map((column) => {
+        const cell =
+          column.id === 'summary'
+            ? this.summaryCell()?.template
+            : column.id === 'created'
+              ? this.createdCell()?.template
+              : undefined;
+        return cell
+          ? {
+              id: column.id,
+              header: column.header,
+              rowHeader: column.rowHeader,
+              width: this.compact() && column.id === 'summary' ? '44%' : undefined,
+              cell,
+            }
+          : column;
+      }),
+  );
+  readonly rowTone = (row: BuildDeploymentHistoryRow): 'positive' | 'negative' | 'neutral' =>
+    row.status === 'succeeded'
+      ? 'positive'
+      : row.status === 'failed' || row.status === 'terminated'
+        ? 'negative'
+        : 'neutral';
+
+  formatCompactCreatedAt(row: BuildDeploymentHistoryRow): string {
+    const date = new Date(row.createdAt).toISOString();
+    return `${date.slice(5, 7)}/${date.slice(8, 10)} ${date.slice(11, 16)}Z`;
+  }
+
+  statusCue(row: BuildDeploymentHistoryRow): string {
+    switch (row.status) {
+      case 'succeeded':
+        return '\u2713';
+      case 'failed':
+        return '\u00d7 Failed';
+      case 'terminated':
+        return '\u00d7 Stopped';
+      case 'in-progress':
+        return '\u2026 Running';
+      case 'queued':
+        return '\u2026 Queued';
+      case 'cancelled':
+        return '\u2013 Cancelled';
+      case 'skipped':
+        return '\u2013 Skipped';
+    }
+  }
 
   formatCreatedAt(row: BuildDeploymentHistoryRow): string {
     return `${this.dateFormatter.format(new Date(row.createdAt))} UTC`;
