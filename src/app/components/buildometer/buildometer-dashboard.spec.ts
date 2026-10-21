@@ -15,7 +15,8 @@ describe('portable Buildometer Dashboard', () => {
     const f = TestBed.createComponent(BuildometerDashboard);
     f.detectChanges();
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('.instrument').length).toBe(8);
+    expect(f.nativeElement.querySelectorAll('.instrument').length).toBe(7);
+    expect(f.nativeElement.querySelector('#metric-stories')).toBeNull();
     expect(load).toHaveBeenCalledTimes(1);
     await f.componentInstance.selectSkin('workshop');
     f.detectChanges();

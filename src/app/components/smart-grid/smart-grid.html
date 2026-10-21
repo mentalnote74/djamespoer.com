@@ -9,7 +9,7 @@
   >
     <!-- Reinforce only the table: narrow CSS changes its display; descendants retain native semantics. -->
     <table role="table">
-      <caption>
+      <caption [class.visually-hidden]="!showCaption()">
         {{
           caption()
         }}

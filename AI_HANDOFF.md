@@ -1,5 +1,27 @@
 # AI Engineering Handoff
 
+## October 21 Buildometer completion card and composition
+
+Home now mounts BuildometerOverview, an empty-class layout-only parent composing
+BuildometerTeaser and DeploymentHistory. It owns the existing 1:2 content-driven
+wrapping and passes presentation options; no data service, calculations or child
+internals move into it. Parent hydration is viewport/interaction deferred; history
+retains its own viewport defer/cold loader. BOM/TAMJ width relationship is retained.
+Completion art now occupies normal flow between heading and responsive percentage;
+point totals sit below in the same card. Container-relative type and intrinsic
+teaser columns replace the cramped two-column/absolute-art geometry. Dashboard
+shows seven instruments: shipped/remaining is consolidated into completion's
+152/395 shipped + 243 remaining note; domain metrics/contracts remain unchanged.
+Production deployments is the normal Home history heading and dashboard activation
+metric label. The grid's matching native caption is visually hidden, retained for
+AT; generic consumers keep their original default caption. Failed/running attempt
+statuses and timestamps remain, with no change to production-source acquisition.
+Build/budgets and 22 focused existing tests pass. Browser checks: 320/390/768/1247/
+1248/1440px, all nine Home themes, both dashboard skins, longer 100.0% text fit,
+no gauge/value collision, scoped axe zero, keyboard, forced colors/reduced motion,
+pagination/page sizes, no overflow/errors, zero Home BOM API requests and one
+viewport-triggered history request. Dashboard still makes one shared API request.
+
 ## October 21 Operation Pig Lips: homepage coastal palette
 
 Home opts into src/styles/themes/_coast.scss (mixin only; no global output).

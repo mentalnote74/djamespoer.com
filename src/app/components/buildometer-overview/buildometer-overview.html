@@ -1,0 +1,17 @@
+<div class="home-telemetry">
+  <app-buildometer-teaser />
+  <section class="home-history" aria-label="Production deployments">
+    <h2>Production deployments</h2>
+    @defer (on viewport) {
+      <app-deployment-history
+        caption="Production deployments"
+        [showCaption]="false"
+        [hiddenColumns]="['environment', 'status']"
+        [compact]="true"
+        [statusStripes]="true"
+      />
+    } @placeholder {
+      <p>Deployment history loads when this section is in view.</p>
+    }
+  </section>
+</div>

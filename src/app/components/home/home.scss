@@ -18,36 +18,6 @@ app-carousel {
   padding-block: clamp(2rem, 5vw, 4rem);
 }
 
-// Match the shared editorial 1:2 tracks and gap while they fit. The existing
-// compact BOM needs 24rem for readable copy/instruments; flex wrapping stacks
-// the row below that content width without another viewport breakpoint.
-.home-editorial > .home-telemetry {
-  --telemetry-gap: clamp(1rem, 3vw, 2rem);
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--telemetry-gap);
-  margin-block-start: clamp(2rem, 5vw, 4rem);
-  > app-buildometer-teaser {
-    margin-block-start: 0;
-    max-inline-size: none;
-    flex: 1 1 max(min(100%, 24rem), calc((100% - var(--telemetry-gap)) / 3));
-  }
-  > .home-history {
-    flex: 2 1 calc((100% - var(--telemetry-gap)) * 2 / 3);
-  }
-}
-
-.home-history h2 {
-  margin-block: 0 1rem;
-}
-
-.home-history {
-  --page-background: var(--coast-card);
-  --grid-surface: var(--coast-card);
-  --grid-depth: var(--elevation-inset);
-  --grid-radius: var(--surface-radius);
-}
-
 // Keep the journal editorial/open rather than turning every section into a card.
 .home-updates > app-daily-scrum-brief {
   border-inline-start: 2px solid color-mix(in srgb, var(--coast-water) 24%, transparent);
@@ -55,10 +25,6 @@ app-carousel {
 }
 
 @media (forced-colors: active) {
-  .home-history {
-    --grid-surface: Canvas;
-    --grid-depth: none;
-  }
   .home-updates > app-daily-scrum-brief {
     border-inline-start-color: CanvasText;
   }

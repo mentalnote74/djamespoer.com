@@ -19,11 +19,10 @@ export class BuildometerDashboard {
   readonly metrics = computed<readonly DashboardMetric[]>(() => {
     const d = this.store.data();
     const rows: [string, string, keyof NonNullable<typeof d>['metrics']][] = [
-      ['completion', 'Project complete', 'completion'],
-      ['stories', 'Shipped / remaining points', 'done'],
+      ['completion', 'Estimated project complete', 'completion'],
       ['velocity', 'Velocity', 'velocity'],
       ['throughput', 'Jira throughput', 'throughput'],
-      ['shipping', 'Deployments', 'deployments'],
+      ['shipping', 'Production deployments', 'deployments'],
       ['scope', 'Scope change', 'scopeChange'],
       ['burndown', 'Burndown', 'burndown'],
       ['bugs', 'Open bugs', 'bugHealth'],
@@ -31,18 +30,19 @@ export class BuildometerDashboard {
     return rows.map(([id, label, key]) => {
       const m = d?.metrics[key],
         value =
-          id === 'stories' && m?.value !== null && m?.value !== undefined
-            ? `${m.value} / ${d?.metrics.remaining.value}`
-            : m?.value === null || m?.value === undefined
-              ? id === 'completion'
-                ? '\u2014%'
-                : 'Not measured'
-              : String(m.value) + (id === 'completion' ? '%' : '');
+          m?.value === null || m?.value === undefined
+            ? id === 'completion'
+              ? '\u2014%'
+              : 'Not measured'
+            : String(m.value) + (id === 'completion' ? '%' : '');
       return {
         id,
         label,
         value,
-        note: m?.reason || m?.unit || 'Awaiting source',
+        note:
+          id === 'completion' && d?.supportingFacts.project
+            ? `${d.supportingFacts.project.shipped} / ${d.supportingFacts.project.total} known story points shipped; ${d.supportingFacts.project.remaining} remaining`
+            : m?.reason || m?.unit || 'Awaiting source',
         state:
           m?.value !== null && m?.value !== undefined
             ? 'ready'

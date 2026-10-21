@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+  margin-block-start: clamp(2rem, 5vw, 4rem);
+}
+
+// Retain Home's content-driven 1:2 composition, without a new viewport breakpoint.
+.home-telemetry {
+  --telemetry-gap: clamp(1rem, 3vw, 2rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: var(--telemetry-gap);
+  > app-buildometer-teaser {
+    margin-block-start: 0;
+    max-inline-size: none;
+    flex: 1 1 max(min(100%, 24rem), calc((100% - var(--telemetry-gap)) / 3));
+  }
+  > .home-history {
+    min-inline-size: 0;
+    flex: 2 1 calc((100% - var(--telemetry-gap)) * 2 / 3);
+  }
+}
+.home-history {
+  --page-background: var(--coast-card, var(--surface-card));
+  --grid-surface: var(--coast-card, var(--surface-card));
+  --grid-depth: var(--elevation-inset);
+  --grid-radius: var(--surface-radius);
+  h2 {
+    margin-block: 0 1rem;
+  }
+}
+@media (forced-colors: active) {
+  .home-history {
+    --grid-surface: Canvas;
+    --grid-depth: none;
+  }
+}

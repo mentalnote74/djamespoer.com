@@ -38,24 +38,24 @@
   font-weight: 600;
 }
 .instrument--primary {
-  grid-column: span 4;
+  grid-column: span 6;
   grid-row: span 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
   text-align: center;
-  min-block-size: var(--completion-height, 19rem);
+  container-type: inline-size;
 }
 [aria-labelledby='metric-bugs'] {
-  grid-column: span 4;
+  grid-column: span 2;
 }
 .metric-value {
   font: 700 clamp(1rem, 2vw, 1.4rem)/1.2 var(--font-ui);
   margin: 0;
 }
 .instrument--primary .metric-value {
-  font-size: var(--completion-size, clamp(3rem, 6vw, 5.5rem));
-  margin-block-start: 3rem;
+  font-size: clamp(2rem, 18cqi, 5.5rem);
+  margin-block-start: 0;
 }
 .metric-note,
 .instrument-status {
@@ -82,6 +82,15 @@
   position: absolute;
   inset: 0.5rem;
   z-index: -1;
+}
+// The completion art occupies real space between heading and value. It can
+// never sit behind text, irrespective of skin, container size or percentage.
+.instrument-face--completion {
+  position: static;
+  z-index: auto;
+  inline-size: min(100%, 20rem);
+  aspect-ratio: 240 / 150;
+  margin-inline: auto;
 }
 .instrument-face svg {
   width: 100%;
@@ -182,19 +191,6 @@
   .instrument.instrument--primary {
     grid-column: 1 / -1;
     grid-row: auto;
-    min-block-size: 11rem;
-  }
-  .instrument--primary .instrument-face {
-    width: 17rem;
-    max-width: 100%;
-    margin-inline: auto;
-  }
-  .instrument--primary .metric-value {
-    font-size: 3rem;
-    margin-block-start: 1rem;
-  }
-  .instrument--primary h2 {
-    margin-block-end: 0;
   }
   .instrument {
     grid-column: span 1;

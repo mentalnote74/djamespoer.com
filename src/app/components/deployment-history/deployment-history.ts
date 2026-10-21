@@ -49,6 +49,8 @@ export class DeploymentHistory {
     });
   }
   readonly sampleData = input(false);
+  readonly caption = input('Pipeline attempts');
+  readonly showCaption = input(true);
   readonly hiddenColumns = input<readonly DeploymentColumnId[]>([]);
   readonly compact = input(false);
   readonly statusStripes = input(false);

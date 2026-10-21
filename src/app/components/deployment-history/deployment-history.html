@@ -21,7 +21,8 @@
     </p>
   }
   <app-smart-grid
-    [caption]="sampleData() ? 'Sample pipeline attempts (development data)' : 'Pipeline attempts'"
+    [caption]="sampleData() ? 'Sample pipeline attempts (development data)' : caption()"
+    [showCaption]="showCaption()"
     [rows]="rows()"
     [loading]="loading()"
     [error]="error()"

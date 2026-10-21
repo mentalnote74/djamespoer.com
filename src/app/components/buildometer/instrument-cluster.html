@@ -22,7 +22,16 @@
       [attr.data-state]="metric.state"
       [attr.aria-labelledby]="'metric-' + metric.id"
     >
-      <div class="instrument-face" aria-hidden="true">
+      @if (compact()) {
+        <h3 class="metric-label" [id]="'metric-' + metric.id">{{ metric.label }}</h3>
+      } @else {
+        <h2 class="metric-label" [id]="'metric-' + metric.id">{{ metric.label }}</h2>
+      }
+      <div
+        class="instrument-face"
+        [class.instrument-face--completion]="metric.id === 'completion'"
+        aria-hidden="true"
+      >
         @if (metric.id === 'completion') {
           <svg viewBox="0 0 240 150" focusable="false">
             <g class="analog-face">
@@ -51,11 +60,6 @@
           <div class="indicator-rail"><i></i><i></i><i></i><i></i><i></i></div>
         }
       </div>
-      @if (compact()) {
-        <h3 class="metric-label" [id]="'metric-' + metric.id">{{ metric.label }}</h3>
-      } @else {
-        <h2 class="metric-label" [id]="'metric-' + metric.id">{{ metric.label }}</h2>
-      }
       <p class="metric-value">{{ metric.value }}</p>
       <p class="metric-note">{{ metric.note }}</p>
       @if (!compact()) {

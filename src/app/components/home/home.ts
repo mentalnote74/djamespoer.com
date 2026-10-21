@@ -1,6 +1,5 @@
 import { MobileDelivery } from '../../services/mobile-delivery';
-import { BuildometerTeaser } from '../buildometer/buildometer-teaser';
-import { DeploymentHistory } from '../deployment-history/deployment-history';
+import { BuildometerOverview } from '../buildometer-overview/buildometer-overview';
 import { DailyScrumBrief } from '../daily-scrum-brief/daily-scrum-brief';
 import { PublicTrack } from '../../services/public-track';
 import { Aside } from '../../layout/aside/aside';
@@ -13,8 +12,7 @@ import { CarouselSlide } from '../carousel/carousel-slide';
 
 @Component({
   imports: [
-    BuildometerTeaser,
-    DeploymentHistory,
+    BuildometerOverview,
     DailyScrumBrief,
     PublicTrack,
     RouterLink,
