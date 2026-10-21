@@ -1,4 +1,24 @@
-import type { EvaluationTruth } from './jd-contract.ts';
+import type { EvaluationTruth, EvaluatedRequirement } from './jd-contract.ts';
+
+/** Employment logistics never determine professional qualification fit. Current
+ * professional credentials/proficiency remain professional qualifications;
+ * ambiguous means a materially ambiguous professional criterion. */
+export function isQualificationRequirement(requirement: EvaluatedRequirement): boolean {
+  return ['professional_qualification', 'ambiguous'].includes(requirement.kind);
+}
+
+export function needsClarification(requirement: EvaluatedRequirement): boolean {
+  if (requirement.basis === 'conflicting_evidence') return true;
+  if (!isQualificationRequirement(requirement))
+    return (
+      requirement.basis === 'explicit_incompatibility' &&
+      requirement.evidence.some((e) => e.relation === 'contradicts')
+    );
+  return (
+    requirement.outcome === 'UNKNOWN' &&
+    ['ambiguous_requirement', 'historical_current_uncertainty'].includes(requirement.basis)
+  );
+}
 
 export interface EvaluationContext {
   professionalInventory: 'complete' | 'unconfirmed';

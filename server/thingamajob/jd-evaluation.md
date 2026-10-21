@@ -7,6 +7,41 @@ public demo labels are not a separate evaluator or a source of client truth.
 
 ## User path and contract
 
+### Current correction: qualification fit versus routine logistics (canonical-jd-v7)
+
+Coach's retained Fullsteam mobile evaluation
+`27a02277-35ca-46e5-8ecd-0e623e4f1eec` exposed two linked defects. The provider
+turned full-time and remote job descriptors into required candidate-availability
+UNKNOWNs, without an explicit candidate restriction. The summary counted these as
+unresolved required qualifications. Those were the result's only required UNKNOWNs;
+there were zero professional UNKNOWNs. Thus logistics directly caused the uncertain
+headline, rather than merely accompanying genuine unresolved qualifications.
+The separate test-automation professional NOT MET and supported frontend evidence
+remain untouched in the offline replay. The retained complete JD is 3,031 characters;
+mobile display limits are not evidence of truncated intake. No input cleaning changed.
+
+Provider policy now separates qualifications from logistics and forbids routine
+employment-type/availability/willingness questions caused only by career-record
+omission. A shared policy boundary keeps logistical UNKNOWNs internally honest,
+clears their routine questions, and excludes logistics from fit, strengths and
+qualification-gap aggregation. It does not invent availability or turn UNKNOWN
+into MET. Clarification requires an evidenced explicit candidate constraint that
+conflicts with the posting, conflicting authoritative evidence, or a material
+professional ambiguity/current-qualification uncertainty. Logistical conflicts
+are labelled separately. Current professional licenses, enrollment and proficiency
+remain professional qualifications; their genuine uncertainty still affects fit.
+
+No schema, career data or retained-evaluation change. Existing v6 results remain
+historical under their original policy; v7 applies to new evaluations. The public
+one-paragraph format, intake, canonical-only security and usage limits remain.
+Offline replay of the retained result now reports a partial qualification fit,
+preserves all seven outcomes/importance values and asks neither routine question.
+No paid provider rerun. Evidence and original file hash are preserved privately
+under `career-source/jd-evaluations/fullsteam-logistics-20261020/`.
+Case-study tracking: SCRUM-33; existing record `/thingamajob#case-study-heading`.
+
+The following release and policy sections preserve earlier behavior as history.
+
 ### Public working-prototype release — October 20, 2026
 
 The existing public Thingamajob component now hosts the portable evaluator on

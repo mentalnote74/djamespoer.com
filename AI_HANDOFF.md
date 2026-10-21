@@ -1,5 +1,21 @@
 # AI Engineering Handoff
 
+## October 20 Fullsteam logistics correction (canonical-jd-v7)
+
+Retained result 27a02277-35ca-46e5-8ecd-0e623e4f1eec proves the uncertain headline
+came solely from full-time/remote logistical UNKNOWNs; zero professional UNKNOWNs.
+The JD was retained in full (3,031 characters); intake/cleaning is unchanged.
+Provider instructions, validation and summary now separate logistics from
+qualification fit. Routine omission-based questions are cleared without inventing
+availability or MET. Evidenced candidate constraints and material qualification
+ambiguity/current-professional uncertainty still surface appropriately.
+Offline retained replay preserves all seven outcomes/importance values, removes
+the routine questions and reports partial fit with the existing professional gap.
+Three focused regressions added; 27 evaluator/intake tests and TypeScript check pass.
+No canonical or prior evaluation writes, no paid call, no schema or UI changes.
+Private evidence: career-source/jd-evaluations/fullsteam-logistics-20261020/.
+Policy/case-study record: server/thingamajob/jd-evaluation.md and SCRUM-33.
+
 ## October 20 LinkedIn PDF ingestion completed after quota reset
 
 Protected TEST canonical consumer read-back now contains 283 truths: 279 automatic

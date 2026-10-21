@@ -1,8 +1,9 @@
 import type { RoleEvaluation, EvaluatedRequirement } from './jd-contract.ts';
+import { isQualificationRequirement, needsClarification } from './jd-policy.ts';
 
 /** Presentation only: consumes final validated outcomes; never reclassifies evidence. */
 export function evaluationSummary(result: RoleEvaluation, completeInventory: boolean): string {
-  const rows = result.requirements;
+  const rows = result.requirements.filter(isQualificationRequirement);
   const required = rows.filter((r) => r.importance === 'required');
   const missing = rows.filter((r) => r.outcome === 'NOT MET');
   const requiredGaps = required.filter((r) => r.outcome === 'NOT MET');
@@ -24,7 +25,11 @@ export function evaluationSummary(result: RoleEvaluation, completeInventory: boo
       .map((r) => brief(r.requirement))
       .join('; ');
   const sentences: string[] = [];
-  if (requiredGaps.length)
+  if (!rows.length)
+    sentences.push(
+      'No professional qualifications were identified for a qualification-fit assessment.',
+    );
+  else if (requiredGaps.length)
     sentences.push('This role has material gaps against the stated required qualifications.');
   else if (required.some((r) => r.outcome === 'UNKNOWN'))
     sentences.push(
@@ -47,20 +52,22 @@ export function evaluationSummary(result: RoleEvaluation, completeInventory: boo
     sentences.push(label + ': ' + list(gaps) + '.');
   }
   if (strengths.length) sentences.push('Relevant strengths include: ' + list(strengths) + '.');
-  const clarification = ordered(unresolved).find(
-    (r) =>
-      r.basis === 'conflicting_evidence' ||
-      (r.question &&
-        (r.kind !== 'professional_qualification' ||
-          ['ambiguous_requirement', 'historical_current_uncertainty'].includes(r.basis))),
-  );
+  const clarification = ordered(result.requirements).find(needsClarification);
   if (clarification)
     sentences.push(
       clarification.basis === 'conflicting_evidence'
-        ? 'Conflicting career evidence needs clarification for: ' +
+        ? 'Conflicting ' +
+            (isQualificationRequirement(clarification) ? 'career' : 'logistical') +
+            ' evidence needs clarification for: ' +
             brief(clarification.requirement) +
             '.'
-        : 'Clarification needed: ' + brief(clarification.question!) + '?',
+        : (isQualificationRequirement(clarification)
+            ? 'Clarification needed: '
+            : 'Logistical clarification needed: ') +
+            brief(
+              clarification.question ?? 'Does your stated constraint still apply to this role?',
+            ) +
+            '?',
     );
   if (!completeInventory && unresolved.some((r) => r.kind === 'professional_qualification'))
     sentences.push(

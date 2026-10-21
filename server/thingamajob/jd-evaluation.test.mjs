@@ -335,7 +335,7 @@ test('known specialist absence does not erase frontend matches or turn current-s
       ...requirement('r3', 'active nursing license', 'UNKNOWN', [
         { truthId: 'old', quote: truths[1].statement, relation: 'context' },
       ]),
-      kind: 'current_state',
+      kind: 'professional_qualification',
     },
     {
       ...requirement('r4', 'salary flexibility', 'NOT MET'),
@@ -549,7 +549,7 @@ test('importance never changes complete-corpus professional gap classification, 
     ['required', 'preferred', 'unspecified'],
   );
   assert(result.requirements.slice(0, 4).every((r) => r.question === null));
-  assert.match(result.requirements[4].question, /evidence/);
+  assert.equal(result.requirements[4].question, null);
   const incomplete = validateEvaluation({ requirements: rows }, jd, truths);
   assert(incomplete.requirements.slice(0, 4).every((r) => r.outcome === 'UNKNOWN'));
 });
@@ -890,6 +890,14 @@ test('concise presentation separates required/preferred gaps, strengths and genu
     {
       ...requirement('location', 'Seattle attendance', 'UNKNOWN'),
       kind: 'situational',
+      basis: 'explicit_incompatibility',
+      evidence: [
+        {
+          truthId: 'fictional-constraint',
+          quote: 'The fictional candidate accepts remote-only work.',
+          relation: 'contradicts',
+        },
+      ],
       question: 'Can you work onsite in Seattle?',
     },
   ];
@@ -906,6 +914,156 @@ test('concise presentation separates required/preferred gaps, strengths and genu
   assert.match(preferred, /Preferred gaps/);
   assert(!preferred.includes('Decisive required gaps'));
   assert.equal(rows[0].outcome, 'NOT MET');
+});
+
+test('Fullsteam-shaped retained regression separates routine logistics from actual qualification fit', () => {
+  // Fictional evidence only; the real retained JD/result is verified privately.
+  const truth = {
+    truthId: 'frontend',
+    statement: 'The fictional candidate implements HTML and JavaScript with version control.',
+    state: 'source_established',
+    qualifications: [],
+  };
+  const jd = 'HTML. JavaScript. Version control. Test automation development. Full-time. Remote.';
+  const rows = ['HTML', 'JavaScript', 'Version control'].map((text, i) => ({
+    ...requirement('skill' + i, text, 'MET', [
+      { truthId: truth.truthId, quote: truth.statement, relation: 'meets' },
+    ]),
+    importance: 'unspecified',
+  }));
+  rows.push({
+    ...requirement('test', 'Test automation development', 'NOT MET'),
+    importance: 'unspecified',
+    materialGaps: ['Automated test development.'],
+  });
+  for (const [id, text, kind, question] of [
+    [
+      'time',
+      'Full-time',
+      'current_state',
+      'Are you currently available and willing to accept full-time employment?',
+    ],
+    ['remote', 'Remote', 'situational', 'Are you willing and able to work remotely?'],
+  ])
+    rows.push({
+      ...requirement(id, text, 'UNKNOWN'),
+      kind,
+      materialGaps: ['Present willingness and availability not established.'],
+      question,
+    });
+  const original = structuredClone(rows);
+  const context = { professionalInventory: 'complete', authority: 'Fictional owner approval' };
+  const result = validateEvaluation({ requirements: rows }, jd, [truth], context);
+  assert.deepEqual(rows, original, 'Input/retained result must not be mutated');
+  assert.deepEqual(
+    result.requirements.slice(-2).map((r) => r.outcome),
+    ['UNKNOWN', 'UNKNOWN'],
+  );
+  assert(
+    result.requirements.slice(-2).every((r) => r.question === null && r.materialGaps.length === 0),
+  );
+  const summary = evaluationSummary(result, true);
+  assert.match(summary, /partial fit/);
+  assert.match(summary, /Qualification gaps include: Test automation development/);
+  assert.match(summary, /Relevant strengths/);
+  assert(!/uncertain|full.time|remote|clarification/i.test(summary));
+  // Routine UNKNOWNs alone must not lower an otherwise supported skill assessment.
+  const qualified = evaluationSummary(
+    {
+      requirements: result.requirements
+        .filter((r) => r.id !== 'test')
+        .map((r) => ({ ...r, importance: 'required' })),
+    },
+    true,
+  );
+  assert.match(qualified, /supports the stated required qualifications/);
+  assert(!/uncertain|gap|clarification/i.test(qualified));
+});
+
+test('explicit candidate constraints remain actionable logistics, without lowering qualifications', () => {
+  const truths = [
+    {
+      truthId: 'skill',
+      statement: 'The fictional candidate develops frontend applications.',
+      state: 'accepted',
+      qualifications: [],
+    },
+    {
+      truthId: 'constraint',
+      statement: 'The fictional candidate accepts only part-time employment.',
+      state: 'accepted',
+      qualifications: [],
+    },
+  ];
+  const jd = 'Frontend development. Full-time.';
+  const rows = [
+    requirement('skill', 'Frontend development', 'MET', [
+      { truthId: 'skill', quote: truths[0].statement, relation: 'meets' },
+    ]),
+    {
+      ...requirement('constraint', 'Full-time', 'NOT MET', [
+        { truthId: 'constraint', quote: truths[1].statement, relation: 'contradicts' },
+      ]),
+      kind: 'preference',
+    },
+  ];
+  const result = validateEvaluation({ requirements: rows }, jd, truths);
+  assert.equal(result.requirements[1].outcome, 'NOT MET');
+  assert.match(result.requirements[1].question, /stated constraint/);
+  const summary = evaluationSummary(result, false);
+  assert.match(summary, /supports the stated required qualifications/);
+  assert.match(summary, /Logistical clarification needed/);
+  assert(!/material gaps|qualification gaps|fit remains uncertain/i.test(summary));
+});
+
+test('material professional uncertainty stays honest while logistics cannot become strengths or gaps', () => {
+  const truths = [
+    {
+      truthId: 'past',
+      statement: 'The fictional candidate held a professional license in 2018.',
+      state: 'accepted',
+      qualifications: ['Historical license; current validity is unknown.'],
+    },
+  ];
+  const jd = 'Active professional license. Experience with the platform. Remote.';
+  const rows = [
+    {
+      ...requirement(
+        'license',
+        'Active professional license',
+        'UNKNOWN',
+        [{ truthId: 'past', quote: truths[0].statement, relation: 'context' }],
+        'Current license validity is unresolved.',
+        true,
+      ),
+      basis: 'historical_current_uncertainty',
+    },
+    {
+      ...requirement('ambiguous', 'Experience with the platform', 'UNKNOWN'),
+      kind: 'ambiguous',
+      basis: 'ambiguous_requirement',
+      question: 'Which professional platform does the requirement mean?',
+    },
+    { ...requirement('remote', 'Remote', 'UNKNOWN'), kind: 'situational' },
+  ];
+  const result = validateEvaluation({ requirements: rows }, jd, truths, {
+    professionalInventory: 'complete',
+    authority: 'Fictional owner approval',
+  });
+  assert.deepEqual(
+    result.requirements.map((r) => r.outcome),
+    ['UNKNOWN', 'UNKNOWN', 'UNKNOWN'],
+  );
+  assert(result.requirements.slice(0, 2).every((r) => r.question));
+  assert.equal(result.requirements[2].question, null);
+  const summary = evaluationSummary(result, true);
+  assert.match(summary, /required qualifications are unresolved/);
+  assert.match(summary, /Clarification needed/);
+  assert(!summary.includes('Remote'));
+  assert.match(
+    evaluationSummary({ requirements: [result.requirements[2]] }, true),
+    /No professional qualifications were identified/,
+  );
 });
 
 test('cross-origin, malformed scope/input, revoked membership and disabled TEST never invoke provider', async () => {
