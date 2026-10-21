@@ -26,6 +26,9 @@ export const THINGAMAJOB_SLIDE_DESTINATION = {
 })
 export class ThingamajobSlide {
   readonly active = input(true);
+  readonly pageHeading = input(false);
+  readonly showExplore = input(true);
+  readonly motionPaused = signal(false);
   readonly destination = THINGAMAJOB_SLIDE_DESTINATION;
   readonly pageVisible = signal(false);
   readonly enhanced = signal(false);

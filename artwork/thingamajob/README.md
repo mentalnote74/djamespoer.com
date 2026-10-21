@@ -27,6 +27,11 @@ The destination is isolated in `THINGAMAJOB_SLIDE_DESTINATION`. It currently
 uses `/thingamajob#case-study-heading`, an existing case-study section. No new
 dedicated case-study route was invented.
 
+The same component is the /thingamajob page hero: `pageHeading` selects its H1
+and eager hero-image delivery, `showExplore=false` omits the gateway link. The
+interior-only pause control does not change the carousel's rotation controls.
+Both consumers use these same tracked production assets and registered motion.
+
 ## Generation prompt (verbatim)
 
 Create ONE finished original editorial artwork for a sophisticated professional portfolio carousel, a panoramic composition approximately 3:1 (wide landscape, ideally 3072x1024). NO typography, NO title, NO captions, NO watermark. This is an exquisitely crafted physical evidence-processing apparatus: 1970s experimental research laboratory meets kinetic mechanical music machine meets Cold War analog control room, with restrained lava-lamp chemistry. Absurdly over-engineered yet credible and purposeful, not goofy or toy-like. Cinematic detailed miniature/model photography with beautiful believable materials, exquisite brass and aged steel, oxidized sea-glass painted panels, warm ivory instrument faces, glass, machined screws, deep cast shadows, directional warm coastal daylight and cooler workshop interior. NOT cyberpunk, NOT futuristic AI, NOT a holographic dashboard, NO brain, NO abstract ribbons, NO arrows.

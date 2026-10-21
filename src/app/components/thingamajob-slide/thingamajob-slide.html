@@ -1,4 +1,4 @@
-<div class="apparatus" [class.apparatus--running]="active() && pageVisible()">
+<div class="apparatus" [class.apparatus--running]="active() && pageVisible() && !motionPaused()">
   <picture aria-hidden="true">
     <source
       media="(max-width: 600px)"
@@ -38,7 +38,8 @@
       width="2172"
       height="724"
       alt=""
-      loading="lazy"
+      [loading]="pageHeading() ? 'eager' : 'lazy'"
+      [attr.fetchpriority]="pageHeading() ? 'high' : null"
       decoding="async"
     />
   </picture>
@@ -83,16 +84,32 @@
   }
 
   <div class="apparatus__copy">
-    <h2>Thingamajob</h2>
+    @if (pageHeading()) {
+      <h1 class="apparatus__title">Thingamajob</h1>
+    } @else {
+      <h2 class="apparatus__title">Thingamajob</h2>
+    }
     <p>Truth before tailoring.</p>
-    <a
-      publicTrack
-      trackLocation="carousel"
-      trackSource="carousel"
-      [routerLink]="destination.route"
-      [fragment]="destination.fragment"
-      aria-label="Explore Thingamajob case study"
-      >Explore</a
-    >
+    @if (showExplore()) {
+      <a
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        [routerLink]="destination.route"
+        [fragment]="destination.fragment"
+        aria-label="Explore Thingamajob case study"
+        >Explore</a
+      >
+    }
   </div>
 </div>
+@if (pageHeading()) {
+  <button
+    class="artwork-motion"
+    type="button"
+    (click)="motionPaused.set(!motionPaused())"
+    [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"
+  >
+    {{ motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion' }}
+  </button>
+}

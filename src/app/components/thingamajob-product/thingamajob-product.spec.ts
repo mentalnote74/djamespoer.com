@@ -13,6 +13,11 @@ describe('Thingamajob case study integration', () => {
     const harness = await RouterTestingHarness.create('/thingamajob');
     const root = harness.routeNativeElement!;
     expect(root.querySelectorAll('h1')).toHaveLength(1);
+    expect(root.querySelector('app-thingamajob-slide h1')?.textContent).toBe('Thingamajob');
+    expect(root.querySelector('app-thingamajob-slide p')?.textContent).toBe(
+      'Truth before tailoring.',
+    );
+    expect(root.querySelector('app-thingamajob-slide a')).toBeNull();
     expect(root.querySelector('app-thingamajob app-jd-evaluation')).not.toBeNull();
     expect(root.querySelector('app-thingamajob-workflow')).toBeNull();
     expect(root.textContent).toContain('Working prototype');

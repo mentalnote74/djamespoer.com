@@ -1,5 +1,19 @@
 # AI Engineering Handoff
 
+## October 21 approved Thingamajob V1 release / shared page hero
+
+Coach approved ce2df0e unchanged as artwork/motion. The /thingamajob introduction
+now reuses ThingamajobSlide with a semantic H1, the same supporting line and no
+Explore link. Existing introduction, evaluator and case-study content remain.
+Hero artwork is eager/high-priority on its own route; carousel artwork stays lazy.
+An interior-only shared-style pause/resume control supports longer viewing.
+No art, crop, theme treatment, mechanical timing or routing change was made.
+All 12 required runtime images/cutouts are tracked in public/assets/thingamajob-slide/;
+apertures/motion are implemented in the tracked component, with no tmp dependency.
+Production build/budgets pass without warnings (443.66KB initial). Existing
+Carousel and Thingamajob integration checks: 24/24. Production deployment/read-back
+is the next responsive/accessibility integration check for the new hero.
+
 ## October 21 Thingamajob carousel slide V1
 
 Home adds one seventh slide after Impact; Engineering remains first. Existing
