@@ -1,0 +1,98 @@
+<div class="apparatus" [class.apparatus--running]="active() && pageVisible()">
+  <picture aria-hidden="true">
+    <source
+      media="(max-width: 600px)"
+      type="image/avif"
+      srcset="
+        /assets/thingamajob-slide/apparatus-mobile-384.avif 384w,
+        /assets/thingamajob-slide/apparatus-mobile-768.avif 768w
+      "
+      sizes="calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
+    />
+    <source
+      media="(max-width: 600px)"
+      type="image/webp"
+      srcset="
+        /assets/thingamajob-slide/apparatus-mobile-384.webp 384w,
+        /assets/thingamajob-slide/apparatus-mobile-768.webp 768w
+      "
+      sizes="calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
+    />
+    <source
+      type="image/avif"
+      srcset="
+        /assets/thingamajob-slide/apparatus-768.avif   768w,
+        /assets/thingamajob-slide/apparatus-1200.avif 1200w,
+        /assets/thingamajob-slide/apparatus-2172.avif 2172w
+      "
+      sizes="(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
+    />
+    <img
+      src="/assets/thingamajob-slide/apparatus-1200.webp"
+      srcset="
+        /assets/thingamajob-slide/apparatus-768.webp   768w,
+        /assets/thingamajob-slide/apparatus-1200.webp 1200w,
+        /assets/thingamajob-slide/apparatus-2172.webp 2172w
+      "
+      sizes="(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
+      width="2172"
+      height="724"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+
+  <!-- Original-art coordinates. Separate apertures retain their own occlusion,
+       depth and rhythm; no full-scene filter, canvas, or animation loop. -->
+  @if (enhanced()) {
+    <svg class="mechanics" viewBox="0 0 2172 724" aria-hidden="true" focusable="false">
+      <svg class="index-port" x="1381" y="247" width="120" height="120" viewBox="0 0 120 120">
+        <image
+          class="index-wheel"
+          href="/assets/thingamajob-slide/index-wheel.webp"
+          width="120"
+          height="120"
+        />
+      </svg>
+      <svg class="chemistry-port" x="1625" y="151" width="145" height="157" viewBox="0 0 145 157">
+        <path
+          class="chemistry chemistry--one"
+          d="M18 180C-12 144 9 113 35 105S74 77 58 49C37 10 61-12 80-27C61 17 108 34 97 69S56 99 74 127S106 164 82 184Z"
+        />
+        <path
+          class="chemistry chemistry--two"
+          d="M88 189C121 166 141 137 122 118S97 86 118 64S142 15 122-10C157 22 155 66 145 89S145 141 133 162Z"
+        />
+        <path class="glass-reflection" d="M10 6V145M126 11V140" />
+      </svg>
+      <svg class="feed-port" x="1180" y="319" width="137" height="44" viewBox="0 0 137 44">
+        <image
+          class="evidence-feed"
+          href="/assets/thingamajob-slide/inspection-record.webp"
+          width="137"
+          height="44"
+        />
+      </svg>
+      <!-- The unresolved record stays held; its lamp changes independently. -->
+      <circle class="relay relay--hold" cx="1878" cy="254" r="5" />
+      <circle class="relay relay--inspect" cx="1053" cy="195" r="6" />
+      <circle class="relay relay--advance" cx="1099" cy="383" r="6" />
+      <path class="chamber-reflection" d="M1635 144H1757V302H1635Z" />
+    </svg>
+  }
+
+  <div class="apparatus__copy">
+    <h2>Thingamajob</h2>
+    <p>Truth before tailoring.</p>
+    <a
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      [routerLink]="destination.route"
+      [fragment]="destination.fragment"
+      aria-label="Explore Thingamajob case study"
+      >Explore</a
+    >
+  </div>
+</div>

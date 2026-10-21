@@ -5,6 +5,7 @@ import { PublicTrack } from '../../services/public-track';
 import { Aside } from '../../layout/aside/aside';
 import { Thingamajob } from '../thingamajob/thingamajob';
 import { PerspectiveSlide } from '../perspective-slide/perspective-slide';
+import { ThingamajobSlide } from '../thingamajob-slide/thingamajob-slide';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
@@ -17,6 +18,7 @@ import { CarouselSlide } from '../carousel/carousel-slide';
     PublicTrack,
     RouterLink,
     PerspectiveSlide,
+    ThingamajobSlide,
     Aside,
     Thingamajob,
     Carousel,

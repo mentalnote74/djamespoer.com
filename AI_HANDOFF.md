@@ -1,5 +1,29 @@
 # AI Engineering Handoff
 
+## October 21 Thingamajob carousel slide V1
+
+Home adds one seventh slide after Impact; Engineering remains first. Existing
+Carousel/PerspectiveSlide/magic/routes and Thingamajob product logic are unchanged.
+ThingamajobSlide owns one original 2172×724 physical evidence-processing apparatus,
+real HTML title/supporting line/link, and registered mechanical apertures: an
+indexing wheel, slow glass chemistry, small evidence feed and independent relays.
+No PerspectiveMagic ribbons, animation library, canvas or JS animation loop.
+The gauge/drum/held record stay static. Fixed brass/steel/teal materials retain
+identity; only a restrained glass reflection uses an active-theme token.
+Motion pauses off-slide/document-hidden and stops with reduced motion; forced
+colors retain semantic content/link. Cutouts activate only after hydration/first
+use. Responsive AVIF/WebP and a 1470×490 mobile crop preserve the inspection,
+intake rollers and output; fine details naturally remain desktop discoveries.
+Source master/hash/prompt/optimizer and rendered previews: artwork/thingamajob/.
+Destination is isolated in THINGAMAJOB_SLIDE_DESTINATION and currently uses the
+existing /thingamajob#case-study-heading; no dedicated route was invented.
+Build/budgets pass (443.66KB initial; 28.45KB Home lazy chunk). Existing Carousel
+tests: 23/23. Built-Worker Chrome checks: 320/390/768/1440px, all nine themes at
+desktop/390, focus/keyboard, reduced motion/forced colors, scoped axe zero,
+no overflow/errors/broken assets or selection-height change. Engineering remains
+one parser-discovered image request; no new slide assets request before selection.
+Frame sequences at 0/4/8/12s confirm separate local mechanical changes.
+
 ## October 21 Buildometer completion card and composition
 
 Home now mounts BuildometerOverview, an empty-class layout-only parent composing

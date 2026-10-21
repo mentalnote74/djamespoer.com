@@ -1,0 +1,28 @@
+{
+  "master": "apparatus-master.png",
+  "sha256": "51367fce4b79ac8a1f5de0de000da6b327493f97e22ffcd96db2c2307533820a",
+  "dimensions": [
+    2172,
+    724
+  ],
+  "method": "Built-in imagegen; one original artwork, no alternate variants",
+  "mobileCrop": {
+    "x": 702,
+    "y": 100,
+    "width": 1470,
+    "height": 490
+  },
+  "wheelCrop": {
+    "x": 1381,
+    "y": 247,
+    "width": 120,
+    "height": 120
+  },
+  "inspectionCrop": {
+    "x": 1180,
+    "y": 319,
+    "width": 137,
+    "height": 44
+  },
+  "regenerate": "node scripts/thingamajob-slide/optimize.mjs"
+}

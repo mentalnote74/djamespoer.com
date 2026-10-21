@@ -1,0 +1,262 @@
+:host {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 3;
+  container-type: inline-size;
+}
+
+.apparatus {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 3;
+  color: #fff;
+  background: #101e22;
+
+  picture,
+  img,
+  .mechanics {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+  img {
+    object-fit: cover;
+  }
+  .mechanics {
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, #061317e6, #06131794 23%, transparent 48%);
+  }
+}
+
+.apparatus__copy {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(1rem, 3cqi, 2.5rem);
+  text-align: start;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.75rem, 4cqi, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+  p {
+    margin: 0 0 1rem;
+    font-size: clamp(1rem, 1.7cqi, 1.375rem);
+    line-height: 1.3;
+  }
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    padding-inline: 1rem;
+    border: 1px solid #ffffff70;
+    border-radius: var(--control-radius, 0.4rem);
+    background: #071014c9;
+    color: #fff;
+    font-family: var(--font-ui);
+    font-weight: 700;
+    text-decoration: none;
+    &:hover {
+      background: #fff;
+      color: #101e22;
+    }
+    &:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+      box-shadow: 0 0 0 6px #101e22;
+    }
+  }
+}
+
+.index-port {
+  clip-path: circle(49%);
+}
+.index-wheel {
+  transform-origin: 60px 60px;
+  animation: index 8.7s linear infinite;
+}
+.chemistry-port {
+  border-radius: 0 0 12% 12%;
+  overflow: hidden;
+}
+.chemistry {
+  fill: #63c5a8;
+  opacity: 0.22;
+  transform-origin: center;
+  animation: separate 17s ease-in-out infinite alternate;
+  &--two {
+    fill: #b5c888;
+    opacity: 0.2;
+    animation-duration: 23s;
+    animation-delay: -9s;
+    animation-direction: alternate-reverse;
+  }
+}
+.glass-reflection {
+  fill: none;
+  stroke: #cce6d2;
+  stroke-width: 2;
+  opacity: 0.3;
+}
+.feed-port {
+  overflow: hidden;
+}
+.evidence-feed {
+  clip-path: polygon(0 0, 81% 0, 100% 100%, 20% 100%);
+  animation: examine 11.3s ease-in-out infinite;
+}
+.relay {
+  fill: #e8a54a;
+  animation: relay 6.1s ease-in-out infinite;
+  &--hold {
+    fill: #d06038;
+    animation-duration: 9.7s;
+    animation-delay: -3s;
+  }
+  &--advance {
+    fill: #b9d09d;
+    animation-duration: 11.3s;
+    animation-delay: -5s;
+  }
+}
+.chamber-reflection {
+  fill: color-mix(in srgb, var(--selected-background) 30%, #b6d5c6);
+  opacity: 0.09;
+}
+.mechanics * {
+  animation-play-state: paused;
+}
+.apparatus--running .mechanics * {
+  animation-play-state: running;
+}
+
+@keyframes index {
+  0%,
+  25% {
+    transform: rotate(0deg);
+  }
+  31%,
+  57% {
+    transform: rotate(120deg);
+  }
+  63%,
+  90% {
+    transform: rotate(240deg);
+  }
+  96%,
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes separate {
+  from {
+    transform: translate(0, 28px) scaleX(0.85);
+  }
+  to {
+    transform: translate(5px, -40px) scaleX(1.12);
+  }
+}
+@keyframes examine {
+  0%,
+  24% {
+    transform: translate(0, 0);
+  }
+  38%,
+  72% {
+    transform: translate(10px, 6px);
+  }
+  86%,
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes relay {
+  0%,
+  30%,
+  100% {
+    opacity: 0.2;
+  }
+  48%,
+  75% {
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 600px) {
+  .apparatus .mechanics {
+    // Same coordinates as the 1470×490 source crop at (702,100).
+    inset: -20.408163% auto auto -47.755102%;
+    inline-size: 147.755102%;
+    block-size: 147.755102%;
+  }
+  .apparatus::after {
+    background: linear-gradient(90deg, #061317ed, #061317b8 41%, transparent 75%);
+  }
+}
+
+@container (max-width: 30rem) {
+  .apparatus__copy {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-content: start;
+    align-items: center;
+    gap: 0.1rem 0.5rem;
+    padding: 0.6rem 0.75rem;
+    h2 {
+      margin: 0;
+      font-size: clamp(1rem, 5cqi, 1.5rem);
+    }
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+      grid-column: 1;
+    }
+    a {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      padding-inline: 0.75rem;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mechanics * {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .apparatus {
+    color: CanvasText;
+    background: Canvas;
+  }
+  .apparatus picture,
+  .mechanics,
+  .apparatus::after {
+    display: none;
+  }
+  .apparatus__copy a {
+    color: LinkText;
+    background: Canvas;
+    border-color: LinkText;
+  }
+  .apparatus__copy a:focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
