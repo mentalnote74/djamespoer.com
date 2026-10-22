@@ -1,5 +1,9 @@
 # SCRUM-135 — TCC human-factors proving ground
 
+**Rejected by Coach October 22, 2026. Removed from the homepage carousel.**
+Preserved unchanged as iteration/history evidence with its component, source
+artwork, assets, prompt and lineage. Do not reintegrate without new direction.
+
 Built-in imagegen original: lab-master.png. Prompt: prompt.txt. Hash, original
 dimensions and crop/encoder lineage: source.json. Fictional period lab metaphor,
 not a historical photograph or a new claim about equipment TCC used.

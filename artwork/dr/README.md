@@ -1,5 +1,9 @@
 # SCRUM-137 — The 15-Minute Month End
 
+**Rejected by Coach October 22, 2026. Removed from the homepage carousel.**
+Preserved unchanged as iteration/history evidence with its component, source
+artwork, assets, prompt and lineage. Do not reintegrate without new direction.
+
 Built-in imagegen original: month-end-master.png. Prompt: prompt.txt. Original
 hash and responsive crop/encoder lineage: source.json. A fictional dealership
 finance/sorting metaphor, not a historical screenshot or a claim that the real

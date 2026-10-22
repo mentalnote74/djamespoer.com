@@ -1,5 +1,16 @@
 # AI Engineering Handoff
 
+## October 22 — TCC and D&R carousel slides rejected
+
+Coach rejected the two gateway slides from ba241c6. Removed only their Home
+imports/component registrations and carousel templates, restoring the previous
+ten-slide lineup. Do not reinstate them without new direction. Components,
+original artwork, responsive assets, prompts, lineage, optimizers and earlier
+commits remain intact as rejected-iteration evidence. Existing TCC/D&R case-study
+routes and all other slides are unchanged. Removal is a new commit, not a history
+rewrite. Production build/budgets passed; verify the ten-slide lineup and no
+TCC/D&R slide/asset requests on live desktop/390px after release.
+
 ## October 21 sequential TCC/D&R gateway batch
 
 SCRUM-135 TCC implemented first; checkpoint before starting SCRUM-137.
