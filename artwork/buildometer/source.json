@@ -1,0 +1,90 @@
+{
+  "master": "dyno-master.png",
+  "sha256": "84c3add959f79692f80fb8fb9154f6186d2877215dfee36b35578e4607563a69",
+  "generation": "built-in imagegen",
+  "originalDimensions": [
+    2171,
+    724
+  ],
+  "deliveryDimensions": [
+    2172,
+    724
+  ],
+  "rightPaddingPixels": 1,
+  "mobileCrop": {
+    "x": 300,
+    "y": 80,
+    "width": 1800,
+    "height": 600
+  },
+  "layers": [
+    {
+      "name": "dyno",
+      "widths": [
+        768,
+        1440,
+        2172
+      ],
+      "crop": [],
+      "avif": 52,
+      "webp": 78
+    },
+    {
+      "name": "dyno-mobile",
+      "widths": [
+        384,
+        768
+      ],
+      "crop": [
+        "-crop",
+        "1800x600+300+80",
+        "+repage"
+      ],
+      "avif": 52,
+      "webp": 78
+    }
+  ],
+  "outputs": [
+    {
+      "file": "dyno-768.avif",
+      "bytes": 23715
+    },
+    {
+      "file": "dyno-768.webp",
+      "bytes": 47956
+    },
+    {
+      "file": "dyno-1440.avif",
+      "bytes": 74001
+    },
+    {
+      "file": "dyno-1440.webp",
+      "bytes": 149206
+    },
+    {
+      "file": "dyno-2172.avif",
+      "bytes": 142761
+    },
+    {
+      "file": "dyno-2172.webp",
+      "bytes": 282914
+    },
+    {
+      "file": "dyno-mobile-384.avif",
+      "bytes": 7102
+    },
+    {
+      "file": "dyno-mobile-384.webp",
+      "bytes": 14716
+    },
+    {
+      "file": "dyno-mobile-768.avif",
+      "bytes": 24507
+    },
+    {
+      "file": "dyno-mobile-768.webp",
+      "bytes": 51330
+    }
+  ],
+  "regenerate": "node scripts/buildometer-slide/optimize.mjs"
+}

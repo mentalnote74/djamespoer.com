@@ -1,5 +1,26 @@
 # AI Engineering Handoff
 
+## October 21 Buildometer carousel gateway V1
+
+New ninth gateway follows EXL; Engineering stays first/eager. BuildometerSlide is
+self-contained: original period muscle-car dyno artwork, real HTML Buildometer /
+Know exactly what you are doing. / Explore, linking to existing /buildometer.
+Home integration is only its import/template; carousel architecture, other slides,
+Bedlam, dashboard/API/formulas, providers and below-carousel composition unchanged.
+No metric fetch from the slide. Responsive lazy AVIF/WebP picture with registered
+mobile crop; 74,001 B desktop DPR1 / 24,507 B 390px DPR2. Original, prompt, hash,
+crop/output lineage, optimizer and actual previews: artwork/buildometer/ and
+scripts/buildometer-slide/. No dependency. CSS-only local blower/instrument motion
+activates after hydration/first selection, pauses off-slide/hidden or independently
+by keyboard-accessible artwork control. Reduced motion static, forced colors
+semantic content only. Forced-colors selector specificity corrected in verification.
+Build/budgets clean (443.66KB initial); existing Carousel tests 23/23. Actual built
+Worker desktop/390px: one Engineering image, zero new assets before selection,
+no new metric API call, unchanged carousel height, no overflow/errors/broken assets.
+Light/dark environments, keyboard pause/resume, reduced motion/forced colors and
+scoped axe zero passed. User explicitly approves direct PROD release if healthy.
+Baseline is already-deployed public main fdbb872 (including the EXL gateway below).
+
 ## October 21 EXL LifePRO carousel gateway V1 — LOCAL REVIEW ONLY
 
 Branch feature/exl-lifepro-gateway-v1 starts at PROD 1081b3c. Coach explicitly

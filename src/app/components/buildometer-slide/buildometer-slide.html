@@ -1,0 +1,124 @@
+<div class="dyno" [class.dyno--running]="active() && pageVisible() && !motionPaused()">
+  <picture aria-hidden="true">
+    <source
+      media="(max-width: 600px)"
+      type="image/avif"
+      srcset="
+        /assets/buildometer-slide/dyno-mobile-384.avif 384w,
+        /assets/buildometer-slide/dyno-mobile-768.avif 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      media="(max-width: 600px)"
+      type="image/webp"
+      srcset="
+        /assets/buildometer-slide/dyno-mobile-384.webp 384w,
+        /assets/buildometer-slide/dyno-mobile-768.webp 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      type="image/avif"
+      srcset="
+        /assets/buildometer-slide/dyno-768.avif   768w,
+        /assets/buildometer-slide/dyno-1440.avif 1440w,
+        /assets/buildometer-slide/dyno-2172.avif 2172w
+      "
+      [sizes]="sizes"
+    />
+    <img
+      src="/assets/buildometer-slide/dyno-1440.webp"
+      srcset="
+        /assets/buildometer-slide/dyno-768.webp   768w,
+        /assets/buildometer-slide/dyno-1440.webp 1440w,
+        /assets/buildometer-slide/dyno-2172.webp 2172w
+      "
+      [sizes]="sizes"
+      width="2172"
+      height="724"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  @if (enhanced()) {
+    <!-- Registered physical instruments, not project metric readings. The car,
+         rollers, probes, straps and fan remain the visual hierarchy. -->
+    <svg class="instruments" viewBox="0 0 2172 724" aria-hidden="true" focusable="false">
+      <svg
+        x="781"
+        y="265"
+        width="25"
+        height="43"
+        viewBox="-22 -22 44 44"
+        preserveAspectRatio="none"
+      >
+        <g class="drive">
+          <path
+            d="M-18 0H18M0-18V18M-13-13L13 13M-13 13L13-13"
+            fill="none"
+            stroke="#b6a38b"
+            stroke-width="2"
+            opacity=".6"
+          />
+        </g>
+      </svg>
+      <svg x="1787" y="128" width="128" height="79" viewBox="0 0 128 79">
+        <g class="paper">
+          <path
+            d="M4-20V100M34-20V100M64-20V100M94-20V100M124-20V100M0 0H128M0 20H128M0 40H128M0 60H128M0 80H128M0 100H128"
+            fill="none"
+            stroke="#795c42"
+            stroke-width=".6"
+            opacity=".3"
+          />
+          <path
+            d="M42-20L49-8L44 0L52 12L47 20L56 32L49 40L58 52L51 60L59 72L53 80L61 92L55 100"
+            fill="none"
+            stroke="#5c4634"
+            stroke-width="1.2"
+          />
+        </g>
+      </svg>
+      <path class="needle" d="M1582 106L1594 90" stroke="#ead8b7" stroke-width="2" />
+      <path
+        class="signal"
+        d="M1767 61H1780L1785 53L1789 72L1793 61H1810L1814 56L1819 66L1823 61H1850"
+        fill="none"
+        stroke="#b0e4d2"
+        stroke-width="1.5"
+      />
+      <circle class="lamp" cx="1895" cy="43" r="3" fill="#edb870" />
+    </svg>
+  }
+  <div class="dyno__copy">
+    <h2>Buildometer</h2>
+    <p>Know exactly what you are doing.</p>
+    <div class="dyno__actions">
+      <a
+        class="scene-action"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        routerLink="/buildometer"
+        aria-label="Explore Buildometer"
+        >Explore</a
+      >
+      <button
+        class="scene-action motion-control"
+        type="button"
+        (click)="motionPaused.set(!motionPaused())"
+        [attr.aria-label]="
+          motionPaused() ? 'Resume Buildometer artwork motion' : 'Pause Buildometer artwork motion'
+        "
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</div>

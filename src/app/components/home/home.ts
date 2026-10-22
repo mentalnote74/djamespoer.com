@@ -7,6 +7,7 @@ import { Thingamajob } from '../thingamajob/thingamajob';
 import { PerspectiveSlide } from '../perspective-slide/perspective-slide';
 import { ThingamajobSlide } from '../thingamajob-slide/thingamajob-slide';
 import { ExlLifeproSlide } from '../exl-lifepro-slide/exl-lifepro-slide';
+import { BuildometerSlide } from '../buildometer-slide/buildometer-slide';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
@@ -21,6 +22,7 @@ import { CarouselSlide } from '../carousel/carousel-slide';
     PerspectiveSlide,
     ThingamajobSlide,
     ExlLifeproSlide,
+    BuildometerSlide,
     Aside,
     Thingamajob,
     Carousel,
