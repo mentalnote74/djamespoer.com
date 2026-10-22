@@ -12,11 +12,16 @@ export function sitemapFor(journal) {
     if (!publicPageForPath(path)) throw Error('Invalid journal date in sitemap input');
     paths.add(path);
   }
-  // Omit lastmod: a build/deployment time is not a content-modification date.
+  // Only explicit editorial dates qualify as lastmod, never build/deployment time.
   return (
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-    [...paths].map((path) => `  <url><loc>${SITE_ORIGIN}/${path}</loc></url>`).join('\n') +
+    [...paths]
+      .map((path) => {
+        const modified = PUBLIC_PAGES.find((page) => page.path === path)?.lastModified;
+        return `  <url><loc>${SITE_ORIGIN}/${path}</loc>${modified ? `<lastmod>${modified}</lastmod>` : ''}</url>`;
+      })
+      .join('\n') +
     '\n</urlset>\n'
   );
 }
@@ -30,7 +35,7 @@ export async function generateDiscoverability() {
       `export const JOURNAL_DATES: readonly string[] = ${JSON.stringify([...new Set(journal.entries.map((entry) => entry.date))])};\n`,
   );
   console.log(
-    'Sitemap generated from public routes and existing journal dates; no fabricated lastmod.',
+    'Sitemap generated from public routes, journal dates and explicit editorial modification dates.',
   );
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))

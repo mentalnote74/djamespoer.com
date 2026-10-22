@@ -1,4 +1,30 @@
-/** Existing public content only. Shared by routing, prerendering and the sitemap. */
+export interface ArticleSummary {
+  slug: string;
+  title: string;
+  dek: string;
+  publishedDate: string;
+  modifiedDate: string;
+}
+
+// Summaries only: the full articles are loaded by their individual lazy routes.
+export const ARTICLES: readonly ArticleSummary[] = [
+  {
+    slug: 'how-do-i-make-it-to-the-top-of-the-stack',
+    title: 'How Do I Make It to the Top of the Stack?',
+    dek: 'In a remote job market flooded with applications and increasingly mediated by AI, a better résumé may not be enough. The problem is signal.',
+    publishedDate: '2026-10-22',
+    modifiedDate: '2026-10-22',
+  },
+  {
+    slug: 'honey-should-i-add-bot-herder-to-my-resume',
+    title: 'Honey?! Should I Add Bot Herder to My Résumé?',
+    dek: 'At some point, “I use AI” stops describing a tool and starts describing an operating model.',
+    publishedDate: '2026-10-22',
+    modifiedDate: '2026-10-22',
+  },
+];
+
+/** Published public content only. Shared by routing, prerendering and the sitemap. */
 export const SITE_ORIGIN = 'https://djamespoer.com';
 export const PROFESSIONAL_NAME = 'D. James Poer';
 export const PROFESSIONAL_ROLE = 'Senior UX Engineer and Front-End Architect';
@@ -11,7 +37,9 @@ export interface PublicPage {
   path: string;
   title: string;
   description: string;
-  kind?: 'profile' | 'work';
+  kind?: 'profile' | 'work' | 'article';
+  lastModified?: string;
+  article?: ArticleSummary;
 }
 
 export const PUBLIC_PAGES: readonly PublicPage[] = [
@@ -153,6 +181,21 @@ export const PUBLIC_PAGES: readonly PublicPage[] = [
     description:
       'How djamespoer.com stores playful cookie preferences, how long they last, how to change them and how they remain separate from Google Analytics.',
   },
+  {
+    path: 'blognostisphere',
+    title: 'Blognostisphere | D. James Poer',
+    description:
+      'Original articles on UX, front-end engineering and AI, written under D. James Poer’s direction as Blognosticator and grounded in building djamespoer.com.',
+    lastModified: '2026-10-22',
+  },
+  ...ARTICLES.map((article): PublicPage => ({
+    path: `blognostisphere/${article.slug}`,
+    title: `${article.title} | Blognostisphere`,
+    description: article.dek,
+    kind: 'article',
+    lastModified: article.modifiedDate,
+    article,
+  })),
 ];
 
 export function publicPageForPath(path: string): PublicPage | undefined {
@@ -187,6 +230,7 @@ export function structuredDataForPage(page: PublicPage): Record<string, unknown>
         url: `${SITE_ORIGIN}/about`,
         jobTitle: PROFESSIONAL_ROLE,
         sameAs: PUBLIC_PROFILES,
+        ...(page.article ? { alternateName: 'Blognosticator' } : {}),
       },
       {
         ...website,
@@ -212,6 +256,23 @@ export function structuredDataForPage(page: PublicPage): Record<string, unknown>
                 url,
                 author: person,
                 description: page.description,
+              },
+            }
+          : {}),
+        ...(page.article
+          ? {
+              mainEntity: {
+                '@type': 'BlogPosting',
+                '@id': `${url}#article`,
+                headline: page.article.title,
+                description: page.article.dek,
+                url,
+                author: person,
+                publisher: person,
+                datePublished: page.article.publishedDate,
+                dateModified: page.article.modifiedDate,
+                mainEntityOfPage: { '@id': `${url}#page` },
+                isPartOf: website,
               },
             }
           : {}),

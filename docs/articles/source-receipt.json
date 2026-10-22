@@ -1,0 +1,72 @@
+{
+  "recordedDate": "2026-10-22",
+  "articles": [
+    {
+      "file": "01-top-of-the-stack.md",
+      "source": "SCRUM-128 comment 10115, recovered intact",
+      "sha256": "83cbbc057ca4261af91b278514976f77f6d5228489c47e9151d329008313fc94",
+      "paragraphsAndHeadings": 227,
+      "proseComparison": "All body text preserved after semantic formatting and link insertion",
+      "links": [
+        [
+          "Thingamajob",
+          "/thingamajob"
+        ],
+        [
+          "Buildometer",
+          "/buildometer"
+        ],
+        [
+          "djamespoer.com",
+          "/work/djamespoer"
+        ],
+        [
+          "Work History",
+          "/work/exl"
+        ],
+        [
+          "Case Studies",
+          "/case-studies/exl"
+        ]
+      ],
+      "sourceURLs": [
+        "https://economicgraph.linkedin.com/content/dam/me/economicgraph/en-us/PDF/us-monthly-insights-march-2026.pdf",
+        "https://economicgraph.linkedin.com/blog/labor-market-tightness-linkedins-measure-of-job-competition",
+        "https://www.greenhouse.com/recruiting-benchmarks",
+        "https://www.greenhouse.com/blog/hiring-pipeline-overload",
+        "https://www.prnewswire.com/news-releases/only-7-of-candidates-say-the-job-market-favors-them-amidst-challenges-of-ageism-ai-cheating-and-ghosting-302507370.html",
+        "https://www.linkedin.com/business/talent/blog/talent-acquisition/future-of-recruiting-2025",
+        "https://www.ashbyhq.com/talent-trends-report/reports/referrals"
+      ]
+    },
+    {
+      "file": "02-bot-herder.md",
+      "source": "Owner-supplied full approved article in October 22 publication directive",
+      "sha256": "a0a8d3071f429133a770378e79ba7e2ae32dd57ed353fd238ee15280a8a4a322",
+      "paragraphsAndHeadings": 247,
+      "proseComparison": "All body text preserved after semantic formatting and link insertion",
+      "links": [
+        [
+          "djamespoer.com",
+          "/work/djamespoer"
+        ],
+        [
+          "multi-agent architecture",
+          "/ai"
+        ]
+      ],
+      "sourceURLs": [
+        "https://www.microsoft.com/en-us/worklab/work-trend-index/agents-human-agency-and-the-opportunity-for-every-organization",
+        "https://economicgraph.linkedin.com/research/labor-market-report-2026",
+        "https://www.anthropic.com/engineering/multi-agent-research-system",
+        "https://claude.com/resources/guides/2026-agentic-coding-trends-report/capability-trends-what-agents-can-do",
+        "https://www.anthropic.com/research/long-running-Claude",
+        "https://developers.openai.com/api/docs/guides/agents/orchestration",
+        "https://developers.openai.com/api/docs/guides/agents/running-agents",
+        "https://developers.openai.com/api/docs/guides/agents/integrations-observability",
+        "https://research.ibm.com/publications/governance-by-construction-for-generalist-agents--1",
+        "https://www.mckinsey.com/capabilities/people-and-organization/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era"
+      ]
+    }
+  ]
+}

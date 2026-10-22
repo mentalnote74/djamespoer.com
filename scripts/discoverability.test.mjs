@@ -16,7 +16,12 @@ test('sitemap contains canonical public pages and real journal dates without inv
   assert.equal(urls.length, PUBLIC_PAGES.length + 1);
   assert.equal(new Set(urls).size, urls.length);
   assert.ok(urls.every((url) => /^https:\/\/djamespoer\.com\//.test(url)));
-  assert.ok(!/test\/|api\/|career-source|lastmod|changefreq|priority/.test(xml));
+  assert.ok(!/test\/|api\/|career-source|changefreq|priority/.test(xml));
+  const dated = [...xml.matchAll(/<url><loc>(.*?)<\/loc><lastmod>(.*?)<\/lastmod><\/url>/g)];
+  assert.equal(dated.length, 3);
+  assert.ok(
+    dated.every((match) => match[1].includes('/blognostisphere') && match[2] === '2026-10-22'),
+  );
   assert.throws(() => sitemapFor({ schemaVersion: 1, entries: [{ date: '2026-02-31' }] }));
   assert.throws(() => sitemapFor({ entries: [] }));
 });
@@ -57,9 +62,16 @@ test('small JSON-LD graphs share one professional identity and truthful page-spe
     assert.equal(graph[2].isPartOf['@id'], graph[1]['@id']);
     if (page.kind === 'profile') assert.equal(graph[2].mainEntity['@id'], graph[0]['@id']);
     if (page.kind === 'work') assert.equal(graph[2].mainEntity['@type'], 'CreativeWork');
+    if (page.article) {
+      assert.equal(graph[0].alternateName, 'Blognosticator');
+      assert.equal(graph[2].mainEntity['@type'], 'BlogPosting');
+      assert.equal(graph[2].mainEntity.author['@id'], graph[0]['@id']);
+      assert.equal(graph[2].mainEntity.datePublished, page.article.publishedDate);
+      assert.equal(graph[2].mainEntity.dateModified, page.article.modifiedDate);
+    }
     assert.doesNotMatch(
       JSON.stringify(graph),
-      /aggregateRating|JobPosting|dateModified|private-only|career-source/,
+      /aggregateRating|"JobPosting"|private-only|career-source/,
     );
   }
 });

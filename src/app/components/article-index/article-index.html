@@ -1,0 +1,22 @@
+<div class="blognostisphere-index editorial-content">
+  <h1>Blognostisphere</h1>
+  <p>
+    UX, front-end engineering and AI, considered through what we are actually building and learning
+    on djamespoer.com. Inspiration-driven, not calendar-driven.
+  </p>
+  @for (article of articles; track article.slug) {
+    <section class="blognostisphere-index__entry">
+      <h2>
+        <a [routerLink]="['/blognostisphere', article.slug]">{{ article.title }}</a>
+      </h2>
+      <p>{{ article.dek }}</p>
+      <p>
+        <a href="#index-author-note">{{ byline }}</a> ·
+        <time [attr.datetime]="article.publishedDate">{{ dateLabel(article.publishedDate) }}</time>
+      </p>
+    </section>
+  }
+  <p id="index-author-note" class="blognostisphere-index__author-note" tabindex="-1">
+    *{{ authorNote }}
+  </p>
+</div>

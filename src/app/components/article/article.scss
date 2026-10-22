@@ -1,0 +1,51 @@
+app-article {
+  display: block;
+}
+
+.blognostisphere-article {
+  overflow-wrap: anywhere;
+
+  h1 {
+    margin-block: 1rem;
+    font-size: clamp(2rem, 5vw, 3.75rem);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  &__dek {
+    font-size: clamp(1.125rem, 2vw, 1.4rem);
+    line-height: 1.55;
+  }
+
+  &__body {
+    line-height: 1.8;
+
+    h2 {
+      margin-block: 2.75rem 1rem;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1.25;
+      text-wrap: balance;
+    }
+
+    hr {
+      border: 0;
+      border-block-start: 1px solid var(--panel-border);
+      margin-block: 2.5rem;
+    }
+  }
+
+  footer {
+    margin-block-start: 2.5rem;
+    line-height: 1.65;
+  }
+
+  &__author-note {
+    font-size: 0.9rem;
+    margin-block: 2rem;
+  }
+
+  li + li {
+    margin-block-start: 0.6rem;
+  }
+}

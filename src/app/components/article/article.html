@@ -1,0 +1,35 @@
+<article class="blognostisphere-article editorial-content">
+  <header>
+    <p><a routerLink="/blognostisphere">Back to Blognostisphere</a></p>
+    <h1>{{ article().title }}</h1>
+    <p class="blognostisphere-article__dek">{{ article().dek }}</p>
+    <p>
+      <a href="#article-author-note">{{ byline }}</a> ·
+      <time [attr.datetime]="article().publishedDate">{{ publishedLabel() }}</time>
+    </p>
+  </header>
+  <div class="blognostisphere-article__body" [innerHTML]="article().body"></div>
+  <footer>
+    <section aria-labelledby="article-sources-heading">
+      <h2 id="article-sources-heading">Sources and research</h2>
+      <ul>
+        @for (source of article().sources; track source.url) {
+          <li>
+            <a [href]="source.url">{{ source.label }}</a>
+          </li>
+        }
+      </ul>
+    </section>
+    <p id="article-author-note" class="blognostisphere-article__author-note" tabindex="-1">
+      *{{ authorNote }}
+    </p>
+    <nav aria-label="More from Blognostisphere">
+      @for (other of related(); track other.slug) {
+        <p>
+          <a [routerLink]="['/blognostisphere', other.slug]">Read next: {{ other.title }}</a>
+        </p>
+      }
+      <p><a routerLink="/blognostisphere">All Blognostisphere articles</a></p>
+    </nav>
+  </footer>
+</article>

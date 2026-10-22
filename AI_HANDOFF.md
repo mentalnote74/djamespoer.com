@@ -1,5 +1,19 @@
 # AI Engineering Handoff
 
+## October 22 — Blognostisphere articles 1 and 2
+
+Owner authorized the smallest article system after confirming none existed on
+main. Blognostisphere primary-nav link, index and two lazy article routes share
+one reading presentation/model. Article 1 recovered exactly from SCRUM-128 comment
+10115; Article 2 supplied in full by owner. Approved Markdown and source hashes
+in docs/articles/. No prose reconstruction or generic AI rewrite. By Blognosticator*
+and the standing emotional-support-donkey disclaimer preserve the pen name; schema
+author remains D. James Poer. Inspiration-driven; older weekly canon superseded.
+Existing metadata/prerender/sitemap registry extended with small summaries and
+explicit publication dates; full bodies remain lazy. No CMS, new dependencies,
+scheduler, article hero art or unrelated homepage changes. Verification/release
+evidence: docs/articles/README.md and ignored tmp/evidence/ live receipts.
+
 ## October 22 — deployment-grid desktop page size
 
 Deployment History now defaults to ten rows on desktop. Existing MobileDelivery

@@ -1,5 +1,6 @@
 import { Route, Routes } from '@angular/router';
 import { PUBLIC_PAGES } from './content/public-pages';
+import { ARTICLES } from './content/articles';
 
 const loadProofPage = () =>
   import('./components/proof-page/proof-page').then(({ ProofPage }) => ProofPage);
@@ -118,6 +119,21 @@ const createProofRoute = (path: string, heading: string): Route => ({
 });
 
 export const interiorRoutes: Routes = [
+  {
+    path: 'blognostisphere',
+    loadComponent: () =>
+      import('./components/article-index/article-index').then(({ ArticleIndex }) => ArticleIndex),
+  },
+  ...ARTICLES.map((article): Route => ({
+    path: `blognostisphere/${article.slug}`,
+    resolve: {
+      article: () =>
+        article.slug === ARTICLES[0].slug
+          ? import('./components/article/top-of-the-stack.content').then(({ ARTICLE }) => ARTICLE)
+          : import('./components/article/bot-herder.content').then(({ ARTICLE }) => ARTICLE),
+    },
+    loadComponent: () => import('./components/article/article').then(({ Article }) => Article),
+  })),
   {
     path: 'work',
     pathMatch: 'full' as const,
