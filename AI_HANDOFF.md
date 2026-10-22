@@ -1,5 +1,29 @@
 # AI Engineering Handoff
 
+## October 22 — djamespoer.com portfolio-proof gateway
+
+One new eleventh slide follows IPS; rejected TCC/D&R remain absent. PortfolioSlide
+uses real HTML djamespoer.com / The portfolio is the proof. / Explore and existing
+/work/djamespoer. Actual public homepage capture (source PROD a832f78) is the front
+product plane; one cheap echo of that same capture plus native component/evidence
+layers underneath. CSS opens the front, resolves the structure and sweeps theme
+light through the evidence layer. No machine metaphor, image-generation call,
+new library/engine, dashboard/API/provider mount or private source use.
+Layered responsive AVIF/WebP, separate mobile crop, lazy images; ~21.7KB desktop
+/21.5KB mobile selected bodies. Capture/hash/crops/encoder lineage in
+artwork/djamespoer-slide/; optimizer scripts/portfolio-slide/. All meaningful copy
+semantic; decorative labels are schematic evidence areas, not live audit scores.
+Existing hydration/visibility/independent pause pattern, reduced-motion open
+static view and forced-colors identity retained. Desktop/390px real composite,
+light/dark, keyboard/pause, reduced motion (including light pseudo-element),
+forced colors, scoped axe zero passed; no overflow, height change, broken assets,
+console errors or new artwork before selection. Engineering still one image.
+Build/budgets clean (443.66KB initial); Carousel tests23/23 once. Real inspection
+fixed fold clipping, mobile text contrast, glyph encoding and pseudo-element
+pause; redundant decorative CSS removed rather than changing budgets.
+User explicitly authorizes direct PROD release if healthy. Home wiring only
+extends the ten-slide lineup; existing carousel/case studies/backend unaffected.
+
 ## October 22 — TCC and D&R carousel slides rejected
 
 Coach rejected the two gateway slides from ba241c6. Removed only their Home

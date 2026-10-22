@@ -1,0 +1,115 @@
+﻿<div class="proof" [class.running]="active() && pageVisible() && !motionPaused()">
+  <div class="stack" aria-hidden="true">
+    @if (enhanced()) {
+      <picture class="echo">
+        <source
+          type="image/avif"
+          srcset="
+            /assets/portfolio-slide/echo-320.avif 320w,
+            /assets/portfolio-slide/echo-640.avif 640w
+          "
+          [sizes]="echoSizes"
+        />
+        <img
+          src="/assets/portfolio-slide/echo-640.webp"
+          srcset="
+            /assets/portfolio-slide/echo-320.webp 320w,
+            /assets/portfolio-slide/echo-640.webp 640w
+          "
+          [sizes]="echoSizes"
+          width="1440"
+          height="548"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+      <!-- A schematic of this product, not mounted dashboards or claimed live
+           readings. Only the public site capture is rasterized. -->
+      <div class="evidence">
+        <div class="outline"><span>header / nav</span><span>main</span></div>
+        <div class="blocks">
+          <span>Components</span><span>Artwork layers</span><span>Thingamajob</span
+          ><span>Buildometer</span>
+        </div>
+        <div class="proofs">
+          <span>&#10003; Accessibility</span><span>&#10003; Testing</span
+          ><span>&#10003; Performance</span>
+        </div>
+        <div class="pipeline"><span>Build</span><b>&#8594;</b><span>Deploy</span></div>
+      </div>
+    }
+    <picture class="front">
+      <source
+        media="(max-width:600px)"
+        type="image/avif"
+        srcset="
+          /assets/portfolio-slide/product-mobile-384.avif 384w,
+          /assets/portfolio-slide/product-mobile-768.avif 768w
+        "
+        [sizes]="frontSizes"
+      />
+      <source
+        media="(max-width:600px)"
+        type="image/webp"
+        srcset="
+          /assets/portfolio-slide/product-mobile-384.webp 384w,
+          /assets/portfolio-slide/product-mobile-768.webp 768w
+        "
+        [sizes]="frontSizes"
+      />
+      <source
+        type="image/avif"
+        srcset="
+          /assets/portfolio-slide/product-384.avif   384w,
+          /assets/portfolio-slide/product-768.avif   768w,
+          /assets/portfolio-slide/product-1280.avif 1280w
+        "
+        [sizes]="frontSizes"
+      />
+      <img
+        src="/assets/portfolio-slide/product-1280.webp"
+        srcset="
+          /assets/portfolio-slide/product-384.webp   384w,
+          /assets/portfolio-slide/product-768.webp   768w,
+          /assets/portfolio-slide/product-1280.webp 1280w
+        "
+        [sizes]="frontSizes"
+        width="1440"
+        height="548"
+        alt=""
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+  </div>
+  <div class="copy">
+    <h2>djamespoer.com</h2>
+    <p>The portfolio is the proof.</p>
+    <div class="actions">
+      <a
+        class="action"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        routerLink="/work/djamespoer"
+        aria-label="Explore djamespoer.com"
+        >Explore</a
+      >
+      <button
+        class="action motion-control"
+        type="button"
+        (click)="motionPaused.set(!motionPaused())"
+        [attr.aria-label]="
+          motionPaused() ? 'Resume portfolio artwork motion' : 'Pause portfolio artwork motion'
+        "
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</div>

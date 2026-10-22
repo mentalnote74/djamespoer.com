@@ -1,0 +1,101 @@
+{
+  "master": "homepage-master.png",
+  "sha256": "55560769794df6bc5ccf727475eea7be032ae6a1303fd9b14b19996a3a8c135f",
+  "originalDimensions": [
+    1440,
+    760
+  ],
+  "source": "Actual public homepage, see capture.json",
+  "layers": [
+    {
+      "name": "product",
+      "widths": [
+        384,
+        768,
+        1280
+      ],
+      "crop": "1440x548+0+0",
+      "avif": 56,
+      "webp": 78
+    },
+    {
+      "name": "product-mobile",
+      "widths": [
+        384,
+        768
+      ],
+      "crop": "1280x480+80+25",
+      "avif": 52,
+      "webp": 74
+    },
+    {
+      "name": "echo",
+      "widths": [
+        320,
+        640
+      ],
+      "crop": "1440x548+0+0",
+      "avif": 20,
+      "webp": 36
+    }
+  ],
+  "outputs": [
+    {
+      "file": "product-384.avif",
+      "bytes": 6133
+    },
+    {
+      "file": "product-384.webp",
+      "bytes": 9002
+    },
+    {
+      "file": "product-768.avif",
+      "bytes": 17071
+    },
+    {
+      "file": "product-768.webp",
+      "bytes": 26194
+    },
+    {
+      "file": "product-1280.avif",
+      "bytes": 34981
+    },
+    {
+      "file": "product-1280.webp",
+      "bytes": 54156
+    },
+    {
+      "file": "product-mobile-384.avif",
+      "bytes": 5974
+    },
+    {
+      "file": "product-mobile-384.webp",
+      "bytes": 9514
+    },
+    {
+      "file": "product-mobile-768.avif",
+      "bytes": 16890
+    },
+    {
+      "file": "product-mobile-768.webp",
+      "bytes": 27016
+    },
+    {
+      "file": "echo-320.avif",
+      "bytes": 1527
+    },
+    {
+      "file": "echo-320.webp",
+      "bytes": 4068
+    },
+    {
+      "file": "echo-640.avif",
+      "bytes": 4584
+    },
+    {
+      "file": "echo-640.webp",
+      "bytes": 11808
+    }
+  ],
+  "regenerate": "node scripts/portfolio-slide/optimize.mjs"
+}
