@@ -1,5 +1,17 @@
 # AI Engineering Handoff
 
+## October 21 sequential TCC/D&R gateway batch
+
+SCRUM-135 TCC implemented first; checkpoint before starting SCRUM-137.
+Human-factors lab: two real users/prototypes, researchers observing, hybrid
+incorporates useful controls from both. CSS sequence observe → record → fit both
+modules; reduced-motion final state preserves the story. Real HTML and existing
+/case-studies/tcc. Layered AVIF/WebP, registered mobile crop, theme reflections,
+independent artwork pause and hydration-safe first-use enhancement. Source/prompt/
+hash/optimizer: artwork/tcc/ and scripts/tcc-slide/. No prior slide/backend/data
+changes. Per explicit direction: no build/test/deploy after TCC; next implement
+D&R, then ONE shared build/focused verification and combined PROD release.
+
 ## October 21 IPS / PowerSchool carousel gateway V1
 
 New tenth slide follows Buildometer. IpsSlide uses real HTML IPS / PowerSchool /

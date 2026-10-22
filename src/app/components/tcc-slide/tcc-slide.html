@@ -1,0 +1,154 @@
+<div class="lab" [class.lab--running]="active() && pageVisible() && !motionPaused()">
+  <picture class="room" aria-hidden="true">
+    <source
+      media="(max-width:600px)"
+      type="image/avif"
+      srcset="
+        /assets/tcc-slide/lab-mobile-384.avif 384w,
+        /assets/tcc-slide/lab-mobile-768.avif 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      media="(max-width:600px)"
+      type="image/webp"
+      srcset="
+        /assets/tcc-slide/lab-mobile-384.webp 384w,
+        /assets/tcc-slide/lab-mobile-768.webp 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      type="image/avif"
+      srcset="/assets/tcc-slide/lab-768.avif 768w, /assets/tcc-slide/lab-1440.avif 1440w"
+      [sizes]="sizes"
+    />
+    <img
+      src="/assets/tcc-slide/lab-1440.webp"
+      srcset="/assets/tcc-slide/lab-768.webp 768w, /assets/tcc-slide/lab-1440.webp 1440w"
+      [sizes]="sizes"
+      width="2175"
+      height="725"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <picture class="focal" aria-hidden="true">
+    <source
+      type="image/avif"
+      srcset="
+        /assets/tcc-slide/people-prototypes-384.avif   384w,
+        /assets/tcc-slide/people-prototypes-768.avif   768w,
+        /assets/tcc-slide/people-prototypes-1280.avif 1280w,
+        /assets/tcc-slide/people-prototypes-1660.avif 1660w
+      "
+      [sizes]="focalSizes"
+    />
+    <img
+      src="/assets/tcc-slide/people-prototypes-1280.webp"
+      srcset="
+        /assets/tcc-slide/people-prototypes-384.webp   384w,
+        /assets/tcc-slide/people-prototypes-768.webp   768w,
+        /assets/tcc-slide/people-prototypes-1280.webp 1280w,
+        /assets/tcc-slide/people-prototypes-1660.webp 1660w
+      "
+      [sizes]="focalSizes"
+      width="1660"
+      height="725"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  @if (enhanced()) {
+    <svg class="research" viewBox="0 0 2175 725" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="tcc-module" x2=".3" y2="1">
+          <stop stop-color="#f5e4be" />
+          <stop offset=".45" stop-color="#cdbd98" />
+          <stop offset="1" stop-color="#695e4c" />
+        </linearGradient>
+      </defs>
+      <!-- A human uses the original control; observations change the hybrid,
+           which takes one recognizable interaction from EACH original. -->
+      <path
+        class="user-index"
+        d="M1092 324L1101 319"
+        stroke="#efe0b9"
+        stroke-width="6"
+        stroke-linecap="round"
+      />
+      <g class="record">
+        <path d="M1395 344H1608L1598 408H1384Z" fill="#c1ad88" stroke="#4c4536" stroke-width="5" />
+        <path
+          d="M1407 363L1416 374L1436 352M1462 366L1470 377L1491 355M1517 369L1526 380L1546 358"
+          fill="none"
+          stroke="#234c48"
+          stroke-width="6"
+        />
+      </g>
+      <g class="module module--a">
+        <circle
+          cx="1423"
+          cy="257"
+          r="43"
+          fill="url(#tcc-module)"
+          stroke="#63523d"
+          stroke-width="4"
+        />
+        <circle cx="1423" cy="257" r="32" fill="#744038" stroke="#d2b58a" stroke-width="3" />
+        <circle cx="1423" cy="257" r="19" fill="url(#tcc-module)" />
+        <path d="M1423 239V248" stroke="#343832" stroke-width="4" />
+      </g>
+      <g class="module module--b">
+        <rect
+          x="1500"
+          y="242"
+          width="125"
+          height="48"
+          rx="5"
+          fill="#244f4f"
+          stroke="#b5b29a"
+          stroke-width="4"
+        />
+        <path
+          d="M1513 252H1529V274H1513ZM1538 252H1554V274H1538ZM1563 252H1579V274H1563ZM1588 252H1604V274H1588Z"
+          fill="url(#tcc-module)"
+          stroke="#406564"
+          stroke-width="2"
+        />
+      </g>
+      <path class="glass" d="M400 30L925 18M1300 201L1660 218" fill="none" stroke-width="5" />
+    </svg>
+  }
+  <div class="lab__copy">
+    <h2>TCC Software Solutions</h2>
+    <p>Take the guesswork out of your users.</p>
+    <div class="lab__actions">
+      <a
+        class="scene-action"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        routerLink="/case-studies/tcc"
+        aria-label="Explore TCC Software Solutions case study"
+        >Explore</a
+      >
+      <button
+        class="scene-action motion-control"
+        type="button"
+        (click)="motionPaused.set(!motionPaused())"
+        [attr.aria-label]="
+          motionPaused() ? 'Resume TCC artwork motion' : 'Pause TCC artwork motion'
+        "
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</div>

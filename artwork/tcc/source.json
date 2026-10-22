@@ -1,0 +1,143 @@
+{
+  "master": "lab-master.png",
+  "sha256": "14520d08aa798995862b2485dd54bd005ad87dbbe9e15413f506358d73854fa4",
+  "generation": "built-in imagegen",
+  "originalDimensions": [
+    2170,
+    725
+  ],
+  "deliveryDimensions": [
+    2175,
+    725
+  ],
+  "rightPaddingPixels": 5,
+  "mobileCrop": {
+    "x": 370,
+    "y": -100,
+    "width": 1800,
+    "height": 600
+  },
+  "foregroundCrop": {
+    "x": 510,
+    "y": 0,
+    "width": 1660,
+    "height": 725
+  },
+  "layers": [
+    {
+      "name": "lab",
+      "widths": [
+        768,
+        1440
+      ],
+      "crop": [],
+      "avif": 28,
+      "webp": 45
+    },
+    {
+      "name": "lab-mobile",
+      "widths": [
+        384,
+        768
+      ],
+      "crop": [
+        "-gravity",
+        "south",
+        "-extent",
+        "2175x825",
+        "-gravity",
+        "northwest",
+        "-crop",
+        "1800x600+370+0",
+        "+repage"
+      ],
+      "avif": 28,
+      "webp": 45
+    },
+    {
+      "name": "people-prototypes",
+      "widths": [
+        384,
+        768,
+        1280,
+        1660
+      ],
+      "crop": [
+        "-gravity",
+        "northwest",
+        "-crop",
+        "1660x725+510+0",
+        "+repage"
+      ],
+      "avif": 54,
+      "webp": 78
+    }
+  ],
+  "outputs": [
+    {
+      "file": "lab-768.avif",
+      "bytes": 6759
+    },
+    {
+      "file": "lab-768.webp",
+      "bytes": 18216
+    },
+    {
+      "file": "lab-1440.avif",
+      "bytes": 17458
+    },
+    {
+      "file": "lab-1440.webp",
+      "bytes": 45600
+    },
+    {
+      "file": "lab-mobile-384.avif",
+      "bytes": 2592
+    },
+    {
+      "file": "lab-mobile-384.webp",
+      "bytes": 6632
+    },
+    {
+      "file": "lab-mobile-768.avif",
+      "bytes": 6962
+    },
+    {
+      "file": "lab-mobile-768.webp",
+      "bytes": 17886
+    },
+    {
+      "file": "people-prototypes-384.avif",
+      "bytes": 8340
+    },
+    {
+      "file": "people-prototypes-384.webp",
+      "bytes": 15242
+    },
+    {
+      "file": "people-prototypes-768.avif",
+      "bytes": 23853
+    },
+    {
+      "file": "people-prototypes-768.webp",
+      "bytes": 42350
+    },
+    {
+      "file": "people-prototypes-1280.avif",
+      "bytes": 52566
+    },
+    {
+      "file": "people-prototypes-1280.webp",
+      "bytes": 89390
+    },
+    {
+      "file": "people-prototypes-1660.avif",
+      "bytes": 76260
+    },
+    {
+      "file": "people-prototypes-1660.webp",
+      "bytes": 125116
+    }
+  ],
+  "regenerate": "node scripts/tcc-slide/optimize.mjs"
+}

@@ -1,0 +1,238 @@
+:host {
+  display: block;
+  inline-size: 100%;
+  container-type: inline-size;
+}
+.lab {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 3;
+  color: white;
+  background: #101b1d;
+  .room,
+  img,
+  .research {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+  .focal {
+    position: absolute;
+    inset: 0 auto 0 23.448276%;
+    inline-size: 76.321839%;
+    mask-image: linear-gradient(90deg, transparent, #000 1%, #000 99%, transparent);
+  }
+  .research {
+    pointer-events: none;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, #071315ed, #07131580 24%, transparent 45%);
+  }
+}
+.lab__copy {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  padding: clamp(1rem, 3cqi, 2.5rem);
+  text-align: start;
+  h2 {
+    max-inline-size: 16ch;
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.75rem, 4cqi, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+  p {
+    max-inline-size: 24ch;
+    margin: 0 0 1rem;
+    font-size: clamp(1rem, 1.7cqi, 1.375rem);
+    line-height: 1.3;
+  }
+}
+.lab__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  button {
+    padding-inline: 0.6rem;
+  }
+}
+.scene-action {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 0.8rem;
+  border: 1px solid #ffffff70;
+  border-radius: 0.35rem;
+  color: white;
+  background: #071315e8;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-decoration: none;
+  &:hover {
+    color: #101b1d;
+    background: white;
+  }
+  &:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px #101b1d;
+  }
+}
+.user-index {
+  transform-origin: 1050px 363px;
+  animation: observe 8s ease-in-out infinite;
+}
+.record {
+  animation: learn 8s ease-in-out infinite;
+}
+.module--a {
+  animation: incorporate-a 8s ease-in-out infinite;
+}
+.module--b {
+  animation: incorporate-b 8s ease-in-out infinite;
+}
+.glass {
+  stroke: color-mix(in srgb, var(--selected-background) 50%, #d1ded4);
+  opacity: 0.13;
+}
+.research * {
+  animation-play-state: paused;
+}
+.lab--running .research * {
+  animation-play-state: running;
+}
+@keyframes observe {
+  0%,
+  3%,
+  95%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  12%,
+  80% {
+    transform: rotate(22deg);
+  }
+}
+@keyframes learn {
+  0%,
+  12%,
+  90%,
+  100% {
+    transform: translateY(28px) rotate(-5deg);
+    opacity: 0.2;
+  }
+  22%,
+  78% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes incorporate-a {
+  0%,
+  22%,
+  92%,
+  100% {
+    transform: translate(-80px, 80px);
+  }
+  36%,
+  76% {
+    transform: translate(0);
+  }
+}
+@keyframes incorporate-b {
+  0%,
+  33%,
+  96%,
+  100% {
+    transform: translate(115px, 80px);
+  }
+  47%,
+  78% {
+    transform: translate(0);
+  }
+}
+@media (max-width: 600px) {
+  .lab .focal {
+    inset: 16.666667% auto auto 7.777778%;
+    inline-size: 92.222222%;
+    block-size: 120.833333%;
+  }
+  .lab .research {
+    inset: 16.666667% auto auto -20.555556%;
+    inline-size: 120.833333%;
+    block-size: 120.833333%;
+  }
+  .lab::after {
+    background: linear-gradient(#071315ed, #07131560 40%, transparent 66%);
+  }
+}
+@container (max-width:30rem) {
+  .lab__copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-content: start;
+    align-items: center;
+    gap: 0.1rem 0.5rem;
+    padding: 0.5rem 0.75rem;
+    h2 {
+      max-inline-size: none;
+      margin: 0;
+      font-size: clamp(0.9rem, 4cqi, 1.25rem);
+    }
+    p {
+      max-inline-size: none;
+      margin: 0;
+      font-size: 0.8125rem;
+      grid-column: 1/-1;
+    }
+  }
+  .lab__actions {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    .scene-action {
+      padding-inline: 0.6rem;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .research * {
+    animation: none;
+  }
+  .motion-control {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .lab {
+    color: CanvasText;
+    background: Canvas;
+  }
+  .lab picture,
+  .lab .research,
+  .lab::after,
+  .motion-control {
+    display: none;
+  }
+  .scene-action {
+    color: LinkText;
+    background: Canvas;
+    border-color: LinkText;
+  }
+  .scene-action:focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
