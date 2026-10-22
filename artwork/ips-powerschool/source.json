@@ -1,0 +1,133 @@
+{
+  "master": "interlock-master.png",
+  "sha256": "06a1b309d72fbca3f7ece3fab4e0cdcae2e1016283856be2b5e81edbcb32fddd",
+  "generation": "built-in imagegen",
+  "originalDimensions": [
+    2171,
+    724
+  ],
+  "deliveryDimensions": [
+    2172,
+    724
+  ],
+  "rightPaddingPixels": 1,
+  "mobileCrop": {
+    "x": 420,
+    "y": -140,
+    "width": 1800,
+    "height": 600,
+    "topPaddingPixels": 140
+  },
+  "foregroundCrop": {
+    "x": 760,
+    "y": 0,
+    "width": 1320,
+    "height": 724
+  },
+  "layers": [
+    {
+      "name": "room",
+      "widths": [
+        768,
+        1440
+      ],
+      "crop": [],
+      "avif": 28,
+      "webp": 46
+    },
+    {
+      "name": "room-mobile",
+      "widths": [
+        384,
+        768
+      ],
+      "crop": [
+        "-gravity",
+        "south",
+        "-extent",
+        "2172x864",
+        "-gravity",
+        "northwest",
+        "-crop",
+        "1800x600+420+0",
+        "+repage"
+      ],
+      "avif": 28,
+      "webp": 46
+    },
+    {
+      "name": "interlock",
+      "widths": [
+        640,
+        960,
+        1320
+      ],
+      "crop": [
+        "-crop",
+        "1320x724+760+0",
+        "+repage"
+      ],
+      "avif": 60,
+      "webp": 82
+    }
+  ],
+  "outputs": [
+    {
+      "file": "room-768.avif",
+      "bytes": 6914
+    },
+    {
+      "file": "room-768.webp",
+      "bytes": 21586
+    },
+    {
+      "file": "room-1440.avif",
+      "bytes": 21200
+    },
+    {
+      "file": "room-1440.webp",
+      "bytes": 62232
+    },
+    {
+      "file": "room-mobile-384.avif",
+      "bytes": 2433
+    },
+    {
+      "file": "room-mobile-384.webp",
+      "bytes": 7168
+    },
+    {
+      "file": "room-mobile-768.avif",
+      "bytes": 7468
+    },
+    {
+      "file": "room-mobile-768.webp",
+      "bytes": 22408
+    },
+    {
+      "file": "interlock-640.avif",
+      "bytes": 33941
+    },
+    {
+      "file": "interlock-640.webp",
+      "bytes": 58444
+    },
+    {
+      "file": "interlock-960.avif",
+      "bytes": 67854
+    },
+    {
+      "file": "interlock-960.webp",
+      "bytes": 113660
+    },
+    {
+      "file": "interlock-1320.avif",
+      "bytes": 110360
+    },
+    {
+      "file": "interlock-1320.webp",
+      "bytes": 182554
+    }
+  ],
+  "regenerate": "node scripts/ips-slide/optimize.mjs"
+}

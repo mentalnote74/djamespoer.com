@@ -1,5 +1,27 @@
 # AI Engineering Handoff
 
+## October 21 IPS / PowerSchool carousel gateway V1
+
+New tenth slide follows Buildometer. IpsSlide uses real HTML IPS / PowerSchool /
+Put the rules where the work happens. / Explore and existing /case-studies/ips.
+Home changes only its import/template; no carousel architecture, case-study,
+Bedlam, existing slide, backend, metric or below-carousel changes. One imagegen
+signal-tower/admin interlocking chassis plus registered SVG moving hardware.
+Selector throws, linkage transfers, one gate opens while the incompatible gate
+closes/bolts: all three perceptual beats complete within four seconds. CSS only;
+no animation loop/dependency/filter surfaces. Independent artwork pause, inactive/
+hidden pause, first-use hydration safety, reduced motion and forced colors retained.
+Layered AVIF/WebP: aggressively compressed room plus sharper mechanism strip;
+mobile crop retains the one complete rule/consequence sequence below the copy.
+Original/hash/prompt/crop/optimizer/previews: artwork/ips-powerschool/ and
+scripts/ips-slide/. Real composite inspection caught/fixed mobile crop gravity
+carry-over and a redundant display rule affecting forced colors/style budget.
+Build/budgets clean; existing Carousel tests 23/23. Desktop/390px real-speed beats,
+keyboard pause, light/dark, reduced motion/forced colors, scoped axe zero, no
+overflow/errors/broken assets or height change. No new asset request before
+selection; initial Engineering stays a single parser-discovered image.
+User explicitly authorizes direct PROD release if healthy, without approval gate.
+
 ## October 21 Buildometer carousel gateway V1
 
 New ninth gateway follows EXL; Engineering stays first/eager. BuildometerSlide is

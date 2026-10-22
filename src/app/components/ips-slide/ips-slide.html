@@ -1,0 +1,192 @@
+<div class="interlock" [class.interlock--running]="active() && pageVisible() && !motionPaused()">
+  <picture class="room" aria-hidden="true">
+    <source
+      media="(max-width: 600px)"
+      type="image/avif"
+      srcset="
+        /assets/ips-slide/room-mobile-384.avif 384w,
+        /assets/ips-slide/room-mobile-768.avif 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      media="(max-width: 600px)"
+      type="image/webp"
+      srcset="
+        /assets/ips-slide/room-mobile-384.webp 384w,
+        /assets/ips-slide/room-mobile-768.webp 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      type="image/avif"
+      srcset="/assets/ips-slide/room-768.avif 768w, /assets/ips-slide/room-1440.avif 1440w"
+      [sizes]="sizes"
+    />
+    <img
+      src="/assets/ips-slide/room-1440.webp"
+      srcset="/assets/ips-slide/room-768.webp 768w, /assets/ips-slide/room-1440.webp 1440w"
+      [sizes]="sizes"
+      width="2172"
+      height="724"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <picture class="hardware" aria-hidden="true">
+    <source
+      type="image/avif"
+      srcset="
+        /assets/ips-slide/interlock-640.avif   640w,
+        /assets/ips-slide/interlock-960.avif   960w,
+        /assets/ips-slide/interlock-1320.avif 1320w
+      "
+      [sizes]="mechanismSizes"
+    />
+    <img
+      src="/assets/ips-slide/interlock-960.webp"
+      srcset="
+        /assets/ips-slide/interlock-640.webp   640w,
+        /assets/ips-slide/interlock-960.webp   960w,
+        /assets/ips-slide/interlock-1320.webp 1320w
+      "
+      [sizes]="mechanismSizes"
+      width="1320"
+      height="724"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  @if (enhanced()) {
+    <svg class="mechanism" viewBox="0 0 2172 724" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="ips-gateway-metal" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#413d31" />
+          <stop offset=".2" stop-color="#dfcda3" />
+          <stop offset=".42" stop-color="#98845b" />
+          <stop offset=".75" stop-color="#504937" />
+          <stop offset="1" stop-color="#1b2425" />
+        </linearGradient>
+        <linearGradient id="ips-gateway-steel" x1="0" y1="0" x2="1" y2=".6">
+          <stop offset="0" stop-color="#131c1e" />
+          <stop offset=".45" stop-color="#4b5551" />
+          <stop offset=".52" stop-color="#343f3c" />
+          <stop offset="1" stop-color="#111a1c" />
+        </linearGradient>
+        <radialGradient id="ips-gateway-hub" cx=".37" cy=".3">
+          <stop offset="0" stop-color="#aaa080" />
+          <stop offset=".6" stop-color="#4b4b3c" />
+          <stop offset=".85" stop-color="#242c2a" />
+          <stop offset="1" stop-color="#b49964" />
+        </radialGradient>
+      </defs>
+      <!-- Three sequential beats: throw, transfer, interlock. All geometry is
+           registered to the fixed master, including the mobile crop. -->
+      <g class="linkage">
+        <path d="M1006 323H1532" stroke="#10191a" stroke-width="30" />
+        <rect x="1006" y="307" width="526" height="24" rx="5" fill="url(#ips-gateway-metal)" />
+        <path d="M1010 313H1532" stroke="#e0c998" stroke-width="3" />
+        <path d="M1100 307V331M1260 307V331M1420 307V331" stroke="#4e4a3d" stroke-width="12" />
+        <path
+          d="M1507 318L1570 202M1507 323L1570 385"
+          fill="none"
+          stroke="#b09769"
+          stroke-width="13"
+        />
+        <circle
+          cx="1507"
+          cy="320"
+          r="17"
+          fill="url(#ips-gateway-hub)"
+          stroke="#d1b57b"
+          stroke-width="3"
+        />
+      </g>
+      <g class="selector">
+        <circle
+          cx="951"
+          cy="318"
+          r="44"
+          fill="url(#ips-gateway-hub)"
+          stroke="#dab778"
+          stroke-width="4"
+        />
+        <path d="M951 351V168" stroke="#121b1c" stroke-width="23" />
+        <path d="M947 349V168" stroke="#c6b58a" stroke-width="12" />
+        <path d="M943 349V168" stroke="#f0dba5" stroke-width="3" />
+        <rect
+          x="921"
+          y="138"
+          width="60"
+          height="53"
+          rx="13"
+          fill="url(#ips-gateway-steel)"
+          stroke="#bf9b58"
+          stroke-width="5"
+        />
+        <path d="M930 149H970" stroke="#8d7954" stroke-width="4" stroke-linecap="round" />
+      </g>
+      <circle cx="951" cy="318" r="16" fill="#202928" stroke="#ead2a0" stroke-width="5" />
+      <!-- Each gate is clipped by its own real aperture, not a full-scene glow. -->
+      <svg x="1663" y="137" width="302" height="113" viewBox="0 0 302 113">
+        <rect class="route-light" width="302" height="113" />
+        <g class="gate gate--valid">
+          <path d="M0 0H302V113H0Z" fill="url(#ips-gateway-steel)" />
+          <path d="M0 3H302M0 109H302" stroke="#c4ae83" stroke-width="6" />
+          <path
+            d="M36 11V101M94 11V101M152 11V101M210 11V101M268 11V101"
+            stroke="#10191b"
+            stroke-width="14"
+          />
+          <path d="M0 56H302" stroke="#8f825f" stroke-width="9" />
+        </g>
+      </svg>
+      <svg x="1663" y="326" width="302" height="113" viewBox="0 0 302 113">
+        <g class="gate gate--invalid">
+          <path d="M0 0H302V113H0Z" fill="url(#ips-gateway-steel)" />
+          <path d="M0 3H302M0 109H302" stroke="#c4ae83" stroke-width="6" />
+          <path d="M20 16L282 97M20 97L282 16" stroke="#111a1c" stroke-width="18" />
+          <path d="M20 13L282 94M20 94L282 13" stroke="#877351" stroke-width="9" />
+        </g>
+        <g class="bolts">
+          <path d="M-52 36H74M-52 77H74" stroke="#101719" stroke-width="22" />
+          <path d="M-52 33H74M-52 74H74" stroke="#d3b97d" stroke-width="13" />
+          <rect x="56" y="24" width="24" height="18" rx="3" fill="#e3cea2" />
+          <rect x="56" y="65" width="24" height="18" rx="3" fill="#e3cea2" />
+        </g>
+      </svg>
+      <path class="reflection" d="M1040 299H1550M1663 132H1965" stroke-width="4" />
+    </svg>
+  }
+  <div class="interlock__copy">
+    <h2>IPS / PowerSchool</h2>
+    <p>Put the rules where the work happens.</p>
+    <div class="interlock__actions">
+      <a
+        class="scene-action"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        routerLink="/case-studies/ips"
+        aria-label="Explore IPS / PowerSchool case study"
+        >Explore</a
+      >
+      <button
+        class="scene-action motion-control"
+        type="button"
+        (click)="motionPaused.set(!motionPaused())"
+        [attr.aria-label]="
+          motionPaused() ? 'Resume IPS artwork motion' : 'Pause IPS artwork motion'
+        "
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</div>
