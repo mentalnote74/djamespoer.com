@@ -1,4 +1,4 @@
-:host {
+﻿:host {
   display: block;
   inline-size: 100%;
   container-type: inline-size;
@@ -129,7 +129,7 @@
   12%,
   90%,
   100% {
-    transform: translateY(28px) rotate(-5deg);
+    transform: translateY(28px);
     opacity: 0.2;
   }
   22%,

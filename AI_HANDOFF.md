@@ -12,6 +12,25 @@ hash/optimizer: artwork/tcc/ and scripts/tcc-slide/. No prior slide/backend/data
 changes. Per explicit direction: no build/test/deploy after TCC; next implement
 D&R, then ONE shared build/focused verification and combined PROD release.
 
+October22 continuation: SCRUM-137 D&R implemented second; new twelfth slide after
+TCC eleventh. Human rule control → sorter reconfiguration → records flowing →
+backlog collapse/output/drums advance. Existing /case-studies/dr and exact HTML
+time-result hook; no changes to case studies/legacy facts, prior slides, carousel
+architecture, backend, data or below-carousel content. Separate self-contained
+components, existing first-use/visibility/pause/reduced-motion/forced-colors pattern.
+One shared Carousel run23/23. Combined assembled desktop/390px checks: visible
+Magic, stable height, keyboard pause, static accessibility states, scoped axe
+zero, no overflow/errors/missing assets, no new artwork before selection, one
+Engineering image. Shared build found D&R CSS169B over warning limit; shorter
+private selectors correct it without budget changes. One corrective combined
+build passed without warnings (443.66KB initial), no repeat passing test suite.
+D&R title wraps clear of operator.
+Layered AVIF/WebP measured bodies TCC70,024/30,815B and D&R78,643/34,659B
+(desktop DPR1/mobile DPR2). Source/prompt/hash/optimizer in artwork/tcc/,
+artwork/dr/, scripts/tcc-slide/, scripts/dr-slide/. Both authorized to ship
+together through main/normal Cloudflare pipeline, with PROD the next integration
+check. Root user's dirty checkout remains untouched.
+
 ## October 21 IPS / PowerSchool carousel gateway V1
 
 New tenth slide follows Buildometer. IpsSlide uses real HTML IPS / PowerSchool /

@@ -1,0 +1,274 @@
+﻿:host {
+  display: block;
+  inline-size: 100%;
+  container-type: inline-size;
+}
+.finance {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 3;
+  color: white;
+  background: #101b1d;
+  .room,
+  img,
+  .automation {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+  .focal {
+    position: absolute;
+    inset: 0 auto 0 23.448276%;
+    inline-size: 76.321839%;
+    mask-image: linear-gradient(90deg, transparent, #000 1%, #000 99%, transparent);
+  }
+  .automation {
+    pointer-events: none;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, #071315ed, #07131580 24%, transparent 45%);
+  }
+}
+.copy {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  padding: clamp(1rem, 3cqi, 2.5rem);
+  text-align: start;
+  h2 {
+    max-inline-size: 12ch;
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.75rem, 4cqi, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+  p {
+    max-inline-size: 24ch;
+    margin: 0 0 1rem;
+    font-size: clamp(1rem, 1.7cqi, 1.375rem);
+    line-height: 1.3;
+  }
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  button {
+    padding-inline: 0.6rem;
+  }
+}
+.action {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 0.8rem;
+  border: 1px solid #ffffff70;
+  border-radius: 0.35rem;
+  color: white;
+  background: #071315e8;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-decoration: none;
+  &:hover {
+    color: #101b1d;
+    background: white;
+  }
+  &:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px #101b1d;
+  }
+}
+.rule {
+  transform-origin: 1019px 377px;
+  transform: rotate(20deg);
+  animation: configure 8s ease-in-out infinite;
+}
+.diverter {
+  transform-origin: 1700px 415px;
+  transform: rotate(-25deg);
+  animation: route 8s ease-in-out infinite;
+}
+.deal {
+  opacity: 0;
+  animation: process 8s linear infinite;
+}
+.backlog,
+.output {
+  transform-origin: center bottom;
+  transform-box: fill-box;
+  animation: work 8s ease-in-out infinite;
+}
+.backlog {
+  --from: 1;
+  --to: 0.14;
+  transform: scaleY(0.14);
+}
+.output {
+  --from: 0.14;
+  --to: 1;
+}
+.drums {
+  animation: count 8s steps(8) infinite;
+}
+.glass {
+  stroke: color-mix(in srgb, var(--selected-background) 50%, #d9e0d1);
+  opacity: 0.25;
+}
+.automation * {
+  animation-play-state: paused;
+}
+.running .automation * {
+  animation-play-state: running;
+}
+@keyframes configure {
+  0%,
+  3%,
+  96%,
+  100% {
+    transform: rotate(-25deg);
+  }
+  13%,
+  82% {
+    transform: rotate(20deg);
+  }
+}
+@keyframes route {
+  0%,
+  13%,
+  91%,
+  100% {
+    transform: rotate(20deg);
+  }
+  24%,
+  76% {
+    transform: rotate(-25deg);
+  }
+}
+@keyframes process {
+  0%,
+  24% {
+    opacity: 0;
+    transform: translate(0);
+  }
+  26% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 1;
+    transform: translate(450px, -12px);
+  }
+  61%,
+  100% {
+    opacity: 0;
+    transform: translate(650px, -65px);
+  }
+}
+@keyframes work {
+  0%,
+  24%,
+  100% {
+    transform: scaleY(var(--from));
+  }
+  60%,
+  80% {
+    transform: scaleY(var(--to));
+  }
+}
+@keyframes count {
+  0%,
+  24% {
+    transform: translateY(0);
+  }
+  64%,
+  90% {
+    transform: translateY(-32px);
+  }
+  100% {
+    transform: translateY(-64px);
+  }
+}
+@media (max-width: 600px) {
+  .finance .focal {
+    inset: 16.666667% auto auto 7.777778%;
+    inline-size: 92.222222%;
+    block-size: 120.833333%;
+  }
+  .finance .automation {
+    inset: 16.666667% auto auto -20.555556%;
+    inline-size: 120.833333%;
+    block-size: 120.833333%;
+  }
+  .finance::after {
+    background: linear-gradient(#071315ed, #07131560 40%, transparent 66%);
+  }
+}
+@container (max-width:30rem) {
+  .copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-content: start;
+    align-items: center;
+    gap: 0.1rem 0.5rem;
+    padding: 0.5rem 0.75rem;
+    h2 {
+      max-inline-size: none;
+      margin: 0;
+      font-size: clamp(0.9rem, 4cqi, 1.25rem);
+    }
+    p {
+      max-inline-size: none;
+      margin: 0;
+      font-size: 0.8125rem;
+      grid-column: 1/-1;
+    }
+  }
+  .actions {
+    grid-column: 2;
+    grid-row: 1;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    .action {
+      padding-inline: 0.6rem;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .automation * {
+    animation: none;
+  }
+  .motion-control {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .finance {
+    color: CanvasText;
+    background: Canvas;
+  }
+  .finance picture,
+  .finance .automation,
+  .finance::after,
+  .motion-control {
+    display: none;
+  }
+  .action {
+    color: LinkText;
+    background: Canvas;
+    border-color: LinkText;
+  }
+  .action:focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}

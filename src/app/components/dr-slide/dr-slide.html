@@ -1,0 +1,171 @@
+﻿<div class="finance" [class.running]="active() && pageVisible() && !motionPaused()">
+  <picture class="room" aria-hidden="true">
+    <source
+      media="(max-width:600px)"
+      type="image/avif"
+      srcset="
+        /assets/dr-slide/office-mobile-384.avif 384w,
+        /assets/dr-slide/office-mobile-768.avif 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      media="(max-width:600px)"
+      type="image/webp"
+      srcset="
+        /assets/dr-slide/office-mobile-384.webp 384w,
+        /assets/dr-slide/office-mobile-768.webp 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      type="image/avif"
+      srcset="/assets/dr-slide/office-768.avif 768w, /assets/dr-slide/office-1440.avif 1440w"
+      [sizes]="sizes"
+    />
+    <img
+      src="/assets/dr-slide/office-1440.webp"
+      srcset="/assets/dr-slide/office-768.webp 768w, /assets/dr-slide/office-1440.webp 1440w"
+      [sizes]="sizes"
+      width="2175"
+      height="725"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <picture class="focal" aria-hidden="true">
+    <source
+      type="image/avif"
+      srcset="
+        /assets/dr-slide/finance-sorter-384.avif   384w,
+        /assets/dr-slide/finance-sorter-768.avif   768w,
+        /assets/dr-slide/finance-sorter-1280.avif 1280w,
+        /assets/dr-slide/finance-sorter-1660.avif 1660w
+      "
+      [sizes]="focalSizes"
+    />
+    <img
+      src="/assets/dr-slide/finance-sorter-1280.webp"
+      srcset="
+        /assets/dr-slide/finance-sorter-384.webp   384w,
+        /assets/dr-slide/finance-sorter-768.webp   768w,
+        /assets/dr-slide/finance-sorter-1280.webp 1280w,
+        /assets/dr-slide/finance-sorter-1660.webp 1660w
+      "
+      [sizes]="focalSizes"
+      width="1660"
+      height="725"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  @if (enhanced()) {
+    <svg class="automation" viewBox="0 0 2175 725" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="dr-brass" x2=".2" y2="1">
+          <stop stop-color="#e8cd9a" />
+          <stop offset=".45" stop-color="#ab8d5b" />
+          <stop offset="1" stop-color="#413e32" />
+        </linearGradient>
+      </defs>
+      <!-- The human establishes criteria; the repeatable document work follows.
+           These are illustrative jackets/drum marks, never live metric values. -->
+      <g class="rule">
+        <path d="M1019 377V288" stroke="#252d2d" stroke-width="16" />
+        <path d="M1016 377V288" stroke="#d6bd87" stroke-width="7" />
+        <rect
+          x="999"
+          y="265"
+          width="40"
+          height="31"
+          rx="8"
+          fill="#24332f"
+          stroke="#cfb27d"
+          stroke-width="3"
+        />
+      </g>
+      <circle cx="1019" cy="377" r="16" fill="url(#dr-brass)" stroke="#343c37" stroke-width="4" />
+      <g class="backlog">
+        <path d="M1164 359H1339V431H1164Z" fill="#a98d65" stroke="#4d4638" stroke-width="4" />
+        <path
+          d="M1168 371H1336M1168 383H1336M1168 395H1336M1168 407H1336M1168 419H1336"
+          stroke="#ead9b4"
+          stroke-width="7"
+        />
+      </g>
+      <g class="diverter">
+        <path d="M1700 421L1820 381" stroke="#151f22" stroke-width="30" />
+        <path d="M1700 415L1820 375" stroke="#c4a975" stroke-width="18" />
+        <path d="M1704 407L1818 369" stroke="#e6d1a3" stroke-width="3" />
+      </g>
+      <circle cx="1700" cy="415" r="17" fill="url(#dr-brass)" stroke="#303735" stroke-width="5" />
+      @for (delay of [0, 0.35, 0.7]; track delay) {
+        <g class="deal" [style.animation-delay.s]="delay">
+          <path
+            d="M1260 382L1340 386L1320 431L1240 424Z"
+            fill="#e6d2ac"
+            stroke="#7e694d"
+            stroke-width="3"
+          />
+          <path d="M1267 397L1322 400M1261 409L1307 414" stroke="#938264" stroke-width="3" />
+        </g>
+      }
+      <g class="output">
+        <path d="M1930 337H2078V389H1930Z" fill="#d8c5a1" stroke="#756044" stroke-width="4" />
+        <path d="M1934 349H2074M1934 362H2074M1934 375H2074" stroke="#faf0d4" stroke-width="5" />
+      </g>
+      <svg x="1495" y="181" width="94" height="40" viewBox="0 0 94 40">
+        <g class="drums">
+          <path
+            d="M9-12H24V4H9ZM39-5H54V12H39ZM69-10H84V7H69ZM9 20H24V36H9ZM39 27H54V44H39ZM69 22H84V39H69ZM9 52H24V68H9ZM39 59H54V76H39ZM69 54H84V71H69Z"
+            fill="none"
+            stroke="#d5c39a"
+            stroke-width="4"
+          />
+        </g>
+      </svg>
+      <svg x="1612" y="181" width="106" height="40" viewBox="0 0 106 40">
+        <g class="drums">
+          <path
+            d="M10-8H28V8H10ZM45-14H63V2H45ZM80-5H98V11H80ZM10 24H28V40H10ZM45 18H63V34H45ZM80 27H98V43H80ZM10 56H28V72H10ZM45 50H63V66H45ZM80 59H98V75H80Z"
+            fill="none"
+            stroke="#d5c39a"
+            stroke-width="4"
+          />
+        </g>
+      </svg>
+      <path class="glass" d="M1510 161H1735M1090 312L1630 347" fill="none" stroke-width="4" />
+    </svg>
+  }
+  <div class="copy">
+    <h2>Dreyer &amp; Reinbold</h2>
+    <p>Two and a half days. Fifteen minutes.</p>
+    <div class="actions">
+      <a
+        class="action"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        routerLink="/case-studies/dr"
+        aria-label="Explore Dreyer &amp; Reinbold case study"
+        >Explore</a
+      >
+      <button
+        class="action motion-control"
+        type="button"
+        (click)="motionPaused.set(!motionPaused())"
+        [attr.aria-label]="
+          motionPaused() ? 'Resume D&amp;R artwork motion' : 'Pause D&amp;R artwork motion'
+        "
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</div>

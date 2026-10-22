@@ -10,6 +10,7 @@ import { ExlLifeproSlide } from '../exl-lifepro-slide/exl-lifepro-slide';
 import { BuildometerSlide } from '../buildometer-slide/buildometer-slide';
 import { IpsSlide } from '../ips-slide/ips-slide';
 import { TccSlide } from '../tcc-slide/tcc-slide';
+import { DrSlide } from '../dr-slide/dr-slide';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
@@ -27,6 +28,7 @@ import { CarouselSlide } from '../carousel/carousel-slide';
     BuildometerSlide,
     IpsSlide,
     TccSlide,
+    DrSlide,
     Aside,
     Thingamajob,
     Carousel,

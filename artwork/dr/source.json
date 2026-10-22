@@ -1,0 +1,143 @@
+{
+  "master": "month-end-master.png",
+  "sha256": "97c5f012d551789209d901f71b91dca1494d64725f2a0abae9868744f98d3391",
+  "generation": "built-in imagegen",
+  "originalDimensions": [
+    2170,
+    725
+  ],
+  "deliveryDimensions": [
+    2175,
+    725
+  ],
+  "rightPaddingPixels": 5,
+  "mobileCrop": {
+    "x": 370,
+    "y": -100,
+    "width": 1800,
+    "height": 600
+  },
+  "foregroundCrop": {
+    "x": 510,
+    "y": 0,
+    "width": 1660,
+    "height": 725
+  },
+  "layers": [
+    {
+      "name": "office",
+      "widths": [
+        768,
+        1440
+      ],
+      "crop": [],
+      "avif": 28,
+      "webp": 45
+    },
+    {
+      "name": "office-mobile",
+      "widths": [
+        384,
+        768
+      ],
+      "crop": [
+        "-gravity",
+        "south",
+        "-extent",
+        "2175x825",
+        "-gravity",
+        "northwest",
+        "-crop",
+        "1800x600+370+0",
+        "+repage"
+      ],
+      "avif": 28,
+      "webp": 45
+    },
+    {
+      "name": "finance-sorter",
+      "widths": [
+        384,
+        768,
+        1280,
+        1660
+      ],
+      "crop": [
+        "-gravity",
+        "northwest",
+        "-crop",
+        "1660x725+510+0",
+        "+repage"
+      ],
+      "avif": 54,
+      "webp": 78
+    }
+  ],
+  "outputs": [
+    {
+      "file": "office-768.avif",
+      "bytes": 7569
+    },
+    {
+      "file": "office-768.webp",
+      "bytes": 22224
+    },
+    {
+      "file": "office-1440.avif",
+      "bytes": 20634
+    },
+    {
+      "file": "office-1440.webp",
+      "bytes": 56016
+    },
+    {
+      "file": "office-mobile-384.avif",
+      "bytes": 2592
+    },
+    {
+      "file": "office-mobile-384.webp",
+      "bytes": 7216
+    },
+    {
+      "file": "office-mobile-768.avif",
+      "bytes": 7537
+    },
+    {
+      "file": "office-mobile-768.webp",
+      "bytes": 21630
+    },
+    {
+      "file": "finance-sorter-384.avif",
+      "bytes": 8975
+    },
+    {
+      "file": "finance-sorter-384.webp",
+      "bytes": 17108
+    },
+    {
+      "file": "finance-sorter-768.avif",
+      "bytes": 27122
+    },
+    {
+      "file": "finance-sorter-768.webp",
+      "bytes": 49284
+    },
+    {
+      "file": "finance-sorter-1280.avif",
+      "bytes": 58009
+    },
+    {
+      "file": "finance-sorter-1280.webp",
+      "bytes": 103720
+    },
+    {
+      "file": "finance-sorter-1660.avif",
+      "bytes": 83679
+    },
+    {
+      "file": "finance-sorter-1660.webp",
+      "bytes": 144874
+    }
+  ],
+  "regenerate": "node scripts/dr-slide/optimize.mjs"
+}

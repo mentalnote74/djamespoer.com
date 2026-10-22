@@ -24,5 +24,10 @@ Mobile crop (370,-100,1800,600), with100px top padding. SVG and raster transform
 share those exact source coordinates. Intrinsic3:1 ratio; lazy/async images.
 Regenerate: node scripts/tcc-slide/optimize.mjs.
 
-Sequential-batch checkpoint: implementation complete; build/browser/test/release
-intentionally deferred until SCRUM-137 is implemented, per Coach's batch directive.
+Sequential-batch checkpoint b86ae18 preserved before starting SCRUM-137. The
+shared build/browser/test pass followed BOTH implementations. Existing Carousel
+suite23/23; assembled desktop/390px, real-speed observation/assembly, keyboard
+artwork pause, reduced-motion/forced-colors and scoped axe zero passed. No
+overflow, console errors, missing assets or carousel height change. Selected
+artwork bodies:70,024B desktop DPR1 /30,815B390px DPR2. Source review removed an
+unintended global-origin rotation from the observation card before shared build.
