@@ -2,6 +2,11 @@
 
 ## October 22 — Blognostisphere articles 1 and 2
 
+Navigation correction: Blognostisphere is a normal shared disclosure/button with
+the existing icon/chevron styling, All articles index link and each published
+article title beneath it. Menu entries come from the article registry, including
+future approved additions. Existing Escape/focus/mobile-close handlers apply.
+
 Owner authorized the smallest article system after confirming none existed on
 main. Blognostisphere primary-nav link, index and two lazy article routes share
 one reading presentation/model. Article 1 recovered exactly from SCRUM-128 comment

@@ -227,18 +227,56 @@
             }
           </ul>
         </li>
-        <li>
-          <a
-            publicTrack
-            trackLocation="primary-navigation"
-            trackSource="navigation"
-            class="site-header__nav-link"
-            routerLink="/blognostisphere"
-            routerLinkActive="site-header__nav-link--active"
-            ariaCurrentWhenActive="page"
-            ><svg lucideBookOpen class="action-icon" aria-hidden="true" focusable="false"></svg>
-            Blognostisphere</a
+        <li class="site-header__group">
+          <button
+            #articlesButton
+            type="button"
+            [attr.aria-expanded]="openSection() === 'articles'"
+            aria-controls="articles-navigation"
+            (click)="toggleSection('articles', articlesButton)"
           >
+            <svg lucideBookOpen class="action-icon" aria-hidden="true" focusable="false"></svg>
+            Blognostisphere
+            <svg
+              lucideChevronDown
+              class="action-icon site-header__theme-chevron"
+              aria-hidden="true"
+              focusable="false"
+            ></svg>
+          </button>
+          <ul
+            id="articles-navigation"
+            class="site-header__submenu"
+            [hidden]="openSection() !== 'articles'"
+          >
+            <li>
+              <a
+                publicTrack
+                trackLocation="primary-navigation"
+                trackSource="navigation"
+                class="site-header__nav-link"
+                routerLink="/blognostisphere"
+                routerLinkActive="site-header__nav-link--active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                ariaCurrentWhenActive="page"
+                >All articles</a
+              >
+            </li>
+            @for (article of articles; track article.slug) {
+              <li>
+                <a
+                  publicTrack
+                  trackLocation="primary-navigation"
+                  trackSource="navigation"
+                  class="site-header__nav-link"
+                  [routerLink]="['/blognostisphere', article.slug]"
+                  routerLinkActive="site-header__nav-link--active"
+                  ariaCurrentWhenActive="page"
+                  >{{ article.title }}</a
+                >
+              </li>
+            }
+          </ul>
         </li>
         <li class="site-header__group">
           <button

@@ -16,6 +16,7 @@ import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Bedlam } from '../bedlam/bedlam';
+import { ARTICLES } from '../../content/public-pages';
 
 @Component({
   imports: [
@@ -44,8 +45,9 @@ export class Header {
   readonly identityPaused = input(false);
   readonly mobileOpen = signal(false);
   readonly openSection = signal<
-    'about' | 'work' | 'case-studies' | 'perspectives' | 'theme' | null
+    'about' | 'work' | 'case-studies' | 'perspectives' | 'articles' | 'theme' | null
   >(null);
+  readonly articles = ARTICLES;
   readonly perspectives = [
     { path: '/engineering', label: 'Engineering' },
     { path: '/ux-product', label: 'UX & Product' },
@@ -109,7 +111,7 @@ export class Header {
   }
 
   toggleSection(
-    section: 'about' | 'work' | 'case-studies' | 'perspectives' | 'theme',
+    section: 'about' | 'work' | 'case-studies' | 'perspectives' | 'articles' | 'theme',
     button: HTMLButtonElement,
   ): void {
     this.sectionButton = button;

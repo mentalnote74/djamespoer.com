@@ -89,7 +89,7 @@ describe('Header', () => {
       Array.from(root.querySelectorAll('.site-header__nav-list > li > button'), (button) =>
         button.textContent?.trim(),
       ),
-    ).toEqual(['About', 'Work', 'Case Studies', 'Perspectives', 'Theme']);
+    ).toEqual(['About', 'Work', 'Case Studies', 'Perspectives', 'Blognostisphere', 'Theme']);
     const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
     const list = root.querySelector<HTMLUListElement>('#about-navigation')!;
     expect(list.hidden).toBe(true);
