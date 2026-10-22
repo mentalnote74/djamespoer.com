@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## October 22 — SCRUM-139 homepage placement correction
+
+Moved the unchanged visible professional-identity paragraph and descriptive links
+inside the existing Pardon the dust feature, immediately after its H2. Removed
+the orphan grid row between carousel and established homepage composition. No
+CSS, section ordering, carousel, metadata or other component changes. Identity
+remains ordinary visible HTML in the prerendered document. Focused desktop/390px,
+links, heading/main, overflow, console and scoped axe checks accompany release.
+
 ## October 22 — SCRUM-139 discoverability foundation
 
 Existing 21 fixed public routes and 21 actual journal dates now have supported
