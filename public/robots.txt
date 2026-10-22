@@ -1,2 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /cdn-cgi/
+
+# Test pages retain their noindex response, which crawlers must be able to read.
+Sitemap: https://djamespoer.com/sitemap.xml

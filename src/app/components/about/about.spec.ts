@@ -8,7 +8,7 @@ describe('About', () => {
     fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
     expect(root.querySelectorAll('h1')).toHaveLength(1);
-    expect(root.querySelector('h1')?.textContent).toBe('About');
+    expect(root.querySelector('h1')?.textContent).toBe('About D. James Poer');
     const paragraphs = Array.from(root.querySelectorAll('p'), (p) =>
       p.textContent?.replace(/\s+/g, ' ').trim(),
     );
@@ -19,7 +19,7 @@ describe('About', () => {
     expect(root.querySelector('.about__thought strong')?.textContent).toBe(
       'Why are we doing it this way?',
     );
-    expect(root.querySelector('p:last-child strong')?.textContent).toBe(
+    expect(root.querySelector('p:last-of-type strong')?.textContent).toBe(
       'I design. I build. I break things. I figure out why. Then I make them better.',
     );
     expect(root.querySelector('main')).toBeNull();

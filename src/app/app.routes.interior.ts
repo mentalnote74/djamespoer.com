@@ -1,4 +1,5 @@
 import { Route, Routes } from '@angular/router';
+import { PUBLIC_PAGES } from './content/public-pages';
 
 const loadProofPage = () =>
   import('./components/proof-page/proof-page').then(({ ProofPage }) => ProofPage);
@@ -119,7 +120,7 @@ const createProofRoute = (path: string, heading: string): Route => ({
 export const interiorRoutes: Routes = [
   {
     path: 'work',
-    pathMatch: 'full',
+    pathMatch: 'full' as const,
     redirectTo: '',
   },
   ...(
@@ -271,8 +272,17 @@ export const interiorRoutes: Routes = [
   {
     path: 'buildometer',
     title: 'Buildometer | D. James Poer',
-    data: { description: 'Project completion, shipping frequency, scope and quality: evidence-backed project instruments.' },
-    loadComponent: () => import('./components/buildometer/buildometer').then(({ Buildometer }) => Buildometer),
+    data: {
+      description:
+        'Project completion, shipping frequency, scope and quality: evidence-backed project instruments.',
+    },
+    loadComponent: () =>
+      import('./components/buildometer/buildometer').then(({ Buildometer }) => Buildometer),
   },
   { path: '**', redirectTo: '' },
-];
+].map((route: Route) => {
+  const page = PUBLIC_PAGES.find((entry) => entry.path === route.path);
+  return page
+    ? { ...route, title: page.title, data: { ...route.data, description: page.description } }
+    : route;
+});

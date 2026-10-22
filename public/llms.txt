@@ -7,4 +7,19 @@ This site documents James Poer's professional experience, technical work, portfo
 ## Site
 
 - [D. James Poer Portfolio](https://djamespoer.com/)
-- [GitHub](https://github.com/mentalnote74)
+- [About D. James Poer](https://djamespoer.com/about)
+- [Angular and TypeScript engineering](https://djamespoer.com/engineering)
+- [WCAG and Section 508 accessibility engineering](https://djamespoer.com/accessibility)
+- [Human-directed AI product development](https://djamespoer.com/ai)
+- [The portfolio case study](https://djamespoer.com/work/djamespoer)
+- [Thingamajob working prototype and case study](https://djamespoer.com/thingamajob)
+- [Buildometer project measurements](https://djamespoer.com/buildometer)
+- [Product Journal](https://djamespoer.com/product-journal)
+- [D. James Poer on LinkedIn](https://www.linkedin.com/in/djamespoer)
+- [D. James Poer on GitHub](https://github.com/mentalnote74)
+
+## Scope
+
+The public case studies and work-history pages contain authorized career evidence.
+The Thingamajob evaluator is an unfinished working prototype. Private career sources,
+client records, test endpoints and evaluation inputs are not public source material.

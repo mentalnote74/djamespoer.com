@@ -14,6 +14,20 @@ describe('CaseStudy presentation', () => {
     fixture.detectChanges();
     return fixture;
   };
+  it('distinguishes the two related-page landmarks while preserving link names and destinations', () => {
+    const fixture = render({
+      title: 'Study',
+      sections: [],
+      relatedPage: { kind: 'work', href: '/work/tcc', label: 'View TCC Work History' },
+    });
+    const navs = [...(fixture.nativeElement as HTMLElement).querySelectorAll('nav')];
+    expect(navs).toHaveLength(2);
+    expect(new Set(navs.map((nav) => nav.getAttribute('aria-label'))).size).toBe(2);
+    for (const nav of navs) {
+      expect(nav.querySelector('a')?.getAttribute('href')).toBe('/work/tcc');
+      expect(nav.textContent).toContain('View TCC Work History');
+    }
+  });
   it('renders approved TCC content with native headings and lists without extra landmarks', () => {
     const fixture = render(TCC_CASE_STUDY);
     const root = fixture.nativeElement as HTMLElement;

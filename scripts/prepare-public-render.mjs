@@ -1,4 +1,4 @@
-import { readFile, writeFile, access } from 'node:fs/promises';
+import { readFile, writeFile, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 
@@ -36,16 +36,22 @@ export async function preparePublicRender(
       ...routePreloads(stats, 'src/app/components/thingamajob-product/thingamajob-product.ts'),
     ]),
   ];
-  // Preserve the CSR shell for direct interior requests on the static host.
-  for (const name of ['index.html', 'index.csr.html']) {
-    const file = resolve(directory, 'browser', name);
-    if (name === 'index.csr.html') {
-      try {
-        await access(file);
-      } catch {
-        continue;
-      }
-    }
+  // Apply the established stylesheet/preload treatment to every prerendered page,
+  // while keeping the CSR fallback for routes not known at build time.
+  const htmlFiles = async (path) => {
+    const entries = await readdir(path, { withFileTypes: true });
+    const groups = await Promise.all(
+      entries.map((entry) =>
+        entry.isDirectory()
+          ? htmlFiles(resolve(path, entry.name))
+          : entry.name.endsWith('.html')
+            ? [resolve(path, entry.name)]
+            : [],
+      ),
+    );
+    return groups.flat();
+  };
+  for (const file of await htmlFiles(resolve(directory, 'browser'))) {
     let html = await readFile(file, 'utf8');
     // The complete public stylesheet is only ~2 kB compressed. Inline it to remove
     // a render-blocking round trip; Angular's critical-CSS scanner cannot see lazy views.

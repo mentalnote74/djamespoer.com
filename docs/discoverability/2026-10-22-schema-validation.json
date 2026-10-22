@@ -1,0 +1,29 @@
+{
+  "capturedAt": "2026-10-22T17:29:28.466Z",
+  "base": "http://127.0.0.1:8815",
+  "vocabulary": "https://schema.org/version/latest/schemaorg-current-https.jsonld",
+  "vocabularySHA256": "0a4b8c4c910fc831ec8695196510973390906a5ee34dc6b862dfec4d21a12f74",
+  "pages": 42,
+  "nodes": 137,
+  "properties": 559,
+  "usedTypes": [
+    "Person",
+    "WebSite",
+    "WebPage",
+    "ProfilePage",
+    "CreativeWork"
+  ],
+  "usedProperties": [
+    "name",
+    "url",
+    "jobTitle",
+    "sameAs",
+    "creator",
+    "description",
+    "isPartOf",
+    "about",
+    "mainEntity",
+    "author"
+  ],
+  "result": "All used Schema.org types/properties, inherited domains, ranges and entity references validated. This is vocabulary/relationship validation, not a promise of rich results or indexing."
+}

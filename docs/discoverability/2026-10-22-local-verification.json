@@ -1,0 +1,562 @@
+﻿{
+    "base":  "http://127.0.0.1:8815",
+    "capturedAt":  "2026-10-22T17:30:17.660Z",
+    "routes":  42,
+    "routesSummary":  [
+                          {
+                              "path":  "/",
+                              "title":  "D. James Poer | Senior UX Engineer \u0026 Front-End Architect",
+                              "canonical":  "https://djamespoer.com/",
+                              "h1":  "D. James Poer",
+                              "initialMainText":  3874
+                          },
+                          {
+                              "path":  "/about",
+                              "title":  "About D. James Poer | UX Engineering \u0026 Front-End Architecture",
+                              "canonical":  "https://djamespoer.com/about",
+                              "h1":  "About D. James Poer",
+                              "initialMainText":  1720
+                          },
+                          {
+                              "path":  "/engineering",
+                              "title":  "Angular \u0026 TypeScript Front-End Engineering | D. James Poer",
+                              "canonical":  "https://djamespoer.com/engineering",
+                              "h1":  "Engineering",
+                              "initialMainText":  7014
+                          },
+                          {
+                              "path":  "/ux-product",
+                              "title":  "UX Research \u0026 Product Engineering | D. James Poer",
+                              "canonical":  "https://djamespoer.com/ux-product",
+                              "h1":  "UX \u0026 Product",
+                              "initialMainText":  9270
+                          },
+                          {
+                              "path":  "/accessibility",
+                              "title":  "WCAG \u0026 Section 508 Accessibility Engineering | D. James Poer",
+                              "canonical":  "https://djamespoer.com/accessibility",
+                              "h1":  "Accessibility",
+                              "initialMainText":  9939
+                          },
+                          {
+                              "path":  "/ai",
+                              "title":  "Human-in-the-Loop AI Product Development | D. James Poer",
+                              "canonical":  "https://djamespoer.com/ai",
+                              "h1":  "AI \u0026 Innovation",
+                              "initialMainText":  9642
+                          },
+                          {
+                              "path":  "/creative",
+                              "title":  "Creative Design \u0026 Front-End Craft | D. James Poer",
+                              "canonical":  "https://djamespoer.com/creative",
+                              "h1":  "Creative",
+                              "initialMainText":  4345
+                          },
+                          {
+                              "path":  "/impact",
+                              "title":  "UX \u0026 Engineering Outcomes | D. James Poer",
+                              "canonical":  "https://djamespoer.com/impact",
+                              "h1":  "Impact",
+                              "initialMainText":  4172
+                          },
+                          {
+                              "path":  "/work/djamespoer",
+                              "title":  "Building djamespoer.com: Angular Portfolio Case Study | D. James Poer",
+                              "canonical":  "https://djamespoer.com/work/djamespoer",
+                              "h1":  "djamespoer.com",
+                              "initialMainText":  9972
+                          },
+                          {
+                              "path":  "/work/exl",
+                              "title":  "EXL / LifePRO Work History: UX \u0026 Accessibility | D. James Poer",
+                              "canonical":  "https://djamespoer.com/work/exl",
+                              "h1":  "EXL — Senior Web Designer",
+                              "initialMainText":  9623
+                          },
+                          {
+                              "path":  "/work/ips",
+                              "title":  "IPS / PowerSchool Work History | D. James Poer",
+                              "canonical":  "https://djamespoer.com/work/ips",
+                              "h1":  "Indianapolis Public Schools — PowerSchool Custom Development",
+                              "initialMainText":  4946
+                          },
+                          {
+                              "path":  "/work/tcc",
+                              "title":  "TCC Work History: UX Research \u0026 Angular Development | D. James Poer",
+                              "canonical":  "https://djamespoer.com/work/tcc",
+                              "h1":  "TCC Software Solutions",
+                              "initialMainText":  8274
+                          },
+                          {
+                              "path":  "/work/dr",
+                              "title":  "Dreyer \u0026 Reinbold Work History | D. James Poer",
+                              "canonical":  "https://djamespoer.com/work/dr",
+                              "h1":  "Dreyer \u0026 Reinbold",
+                              "initialMainText":  7947
+                          },
+                          {
+                              "path":  "/case-studies/exl",
+                              "title":  "LifePRO Accessibility \u0026 Angular Modernization Case Study | D. James Poer",
+                              "canonical":  "https://djamespoer.com/case-studies/exl",
+                              "h1":  "Sometimes the Problem Isn\u0027t Where You Found It",
+                              "initialMainText":  11834
+                          },
+                          {
+                              "path":  "/case-studies/ips",
+                              "title":  "PowerSchool Business-Rule UX Case Study | D. James Poer",
+                              "canonical":  "https://djamespoer.com/case-studies/ips",
+                              "h1":  "When a Requirement Becomes an if Statement",
+                              "initialMainText":  7258
+                          },
+                          {
+                              "path":  "/case-studies/tcc",
+                              "title":  "Oregon / Ascend Usability Research Case Study | D. James Poer",
+                              "canonical":  "https://djamespoer.com/case-studies/tcc",
+                              "h1":  "Beyond “Lipstick on the Pig”",
+                              "initialMainText":  10615
+                          },
+                          {
+                              "path":  "/case-studies/dr",
+                              "title":  "The 15-Minute Month End: Classic ASP Case Study | D. James Poer",
+                              "canonical":  "https://djamespoer.com/case-studies/dr",
+                              "h1":  "The 15-Minute Month End",
+                              "initialMainText":  9878
+                          },
+                          {
+                              "path":  "/thingamajob",
+                              "title":  "Thingamajob: Evidence-Backed Career Tool Prototype | D. James Poer",
+                              "canonical":  "https://djamespoer.com/thingamajob",
+                              "h1":  "Thingamajob",
+                              "initialMainText":  4472
+                          },
+                          {
+                              "path":  "/buildometer",
+                              "title":  "Buildometer: Evidence-Backed Project Delivery | D. James Poer",
+                              "canonical":  "https://djamespoer.com/buildometer",
+                              "h1":  "Buildometer",
+                              "initialMainText":  568
+                          },
+                          {
+                              "path":  "/product-journal",
+                              "title":  "Product Journal \u0026 Daily Scrum History | D. James Poer",
+                              "canonical":  "https://djamespoer.com/product-journal",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/cookie-policy",
+                              "title":  "Cookie \u0026 Analytics Policy | D. James Poer",
+                              "canonical":  "https://djamespoer.com/cookie-policy",
+                              "h1":  "Cookie Policy",
+                              "initialMainText":  1306
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-22",
+                              "title":  "Daily Scrum 2026-10-22 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-22",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-21",
+                              "title":  "Daily Scrum 2026-10-21 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-21",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-20",
+                              "title":  "Daily Scrum 2026-10-20 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-20",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-19",
+                              "title":  "Daily Scrum 2026-10-19 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-19",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-18",
+                              "title":  "Daily Scrum 2026-10-18 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-18",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-17",
+                              "title":  "Daily Scrum 2026-10-17 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-17",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-16",
+                              "title":  "Daily Scrum 2026-10-16 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-16",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-15",
+                              "title":  "Daily Scrum 2026-10-15 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-15",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-14",
+                              "title":  "Daily Scrum 2026-10-14 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-14",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-13",
+                              "title":  "Daily Scrum 2026-10-13 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-13",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-12",
+                              "title":  "Daily Scrum 2026-10-12 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-12",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-11",
+                              "title":  "Daily Scrum 2026-10-11 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-11",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-10",
+                              "title":  "Daily Scrum 2026-10-10 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-10",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-09",
+                              "title":  "Daily Scrum 2026-10-09 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-09",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-08",
+                              "title":  "Daily Scrum 2026-10-08 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-08",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-07",
+                              "title":  "Daily Scrum 2026-10-07 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-07",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-06",
+                              "title":  "Daily Scrum 2026-10-06 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-06",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-05",
+                              "title":  "Daily Scrum 2026-10-05 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-05",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-04",
+                              "title":  "Daily Scrum 2026-10-04 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-04",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-03",
+                              "title":  "Daily Scrum 2026-10-03 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-03",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          },
+                          {
+                              "path":  "/product-journal/2026-10-02",
+                              "title":  "Daily Scrum 2026-10-02 | D. James Poer Product Journal",
+                              "canonical":  "https://djamespoer.com/product-journal/2026-10-02",
+                              "h1":  "Product Journal",
+                              "initialMainText":  134
+                          }
+                      ],
+    "redirects":  [
+                      {
+                          "path":  "/about/",
+                          "status":  307,
+                          "location":  "/about"
+                      },
+                      {
+                          "path":  "/work/exl/",
+                          "status":  307,
+                          "location":  "/work/exl"
+                      },
+                      {
+                          "path":  "/engineering/",
+                          "status":  307,
+                          "location":  "/engineering"
+                      },
+                      {
+                          "path":  "/index.html",
+                          "status":  307,
+                          "location":  "/"
+                      },
+                      {
+                          "path":  "/work",
+                          "status":  301,
+                          "location":  "/"
+                      }
+                  ],
+    "browser":  [
+                    {
+                        "width":  1440,
+                        "path":  "/",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/about",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/engineering",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/ux-product",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/accessibility",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/ai",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/creative",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/impact",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/work/djamespoer",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/work/exl",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/work/ips",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/work/tcc",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/work/dr",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/case-studies/exl",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/case-studies/ips",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/case-studies/tcc",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/case-studies/dr",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/thingamajob",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/buildometer",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/product-journal",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  1440,
+                        "path":  "/cookie-policy",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  390,
+                        "path":  "/",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  390,
+                        "path":  "/about",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  390,
+                        "path":  "/engineering",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  390,
+                        "path":  "/accessibility",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  390,
+                        "path":  "/work/exl",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  390,
+                        "path":  "/thingamajob",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  390,
+                        "path":  "/buildometer",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    },
+                    {
+                        "width":  390,
+                        "path":  "/product-journal/2026-10-22",
+                        "axe":  [
+
+                                ],
+                        "overflow":  false
+                    }
+                ]
+}

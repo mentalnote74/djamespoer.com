@@ -6,7 +6,7 @@
     <p>{{ subtitle }}</p>
   }
   @if (study().relatedPage; as related) {
-    <nav aria-label="Related page">
+    <nav aria-label="Related page before the case study">
       <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
     </nav>
   }
@@ -66,7 +66,7 @@
     </section>
   }
   @if (study().relatedPage; as related) {
-    <nav aria-label="Related page">
+    <nav aria-label="Related page after the case study">
       <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
     </nav>
   }

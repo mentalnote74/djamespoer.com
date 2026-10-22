@@ -1,5 +1,25 @@
 # AI Engineering Handoff
 
+## October 22 — SCRUM-139 discoverability foundation
+
+Existing 21 fixed public routes and 21 actual journal dates now have supported
+static prerendered documents, differentiated metadata/canonicals and a compact
+Person/WebSite/page JSON-LD graph. Shared public-page registry drives metadata,
+prerendering and a generated sitemap; no fake lastmod. Obsolete CSR rewrites are
+removed, supported Cloudflare slash handling added, SPA fallback retained.
+Test/private surfaces remain noindex; unwritten journal dates are not indexable.
+Visible Home professional introduction and About identity/profile references are
+source-backed; concise carousel CTAs, artwork and all private sources untouched.
+Axe found duplicate case-study related-navigation names; now distinct.
+Build/budgets and focused regression/browser/schema checks passed. Full scope,
+acceptance ledger, search/performance baseline and Coach account instructions:
+docs/discoverability/SCRUM-139-evidence.md. Final live receipt follows release in
+this worktree's ignored tmp/evidence/; no indexing/ranking improvement claimed.
+Story MUST remain open: Google/Bing property verification, sitemap submission and
+account URL inspection need signed-in access. Existing setup status is unknown;
+missing proof tags/files does not prove no account exists. No credential rotation
+is indicated. Atlassian calls timed out; reconcile locally retained evidence when
+access returns. No article platform, new runtime dependency or notification spam.
 ## October 22 — djamespoer.com portfolio-proof gateway
 
 One new eleventh slide follows IPS; rejected TCC/D&R remain absent. PortfolioSlide

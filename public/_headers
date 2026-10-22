@@ -3,3 +3,12 @@
 
 /assets/theme-icons/menu-c5609b8f166a.svg
   Cache-Control: public, max-age=31536000, immutable
+
+/test/*
+  X-Robots-Tag: noindex, nofollow
+
+/index.csr
+  X-Robots-Tag: noindex, nofollow
+
+/index.csr.html
+  X-Robots-Tag: noindex, nofollow

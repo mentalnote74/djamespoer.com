@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
+import { PUBLIC_PAGES } from './content/public-pages';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    title: 'D. James Poer | UX Engineer & Front-End Architect',
+    title: PUBLIC_PAGES[0].title,
     data: {
       layout: 'independent',
-      description:
-        'D. James Poer is a UX Engineer and Front-End Architect specializing in Angular, TypeScript, accessible enterprise applications, UX/UI, design systems, Section 508, WCAG, and AI-enabled product development.',
+      description: PUBLIC_PAGES[0].description,
     },
     loadComponent: () => import('./components/home/home').then(({ Home }) => Home),
   },
