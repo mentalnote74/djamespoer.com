@@ -1,0 +1,89 @@
+// Keep animation references and keyframes in this stylesheet: Angular scopes
+// keyframe names independently for each stylesheet under emulated encapsulation.
+.djp-conservatory .reflections img {
+  animation: djp-water 5.2s ease-in-out infinite alternate;
+}
+.djp-conservatory .mist {
+  animation: djp-mist 19s ease-in-out infinite alternate;
+}
+.djp-conservatory .star {
+  animation: djp-twinkle var(--t) ease-in-out var(--d) infinite;
+}
+.djp-conservatory .canopy-light {
+  animation: djp-light 7.7s ease-in-out infinite alternate;
+}
+.djp-conservatory .water-light {
+  animation: djp-sheen 6.1s ease-in-out infinite alternate;
+}
+.djp-conservatory .art .world * {
+  animation-play-state: paused;
+}
+.djp-conservatory.running .art .world * {
+  animation-play-state: running;
+}
+@keyframes djp-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  43% {
+    opacity: 0.95;
+    transform: scale(1.14);
+  }
+  65% {
+    opacity: 0.45;
+    transform: scale(0.95);
+  }
+}
+@keyframes djp-water {
+  from {
+    transform: translate(-0.35%, 0) skewX(-0.5deg) scaleX(1.025);
+  }
+  to {
+    transform: translate(0.35%, 0.8%) skewX(0.5deg) scaleX(1.025);
+  }
+}
+@keyframes djp-mist {
+  from {
+    transform: translate(-3%, -2%);
+    opacity: 0.35;
+  }
+  to {
+    transform: translate(6%, 3%);
+    opacity: 0.7;
+  }
+}
+@keyframes djp-light {
+  from {
+    opacity: 0.1;
+    transform: translateX(-125px);
+  }
+  to {
+    opacity: 0.55;
+    transform: translateX(120px);
+  }
+}
+@keyframes djp-sheen {
+  from {
+    opacity: 0.04;
+  }
+  to {
+    opacity: 0.16;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .djp-conservatory .art * {
+    animation: none !important;
+  }
+  .djp-conservatory .background,
+  .djp-conservatory .foreground {
+    transform: none;
+  }
+  .djp-conservatory .interior img {
+    transform: scale(1.045);
+  }
+  .djp-conservatory .motion-control {
+    display: none;
+  }
+}

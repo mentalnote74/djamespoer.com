@@ -1,0 +1,169 @@
+{
+  "sourceSpace": [
+    2172,
+    724
+  ],
+  "sources": [
+    {
+      "file": "sources/approved-master.png",
+      "sha256": "ba3a10f630c155f329c28bb1248a5f5e5a78baf0c131d07af66b974a6610af47",
+      "geometry": "2173x724 srgb  3.0"
+    },
+    {
+      "file": "sources/foreground-master.png",
+      "sha256": "50c4b5ad24796a53fb2bcc2cc7b0325aea250a5d207eb6709a9a98f6e8a29a7a",
+      "geometry": "2170x725 srgba 4.0"
+    },
+    {
+      "file": "sources/background-master.png",
+      "sha256": "5bd710c7682bc89f7fb77094796d96876820d448cc33b314f4117948be9145f8",
+      "geometry": "2172x724 srgb  3.0"
+    }
+  ],
+  "layers": [
+    {
+      "name": "background",
+      "source": "background-master.png",
+      "widths": [
+        480,
+        960
+      ],
+      "crop": [],
+      "avif": 13,
+      "webp": 28
+    },
+    {
+      "name": "foreground",
+      "source": "foreground-master.png",
+      "widths": [
+        768,
+        1440
+      ],
+      "crop": [],
+      "avif": 48,
+      "webp": 72
+    },
+    {
+      "name": "interior",
+      "source": "approved-master.png",
+      "widths": [
+        384,
+        768
+      ],
+      "crop": [
+        "-crop",
+        "900x520+1100+40",
+        "+repage"
+      ],
+      "avif": 30,
+      "webp": 48
+    },
+    {
+      "name": "reflections",
+      "source": "approved-master.png",
+      "widths": [
+        480
+      ],
+      "crop": [
+        "-crop",
+        "2173x270+0+454",
+        "+repage"
+      ],
+      "avif": 10,
+      "webp": 25
+    }
+  ],
+  "outputs": [
+    {
+      "file": "background-480.avif",
+      "bytes": 1260,
+      "sha256": "8ec272e682037911024b536a0658b9c01029400d587b5bd7fe0f0548f8c56aa9"
+    },
+    {
+      "file": "background-480.webp",
+      "bytes": 3576,
+      "sha256": "fa2ce7cb2bca4466364dcdada9d4fdaa8165146adb307d19e7a5cb0a64297810"
+    },
+    {
+      "file": "background-960.avif",
+      "bytes": 3307,
+      "sha256": "c086f8474814e2fb688a9b61cc87384913266bf723547357f164de1e9c920981"
+    },
+    {
+      "file": "background-960.webp",
+      "bytes": 11210,
+      "sha256": "25aa68401052cd8aa5da6b9b981e4ba458e3bb30900f80b46c56279bcabd3ca9"
+    },
+    {
+      "file": "foreground-768.avif",
+      "bytes": 17427,
+      "sha256": "caef25b9eb46c2c8a4a0205d0771cec75d054026aed529ff6d947ef0ce3ff828"
+    },
+    {
+      "file": "foreground-768.webp",
+      "bytes": 38912,
+      "sha256": "45eda53d3a4e3700ecf497ba4a6df4365432bae983d95b628e30be81d079fc94"
+    },
+    {
+      "file": "foreground-1440.avif",
+      "bytes": 42997,
+      "sha256": "c6d634bdf3373b79a585f681c4a2406f246f7e57125055c126bf9cb852a84149"
+    },
+    {
+      "file": "foreground-1440.webp",
+      "bytes": 104398,
+      "sha256": "c63e3806c5ed5dddb0231b008bbc3ab6825429b74e685d20f668dcc6694072d9"
+    },
+    {
+      "file": "interior-384.avif",
+      "bytes": 5396,
+      "sha256": "d2e21880373159221d3b543b0d79946d13c41fbaf937da60e081e6292ae8a0a3"
+    },
+    {
+      "file": "interior-384.webp",
+      "bytes": 17284,
+      "sha256": "48bc4955636b9ff24adbc8a84dd52db5b0a10f5892ebbab1d4153538a9f01533"
+    },
+    {
+      "file": "interior-768.avif",
+      "bytes": 17381,
+      "sha256": "66b7a145268b11f4f46d8c904b848982b91158009c364dadb7f7aa9ebf1ef222"
+    },
+    {
+      "file": "interior-768.webp",
+      "bytes": 50426,
+      "sha256": "d4582347375ebd2caf389960ae0dbb4ecd643c9313c82dfa3fc8b9362767ec51"
+    },
+    {
+      "file": "reflections-480.avif",
+      "bytes": 875,
+      "sha256": "db2f4b188d46aec3030c21f383313f959e634330b7f8d5f8ee32b141ab7517b3"
+    },
+    {
+      "file": "reflections-480.webp",
+      "bytes": 2898,
+      "sha256": "40ffcb265f4b30c3c31a85451cc10baf7caa4562c5132e5e5ccd662bb926620a"
+    }
+  ],
+  "backgroundOverscan": 1.16,
+  "mobileViewport": {
+    "x": 680,
+    "y": 100,
+    "width": 1440,
+    "height": 480
+  },
+  "interiorPlacement": {
+    "x": 1100,
+    "y": 40,
+    "width": 900,
+    "height": 520
+  },
+  "reflectionsPlacement": {
+    "x": 0,
+    "y": 454,
+    "width": 2172,
+    "height": 270
+  },
+  "generation": "Built-in imagegen. Approved scene and two registered layer edits. Original masters archival only.",
+  "qualityTarget": "assembled scene"
+}

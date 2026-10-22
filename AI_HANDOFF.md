@@ -1022,3 +1022,24 @@ Restored every file under src/app/components/bedlam and docs/bedlam-pre-fart-tun
 Actual production Cron captured the Oct19 measurement report at 10:00:44 Eastern, but scheduled Worker had no GitHub dispatch code; GH run history has no Oct19 editorial run, journal still Oct17. Added narrow Worker -> existing workflow_dispatch bridge with private per-date conditional R2 receipts and authenticated run-now endpoint /api/buildometer/reports/dispatch-brief. No Actions cron, workflow/generator/status/content changes. Existing measurement collector remains independent. Tests/typecheck pass. Live completion requires SCRUM_BRIEF_GITHUB_TOKEN (repo-only Actions write) configured as Worker secret; inventory currently lacks it and Windows User env has no GH dispatch credential. Do not claim today's publication until real GitHub run and PROD journal readback. Keep exact pre-fart Bedlam unchanged.
 
 Real production run-now check exposed Cloudflare's empty POST as a non-null body stream. Corrected validation to inspect actual empty content; directly relevant regression fixture added. Owner confirmed no GitHub dispatch credential is configured. Real dispatch/publication remains blocked on SCRUM_BRIEF_GITHUB_TOKEN; do not use a broad Git credential as an undeclared production substitute.
+## djamespoer.com conservatory artwork integration — October 22
+
+Coach corrected the supplied TCC-named drop-in's destination: it replaces the
+existing djamespoer.com slide, not TCC. PortfolioSlide keeps its title, supporting
+line and /work/djamespoer Explore link; Home/Carousel and the eleven-slide order
+are unchanged. TCC/D&R remain absent. Original assets/history remain preserved.
+
+Supplied four-layer AVIF/WebP artwork is byte-identical to the manifest, archived
+masters/prompts under artwork/portfolio-conservatory. Common geometry, mobile
+crop, aperture masks, overscan and supplied motion timings are preserved. Moved
+animation declarations beside keyframes to correct the supplied adapter's
+Angular cross-stylesheet keyframe-scoping defect. Motion honors active slide,
+visibility/intersection, independent pause and reduced motion; forced colors
+retains semantic copy with decorative art hidden.
+
+Production build/budgets pass, initial 443.66 kB; existing focused carousel tests
+23/23. Chrome 1440px/390px: correct copy/destination/slide 11, four valid AVIFs
+(64,560/24,958 bytes), no new artwork requests before selection, one Engineering
+request, unchanged viewport height, moving/paused layers, reduced motion,
+forced colors, keyboard Explore, scoped axe zero, no overflow/browser errors.
+No backend, metric, career-source, Bedlam or other-slide changes.

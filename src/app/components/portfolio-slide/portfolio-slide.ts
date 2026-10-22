@@ -1,9 +1,10 @@
-﻿import { DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import {
   afterNextRender,
   Component,
+  computed,
   DestroyRef,
-  effect,
+  ElementRef,
   inject,
   input,
   signal,
@@ -16,34 +17,70 @@ import { PublicTrack } from '../../services/public-track';
   selector: 'app-portfolio-slide',
   imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './portfolio-slide.html',
-  styleUrl: './portfolio-slide.scss',
+  styleUrls: [
+    './portfolio-slide.art.scss',
+    './portfolio-slide.copy.scss',
+    './portfolio-slide.motion.scss',
+  ],
 })
 export class PortfolioSlide {
   readonly active = input(true);
+  readonly sceneId = input('portfolio-conservatory-v2');
   readonly motionPaused = signal(false);
-  readonly pageVisible = signal(false);
-  readonly enhanced = signal(false);
-  readonly sizes = '(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)';
-  readonly frontSizes =
-    '(max-width: 600px) calc(70vw - 2rem), (min-width: 1344px) 602px, calc(48vw - 2rem)';
-  readonly echoSizes = '(max-width: 600px) 180px, (min-width: 1344px) 500px, 40vw';
-  private readonly rendered = signal(false);
+  readonly depthX = signal(0);
+  readonly depthY = signal(0);
+  private readonly visible = signal(false);
+  private readonly inView = signal(false);
+  private readonly reduced = signal(true);
+  readonly running = computed(
+    () =>
+      this.active() && this.visible() && this.inView() && !this.motionPaused() && !this.reduced(),
+  );
   private readonly document = inject(DOCUMENT);
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly destroy = inject(DestroyRef);
 
   constructor() {
     afterNextRender(() => {
-      const update = () => this.pageVisible.set(!this.document.hidden);
-      update();
-      this.rendered.set(true);
-      this.document.addEventListener('visibilitychange', update);
-      this.destroyRef.onDestroy(() =>
-        this.document.removeEventListener('visibilitychange', update),
+      const view = this.document.defaultView;
+      if (!view) return;
+      const media = view.matchMedia('(prefers-reduced-motion: reduce)');
+      const updateVisibility = () => this.visible.set(!this.document.hidden);
+      const updateMotion = () => {
+        this.reduced.set(media.matches);
+        if (media.matches) this.resetDepth();
+      };
+      updateVisibility();
+      updateMotion();
+      this.document.addEventListener('visibilitychange', updateVisibility);
+      media.addEventListener('change', updateMotion);
+      const observer = new IntersectionObserver((entries) =>
+        this.inView.set(entries.some((entry) => entry.isIntersecting)),
       );
+      observer.observe(this.element.nativeElement);
+      this.destroy.onDestroy(() => {
+        this.document.removeEventListener('visibilitychange', updateVisibility);
+        media.removeEventListener('change', updateMotion);
+        observer.disconnect();
+      });
     });
-    effect(() => {
-      // Artwork enhancement is first-use only, after hydration; no metric provider is mounted.
-      if (this.rendered() && this.active()) this.enhanced.set(true);
-    });
+  }
+
+  toggleMotion(): void {
+    this.motionPaused.update((value) => !value);
+    this.resetDepth();
+  }
+
+  onPointerMove(event: PointerEvent): void {
+    if (!this.running() || event.pointerType !== 'mouse') return;
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    this.depthX.set(((event.clientX - rect.left) / rect.width - 0.5) * 18);
+    this.depthY.set(((event.clientY - rect.top) / rect.height - 0.5) * 10);
+  }
+
+  resetDepth(): void {
+    this.depthX.set(0);
+    this.depthY.set(0);
   }
 }

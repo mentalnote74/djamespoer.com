@@ -1,0 +1,149 @@
+/* Scope all production styles to this component. No global reset or theme engine. */
+:host {
+  display: block;
+  width: 100%;
+}
+.djp-conservatory {
+  --djp-x: 0px;
+  --djp-y: 0px;
+  --djp-depth: 1;
+  --djp-sky-light: var(--selected-background, #a487be);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 3;
+  background: #101b21;
+  color: #fff;
+  container-type: inline-size;
+  font-family: var(--font-ui, Arial, sans-serif);
+}
+.djp-conservatory * {
+  box-sizing: border-box;
+}
+.djp-conservatory .art,
+.djp-conservatory .world,
+.djp-conservatory .foreground,
+.djp-conservatory .interior,
+.djp-conservatory .magic-light,
+.djp-conservatory .stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.djp-conservatory .art {
+  overflow: hidden;
+}
+.djp-conservatory .background {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  transform: translate(calc(var(--djp-x) * -0.7), calc(var(--djp-y) * -0.7));
+}
+.djp-conservatory .background img,
+.djp-conservatory .foreground img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.djp-conservatory .interior img {
+  position: absolute;
+  left: 50.6446%;
+  top: 5.5249%;
+  width: 41.4365%;
+  height: 71.8232%;
+  transform: translate(calc(var(--djp-x) * -0.25), calc(var(--djp-y) * -0.25)) scale(1.045);
+  transform-origin: 60% 55%;
+}
+.djp-conservatory .foreground {
+  transform: translate(calc(var(--djp-x) * 0.1), calc(var(--djp-y) * 0.1));
+}
+.djp-conservatory .reflections {
+  position: absolute;
+  left: 0;
+  top: 62.7072%;
+  width: 100%;
+  height: 37.2928%;
+  overflow: hidden;
+  clip-path: polygon(
+    0 0,
+    30% 0,
+    34% 13%,
+    47% 16%,
+    54% 21%,
+    59% 18%,
+    64% 29%,
+    69% 31%,
+    72% 48%,
+    75% 68%,
+    72% 100%,
+    0 100%
+  );
+}
+.djp-conservatory .reflections img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 0;
+}
+.djp-conservatory .mist {
+  position: absolute;
+  left: -5%;
+  top: 35%;
+  width: 56%;
+  height: 33%;
+  background:
+    radial-gradient(ellipse at 35% 60%, #cbd7e43d, transparent 55%),
+    radial-gradient(ellipse at 70% 55%, #cbd7e429, transparent 48%);
+  mask-image: linear-gradient(transparent, #000 40%, #000 60%, transparent);
+}
+.djp-conservatory .star {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: #eef0ff;
+  box-shadow: 0 0 3px #d4dcf980;
+  opacity: 0.65;
+}
+.djp-conservatory .stars {
+  clip-path: polygon(
+    0 0,
+    40% 0,
+    39% 12%,
+    36% 21%,
+    33% 29%,
+    29% 39%,
+    24% 37%,
+    18% 29%,
+    12% 20%,
+    6% 13%,
+    0 8%
+  );
+}
+.djp-conservatory .canopy-light {
+  mix-blend-mode: soft-light;
+}
+.djp-conservatory .water-light {
+  fill: color-mix(in srgb, var(--djp-sky-light) 30%, #ffe2aa);
+  opacity: 0.1;
+}
+.djp-conservatory .art .world * {
+  animation-play-state: paused;
+}
+.djp-conservatory.running .art .world * {
+  animation-play-state: running;
+}
+
+@media (max-width: 600px) {
+  .djp-conservatory .world {
+    left: -47.2222%;
+    top: -20.8333%;
+    width: 150.8333%;
+    height: 150.8333%;
+  }
+}

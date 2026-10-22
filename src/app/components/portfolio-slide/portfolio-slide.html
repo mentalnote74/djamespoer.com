@@ -1,87 +1,220 @@
-﻿<div class="proof" [class.running]="active() && pageVisible() && !motionPaused()">
-  <div class="stack" aria-hidden="true">
-    @if (enhanced()) {
-      <picture class="echo">
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position: absolute">
+  <defs>
+    <clipPath [attr.id]="sceneId() + '-aperture'" clipPathUnits="objectBoundingBox">
+      <path
+        transform="scale(0.00046040515653775324,0.0013812154696132596)"
+        d="M1500 125L1477 130L1460 135L1446 140L1433 145L1422 150L1412 155L1403 160L1393 165L1386 170L1378 175L1371 180L1363 185L1357 190L1349 195L1343 200L1337 205L1331 210L1325 215L1320 220L1314 225L1309 230L1305 235L1300 240L1295 245L1291 250L1286 255L1282 260L1278 265L1274 270L1271 275L1267 280L1264 285L1261 290L1258 295L1255 300L1252 305L1249 310L1246 315L1244 320L1242 325L1240 330L1238 335L1235 340L1234 345L1232 350L1231 355L1229 360L1228 365L1227 370L1226 375L1225 380L1224 385L1240 390L1246 395L1256 400L1259 405L1261 410L1296 415L1298 420L1314 425L1317 430L1320 435L1291 440L1306 445L1309 450L1313 455L1317 460L1323 465L1322 470L1333 475L1336 480L1336 485L1341 490L1335 515L1535 515L1529 490L1531 485L1533 480L1535 475L1547 470L1557 465L1557 460L1598 455L1600 450L1612 445L1614 440L1616 435L1626 430L1628 425L1634 420L1641 415L1643 410L1675 405L1681 400L1680 395L1686 390L1690 385L1699 380L1707 375L1709 370L1713 365L1715 360L1718 355L1721 350L1723 345L1726 340L1727 335L1728 330L1729 325L1730 320L1731 315L1732 310L1733 305L1734 300L1734 295L1735 290L1735 285L1735 280L1735 275L1735 270L1735 265L1734 260L1733 255L1732 250L1731 245L1730 240L1728 235L1727 230L1726 225L1724 220L1721 215L1719 210L1716 205L1714 200L1711 195L1707 190L1703 185L1698 180L1694 175L1689 170L1683 165L1677 160L1670 155L1662 150L1653 145L1643 140L1631 135L1617 130L1562 125Z"
+      />
+    </clipPath>
+  </defs>
+</svg>
+<section
+  class="djp-conservatory"
+  [class.running]="running()"
+  [style.--djp-x]="depthX() + 'px'"
+  [style.--djp-y]="depthY() + 'px'"
+  (pointermove)="onPointerMove($event)"
+  (pointerleave)="resetDepth()"
+  aria-label="djamespoer.com"
+>
+  <div class="art" aria-hidden="true">
+    <div class="world">
+      <picture class="background"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/portfolio-conservatory/background-480.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/portfolio-conservatory/background-480.webp" />
         <source
           type="image/avif"
           srcset="
-            /assets/portfolio-slide/echo-320.avif 320w,
-            /assets/portfolio-slide/echo-640.avif 640w
+            /assets/portfolio-conservatory/background-480.avif 480w,
+            /assets/portfolio-conservatory/background-960.avif 960w
           "
-          [sizes]="echoSizes"
-        />
+          sizes="100vw" />
         <img
-          src="/assets/portfolio-slide/echo-640.webp"
+          src="/assets/portfolio-conservatory/background-960.webp"
           srcset="
-            /assets/portfolio-slide/echo-320.webp 320w,
-            /assets/portfolio-slide/echo-640.webp 640w
+            /assets/portfolio-conservatory/background-480.webp 480w,
+            /assets/portfolio-conservatory/background-960.webp 960w
           "
-          [sizes]="echoSizes"
-          width="1440"
-          height="548"
+          sizes="100vw"
+          width="2172"
+          height="724"
           alt=""
           loading="lazy"
           decoding="async"
-        />
-      </picture>
-      <!-- A schematic of this product, not mounted dashboards or claimed live
-           readings. Only the public site capture is rasterized. -->
-      <div class="evidence">
-        <div class="outline"><span>header / nav</span><span>main</span></div>
-        <div class="blocks">
-          <span>Components</span><span>Artwork layers</span><span>Thingamajob</span
-          ><span>Buildometer</span>
-        </div>
-        <div class="proofs">
-          <span>&#10003; Accessibility</span><span>&#10003; Testing</span
-          ><span>&#10003; Performance</span>
-        </div>
-        <div class="pipeline"><span>Build</span><b>&#8594;</b><span>Deploy</span></div>
+      /></picture>
+      <div class="stars">
+        <i
+          class="star"
+          style="--x: 4.834254143646409%; --y: 4.143646408839778%; --s: 2.4px; --d: 0s; --t: 4.1s"
+        ></i
+        ><i
+          class="star"
+          style="--x: 10.589318600368323%; --y: 9.668508287292818%; --s: 1.5px; --d: -3s; --t: 6.3s"
+        ></i
+        ><i
+          class="star"
+          style="--x: 16.34438305709024%; --y: 3.314917127071823%; --s: 2px; --d: -1s; --t: 5.7s"
+        ></i
+        ><i
+          class="star"
+          style="
+            --x: 21.408839779005525%;
+            --y: 14.502762430939226%;
+            --s: 2.8px;
+            --d: -4s;
+            --t: 4.8s;
+          "
+        ></i
+        ><i
+          class="star"
+          style="--x: 24.40147329650092%; --y: 7.18232044198895%; --s: 1.6px; --d: -2s; --t: 7s"
+        ></i
+        ><i
+          class="star"
+          style="
+            --x: 28.314917127071826%;
+            --y: 20.165745856353592%;
+            --s: 2.4px;
+            --d: -3.1s;
+            --t: 5.2s;
+          "
+        ></i
+        ><i
+          class="star"
+          style="--x: 30.386740331491712%; --y: 5.110497237569061%; --s: 2px; --d: -0.5s; --t: 4.7s"
+        ></i
+        ><i
+          class="star"
+          style="--x: 33.60957642725598%; --y: 13.121546961325967%; --s: 2.3px; --d: -5s; --t: 6.1s"
+        ></i
+        ><i
+          class="star"
+          style="--x: 36.83241252302026%; --y: 3.867403314917127%; --s: 1.4px; --d: -2s; --t: 5.9s"
+        ></i
+        ><i
+          class="star"
+          style="--x: 18.139963167587478%; --y: 22.92817679558011%; --s: 1.4px; --d: -1s; --t: 7.4s"
+        ></i
+        ><i
+          class="star"
+          style="--x: 26.703499079189687%; --y: 29.005524861878452%; --s: 2px; --d: -4s; --t: 6.7s"
+        ></i
+        ><i
+          class="star"
+          style="--x: 34.76058931860037%; --y: 22.099447513812155%; --s: 1.6px; --d: -2s; --t: 4.3s"
+        ></i>
       </div>
-    }
-    <picture class="front">
-      <source
-        media="(max-width:600px)"
-        type="image/avif"
-        srcset="
-          /assets/portfolio-slide/product-mobile-384.avif 384w,
-          /assets/portfolio-slide/product-mobile-768.avif 768w
-        "
-        [sizes]="frontSizes"
-      />
-      <source
-        media="(max-width:600px)"
-        type="image/webp"
-        srcset="
-          /assets/portfolio-slide/product-mobile-384.webp 384w,
-          /assets/portfolio-slide/product-mobile-768.webp 768w
-        "
-        [sizes]="frontSizes"
-      />
-      <source
-        type="image/avif"
-        srcset="
-          /assets/portfolio-slide/product-384.avif   384w,
-          /assets/portfolio-slide/product-768.avif   768w,
-          /assets/portfolio-slide/product-1280.avif 1280w
-        "
-        [sizes]="frontSizes"
-      />
-      <img
-        src="/assets/portfolio-slide/product-1280.webp"
-        srcset="
-          /assets/portfolio-slide/product-384.webp   384w,
-          /assets/portfolio-slide/product-768.webp   768w,
-          /assets/portfolio-slide/product-1280.webp 1280w
-        "
-        [sizes]="frontSizes"
-        width="1440"
-        height="548"
-        alt=""
-        loading="lazy"
-        decoding="async"
-      />
-    </picture>
+      <div class="mist"></div>
+      <picture class="interior" [style.clip-path]="'url(#' + sceneId() + '-aperture)'"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/portfolio-conservatory/interior-384.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/portfolio-conservatory/interior-384.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/portfolio-conservatory/interior-384.avif 384w,
+            /assets/portfolio-conservatory/interior-768.avif 768w
+          "
+          sizes="42vw" />
+        <img
+          src="/assets/portfolio-conservatory/interior-768.webp"
+          srcset="
+            /assets/portfolio-conservatory/interior-384.webp 384w,
+            /assets/portfolio-conservatory/interior-768.webp 768w
+          "
+          sizes="42vw"
+          width="900"
+          height="520"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="reflections"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/portfolio-conservatory/reflections-480.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/portfolio-conservatory/reflections-480.webp" />
+        <source
+          type="image/avif"
+          srcset="/assets/portfolio-conservatory/reflections-480.avif 480w"
+          sizes="100vw" />
+        <img
+          src="/assets/portfolio-conservatory/reflections-480.webp"
+          srcset="/assets/portfolio-conservatory/reflections-480.webp 480w"
+          sizes="100vw"
+          width="2172"
+          height="270"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><svg class="magic-light" viewBox="0 0 2172 724" focusable="false">
+        <defs>
+          <clipPath [attr.id]="sceneId() + '-light-window'">
+            <path
+              d="M1500 125L1477 130L1460 135L1446 140L1433 145L1422 150L1412 155L1403 160L1393 165L1386 170L1378 175L1371 180L1363 185L1357 190L1349 195L1343 200L1337 205L1331 210L1325 215L1320 220L1314 225L1309 230L1305 235L1300 240L1295 245L1291 250L1286 255L1282 260L1278 265L1274 270L1271 275L1267 280L1264 285L1261 290L1258 295L1255 300L1252 305L1249 310L1246 315L1244 320L1242 325L1240 330L1238 335L1235 340L1234 345L1232 350L1231 355L1229 360L1228 365L1227 370L1226 375L1225 380L1224 385L1240 390L1246 395L1256 400L1259 405L1261 410L1296 415L1298 420L1314 425L1317 430L1320 435L1291 440L1306 445L1309 450L1313 455L1317 460L1323 465L1322 470L1333 475L1336 480L1336 485L1341 490L1335 515L1535 515L1529 490L1531 485L1533 480L1535 475L1547 470L1557 465L1557 460L1598 455L1600 450L1612 445L1614 440L1616 435L1626 430L1628 425L1634 420L1641 415L1643 410L1675 405L1681 400L1680 395L1686 390L1690 385L1699 380L1707 375L1709 370L1713 365L1715 360L1718 355L1721 350L1723 345L1726 340L1727 335L1728 330L1729 325L1730 320L1731 315L1732 310L1733 305L1734 300L1734 295L1735 290L1735 285L1735 280L1735 275L1735 270L1735 265L1734 260L1733 255L1732 250L1731 245L1730 240L1728 235L1727 230L1726 225L1724 220L1721 215L1719 210L1716 205L1714 200L1711 195L1707 190L1703 185L1698 180L1694 175L1689 170L1683 165L1677 160L1670 155L1662 150L1653 145L1643 140L1631 135L1617 130L1562 125Z"
+            />
+          </clipPath>
+          <linearGradient [attr.id]="sceneId() + '-warmth'">
+            <stop stop-color="#ffe5ad" stop-opacity="0" />
+            <stop offset=".5" stop-color="#ffe9bf" />
+            <stop offset="1" stop-color="#ffe5ad" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <g [attr.clip-path]="'url(#' + sceneId() + '-light-window)'">
+          <rect
+            class="canopy-light"
+            x="1100"
+            y="80"
+            width="900"
+            height="470"
+            [attr.fill]="'url(#' + sceneId() + '-warmth)'"
+          />
+        </g>
+        <path class="water-light" d="M1215 526L1370 530L1330 724H1090Z" /></svg
+      ><picture class="foreground"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/portfolio-conservatory/foreground-768.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/portfolio-conservatory/foreground-768.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/portfolio-conservatory/foreground-768.avif   768w,
+            /assets/portfolio-conservatory/foreground-1440.avif 1440w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/portfolio-conservatory/foreground-1440.webp"
+          srcset="
+            /assets/portfolio-conservatory/foreground-768.webp   768w,
+            /assets/portfolio-conservatory/foreground-1440.webp 1440w
+          "
+          sizes="100vw"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async"
+      /></picture>
+    </div>
   </div>
   <div class="copy">
     <h2>djamespoer.com</h2>
@@ -89,17 +222,16 @@
     <div class="actions">
       <a
         class="action"
+        routerLink="/work/djamespoer"
         publicTrack
         trackLocation="carousel"
         trackSource="carousel"
-        routerLink="/work/djamespoer"
         aria-label="Explore djamespoer.com"
         >Explore</a
-      >
-      <button
+      ><button
         class="action motion-control"
         type="button"
-        (click)="motionPaused.set(!motionPaused())"
+        (click)="toggleMotion()"
         [attr.aria-label]="
           motionPaused() ? 'Resume portfolio artwork motion' : 'Pause portfolio artwork motion'
         "
@@ -112,4 +244,4 @@
       </button>
     </div>
   </div>
-</div>
+</section>

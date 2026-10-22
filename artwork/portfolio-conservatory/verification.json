@@ -1,0 +1,20 @@
+{
+  "angularTemplateSyntax": "passed",
+  "typescriptSyntax": "passed",
+  "cssParser": "passed",
+  "encodedAssetsPresent": 14,
+  "standaloneMinifiedCssBytes": 5406,
+  "adapterStyleSourceBytes": {
+    "art": 2907,
+    "copy": 1841,
+    "motion": 827
+  },
+  "integrationBuild": "not run; adapter styles are separated by responsibility. Verify existing component/bundle budgets during application integration without raising them.",
+  "browser": {
+    "desktop": "visually inspected; all four AVIF layers loaded",
+    "mobile390": "visually inspected; all four mobile AVIF layers loaded",
+    "pauseResume": "all animated regions including water computed paused; keyboard Return restored all regions to running",
+    "reducedMotion": "rules supplied; actual OS preference emulation not run",
+    "axe": "not run"
+  }
+}
