@@ -8,6 +8,8 @@ the orphan grid row between carousel and established homepage composition. No
 CSS, section ordering, carousel, metadata or other component changes. Identity
 remains ordinary visible HTML in the prerendered document. Focused desktop/390px,
 links, heading/main, overflow, console and scoped axe checks accompany release.
+Follow-up: matched the existing decorative construction tape immediately before
+the You're standing paragraph, with the same tokens and forced-colors fallback.
 
 ## October 22 — SCRUM-139 discoverability foundation
 

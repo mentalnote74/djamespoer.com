@@ -44,6 +44,26 @@ app-carousel {
   }
 }
 
+// Match the existing prototype tape; the empty pseudo-element is decorative.
+.home-construction__notice::before {
+  content: '';
+  display: block;
+  block-size: 1rem;
+  margin-block: 1rem;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--construction-tape-dark, #171717) 0 0.75rem,
+    var(--construction-tape-light, #ffd54f) 0.75rem 1.5rem
+  );
+}
+
+@media (forced-colors: active) {
+  .home-construction__notice::before {
+    background: Canvas;
+    border-block: 2px solid CanvasText;
+  }
+}
+
 .home-creative {
   display: block;
   inline-size: 100%;
