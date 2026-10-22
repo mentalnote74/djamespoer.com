@@ -1,0 +1,122 @@
+<div class="retrofit" [class.retrofit--running]="active() && pageVisible() && !motionPaused()">
+  <picture class="infrastructure" aria-hidden="true">
+    <source
+      media="(max-width: 600px)"
+      type="image/avif"
+      srcset="
+        /assets/exl-lifepro-slide/infrastructure-mobile-384.avif 384w,
+        /assets/exl-lifepro-slide/infrastructure-mobile-768.avif 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      media="(max-width: 600px)"
+      type="image/webp"
+      srcset="
+        /assets/exl-lifepro-slide/infrastructure-mobile-384.webp 384w,
+        /assets/exl-lifepro-slide/infrastructure-mobile-768.webp 768w
+      "
+      [sizes]="sizes"
+    />
+    <source
+      type="image/avif"
+      srcset="
+        /assets/exl-lifepro-slide/infrastructure-768.avif   768w,
+        /assets/exl-lifepro-slide/infrastructure-1440.avif 1440w
+      "
+      [sizes]="sizes"
+    />
+    <img
+      src="/assets/exl-lifepro-slide/infrastructure-1440.webp"
+      srcset="
+        /assets/exl-lifepro-slide/infrastructure-768.webp   768w,
+        /assets/exl-lifepro-slide/infrastructure-1440.webp 1440w
+      "
+      [sizes]="sizes"
+      width="2172"
+      height="724"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  <!-- Original source pixels: this strip preserves the foreground jamb, repair
+       module, contacts and monitor while the deeper infrastructure stays cheap. -->
+  <picture class="service-bay" aria-hidden="true">
+    <source
+      type="image/avif"
+      srcset="
+        /assets/exl-lifepro-slide/service-bay-384.avif 384w,
+        /assets/exl-lifepro-slide/service-bay-640.avif 640w,
+        /assets/exl-lifepro-slide/service-bay-930.avif 930w
+      "
+      [sizes]="baySizes"
+    />
+    <img
+      src="/assets/exl-lifepro-slide/service-bay-640.webp"
+      srcset="
+        /assets/exl-lifepro-slide/service-bay-384.webp 384w,
+        /assets/exl-lifepro-slide/service-bay-640.webp 640w,
+        /assets/exl-lifepro-slide/service-bay-930.webp 930w
+      "
+      [sizes]="baySizes"
+      width="930"
+      height="724"
+      alt=""
+      loading="lazy"
+      decoding="async"
+    />
+  </picture>
+  @if (enhanced()) {
+    <svg class="diagnostics" viewBox="0 0 2172 724" aria-hidden="true" focusable="false">
+      <!-- Glass aperture only; no full-scene glow or moving traced pathways. -->
+      <svg class="monitor" x="1614" y="159" width="87" height="105" viewBox="0 0 87 105">
+        <path d="M0 0H87V105H0Z" fill="#142628" />
+        <path
+          class="reading reading--investigate"
+          d="M3 54L9 50L13 58L19 39L24 52L29 47L34 63L39 38L44 55L49 49L54 56L59 42L64 51L70 47L76 56L83 49"
+        />
+        <path
+          class="reading reading--settled"
+          d="M3 53H18L22 46L26 58L30 53H48L52 46L56 58L60 53H83"
+        />
+        <path class="monitor-glass" d="M7 14L78 8M10 19L74 13" />
+      </svg>
+      <circle class="inspection" cx="1244" cy="216" r="2.5" />
+      <path class="contact" d="M1320 367H1360" />
+      <circle class="status status--one" cx="1620" cy="359" r="7" />
+      <circle class="status status--two" cx="1655" cy="359" r="7" />
+      <circle class="status status--three" cx="1689" cy="359" r="7" />
+      <path class="bay-reflection" d="M1105 190L1530 183V403L1110 414Z" />
+    </svg>
+  }
+  <div class="retrofit__copy">
+    <h2>EXL LifePRO</h2>
+    <p>Fix the right layer.</p>
+    <div class="retrofit__actions">
+      <a
+        class="scene-action"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        routerLink="/case-studies/exl"
+        aria-label="Explore EXL LifePRO case study"
+        >Explore</a
+      >
+      <button
+        class="scene-action motion-control"
+        type="button"
+        (click)="motionPaused.set(!motionPaused())"
+        [attr.aria-label]="
+          motionPaused() ? 'Resume EXL artwork motion' : 'Pause EXL artwork motion'
+        "
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</div>

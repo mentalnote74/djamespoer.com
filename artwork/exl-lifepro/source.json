@@ -1,0 +1,125 @@
+{
+  "master": "infrastructure-master.png",
+  "sha256": "480227bb8edd7b26c27df63dcecc72c052c2630184665d5dc18d7f11741daaea",
+  "originalDimensions": [
+    2171,
+    724
+  ],
+  "deliveryDimensions": [
+    2172,
+    724
+  ],
+  "rightPaddingPixels": 1,
+  "mobileCrop": {
+    "x": 850,
+    "y": 100,
+    "width": 1050,
+    "height": 350
+  },
+  "serviceBayCrop": {
+    "x": 900,
+    "y": 0,
+    "width": 930,
+    "height": 724
+  },
+  "layers": [
+    {
+      "name": "infrastructure",
+      "widths": [
+        768,
+        1440
+      ],
+      "crop": [],
+      "avif": 34,
+      "webp": 58
+    },
+    {
+      "name": "infrastructure-mobile",
+      "widths": [
+        384,
+        768
+      ],
+      "crop": [
+        "-crop",
+        "1050x350+850+100",
+        "+repage"
+      ],
+      "avif": 34,
+      "webp": 58
+    },
+    {
+      "name": "service-bay",
+      "widths": [
+        384,
+        640,
+        930
+      ],
+      "crop": [
+        "-crop",
+        "930x724+900+0",
+        "+repage"
+      ],
+      "avif": 58,
+      "webp": 82
+    }
+  ],
+  "outputs": [
+    {
+      "file": "infrastructure-768.avif",
+      "bytes": 8409
+    },
+    {
+      "file": "infrastructure-768.webp",
+      "bytes": 22514
+    },
+    {
+      "file": "infrastructure-1440.avif",
+      "bytes": 22197
+    },
+    {
+      "file": "infrastructure-1440.webp",
+      "bytes": 59028
+    },
+    {
+      "file": "infrastructure-mobile-384.avif",
+      "bytes": 2547
+    },
+    {
+      "file": "infrastructure-mobile-384.webp",
+      "bytes": 6924
+    },
+    {
+      "file": "infrastructure-mobile-768.avif",
+      "bytes": 7570
+    },
+    {
+      "file": "infrastructure-mobile-768.webp",
+      "bytes": 20974
+    },
+    {
+      "file": "service-bay-384.avif",
+      "bytes": 14542
+    },
+    {
+      "file": "service-bay-384.webp",
+      "bytes": 27670
+    },
+    {
+      "file": "service-bay-640.avif",
+      "bytes": 34323
+    },
+    {
+      "file": "service-bay-640.webp",
+      "bytes": 63608
+    },
+    {
+      "file": "service-bay-930.avif",
+      "bytes": 59752
+    },
+    {
+      "file": "service-bay-930.webp",
+      "bytes": 110760
+    }
+  ],
+  "regenerate": "node scripts/exl-lifepro-slide/optimize.mjs"
+}

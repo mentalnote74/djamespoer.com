@@ -1,5 +1,32 @@
 # AI Engineering Handoff
 
+## October 21 EXL LifePRO carousel gateway V1 — LOCAL REVIEW ONLY
+
+Branch feature/exl-lifepro-gateway-v1 starts at PROD 1081b3c. Coach explicitly
+requires checkpoint review before any push/deploy. One eighth slide follows TAMJ;
+Engineering remains first. ExlLifeproSlide is self-contained and links to the
+existing /case-studies/exl. No carousel architecture, case study, route, existing
+artwork, backend or product behavior changes. Real HTML: EXL LifePRO / Fix the
+right layer. / Explore. One imagegen master depicts massive old steel infrastructure
+and a small precise retrofit. Two registered raster layers: cheap deep racks and
+a sharper foreground/service-bay strip; original/crops/hash/prompt in
+artwork/exl-lifepro/. Runtime AVIF/WebP assets are in public/assets/exl-lifepro-slide/.
+Desktop background 768/1440; mobile close crop 384/768; focal bay 384/640/930.
+Observed complete image bodies: desktop DPR1 56,520 B, 390px DPR2 41,893 B,
+390px DPR1 WebP 34,594 B. No new dependency or image-processing framework.
+Natural service openings/glass/empty slots are apertures. Separate CSS diagnostic
+trace, inspection/contact and ordered lamp states add local life; no ribbons,
+moving traced-wire glows, global pulse or JS animation loop. Chassis stays static.
+Dedicated artwork pause is independent of auto-advance. Reduced motion/forced
+colors, hidden slide/document visibility and SSR-safe first-use activation retained.
+Build/budgets pass without warnings (443.66KB initial). Existing Carousel tests:
+23/23. Built local Worker checks: desktop/390px, two theme environments, 4/8-second
+motion frames, reduced static view, AVIF/WebP, keyboard pause/resume/CTA, scoped
+axe zero, no overflow/errors/broken assets or carousel height change. No EXL asset
+requests before selection; initial Engineering remains one parser-discovered image.
+Original 2171×724 is preserved; a single dark padding pixel normalizes delivery
+to 2172×724 without stretching geometry. Local previews are included with artwork.
+
 ## October 21 Thingamajob composite-first artwork delivery
 
 Only Thingamajob raster delivery/optimizer/srcset changed. The approved master,

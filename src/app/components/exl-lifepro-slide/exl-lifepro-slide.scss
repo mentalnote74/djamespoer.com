@@ -1,0 +1,266 @@
+:host {
+  display: block;
+  inline-size: 100%;
+  container-type: inline-size;
+}
+.retrofit {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 3;
+  color: white;
+  background: #101b20;
+  .infrastructure,
+  .diagnostics {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+  img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+  .service-bay {
+    position: absolute;
+    inset: 0 auto 0 41.436464%;
+    inline-size: 42.81768%;
+    mask-image: linear-gradient(90deg, transparent, #000 1.2%, #000 98.8%, transparent);
+  }
+  .diagnostics {
+    pointer-events: none;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, #061216e0, #0612167a 25%, transparent 48%);
+  }
+}
+.retrofit__copy {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  padding: clamp(1rem, 3cqi, 2.5rem);
+  text-align: start;
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.75rem, 4cqi, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+  p {
+    margin: 0 0 1rem;
+    font-size: clamp(1rem, 1.7cqi, 1.375rem);
+    line-height: 1.3;
+  }
+}
+.retrofit__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  button {
+    padding-inline: 0.6rem;
+  }
+}
+.scene-action {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 0.8rem;
+  border: 1px solid #ffffff70;
+  border-radius: 0.35rem;
+  color: white;
+  background: #071216dc;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-decoration: none;
+  &:hover {
+    color: #101b20;
+    background: white;
+  }
+  &:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px #101b20;
+  }
+}
+.monitor {
+  clip-path: polygon(0 7%, 100% 0, 99% 92%, 4% 100%);
+}
+.reading {
+  fill: none;
+  stroke: #c5d7b8;
+  stroke-width: 1.5;
+  animation: diagnose 13s ease-in-out infinite;
+  &--settled {
+    animation-name: settle;
+  }
+}
+.monitor-glass {
+  fill: none;
+  stroke: var(--control-border);
+  stroke-width: 2;
+  opacity: 0.14;
+}
+.inspection {
+  fill: #cba363;
+  animation: inspect 17.3s ease-in-out infinite;
+}
+.contact {
+  fill: none;
+  stroke: #b6c6ae;
+  stroke-width: 1.5;
+  animation: inspect 19s ease-in-out infinite reverse;
+}
+.status {
+  fill: #eec484;
+  animation: register 9s ease-in-out infinite;
+  &--two {
+    animation-delay: -7.6s;
+  }
+  &--three {
+    animation-delay: -6.2s;
+    fill: #d8926d;
+  }
+}
+.bay-reflection {
+  fill: color-mix(in srgb, var(--selected-background) 25%, #b4cfcb);
+  opacity: 0.035;
+}
+.diagnostics * {
+  animation-play-state: paused;
+}
+.retrofit--running .diagnostics * {
+  animation-play-state: running;
+}
+@keyframes diagnose {
+  0%,
+  15%,
+  100% {
+    opacity: 0.8;
+  }
+  38%,
+  82% {
+    opacity: 0.08;
+  }
+}
+@keyframes settle {
+  0%,
+  15%,
+  100% {
+    opacity: 0.06;
+  }
+  38%,
+  82% {
+    opacity: 0.8;
+  }
+}
+@keyframes inspect {
+  0%,
+  35%,
+  100% {
+    opacity: 0.1;
+  }
+  54%,
+  77% {
+    opacity: 0.65;
+  }
+}
+@keyframes register {
+  0%,
+  20%,
+  100% {
+    opacity: 0.08;
+  }
+  40%,
+  72% {
+    opacity: 0.65;
+  }
+}
+@media (max-width: 600px) {
+  .retrofit {
+    .service-bay {
+      inset: -28.571429% auto auto 4.761905%;
+      inline-size: 88.571429%;
+      block-size: 206.857143%;
+    }
+    .diagnostics {
+      inset: -28.571429% auto auto -80.952381%;
+      inline-size: 206.857143%;
+      block-size: 206.857143%;
+    }
+    &::after {
+      background: linear-gradient(90deg, #061216d9, #06121640 42%, transparent 70%);
+    }
+  }
+}
+@container (max-width: 30rem) {
+  .retrofit__copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-content: start;
+    align-items: center;
+    gap: 0.1rem 0.5rem;
+    padding: 0.5rem 0.75rem;
+    h2 {
+      margin: 0;
+      font-size: clamp(1rem, 4.5cqi, 1.5rem);
+    }
+    p {
+      margin: 0;
+      font-size: 0.875rem;
+      grid-column: 1;
+    }
+  }
+  .retrofit__actions {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    .scene-action {
+      padding-inline: 0.6rem;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diagnostics * {
+    animation: none;
+  }
+  .reading--investigate {
+    opacity: 0.15;
+  }
+  .reading--settled {
+    opacity: 0.8;
+  }
+  .motion-control {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .retrofit {
+    color: CanvasText;
+    background: Canvas;
+  }
+  picture,
+  .diagnostics,
+  .retrofit::after,
+  .motion-control {
+    display: none;
+  }
+  .scene-action {
+    color: LinkText;
+    background: Canvas;
+    border-color: LinkText;
+  }
+  .scene-action:focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
