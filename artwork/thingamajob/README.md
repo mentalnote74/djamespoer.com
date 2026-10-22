@@ -32,6 +32,41 @@ and eager hero-image delivery, `showExplore=false` omits the gateway link. The
 interior-only pause control does not change the carousel's rotation controls.
 Both consumers use these same tracked production assets and registered motion.
 
+## Composite-first encoding review — October 21, 2026
+
+The runtime stack has one focal apparatus plate and two raster cutouts. Chemistry,
+reflections, relays, lighting and aperture boundaries are CSS/SVG, not downloadable
+background/glow plates. No new layer split or general optimization system was added.
+
+The first AVIF-45 desktop encode softened foreground details visibly. The selected
+desktop AVIF-52/WebP-80 plate restores more fidelity; mobile uses AVIF-48/WebP-76.
+Wheel WebP-65 and record WebP-60 replace their former WebP-90 encodes. Those small,
+moving/occluded scraps take the largest quality reduction; clipping stays exact.
+The wheel/record total falls from 10,792 to 6,012 bytes (44.3%). The approved master,
+crop coordinates, intrinsic 3:1 ratio, CSS, masks and mechanical timing are unchanged.
+
+Desktop widths are 768/1440/2172, replacing 1200 with 1440 so the 1280px scene does
+not jump directly to the source-size image at DPR 1. Mobile retains 384/768 and its
+existing close crop. Only these five useful plate sizes are generated in AVIF/WebP.
+
+Cold encoded image-body bytes for the complete three-raster composite (not HTTP
+headers, total page weight, a Lighthouse result or a measured paint improvement):
+
+| Display / format | Before | Selected | Reduction |
+| --- | ---: | ---: | ---: |
+| Desktop, 1280px scene, DPR 1, AVIF | 182,111 | 74,370 | 59.2% |
+| Mobile, 390px viewport, DPR 2, AVIF | 50,486 | 30,851 | 38.9% |
+| Desktop, DPR 2, AVIF | 182,111 | 133,884 | 26.5% |
+| Desktop, DPR 1, WebP fallback | 313,668 | 145,180 | 53.7% |
+| Mobile, DPR 2, WebP fallback | 83,164 | 61,912 | 25.6% |
+
+Chrome comparisons used the assembled component, light/dark theme variations,
+reduced-motion static views and actual-speed 4/8-second motion frames at desktop
+HiDPI. WebP fallback was selected with AVIF decoding disabled. The selected result
+retains convincing foreground materials/edges with no visible aperture seams or
+halos in those views. Fine raster grain differs; this is perceptual optimization,
+not pixel-identical encoding. No Lighthouse run or broader performance claim.
+
 ## Generation prompt (verbatim)
 
 Create ONE finished original editorial artwork for a sophisticated professional portfolio carousel, a panoramic composition approximately 3:1 (wide landscape, ideally 3072x1024). NO typography, NO title, NO captions, NO watermark. This is an exquisitely crafted physical evidence-processing apparatus: 1970s experimental research laboratory meets kinetic mechanical music machine meets Cold War analog control room, with restrained lava-lamp chemistry. Absurdly over-engineered yet credible and purposeful, not goofy or toy-like. Cinematic detailed miniature/model photography with beautiful believable materials, exquisite brass and aged steel, oxidized sea-glass painted panels, warm ivory instrument faces, glass, machined screws, deep cast shadows, directional warm coastal daylight and cooler workshop interior. NOT cyberpunk, NOT futuristic AI, NOT a holographic dashboard, NO brain, NO abstract ribbons, NO arrows.

@@ -1,5 +1,22 @@
 # AI Engineering Handoff
 
+## October 21 Thingamajob composite-first artwork delivery
+
+Only Thingamajob raster delivery/optimizer/srcset changed. The approved master,
+crop, CSS, aperture geometry, motion, semantic copy, loading priorities and all
+other slides remain unchanged. Desktop uses 768/1440/2172 (1440 replaces 1200);
+mobile stays 384/768. Focal plate quality: desktop AVIF52/WebP80, mobile AVIF48/
+WebP76; wheel WebP65 and inspection record WebP60. Low-value illumination/fluid
+layers are already CSS/SVG with no raster bytes. No new dependency/pipeline.
+Composite comparisons cover light/dark themes, reduced-motion static views,
+actual-speed motion, desktop/mobile DPR2 and genuine WebP fallback. After rejecting
+the softer AVIF45 desktop candidate, selected images retain focal materials and
+clean compositing edges. Full image-body totals: desktop DPR1 AVIF 182111→74370
+bytes (-59.2%), mobile DPR2 50486→30851 (-38.9%), desktop DPR2 -26.5%; WebP fallback
+desktop -53.7%, mobile -25.6%. Headers/page weight/paint timing are not those values.
+Build/budgets pass (443.66KB initial); no Lighthouse or unrelated test campaign.
+Encoding decisions and exact sizes: artwork/thingamajob/README.md.
+
 ## October 21 approved Thingamajob V1 release / shared page hero
 
 Coach approved ce2df0e unchanged as artwork/motion. The /thingamajob introduction

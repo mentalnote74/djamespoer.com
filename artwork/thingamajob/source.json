@@ -24,5 +24,26 @@
     "width": 137,
     "height": 44
   },
+  "encoding": {
+    "desktop": {
+      "widths": [
+        768,
+        1440,
+        2172
+      ],
+      "avifQuality": 52,
+      "webpQuality": 80
+    },
+    "mobile": {
+      "widths": [
+        384,
+        768
+      ],
+      "avifQuality": 48,
+      "webpQuality": 76
+    },
+    "wheelWebpQuality": 65,
+    "inspectionWebpQuality": 60
+  },
   "regenerate": "node scripts/thingamajob-slide/optimize.mjs"
 }

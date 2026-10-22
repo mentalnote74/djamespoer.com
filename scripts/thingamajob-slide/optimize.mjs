@@ -10,14 +10,16 @@ await mkdir(target, { recursive: true });
 const original = await readFile(master);
 // The mobile crop is a close inspection of the same machine, not a second scene.
 // These coordinates also register the mechanical layer in thingamajob-slide.scss.
-for (const [name, widths, crop] of [
-  ['apparatus', [768, 1200, 2172], []],
-  ['apparatus-mobile', [384, 768], ['-crop', '1470x490+702+100', '+repage']],
+// The sharp focal plate gets more fidelity than the small moving cutouts.
+// 1440 covers the 1280px desktop scene without forcing its 2172px HiDPI image.
+for (const [name, widths, crop, avifQuality, webpQuality] of [
+  ['apparatus', [768, 1440, 2172], [], 52, 80],
+  ['apparatus-mobile', [384, 768], ['-crop', '1470x490+702+100', '+repage'], 48, 76],
 ]) {
   for (const width of widths) {
     for (const [format, quality] of [
-      ['avif', '60'],
-      ['webp', '84'],
+      ['avif', String(avifQuality)],
+      ['webp', String(webpQuality)],
     ]) {
       execFileSync('magick', [
         master,
@@ -32,7 +34,8 @@ for (const [name, widths, crop] of [
     }
   }
 }
-// One tiny original-material cutout; rotation happens behind the inspection rim.
+// Occluded/moving scraps need less internal fidelity. SVG/CSS clipping remains
+// exact and lossless; never degrade the aperture boundaries to save these bytes.
 execFileSync('magick', [
   master,
   '-crop',
@@ -40,7 +43,7 @@ execFileSync('magick', [
   '+repage',
   '-strip',
   '-quality',
-  '90',
+  '65',
   target + 'index-wheel.webp',
 ]);
 execFileSync('magick', [
@@ -50,7 +53,7 @@ execFileSync('magick', [
   '+repage',
   '-strip',
   '-quality',
-  '90',
+  '60',
   target + 'inspection-record.webp',
 ]);
 await writeFile(
@@ -64,6 +67,12 @@ await writeFile(
       mobileCrop: { x: 702, y: 100, width: 1470, height: 490 },
       wheelCrop: { x: 1381, y: 247, width: 120, height: 120 },
       inspectionCrop: { x: 1180, y: 319, width: 137, height: 44 },
+      encoding: {
+        desktop: { widths: [768, 1440, 2172], avifQuality: 52, webpQuality: 80 },
+        mobile: { widths: [384, 768], avifQuality: 48, webpQuality: 76 },
+        wheelWebpQuality: 65,
+        inspectionWebpQuality: 60,
+      },
       regenerate: 'node scripts/thingamajob-slide/optimize.mjs',
     },
     null,
