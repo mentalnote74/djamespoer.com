@@ -1,0 +1,200 @@
+{
+  "title": "djamespoer.com — Sunset shore",
+  "route": "/work/djamespoer",
+  "supportingLine": "The portfolio is the proof.",
+  "sourceSpace": [
+    2172,
+    724
+  ],
+  "mobileWindow": {
+    "x": 640,
+    "y": 0,
+    "width": 1448,
+    "height": 724
+  },
+  "backgroundOverscan": 1.16,
+  "magic": "independent shallow-water refraction, caustics through natural pool openings, slow extracted shore wash, changing warm light",
+  "layers": [
+    {
+      "name": "background",
+      "source": "background.png",
+      "widths": [
+        480,
+        960
+      ],
+      "avif": 13,
+      "webp": 28
+    },
+    {
+      "name": "shore",
+      "source": "master.png",
+      "widths": [
+        640,
+        1280
+      ],
+      "crop": [
+        "-crop",
+        "2170x465+0+260",
+        "+repage"
+      ],
+      "avif": 27,
+      "webp": 45
+    },
+    {
+      "name": "foreground",
+      "source": "foreground.png",
+      "widths": [
+        768,
+        1440
+      ],
+      "avif": 48,
+      "webp": 72
+    },
+    {
+      "name": "swash",
+      "source": "swash.png",
+      "widths": [
+        480,
+        960
+      ],
+      "avif": 18,
+      "webp": 34
+    },
+    {
+      "name": "caustics",
+      "source": "master.png",
+      "widths": [
+        320
+      ],
+      "crop": [
+        "-crop",
+        "700x260+150+400",
+        "+repage"
+      ],
+      "avif": 13,
+      "webp": 26
+    }
+  ],
+  "sources": [
+    {
+      "file": "sources/background.png",
+      "sha256": "01dbf6a48d357ab3f005e789fadc752270eb6f77abf6cc0cc5ce6cd84271eb3d",
+      "geometry": "2169x725 srgb  3.0"
+    },
+    {
+      "file": "sources/master.png",
+      "sha256": "44ef1f8048dae1489d6a9252384afceef4f817921e8e0fa2cfe258cbe11af2e3",
+      "geometry": "2170x725 srgb  3.0"
+    },
+    {
+      "file": "sources/foreground.png",
+      "sha256": "1bace48fb9fca5fb9935243d0bc1577c0ef7b35eb4b45c9d6b1014c30d291cb0",
+      "geometry": "2169x725 srgba 4.0"
+    },
+    {
+      "file": "sources/swash.png",
+      "sha256": "d6ff95634d58fcd0f3795e9f4c65197e6d17507d10e5c5c4a3737d09e8da6f1b",
+      "geometry": "2170x725 srgba 4.0"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "background-480.avif",
+      "bytes": 1720,
+      "sha256": "f252ff760e75d39ba8ab8f5e322217c9715ae035901f8fa8eac468d6374f6bdb"
+    },
+    {
+      "file": "background-480.webp",
+      "bytes": 8932,
+      "sha256": "af00e4dc0d9727673e89e948d7e36adb55709d5ed81f60af28b59dec8aedd804"
+    },
+    {
+      "file": "background-960.avif",
+      "bytes": 6064,
+      "sha256": "a2a04b66d4dee86de3536dd86f16493a393d91187c96cdc74a81ec8d1f962505"
+    },
+    {
+      "file": "background-960.webp",
+      "bytes": 32092,
+      "sha256": "b6c6a262c4ecfde7b76ad5acd6b795a756c0ca4dd8e7834c760fe43d91e15f40"
+    },
+    {
+      "file": "shore-640.avif",
+      "bytes": 4440,
+      "sha256": "fcd1b0863670640d5371233675927836989a714a965eeff264aeb85ccc004153"
+    },
+    {
+      "file": "shore-640.webp",
+      "bytes": 18632,
+      "sha256": "822374b2938fc3b9541b611ebbd9130202c959103abbfd20e1be8a115d298775"
+    },
+    {
+      "file": "shore-1280.avif",
+      "bytes": 15334,
+      "sha256": "e073a792e09100c4812d41729de18c506b0efc02214dbe73512ed21348df6c5e"
+    },
+    {
+      "file": "shore-1280.webp",
+      "bytes": 67070,
+      "sha256": "091ca855513e5d72dbc8986162c12c446cb3b21e6eb7e8f429436fc4761d1eb5"
+    },
+    {
+      "file": "foreground-768.avif",
+      "bytes": 12344,
+      "sha256": "c9a2d08a741e1564539239e2d3a51bb44e0e72badcbe998809fe463ab703af43"
+    },
+    {
+      "file": "foreground-768.webp",
+      "bytes": 25754,
+      "sha256": "77a055605b93a180fb6013467cc5469933aca214c0fa9c7993de91c6710efb4d"
+    },
+    {
+      "file": "foreground-1440.avif",
+      "bytes": 31587,
+      "sha256": "36459b6f58c2be81c5eff980bd99cca4009095ce5ccfa9db956a929572bd68d4"
+    },
+    {
+      "file": "foreground-1440.webp",
+      "bytes": 73914,
+      "sha256": "d649f732a465ab061fe49a14cb15a98d8adb134c4f85e92844de9230d38f401b"
+    },
+    {
+      "file": "swash-480.avif",
+      "bytes": 2749,
+      "sha256": "27aeac70ce86b02e2e6da4ad16e5ea54a0d158114ddf1653228fc3a61ca8eba7"
+    },
+    {
+      "file": "swash-480.webp",
+      "bytes": 9540,
+      "sha256": "a22d4b287deecddc46ccdcc46b6226c915db069bd08e299fb238ad2db845555e"
+    },
+    {
+      "file": "swash-960.avif",
+      "bytes": 5410,
+      "sha256": "6ccb04478a9dcb357e6c60434c30c6a867018057982a89977b456688109851a3"
+    },
+    {
+      "file": "swash-960.webp",
+      "bytes": 26604,
+      "sha256": "350501d8f70e647ca38a5b5606ea341974cd81ddaefc8d37cbca15b50285d422"
+    },
+    {
+      "file": "caustics-320.avif",
+      "bytes": 1174,
+      "sha256": "1386a02d4f961d55d2034172bace44da90fc130f175b20085f4c9f0f9a71723e"
+    },
+    {
+      "file": "caustics-320.webp",
+      "bytes": 6438,
+      "sha256": "6a3e01078985dc75386d9e8a6f95cfcb3ee8fdd4d668c4d3d5fac302e4b32ded"
+    }
+  ],
+  "mobileAspectRatio": "2:1",
+  "desktopAspectRatio": "3:1",
+  "imageBodyBytes": {
+    "avif_desktop": 59569,
+    "avif_mobile": 22427,
+    "webp_desktop": 206118,
+    "webp_mobile": 69296
+  }
+}

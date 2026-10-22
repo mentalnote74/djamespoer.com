@@ -1,0 +1,246 @@
+{
+  "title": "djamespoer.com — Electric moonlight",
+  "route": "/work/djamespoer",
+  "supportingLine": "The portfolio is the proof.",
+  "sourceSpace": [
+    2172,
+    724
+  ],
+  "mobileWindow": {
+    "x": 640,
+    "y": 0,
+    "width": 1448,
+    "height": 724
+  },
+  "backgroundOverscan": 1.02,
+  "magic": "Independent near and distant bioluminescent surf pulses through rock openings; drifting cloud veil and moon halo.",
+  "layers": [
+    {
+      "name": "background",
+      "source": "background.png",
+      "widths": [
+        480,
+        960
+      ],
+      "avif": 16,
+      "webp": 30
+    },
+    {
+      "name": "shore",
+      "source": "master.png",
+      "widths": [
+        640,
+        1280
+      ],
+      "crop": [
+        "-crop",
+        "2172x439+0+285",
+        "+repage"
+      ],
+      "avif": 28,
+      "webp": 45
+    },
+    {
+      "name": "foreground",
+      "source": "foreground.png",
+      "widths": [
+        768,
+        1440
+      ],
+      "avif": 48,
+      "webp": 72
+    },
+    {
+      "name": "glow",
+      "source": "glow.png",
+      "widths": [
+        480,
+        960
+      ],
+      "avif": 18,
+      "webp": 32
+    },
+    {
+      "name": "cloud",
+      "source": "cloud.png",
+      "widths": [
+        384,
+        768
+      ],
+      "avif": 13,
+      "webp": 26
+    },
+    {
+      "name": "moon",
+      "source": "master.png",
+      "widths": [
+        120,
+        240
+      ],
+      "crop": [
+        "-crop",
+        "240x180+1250+35",
+        "+repage"
+      ],
+      "avif": 48,
+      "webp": 72
+    }
+  ],
+  "sources": [
+    {
+      "file": "sources/background.png",
+      "sha256": "90da3dc140f7c1ecbc9bc0967b4216aac7572647de7344a3f420681e57567aca",
+      "geometry": "2172x724 srgb  3.0"
+    },
+    {
+      "file": "sources/master.png",
+      "sha256": "fea5604a029d8ee99b972713e297a7fad6b198ad032398548793397f7202d9dc",
+      "geometry": "2172x724 srgb  3.0"
+    },
+    {
+      "file": "sources/foreground.png",
+      "sha256": "318403b65975ab69bd5e1647d5182c9698a64ee17f09373bc3cf0266ec20846f",
+      "geometry": "2172x724 srgba 4.0"
+    },
+    {
+      "file": "sources/glow.png",
+      "sha256": "0660311d57b2c62b8a1f4e5cd4091b1777f865b82460f9533a1f6ef594d2984f",
+      "geometry": "2172x724 srgba 4.0"
+    },
+    {
+      "file": "sources/cloud.png",
+      "sha256": "87f9748993a3b0e74ba574396e790c5749fa92aba7199dc8a9912ede9ca61e25",
+      "geometry": "2172x724 srgba 4.0"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "background-480.avif",
+      "bytes": 1900,
+      "sha256": "b31a4e3a17b69932381134ca5a7ab182698dda95c1a806652099badf88f66736"
+    },
+    {
+      "file": "background-480.webp",
+      "bytes": 6988,
+      "sha256": "2f6c618b3fc3ce37d5fd83b8ee23d63245228286fcd7393ac3291c568a6f0545"
+    },
+    {
+      "file": "background-960.avif",
+      "bytes": 6035,
+      "sha256": "bf89952878eb21591fc0c5f2e5b69b8a97950ae503d3877cb536147591164bc4"
+    },
+    {
+      "file": "background-960.webp",
+      "bytes": 24610,
+      "sha256": "ead18e8ef47869b6492f22268832026f00718d328372184545e5d952a616602c"
+    },
+    {
+      "file": "shore-640.avif",
+      "bytes": 4512,
+      "sha256": "2256fe25c1cb2570f54cebe878e9e4e8241bd10eba289926de6d163514e133ab"
+    },
+    {
+      "file": "shore-640.webp",
+      "bytes": 14598,
+      "sha256": "8b60fa929ea7ae2b74801cc8365376cc92ba345540278bae293693e7dee5e457"
+    },
+    {
+      "file": "shore-1280.avif",
+      "bytes": 15402,
+      "sha256": "3e6bd2b7d777debe060d9f063d1b00e99567950108371522e861fd1c45e36f5a"
+    },
+    {
+      "file": "shore-1280.webp",
+      "bytes": 50644,
+      "sha256": "dbe0b33504da56c7c5af927032985e1b97e6997c6b681adae266a64f916b103f"
+    },
+    {
+      "file": "foreground-768.avif",
+      "bytes": 9344,
+      "sha256": "31f0ddb540e9885944da9099a27c102f4e6b824b7696b428729ae2cde29db122"
+    },
+    {
+      "file": "foreground-768.webp",
+      "bytes": 22378,
+      "sha256": "f96b9d54d3b8be50186d7f1fa61f2551ffae2fd8f593ca0eaf3f2e9e0f91d1f5"
+    },
+    {
+      "file": "foreground-1440.avif",
+      "bytes": 23811,
+      "sha256": "16876e88549e90649f5a5cbb2c8d4a643fc8825fc436a191e62e1426124303b2"
+    },
+    {
+      "file": "foreground-1440.webp",
+      "bytes": 62204,
+      "sha256": "3b223777f8b4c8343af38fa42d774fe8297273cd71992fd53d7aa1b2ca62fb0e"
+    },
+    {
+      "file": "glow-480.avif",
+      "bytes": 2953,
+      "sha256": "421c0fbf15c437ae3dbc5438edc57af8b4f88ed73e698d5280d5e7f363066c82"
+    },
+    {
+      "file": "glow-480.webp",
+      "bytes": 23042,
+      "sha256": "ae6a6dc8e3efa3a33c0aa2076a129966d75f345b831093fa9ab213e8449d557d"
+    },
+    {
+      "file": "glow-960.avif",
+      "bytes": 7349,
+      "sha256": "6aed4a717391821f30c61ecf2fa0a8c6a7d02f146aec05286aa556f2bafa31b1"
+    },
+    {
+      "file": "glow-960.webp",
+      "bytes": 70396,
+      "sha256": "800756f51ed8a8040d517d76e0312df71bc91d133da85a318fc4a1f1e39c21c5"
+    },
+    {
+      "file": "cloud-384.avif",
+      "bytes": 1666,
+      "sha256": "f19659e9435b548d31f0143ef06a53ed9319b07f2982cbd37e4179e6abf23afe"
+    },
+    {
+      "file": "cloud-384.webp",
+      "bytes": 7130,
+      "sha256": "bd73b93efcb54033f6c9bafcf5881da6a44f3c0e74f0a139bd3d1850d1af629a"
+    },
+    {
+      "file": "cloud-768.avif",
+      "bytes": 3310,
+      "sha256": "171690acaff08437fc248420b7649b18575d8dab3db940d7e76f9fc3cb9248d6"
+    },
+    {
+      "file": "cloud-768.webp",
+      "bytes": 20872,
+      "sha256": "57c35d6ffe925ba253645518ff48720af229d9f680b5184994f14a7e99859bc9"
+    },
+    {
+      "file": "moon-120.avif",
+      "bytes": 1470,
+      "sha256": "0d2bd69a508dfedb37a94136733d53e694ebbd4db4c49411c74796dd42730c3d"
+    },
+    {
+      "file": "moon-120.webp",
+      "bytes": 2134,
+      "sha256": "5cd0d17a634c263c2004e734e0a0fb5061a4482b9284036d3202f262f4fd680b"
+    },
+    {
+      "file": "moon-240.avif",
+      "bytes": 3231,
+      "sha256": "ff60e9d7c61742b0f748175509aba9ccbbed11542dd776391fecf499bba91bd8"
+    },
+    {
+      "file": "moon-240.webp",
+      "bytes": 5222,
+      "sha256": "4b12b854c9e4c68c23d3b36aee209fe3d9521efc5721598481c965b6853ed5c2"
+    }
+  ],
+  "mobileAspectRatio": "2:1",
+  "desktopAspectRatio": "3:1",
+  "imageBodyBytes": {
+    "avif_desktop": 59138,
+    "avif_mobile": 21845,
+    "webp_desktop": 233948,
+    "webp_mobile": 76270
+  }
+}

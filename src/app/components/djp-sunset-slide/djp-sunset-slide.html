@@ -1,0 +1,149 @@
+<section
+  class="djp-beach sunset"
+  [class.running]="running()"
+  [style.--djp-x]="depthX() + 'px'"
+  [style.--djp-y]="depthY() + 'px'"
+  (pointermove)="onPointerMove($event)"
+  (pointerleave)="resetDepth()"
+  aria-label="djamespoer.com — Sunset beach"
+>
+  <div class="art" aria-hidden="true">
+    <div class="world">
+      <picture class="background"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-sunset/background-480.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-sunset/background-480.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-sunset/background-480.avif 480w,
+            /assets/djp-sunset/background-960.avif 960w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-sunset/background-960.webp"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="shore"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-sunset/shore-640.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-sunset/shore-640.webp" />
+        <source
+          type="image/avif"
+          srcset="/assets/djp-sunset/shore-640.avif 640w, /assets/djp-sunset/shore-1280.avif 1280w"
+          sizes="100vw" />
+        <img
+          src="/assets/djp-sunset/shore-1280.webp"
+          width="2170"
+          height="465"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="water-magic"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-sunset/caustics-320.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-sunset/caustics-320.webp" />
+        <source
+          type="image/avif"
+          srcset="/assets/djp-sunset/caustics-320.avif 320w"
+          sizes="100vw" />
+        <img
+          src="/assets/djp-sunset/caustics-320.webp"
+          width="700"
+          height="260"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="moving-layer"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-sunset/swash-480.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-sunset/swash-480.webp" />
+        <source
+          type="image/avif"
+          srcset="/assets/djp-sunset/swash-480.avif 480w, /assets/djp-sunset/swash-960.avif 960w"
+          sizes="100vw" />
+        <img
+          src="/assets/djp-sunset/swash-960.webp"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async"
+      /></picture>
+      <div class="light"></div>
+      <picture class="foreground"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-sunset/foreground-768.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-sunset/foreground-768.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-sunset/foreground-768.avif   768w,
+            /assets/djp-sunset/foreground-1440.avif 1440w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-sunset/foreground-1440.webp"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async"
+      /></picture>
+    </div>
+  </div>
+  <div class="copy">
+    <h2>djamespoer.com</h2>
+    <p>The portfolio is the proof.</p>
+    <div class="actions">
+      <a
+        class="action"
+        routerLink="/work/djamespoer"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        aria-label="Explore djamespoer.com"
+        >Explore</a
+      ><button
+        class="action motion-control"
+        type="button"
+        (click)="toggleMotion()"
+        [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,174 @@
+// Animation references and keyframes must share a stylesheet for Angular keyframe scoping.
+.djp-beach .water-magic img {
+  animation: djp-refraction 9s ease-in-out infinite alternate;
+}
+.djp-beach .moving-layer {
+  animation: djp-swash 8.3s ease-in-out infinite;
+}
+.djp-beach .light {
+  animation: djp-sunlight 11s ease-in-out infinite alternate;
+}
+.djp-beach.moonlight .water-magic img {
+  animation: djp-plankton 6.7s ease-in-out infinite;
+}
+.djp-beach.moonlight .moving-layer {
+  animation: djp-cloud 31s ease-in-out infinite alternate;
+}
+.djp-beach.moonlight .light {
+  animation: djp-moonlight 13s ease-in-out infinite alternate;
+}
+@keyframes djp-refraction {
+  from {
+    transform: translate(-1%, -1%) scale(1.08);
+    opacity: 0.5;
+  }
+  to {
+    transform: translate(1%, 1%) scale(1.11);
+    opacity: 0.95;
+  }
+}
+@keyframes djp-swash {
+  0%,
+  100% {
+    transform: translate(-0.12%, 0.3%);
+    opacity: 0.25;
+  }
+  45% {
+    transform: translate(0.18%, -0.5%);
+    opacity: 0.72;
+  }
+  70% {
+    opacity: 0.45;
+  }
+}
+@keyframes djp-sunlight {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+@keyframes djp-plankton {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0.25%);
+  }
+  35% {
+    opacity: 0.9;
+  }
+  65% {
+    opacity: 0.5;
+    transform: translateY(-0.2%);
+  }
+}
+@keyframes djp-cloud {
+  from {
+    transform: translateX(-2%) scale(1.08);
+  }
+  to {
+    transform: translateX(2%) scale(1.08);
+  }
+}
+@keyframes djp-moonlight {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+@media (max-width: 600px) {
+  .djp-beach .world {
+    left: -44.4444%;
+    top: -35.4167%;
+    width: 150.8333%;
+    height: 150.8333%;
+  }
+  .djp-beach .copy {
+    padding: 0.35rem 0.6rem;
+    display: block;
+    background: linear-gradient(#06131ade, transparent 65%);
+  }
+  .djp-beach h2 {
+    font-size: clamp(0.85rem, 3.8cqi, 1.2rem);
+    max-width: calc(100% - 125px);
+    margin: 0;
+  }
+  .djp-beach p {
+    font-size: clamp(0.65rem, 2.9cqi, 0.8rem);
+    max-width: calc(100% - 125px);
+    margin: 0.25rem 0 0;
+  }
+  .djp-beach .actions {
+    position: absolute;
+    right: 0.6rem;
+    top: 0.35rem;
+    gap: 5px;
+  }
+  .djp-beach .action {
+    font-size: 0.8rem;
+    padding: 0 0.55rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .djp-beach .art * {
+    animation: none !important;
+  }
+  .djp-beach .background,
+  .djp-beach .foreground {
+    transform: none;
+  }
+  .djp-beach .motion-control {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .djp-beach .art {
+    display: none;
+  }
+  .djp-beach {
+    background: Canvas;
+    color: CanvasText;
+  }
+  .djp-beach .copy {
+    background: none;
+  }
+  .djp-beach .action {
+    background: Canvas;
+    color: LinkText;
+    border-color: LinkText;
+  }
+  .djp-beach .motion-control {
+    display: none;
+  }
+}
+.djp-beach.sunset .shore {
+  mask-image: linear-gradient(transparent, #000 7%);
+}
+@media (max-width: 600px) {
+  .djp-beach {
+    aspect-ratio: 2;
+  }
+  .djp-beach .world {
+    left: -44.2%;
+    top: 0;
+    width: 150%;
+    height: 100%;
+  }
+  .djp-beach .copy {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.6rem;
+    background: linear-gradient(0deg, #06131ae8, transparent 48%);
+  }
+  .djp-beach h2,
+  .djp-beach p {
+    max-width: calc(100% - 125px);
+  }
+  .djp-beach .actions {
+    top: auto;
+    bottom: 0.5rem;
+  }
+}

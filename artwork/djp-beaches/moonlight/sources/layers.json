@@ -1,0 +1,89 @@
+{
+  "title": "djamespoer.com — Electric moonlight",
+  "route": "/work/djamespoer",
+  "supportingLine": "The portfolio is the proof.",
+  "sourceSpace": [
+    2172,
+    724
+  ],
+  "mobileWindow": {
+    "x": 640,
+    "y": 0,
+    "width": 1448,
+    "height": 724
+  },
+  "backgroundOverscan": 1.02,
+  "magic": "Independent near and distant bioluminescent surf pulses through rock openings; drifting cloud veil and moon halo.",
+  "layers": [
+    {
+      "name": "background",
+      "source": "background.png",
+      "widths": [
+        480,
+        960
+      ],
+      "avif": 16,
+      "webp": 30
+    },
+    {
+      "name": "shore",
+      "source": "master.png",
+      "widths": [
+        640,
+        1280
+      ],
+      "crop": [
+        "-crop",
+        "2172x439+0+285",
+        "+repage"
+      ],
+      "avif": 28,
+      "webp": 45
+    },
+    {
+      "name": "foreground",
+      "source": "foreground.png",
+      "widths": [
+        768,
+        1440
+      ],
+      "avif": 48,
+      "webp": 72
+    },
+    {
+      "name": "glow",
+      "source": "glow.png",
+      "widths": [
+        480,
+        960
+      ],
+      "avif": 18,
+      "webp": 32
+    },
+    {
+      "name": "cloud",
+      "source": "cloud.png",
+      "widths": [
+        384,
+        768
+      ],
+      "avif": 13,
+      "webp": 26
+    },
+    {
+      "name": "moon",
+      "source": "master.png",
+      "widths": [
+        120,
+        240
+      ],
+      "crop": [
+        "-crop",
+        "240x180+1250+35",
+        "+repage"
+      ],
+      "avif": 48,
+      "webp": 72
+    }
+  ]
+}

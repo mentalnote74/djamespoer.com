@@ -1,0 +1,204 @@
+<section
+  class="djp-beach moonlight"
+  [class.running]="running()"
+  [style.--djp-x]="depthX() + 'px'"
+  [style.--djp-y]="depthY() + 'px'"
+  (pointermove)="onPointerMove($event)"
+  (pointerleave)="resetDepth()"
+  aria-label="djamespoer.com — Moonlit beach"
+>
+  <div class="art" aria-hidden="true">
+    <div class="world">
+      <picture class="background"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-moonlight/background-480.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-moonlight/background-480.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-moonlight/background-480.avif 480w,
+            /assets/djp-moonlight/background-960.avif 960w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-moonlight/background-960.webp"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="shore"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-moonlight/shore-640.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-moonlight/shore-640.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-moonlight/shore-640.avif   640w,
+            /assets/djp-moonlight/shore-1280.avif 1280w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-moonlight/shore-1280.webp"
+          width="2172"
+          height="439"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="water-magic near"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-moonlight/glow-480.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-moonlight/glow-480.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-moonlight/glow-480.avif 480w,
+            /assets/djp-moonlight/glow-960.avif 960w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-moonlight/glow-960.webp"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="water-magic far"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-moonlight/glow-480.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-moonlight/glow-480.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-moonlight/glow-480.avif 480w,
+            /assets/djp-moonlight/glow-960.avif 960w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-moonlight/glow-960.webp"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="moving-layer"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-moonlight/cloud-384.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-moonlight/cloud-384.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-moonlight/cloud-384.avif 384w,
+            /assets/djp-moonlight/cloud-768.avif 768w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-moonlight/cloud-768.webp"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async" /></picture
+      ><picture class="moon"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-moonlight/moon-120.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-moonlight/moon-120.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-moonlight/moon-120.avif 120w,
+            /assets/djp-moonlight/moon-240.avif 240w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-moonlight/moon-240.webp"
+          width="240"
+          height="180"
+          alt=""
+          loading="lazy"
+          decoding="async"
+      /></picture>
+      <div class="light"></div>
+      <picture class="foreground"
+        ><source
+          media="(max-width:600px)"
+          type="image/avif"
+          srcset="/assets/djp-moonlight/foreground-768.avif" />
+        <source
+          media="(max-width:600px)"
+          type="image/webp"
+          srcset="/assets/djp-moonlight/foreground-768.webp" />
+        <source
+          type="image/avif"
+          srcset="
+            /assets/djp-moonlight/foreground-768.avif   768w,
+            /assets/djp-moonlight/foreground-1440.avif 1440w
+          "
+          sizes="100vw" />
+        <img
+          src="/assets/djp-moonlight/foreground-1440.webp"
+          width="2172"
+          height="724"
+          alt=""
+          loading="lazy"
+          decoding="async"
+      /></picture>
+    </div>
+  </div>
+  <div class="copy">
+    <h2>djamespoer.com</h2>
+    <p>The portfolio is the proof.</p>
+    <div class="actions">
+      <a
+        class="action"
+        routerLink="/work/djamespoer"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        aria-label="Explore djamespoer.com"
+        >Explore</a
+      ><button
+        class="action motion-control"
+        type="button"
+        (click)="toggleMotion()"
+        [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</section>

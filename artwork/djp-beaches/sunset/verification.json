@@ -1,0 +1,25 @@
+{
+  "angularTemplateSyntax": "passed",
+  "typescriptSyntax": "passed",
+  "cssParser": "passed",
+  "minifiedAdapterStyleBytes": {
+    "art": 2083,
+    "copy": 879,
+    "motion": 1971
+  },
+  "encodedAssetsPresent": 18,
+  "imageBodyBytes": {
+    "avif_desktop": 59569,
+    "avif_mobile": 22427,
+    "webp_desktop": 206118,
+    "webp_mobile": 69296
+  },
+  "browser": {
+    "desktop": "assembled composition visually inspected",
+    "mobile390": "Passed: visually inspected at 390px; selected mobile AVIF plates loaded; no horizontal overflow.",
+    "pauseResume": "Passed: every animated region computed paused after click and running after keyboard Return.",
+    "reducedMotion": "CSS and lifecycle implemented; real preference test not run",
+    "forcedColors": "CSS supplied; OS test not run"
+  },
+  "integrationBuild": "Not run. Build app, run carousel checks and accessibility checks before deployment."
+}

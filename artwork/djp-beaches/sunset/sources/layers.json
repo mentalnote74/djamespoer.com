@@ -1,0 +1,78 @@
+{
+  "title": "djamespoer.com — Sunset shore",
+  "route": "/work/djamespoer",
+  "supportingLine": "The portfolio is the proof.",
+  "sourceSpace": [
+    2172,
+    724
+  ],
+  "mobileWindow": {
+    "x": 640,
+    "y": 0,
+    "width": 1448,
+    "height": 724
+  },
+  "backgroundOverscan": 1.16,
+  "magic": "independent shallow-water refraction, caustics through natural pool openings, slow extracted shore wash, changing warm light",
+  "layers": [
+    {
+      "name": "background",
+      "source": "background.png",
+      "widths": [
+        480,
+        960
+      ],
+      "avif": 13,
+      "webp": 28
+    },
+    {
+      "name": "shore",
+      "source": "master.png",
+      "widths": [
+        640,
+        1280
+      ],
+      "crop": [
+        "-crop",
+        "2170x465+0+260",
+        "+repage"
+      ],
+      "avif": 27,
+      "webp": 45
+    },
+    {
+      "name": "foreground",
+      "source": "foreground.png",
+      "widths": [
+        768,
+        1440
+      ],
+      "avif": 48,
+      "webp": 72
+    },
+    {
+      "name": "swash",
+      "source": "swash.png",
+      "widths": [
+        480,
+        960
+      ],
+      "avif": 18,
+      "webp": 34
+    },
+    {
+      "name": "caustics",
+      "source": "master.png",
+      "widths": [
+        320
+      ],
+      "crop": [
+        "-crop",
+        "700x260+150+400",
+        "+repage"
+      ],
+      "avif": 13,
+      "webp": 26
+    }
+  ]
+}

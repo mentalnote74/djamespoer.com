@@ -1043,3 +1043,25 @@ Production build/budgets pass, initial 443.66 kB; existing focused carousel test
 request, unchanged viewport height, moving/paused layers, reduced motion,
 forced colors, keyboard Explore, scoped axe zero, no overflow/browser errors.
 No backend, metric, career-source, Bedlam or other-slide changes.
+## October 22 — additional djamespoer.com beach slides
+
+Added supplied Sunset and Moonlight scenes after the live conservatory (13 total
+slides). Both retain djamespoer.com / The portfolio is the proof. / Explore to
+/work/djamespoer. TCC and D&R remain excluded; earlier assets/history are intact.
+Supplied layered AVIF/WebP, registration/masks, responsive crops and distinct
+Magic preserved. Animation references and keyframes share the motion stylesheet
+for Angular scoping. Controls use existing action icons/UI font; no new package.
+
+Home alone supplies a stable 2:1 mobile carousel slot. Beaches use that crop;
+original 3:1 scenes stay centered and uncropped. Desktop remains 3:1. No carousel
+behavior, prerender/LCP discovery, backend, metrics or unrelated components changed.
+
+Build/budgets pass (443.66 kB initial); focused existing carousel tests 23/23.
+Chrome 1440px/390px: assembled motion phases and pointer extremes inspected,
+keyboard pause/resume, reduced motion, forced colors, scoped axe zero, correct
+copy/Explore, no overflow or browser/asset errors. Both scenes lazy until selected;
+Engineering remains one parser-discovered image. Selected AVIF bodies: Sunset
+59,569/22,427 B and Moonlight 59,138/21,845 B desktop/mobile; shared glow fetched
+once. Masters/prompts/manifests archived under artwork/djp-beaches, never shipped
+as browser assets. Deploy through main's normal Cloudflare Git pipeline and
+verify the resulting live release.
