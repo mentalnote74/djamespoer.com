@@ -86,7 +86,7 @@
       >Items per page
       <select [value]="page().pageSize" [disabled]="loading()" (change)="changePageSize($event)">
         @for (size of sizes(); track size) {
-          <option [value]="size">{{ size }}</option>
+          <option [value]="size" [selected]="size === page().pageSize">{{ size }}</option>
         }
       </select>
     </label>

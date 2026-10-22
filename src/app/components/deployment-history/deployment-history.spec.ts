@@ -24,8 +24,8 @@ const ready: DeploymentHistoryLoadState = {
 describe('DeploymentHistory consumer foundation', () => {
   let intersection: IntersectionObserverCallback;
   afterEach(() => vi.unstubAllGlobals());
-  it('sorts unsorted production history newest first while retaining every older row and five-row paging', async () => {
-    const { component, grid, states, fixture } = await setup();
+  it('sorts unsorted production history newest first while retaining every older row and ten-row desktop paging', async () => {
+    const { component, grid, states, fixture, root } = await setup();
     const records = Array.from({ length: 12 }, (_, index) => ({
       ...normalized.rows[0]!,
       id: 'attempt-' + index.toString(16).padStart(64, '0'),
@@ -35,7 +35,8 @@ describe('DeploymentHistory consumer foundation', () => {
     fixture.detectChanges();
     expect(component.rows()).toHaveLength(12);
     expect(component.rows()[0]!.createdAt).toBe('2026-10-12T00:00:00.000Z');
-    expect(grid.visibleRows()).toHaveLength(5);
+    expect(grid.visibleRows()).toHaveLength(10);
+    expect(root.querySelector<HTMLSelectElement>('select')!.value).toBe('10');
     component.changePage({ pageIndex: 2, pageSize: 5 });
     fixture.detectChanges();
     expect(grid.visibleRows()).toHaveLength(2);
@@ -150,8 +151,8 @@ describe('DeploymentHistory consumer foundation', () => {
 
   it('commits grid pagination requests through consumer state without slicing the input rows', async () => {
     const { fixture, states, component, grid, root } = await setup();
-    expect(grid.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 5 });
-    expect(component.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 5 });
+    expect(grid.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 10 });
+    expect(component.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 10 });
     component.changePage({ pageIndex: 0, pageSize: 2 });
     fixture.detectChanges();
     root.querySelectorAll<HTMLButtonElement>('.smart-grid__pager button')[1]!.click();

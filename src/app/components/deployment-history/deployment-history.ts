@@ -19,6 +19,7 @@ import {
 } from '../smart-grid/smart-grid.types';
 import { BuildDeploymentHistoryRow } from './deployment-history-row';
 import { DeploymentHistoryLoader, DeploymentHistoryLoadState } from './deployment-history-loader';
+import { MobileDelivery } from '../../services/mobile-delivery';
 
 type DeploymentColumnId = 'summary' | 'created' | 'environment' | 'status' | 'revision';
 
@@ -34,10 +35,14 @@ export class DeploymentHistory {
 
   constructor() {
     const loader = inject(DeploymentHistoryLoader);
+    const delivery = inject(MobileDelivery);
     const element = inject(ElementRef<HTMLElement>).nativeElement;
     const destroyRef = inject(DestroyRef);
     // Noncritical evidence: no request until a rendered consumer enters the viewport.
     afterNextRender(() => {
+      // Keep the existing compact mobile default after hydration.
+      if (delivery.mobile())
+        this.pagination.set({ mode: 'client', pageIndex: 0, pageSize: 5 });
       const observer = new IntersectionObserver((entries) => {
         if (!entries.some((entry) => entry.isIntersecting)) return;
         observer.disconnect();
@@ -77,8 +82,7 @@ export class DeploymentHistory {
         : 'Build & Deployment History could not be loaded.';
     return null;
   });
-  // Preserve the approved initial client-pagination size.
-  readonly pagination = signal<SmartGridPagination>({ mode: 'client', pageIndex: 0, pageSize: 5 });
+  readonly pagination = signal<SmartGridPagination>({ mode: 'client', pageIndex: 0, pageSize: 10 });
   readonly pageSizes: readonly number[] = [5, 10];
   readonly rowKey = (row: BuildDeploymentHistoryRow): string => row.id;
 

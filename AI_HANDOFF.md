@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## October 22 — deployment-grid desktop page size
+
+Deployment History now defaults to ten rows on desktop. Existing MobileDelivery
+keeps mobile at five after hydration; user selection of five/ten is unchanged.
+Data, lazy viewport fetch, sorting and shared Smart Grid behavior are unchanged.
+Rendered verification exposed the native selector choosing its first option even
+with ten rows displayed. Explicit option selected binding keeps it in sync with
+the existing controlled pagination state, including initial non-first defaults.
+
 ## October 22 — SCRUM-139 homepage placement correction
 
 Moved the unchanged visible professional-identity paragraph and descriptive links

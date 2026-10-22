@@ -147,7 +147,7 @@ describe('DeploymentHistory snapshot composition', () => {
     expect(request.cancelled).toBe(true);
   });
 
-  it('shows five of nineteen attempts on the first of four pages', () => {
+  it('shows ten of nineteen attempts on the first of two desktop pages', () => {
     const { fixture, request, grid, root } = setup();
     const attempts = Array.from({ length: 19 }, (_, index) => ({
       ...rows[0]!,
@@ -156,16 +156,16 @@ describe('DeploymentHistory snapshot composition', () => {
     request.flush(JSON.stringify({ ...snapshot, rows: attempts }));
     fixture.detectChanges();
     expect(grid.rows()).toHaveLength(19);
-    expect(root.querySelectorAll('tbody tr')).toHaveLength(5);
-    expect(grid.pageCount()).toBe(4);
-    expect(root.querySelector<HTMLSelectElement>('select')!.value).toBe('5');
+    expect(root.querySelectorAll('tbody tr')).toHaveLength(10);
+    expect(grid.pageCount()).toBe(2);
+    expect(root.querySelector<HTMLSelectElement>('select')!.value).toBe('10');
   });
 
   it('keeps controlled pagination after snapshot rows arrive', () => {
     const { fixture, request, component, grid, root } = setup();
     request.flush(JSON.stringify(snapshot));
     fixture.detectChanges();
-    expect(component.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 5 });
+    expect(component.pagination()).toEqual({ mode: 'client', pageIndex: 0, pageSize: 10 });
     component.changePage({ pageIndex: 0, pageSize: 2 });
     fixture.detectChanges();
     root.querySelectorAll<HTMLButtonElement>('.smart-grid__pager button')[1]!.click();
