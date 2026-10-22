@@ -22,6 +22,13 @@ export const ARTICLES: readonly ArticleSummary[] = [
     publishedDate: '2026-10-22',
     modifiedDate: '2026-10-22',
   },
+  {
+    slug: 'like-a-big-dumb-bass',
+    title: 'Like a Big Dumb Bass',
+    dek: 'Attention is not the same thing as trust. But nobody gets to the trust part if you never get them to look.',
+    publishedDate: '2026-10-22',
+    modifiedDate: '2026-10-22',
+  },
 ];
 
 /** Published public content only. Shared by routing, prerendering and the sitemap. */

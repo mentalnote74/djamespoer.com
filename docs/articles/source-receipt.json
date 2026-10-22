@@ -67,6 +67,33 @@
         "https://research.ibm.com/publications/governance-by-construction-for-generalist-agents--1",
         "https://www.mckinsey.com/capabilities/people-and-organization/our-insights/the-agentic-organization-contours-of-the-next-paradigm-for-the-ai-era"
       ]
+    },
+    {
+      "file": "03-big-dumb-bass.md",
+      "source": "Owner-supplied complete article, October 22, 2026",
+      "attachmentSha256": "60399aaf5dcb8995573c1b1ef7c85f6f85d7ee2df79da27ffd823614498a1686",
+      "sha256": "800c6486a237ddae47eb013c762f2672198a66d546d0fb96ad98fb5344ecc48e",
+      "paragraphsAndHeadings": 354,
+      "proseComparison": "All body text preserved after semantic formatting, list markup and link insertion",
+      "links": [
+        [
+          "djamespoer.com",
+          "/work/djamespoer"
+        ],
+        [
+          "The Blognostisphere.",
+          "/blognostisphere"
+        ]
+      ],
+      "sourceURLs": [
+        "https://www.greenhouse.com/recruiting-benchmarks",
+        "https://economicgraph.linkedin.com/content/dam/me/economicgraph/en-us/PDF/us-monthly-insights-march-2026.pdf",
+        "https://www.nngroup.com/articles/how-users-read-on-the-web/",
+        "https://www.nngroup.com/articles/first-impressions-human-automaticity/",
+        "https://www.nngroup.com/articles/aesthetic-usability-effect/",
+        "https://www.nngroup.com/articles/information-scent/",
+        "https://www.nngroup.com/articles/perceived-value/"
+      ]
     }
   ]
 }

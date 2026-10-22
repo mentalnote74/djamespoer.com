@@ -1,4 +1,4 @@
-# Blognostisphere — first publication
+# Blognostisphere — approved articles
 
 Approved October 22, 2026; inspiration-driven, not calendar-driven. No schedule,
 newsletter, CMS, external ingestion or runtime Markdown parser.
@@ -9,12 +9,22 @@ Article 2 comes directly from the owner's full publication directive. Historical
 weekly language and undecided naming in the older Jira canon are superseded by
 the current explicit Blognostisphere/inspiration-driven decision.
 
+Article 3, **Like a Big Dumb Bass**, comes from the owner's complete October 22
+attachment. `approved/03-big-dumb-bass.md` preserves its wording; the receipt
+records both original attachment and newline-normalized Markdown hashes. Its
+354 body blocks retain all prose, with a semantic list for attention techniques.
+The first two approved articles and bodies remain unchanged. Greenhouse's
+2026 benchmark figures were checked directly against its report page; NN/G's
+original scanning, first-impression, aesthetic-usability, information-scent and
+perceived-value articles supply the research links. The LinkedIn report remains
+the same March 2026 primary source already used by Article 1.
+
 `source-receipt.json` records source hashes, body paragraph/heading counts,
 comparison and real research URLs. Prose is preserved; the former repeated H1 and
 dek become one page H1 and a paragraph. Body sections use H2. Inline emphasis and
 minimal evidence links are semantic formatting, without rewriting the words.
 
-Three existing-architecture lazy routes: `/blognostisphere` and the two named
+Four existing-architecture lazy routes: `/blognostisphere` and the three named
 article paths. One Article model/presentation, one small index. Full bodies and
 source lists load only on their article routes. Published static HTML contains
 the complete text, links, headings, byline and standing donkey disclaimer.
@@ -49,3 +59,14 @@ article text matches both approved bodies; keyboard and native links, 1280px
 reflow, reduced-motion/forced-colors reading, overflow/browser/asset checks passed.
 All 45 public graphs validated against current Schema.org types, properties,
 inherited domains/ranges and references, including BlogPosting dates/authorship.
+
+Article 3 addition: build/budgets passed with 46 static routes and 459.74 kB
+initial JavaScript/CSS (+0.23 kB raw versus the published dropdown checkpoint).
+Its body is a separate 19.62 kB lazy chunk (5.64 kB estimated transfer). Existing
+header tests 13/13, metadata tests 4/4 and discovery/render tests 6/6 passed.
+Complete initial-HTML prose comparisons passed for all three articles. Desktop
+and 390px index/detail checks (eight main-region axe scans) and the three-article
+dropdown (two header axe scans) reported no violations, overflow, missing assets
+or browser errors. Keyboard links, Escape/focus recovery and mobile close passed;
+reduced-motion/forced-colors reading remained intact. All 46 generated public
+JSON-LD graphs passed current Schema.org vocabulary/relationship validation.

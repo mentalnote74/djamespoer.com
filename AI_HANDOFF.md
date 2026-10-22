@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## October 22 — Blognostisphere article 3
+
+Published owner-supplied Like a Big Dumb Bass through the same lazy Article
+presentation. Exact approved source and hash receipt live in docs/articles/.
+All body wording is preserved; the attention-technique list uses semantic list
+markup. Added primary research links, registry metadata, canonical/BlogPosting
+and sitemap membership. Existing index and shared-style dropdown include it
+automatically. No carousel/artwork, career-data or other component changes.
+
 ## October 22 — Blognostisphere articles 1 and 2
 
 Navigation correction: Blognostisphere is a normal shared disclosure/button with
