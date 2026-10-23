@@ -1,5 +1,17 @@
 # AI Engineering Handoff
 
+## October 23 - board reconciliation, no runtime change
+
+Compared SCRUM-128/132/138/140 with main/PROD 45966d2 and retained release evidence;
+all four are now Done, with evidence comments 10138/10139/10140/10141 respectively.
+Recorded the original portfolio-proof slide and later owner-approved scenic
+replacements distinctly. No scope, priority, estimate or runtime change.
+88543bb remains local/unshipped: carry test-only 3f858cc and hero prep selectively;
+Creative Town stays parked; old reconciliation/prod pointers are historical.
+Do not blanket-merge its older handoff. Details: docs/board-reconciliation-2026-10-23.md.
+No tests/build/Lighthouse repeated; existing relevant runtime code is unchanged.
+Next call remains Coach's: test-only cleanup, then SCRUM-26 is a ready candidate.
+
 ## October 23 - authorized read-only Jira credential preflight
 
 Added manual-only jira-reader-preflight.yml (contents: read), with no publication
@@ -8,9 +20,9 @@ comment reader; preflight additionally GETs /myself to prove authenticated ident
 Only result/presence metadata is logged; credential-bearing network errors are
 sanitized. No daily payload required and no content/Jira writes. Publication and
 its same-day behavior are unchanged. All 13 focused reader/publication checks pass.
-Live Actions preflight NOT run yet: GitHub connector has no dispatch capability,
-CUA has no browser, and Computer Use failed to start its Node runtime. Run the
-manual Jira reader preflight once on main; do not substitute a publication retry.
+Owner-triggered Actions run 40023052340 succeeded, including authenticated Jira
+identity and SCRUM-57 read access. No publication/Jira writes occurred in that
+diagnostic. Tomorrow still needs the authored 9 AM payload, not another preflight.
 
 ## October 23 - SCRUM-57 Jira-authored 9 AM -> 10 AM handoff
 
