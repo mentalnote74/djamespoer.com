@@ -1,8 +1,9 @@
 # Carousel deck and destination heroes
 
-`src/app/content/portfolio-slides.ts` is the shared metadata source. Fourteen
-slides, twelve destinations. The approved artwork/assets and Magic are reused;
-TCC and Dreyer & Reinbold stay excluded.
+`src/app/content/portfolio-slides.ts` is the shared metadata source. Fifteen
+slides, thirteen destinations. The approved artwork/assets and Magic are reused.
+One new owner-authorized TCC piglet is included; rejected old TCC artwork and
+Dreyer & Reinbold stay excluded.
 
 | Slide ID | Destination | Hero |
 | --- | --- | --- |
@@ -20,9 +21,10 @@ TCC and Dreyer & Reinbold stay excluded.
 | buildometer | /buildometer | Reused dyno-cell component |
 | ips | /case-studies/ips | Reused interlock component |
 | blognostisphere | /blognostisphere | Reused layered sky/machinery component |
+| tcc-ux-pig | /case-studies/tcc | New authorized photorealistic wink/kiss piglet |
 
 Home runs `shufflePortfolioDeck` exactly once after hydration: uniform selection
-among `family: 'djp'`, then Fisher–Yates over all thirteen remaining slides. The
+among `family: 'djp'`, then Fisher–Yates over all fourteen remaining slides. The
 two unselected djp variants receive ordinary shuffle treatment. Registry arrays
 are never mutated. No random work occurs in templates, effects, navigation,
 autoplay, focus, resize, themes or reduced-motion updates.
@@ -51,7 +53,8 @@ copy/self-links while preserving each page's H1, content, artwork suspension,
 motion controls and responsive crop. Existing perspective and Thingamajob hero
 semantics are preserved.
 
-Verification: production build/budgets pass without style warnings; 46 public
+Initial shared-registry release verification (before the new piglet): production
+build/budgets pass without style warnings; 46 public
 documents prerender. Initial bundle 459.46 kB versus 459.74 kB previously.
 Existing carousel/case-study surface: 34 tests passed, including uniform anchor
 selection intervals, complete/unmutated remainder, registry mappings and stable
@@ -68,3 +71,7 @@ hydration or browser errors. Reduced-motion/forced-colors hero checks passed.
 Local evidence and screenshots: ignored `tmp/evidence/slide-heroes-shuffle.json`,
 `slide-heroes-modes.json`, `deck-home-*` and `hero-*`. Production release and live
 read-back receipts are retained there separately after normal Git deployment.
+
+New TCC slide verification and exact registered patch/asset details:
+`artwork/tcc-pig-slide/README.md`. The component remains 3:1 at every width;
+no shared slot geometry changed.

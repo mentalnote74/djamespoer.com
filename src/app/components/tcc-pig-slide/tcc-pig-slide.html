@@ -1,0 +1,72 @@
+<section
+  class="pig-scene"
+  [class.eligible]="eligible()"
+  [class.paused]="motionPaused()"
+  aria-label="TCC UX philosophy"
+>
+  <div class="art" aria-hidden="true">
+    @for (layer of layers; track layer.name) {
+      <picture
+        [class]="'plate ' + layer.name"
+        [style.left.%]="(layer.x / 2172) * 100"
+        [style.top.%]="(layer.y / 724) * 100"
+        [style.width.%]="(layer.w / 2172) * 100"
+        [style.height.%]="(layer.h / 724) * 100"
+      >
+        <source
+          media="(max-width: 600px)"
+          type="image/avif"
+          [srcset]="'/assets/tcc-pig/' + layer.name + '-' + layer.small + '.avif'"
+        />
+        <source
+          media="(max-width: 600px)"
+          type="image/webp"
+          [srcset]="'/assets/tcc-pig/' + layer.name + '-' + layer.small + '.webp'"
+        />
+        <source
+          type="image/avif"
+          [srcset]="'/assets/tcc-pig/' + layer.name + '-' + layer.large + '.avif'"
+        />
+        <img
+          [src]="'/assets/tcc-pig/' + layer.name + '-' + layer.large + '.webp'"
+          [width]="layer.w"
+          [height]="layer.h"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          (load)="checkReady()"
+        />
+      </picture>
+    }
+  </div>
+  <div class="copy">
+    @if (!hero()) {
+      <h2>Like the status quo? Then pucker up.</h2>
+    }
+    <div class="actions">
+      @if (!hero()) {
+        <a
+          class="action"
+          routerLink="/case-studies/tcc"
+          publicTrack
+          trackLocation="carousel"
+          trackSource="carousel"
+          aria-label="Explore the TCC case study"
+          >Explore</a
+        >
+      }
+      <button
+        class="action motion-control"
+        type="button"
+        (click)="toggleMotion()"
+        [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</section>

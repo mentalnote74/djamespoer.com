@@ -42,7 +42,9 @@ describe('portfolio runtime deck', () => {
     expect(destinationSlides('/case-studies/exl')[0].visual).toBe('exl');
     expect(destinationSlides('/case-studies/ips')[0].visual).toBe('ips');
     expect(destinationSlides('/blognostisphere')[0].visual).toBe('blognostisphere');
-    expect(destinationSlides('/case-studies/tcc')).toHaveLength(0);
+    expect(destinationSlides('/case-studies/tcc').map((slide) => slide.visual)).toEqual([
+      'tcc-pig',
+    ]);
     expect(destinationSlides('/case-studies/dr')).toHaveLength(0);
   });
 });

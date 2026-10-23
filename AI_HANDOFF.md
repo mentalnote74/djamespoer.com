@@ -1,5 +1,22 @@
 # AI Engineering Handoff
 
+## October 22 — TCC photorealistic piglet slide
+
+Added one explicitly authorized TCC UX-philosophy slide, tcc-ux-pig, through the
+existing shared registry/renderer. Exact HTML: Like the status quo? Then pucker
+up. Explore → /case-studies/tcc. Earlier rejected TCC/D&R art remains excluded.
+Photorealistic 3:1 master, same 3:1 geometry on mobile; existing shared slot is
+unchanged. Static head/background plus registered open/wink eye and rest/kiss
+mouth patches, with holes beneath replacement features. CSS wink then kiss,
+11.4 s cycle including 8 s rest; no new dependency or JS animation loop.
+Active/visible/loaded gating resets on inactivity/offscreen/hidden document;
+manual pause freezes/resumes. Reduced motion is a static puckered kiss, forced
+colors retains copy/link. Registry also reuses this artwork on the TCC hero.
+Build/budgets and 34 focused carousel/case-study tests pass; desktop/390px complete
+sequence, keyboard, suspension, reduced/forced, zero scoped axe violations and
+no console/hydration errors. Actual AVIF selection 46,789 / 13,299 bytes.
+Sources/prompts/registration/verification: artwork/tcc-pig-slide/README.md.
+
 ## October 22 — shared slide heroes and runtime deck
 
 content/portfolio-slides.ts now owns 14 stable slide IDs, labels, destinations,

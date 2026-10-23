@@ -1,4 +1,9 @@
 @switch (slide().visual) {
+  @case ('tcc-pig') {
+    @defer (on immediate; hydrate when active()) {
+      <app-tcc-pig-slide [active]="active()" [hero]="hero()" />
+    }
+  }
   @case ('perspective') {
     @if (slide().perspective; as kind) {
       <app-perspective-slide [homepageOptimized]="true" [active]="active()" [kind]="kind" />

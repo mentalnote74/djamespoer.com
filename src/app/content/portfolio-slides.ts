@@ -8,7 +8,8 @@
   | 'conservatory'
   | 'sunset'
   | 'moonlight'
-  | 'blognostisphere';
+  | 'blognostisphere'
+  | 'tcc-pig';
 export interface PortfolioSlideDefinition {
   id: string;
   label: string;
@@ -18,7 +19,7 @@ export interface PortfolioSlideDefinition {
   family?: 'djp';
 }
 
-// Shared carousel/destination relationship. Rejected TCC and D&R visuals stay excluded.
+// Shared carousel/destination relationship. Rejected old TCC and D&R art stays excluded.
 // The static-render fallback is also a djp.c anchor; runtime randomization follows hydration.
 export const PORTFOLIO_SLIDES: readonly PortfolioSlideDefinition[] = [
   {
@@ -87,6 +88,12 @@ export const PORTFOLIO_SLIDES: readonly PortfolioSlideDefinition[] = [
     label: 'Blognostisphere',
     destination: '/blognostisphere',
     visual: 'blognostisphere',
+  },
+  {
+    id: 'tcc-ux-pig',
+    label: 'TCC — UX philosophy',
+    destination: '/case-studies/tcc',
+    visual: 'tcc-pig',
   },
 ];
 

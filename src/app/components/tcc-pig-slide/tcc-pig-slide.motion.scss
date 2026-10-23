@@ -1,0 +1,76 @@
+// Keep keyframe names and references in this one Angular-scoped stylesheet.
+// Discrete replacement avoids doubled lips/eyes. 11.4 s includes 8 s at rest.
+.eye-wink,
+.mouth-kiss {
+  visibility: hidden;
+}
+.eligible {
+  .eye-open {
+    animation: eye-open 11.4s step-end infinite;
+  }
+  .eye-wink {
+    animation: eye-wink 11.4s step-end infinite;
+  }
+  .mouth-rest {
+    animation: mouth-rest 11.4s step-end infinite;
+  }
+  .mouth-kiss {
+    animation: mouth-kiss 11.4s step-end infinite;
+  }
+}
+.paused .plate {
+  animation-play-state: paused;
+}
+@keyframes eye-open {
+  0%,
+  17.9825%,
+  100% {
+    visibility: visible;
+  }
+  13.1579% {
+    visibility: hidden;
+  }
+}
+@keyframes eye-wink {
+  0%,
+  17.9825%,
+  100% {
+    visibility: hidden;
+  }
+  13.1579% {
+    visibility: visible;
+  }
+}
+@keyframes mouth-rest {
+  0%,
+  29.8246%,
+  100% {
+    visibility: visible;
+  }
+  21.0526% {
+    visibility: hidden;
+  }
+}
+@keyframes mouth-kiss {
+  0%,
+  29.8246%,
+  100% {
+    visibility: hidden;
+  }
+  21.0526% {
+    visibility: visible;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plate {
+    animation: none !important;
+  }
+  .eye-open,
+  .mouth-kiss {
+    visibility: visible;
+  }
+  .eye-wink,
+  .mouth-rest {
+    visibility: hidden;
+  }
+}

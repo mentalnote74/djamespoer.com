@@ -1,0 +1,120 @@
+{
+  "registration": [
+    2172,
+    724
+  ],
+  "boxes": {
+    "eye": {
+      "x": 1410,
+      "y": 185,
+      "w": 185,
+      "h": 165,
+      "small": 96,
+      "large": 185
+    },
+    "mouth": {
+      "x": 1500,
+      "y": 415,
+      "w": 400,
+      "h": 200,
+      "small": 192,
+      "large": 400
+    }
+  },
+  "sources": [
+    {
+      "file": "rest-master.png",
+      "sha256": "e83c90fba033e313de6e669c4fb89d80b304c442da22e443b87a4862145541fd"
+    },
+    {
+      "file": "wink-master.png",
+      "sha256": "02c43cb9e44b1f02ed16736d7ad3562634be409cfa2a4743dc70354e7199bb98"
+    },
+    {
+      "file": "kiss-master.png",
+      "sha256": "ae37cfcd3d0b636f66835c54b336a34fe38d0e657ca91543a3f35dd0f84ff85e"
+    }
+  ],
+  "files": [
+    {
+      "file": "base-768.avif",
+      "bytes": 4163
+    },
+    {
+      "file": "base-768.webp",
+      "bytes": 3470
+    },
+    {
+      "file": "base-1440.avif",
+      "bytes": 11902
+    },
+    {
+      "file": "base-1440.webp",
+      "bytes": 10686
+    },
+    {
+      "file": "eye-open-96.avif",
+      "bytes": 1701
+    },
+    {
+      "file": "eye-open-96.webp",
+      "bytes": 972
+    },
+    {
+      "file": "eye-open-185.avif",
+      "bytes": 5692
+    },
+    {
+      "file": "eye-open-185.webp",
+      "bytes": 4392
+    },
+    {
+      "file": "eye-wink-96.avif",
+      "bytes": 1630
+    },
+    {
+      "file": "eye-wink-96.webp",
+      "bytes": 916
+    },
+    {
+      "file": "eye-wink-185.avif",
+      "bytes": 5324
+    },
+    {
+      "file": "eye-wink-185.webp",
+      "bytes": 3934
+    },
+    {
+      "file": "mouth-rest-192.avif",
+      "bytes": 2865
+    },
+    {
+      "file": "mouth-rest-192.webp",
+      "bytes": 1820
+    },
+    {
+      "file": "mouth-rest-400.avif",
+      "bytes": 12754
+    },
+    {
+      "file": "mouth-rest-400.webp",
+      "bytes": 10656
+    },
+    {
+      "file": "mouth-kiss-192.avif",
+      "bytes": 2940
+    },
+    {
+      "file": "mouth-kiss-192.webp",
+      "bytes": 1848
+    },
+    {
+      "file": "mouth-kiss-400.avif",
+      "bytes": 11117
+    },
+    {
+      "file": "mouth-kiss-400.webp",
+      "bytes": 8246
+    }
+  ]
+}

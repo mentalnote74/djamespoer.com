@@ -9,6 +9,7 @@ import { PortfolioSlide } from '../portfolio-slide/portfolio-slide';
 import { DjpSunsetSlide } from '../djp-sunset-slide/djp-sunset-slide';
 import { DjpMoonlightSlide } from '../djp-moonlight-slide/djp-moonlight-slide';
 import { BlognostisphereSlide } from '../blognostisphere-slide/blognostisphere-slide';
+import { TccPigSlide } from '../tcc-pig-slide/tcc-pig-slide';
 @Component({
   selector: 'app-slide-visual',
   imports: [
@@ -21,6 +22,7 @@ import { BlognostisphereSlide } from '../blognostisphere-slide/blognostisphere-s
     DjpSunsetSlide,
     DjpMoonlightSlide,
     BlognostisphereSlide,
+    TccPigSlide,
   ],
   templateUrl: './slide-visual.html',
   styleUrl: './slide-visual.scss',
