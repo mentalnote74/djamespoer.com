@@ -1,5 +1,15 @@
 # AI Engineering Handoff
 
+## October 23 ? Local queue resumed after LCP release
+
+Local-only branch work/local-queue-20261023 starts from PROD a810e11. Restored
+missing-hero/readiness notes and the paused app.routes.spec.ts cleanup without
+promoting overnight work to main. Focused route suite passes 12/12 against the
+current runtime; only stale test expectations changed. Original overnight branch
+and named stash remain preserved. Creative Town is parked; hero mapping is prep
+only. Queue details: docs/overnight-2026-10-23.md. Next: bounded backlog housekeeping.
+No runtime changes or deployment in this resumed queue.
+
 ## October 23 ? Surgical homepage LCP discovery correction
 
 Owner chose the prerendered Conservatory opener over request-time random selection.
