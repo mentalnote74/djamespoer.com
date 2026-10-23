@@ -10,7 +10,7 @@
 >
   @for (slide of slides; track slide.id) {
     <ng-template appCarouselSlide let-active [label]="slide.label" [id]="slide.id">
-      <app-slide-visual [slide]="slide" [active]="active" />
+      <app-slide-visual [slide]="slide" [active]="active" [priority]="$first" />
     </ng-template>
   }
 </app-carousel>

@@ -8,6 +8,7 @@
       <app-slide-image
         [mobileMax]="2172"
         class="background"
+        [priority]="priority()"
         layer="moonlight/background"
         aria-hidden="true"
         sizes="(max-width: 600px) 180vw, (min-width: 1344px) 1485px, 116vw"
@@ -49,7 +50,6 @@
         sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
         layer="moonlight/foreground"
         aria-hidden="true"
-        [priority]="priority()"
       />
     </div>
   </div>

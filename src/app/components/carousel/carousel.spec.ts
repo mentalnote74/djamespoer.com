@@ -11,12 +11,12 @@ import {
 } from '../../content/portfolio-slides';
 
 describe('portfolio runtime deck', () => {
-  it('chooses each djp.c anchor and preserves every slide exactly once', () => {
+  it('retains the prerendered djp.c opener and preserves every slide exactly once', () => {
     const anchors = PORTFOLIO_SLIDES.filter((slide) => slide.family === 'djp');
     expect(anchors).toHaveLength(3);
-    for (const [index, sample] of [0, 0.4, 0.99].entries()) {
+    for (const sample of [0, 0.4, 0.99]) {
       const deck = shufflePortfolioDeck(PORTFOLIO_SLIDES, () => sample);
-      expect(deck[0].id).toBe(anchors[index].id);
+      expect(deck[0]).toBe(PORTFOLIO_SLIDES[0]);
       expect(new Set(deck.map((slide) => slide.id)).size).toBe(PORTFOLIO_SLIDES.length);
       expect(deck.map((slide) => slide.id).sort()).toEqual(
         PORTFOLIO_SLIDES.map((slide) => slide.id).sort(),
@@ -28,8 +28,7 @@ describe('portfolio runtime deck', () => {
   it('shuffles the whole remainder without changing the registry', () => {
     const before = PORTFOLIO_SLIDES.map((slide) => slide.id);
     const first = shufflePortfolioDeck(PORTFOLIO_SLIDES, () => 0);
-    let calls = 0;
-    const second = shufflePortfolioDeck(PORTFOLIO_SLIDES, () => (calls++ === 0 ? 0 : 0.99));
+    const second = shufflePortfolioDeck(PORTFOLIO_SLIDES, () => 0.99);
     expect(first[0]).toBe(second[0]);
     expect(first.slice(1)).not.toEqual(second.slice(1));
     expect(PORTFOLIO_SLIDES.map((slide) => slide.id)).toEqual(before);

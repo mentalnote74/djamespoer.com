@@ -26,6 +26,36 @@ export function routePreloads(stats, entryPoint) {
   visit(entries[0][0]);
   return [...paths];
 }
+/** Mirror the actual first picture, not a separately maintained asset list.
+ * Only AVIF is preloaded: adding WebP too would fetch both in capable browsers.
+ * Media queries are mutually exclusive; srcset/sizes retain browser selection.
+ */
+export function homeLcpPreloads(html) {
+  const opener = html.match(/<section\b[^>]*\bdata-slide-id="[^"]+"[^>]*>([\s\S]*?)<\/section>/);
+  if (!opener) return '';
+  if (/\shidden(?:=|\s|>)/.test(opener[0].slice(0, opener[0].indexOf('>') + 1)))
+    throw new Error('Homepage opener is hidden.');
+  const picture = opener[1].match(
+    /<app-slide-image\b[^>]*\bclass="background"[^>]*>([\s\S]*?)<\/app-slide-image>/,
+  )?.[1];
+  if (!picture) throw new Error('Homepage LCP background unavailable.');
+  const attributes = (tag) =>
+    Object.fromEntries([...tag.matchAll(/([\w-]+)="([^"]*)"/g)].map((m) => [m[1], m[2]]));
+  const sources = [...picture.matchAll(/<source\b[^>]*>/g)]
+    .map(([tag]) => attributes(tag))
+    .filter((s) => s.type === 'image/avif');
+  if (sources.length !== 2 || sources[0].media !== '(max-width: 600px)' || sources[1].media)
+    throw new Error('Unexpected homepage responsive picture contract.');
+  return sources
+    .map((source) => {
+      if (!source.srcset || !source.sizes)
+        throw new Error('Homepage responsive candidates unavailable.');
+      const media = source.media || 'not all and (max-width: 600px)';
+      const href = source.srcset.split(',')[0].trim().split(/\s+/)[0];
+      return `<link data-home-lcp rel="preload" as="image" type="image/avif" media="${media}" href="${href}" imagesrcset="${source.srcset}" imagesizes="${source.sizes}" fetchpriority="high">`;
+    })
+    .join('');
+}
 export async function preparePublicRender(
   directory = fileURLToPath(new URL('../dist/djamespoer/', import.meta.url)),
 ) {
@@ -75,7 +105,16 @@ export async function preparePublicRender(
         )
         .replace('<noscript></noscript>', '');
     }
+    html = html.replace(/<link\b[^>]*\bdata-home-lcp\b[^>]*>/g, '');
+    const imageHint =
+      file === resolve(directory, 'browser', 'index.html') ? homeLcpPreloads(html) : '';
     const hint = `<script data-route-preloads>if(location.pathname.replace(/\\/$/,'')==='/thingamajob'){for(const href of ${JSON.stringify(assets)}){const link=document.createElement('link');link.rel='modulepreload';link.href='/'+href;document.head.append(link);}}</script>`;
+    // Responsive preloads must follow viewport metadata, or mobile's initial
+    // layout viewport can trigger the desktop candidate before the viewport changes.
+    if (imageHint) {
+      if (!/<meta\b[^>]*name="viewport"[^>]*>/.test(html)) throw new Error('Homepage viewport unavailable.');
+      html = html.replace(/<meta\b[^>]*name="viewport"[^>]*>/, (meta) => meta + imageHint);
+    }
     await writeFile(
       file,
       html

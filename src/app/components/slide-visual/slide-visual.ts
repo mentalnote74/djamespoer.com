@@ -34,4 +34,5 @@ export class SlideVisual {
   readonly slide = input.required<PortfolioSlideDefinition>();
   readonly active = input(true);
   readonly hero = input(false);
+  readonly priority = input(false);
 }

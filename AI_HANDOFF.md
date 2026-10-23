@@ -1,5 +1,24 @@
 # AI Engineering Handoff
 
+## October 23 ? Surgical homepage LCP discovery correction
+
+Owner chose the prerendered Conservatory opener over request-time random selection.
+Runtime shuffling now preserves that opener and randomizes only the remaining deck;
+destination hero variant selection is unchanged. Home explicitly prioritizes only
+its first slide. Each djp.c scene passes priority to its background (the reported
+LCP image), rather than foreground; other carousel images remain lazy/noncritical.
+Postbuild derives AVIF image preloads from the actual opening picture's source sets
+and sizes. Mobile/desktop media are exclusive. Hints follow viewport metadata;
+placing them before it was caught locally fetching an unwanted desktop image on
+mobile, and corrected before release. No separate WebP preload/double-format fetch.
+Build/budgets, 27 carousel tests and existing postbuild tests pass. Fresh Chrome
+checks at 1440px/390px show one parser-initiated high-priority matching background
+request and no overflow/hydration/browser errors. Evidence: tmp/evidence/lcp-priority/.
+Production three-run Lighthouse reports/trace/logs are collected there after release;
+use summary.json for scoring, discovery, observed LCP subparts and long-task
+attribution. Do not infer first-party causation from an Unattributable long task.
+No GA, asset compression, magic, layout or bundle-splitting changes in this pass.
+
 ## October 23 ? Content rail and Home landmark/order cleanup
 
 Home source/mobile order is Pardon the dust, the existing named Thingamajob Aside,

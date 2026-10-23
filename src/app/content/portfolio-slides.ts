@@ -61,7 +61,7 @@ export interface PortfolioSlideDefinition {
 }
 
 // Shared carousel/destination relationship. Rejected old TCC and D&R art stays excluded.
-// The static-render fallback is also a djp.c anchor; runtime randomization follows hydration.
+// Keep the prerendered djp.c opener stable; shuffle the remainder after hydration.
 const definitions: readonly PortfolioSlideDefinition[] = [
   {
     id: 'djp-conservatory',
@@ -156,9 +156,8 @@ export function shufflePortfolioDeck(
   slides: readonly PortfolioSlideDefinition[],
   random = Math.random,
 ): PortfolioSlideDefinition[] {
-  const anchors = slides.filter((slide) => slide.family === 'djp');
-  if (!anchors.length) throw new Error('Portfolio deck requires a djp.c anchor.');
-  const opening = chooseSlide(anchors, random);
+  const opening = slides[0];
+  if (opening?.family !== 'djp') throw new Error('Portfolio deck requires a djp.c opener.');
   const remainder = slides.filter((slide) => slide.id !== opening.id);
   // Fisher–Yates: every remaining slide, including the other djp.c variants, is ordinary deck content.
   for (let i = remainder.length - 1; i > 0; i--) {

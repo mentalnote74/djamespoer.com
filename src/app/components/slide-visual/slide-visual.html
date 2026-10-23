@@ -106,7 +106,7 @@
         (slideVisualReady)="ready.emit()"
         [active]="active()"
         [hero]="hero()"
-        [priority]="active()"
+        [priority]="priority() || hero()"
       />
     }
   }
@@ -117,7 +117,7 @@
         (slideVisualReady)="ready.emit()"
         [active]="active()"
         [hero]="hero()"
-        [priority]="active()"
+        [priority]="priority() || hero()"
       />
     }
   }
@@ -128,7 +128,7 @@
         (slideVisualReady)="ready.emit()"
         [active]="active()"
         [hero]="hero()"
-        [priority]="active()"
+        [priority]="priority() || hero()"
       />
     }
   }
