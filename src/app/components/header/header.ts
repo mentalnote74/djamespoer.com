@@ -12,7 +12,7 @@ import {
 } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 import { ThemeState, type ThemeSelection } from '../../services/theme-state';
-import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Bedlam } from '../bedlam/bedlam';
@@ -38,9 +38,13 @@ import { ARTICLES } from '../../content/public-pages';
   selector: 'app-header',
   styleUrl: './header.scss',
   templateUrl: './header.html',
-  host: { '(keydown.escape)': 'closeFromEscape($event)' },
+  host: {
+    '(keydown.escape)': 'closeFromEscape($event)',
+    '(document:pointerdown)': 'closeOnPointerOutside($event)',
+  },
 })
 export class Header {
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly themeState = inject(ThemeState);
   readonly identityPaused = input(false);
   readonly mobileOpen = signal(false);
@@ -99,7 +103,15 @@ export class Header {
 
   closeOnFocusLeave(event: FocusEvent): void {
     const navigation = event.currentTarget as HTMLElement;
-    if (!(event.relatedTarget instanceof Node) || !navigation.contains(event.relatedTarget)) {
+    // Touch browsers may blur the trigger without focusing the pressed link.
+    // A null relatedTarget is not evidence of leaving; hiding now cancels its click.
+    if (event.relatedTarget instanceof Node && !navigation.contains(event.relatedTarget)) {
+      this.openSection.set(null);
+    }
+  }
+
+  closeOnPointerOutside(event: Event): void {
+    if (event.target instanceof Node && !this.element.nativeElement.contains(event.target)) {
       this.openSection.set(null);
     }
   }

@@ -192,6 +192,34 @@ describe('Header', () => {
     expect(component.openSection()).toBeNull();
   });
 
+  it('keeps a touched link available through null focus loss, then closes after navigation', async () => {
+    const root = fixture.nativeElement as HTMLElement;
+    root.querySelector<HTMLButtonElement>('.site-header__menu')!.click();
+    const work = root.querySelector<HTMLButtonElement>('[aria-controls="work-navigation"]')!;
+    work.click();
+    fixture.detectChanges();
+    const link = root.querySelector<HTMLAnchorElement>('#work-navigation a[href="/work/exl"]')!;
+    link.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    work.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: null }));
+    fixture.detectChanges();
+    expect(root.querySelector<HTMLUListElement>('#work-navigation')!.hidden).toBe(false);
+    link.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(TestBed.inject(Router).url).toBe('/work/exl');
+    expect(component.openSection()).toBeNull();
+    expect(component.mobileOpen()).toBe(false);
+  });
+
+  it('dismisses a disclosure on an outside pointer press even without a focusable target', () => {
+    const root = fixture.nativeElement as HTMLElement;
+    root.querySelector<HTMLButtonElement>('[aria-controls="work-navigation"]')!.click();
+    fixture.detectChanges();
+    document.body.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    fixture.detectChanges();
+    expect(component.openSection()).toBeNull();
+  });
+
   it('supports mobile menu state and nested disclosure without viewport JavaScript', async () => {
     const root = fixture.nativeElement as HTMLElement;
     const menu = root.querySelector<HTMLButtonElement>('.site-header__menu')!;

@@ -1,5 +1,21 @@
 # AI Engineering Handoff
 
+## October 23 — Android hamburger activation hotfix
+
+Header previously closed disclosures on focusout with null relatedTarget. A trusted
+touch press that blurs the trigger can therefore hide its link before click and
+cancel routing. Reproduced this on the previous live build by introducing that
+focus transition during a real emulated touch press. Normal emulated taps already
+worked; the owner's physical Android handset remains the final acceptance check.
+Only close for a known focus destination outside navigation; an outside-document
+pointer listener preserves dismissal without cancelling an inside link press.
+Native anchors/RouterLink, theme selection, Escape and navigation-end close remain.
+15 focused Header tests, production build/budgets and all 21 nav routes under the
+null-focus touch sequence pass. Desktop keyboard, theme, focus, overflow and scoped
+Header axe pass. Evidence: tmp/evidence/android-nav/. Today's concurrent automated
+brief commit 94f6000 is preserved. Overnight branch work/overnight-local-20261023 and
+its named route-test stash remain paused and separate; no overnight work promoted.
+
 ## October 23 — interior 2 / 8 / 2 rail
 
 Interior Page now supplies named editorial tracks: 2/8/2 at the existing 64rem
