@@ -1,0 +1,33 @@
+name: Jira reader credential preflight (read-only)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preflight:
+    if: github.repository == 'mentalnote74/djamespoer.com' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Confirm Jira authentication and SCRUM-57 read access
+        env:
+          JIRA_BASE_URL: https://djamespoer.atlassian.net
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        run: |
+          node --input-type=module <<'JS'
+          import { preflightJiraAccess } from './scripts/scrum-brief/generate.mjs';
+          try {
+            const result = await preflightJiraAccess();
+            console.log('READY: ' + JSON.stringify(result));
+          } catch (error) {
+            console.error(error instanceof Error ? error.message : 'Jira preflight failed');
+            process.exitCode = 1;
+          }
+          JS

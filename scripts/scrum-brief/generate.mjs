@@ -159,14 +159,7 @@ export async function savePublication(
 }
 // One read-only handoff from SCRUM-57, using the existing brief section shape.
 // ChatGPT authors the text; this adapter only validates and carries it unchanged.
-export async function readJiraBrief({
-  date,
-  now = new Date(),
-  config = process.env,
-  fetcher = fetch,
-} = {}) {
-  if (!isoDate(date) || date !== easternDate(now))
-    throw Error("Jira handoff requires today's Eastern date");
+function jiraReader({ config = process.env, fetcher = fetch } = {}) {
   const site = 'https://djamespoer.atlassian.net';
   if (
     (config.JIRA_BASE_URL && config.JIRA_BASE_URL !== site) ||
@@ -176,11 +169,11 @@ export async function readJiraBrief({
     throw Error(
       'Jira handoff unavailable: configure Actions secrets JIRA_EMAIL and JIRA_API_TOKEN',
     );
-  const comments = [];
-  for (let startAt = 0; ;) {
-    const response = await fetcher(
-      `${site}/rest/api/3/issue/SCRUM-57/comment?startAt=${startAt}&maxResults=100&orderBy=created`,
-      {
+  return async (path) => {
+    let response;
+    try {
+      response = await fetcher(`${site}/rest/api/3${path}`, {
+        method: 'GET',
         headers: {
           Accept: 'application/json',
           Authorization:
@@ -189,10 +182,26 @@ export async function readJiraBrief({
         },
         redirect: 'error',
         signal: AbortSignal.timeout(15000),
-      },
+      });
+    } catch {
+      // Never include provider bodies, request headers or credential-bearing errors.
+      throw Error('Jira handoff read failed at ' + path.split('?')[0] + ': network, redirect or timeout');
+    }
+    if (!response.ok)
+      throw Error('Jira handoff read failed at ' + path.split('?')[0] + ': HTTP ' + response.status);
+    try {
+      return await response.json();
+    } catch {
+      throw Error('Jira handoff read failed: invalid JSON response');
+    }
+  };
+}
+async function readJiraComments(read) {
+  const comments = [];
+  for (let startAt = 0; ;) {
+    const page = await read(
+      `/issue/SCRUM-57/comment?startAt=${startAt}&maxResults=100&orderBy=created`,
     );
-    if (!response.ok) throw Error('Jira handoff read failed: HTTP ' + response.status);
-    const page = await response.json();
     if (
       !Array.isArray(page.comments) ||
       !Number.isInteger(page.total) ||
@@ -204,6 +213,31 @@ export async function readJiraBrief({
     startAt += page.comments.length;
     if (startAt >= page.total) break;
   }
+  return comments;
+}
+export async function preflightJiraAccess(options = {}) {
+  const read = jiraReader(options);
+  const identity = await read('/myself');
+  if (typeof identity?.accountId !== 'string' || !identity.accountId)
+    throw Error('Jira preflight failed: authenticated account not confirmed');
+  const comments = await readJiraComments(read);
+  // Only presence/result metadata is returned; no identity or comment content.
+  return {
+    requiredSecretsPresent: true,
+    authenticated: true,
+    issue: 'SCRUM-57',
+    commentsRead: comments.length,
+  };
+}
+export async function readJiraBrief({
+  date,
+  now = new Date(),
+  ...options
+} = {}) {
+  if (!isoDate(date) || date !== easternDate(now))
+    throw Error("Jira handoff requires today's Eastern date");
+  const site = 'https://djamespoer.atlassian.net';
+  const comments = await readJiraComments(jiraReader(options));
   const nodeText = (node) =>
     node.type === 'text'
       ? node.text

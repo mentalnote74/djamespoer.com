@@ -1,5 +1,17 @@
 # AI Engineering Handoff
 
+## October 23 - authorized read-only Jira credential preflight
+
+Added manual-only jira-reader-preflight.yml (contents: read), with no publication
+or schedule. Shared the existing publisher's auth/request and paginated SCRUM-57
+comment reader; preflight additionally GETs /myself to prove authenticated identity.
+Only result/presence metadata is logged; credential-bearing network errors are
+sanitized. No daily payload required and no content/Jira writes. Publication and
+its same-day behavior are unchanged. All 13 focused reader/publication checks pass.
+Live Actions preflight NOT run yet: GitHub connector has no dispatch capability,
+CUA has no browser, and Computer Use failed to start its Node runtime. Run the
+manual Jira reader preflight once on main; do not substitute a publication retry.
+
 ## October 23 - SCRUM-57 Jira-authored 9 AM -> 10 AM handoff
 
 Implemented comment 10136 and retained Oct 19 editorial ownership (comment 10091).

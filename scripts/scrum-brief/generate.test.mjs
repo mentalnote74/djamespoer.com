@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { buildBrief, generate, savePublication, readJiraBrief } from './generate.mjs';
+import { buildBrief, generate, savePublication, readJiraBrief, preflightJiraAccess } from './generate.mjs';
 import { collectGitEvidence, previousPublication } from './evidence.mjs';
 const cwd = fileURLToPath(new URL('../../', import.meta.url));
 const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd, encoding: 'utf8' }).trim();
@@ -317,4 +317,35 @@ test('Jira reader follows pagination without rewriting and fails on provider/con
     }),
     /HTTP 401/,
   );
+});
+
+test('credential preflight authenticates and uses the shared read-only comment reader without requiring a brief', async () => {
+  const calls = [];
+  const options = {
+    ...jira(),
+    fetcher: async (url, request) => {
+      calls.push(new URL(url).pathname);
+      assert.equal(request.method ?? 'GET', 'GET');
+      assert.equal(request.redirect, 'error');
+      assert.equal(request.headers.Authorization,
+        'Basic ' + Buffer.from('fixture@example.test:test-only').toString('base64'));
+      return Response.json(calls.length === 1
+        ? { accountId: 'private-account-id' }
+        : { total: 1, comments: [{ body: 'Private comment, not a publication payload.' }] });
+    },
+  };
+  assert.deepEqual(await preflightJiraAccess(options), {
+    requiredSecretsPresent: true,
+    authenticated: true,
+    issue: 'SCRUM-57',
+    commentsRead: 1,
+  });
+  assert.deepEqual(calls, ['/rest/api/3/myself', '/rest/api/3/issue/SCRUM-57/comment']);
+  await assert.rejects(preflightJiraAccess({ config: {} }), /JIRA_EMAIL and JIRA_API_TOKEN/);
+  await assert.rejects(preflightJiraAccess({
+    ...options, fetcher: async () => new Response('', { status: 401 }),
+  }), /HTTP 401/);
+  await assert.rejects(preflightJiraAccess({
+    ...options, fetcher: async () => { throw Error('DO NOT LOG fixture@example.test:test-only'); },
+  }), { message: 'Jira handoff read failed at /myself: network, redirect or timeout' });
 });

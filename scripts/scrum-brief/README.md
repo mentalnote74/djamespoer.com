@@ -59,6 +59,14 @@ input fails the Actions job before writing content. No filler and no quiet zero.
 
 ## Credentials and recovery
 
+For credential setup/rotation, manually run **Jira reader credential preflight
+(read-only)** (`jira-reader-preflight.yml`) on main. It uses the publisher's same
+authentication/request and paginated SCRUM-57 reader, first confirming authenticated
+Jira identity with GET /myself. It reports secret presence and read success only;
+it never prints account/comment data, requires today's authored payload, writes Jira,
+or enters publication. It has read-only repository permissions and no schedule.
+Success verifies credential/read access, not the existence of tomorrow's 9 AM payload.
+
 The existing workflow binds repository Actions secrets `JIRA_EMAIL` and
 `JIRA_API_TOKEN` to the same names already used by the project's Jira integration.
 `JIRA_BASE_URL` is fixed to `https://djamespoer.atlassian.net`. The credential needs
