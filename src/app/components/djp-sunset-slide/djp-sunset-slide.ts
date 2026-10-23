@@ -11,12 +11,13 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucidePause, LucidePlay } from '@lucide/angular';
+import { SlideImage } from '../slide-image/slide-image';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
   host: { '[class.hero-view]': 'hero()' },
   selector: 'app-djp-sunset-slide',
-  imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
+  imports: [SlideImage, RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './djp-sunset-slide.html',
   styleUrls: [
     './djp-sunset-slide.art.scss',

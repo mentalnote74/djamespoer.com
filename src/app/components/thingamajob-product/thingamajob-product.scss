@@ -71,3 +71,9 @@
 .product-sequence li + li {
   margin-block-start: 0.75rem;
 }
+
+.product-introduction > app-thingamajob-slide {
+  display: block;
+  max-inline-size: 1086px;
+  margin: 0 auto 1.5rem;
+}

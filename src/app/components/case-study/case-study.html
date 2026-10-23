@@ -1,9 +1,8 @@
 <article class="case-study editorial-content">
-  @if (showTitle()) {
-    <h1 [class.visually-hidden]="titleVisuallyHidden()">{{ study().title }}</h1>
-  }
   @if (heroDestination(); as destination) {
-    <app-slide-hero class="editorial-wide" [destination]="destination" />
+    <app-slide-hero class="editorial-wide" [destination]="destination" [heading]="study().title" />
+  } @else if (showTitle()) {
+    <h1 [class.visually-hidden]="titleVisuallyHidden()">{{ study().title }}</h1>
   }
   @if (study().subtitle; as subtitle) {
     <p>{{ subtitle }}</p>

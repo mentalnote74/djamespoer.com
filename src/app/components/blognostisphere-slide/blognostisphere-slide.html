@@ -2,36 +2,19 @@
   <div class="art" aria-hidden="true">
     <div class="world">
       @for (layer of layers; track layer.name) {
-        <picture
+        <app-slide-image
+          [priority]="hero() && layer.name === 'foreground'"
+          [mobileMax]="2172"
           [class]="'plate ' + layer.name"
-          [style.left.%]="(layer.x / 2172) * 100"
-          [style.top.%]="(layer.y / 724) * 100"
-          [style.width.%]="(layer.w / 2172) * 100"
-          [style.height.%]="(layer.h / 724) * 100"
-        >
-          <source
-            media="(max-width: 600px)"
-            type="image/avif"
-            [srcset]="'/assets/blognostisphere/' + layer.name + '-' + layer.small + '.avif'"
-          />
-          <source
-            media="(max-width: 600px)"
-            type="image/webp"
-            [srcset]="'/assets/blognostisphere/' + layer.name + '-' + layer.small + '.webp'"
-          />
-          <source
-            type="image/avif"
-            [srcset]="'/assets/blognostisphere/' + layer.name + '-' + layer.large + '.avif'"
-          />
-          <img
-            [src]="'/assets/blognostisphere/' + layer.name + '-' + layer.large + '.webp'"
-            [width]="layer.w"
-            [height]="layer.h"
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
+          [layer]="'blognostisphere/' + layer.name"
+          [style.transform-origin]="
+            ((layer.x + layer.w / 2) / 2172) * 100 +
+            '% ' +
+            ((layer.y + layer.h / 2) / 724) * 100 +
+            '%'
+          "
+          sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
+        />
       }
       <div class="fin-light"></div>
       <div class="vortex-flow"></div>
@@ -48,17 +31,21 @@
     </div>
   </div>
   <div class="copy">
-    @if (!hero()) { <h2>Blognostisphere</h2> }
+    @if (!hero()) {
+      <h2>Blognostisphere</h2>
+    }
     <div class="actions">
-      @if (!hero()) { <a
-        class="action"
-        routerLink="/blognostisphere"
-        publicTrack
-        trackLocation="carousel"
-        trackSource="carousel"
-        aria-label="Explore Blognostisphere"
-        >Explore</a
-      > }
+      @if (!hero()) {
+        <a
+          class="action"
+          routerLink="/blognostisphere"
+          publicTrack
+          trackLocation="carousel"
+          trackSource="carousel"
+          aria-label="Explore Blognostisphere"
+          >Explore</a
+        >
+      }
       <button
         class="action motion-control"
         type="button"

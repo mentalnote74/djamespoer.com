@@ -10,6 +10,46 @@
   | 'moonlight'
   | 'blognostisphere'
   | 'tcc-pig';
+export interface HeroCopyZone {
+  width: number;
+  alignment: 'start' | 'center' | 'end';
+  mobileWidth: number;
+  mobileAlignment: 'start' | 'center' | 'end';
+  ink?: 'dark';
+  shade?: boolean;
+}
+const LEFT: HeroCopyZone = {
+  width: 47,
+  alignment: 'center',
+  mobileWidth: 66,
+  mobileAlignment: 'start',
+};
+const HERO_COPY: Record<SlideVisualKind, HeroCopyZone> = {
+  perspective: LEFT,
+  creative: {
+    ...LEFT,
+    width: 58,
+    alignment: 'end',
+    mobileWidth: 75,
+    mobileAlignment: 'end',
+    shade: true,
+  },
+  thingamajob: LEFT,
+  exl: LEFT,
+  buildometer: LEFT,
+  ips: LEFT,
+  conservatory: { ...LEFT, mobileWidth: 65 },
+  sunset: { ...LEFT, mobileWidth: 65, mobileAlignment: 'end' },
+  moonlight: { ...LEFT, mobileWidth: 65, mobileAlignment: 'end' },
+  blognostisphere: {
+    ...LEFT,
+    width: 65,
+    alignment: 'end',
+    mobileWidth: 78,
+    mobileAlignment: 'end',
+  },
+  'tcc-pig': { ...LEFT, mobileWidth: 47, mobileAlignment: 'center', ink: 'dark' },
+};
 export interface PortfolioSlideDefinition {
   id: string;
   label: string;
@@ -17,11 +57,12 @@ export interface PortfolioSlideDefinition {
   visual: SlideVisualKind;
   perspective?: 'engineering' | 'ux' | 'accessibility' | 'ai' | 'impact';
   family?: 'djp';
+  heroCopy?: HeroCopyZone;
 }
 
 // Shared carousel/destination relationship. Rejected old TCC and D&R art stays excluded.
 // The static-render fallback is also a djp.c anchor; runtime randomization follows hydration.
-export const PORTFOLIO_SLIDES: readonly PortfolioSlideDefinition[] = [
+const definitions: readonly PortfolioSlideDefinition[] = [
   {
     id: 'djp-conservatory',
     label: 'djamespoer.com',
@@ -96,6 +137,9 @@ export const PORTFOLIO_SLIDES: readonly PortfolioSlideDefinition[] = [
     visual: 'tcc-pig',
   },
 ];
+export const PORTFOLIO_SLIDES: readonly PortfolioSlideDefinition[] = definitions.map(
+  (slide): PortfolioSlideDefinition => ({ ...slide, heroCopy: HERO_COPY[slide.visual] }),
+);
 
 export function destinationSlides(destination: string): readonly PortfolioSlideDefinition[] {
   return PORTFOLIO_SLIDES.filter((slide) => slide.destination === destination);

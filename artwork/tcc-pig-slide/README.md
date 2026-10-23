@@ -1,5 +1,11 @@
 # TCC — wink, then kiss
 
+October 23: the initial snug delivery patches described below are historical.
+Current runtime exports retain the complete registered 3:1 canvas for every
+layer; original masters, masks and expression timing are unchanged. Current
+pipeline, paths, dimensions, selected bytes and verification:
+[slide geometry correction](../../docs/slide-geometry.md).
+
 Owner-directed photorealistic piglet, replacing the rejected cartoon direction.
 One new TCC slide is authorized; the earlier rejected TCC/D&R artwork stays excluded.
 Exact visible HTML: **Like the status quo? Then pucker up.**

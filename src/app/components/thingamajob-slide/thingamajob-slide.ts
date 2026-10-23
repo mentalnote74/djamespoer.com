@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SlideImage } from '../slide-image/slide-image';
 import { PublicTrack } from '../../services/public-track';
 
 // Existing case-study anchor only. A future dedicated route changes this destination,
@@ -19,8 +20,9 @@ export const THINGAMAJOB_SLIDE_DESTINATION = {
 } as const;
 
 @Component({
+  host: { '[class.destination-view]': 'pageHeading()' },
   selector: 'app-thingamajob-slide',
-  imports: [RouterLink, PublicTrack],
+  imports: [SlideImage, RouterLink, PublicTrack],
   templateUrl: './thingamajob-slide.html',
   styleUrl: './thingamajob-slide.scss',
 })

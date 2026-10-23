@@ -10,12 +10,13 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucidePause, LucidePlay } from '@lucide/angular';
+import { SlideImage } from '../slide-image/slide-image';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
   host: { '[class.hero-view]': 'hero()' },
   selector: 'app-ips-slide',
-  imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
+  imports: [SlideImage, RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './ips-slide.html',
   styleUrls: ['./ips-slide.scss', '../slide-visual/hero-presentation.scss'],
 })

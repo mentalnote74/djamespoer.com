@@ -19,35 +19,13 @@
 >
   <div class="art" aria-hidden="true">
     <div class="world">
-      <picture class="background"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/portfolio-conservatory/background-480.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/portfolio-conservatory/background-480.webp" />
-        <source
-          type="image/avif"
-          srcset="
-            /assets/portfolio-conservatory/background-480.avif 480w,
-            /assets/portfolio-conservatory/background-960.avif 960w
-          "
-          sizes="100vw" />
-        <img
-          src="/assets/portfolio-conservatory/background-960.webp"
-          srcset="
-            /assets/portfolio-conservatory/background-480.webp 480w,
-            /assets/portfolio-conservatory/background-960.webp 960w
-          "
-          sizes="100vw"
-          width="2172"
-          height="724"
-          alt=""
-          loading="lazy"
-          decoding="async"
-      /></picture>
+      <app-slide-image
+        [mobileMax]="2172"
+        class="background"
+        layer="conservatory/background"
+        aria-hidden="true"
+        sizes="(max-width: 600px) 180vw, (min-width: 1344px) 1485px, 116vw"
+      />
       <div class="stars">
         <i
           class="star"
@@ -111,57 +89,25 @@
         ></i>
       </div>
       <div class="mist"></div>
-      <picture class="interior" [style.clip-path]="'url(#' + sceneId() + '-aperture)'"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/portfolio-conservatory/interior-384.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/portfolio-conservatory/interior-384.webp" />
-        <source
-          type="image/avif"
-          srcset="
-            /assets/portfolio-conservatory/interior-384.avif 384w,
-            /assets/portfolio-conservatory/interior-768.avif 768w
-          "
-          sizes="42vw" />
-        <img
-          src="/assets/portfolio-conservatory/interior-768.webp"
-          srcset="
-            /assets/portfolio-conservatory/interior-384.webp 384w,
-            /assets/portfolio-conservatory/interior-768.webp 768w
-          "
-          sizes="42vw"
-          width="900"
-          height="520"
-          alt=""
-          loading="lazy"
-          decoding="async" /></picture
-      ><picture class="reflections"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/portfolio-conservatory/reflections-480.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/portfolio-conservatory/reflections-480.webp" />
-        <source
-          type="image/avif"
-          srcset="/assets/portfolio-conservatory/reflections-480.avif 480w"
-          sizes="100vw" />
-        <img
-          src="/assets/portfolio-conservatory/reflections-480.webp"
-          srcset="/assets/portfolio-conservatory/reflections-480.webp 480w"
-          sizes="100vw"
-          width="2172"
-          height="270"
-          alt=""
-          loading="lazy"
-          decoding="async" /></picture
-      ><svg class="magic-light" viewBox="0 0 2172 724" focusable="false">
+      <div class="interior" [style.clip-path]="'url(#' + sceneId() + '-aperture)'">
+        <app-slide-image
+          [mobileMax]="2172"
+          class="interior-material"
+          layer="conservatory/interior"
+          aria-hidden="true"
+          sizes="(max-width: 600px) 180vw, (min-width: 1344px) 1485px, 116vw"
+        />
+      </div>
+      <div class="reflections">
+        <app-slide-image
+          [mobileMax]="2172"
+          class="reflections-material"
+          sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
+          layer="conservatory/reflections"
+          aria-hidden="true"
+        />
+      </div>
+      <svg class="magic-light" viewBox="0 0 2172 724" focusable="false">
         <defs>
           <clipPath [attr.id]="sceneId() + '-light-window'">
             <path
@@ -185,50 +131,34 @@
           />
         </g>
         <path class="water-light" d="M1215 526L1370 530L1330 724H1090Z" /></svg
-      ><picture class="foreground"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/portfolio-conservatory/foreground-768.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/portfolio-conservatory/foreground-768.webp" />
-        <source
-          type="image/avif"
-          srcset="
-            /assets/portfolio-conservatory/foreground-768.avif   768w,
-            /assets/portfolio-conservatory/foreground-1440.avif 1440w
-          "
-          sizes="100vw" />
-        <img
-          src="/assets/portfolio-conservatory/foreground-1440.webp"
-          srcset="
-            /assets/portfolio-conservatory/foreground-768.webp   768w,
-            /assets/portfolio-conservatory/foreground-1440.webp 1440w
-          "
-          sizes="100vw"
-          width="2172"
-          height="724"
-          alt=""
-          [loading]="priority() ? 'eager' : 'lazy'" [attr.fetchpriority]="priority() ? 'high' : null"
-          decoding="async"
-      /></picture>
+      ><app-slide-image
+        [mobileMax]="2172"
+        class="foreground"
+        sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
+        layer="conservatory/foreground"
+        aria-hidden="true"
+        [priority]="priority()"
+      />
     </div>
   </div>
   <div class="copy">
-    @if (!hero()) { <h2>djamespoer.com</h2>
-    <p>The portfolio is the proof.</p> }
+    @if (!hero()) {
+      <h2>djamespoer.com</h2>
+      <p>The portfolio is the proof.</p>
+    }
     <div class="actions">
-      @if (!hero()) { <a
-        class="action"
-        routerLink="/work/djamespoer"
-        publicTrack
-        trackLocation="carousel"
-        trackSource="carousel"
-        aria-label="Explore djamespoer.com"
-        >Explore</a
-      > }<button
+      @if (!hero()) {
+        <a
+          class="action"
+          routerLink="/work/djamespoer"
+          publicTrack
+          trackLocation="carousel"
+          trackSource="carousel"
+          aria-label="Explore djamespoer.com"
+          >Explore</a
+        >
+      }
+      <button
         class="action motion-control"
         type="button"
         (click)="toggleMotion()"

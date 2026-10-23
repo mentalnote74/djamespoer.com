@@ -6,37 +6,12 @@
 >
   <div class="art" aria-hidden="true">
     @for (layer of layers; track layer.name) {
-      <picture
+      <app-slide-image
+        [priority]="hero() && layer.name === 'base'"
         [class]="'plate ' + layer.name"
-        [style.left.%]="(layer.x / 2172) * 100"
-        [style.top.%]="(layer.y / 724) * 100"
-        [style.width.%]="(layer.w / 2172) * 100"
-        [style.height.%]="(layer.h / 724) * 100"
-      >
-        <source
-          media="(max-width: 600px)"
-          type="image/avif"
-          [srcset]="'/assets/tcc-pig/' + layer.name + '-' + layer.small + '.avif'"
-        />
-        <source
-          media="(max-width: 600px)"
-          type="image/webp"
-          [srcset]="'/assets/tcc-pig/' + layer.name + '-' + layer.small + '.webp'"
-        />
-        <source
-          type="image/avif"
-          [srcset]="'/assets/tcc-pig/' + layer.name + '-' + layer.large + '.avif'"
-        />
-        <img
-          [src]="'/assets/tcc-pig/' + layer.name + '-' + layer.large + '.webp'"
-          [width]="layer.w"
-          [height]="layer.h"
-          alt=""
-          loading="lazy"
-          decoding="async"
-          (load)="checkReady()"
-        />
-      </picture>
+        [layer]="'tcc-pig/' + layer.name"
+        (loaded)="checkReady()"
+      />
     }
   </div>
   <div class="copy">

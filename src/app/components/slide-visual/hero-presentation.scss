@@ -1,10 +1,11 @@
 // Shared by the actual artwork components; Angular scopes it to each importing host.
-// Destination H1/content remains outside the visual. Retain only its motion control.
+// The semantic H1 occupies the registry copy zone in SlideHero; keep the
+// original scene scrim and retain the child motion control at the far corner.
 :host(.hero-view) :is(.copy, .retrofit__copy, .dyno__copy, .interlock__copy) {
-  background: none;
   align-items: flex-end;
   justify-content: flex-end;
   pointer-events: none;
 }
-:host(.hero-view) button { pointer-events: auto; }
-:host(.hero-view) :is(.retrofit, .dyno, .interlock)::after { display: none; }
+:host(.hero-view) button {
+  pointer-events: auto;
+}

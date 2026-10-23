@@ -20,9 +20,9 @@
   }
   .hardware {
     position: absolute;
-    inset: 0 auto 0 34.990792%;
-    inline-size: 60.773481%;
-    mask-image: linear-gradient(90deg, transparent, #000 1%, #000 99%, transparent);
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
   }
   .mechanism {
     pointer-events: none;
@@ -183,11 +183,6 @@
   }
 }
 @media (max-width: 600px) {
-  .interlock .hardware {
-    inset: 23.333333% auto auto 18.888889%;
-    inline-size: 73.333333%;
-    block-size: 120.666667%;
-  }
   .interlock .mechanism {
     inset: 23.333333% auto auto -23.333333%;
     inline-size: 120.666667%;

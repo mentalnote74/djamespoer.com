@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { SlideVisualReady } from './slide-visual-ready';
 import type { PortfolioSlideDefinition } from '../../content/portfolio-slides';
 import { PerspectiveSlide } from '../perspective-slide/perspective-slide';
 import { ThingamajobSlide } from '../thingamajob-slide/thingamajob-slide';
@@ -13,6 +14,7 @@ import { TccPigSlide } from '../tcc-pig-slide/tcc-pig-slide';
 @Component({
   selector: 'app-slide-visual',
   imports: [
+    SlideVisualReady,
     PerspectiveSlide,
     ThingamajobSlide,
     ExlLifeproSlide,
@@ -28,6 +30,7 @@ import { TccPigSlide } from '../tcc-pig-slide/tcc-pig-slide';
   styleUrl: './slide-visual.scss',
 })
 export class SlideVisual {
+  readonly ready = output<void>();
   readonly slide = input.required<PortfolioSlideDefinition>();
   readonly active = input(true);
   readonly hero = input(false);

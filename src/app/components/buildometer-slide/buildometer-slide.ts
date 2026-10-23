@@ -10,12 +10,13 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucidePause, LucidePlay } from '@lucide/angular';
+import { SlideImage } from '../slide-image/slide-image';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
   host: { '[class.hero-view]': 'hero()' },
   selector: 'app-buildometer-slide',
-  imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
+  imports: [SlideImage, RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './buildometer-slide.html',
   styleUrls: ['./buildometer-slide.scss', '../slide-visual/hero-presentation.scss'],
 })

@@ -15,7 +15,6 @@
   animation: blog-fin 5.3s ease-in-out -1s infinite alternate;
 }
 .amber {
-  transform-origin: 50% 50%;
   animation: blog-amber 4.7s ease-in-out -1.3s infinite alternate;
 }
 .vortex-flow::before {
@@ -45,37 +44,37 @@
 }
 @keyframes blog-far {
   from {
-    transform: translate(-1.6%, 1%);
+    transform: translate(-0.744%, 0.325%);
   }
   to {
-    transform: translate(3%, -2%);
+    transform: translate(1.395%, -0.649%);
   }
 }
 @keyframes blog-near {
   from {
-    transform: translate(2%, 2%) scale(1.04);
+    transform: translate(0.948%, 0.743%) scale(1.04);
   }
   to {
-    transform: translate(-3%, -2%) scale(1.04);
+    transform: translate(-1.423%, -0.743%) scale(1.04);
   }
 }
 @keyframes blog-wisp {
   from {
-    transform: translate(-3%, 1%);
+    transform: translate(-1.108%, 0.385%);
     opacity: 0.4;
   }
   to {
-    transform: translate(4%, -4%);
+    transform: translate(1.477%, -1.541%);
     opacity: 0.9;
   }
 }
 @keyframes blog-spectrum {
   from {
-    transform: translate(-0.5%, -1%);
+    transform: translate(-0.182%, -0.573%);
     opacity: 0.2;
   }
   to {
-    transform: translate(1.2%, 1%);
+    transform: translate(0.436%, 0.573%);
     opacity: 0.9;
   }
 }
@@ -106,11 +105,11 @@
 }
 @keyframes blog-cyan {
   from {
-    transform: translateY(4%);
+    transform: translateY(0.724%);
     opacity: 0.35;
   }
   to {
-    transform: translateY(-4%);
+    transform: translateY(-0.724%);
     opacity: 0.95;
   }
 }
@@ -121,11 +120,11 @@
 }
 @keyframes blog-reflect {
   from {
-    transform: translateX(-0.7%);
+    transform: translateX(-0.162%);
     opacity: 0.25;
   }
   to {
-    transform: translateX(0.7%);
+    transform: translateX(0.162%);
     opacity: 0.85;
   }
 }

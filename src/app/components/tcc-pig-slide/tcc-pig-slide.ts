@@ -11,11 +11,12 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucidePause, LucidePlay } from '@lucide/angular';
+import { SlideImage } from '../slide-image/slide-image';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
   selector: 'app-tcc-pig-slide',
-  imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
+  imports: [SlideImage, RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './tcc-pig-slide.html',
   styleUrls: ['./tcc-pig-slide.scss', './tcc-pig-slide.motion.scss'],
 })

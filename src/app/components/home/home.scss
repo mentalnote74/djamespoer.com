@@ -14,14 +14,6 @@ app-carousel {
   --carousel-slide-ratio: 3;
 }
 
-@media (max-width: 600px) {
-  app-carousel {
-    // One stable slot for every slide. Beaches use their intended 2:1 crop;
-    // existing 3:1 scenes stay centered, uncropped, at their original geometry.
-    --carousel-slide-ratio: 2;
-  }
-}
-
 .home-editorial {
   padding-block: clamp(2rem, 5vw, 4rem);
 }

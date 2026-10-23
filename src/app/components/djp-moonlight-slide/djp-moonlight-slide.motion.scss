@@ -1,5 +1,5 @@
 // Animation references and keyframes must share a stylesheet for Angular keyframe scoping.
-.djp-beach .water-magic img {
+.djp-beach .water-magic {
   animation: djp-refraction 9s ease-in-out infinite alternate;
 }
 .djp-beach .moving-layer {
@@ -8,7 +8,7 @@
 .djp-beach .light {
   animation: djp-sunlight 11s ease-in-out infinite alternate;
 }
-.djp-beach.moonlight .water-magic img {
+.djp-beach.moonlight .water-magic {
   animation: djp-plankton 6.7s ease-in-out infinite;
 }
 .djp-beach.moonlight .moving-layer {
@@ -145,9 +145,9 @@
   }
 }
 .djp-beach.moonlight .shore {
-  top: 39.36%;
-  height: 60.64%;
-  mask-image: linear-gradient(transparent, #000 12%);
+  top: 0;
+  height: 100%;
+  mask-image: linear-gradient(transparent 39.36%, #000 46.64%);
 }
 .djp-beach.moonlight .water-magic.near {
   clip-path: polygon(0 70%, 58% 60%, 90% 70%, 100% 100%, 0 100%);
@@ -155,19 +155,19 @@
 .djp-beach.moonlight .water-magic.far {
   clip-path: polygon(0 0, 100% 0, 100% 70%, 90% 70%, 58% 60%, 0 70%);
 }
-.djp-beach.moonlight .water-magic.far img {
+.djp-beach.moonlight .water-magic.far {
   animation-duration: 9.1s;
   animation-delay: -3s;
 }
 @media (max-width: 600px) {
   .djp-beach {
-    aspect-ratio: 2;
+    aspect-ratio: 3;
   }
   .djp-beach .world {
     left: -44.2%;
     top: 0;
     width: 150%;
-    height: 100%;
+    height: 150%;
   }
   .djp-beach .copy {
     display: flex;

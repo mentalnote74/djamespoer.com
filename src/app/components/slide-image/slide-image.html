@@ -1,0 +1,27 @@
+<picture>
+  <source
+    media="(max-width: 600px)"
+    type="image/avif"
+    [srcset]="srcset('mobile', 'avif')"
+    [sizes]="sizes()"
+  />
+  <source
+    media="(max-width: 600px)"
+    type="image/webp"
+    [srcset]="srcset('mobile', 'webp')"
+    [sizes]="sizes()"
+  />
+  <source type="image/avif" [srcset]="srcset('desktop', 'avif')" [sizes]="sizes()" />
+  <img
+    [src]="root() + 'desktop/' + name() + '-1440.webp'"
+    [srcset]="srcset('desktop', 'webp')"
+    [sizes]="sizes()"
+    width="2172"
+    height="724"
+    alt=""
+    [loading]="priority() ? 'eager' : 'lazy'"
+    [attr.fetchpriority]="priority() ? 'high' : null"
+    decoding="async"
+    (load)="loaded.emit()"
+  />
+</picture>

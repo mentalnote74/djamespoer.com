@@ -1,5 +1,25 @@
 # AI Engineering Handoff
 
+## October 23 — registered canvases and composed destination heroes
+
+Audited all 15 current slides (brief predates the approved piglet). Eight of the
+original 14 plus piglet needed correction. New registered-slides assets retain
+2172×724 source coordinates and exact common 3:1 responsive canvases, including
+empty alpha. Corrected clipped Buildometer/IPS camera crops and nonuniform mobile
+world sizing. Retired tight assets remain historical; live references are guarded.
+scripts/slide-assets/ owns recipes/generation/header-only validation, run in prebuild
+(626 images, no CI codec dependency). Existing art components keep their behavior.
+SlideHero now owns the real page H1 in registry heroCopy zones, with a 1086px
+native-2× cap. Native perspective/Thingamajob H1 composition stays intact. Fixed
+actual double-height hydration: random djp selection waits for the initial real
+deferred view's ready signal, then runs once. No shuffle/DOM-order redesign.
+All 15 cards/13 destinations and all djp variants checked desktop/390px; build,
+37 focused tests, scoped axe, reduced/forced and keyboard pass. Lighthouse known
+route: Best Practices 92→100 and both image audits pass. Sources, byte increases,
+targets, root causes and evidence are documented in docs/slide-geometry.md.
+200% text: hero reflows; existing Bedlam header alone still causes 416px document
+width at 390px, reproduced on old PROD and left outside this repair.
+
 ## October 22 — TCC photorealistic piglet slide
 
 Added one explicitly authorized TCC UX-philosophy slide, tcc-ux-pig, through the

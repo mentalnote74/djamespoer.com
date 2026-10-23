@@ -1,16 +1,27 @@
 @switch (slide().visual) {
   @case ('tcc-pig') {
     @defer (on immediate; hydrate when active()) {
-      <app-tcc-pig-slide [active]="active()" [hero]="hero()" />
+      <app-tcc-pig-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+      />
     }
   }
   @case ('perspective') {
     @if (slide().perspective; as kind) {
-      <app-perspective-slide [homepageOptimized]="true" [active]="active()" [kind]="kind" />
+      <app-perspective-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [homepageOptimized]="true"
+        [active]="active()"
+        [kind]="kind"
+      />
     }
   }
   @case ('creative') {
-    <picture>
+    <picture slideVisualReady (slideVisualReady)="ready.emit()">
       <source
         media="(max-width: 600px)"
         type="image/avif"
@@ -51,42 +62,84 @@
   }
   @case ('thingamajob') {
     @defer (on immediate; hydrate when active()) {
-      <app-thingamajob-slide [active]="active()" />
+      <app-thingamajob-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+      />
     }
   }
   @case ('exl') {
     @defer (on immediate; hydrate when active()) {
-      <app-exl-lifepro-slide [active]="active()" [hero]="hero()" />
+      <app-exl-lifepro-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+      />
     }
   }
   @case ('buildometer') {
     @defer (on immediate; hydrate when active()) {
-      <app-buildometer-slide [active]="active()" [hero]="hero()" />
+      <app-buildometer-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+      />
     }
   }
   @case ('ips') {
     @defer (on immediate; hydrate when active()) {
-      <app-ips-slide [active]="active()" [hero]="hero()" />
+      <app-ips-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+      />
     }
   }
   @case ('conservatory') {
     @defer (on immediate; hydrate when active()) {
-      <app-portfolio-slide [active]="active()" [hero]="hero()" [priority]="active()" />
+      <app-portfolio-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+        [priority]="active()"
+      />
     }
   }
   @case ('sunset') {
     @defer (on immediate; hydrate when active()) {
-      <app-djp-sunset-slide [active]="active()" [hero]="hero()" [priority]="active()" />
+      <app-djp-sunset-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+        [priority]="active()"
+      />
     }
   }
   @case ('moonlight') {
     @defer (on immediate; hydrate when active()) {
-      <app-djp-moonlight-slide [active]="active()" [hero]="hero()" [priority]="active()" />
+      <app-djp-moonlight-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+        [priority]="active()"
+      />
     }
   }
   @case ('blognostisphere') {
     @defer (on immediate; hydrate when active()) {
-      <app-blognostisphere-slide [active]="active()" [hero]="hero()" />
+      <app-blognostisphere-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+      />
     }
   }
 }

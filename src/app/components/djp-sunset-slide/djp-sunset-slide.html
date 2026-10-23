@@ -9,130 +9,60 @@
 >
   <div class="art" aria-hidden="true">
     <div class="world">
-      <picture class="background"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/djp-sunset/background-480.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/djp-sunset/background-480.webp" />
-        <source
-          type="image/avif"
-          srcset="
-            /assets/djp-sunset/background-480.avif 480w,
-            /assets/djp-sunset/background-960.avif 960w
-          "
-          sizes="100vw" />
-        <img
-          src="/assets/djp-sunset/background-960.webp"
-          width="2172"
-          height="724"
-          alt=""
-          loading="lazy"
-          decoding="async" /></picture
-      ><picture class="shore"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/djp-sunset/shore-640.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/djp-sunset/shore-640.webp" />
-        <source
-          type="image/avif"
-          srcset="/assets/djp-sunset/shore-640.avif 640w, /assets/djp-sunset/shore-1280.avif 1280w"
-          sizes="100vw" />
-        <img
-          src="/assets/djp-sunset/shore-1280.webp"
-          width="2170"
-          height="465"
-          alt=""
-          loading="lazy"
-          decoding="async" /></picture
-      ><picture class="water-magic"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/djp-sunset/caustics-320.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/djp-sunset/caustics-320.webp" />
-        <source
-          type="image/avif"
-          srcset="/assets/djp-sunset/caustics-320.avif 320w"
-          sizes="100vw" />
-        <img
-          src="/assets/djp-sunset/caustics-320.webp"
-          width="700"
-          height="260"
-          alt=""
-          loading="lazy"
-          decoding="async" /></picture
-      ><picture class="moving-layer"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/djp-sunset/swash-480.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/djp-sunset/swash-480.webp" />
-        <source
-          type="image/avif"
-          srcset="/assets/djp-sunset/swash-480.avif 480w, /assets/djp-sunset/swash-960.avif 960w"
-          sizes="100vw" />
-        <img
-          src="/assets/djp-sunset/swash-960.webp"
-          width="2172"
-          height="724"
-          alt=""
-          loading="lazy"
-          decoding="async"
-      /></picture>
+      <app-slide-image
+        [mobileMax]="2172"
+        class="background"
+        layer="sunset/background"
+        aria-hidden="true"
+        sizes="(max-width: 600px) 180vw, (min-width: 1344px) 1485px, 116vw"
+      /><app-slide-image
+        [mobileMax]="2172"
+        class="shore"
+        sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
+        layer="sunset/shore"
+        aria-hidden="true"
+      /><app-slide-image
+        [mobileMax]="2172"
+        class="water-magic"
+        sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
+        layer="sunset/caustics"
+        aria-hidden="true"
+      /><app-slide-image
+        [mobileMax]="2172"
+        class="moving-layer"
+        sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
+        layer="sunset/swash"
+        aria-hidden="true"
+      />
       <div class="light"></div>
-      <picture class="foreground"
-        ><source
-          media="(max-width:600px)"
-          type="image/avif"
-          srcset="/assets/djp-sunset/foreground-768.avif" />
-        <source
-          media="(max-width:600px)"
-          type="image/webp"
-          srcset="/assets/djp-sunset/foreground-768.webp" />
-        <source
-          type="image/avif"
-          srcset="
-            /assets/djp-sunset/foreground-768.avif   768w,
-            /assets/djp-sunset/foreground-1440.avif 1440w
-          "
-          sizes="100vw" />
-        <img
-          src="/assets/djp-sunset/foreground-1440.webp"
-          width="2172"
-          height="724"
-          alt=""
-          [loading]="priority() ? 'eager' : 'lazy'" [attr.fetchpriority]="priority() ? 'high' : null"
-          decoding="async"
-      /></picture>
+      <app-slide-image
+        [mobileMax]="2172"
+        class="foreground"
+        sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
+        layer="sunset/foreground"
+        aria-hidden="true"
+        [priority]="priority()"
+      />
     </div>
   </div>
   <div class="copy">
-    @if (!hero()) { <h2>djamespoer.com</h2>
-    <p>The portfolio is the proof.</p> }
+    @if (!hero()) {
+      <h2>djamespoer.com</h2>
+      <p>The portfolio is the proof.</p>
+    }
     <div class="actions">
-      @if (!hero()) { <a
-        class="action"
-        routerLink="/work/djamespoer"
-        publicTrack
-        trackLocation="carousel"
-        trackSource="carousel"
-        aria-label="Explore djamespoer.com"
-        >Explore</a
-      > }<button
+      @if (!hero()) {
+        <a
+          class="action"
+          routerLink="/work/djamespoer"
+          publicTrack
+          trackLocation="carousel"
+          trackSource="carousel"
+          aria-label="Explore djamespoer.com"
+          >Explore</a
+        >
+      }
+      <button
         class="action motion-control"
         type="button"
         (click)="toggleMotion()"

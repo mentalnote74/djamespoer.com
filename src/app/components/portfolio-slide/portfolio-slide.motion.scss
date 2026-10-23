@@ -1,6 +1,6 @@
 // Keep animation references and keyframes in this stylesheet: Angular scopes
 // keyframe names independently for each stylesheet under emulated encapsulation.
-.djp-conservatory .reflections img {
+.djp-conservatory .reflections-material {
   animation: djp-water 5.2s ease-in-out infinite alternate;
 }
 .djp-conservatory .mist {
@@ -41,7 +41,7 @@
     transform: translate(-0.35%, 0) skewX(-0.5deg) scaleX(1.025);
   }
   to {
-    transform: translate(0.35%, 0.8%) skewX(0.5deg) scaleX(1.025);
+    transform: translate(0.35%, 0.2983%) skewX(0.5deg) scaleX(1.025);
   }
 }
 @keyframes djp-mist {
@@ -80,7 +80,7 @@
   .djp-conservatory .foreground {
     transform: none;
   }
-  .djp-conservatory .interior img {
+  .djp-conservatory .interior-material {
     transform: scale(1.045);
   }
   .djp-conservatory .motion-control {

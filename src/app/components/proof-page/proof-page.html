@@ -1,17 +1,11 @@
 @if (content(); as study) {
-  <app-case-study [study]="study" [showTitle]="!composition()" [titleVisuallyHidden]="!!artwork()">
-    @if (artwork(); as image) {
-      <img
-        class="proof-page__artwork editorial-wide"
-        [ngSrc]="image.src"
-        [attr.srcset]="image.srcset"
-        [attr.sizes]="image.sizes || '100vw'"
-        disableOptimizedSrcset
-        [alt]="image.alt"
-        [width]="image.width"
-        [height]="image.height"
-        priority
-      />
+  <app-case-study
+    [study]="study"
+    [showTitle]="!composition() && !artwork()"
+    [titleVisuallyHidden]="!!artwork()"
+  >
+    @if (artwork()) {
+      <app-slide-hero class="editorial-wide" destination="/creative" [heading]="heading()" />
     }
     @if (composition(); as facet) {
       <app-perspective-slide

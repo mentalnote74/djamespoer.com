@@ -1,48 +1,5 @@
 <div class="apparatus" [class.apparatus--running]="active() && pageVisible() && !motionPaused()">
-  <picture aria-hidden="true">
-    <source
-      media="(max-width: 600px)"
-      type="image/avif"
-      srcset="
-        /assets/thingamajob-slide/apparatus-mobile-384.avif 384w,
-        /assets/thingamajob-slide/apparatus-mobile-768.avif 768w
-      "
-      sizes="calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
-    />
-    <source
-      media="(max-width: 600px)"
-      type="image/webp"
-      srcset="
-        /assets/thingamajob-slide/apparatus-mobile-384.webp 384w,
-        /assets/thingamajob-slide/apparatus-mobile-768.webp 768w
-      "
-      sizes="calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
-    />
-    <source
-      type="image/avif"
-      srcset="
-        /assets/thingamajob-slide/apparatus-768.avif   768w,
-        /assets/thingamajob-slide/apparatus-1440.avif 1440w,
-        /assets/thingamajob-slide/apparatus-2172.avif 2172w
-      "
-      sizes="(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
-    />
-    <img
-      src="/assets/thingamajob-slide/apparatus-1440.webp"
-      srcset="
-        /assets/thingamajob-slide/apparatus-768.webp   768w,
-        /assets/thingamajob-slide/apparatus-1440.webp 1440w,
-        /assets/thingamajob-slide/apparatus-2172.webp 2172w
-      "
-      sizes="(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
-      width="2172"
-      height="724"
-      alt=""
-      [loading]="pageHeading() ? 'eager' : 'lazy'"
-      [attr.fetchpriority]="pageHeading() ? 'high' : null"
-      decoding="async"
-    />
-  </picture>
+  <app-slide-image layer="thingamajob/apparatus" aria-hidden="true" [priority]="pageHeading()" />
 
   <!-- Original-art coordinates. Separate apertures retain their own occlusion,
        depth and rhythm; no full-scene filter, canvas, or animation loop. -->
@@ -51,9 +8,11 @@
       <svg class="index-port" x="1381" y="247" width="120" height="120" viewBox="0 0 120 120">
         <image
           class="index-wheel"
-          href="/assets/thingamajob-slide/index-wheel.webp"
-          width="120"
-          height="120"
+          href="/assets/registered-slides/thingamajob/desktop/index-wheel-2172.webp"
+          x="-1381"
+          y="-247"
+          width="2172"
+          height="724"
         />
       </svg>
       <svg class="chemistry-port" x="1625" y="151" width="145" height="157" viewBox="0 0 145 157">
@@ -68,12 +27,15 @@
         <path class="glass-reflection" d="M10 6V145M126 11V140" />
       </svg>
       <svg class="feed-port" x="1180" y="319" width="137" height="44" viewBox="0 0 137 44">
-        <image
-          class="evidence-feed"
-          href="/assets/thingamajob-slide/inspection-record.webp"
-          width="137"
-          height="44"
-        />
+        <svg class="evidence-feed" width="137" height="44" viewBox="0 0 137 44">
+          <image
+            href="/assets/registered-slides/thingamajob/desktop/inspection-record-2172.webp"
+            x="-1180"
+            y="-319"
+            width="2172"
+            height="724"
+          />
+        </svg>
       </svg>
       <!-- The unresolved record stays held; its lamp changes independently. -->
       <circle class="relay relay--hold" cx="1878" cy="254" r="5" />

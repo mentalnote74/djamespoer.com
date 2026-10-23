@@ -10,12 +10,13 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucidePause, LucidePlay } from '@lucide/angular';
+import { SlideImage } from '../slide-image/slide-image';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
   host: { '[class.hero-view]': 'hero()' },
   selector: 'app-exl-lifepro-slide',
-  imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
+  imports: [SlideImage, RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './exl-lifepro-slide.html',
   styleUrls: ['./exl-lifepro-slide.scss', '../slide-visual/hero-presentation.scss'],
 })

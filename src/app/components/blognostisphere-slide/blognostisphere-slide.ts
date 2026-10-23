@@ -11,15 +11,19 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucidePause, LucidePlay } from '@lucide/angular';
+import { SlideImage } from '../slide-image/slide-image';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
   host: { '[class.hero-view]': 'hero()' },
   selector: 'app-blognostisphere-slide',
-  imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
+  imports: [SlideImage, RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './blognostisphere-slide.html',
   styleUrls: [
-    '../slide-visual/hero-presentation.scss','./blognostisphere-slide.scss', './blognostisphere-slide.motion.scss'],
+    '../slide-visual/hero-presentation.scss',
+    './blognostisphere-slide.scss',
+    './blognostisphere-slide.motion.scss',
+  ],
 })
 export class BlognostisphereSlide {
   readonly active = input(true);

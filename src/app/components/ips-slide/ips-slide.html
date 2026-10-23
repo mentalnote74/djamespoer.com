@@ -1,64 +1,6 @@
 <div class="interlock" [class.interlock--running]="active() && pageVisible() && !motionPaused()">
-  <picture class="room" aria-hidden="true">
-    <source
-      media="(max-width: 600px)"
-      type="image/avif"
-      srcset="
-        /assets/ips-slide/room-mobile-384.avif 384w,
-        /assets/ips-slide/room-mobile-768.avif 768w
-      "
-      [sizes]="sizes"
-    />
-    <source
-      media="(max-width: 600px)"
-      type="image/webp"
-      srcset="
-        /assets/ips-slide/room-mobile-384.webp 384w,
-        /assets/ips-slide/room-mobile-768.webp 768w
-      "
-      [sizes]="sizes"
-    />
-    <source
-      type="image/avif"
-      srcset="/assets/ips-slide/room-768.avif 768w, /assets/ips-slide/room-1440.avif 1440w"
-      [sizes]="sizes"
-    />
-    <img
-      src="/assets/ips-slide/room-1440.webp"
-      srcset="/assets/ips-slide/room-768.webp 768w, /assets/ips-slide/room-1440.webp 1440w"
-      [sizes]="sizes"
-      width="2172"
-      height="724"
-      alt=""
-      loading="lazy"
-      decoding="async"
-    />
-  </picture>
-  <picture class="hardware" aria-hidden="true">
-    <source
-      type="image/avif"
-      srcset="
-        /assets/ips-slide/interlock-640.avif   640w,
-        /assets/ips-slide/interlock-960.avif   960w,
-        /assets/ips-slide/interlock-1320.avif 1320w
-      "
-      [sizes]="mechanismSizes"
-    />
-    <img
-      src="/assets/ips-slide/interlock-960.webp"
-      srcset="
-        /assets/ips-slide/interlock-640.webp   640w,
-        /assets/ips-slide/interlock-960.webp   960w,
-        /assets/ips-slide/interlock-1320.webp 1320w
-      "
-      [sizes]="mechanismSizes"
-      width="1320"
-      height="724"
-      alt=""
-      loading="lazy"
-      decoding="async"
-    />
-  </picture>
+  <app-slide-image class="room" layer="ips/room" aria-hidden="true" />
+  <app-slide-image class="hardware" layer="ips/interlock" [priority]="hero()" aria-hidden="true" />
   @if (enhanced()) {
     <svg class="mechanism" viewBox="0 0 2172 724" aria-hidden="true" focusable="false">
       <defs>
@@ -161,18 +103,22 @@
     </svg>
   }
   <div class="interlock__copy">
-    @if (!hero()) { <h2>IPS / PowerSchool</h2>
-    <p>Put the rules where the work happens.</p> }
+    @if (!hero()) {
+      <h2>IPS / PowerSchool</h2>
+      <p>Put the rules where the work happens.</p>
+    }
     <div class="interlock__actions">
-      @if (!hero()) { <a
-        class="scene-action"
-        publicTrack
-        trackLocation="carousel"
-        trackSource="carousel"
-        routerLink="/case-studies/ips"
-        aria-label="Explore IPS / PowerSchool case study"
-        >Explore</a
-      > }
+      @if (!hero()) {
+        <a
+          class="scene-action"
+          publicTrack
+          trackLocation="carousel"
+          trackSource="carousel"
+          routerLink="/case-studies/ips"
+          aria-label="Explore IPS / PowerSchool case study"
+          >Explore</a
+        >
+      }
       <button
         class="scene-action motion-control"
         type="button"

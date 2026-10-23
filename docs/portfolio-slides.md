@@ -1,5 +1,11 @@
 # Carousel deck and destination heroes
 
+Current geometry/hero correction: [registered slide contract](slide-geometry.md).
+All scenes and the shared mobile slot now use 3:1. Page H1s occupy the registry
+copy-safe zones instead of sitting above a separate banner. djp selection waits
+for the initial deferred view to hydrate before its one-time variant switch.
+The release history/initial verification below predates that correction.
+
 `src/app/content/portfolio-slides.ts` is the shared metadata source. Fifteen
 slides, thirteen destinations. The approved artwork/assets and Magic are reused.
 One new owner-authorized TCC piglet is included; rejected old TCC artwork and

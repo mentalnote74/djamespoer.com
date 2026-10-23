@@ -1,47 +1,5 @@
 <div class="dyno" [class.dyno--running]="active() && pageVisible() && !motionPaused()">
-  <picture aria-hidden="true">
-    <source
-      media="(max-width: 600px)"
-      type="image/avif"
-      srcset="
-        /assets/buildometer-slide/dyno-mobile-384.avif 384w,
-        /assets/buildometer-slide/dyno-mobile-768.avif 768w
-      "
-      [sizes]="sizes"
-    />
-    <source
-      media="(max-width: 600px)"
-      type="image/webp"
-      srcset="
-        /assets/buildometer-slide/dyno-mobile-384.webp 384w,
-        /assets/buildometer-slide/dyno-mobile-768.webp 768w
-      "
-      [sizes]="sizes"
-    />
-    <source
-      type="image/avif"
-      srcset="
-        /assets/buildometer-slide/dyno-768.avif   768w,
-        /assets/buildometer-slide/dyno-1440.avif 1440w,
-        /assets/buildometer-slide/dyno-2172.avif 2172w
-      "
-      [sizes]="sizes"
-    />
-    <img
-      src="/assets/buildometer-slide/dyno-1440.webp"
-      srcset="
-        /assets/buildometer-slide/dyno-768.webp   768w,
-        /assets/buildometer-slide/dyno-1440.webp 1440w,
-        /assets/buildometer-slide/dyno-2172.webp 2172w
-      "
-      [sizes]="sizes"
-      width="2172"
-      height="724"
-      alt=""
-      loading="lazy"
-      decoding="async"
-    />
-  </picture>
+  <app-slide-image layer="buildometer/dyno" [priority]="hero()" aria-hidden="true" />
   @if (enhanced()) {
     <!-- Registered physical instruments, not project metric readings. The car,
          rollers, probes, straps and fan remain the visual hierarchy. -->
@@ -93,18 +51,22 @@
     </svg>
   }
   <div class="dyno__copy">
-    @if (!hero()) { <h2>Buildometer</h2>
-    <p>Know exactly what you are doing.</p> }
+    @if (!hero()) {
+      <h2>Buildometer</h2>
+      <p>Know exactly what you are doing.</p>
+    }
     <div class="dyno__actions">
-      @if (!hero()) { <a
-        class="scene-action"
-        publicTrack
-        trackLocation="carousel"
-        trackSource="carousel"
-        routerLink="/buildometer"
-        aria-label="Explore Buildometer"
-        >Explore</a
-      > }
+      @if (!hero()) {
+        <a
+          class="scene-action"
+          publicTrack
+          trackLocation="carousel"
+          trackSource="carousel"
+          routerLink="/buildometer"
+          aria-label="Explore Buildometer"
+          >Explore</a
+        >
+      }
       <button
         class="scene-action motion-control"
         type="button"

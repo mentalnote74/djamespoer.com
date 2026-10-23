@@ -48,45 +48,36 @@
   width: 100%;
   height: 100%;
 }
-.djp-conservatory .interior img {
-  position: absolute;
-  left: 50.6446%;
-  top: 5.5249%;
-  width: 41.4365%;
-  height: 71.8232%;
+.djp-conservatory .interior-material {
   transform: translate(calc(var(--djp-x) * -0.25), calc(var(--djp-y) * -0.25)) scale(1.045);
-  transform-origin: 60% 55%;
+  transform-origin: 75.506% 45.028%;
 }
 .djp-conservatory .foreground {
   transform: translate(calc(var(--djp-x) * 0.1), calc(var(--djp-y) * 0.1));
 }
 .djp-conservatory .reflections {
   position: absolute;
-  left: 0;
-  top: 62.7072%;
+  inset: 0;
   width: 100%;
-  height: 37.2928%;
+  height: 100%;
   overflow: hidden;
   clip-path: polygon(
-    0 0,
-    30% 0,
-    34% 13%,
-    47% 16%,
-    54% 21%,
-    59% 18%,
-    64% 29%,
-    69% 31%,
-    72% 48%,
-    75% 68%,
+    0 62.7072%,
+    30% 62.7072%,
+    34% 67.5553%,
+    47% 68.674%,
+    54% 70.539%,
+    59% 69.42%,
+    64% 73.522%,
+    69% 74.268%,
+    72% 80.608%,
+    75% 88.065%,
     72% 100%,
     0 100%
   );
 }
-.djp-conservatory .reflections img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  transform-origin: 50% 0;
+.djp-conservatory .reflections-material {
+  transform-origin: 50% 62.7072%;
 }
 .djp-conservatory .mist {
   position: absolute;

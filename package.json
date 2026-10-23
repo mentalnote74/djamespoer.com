@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "node scripts/buildometer/project.mjs && node scripts/deployment-history/build-refresh.mjs && node scripts/generate-build-info.mjs && node scripts/discoverability.mjs",
+    "prebuild": "node scripts/slide-assets/validate.mjs && node scripts/buildometer/project.mjs && node scripts/deployment-history/build-refresh.mjs && node scripts/generate-build-info.mjs && node scripts/discoverability.mjs",
     "buildometer:observe": "node scripts/buildometer/project.mjs observe",
     "build": "ng build",
     "assets:creative": "node scripts/optimize-creative.mjs",
@@ -16,7 +16,9 @@
     "check:thingamajob": "tsc -p server/thingamajob/tsconfig.json",
     "build:production": "node scripts/deployment-history/production-refresh.mjs && npm run build",
     "deploy:production": "npm run build:production && wrangler deploy",
-    "postbuild": "node scripts/prepare-public-render.mjs && node scripts/scrum-brief/bind-runtime-secret.mjs"
+    "postbuild": "node scripts/prepare-public-render.mjs && node scripts/scrum-brief/bind-runtime-secret.mjs",
+    "assets:slides": "node scripts/slide-assets/generate.mjs",
+    "check:slides": "node scripts/slide-assets/validate.mjs"
   },
   "private": true,
   "packageManager": "npm@11.19.0",

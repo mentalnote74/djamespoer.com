@@ -1,5 +1,22 @@
 @if (selected(); as slide) {
-  <div class="slide-hero" [attr.data-slide-id]="slide.id">
-    <app-slide-visual [slide]="slide" [hero]="true" />
+  <div
+    class="slide-hero"
+    [attr.data-slide-id]="slide.id"
+    [class.dark-ink]="slide.heroCopy?.ink === 'dark'"
+    [style.--copy-width]="(slide.heroCopy?.width ?? 47) + '%'"
+    [style.--copy-align]="slide.heroCopy?.alignment ?? 'center'"
+    [style.--mobile-copy-width]="(slide.heroCopy?.mobileWidth ?? 66) + '%'"
+    [style.--mobile-copy-align]="slide.heroCopy?.mobileAlignment ?? 'start'"
+  >
+    <app-slide-visual class="hero-art" [slide]="slide" [hero]="true" (ready)="selectVariant()" />
+    <header class="hero-copy" [class.shaded]="slide.heroCopy?.shade">
+      @if (eyebrow()) {
+        <p class="eyebrow">{{ eyebrow() }}</p>
+      }
+      <h1>{{ heading() }}</h1>
+      @if (subheading()) {
+        <p>{{ subheading() }}</p>
+      }
+    </header>
   </div>
 }

@@ -1,5 +1,5 @@
 // Animation references and keyframes must share a stylesheet for Angular keyframe scoping.
-.djp-beach .water-magic img {
+.djp-beach .water-magic {
   animation: djp-refraction 9s ease-in-out infinite alternate;
 }
 .djp-beach .moving-layer {
@@ -8,7 +8,7 @@
 .djp-beach .light {
   animation: djp-sunlight 11s ease-in-out infinite alternate;
 }
-.djp-beach.moonlight .water-magic img {
+.djp-beach.moonlight .water-magic {
   animation: djp-plankton 6.7s ease-in-out infinite;
 }
 .djp-beach.moonlight .moving-layer {
@@ -145,17 +145,17 @@
   }
 }
 .djp-beach.sunset .shore {
-  mask-image: linear-gradient(transparent, #000 7%);
+  mask-image: linear-gradient(transparent 35.91%, #000 40.4%);
 }
 @media (max-width: 600px) {
   .djp-beach {
-    aspect-ratio: 2;
+    aspect-ratio: 3;
   }
   .djp-beach .world {
     left: -44.2%;
     top: 0;
     width: 150%;
-    height: 100%;
+    height: 150%;
   }
   .djp-beach .copy {
     display: flex;

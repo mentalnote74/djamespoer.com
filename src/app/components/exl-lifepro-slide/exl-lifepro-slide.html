@@ -1,72 +1,19 @@
 <div class="retrofit" [class.retrofit--running]="active() && pageVisible() && !motionPaused()">
-  <picture class="infrastructure" aria-hidden="true">
-    <source
-      media="(max-width: 600px)"
-      type="image/avif"
-      srcset="
-        /assets/exl-lifepro-slide/infrastructure-mobile-384.avif 384w,
-        /assets/exl-lifepro-slide/infrastructure-mobile-768.avif 768w
-      "
-      [sizes]="sizes"
-    />
-    <source
-      media="(max-width: 600px)"
-      type="image/webp"
-      srcset="
-        /assets/exl-lifepro-slide/infrastructure-mobile-384.webp 384w,
-        /assets/exl-lifepro-slide/infrastructure-mobile-768.webp 768w
-      "
-      [sizes]="sizes"
-    />
-    <source
-      type="image/avif"
-      srcset="
-        /assets/exl-lifepro-slide/infrastructure-768.avif   768w,
-        /assets/exl-lifepro-slide/infrastructure-1440.avif 1440w
-      "
-      [sizes]="sizes"
-    />
-    <img
-      src="/assets/exl-lifepro-slide/infrastructure-1440.webp"
-      srcset="
-        /assets/exl-lifepro-slide/infrastructure-768.webp   768w,
-        /assets/exl-lifepro-slide/infrastructure-1440.webp 1440w
-      "
-      [sizes]="sizes"
-      width="2172"
-      height="724"
-      alt=""
-      loading="lazy"
-      decoding="async"
-    />
-  </picture>
+  <app-slide-image
+    class="infrastructure"
+    layer="exl/infrastructure"
+    aria-hidden="true"
+    [mobileMax]="1050"
+  />
   <!-- Original source pixels: this strip preserves the foreground jamb, repair
        module, contacts and monitor while the deeper infrastructure stays cheap. -->
-  <picture class="service-bay" aria-hidden="true">
-    <source
-      type="image/avif"
-      srcset="
-        /assets/exl-lifepro-slide/service-bay-384.avif 384w,
-        /assets/exl-lifepro-slide/service-bay-640.avif 640w,
-        /assets/exl-lifepro-slide/service-bay-930.avif 930w
-      "
-      [sizes]="baySizes"
-    />
-    <img
-      src="/assets/exl-lifepro-slide/service-bay-640.webp"
-      srcset="
-        /assets/exl-lifepro-slide/service-bay-384.webp 384w,
-        /assets/exl-lifepro-slide/service-bay-640.webp 640w,
-        /assets/exl-lifepro-slide/service-bay-930.webp 930w
-      "
-      [sizes]="baySizes"
-      width="930"
-      height="724"
-      alt=""
-      loading="lazy"
-      decoding="async"
-    />
-  </picture>
+  <app-slide-image
+    class="service-bay"
+    layer="exl/service-bay"
+    [priority]="hero()"
+    aria-hidden="true"
+    [mobileMax]="1050"
+  />
   @if (enhanced()) {
     <svg class="diagnostics" viewBox="0 0 2172 724" aria-hidden="true" focusable="false">
       <!-- Glass aperture only; no full-scene glow or moving traced pathways. -->
@@ -91,18 +38,22 @@
     </svg>
   }
   <div class="retrofit__copy">
-    @if (!hero()) { <h2>EXL LifePRO</h2>
-    <p>Fix the right layer.</p> }
+    @if (!hero()) {
+      <h2>EXL LifePRO</h2>
+      <p>Fix the right layer.</p>
+    }
     <div class="retrofit__actions">
-      @if (!hero()) { <a
-        class="scene-action"
-        publicTrack
-        trackLocation="carousel"
-        trackSource="carousel"
-        routerLink="/case-studies/exl"
-        aria-label="Explore EXL LifePRO case study"
-        >Explore</a
-      > }
+      @if (!hero()) {
+        <a
+          class="scene-action"
+          publicTrack
+          trackLocation="carousel"
+          trackSource="carousel"
+          routerLink="/case-studies/exl"
+          aria-label="Explore EXL LifePRO case study"
+          >Explore</a
+        >
+      }
       <button
         class="scene-action motion-control"
         type="button"

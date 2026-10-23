@@ -1,8 +1,91 @@
 :host {
   display: block;
   inline-size: 100%;
-  margin-block: 1.5rem 2rem;
+  max-inline-size: 1086px;
+  justify-self: center;
+  margin: 0 auto clamp(1rem, 2vw, 1.75rem);
 }
+// 2172px native focal art provides a full 2x image at 1086px. The unchanged 3:1
+// stage occupies one grid cell; unusually enlarged text can reflow without clipping.
 .slide-hero {
-  inline-size: 100%;
+  display: grid;
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  color: white;
+  background: #0b1921;
+}
+.hero-art,
+.hero-copy {
+  grid-area: 1/1;
+  min-inline-size: 0;
+}
+.hero-copy.shaded {
+  background: linear-gradient(90deg, #06131ae8, #06131abf 65%, transparent);
+}
+.hero-art {
+  align-self: center;
+}
+.hero-copy {
+  z-index: 2;
+  align-self: var(--copy-align);
+  width: var(--copy-width);
+  box-sizing: border-box;
+  padding: clamp(0.5rem, 3cqi, 2rem);
+  pointer-events: none;
+  text-align: start;
+  text-shadow: 0 2px 8px #000b;
+}
+h1 {
+  margin: 0;
+  font: 800 clamp(1rem, 3.8cqi, 2.75rem)/1.08 var(--font-ui);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+p {
+  margin: 0.4rem 0 0;
+  font-size: clamp(0.75rem, 1.5cqi, 1.1rem);
+  line-height: 1.25;
+}
+.eyebrow {
+  margin: 0 0 0.4rem;
+  font-size: 0.75rem;
+}
+.dark-ink {
+  color: #3a2823;
+  background: #e8dbc6;
+  .hero-copy {
+    text-shadow: none;
+  }
+}
+@media (max-width: 600px) {
+  .hero-copy {
+    width: var(--mobile-copy-width);
+    align-self: var(--mobile-copy-align);
+    padding: 0.45rem 0.6rem;
+  }
+  h1 {
+    font-size: clamp(1rem, 4cqi, 1.4rem);
+  }
+  .eyebrow {
+    font-size: 0.65rem;
+    margin-bottom: 0.2rem;
+  }
+  p {
+    font-size: 0.75rem;
+    margin-top: 0.2rem;
+  }
+}
+@media (forced-colors: active) {
+  .hero-copy.shaded {
+    background: none;
+  }
+  .slide-hero {
+    color: CanvasText;
+    background: Canvas;
+  }
+  .hero-copy {
+    text-shadow: none;
+  }
 }
