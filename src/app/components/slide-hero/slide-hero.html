@@ -1,4 +1,4 @@
-@if (selected(); as slide) {
+@for (slide of [selected()]; track slide.id) {
   <div
     class="slide-hero"
     [attr.data-slide-id]="slide.id"

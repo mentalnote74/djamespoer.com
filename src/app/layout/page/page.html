@@ -2,6 +2,7 @@
   <div
     class="page__content"
     [class.layout-container]="!independentLayout()"
+    [class.page__content--interior]="!independentLayout()"
     [class.page__content--independent]="independentLayout()"
   >
     <router-outlet

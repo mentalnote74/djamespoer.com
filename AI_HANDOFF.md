@@ -1,5 +1,18 @@
 # AI Engineering Handoff
 
+## October 23 — interior 2 / 8 / 2 rail
+
+Interior Page now supplies named editorial tracks: 2/8/2 at the existing 64rem
+breakpoint, full content width below it. Home is unchanged, confirmed against its
+production geometry at desktop/390px. Cards/sections retain styles and hierarchy;
+heroes, Buildometer dashboard and Thingamajob workspace remain explicit breakouts.
+Buildometer, Thingamajob introduction and Cookie Policy now use the same primitive.
+SlideHero keys the entire selected scene to destroy old deferred variants; djp.c
+retains one registry-selected random hero. Build/budgets, 10 focused hero/case-study
+tests and 50 built-browser route/viewport checks pass. Scoped axe and responsive,
+keyboard/reduced/forced checks pass. Ten existing stale route-test assertions fail
+(not rewritten); details and routes without heroes: docs/interior-layout.md.
+
 ## October 23 — nine-second homepage autoplay
 
 Carousel default is now 9,000 ms; Home uses that shared default instead of its old

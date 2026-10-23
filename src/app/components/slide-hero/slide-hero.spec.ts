@@ -33,11 +33,16 @@ describe('destination hero composition', () => {
       await fixture.whenStable();
       fixture.detectChanges();
       expect(fixture.componentInstance.selected().id).toBe('djp-conservatory');
+      const initialArt = fixture.debugElement.query(By.directive(ArtStub)).nativeElement;
       fixture.debugElement.query(By.directive(ArtStub)).componentInstance.ready.emit();
       fixture.detectChanges();
       const root: HTMLElement = fixture.nativeElement;
       expect(fixture.componentInstance.selected().id).toBe(id);
       expect(root.querySelectorAll('h1')).toHaveLength(1);
+      expect(root.querySelectorAll('app-slide-visual')).toHaveLength(1);
+      if (id !== 'djp-conservatory') {
+        expect(root.contains(initialArt)).toBe(false);
+      }
       expect(root.querySelector('.hero-copy h1')?.textContent).toBe('djamespoer.com');
       expect(root.querySelector('.slide-hero')?.getAttribute('data-slide-id')).toBe(id);
       expect(

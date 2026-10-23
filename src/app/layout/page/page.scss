@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as foundation;
+
 :host {
   display: block;
   min-inline-size: 0;
@@ -14,4 +16,19 @@ main {
 
 .page__content--independent {
   padding-block: 0;
+}
+
+// Interior-only rail policy. Home retains the existing editorial defaults.
+// Wide authored media/workspaces keep the full track; ordinary sections use content.
+.page__content--interior {
+  --editorial-tracks: [full-start content-start] minmax(0, 1fr) [content-end full-end];
+  --editorial-section-span: content;
+  --editorial-section-tracks: [full-start content-start] minmax(0, 1fr) [content-end full-end];
+}
+
+@media (min-width: foundation.breakpoint('navigation-wrap')) {
+  .page__content--interior {
+    --editorial-tracks: [full-start] minmax(0, 2fr) [content-start] minmax(0, 8fr) [content-end]
+      minmax(0, 2fr) [full-end];
+  }
 }

@@ -20,7 +20,8 @@ export class SlideHero {
     if (this.initializedDestination === this.destination()) return;
     this.initializedDestination = this.destination();
     // Changing an unhydrated @defer/@switch branch can retain the server view.
-    // Wait for the real child view, then switch once with normal Angular teardown.
+    // Wait for the real child view, then replace the keyed hero view once. Its
+    // entire old deferred artwork is destroyed, rather than reused across variants.
     const variants = destinationSlides(this.destination());
     if (variants.length > 1) this.selected.set(chooseSlide(variants));
   }
