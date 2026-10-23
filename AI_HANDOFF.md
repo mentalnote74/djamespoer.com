@@ -1,5 +1,16 @@
 # AI Engineering Handoff
 
+## October 23 — nine-second homepage autoplay
+
+Carousel default is now 9,000 ms; Home uses that shared default instead of its old
+5,000 ms override. Visible rotation status derives from the interval and says
+9 seconds. Shuffle/order, controls, reduced motion, and the separate five-second
+mobile startup hold are unchanged. Production build/budgets and all 27 carousel
+tests pass, including the 8,999/9,000 ms boundary and existing interaction checks.
+Built-browser desktop/390px checks measured 9.002/9.004-second autoplay intervals;
+manual navigation pauses, Play resumes, reduced motion disables autoplay, and
+there were no overflow or browser errors. Evidence: tmp/carousel-nine-local.json.
+
 ## October 23 — registered canvases and composed destination heroes
 
 Audited all 15 current slides (brief predates the approved piglet). Eight of the

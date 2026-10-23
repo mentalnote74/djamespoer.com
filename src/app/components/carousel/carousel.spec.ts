@@ -203,13 +203,16 @@ describe('Carousel', () => {
     fixture.detectChanges();
     expect(component.currentIndex()).toBe(1);
     expect(root.querySelector('.carousel__viewport')?.getAttribute('aria-live')).toBe('off');
-    expect(root.querySelector('.carousel__status')?.textContent).toContain('5 seconds');
+    expect(root.querySelector('.carousel__status')?.textContent).toContain('9 seconds');
   });
 
-  it('automatically advances after five seconds', () => {
+  it('automatically advances at nine seconds, never earlier', () => {
     const { component, fixture } = createCarousel();
 
-    vi.advanceTimersByTime(CAROUSEL_INTERVAL_MS);
+    expect(CAROUSEL_INTERVAL_MS).toBe(9000);
+    vi.advanceTimersByTime(8999);
+    expect(component.currentIndex()).toBe(0);
+    vi.advanceTimersByTime(1);
     fixture.detectChanges();
 
     expect(component.currentIndex()).toBe(1);

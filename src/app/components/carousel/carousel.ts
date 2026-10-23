@@ -16,7 +16,7 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 import { CarouselSlide } from './carousel-slide';
 
-export const CAROUSEL_INTERVAL_MS = 5_000;
+export const CAROUSEL_INTERVAL_MS = 9_000;
 
 @Component({
   imports: [LucideChevronLeft, LucideChevronRight, LucidePause, LucidePlay, NgTemplateOutlet],
