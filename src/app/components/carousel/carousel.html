@@ -12,27 +12,33 @@
       @for (slide of slides(); track slide; let index = $index) {
         <section
           class="carousel__slide"
+          [attr.data-slide-id]="slide.id() || null"
           role="group"
           aria-roledescription="slide"
           [attr.aria-label]="
-            'Slide ' + (index + 1) + ' of ' + slides().length + ': ' + slide.label()
+            'Slide ' +
+            (orderedSlides().indexOf(slide) + 1) +
+            ' of ' +
+            slides().length +
+            ': ' +
+            slide.label()
           "
-          [attr.aria-hidden]="index === currentIndex() ? null : 'true'"
-          [hidden]="index !== currentIndex()"
+          [attr.aria-hidden]="slide === currentSlide() ? null : 'true'"
+          [hidden]="slide !== currentSlide()"
         >
           @if (!mobileProfile() || index === 0) {
             <ng-container
               [ngTemplateOutlet]="slide.template"
-              [ngTemplateOutletContext]="{ $implicit: index === currentIndex() }"
+              [ngTemplateOutletContext]="{ $implicit: slide === currentSlide() }"
             />
           } @else {
             @defer (
-              when !mobileProfile() || !delivery.mobile() || index === currentIndex();
-              hydrate when !mobileProfile() || !delivery.mobile() || index === currentIndex()
+              when !mobileProfile() || !delivery.mobile() || slide === currentSlide();
+              hydrate when !mobileProfile() || !delivery.mobile() || slide === currentSlide()
             ) {
               <ng-container
                 [ngTemplateOutlet]="slide.template"
-                [ngTemplateOutletContext]="{ $implicit: index === currentIndex() }"
+                [ngTemplateOutletContext]="{ $implicit: slide === currentSlide() }"
               />
             }
           }
@@ -81,7 +87,7 @@
 
     @if (showSlideNavigation()) {
       <div class="carousel__indicators" aria-label="Choose a slide" role="group">
-        @for (slide of slides(); track slide; let index = $index) {
+        @for (slide of orderedSlides(); track slide; let index = $index) {
           <button
             type="button"
             [attr.aria-current]="index === currentIndex() ? 'true' : null"

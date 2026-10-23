@@ -3,6 +3,49 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CAROUSEL_INTERVAL_MS, Carousel } from './carousel';
 import { CarouselSlide } from './carousel-slide';
+import {
+  PORTFOLIO_SLIDES,
+  shufflePortfolioDeck,
+  destinationSlides,
+  chooseSlide,
+} from '../../content/portfolio-slides';
+
+describe('portfolio runtime deck', () => {
+  it('chooses each djp.c anchor and preserves every slide exactly once', () => {
+    const anchors = PORTFOLIO_SLIDES.filter((slide) => slide.family === 'djp');
+    expect(anchors).toHaveLength(3);
+    for (const [index, sample] of [0, 0.4, 0.99].entries()) {
+      const deck = shufflePortfolioDeck(PORTFOLIO_SLIDES, () => sample);
+      expect(deck[0].id).toBe(anchors[index].id);
+      expect(new Set(deck.map((slide) => slide.id)).size).toBe(PORTFOLIO_SLIDES.length);
+      expect(deck.map((slide) => slide.id).sort()).toEqual(
+        PORTFOLIO_SLIDES.map((slide) => slide.id).sort(),
+      );
+      expect(deck.slice(1).filter((slide) => slide.family === 'djp')).toHaveLength(2);
+    }
+    expect(PORTFOLIO_SLIDES[0].id).toBe('djp-conservatory');
+  });
+  it('shuffles the whole remainder without changing the registry', () => {
+    const before = PORTFOLIO_SLIDES.map((slide) => slide.id);
+    const first = shufflePortfolioDeck(PORTFOLIO_SLIDES, () => 0);
+    let calls = 0;
+    const second = shufflePortfolioDeck(PORTFOLIO_SLIDES, () => (calls++ === 0 ? 0 : 0.99));
+    expect(first[0]).toBe(second[0]);
+    expect(first.slice(1)).not.toEqual(second.slice(1));
+    expect(PORTFOLIO_SLIDES.map((slide) => slide.id)).toEqual(before);
+  });
+  it('resolves destination heroes from the same three-variant relationship', () => {
+    const variants = destinationSlides('/work/djamespoer');
+    expect(variants).toHaveLength(3);
+    for (const [i, value] of [0, 0.4, 0.99].entries())
+      expect(chooseSlide(variants, () => value)).toBe(variants[i]);
+    expect(destinationSlides('/case-studies/exl')[0].visual).toBe('exl');
+    expect(destinationSlides('/case-studies/ips')[0].visual).toBe('ips');
+    expect(destinationSlides('/blognostisphere')[0].visual).toBe('blognostisphere');
+    expect(destinationSlides('/case-studies/tcc')).toHaveLength(0);
+    expect(destinationSlides('/case-studies/dr')).toHaveLength(0);
+  });
+});
 
 @Component({
   imports: [Carousel, CarouselSlide],
@@ -13,9 +56,10 @@ import { CarouselSlide } from './carousel-slide';
       [showSlideNavigation]="showSlideNavigation()"
       [autoRotate]="autoRotate()"
       [rotationInterval]="rotationInterval()"
+      [slideOrder]="slideOrder()"
     >
       @for (label of labels(); track label) {
-        <ng-template appCarouselSlide [label]="label">
+        <ng-template appCarouselSlide [label]="label" [id]="label">
           <h3>{{ label }}</h3>
           <button type="button">{{ label }} action</button>
         </ng-template>
@@ -24,6 +68,7 @@ import { CarouselSlide } from './carousel-slide';
   `,
 })
 class CarouselTestHost {
+  readonly slideOrder = signal<readonly string[]>([]);
   readonly showPreviousNext = signal(true);
   readonly showPausePlay = signal(true);
   readonly autoRotate = signal(true);
@@ -79,6 +124,25 @@ describe('Carousel', () => {
 
     return { component, fixture, root: fixture.nativeElement as HTMLElement };
   }
+
+  it('plays logical deck order and announces its positions without moving slide DOM', () => {
+    const { component, fixture, root } = createCarousel();
+    const physical = Array.from(root.querySelectorAll('.carousel__slide'));
+    fixture.componentInstance.slideOrder.set(['Fourth', 'First', 'Third', 'Second']);
+    fixture.detectChanges();
+    expect(component.currentSlide()?.label()).toBe('Fourth');
+    expect(root.querySelector('.carousel__slide:not([hidden])')?.getAttribute('aria-label')).toBe(
+      'Slide 1 of 4: Fourth',
+    );
+    expect(Array.from(root.querySelectorAll('.carousel__slide'))).toEqual(physical);
+    component.showNextSlide();
+    fixture.detectChanges();
+    expect(component.currentSlide()?.label()).toBe('First');
+    expect(root.querySelector('.carousel__slide:not([hidden])')?.getAttribute('aria-label')).toBe(
+      'Slide 2 of 4: First',
+    );
+    expect(Array.from(root.querySelectorAll('.carousel__slide'))).toEqual(physical);
+  });
 
   it('renders supplied slide positions with the first slide active', () => {
     const { root } = createCarousel();

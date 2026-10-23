@@ -170,16 +170,16 @@
           width="2172"
           height="724"
           alt=""
-          loading="lazy"
+          [loading]="priority() ? 'eager' : 'lazy'" [attr.fetchpriority]="priority() ? 'high' : null"
           decoding="async"
       /></picture>
     </div>
   </div>
   <div class="copy">
-    <h2>djamespoer.com</h2>
-    <p>The portfolio is the proof.</p>
+    @if (!hero()) { <h2>djamespoer.com</h2>
+    <p>The portfolio is the proof.</p> }
     <div class="actions">
-      <a
+      @if (!hero()) { <a
         class="action"
         routerLink="/work/djamespoer"
         publicTrack
@@ -187,7 +187,7 @@
         trackSource="carousel"
         aria-label="Explore djamespoer.com"
         >Explore</a
-      ><button
+      > }<button
         class="action motion-control"
         type="button"
         (click)="toggleMotion()"

@@ -14,6 +14,7 @@ import { LucidePause, LucidePlay } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
+  host: { '[class.hero-view]': 'hero()' },
   selector: 'app-djp-moonlight-slide',
   imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './djp-moonlight-slide.html',
@@ -21,10 +22,13 @@ import { PublicTrack } from '../../services/public-track';
     './djp-moonlight-slide.art.scss',
     './djp-moonlight-slide.copy.scss',
     './djp-moonlight-slide.motion.scss',
+    '../slide-visual/hero-presentation.scss',
   ],
 })
 export class DjpMoonlightSlide {
   readonly active = input(true);
+  readonly hero = input(false);
+  readonly priority = input(false);
   readonly sceneId = input('djp-moonlight-v2');
   readonly motionPaused = signal(false);
   readonly depthX = signal(0);

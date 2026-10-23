@@ -1,0 +1,5 @@
+@if (selected(); as slide) {
+  <div class="slide-hero" [attr.data-slide-id]="slide.id">
+    <app-slide-visual [slide]="slide" [hero]="true" />
+  </div>
+}

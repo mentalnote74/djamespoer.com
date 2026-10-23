@@ -93,10 +93,10 @@
     </svg>
   }
   <div class="dyno__copy">
-    <h2>Buildometer</h2>
-    <p>Know exactly what you are doing.</p>
+    @if (!hero()) { <h2>Buildometer</h2>
+    <p>Know exactly what you are doing.</p> }
     <div class="dyno__actions">
-      <a
+      @if (!hero()) { <a
         class="scene-action"
         publicTrack
         trackLocation="carousel"
@@ -104,7 +104,7 @@
         routerLink="/buildometer"
         aria-label="Explore Buildometer"
         >Explore</a
-      >
+      > }
       <button
         class="scene-action motion-control"
         type="button"

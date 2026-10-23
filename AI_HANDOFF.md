@@ -1,5 +1,30 @@
 # AI Engineering Handoff
 
+## October 22 — shared slide heroes and runtime deck
+
+content/portfolio-slides.ts now owns 14 stable slide IDs, labels, destinations,
+visual kinds and the three family=djp variants (conservatory/sunset/moonlight).
+Home chooses one djp opener and Fisher–Yates shuffles every other card once in
+afterNextRender. Carousel plays that logical ID order over stationary projected
+DOM; active state, announcements and indicators follow the logical order. This
+avoids moving incremental-hydration boundaries and never reshuffles on controls,
+resize, theme or motion preference changes. Static HTML uses the conservatory
+fallback; runtime finalizes after hydration. This intentionally supersedes the
+former fixed Engineering opener. Inactive perspectives no longer request high
+priority merely because their kind is Engineering.
+
+SlideVisual reuses the actual components, with project visuals individually lazy
+and hydrated on activation. SlideHero resolves destination variants from the same
+registry and holds its single runtime choice. Added missing EXL/IPS case-study,
+Buildometer, Blognostisphere and /work/djamespoer heroes. Existing perspective,
+Creative and Thingamajob heroes remain. New heroes retain external page H1/content
+and motion controls, without duplicate artwork titles/taglines/self-CTAs.
+Build/budgets and 34 focused carousel/case-study tests passed. Desktop/390px:
+12 reload samples, full deck traversal/controls, all 12 destinations, all three
+djp destination variants, stable state, scoped axe and no browser/asset/hydration
+errors. Actual theme selection and hero accessibility-mode checks also passed.
+Details: docs/portfolio-slides.md; ignored tmp/evidence/slide-heroes-*.json.
+
 ## October 22 — Blognostisphere carousel gateway
 
 Added the approved magic-v2 scene as slide 14, Explore → /blognostisphere, with

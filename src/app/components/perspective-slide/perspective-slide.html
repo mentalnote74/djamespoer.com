@@ -23,8 +23,8 @@
       width="2172"
       height="724"
       alt=""
-      [loading]="kind() === 'engineering' ? 'eager' : 'lazy'"
-      [attr.fetchpriority]="kind() === 'engineering' ? 'high' : null"
+      [loading]="active() ? 'eager' : 'lazy'"
+      [attr.fetchpriority]="active() ? 'high' : null"
       decoding="async"
       (load)="captureArtwork($event)"
     />

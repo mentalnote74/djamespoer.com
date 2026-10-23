@@ -13,13 +13,15 @@ import { LucidePause, LucidePlay } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
+  host: { '[class.hero-view]': 'hero()' },
   selector: 'app-buildometer-slide',
   imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './buildometer-slide.html',
-  styleUrl: './buildometer-slide.scss',
+  styleUrls: ['./buildometer-slide.scss', '../slide-visual/hero-presentation.scss'],
 })
 export class BuildometerSlide {
   readonly active = input(true);
+  readonly hero = input(false);
   readonly motionPaused = signal(false);
   readonly pageVisible = signal(false);
   readonly enhanced = signal(false);

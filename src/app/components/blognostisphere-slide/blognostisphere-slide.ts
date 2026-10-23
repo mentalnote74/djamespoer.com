@@ -14,13 +14,16 @@ import { LucidePause, LucidePlay } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
+  host: { '[class.hero-view]': 'hero()' },
   selector: 'app-blognostisphere-slide',
   imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './blognostisphere-slide.html',
-  styleUrls: ['./blognostisphere-slide.scss', './blognostisphere-slide.motion.scss'],
+  styleUrls: [
+    '../slide-visual/hero-presentation.scss','./blognostisphere-slide.scss', './blognostisphere-slide.motion.scss'],
 })
 export class BlognostisphereSlide {
   readonly active = input(true);
+  readonly hero = input(false);
   readonly motionPaused = signal(false);
   private readonly visible = signal(false);
   private readonly inView = signal(false);

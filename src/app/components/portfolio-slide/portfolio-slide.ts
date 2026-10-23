@@ -14,6 +14,7 @@ import { LucidePause, LucidePlay } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
+  host: { '[class.hero-view]': 'hero()' },
   selector: 'app-portfolio-slide',
   imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './portfolio-slide.html',
@@ -21,10 +22,13 @@ import { PublicTrack } from '../../services/public-track';
     './portfolio-slide.art.scss',
     './portfolio-slide.copy.scss',
     './portfolio-slide.motion.scss',
+    '../slide-visual/hero-presentation.scss',
   ],
 })
 export class PortfolioSlide {
   readonly active = input(true);
+  readonly hero = input(false);
+  readonly priority = input(false);
   readonly sceneId = input('portfolio-conservatory-v2');
   readonly motionPaused = signal(false);
   readonly depthX = signal(0);

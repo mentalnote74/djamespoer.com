@@ -14,6 +14,7 @@ import { LucidePause, LucidePlay } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
+  host: { '[class.hero-view]': 'hero()' },
   selector: 'app-djp-sunset-slide',
   imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './djp-sunset-slide.html',
@@ -21,10 +22,13 @@ import { PublicTrack } from '../../services/public-track';
     './djp-sunset-slide.art.scss',
     './djp-sunset-slide.copy.scss',
     './djp-sunset-slide.motion.scss',
+    '../slide-visual/hero-presentation.scss',
   ],
 })
 export class DjpSunsetSlide {
   readonly active = input(true);
+  readonly hero = input(false);
+  readonly priority = input(false);
   readonly sceneId = input('djp-sunset-v2');
   readonly motionPaused = signal(false);
   readonly depthX = signal(0);

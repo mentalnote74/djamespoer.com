@@ -2,6 +2,9 @@
   @if (showTitle()) {
     <h1 [class.visually-hidden]="titleVisuallyHidden()">{{ study().title }}</h1>
   }
+  @if (heroDestination(); as destination) {
+    <app-slide-hero class="editorial-wide" [destination]="destination" />
+  }
   @if (study().subtitle; as subtitle) {
     <p>{{ subtitle }}</p>
   }

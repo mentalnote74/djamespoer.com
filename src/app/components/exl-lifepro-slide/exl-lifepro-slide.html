@@ -91,10 +91,10 @@
     </svg>
   }
   <div class="retrofit__copy">
-    <h2>EXL LifePRO</h2>
-    <p>Fix the right layer.</p>
+    @if (!hero()) { <h2>EXL LifePRO</h2>
+    <p>Fix the right layer.</p> }
     <div class="retrofit__actions">
-      <a
+      @if (!hero()) { <a
         class="scene-action"
         publicTrack
         trackLocation="carousel"
@@ -102,7 +102,7 @@
         routerLink="/case-studies/exl"
         aria-label="Explore EXL LifePRO case study"
         >Explore</a
-      >
+      > }
       <button
         class="scene-action motion-control"
         type="button"

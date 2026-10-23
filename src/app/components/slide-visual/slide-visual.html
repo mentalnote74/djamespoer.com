@@ -1,0 +1,87 @@
+@switch (slide().visual) {
+  @case ('perspective') {
+    @if (slide().perspective; as kind) {
+      <app-perspective-slide [homepageOptimized]="true" [active]="active()" [kind]="kind" />
+    }
+  }
+  @case ('creative') {
+    <picture>
+      <source
+        media="(max-width: 600px)"
+        type="image/avif"
+        srcset="
+          /assets/perspectives/mobile/creative-384.avif   384w,
+          /assets/perspectives/mobile/creative-768.avif   768w,
+          /assets/perspectives/mobile/creative-1200.avif 1200w
+        "
+        sizes="calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
+      />
+      <source
+        media="(max-width: 600px)"
+        type="image/webp"
+        srcset="
+          /assets/perspectives/mobile/creative-384.webp   384w,
+          /assets/perspectives/mobile/creative-768.webp   768w,
+          /assets/perspectives/mobile/creative-1200.webp 1200w
+        "
+        sizes="calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
+      />
+      <img
+        class="home-creative"
+        src="/assets/perspectives/creative-2172.webp"
+        srcset="
+          /assets/perspectives/creative-600.webp   600w,
+          /assets/perspectives/creative-1200.webp 1200w,
+          /assets/perspectives/creative-1800.webp 1800w,
+          /assets/perspectives/creative-2172.webp 2172w
+        "
+        sizes="(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)"
+        width="2172"
+        height="724"
+        loading="lazy"
+        decoding="async"
+        alt="A densely illustrated town of interconnected autobiographical scenes and visual Easter eggs."
+      />
+    </picture>
+  }
+  @case ('thingamajob') {
+    @defer (on immediate; hydrate when active()) {
+      <app-thingamajob-slide [active]="active()" />
+    }
+  }
+  @case ('exl') {
+    @defer (on immediate; hydrate when active()) {
+      <app-exl-lifepro-slide [active]="active()" [hero]="hero()" />
+    }
+  }
+  @case ('buildometer') {
+    @defer (on immediate; hydrate when active()) {
+      <app-buildometer-slide [active]="active()" [hero]="hero()" />
+    }
+  }
+  @case ('ips') {
+    @defer (on immediate; hydrate when active()) {
+      <app-ips-slide [active]="active()" [hero]="hero()" />
+    }
+  }
+  @case ('conservatory') {
+    @defer (on immediate; hydrate when active()) {
+      <app-portfolio-slide [active]="active()" [hero]="hero()" [priority]="active()" />
+    }
+  }
+  @case ('sunset') {
+    @defer (on immediate; hydrate when active()) {
+      <app-djp-sunset-slide [active]="active()" [hero]="hero()" [priority]="active()" />
+    }
+  }
+  @case ('moonlight') {
+    @defer (on immediate; hydrate when active()) {
+      <app-djp-moonlight-slide [active]="active()" [hero]="hero()" [priority]="active()" />
+    }
+  }
+  @case ('blognostisphere') {
+    @defer (on immediate; hydrate when active()) {
+      <app-blognostisphere-slide [active]="active()" [hero]="hero()" />
+    }
+  }
+}

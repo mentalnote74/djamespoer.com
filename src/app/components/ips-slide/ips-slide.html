@@ -161,10 +161,10 @@
     </svg>
   }
   <div class="interlock__copy">
-    <h2>IPS / PowerSchool</h2>
-    <p>Put the rules where the work happens.</p>
+    @if (!hero()) { <h2>IPS / PowerSchool</h2>
+    <p>Put the rules where the work happens.</p> }
     <div class="interlock__actions">
-      <a
+      @if (!hero()) { <a
         class="scene-action"
         publicTrack
         trackLocation="carousel"
@@ -172,7 +172,7 @@
         routerLink="/case-studies/ips"
         aria-label="Explore IPS / PowerSchool case study"
         >Explore</a
-      >
+      > }
       <button
         class="scene-action motion-control"
         type="button"

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SlideHero } from '../slide-hero/slide-hero';
 import { ARTICLES, ARTICLE_AUTHOR_NOTE, ARTICLE_BYLINE, articleDateLabel } from '../../content/articles';
 
 @Component({
   selector: 'app-article-index',
-  imports: [RouterLink],
+  imports: [RouterLink, SlideHero],
   templateUrl: './article-index.html',
   styleUrl: './article-index.scss',
 })

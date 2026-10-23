@@ -13,13 +13,15 @@ import { LucidePause, LucidePlay } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
+  host: { '[class.hero-view]': 'hero()' },
   selector: 'app-exl-lifepro-slide',
   imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './exl-lifepro-slide.html',
-  styleUrl: './exl-lifepro-slide.scss',
+  styleUrls: ['./exl-lifepro-slide.scss', '../slide-visual/hero-presentation.scss'],
 })
 export class ExlLifeproSlide {
   readonly active = input(true);
+  readonly hero = input(false);
   readonly motionPaused = signal(false);
   readonly pageVisible = signal(false);
   readonly enhanced = signal(false);

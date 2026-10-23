@@ -46,11 +46,23 @@ export class Carousel implements AfterContentInit {
   });
   readonly showSlideNavigation = input(true);
   readonly slides = contentChildren(CarouselSlide);
+  readonly slideOrder = input<readonly string[]>([]);
+  readonly orderedSlides = computed(() => {
+    const slides = this.slides();
+    const order = this.slideOrder();
+    if (!order.length) return slides;
+    const byId = new Map(slides.map((slide) => [slide.id(), slide]));
+    const requested = order
+      .map((id) => byId.get(id))
+      .filter((slide): slide is CarouselSlide => !!slide);
+    return [...new Set([...requested, ...slides])];
+  });
   readonly currentIndex = linkedSignal<number, number>({
     source: () => this.slides().length,
     computation: (count, previous) => Math.max(0, Math.min(previous?.value ?? 0, count - 1)),
   });
   readonly prefersReducedMotion = signal(false);
+  readonly currentSlide = computed(() => this.orderedSlides()[this.currentIndex()]);
   private readonly rotationRequested = linkedSignal(() => this.autoRotate());
   readonly isPlaying = computed(
     () => this.rotationRequested() && !this.prefersReducedMotion() && this.slides().length > 1,

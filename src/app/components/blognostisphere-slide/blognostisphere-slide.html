@@ -48,9 +48,9 @@
     </div>
   </div>
   <div class="copy">
-    <h2>Blognostisphere</h2>
+    @if (!hero()) { <h2>Blognostisphere</h2> }
     <div class="actions">
-      <a
+      @if (!hero()) { <a
         class="action"
         routerLink="/blognostisphere"
         publicTrack
@@ -58,7 +58,7 @@
         trackSource="carousel"
         aria-label="Explore Blognostisphere"
         >Explore</a
-      >
+      > }
       <button
         class="action motion-control"
         type="button"

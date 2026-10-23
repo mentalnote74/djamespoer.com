@@ -1,6 +1,7 @@
 import { Route, Routes } from '@angular/router';
 import { PUBLIC_PAGES } from './content/public-pages';
 import { ARTICLES } from './content/articles';
+import { destinationSlides } from './content/portfolio-slides';
 
 const loadProofPage = () =>
   import('./components/proof-page/proof-page').then(({ ProofPage }) => ProofPage);
@@ -301,6 +302,16 @@ export const interiorRoutes: Routes = [
 ].map((route: Route) => {
   const page = PUBLIC_PAGES.find((entry) => entry.path === route.path);
   return page
-    ? { ...route, title: page.title, data: { ...route.data, description: page.description } }
+    ? {
+        ...route,
+        title: page.title,
+        data: {
+          ...route.data,
+          description: page.description,
+          ...(destinationSlides('/' + route.path).length
+            ? { heroDestination: '/' + route.path }
+            : {}),
+        },
+      }
     : route;
 });
