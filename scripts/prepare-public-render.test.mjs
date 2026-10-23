@@ -53,7 +53,7 @@ test('built hints and inline CSS are idempotent and preload only the requested p
     );
     await writeFile(
       join(dir, 'browser', 'index.csr.html'),
-      '<html><head><link rel="stylesheet" href="styles-abc.css"></head><body><app-root></app-root></body></html>',
+      '<html><head><title>Home</title><meta name="robots" content="index, follow"><link rel="canonical" href="https://djamespoer.com/"><script id="portfolio-structured-data" type="application/ld+json">{}</script><link rel="stylesheet" href="styles-abc.css"></head><body><app-root></app-root></body></html>',
     );
     await preparePublicRender(dir);
     const csr = await readFile(join(dir, 'browser', 'index.csr.html'), 'utf8');
@@ -61,7 +61,14 @@ test('built hints and inline CSS are idempotent and preload only the requested p
     assert.equal(csr.includes('data-home-artwork-preload'), false);
     assert.equal(csr.includes('<app-root></app-root>'), true);
     const first = await readFile(join(dir, 'browser', 'index.html'), 'utf8');
+    const fallback = await readFile(join(dir, 'browser', '404.html'), 'utf8');
+    assert.match(fallback, /<title>Page not found \| D\. James Poer<\/title>/);
+    assert.match(fallback, /name="robots" content="noindex, nofollow"/);
+    assert.match(fallback, /<app-root><\/app-root><noscript><main>/);
+    assert.match(fallback, /<a href="\/">Return to Home<\/a>/);
+    assert.doesNotMatch(fallback, /rel="canonical"|portfolio-structured-data/);
     await preparePublicRender(dir);
+    assert.equal(await readFile(join(dir, 'browser', '404.html'), 'utf8'), fallback);
     assert.equal(await readFile(join(dir, 'browser', 'index.html'), 'utf8'), first);
     assert.equal((first.match(/data-public-styles/g) || []).length, 1);
     assert.equal(first.includes('rel="stylesheet"'), false);

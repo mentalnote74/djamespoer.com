@@ -1,5 +1,24 @@
 # AI Engineering Handoff
 
+## October 23 - SCRUM-26 accessible not-found page
+
+Unknown Angular URLs retain their address and load a small lazy NotFound view,
+within the existing shared shell/2-8-2 rail. One H1 receives focus; native Home
+and Engineering links use shared focus/theme styles. Existing metadata strategy
+sets the error title/description, noindex and removes the preceding public graph.
+Cloudflare's native 404-page asset mode now returns HTTP 404 using a postbuild
+404.html derived from Angular's CSR shell, rather than hydrating Home. Initial
+error metadata and a no-JavaScript Home recovery link are included; public static
+documents, Work alias and dynamic journal CSR behavior remain intact. No Worker
+logic, analytics, motion or other feature change. Nineteen routing/metadata tests,
+two render-helper tests and production build/budgets pass (459.82 kB initial).
+Focused local Chrome 1440/390: status, heading focus, keyboard Home/back/refresh,
+one main/H1, no overflow/errors, zero scoped axe, reduced/forced and no-JS pass.
+The sandbox compiler access failure was environmental; rerun with access passed.
+Vitest emitted a fork-termination warning after all tests passed with exit 0;
+Node emits a nonfatal module-type warning for shared TS metadata in postbuild.
+Evidence: tmp/evidence/scrum-26/ and tmp/scrum-26-*.log. Production receipt pending.
+
 ## October 23 - authorized read-only Jira credential preflight
 
 Added manual-only jira-reader-preflight.yml (contents: read), with no publication

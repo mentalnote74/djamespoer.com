@@ -1,6 +1,7 @@
 import { readFile, writeFile, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
+import { NOT_FOUND } from '../src/app/content/not-found.ts';
 
 /** Use compiler output, never guessed asset hashes. Keep unrelated routes lazy. */
 export function routePreloads(stats, entryPoint) {
@@ -112,7 +113,8 @@ export async function preparePublicRender(
     // Responsive preloads must follow viewport metadata, or mobile's initial
     // layout viewport can trigger the desktop candidate before the viewport changes.
     if (imageHint) {
-      if (!/<meta\b[^>]*name="viewport"[^>]*>/.test(html)) throw new Error('Homepage viewport unavailable.');
+      if (!/<meta\b[^>]*name="viewport"[^>]*>/.test(html))
+        throw new Error('Homepage viewport unavailable.');
       html = html.replace(/<meta\b[^>]*name="viewport"[^>]*>/, (meta) => meta + imageHint);
     }
     await writeFile(
@@ -123,6 +125,26 @@ export async function preparePublicRender(
         .replace('<head>', '<head>' + hint),
     );
   }
+  // Native Cloudflare 404 fallback, retaining Angular's CSR shell for unknown URLs
+  // and dynamic routes absent from the static build. Never hydrate Home as a 404.
+  const clientShell = await readFile(resolve(directory, 'browser', 'index.csr.html'), 'utf8');
+  if (!clientShell.includes('<app-root></app-root>'))
+    throw new Error('Client-rendered 404 shell unavailable.');
+  const fallback = clientShell
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${NOT_FOUND.title}</title>`)
+    .replace(/<meta\b[^>]*name="(?:description|robots)"[^>]*>/g, '')
+    .replace(/<meta\b[^>]*(?:property="og:[^"]*"|name="twitter:[^"]*")[^>]*>/g, '')
+    .replace(/<link\b[^>]*rel="canonical"[^>]*>/g, '')
+    .replace(/<script\b[^>]*id="portfolio-structured-data"[^>]*>[\s\S]*?<\/script>/g, '')
+    .replace(
+      '<head>',
+      `<head><meta name="robots" content="noindex, nofollow"><meta name="description" content="${NOT_FOUND.description}">`,
+    )
+    .replace(
+      '<app-root></app-root>',
+      `<app-root></app-root><noscript><main><p>404</p><h1>${NOT_FOUND.heading}</h1><p>${NOT_FOUND.description}</p><p><a href="/">Return to Home</a></p></main></noscript>`,
+    );
+  await writeFile(resolve(directory, 'browser', '404.html'), fallback);
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   await preparePublicRender();

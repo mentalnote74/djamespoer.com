@@ -6,6 +6,7 @@ import { provideRouter, TitleStrategy } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { PageMetadataStrategy } from './page-metadata-strategy';
 import { PUBLIC_PAGES } from '../content/public-pages';
+import { NOT_FOUND } from '../content/not-found';
 
 @Component({ template: '<h1>Test page</h1>' })
 class MetadataPage {}
@@ -27,6 +28,12 @@ describe('public route metadata', () => {
             component: MetadataPage,
             title: 'Test evaluator',
             data: { robots: 'noindex, nofollow' },
+          },
+          {
+            path: '**',
+            component: MetadataPage,
+            title: NOT_FOUND.title,
+            data: { description: NOT_FOUND.description, robots: 'noindex, nofollow' },
           },
         ]),
         { provide: TitleStrategy, useExisting: PageMetadataStrategy },
@@ -79,5 +86,21 @@ describe('public route metadata', () => {
     await RouterTestingHarness.create('/product-journal/2099-01-01');
     expect(TestBed.inject(Meta).getTag('name="robots"')?.content).toBe('noindex, nofollow');
     expect(TestBed.inject(DOCUMENT).getElementById('portfolio-structured-data')).toBeNull();
+  });
+  it('replaces preceding page metadata with the not-found state and restores it on recovery', async () => {
+    const harness = await RouterTestingHarness.create('/engineering');
+    await harness.navigateByUrl('/not-a-real-page?source=test');
+    const document = TestBed.inject(DOCUMENT),
+      meta = TestBed.inject(Meta);
+    expect(TestBed.inject(Title).getTitle()).toBe(NOT_FOUND.title);
+    expect(meta.getTag('name="description"')?.content).toBe(NOT_FOUND.description);
+    expect(meta.getTag('name="robots"')?.content).toBe('noindex, nofollow');
+    expect(document.getElementById('portfolio-structured-data')).toBeNull();
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe(
+      'https://djamespoer.com/not-a-real-page',
+    );
+    await harness.navigateByUrl('/about');
+    expect(meta.getTag('name="robots"')?.content).toBe('index, follow');
+    expect(TestBed.inject(Title).getTitle()).not.toBe(NOT_FOUND.title);
   });
 });

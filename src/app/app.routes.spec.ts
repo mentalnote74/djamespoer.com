@@ -11,6 +11,7 @@ import { IPS_WORK_HISTORY } from './components/case-study/ips-work.content';
 import { TCC_WORK_HISTORY } from './components/case-study/tcc-work.content';
 import { DR_WORK_HISTORY } from './components/case-study/dr-work.content';
 import { DJAMESPOER_CASE_STUDY } from './components/case-study/djamespoer.content';
+import { Title } from '@angular/platform-browser';
 
 const workPages = [
   ['exl', EXL_WORK_HISTORY],
@@ -47,7 +48,7 @@ describe('Work routes', () => {
     await forward;
     expect(router.url).toBe('/work/tcc');
   });
-  it('keeps Home and the interior route boundary lazy with exact Work and wildcard redirects', async () => {
+  it('keeps route boundaries lazy, the Work alias, and a non-redirecting not-found fallback', async () => {
     expect(routes[0].loadComponent).toBeTypeOf('function');
     expect(routes[0].component).toBeUndefined();
     expect(routes[0].pathMatch).toBe('full');
@@ -58,7 +59,12 @@ describe('Work routes', () => {
       pathMatch: 'full',
       redirectTo: '',
     });
-    expect(interiorRoutes.at(-1)).toEqual({ path: '**', redirectTo: '' });
+    expect(interiorRoutes.at(-1)).toMatchObject({
+      path: '**',
+      title: 'Page not found | D. James Poer',
+      data: { robots: 'noindex, nofollow' },
+    });
+    expect(interiorRoutes.at(-1)?.redirectTo).toBeUndefined();
     expect(interiorRoutes.filter((route) => route.path?.startsWith('work'))).toHaveLength(6);
     for (const route of interiorRoutes.filter((route) => route.redirectTo === undefined)) {
       expect(route.loadComponent).toBeTypeOf('function');
@@ -75,6 +81,24 @@ describe('Work routes', () => {
       ]),
     );
   });
+  it.each(['/missing-page', '/work/missing/nested?source=test#details'])(
+    'retains %s and offers real recovery links instead of redirecting Home',
+    async (url) => {
+      const harness = await RouterTestingHarness.create(url);
+      const root = harness.routeNativeElement!;
+      expect(TestBed.inject(Router).url).toBe(url);
+      expect(root.querySelectorAll('h1')).toHaveLength(1);
+      expect(root.querySelector('h1')?.textContent).toBe('Page not found');
+      expect(root.querySelector('h1')?.getAttribute('tabindex')).toBe('-1');
+      expect(root.querySelectorAll('main')).toHaveLength(0);
+      expect(TestBed.inject(Title).getTitle()).toBe('Page not found | D. James Poer');
+      expect(root.querySelector('a[href="/"]')?.textContent).toContain('Return to Home');
+      expect(root.querySelector('a[href="/engineering"]')).not.toBeNull();
+      await harness.navigateByUrl('/about');
+      expect(TestBed.inject(Router).url).toBe('/about');
+      expect(harness.routeNativeElement?.textContent).not.toContain('Page not found');
+    },
+  );
   it.each(workPages)('renders approved /work/%s context after its heading', async (path, study) => {
     const harness = await RouterTestingHarness.create(`/work/${path}`);
     const heading = harness.routeNativeElement!.querySelector('h1')!;

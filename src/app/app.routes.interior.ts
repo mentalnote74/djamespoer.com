@@ -2,6 +2,7 @@ import { Route, Routes } from '@angular/router';
 import { PUBLIC_PAGES } from './content/public-pages';
 import { ARTICLES } from './content/articles';
 import { destinationSlides } from './content/portfolio-slides';
+import { NOT_FOUND } from './content/not-found';
 
 const loadProofPage = () =>
   import('./components/proof-page/proof-page').then(({ ProofPage }) => ProofPage);
@@ -298,7 +299,13 @@ export const interiorRoutes: Routes = [
     loadComponent: () =>
       import('./components/buildometer/buildometer').then(({ Buildometer }) => Buildometer),
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: '**',
+    title: NOT_FOUND.title,
+    data: { description: NOT_FOUND.description, robots: 'noindex, nofollow' },
+    loadComponent: () =>
+      import('./components/not-found/not-found').then(({ NotFound }) => NotFound),
+  },
 ].map((route: Route) => {
   const page = PUBLIC_PAGES.find((entry) => entry.path === route.path);
   return page
