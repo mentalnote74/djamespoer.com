@@ -3,8 +3,6 @@
   width: 100%;
 }
 .djp-beach {
-  --djp-x: 0px;
-  --djp-y: 0px;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -40,7 +38,6 @@
   inset: -8%;
   width: 116%;
   height: 116%;
-  transform: translate(calc(var(--djp-x) * -0.7), calc(var(--djp-y) * -0.7));
 }
 .djp-beach .shore {
   position: absolute;
@@ -67,9 +64,6 @@
   inset: 0;
   background: radial-gradient(ellipse at 64% 38%, #ffdeaf3b, transparent 42%);
   mix-blend-mode: soft-light;
-}
-.djp-beach .foreground {
-  transform: translate(calc(var(--djp-x) * 0.08), calc(var(--djp-y) * 0.08));
 }
 .djp-beach.moonlight .water-magic {
   inset: 0;

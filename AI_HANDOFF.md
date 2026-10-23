@@ -1,5 +1,17 @@
 # AI Engineering Handoff
 
+## October 23 ? Remove unrequested djp.c mouse parallax
+
+Removed pointermove/pointerleave bindings, depth signals and pointer-driven layer
+translations from conservatory, sunset and moonlight. Artwork registration and
+intrinsic scaling stay fixed; existing timed scene magic and its pause/visibility/
+reduced-motion lifecycle are unchanged. These shared components cover carousel
+and destination heroes. Build/budgets and 27 carousel tests pass. Focused Chrome
+checks at 1440px and 390px confirm stable background/foreground transforms through
+mouse movement, timed animations, pause/resume, reduced motion and no overflow or
+browser errors. Evidence: tmp/evidence/djp-no-parallax/. Overnight work remains
+parked separately.
+
 ## October 23 — Android hamburger activation hotfix
 
 Header previously closed disclosures on focusout with null relatedTarget. A trusted

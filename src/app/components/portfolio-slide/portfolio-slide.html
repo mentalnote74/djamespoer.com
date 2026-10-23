@@ -11,10 +11,6 @@
 <section
   class="djp-conservatory"
   [class.running]="running()"
-  [style.--djp-x]="depthX() + 'px'"
-  [style.--djp-y]="depthY() + 'px'"
-  (pointermove)="onPointerMove($event)"
-  (pointerleave)="resetDepth()"
   aria-label="djamespoer.com"
 >
   <div class="art" aria-hidden="true">

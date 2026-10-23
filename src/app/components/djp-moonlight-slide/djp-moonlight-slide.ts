@@ -32,8 +32,6 @@ export class DjpMoonlightSlide {
   readonly priority = input(false);
   readonly sceneId = input('djp-moonlight-v2');
   readonly motionPaused = signal(false);
-  readonly depthX = signal(0);
-  readonly depthY = signal(0);
   private readonly visible = signal(false);
   private readonly inView = signal(false);
   private readonly reduced = signal(true);
@@ -53,7 +51,6 @@ export class DjpMoonlightSlide {
       const updateVisibility = () => this.visible.set(!this.document.hidden);
       const updateMotion = () => {
         this.reduced.set(media.matches);
-        if (media.matches) this.resetDepth();
       };
       updateVisibility();
       updateMotion();
@@ -73,19 +70,5 @@ export class DjpMoonlightSlide {
 
   toggleMotion(): void {
     this.motionPaused.update((value) => !value);
-    this.resetDepth();
-  }
-
-  onPointerMove(event: PointerEvent): void {
-    if (!this.running() || event.pointerType !== 'mouse') return;
-    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
-    this.depthX.set(((event.clientX - rect.left) / rect.width - 0.5) * 18);
-    this.depthY.set(((event.clientY - rect.top) / rect.height - 0.5) * 10);
-  }
-
-  resetDepth(): void {
-    this.depthX.set(0);
-    this.depthY.set(0);
   }
 }

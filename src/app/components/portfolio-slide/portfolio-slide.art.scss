@@ -4,8 +4,6 @@
   width: 100%;
 }
 .djp-conservatory {
-  --djp-x: 0px;
-  --djp-y: 0px;
   --djp-depth: 1;
   --djp-sky-light: var(--selected-background, #a487be);
   position: relative;
@@ -40,7 +38,6 @@
   inset: -8%;
   width: 116%;
   height: 116%;
-  transform: translate(calc(var(--djp-x) * -0.7), calc(var(--djp-y) * -0.7));
 }
 .djp-conservatory .background img,
 .djp-conservatory .foreground img {
@@ -49,11 +46,8 @@
   height: 100%;
 }
 .djp-conservatory .interior-material {
-  transform: translate(calc(var(--djp-x) * -0.25), calc(var(--djp-y) * -0.25)) scale(1.045);
+  transform: scale(1.045);
   transform-origin: 75.506% 45.028%;
-}
-.djp-conservatory .foreground {
-  transform: translate(calc(var(--djp-x) * 0.1), calc(var(--djp-y) * 0.1));
 }
 .djp-conservatory .reflections {
   position: absolute;
