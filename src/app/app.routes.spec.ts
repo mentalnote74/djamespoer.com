@@ -5,6 +5,22 @@ import { provideLocationMocks } from '@angular/common/testing';
 import { firstValueFrom, filter } from 'rxjs';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { routes } from './app.routes';
+import { interiorRoutes } from './app.routes.interior';
+import { EXL_WORK_HISTORY } from './components/case-study/exl-work.content';
+import { IPS_WORK_HISTORY } from './components/case-study/ips-work.content';
+import { TCC_WORK_HISTORY } from './components/case-study/tcc-work.content';
+import { DR_WORK_HISTORY } from './components/case-study/dr-work.content';
+import { DJAMESPOER_CASE_STUDY } from './components/case-study/djamespoer.content';
+
+const workPages = [
+  ['exl', EXL_WORK_HISTORY],
+  ['ips', IPS_WORK_HISTORY],
+  ['tcc', TCC_WORK_HISTORY],
+  ['dr', DR_WORK_HISTORY],
+  ['djamespoer', DJAMESPOER_CASE_STUDY],
+] as const;
+
+const normalizedText = (text: string) => text.replace(/\s+/g, ' ').trim();
 
 describe('Work routes', () => {
   beforeEach(() =>
@@ -31,21 +47,25 @@ describe('Work routes', () => {
     await forward;
     expect(router.url).toBe('/work/tcc');
   });
-  it('keeps Home, Perspectives and case studies lazy with exact Work and last wildcard redirects', () => {
-    expect(routes.find((route) => route.path === 'work')).toEqual({
+  it('keeps Home and the interior route boundary lazy with exact Work and wildcard redirects', async () => {
+    expect(routes[0].loadComponent).toBeTypeOf('function');
+    expect(routes[0].component).toBeUndefined();
+    expect(routes[0].pathMatch).toBe('full');
+    expect(routes[1].loadChildren).toBeTypeOf('function');
+    expect(await routes[1].loadChildren!()).toBe(interiorRoutes);
+    expect(interiorRoutes.find((route) => route.path === 'work')).toEqual({
       path: 'work',
       pathMatch: 'full',
       redirectTo: '',
     });
-    expect(routes.at(-1)).toEqual({ path: '**', redirectTo: '' });
-    expect(routes.filter((route) => route.path?.startsWith('work'))).toHaveLength(6);
-    for (const route of routes.filter((route) => !route.redirectTo && route.redirectTo !== '')) {
+    expect(interiorRoutes.at(-1)).toEqual({ path: '**', redirectTo: '' });
+    expect(interiorRoutes.filter((route) => route.path?.startsWith('work'))).toHaveLength(6);
+    for (const route of interiorRoutes.filter((route) => route.redirectTo === undefined)) {
       expect(route.loadComponent).toBeTypeOf('function');
       expect(route.component).toBeUndefined();
     }
-    expect(routes.map((route) => route.path)).toEqual(
+    expect(interiorRoutes.map((route) => route.path)).toEqual(
       expect.arrayContaining([
-        '',
         'engineering',
         'ux-product',
         'accessibility',
@@ -55,45 +75,37 @@ describe('Work routes', () => {
       ]),
     );
   });
-  it.each([
-    ['exl', 'October 2019–April 2023'],
-    ['ips', 'August 2019–October 2019'],
-    ['tcc', '2015–2019'],
-    ['dr', '2011–2015'],
-    ['djamespoer', 'UX Engineer'],
-  ])('renders /work/%s context beneath its heading', async (path, context) => {
+  it.each(workPages)('renders approved /work/%s context after its heading', async (path, study) => {
     const harness = await RouterTestingHarness.create(`/work/${path}`);
     const heading = harness.routeNativeElement!.querySelector('h1')!;
-    expect(heading.nextElementSibling?.tagName).toBe('P');
-    expect(heading.nextElementSibling?.textContent).toContain(context);
-    const metadata = heading.nextElementSibling!.textContent!;
-    expect(metadata).toContain(' · ');
-    expect(metadata).not.toMatch(/[?\uFFFD\u00C2\u00C3]/);
-    const roles: Record<string, string> = {
-      exl: 'Senior Web Designer',
-      ips: 'UI Developer',
-      tcc: 'UX Developer II',
-      dr: 'Photographer/Web Developer · Digital Presence Coordinator',
-      djamespoer: 'UX Engineer · Front-End Architect · Product Builder',
-    };
-    expect(metadata).toContain(roles[path]);
+    const article = harness.routeNativeElement!.querySelector('article.case-study')!;
+    const context = Array.from(article.children).filter((element) => element.tagName === 'P');
+    const introduction =
+      typeof study.introduction === 'string' ? [study.introduction] : (study.introduction ?? []);
+    const text = normalizedText(context.map((paragraph) => paragraph.textContent).join(' '));
+    for (const paragraph of introduction) {
+      expect(text).toContain(normalizedText(paragraph));
+    }
+    expect(context.length).toBeGreaterThan(0);
+    expect(
+      heading.compareDocumentPosition(context[0]) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(text).not.toMatch(/[\uFFFD\u00C2\u00C3]/);
   });
-  it.each([
-    ['djamespoer', 'djamespoer.com', 'Performance 92'],
-    ['exl', 'EXL / LifePRO', 'roughly 150 lines of Sass'],
-    ['tcc', 'TCC Software Solutions', 'During my final week at TCC'],
-    ['dr', 'Dreyer & Reinbold', 'approximately 30 seconds'],
-    ['ips', 'Indianapolis Public Schools', 'State of Indiana'],
-  ])(
-    'renders the authored /work/%s draft as semantic, indexable text',
-    async (path, heading, fact) => {
+  it.each(workPages)(
+    'renders the current authored /work/%s document with one heading and its sections in order',
+    async (path, study) => {
       const harness = await RouterTestingHarness.create(`/work/${path}`);
       const root = harness.routeNativeElement!;
       expect(root.querySelectorAll('h1')).toHaveLength(1);
-      expect(root.querySelector('h1')?.textContent).toBe(heading);
+      expect(root.querySelector('h1')?.textContent).toBe(study.title);
       expect(root.querySelector('article')).not.toBeNull();
-      expect(root.querySelectorAll('section h2').length).toBeGreaterThan(5);
-      expect(root.textContent).toContain(fact);
+      expect(
+        Array.from(
+          root.querySelectorAll('article.case-study > section > h2'),
+          (h) => h.textContent,
+        ),
+      ).toEqual(study.sections.map((section) => section.heading));
       expect(root.textContent).not.toContain('Content pending.');
     },
   );
