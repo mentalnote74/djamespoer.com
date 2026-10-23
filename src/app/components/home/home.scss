@@ -1,4 +1,5 @@
 @use '../../../styles/themes/coast';
+@use '../../../styles/abstracts' as foundation;
 
 :host {
   @include coast.environment;
@@ -15,24 +16,21 @@ app-carousel {
 }
 
 .home-editorial {
+  display: grid;
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
   padding-block: clamp(2rem, 5vw, 4rem);
 }
 
 // Keep the journal editorial/open rather than turning every section into a card.
-.home-updates > app-daily-scrum-brief {
+.home-editorial > app-daily-scrum-brief {
   border-inline-start: 2px solid color-mix(in srgb, var(--coast-water) 24%, transparent);
   padding-inline-start: clamp(1rem, 2vw, 1.5rem);
 }
 
 @media (forced-colors: active) {
-  .home-updates > app-daily-scrum-brief {
+  .home-editorial > app-daily-scrum-brief {
     border-inline-start-color: CanvasText;
-  }
-}
-
-.home-construction {
-  p {
-    max-inline-size: 70ch;
   }
 }
 
@@ -56,16 +54,8 @@ app-carousel {
   }
 }
 
-.home-creative {
-  display: block;
-  inline-size: 100%;
-  block-size: auto;
-}
-
-// Restored right-column placement; keep the feature surface within its available width.
-.home-updates > .home-construction {
+.home-construction {
   padding: var(--surface-padding);
-  margin-block-end: 2rem;
   h2 {
     margin-block: 0 1rem;
     font-size: clamp(2rem, 3vw, 3.5rem);
@@ -74,5 +64,24 @@ app-carousel {
   }
   p {
     margin-block: 0.65rem;
+  }
+}
+
+// Source order is introduction, named supporting landmark, then journal.
+// Only the container places the desktop columns.
+@media (width > foundation.breakpoint('artwork-compact')) {
+  .home-editorial {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    > .home-construction,
+    > app-daily-scrum-brief {
+      grid-column: 2;
+    }
+    > app-aside {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+    > app-buildometer-overview {
+      grid-column: 1 / -1;
+    }
   }
 }

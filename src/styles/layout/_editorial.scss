@@ -1,5 +1,3 @@
-@use '../abstracts' as foundation;
-
 // Named content/full tracks: Page supplies the interior rail policy. Independent
 // layouts keep the existing reading-measure fallback. Authored media can break out.
 .editorial-content {
@@ -31,41 +29,4 @@
 .editorial-content > .editorial-wide,
 .editorial-content > section > .editorial-wide {
   grid-column: full;
-}
-
-// Opt in only when authored content actually includes supporting material.
-// Place primary content first and supporting material second in source order.
-.editorial-content > .editorial-pair,
-.editorial-content > section > .editorial-pair {
-  grid-column: full;
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  gap: clamp(1rem, 3vw, 2rem);
-  align-items: start;
-}
-
-.editorial-pair > * {
-  min-inline-size: 0;
-  grid-column: auto;
-}
-
-.editorial-content > .editorial-pair--supporting-first {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-}
-
-.editorial-pair > :first-child {
-  max-inline-size: 70ch;
-}
-
-.editorial-pair img,
-.editorial-pair svg {
-  max-inline-size: 100%;
-  block-size: auto;
-}
-
-@include foundation.at-or-below('artwork-compact') {
-  .editorial-content > .editorial-pair,
-  .editorial-content > section > .editorial-pair {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }

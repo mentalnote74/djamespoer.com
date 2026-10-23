@@ -1,39 +1,20 @@
 :host {
   display: block;
 }
-.product-page,
-.product-columns,
-.product-columns > * {
+.product-page {
   min-inline-size: 0;
 }
 .product-introduction {
   margin-block-end: 2rem;
 }
-.product-introduction app-thingamajob-slide {
-  margin-block-end: 1.5rem;
-}
 .product-introduction .product-lead {
-  max-inline-size: 65ch;
   font-size: clamp(1.125rem, 2vw, 1.5rem);
-}
-.product-columns {
-  display: grid;
-  gap: clamp(1.5rem, 3vw, 3rem);
-  align-items: start;
 }
 .case-study h2 {
   margin-block-start: 0;
 }
 .case-study section + section {
   margin-block-start: 1.5rem;
-}
-.case-study p {
-  max-inline-size: 65ch;
-}
-@media (min-width: 70rem) {
-  .product-columns {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  }
 }
 
 .result-heading {
@@ -72,7 +53,7 @@
   margin-block-start: 0.75rem;
 }
 
-.product-introduction > app-thingamajob-slide {
+.product-page > app-thingamajob-slide {
   display: block;
   max-inline-size: 1086px;
   margin: 0 auto 1.5rem;

@@ -1,5 +1,20 @@
 # AI Engineering Handoff
 
+## October 23 ? Content rail and Home landmark/order cleanup
+
+Home source/mobile order is Pardon the dust, the existing named Thingamajob Aside,
+then daily brief. The single home container owns desktop 1:2 placement; three old
+wrappers and the now-unused editorial-pair rules were removed. The Aside still
+owns the complementary landmark; the widget has no new landmark responsibility.
+Interior case-study cards no longer split headings/body into skinny columns, and
+obsolete prose width caps were removed from case studies, About and proof pages.
+Thingamajob's page workspace and case-study content now flow into the shared 8-column
+rail without the old product-columns wrapper or nested introduction rail. Widget
+internals, metrics, heroes and the outer 2/8/2 policy are unchanged.
+Build/budgets and 7 case-study tests pass. Chrome at 1440px and 390px checks Home
+order/landmark and six affected interior routes, with no overflow/browser errors;
+scoped Home axe has zero violations. Evidence: tmp/evidence/content-flow/.
+
 ## October 23 ? Remove unrequested djp.c mouse parallax
 
 Removed pointermove/pointerleave bindings, depth signals and pointer-driven layer

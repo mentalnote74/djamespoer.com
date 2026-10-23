@@ -8,7 +8,6 @@
   p,
   li,
   figcaption {
-    max-inline-size: 65ch;
     overflow-wrap: anywhere;
   }
   figure {
@@ -36,10 +35,6 @@
   }
   > .case-study__group {
     padding: var(--surface-padding);
-    grid-template-columns: minmax(0, 1fr);
-    > * {
-      grid-column: 1;
-    }
     h2 {
       margin-block-start: 0;
     }
@@ -52,19 +47,6 @@
   }
   > .surface-feature h2 {
     font-size: clamp(1.75rem, 3vw, 2.75rem);
-  }
-  @media (min-width: 64rem) {
-    > .surface-feature {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr);
-      column-gap: clamp(2rem, 4vw, 4rem);
-      h2 {
-        grid-column: 1;
-        grid-row: 1 / span 30;
-      }
-      > :not(h2) {
-        grid-column: 2;
-      }
-    }
   }
   > nav a {
     text-underline-offset: 0.3em;

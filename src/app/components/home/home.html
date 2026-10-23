@@ -15,70 +15,61 @@
   }
 </app-carousel>
 
-<div class="home-editorial layout-container editorial-content">
-  <div class="editorial-pair editorial-pair--supporting-first">
-    <app-aside label="Thingamajob"
-      ><div class="home-thingamajob-entry">
-        <app-thingamajob />
-        <p>
-          <a
-            publicTrack
-            trackLocation="home-thingamajob"
-            trackSource="homepage"
-            routerLink="/thingamajob"
-            >View Thingamajob Case Study</a
-          >
-        </p>
-      </div></app-aside
-    >
-    <div class="home-updates">
-      <section
-        class="home-construction surface-feature"
-        aria-labelledby="construction-site-heading"
+<div class="home-editorial layout-container">
+  <section class="home-construction surface-feature" aria-labelledby="construction-site-heading">
+    <h2 id="construction-site-heading">Pardon the dust.</h2>
+    <p>
+      I’m <strong>D. James Poer, a Senior UX Engineer and Front-End Architect.</strong>
+      I build Angular and TypeScript interfaces for enterprise applications, connecting UX research,
+      design engineering and accessibility work grounded in WCAG and Section 508.
+      <a routerLink="/about">About my approach</a> ·
+      <a routerLink="/engineering">Explore the engineering evidence</a> ·
+      <a routerLink="/accessibility">Explore the accessibility evidence</a>
+    </p>
+    <p class="home-construction__notice">
+      <strong>You're standing in the middle of a working construction site. On purpose.</strong>
+    </p>
+    <p>
+      Most portfolios show you the finished house after the tools, sawdust, mistakes, experiments,
+      and bad ideas have been swept away.
+    </p>
+    <p>I'm doing the opposite.</p>
+    <p>
+      djamespoer.com is being designed and built in public. The unfinished pieces are part of the
+      portfolio: UX decisions, accessibility work, Angular architecture, experiments, failures,
+      fixes, testing, AI-assisted development—and the occasional spectacularly bad idea that gets
+      replaced by a better one.
+    </p>
+    <p>
+      Some rooms are finished. Some still have studs showing. Some may change while you're standing
+      in them.
+    </p>
+    <p>
+      <strong>
+        That's the point. You're not just looking at what I built. You're watching how I build.
+      </strong>
+    </p>
+  </section>
+  <app-aside class="home-thingamajob-entry" label="Thingamajob">
+    <app-thingamajob />
+    <p>
+      <a
+        publicTrack
+        trackLocation="home-thingamajob"
+        trackSource="homepage"
+        routerLink="/thingamajob"
+        >View Thingamajob Case Study</a
       >
-        <h2 id="construction-site-heading">Pardon the dust.</h2>
-        <p>
-          I’m <strong>D. James Poer, a Senior UX Engineer and Front-End Architect.</strong>
-          I build Angular and TypeScript interfaces for enterprise applications, connecting UX research,
-          design engineering and accessibility work grounded in WCAG and Section 508.
-          <a routerLink="/about">About my approach</a> ·
-          <a routerLink="/engineering">Explore the engineering evidence</a> ·
-          <a routerLink="/accessibility">Explore the accessibility evidence</a>
-        </p>
-        <p class="home-construction__notice">
-          <strong>You're standing in the middle of a working construction site. On purpose.</strong>
-        </p>
-        <p>
-          Most portfolios show you the finished house after the tools, sawdust, mistakes,
-          experiments, and bad ideas have been swept away.
-        </p>
-        <p>I'm doing the opposite.</p>
-        <p>
-          djamespoer.com is being designed and built in public. The unfinished pieces are part of
-          the portfolio: UX decisions, accessibility work, Angular architecture, experiments,
-          failures, fixes, testing, AI-assisted development—and the occasional spectacularly bad
-          idea that gets replaced by a better one.
-        </p>
-        <p>
-          Some rooms are finished. Some still have studs showing. Some may change while you're
-          standing in them.
-        </p>
-        <p>
-          <strong>
-            That's the point. You're not just looking at what I built. You're watching how I build.
-          </strong>
-        </p>
-      </section>
-      @defer (
-        on immediate;
-        hydrate when !delivery.mobile();
-        hydrate on viewport;
-        hydrate on interaction
-      ) {
-        <app-daily-scrum-brief />
-      }
-    </div>
-  </div>
+    </p>
+  </app-aside>
+  @defer (
+    on immediate;
+    hydrate when !delivery.mobile();
+    hydrate on viewport;
+    hydrate on interaction
+  ) {
+    <app-daily-scrum-brief />
+  }
   @defer (on immediate; hydrate on viewport; hydrate on interaction) {
     <app-buildometer-overview class="editorial-wide" />
   }

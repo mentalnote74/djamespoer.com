@@ -1,6 +1,6 @@
 ﻿<div class="product-page editorial-content">
-  <header class="product-introduction editorial-content editorial-wide">
-    <app-thingamajob-slide class="editorial-wide" [pageHeading]="true" [showExplore]="false" />
+  <app-thingamajob-slide class="editorial-wide" [pageHeading]="true" [showExplore]="false" />
+  <header class="product-introduction">
     <p class="product-lead">
       A career assistant built around verified evidence instead of r&eacute;sum&eacute; keyword
       guessing.
@@ -15,116 +15,111 @@
       inherit the completeness assumption.
     </p>
   </header>
-  <div class="product-columns editorial-wide">
-    <app-thingamajob class="product-workspace" />
-    <article class="case-study" aria-labelledby="case-study-heading">
-      <h2 id="case-study-heading">A career assistant built around evidence</h2>
-      <section>
-        <h3>The problem</h3>
-        <p>
-          R&eacute;sum&eacute;s are snapshots. They leave things out, compress years of work into a
-          few bullets, and often omit the evidence behind a person's experience.
-        </p>
-        <p>
-          Matching job-description phrases to r&eacute;sum&eacute; phrases can miss relevant
-          experience when the wording differs. AI can compound the problem by guessing where
-          evidence is missing.
-        </p>
-      </section>
-      <section>
-        <h3>An evidence-first approach</h3>
-        <p>
-          Thingamajob starts with ordinary career evidence: historical r&eacute;sum&eacute;s,
-          project work, public professional pages, career documents and context supplied by the
-          person.
-        </p>
-        <p>
-          AI can extract candidate claims and surface uncertainty. A plausible statement alone is
-          not enough to establish a career fact.
-        </p>
-      </section>
-      <section>
-        <h3>The Library of Truth</h3>
-        <p>
-          Clean, directly supported facts may be established automatically when the evidence is
-          unambiguous and internally consistent. Routine differences are resolved behind the scenes;
-          unsupported suggestions do not become facts.
-        </p>
-        <p>
-          When an approved claim is corrected, the active library reflects the replacement while the
-          original decision and provenance remain in history.
-        </p>
-      </section>
-      <section>
-        <h3>Human control and provenance</h3>
-        <p>
-          The person is asked only when genuine judgment or clarification is required. They can
-          correct wording, reject an unsupported suggestion or add context. AI may propose. Evidence
-          supports. The person decides.
-        </p>
-        <p>
-          Claims retain citations so the person can inspect their supporting sources. Uncertainty
-          and conflicting accounts remain visible instead of being silently rewritten into
-          agreement.
-        </p>
-      </section>
-      <section>
-        <h3>The first proof</h3>
-        <p>For the first formal proof, I used my own career history as Client #1.</p>
-        <p>
-          The proof builds from ordinary career evidence rather than feeding the system an
-          already-reconciled answer key. After independent extraction and human review, the result
-          can be compared against a separate benchmark for recovered facts, omissions, unsupported
-          claims and unresolved questions.
-        </p>
-      </section>
-      <section>
-        <h3>Job evaluation</h3>
-        <p>The evaluation flow is designed to accept:</p>
-        <ul>
-          <li>pasted job-description text</li>
-          <li>a job-posting URL</li>
-          <li>a supported uploaded file</li>
-        </ul>
-        <p>
-          Those inputs are intended to feed one flow: identify the job's requirements, search the
-          reviewed career evidence, explain the evidence state for each requirement and help draft
-          source-backed application material.
-        </p>
-        <p>
-          The current prototype presents one concise fit paragraph while retaining detailed
-          requirement assessments privately. Required and preferred qualifications keep their
-          distinction. Missing professional qualifications are known gaps only for a confirmed
-          comprehensive career record; incomplete source coverage is not a fabricated negative.
-        </p>
-      </section>
-      <section>
-        <h3>Multi-client architecture</h3>
-        <p>
-          Thingamajob is one reusable product with isolated client workspaces. Each person's
-          evidence, reviewed claims and history belong to that person and must not leak into another
-          workspace.
-        </p>
-        <p>
-          I am Client #1; a second independent client exercises the same shared product with
-          separate evidence.
-        </p>
-      </section>
-      <section>
-        <h3>Graceful degradation</h3>
-        <p>
-          The product is designed to preserve your work when assistance is temporarily unavailable,
-          explain the interruption in plain language and offer a clear way to continue.
-        </p>
-        <p>An interruption should pause assistance, not strand the person using it.</p>
-      </section>
-      <section>
-        <h3>Active product</h3>
-        <p>
-          Thingamajob continues to evolve through real job-search workflows. This case study
-          explains the evidence model, human control and product decisions behind it.
-        </p>
-      </section>
-    </article>
-  </div>
+  <app-thingamajob class="product-workspace" />
+  <article class="case-study" aria-labelledby="case-study-heading">
+    <h2 id="case-study-heading">A career assistant built around evidence</h2>
+    <section>
+      <h3>The problem</h3>
+      <p>
+        R&eacute;sum&eacute;s are snapshots. They leave things out, compress years of work into a
+        few bullets, and often omit the evidence behind a person's experience.
+      </p>
+      <p>
+        Matching job-description phrases to r&eacute;sum&eacute; phrases can miss relevant
+        experience when the wording differs. AI can compound the problem by guessing where evidence
+        is missing.
+      </p>
+    </section>
+    <section>
+      <h3>An evidence-first approach</h3>
+      <p>
+        Thingamajob starts with ordinary career evidence: historical r&eacute;sum&eacute;s, project
+        work, public professional pages, career documents and context supplied by the person.
+      </p>
+      <p>
+        AI can extract candidate claims and surface uncertainty. A plausible statement alone is not
+        enough to establish a career fact.
+      </p>
+    </section>
+    <section>
+      <h3>The Library of Truth</h3>
+      <p>
+        Clean, directly supported facts may be established automatically when the evidence is
+        unambiguous and internally consistent. Routine differences are resolved behind the scenes;
+        unsupported suggestions do not become facts.
+      </p>
+      <p>
+        When an approved claim is corrected, the active library reflects the replacement while the
+        original decision and provenance remain in history.
+      </p>
+    </section>
+    <section>
+      <h3>Human control and provenance</h3>
+      <p>
+        The person is asked only when genuine judgment or clarification is required. They can
+        correct wording, reject an unsupported suggestion or add context. AI may propose. Evidence
+        supports. The person decides.
+      </p>
+      <p>
+        Claims retain citations so the person can inspect their supporting sources. Uncertainty and
+        conflicting accounts remain visible instead of being silently rewritten into agreement.
+      </p>
+    </section>
+    <section>
+      <h3>The first proof</h3>
+      <p>For the first formal proof, I used my own career history as Client #1.</p>
+      <p>
+        The proof builds from ordinary career evidence rather than feeding the system an
+        already-reconciled answer key. After independent extraction and human review, the result can
+        be compared against a separate benchmark for recovered facts, omissions, unsupported claims
+        and unresolved questions.
+      </p>
+    </section>
+    <section>
+      <h3>Job evaluation</h3>
+      <p>The evaluation flow is designed to accept:</p>
+      <ul>
+        <li>pasted job-description text</li>
+        <li>a job-posting URL</li>
+        <li>a supported uploaded file</li>
+      </ul>
+      <p>
+        Those inputs are intended to feed one flow: identify the job's requirements, search the
+        reviewed career evidence, explain the evidence state for each requirement and help draft
+        source-backed application material.
+      </p>
+      <p>
+        The current prototype presents one concise fit paragraph while retaining detailed
+        requirement assessments privately. Required and preferred qualifications keep their
+        distinction. Missing professional qualifications are known gaps only for a confirmed
+        comprehensive career record; incomplete source coverage is not a fabricated negative.
+      </p>
+    </section>
+    <section>
+      <h3>Multi-client architecture</h3>
+      <p>
+        Thingamajob is one reusable product with isolated client workspaces. Each person's evidence,
+        reviewed claims and history belong to that person and must not leak into another workspace.
+      </p>
+      <p>
+        I am Client #1; a second independent client exercises the same shared product with separate
+        evidence.
+      </p>
+    </section>
+    <section>
+      <h3>Graceful degradation</h3>
+      <p>
+        The product is designed to preserve your work when assistance is temporarily unavailable,
+        explain the interruption in plain language and offer a clear way to continue.
+      </p>
+      <p>An interruption should pause assistance, not strand the person using it.</p>
+    </section>
+    <section>
+      <h3>Active product</h3>
+      <p>
+        Thingamajob continues to evolve through real job-search workflows. This case study explains
+        the evidence model, human control and product decisions behind it.
+      </p>
+    </section>
+  </article>
 </div>
