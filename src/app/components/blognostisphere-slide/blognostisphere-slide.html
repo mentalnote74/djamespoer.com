@@ -1,0 +1,76 @@
+<section class="blognostisphere-scene" [class.running]="running()" aria-label="Blognostisphere">
+  <div class="art" aria-hidden="true">
+    <div class="world">
+      @for (layer of layers; track layer.name) {
+        <picture
+          [class]="'plate ' + layer.name"
+          [style.left.%]="(layer.x / 2172) * 100"
+          [style.top.%]="(layer.y / 724) * 100"
+          [style.width.%]="(layer.w / 2172) * 100"
+          [style.height.%]="(layer.h / 724) * 100"
+        >
+          <source
+            media="(max-width: 600px)"
+            type="image/avif"
+            [srcset]="'/assets/blognostisphere/' + layer.name + '-' + layer.small + '.avif'"
+          />
+          <source
+            media="(max-width: 600px)"
+            type="image/webp"
+            [srcset]="'/assets/blognostisphere/' + layer.name + '-' + layer.small + '.webp'"
+          />
+          <source
+            type="image/avif"
+            [srcset]="'/assets/blognostisphere/' + layer.name + '-' + layer.large + '.avif'"
+          />
+          <img
+            [src]="'/assets/blognostisphere/' + layer.name + '-' + layer.large + '.webp'"
+            [width]="layer.w"
+            [height]="layer.h"
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+      }
+      <div class="fin-light"></div>
+      <div class="vortex-flow"></div>
+      <div class="resonator-flow"></div>
+      @for (star of stars; track star.x) {
+        <i
+          class="star"
+          [style.left.%]="star.x"
+          [style.top.%]="star.y"
+          [style.animation-delay]="star.delay"
+          [style.animation-duration]="star.duration"
+        ></i>
+      }
+    </div>
+  </div>
+  <div class="copy">
+    <h2>Blognostisphere</h2>
+    <div class="actions">
+      <a
+        class="action"
+        routerLink="/blognostisphere"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        aria-label="Explore Blognostisphere"
+        >Explore</a
+      >
+      <button
+        class="action motion-control"
+        type="button"
+        (click)="toggleMotion()"
+        [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"
+      >
+        @if (motionPaused()) {
+          <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
+        } @else {
+          <svg lucidePause class="action-icon" aria-hidden="true" focusable="false"></svg>
+        }
+      </button>
+    </div>
+  </div>
+</section>

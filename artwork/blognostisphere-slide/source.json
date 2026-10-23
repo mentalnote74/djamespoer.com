@@ -1,0 +1,316 @@
+{
+  "approvedMaster": "magic-v2.png",
+  "dimensions": [
+    2172,
+    724
+  ],
+  "hashes": {
+    "magic-v2.png": "8975e5a881161f34edc969956ac0340290d256bc4d3b0a98097b4d17878802b4",
+    "sky-inpaint.png": "b049addf54cd14b46ac8dc44e1c1eb2f517a6a94c1c89b2723fb69a7bff77575"
+  },
+  "background": "Built-in imagegen removes occluded machinery only; original open sky composited back over the fill.",
+  "foreground": "Original approved pixels, registered silhouette and open framework/arch masks.",
+  "mobileCrop": {
+    "worldWidth": "150%",
+    "left": "-45%",
+    "ratio": 2
+  },
+  "plates": [
+    {
+      "name": "cloud-far",
+      "box": [
+        0,
+        365,
+        1010,
+        235
+      ],
+      "shape": "<ellipse cx=\"420\" cy=\"485\" rx=\"470\" ry=\"89\" fill=\"white\"/>",
+      "blur": 24,
+      "widths": [
+        320,
+        640
+      ],
+      "q": 24
+    },
+    {
+      "name": "cloud-near",
+      "box": [
+        0,
+        455,
+        1030,
+        269
+      ],
+      "shape": "<path d=\"M0 535Q290 464 500 576T1010 622V724H0Z\" fill=\"white\"/>",
+      "blur": 26,
+      "widths": [
+        320,
+        640
+      ],
+      "q": 27
+    },
+    {
+      "name": "wisp",
+      "box": [
+        1370,
+        445,
+        802,
+        279
+      ],
+      "shape": "<path d=\"M1350 615Q1460 505 1570 565T1800 514T2180 520L2180 620Q1960 569 1820 630T1580 660T1350 714Z\" fill=\"white\"/>",
+      "blur": 18,
+      "widths": [
+        256,
+        512
+      ],
+      "q": 23
+    },
+    {
+      "name": "spectral",
+      "box": [
+        520,
+        0,
+        790,
+        415
+      ],
+      "shape": "<path fill=\"white\" d=\"M520 0H1260L1310 344 1170 415 850 299 632 126Z\"/>",
+      "blur": 13,
+      "widths": [
+        240,
+        480
+      ],
+      "q": 20,
+      "light": true
+    },
+    {
+      "name": "amber",
+      "box": [
+        1320,
+        228,
+        213,
+        179
+      ],
+      "shape": "<ellipse cx=\"1426\" cy=\"315\" rx=\"92\" ry=\"79\" fill=\"white\"/>",
+      "blur": 8,
+      "widths": [
+        96,
+        192
+      ],
+      "q": 38,
+      "light": true
+    },
+    {
+      "name": "cyan",
+      "box": [
+        1607,
+        268,
+        62,
+        131
+      ],
+      "shape": "<ellipse cx=\"1638\" cy=\"334\" rx=\"22\" ry=\"57\" fill=\"white\"/>",
+      "blur": 4,
+      "widths": [
+        48,
+        96
+      ],
+      "q": 42,
+      "light": true
+    },
+    {
+      "name": "reflection",
+      "box": [
+        1670,
+        540,
+        502,
+        184
+      ],
+      "shape": "<path fill=\"white\" d=\"M1670 699L2040 540 2172 545V724H1670Z\"/>",
+      "blur": 12,
+      "widths": [
+        192,
+        384
+      ],
+      "q": 18,
+      "light": true
+    },
+    {
+      "name": "brass",
+      "box": [
+        1165,
+        176,
+        650,
+        323
+      ],
+      "shape": "<path fill=\"none\" stroke=\"white\" stroke-width=\"9\" d=\"M1206 327Q1240 196 1349 221M1350 224Q1451 189 1502 267M1343 414L1516 418M1584 240L1610 421M1735 445L1782 471\"/>",
+      "blur": 3,
+      "widths": [
+        192,
+        384
+      ],
+      "q": 24,
+      "light": true
+    }
+  ],
+  "outputs": [
+    {
+      "file": "sky-480.avif",
+      "bytes": 3899
+    },
+    {
+      "file": "sky-480.webp",
+      "bytes": 14480
+    },
+    {
+      "file": "sky-960.avif",
+      "bytes": 12747
+    },
+    {
+      "file": "sky-960.webp",
+      "bytes": 46426
+    },
+    {
+      "file": "foreground-768.avif",
+      "bytes": 23342
+    },
+    {
+      "file": "foreground-768.webp",
+      "bytes": 36724
+    },
+    {
+      "file": "foreground-1440.avif",
+      "bytes": 65098
+    },
+    {
+      "file": "foreground-1440.webp",
+      "bytes": 105560
+    },
+    {
+      "file": "cloud-far-320.avif",
+      "bytes": 1713
+    },
+    {
+      "file": "cloud-far-320.webp",
+      "bytes": 6700
+    },
+    {
+      "file": "cloud-far-640.avif",
+      "bytes": 4366
+    },
+    {
+      "file": "cloud-far-640.webp",
+      "bytes": 19032
+    },
+    {
+      "file": "cloud-near-320.avif",
+      "bytes": 1860
+    },
+    {
+      "file": "cloud-near-320.webp",
+      "bytes": 6596
+    },
+    {
+      "file": "cloud-near-640.avif",
+      "bytes": 4443
+    },
+    {
+      "file": "cloud-near-640.webp",
+      "bytes": 17482
+    },
+    {
+      "file": "wisp-256.avif",
+      "bytes": 1868
+    },
+    {
+      "file": "wisp-256.webp",
+      "bytes": 7282
+    },
+    {
+      "file": "wisp-512.avif",
+      "bytes": 4347
+    },
+    {
+      "file": "wisp-512.webp",
+      "bytes": 21924
+    },
+    {
+      "file": "spectral-240.avif",
+      "bytes": 3654
+    },
+    {
+      "file": "spectral-240.webp",
+      "bytes": 21676
+    },
+    {
+      "file": "spectral-480.avif",
+      "bytes": 11667
+    },
+    {
+      "file": "spectral-480.webp",
+      "bytes": 75618
+    },
+    {
+      "file": "amber-96.avif",
+      "bytes": 2530
+    },
+    {
+      "file": "amber-96.webp",
+      "bytes": 7234
+    },
+    {
+      "file": "amber-192.avif",
+      "bytes": 6627
+    },
+    {
+      "file": "amber-192.webp",
+      "bytes": 24110
+    },
+    {
+      "file": "cyan-48.avif",
+      "bytes": 1839
+    },
+    {
+      "file": "cyan-48.webp",
+      "bytes": 4370
+    },
+    {
+      "file": "cyan-96.avif",
+      "bytes": 3714
+    },
+    {
+      "file": "cyan-96.webp",
+      "bytes": 11578
+    },
+    {
+      "file": "reflection-192.avif",
+      "bytes": 1717
+    },
+    {
+      "file": "reflection-192.webp",
+      "bytes": 7988
+    },
+    {
+      "file": "reflection-384.avif",
+      "bytes": 4810
+    },
+    {
+      "file": "reflection-384.webp",
+      "bytes": 25386
+    },
+    {
+      "file": "brass-192.avif",
+      "bytes": 1631
+    },
+    {
+      "file": "brass-192.webp",
+      "bytes": 2556
+    },
+    {
+      "file": "brass-384.avif",
+      "bytes": 2955
+    },
+    {
+      "file": "brass-384.webp",
+      "bytes": 6800
+    }
+  ],
+  "regenerate": "node scripts/blognostisphere-slide/optimize.mjs"
+}

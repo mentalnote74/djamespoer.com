@@ -1,5 +1,21 @@
 # AI Engineering Handoff
 
+## October 22 — Blognostisphere carousel gateway
+
+Added the approved magic-v2 scene as slide 14, Explore → /blognostisphere, with
+semantic title and no invented tagline. Original focal pixels, registered
+foreground/opening masks, deep sky and nine additional image/effect plates;
+archival PNGs remain outside public assets. CSS-only independent cloud depths,
+arch wisps, staggered stars, glass/spectral light, amber circulation, cyan flow,
+brass and wet-stone response. No carousel architecture or existing-slide changes;
+TCC/D&R remain excluded. Angular keyframe declarations/references stay together.
+Motion suspends for inactive/offscreen/hidden-document/manual pause, reduced
+motion is static (including pseudo-elements), forced colors retains title/link.
+AVIF selection: 120,774 desktop / 44,053 mobile bytes; capped WebP fallbacks.
+Build/budgets and 23 existing carousel tests pass. Focused desktop/390px browser,
+scoped axe, suspension, moving-extreme and local performance evidence retained
+under ignored tmp/evidence/. Source/process/bytes: artwork/blognostisphere-slide/.
+
 ## October 22 — Blognostisphere article 3
 
 Published owner-supplied Like a Big Dumb Bass through the same lazy Article

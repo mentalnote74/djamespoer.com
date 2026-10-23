@@ -12,6 +12,7 @@ import { IpsSlide } from '../ips-slide/ips-slide';
 import { PortfolioSlide } from '../portfolio-slide/portfolio-slide';
 import { DjpSunsetSlide } from '../djp-sunset-slide/djp-sunset-slide';
 import { DjpMoonlightSlide } from '../djp-moonlight-slide/djp-moonlight-slide';
+import { BlognostisphereSlide } from '../blognostisphere-slide/blognostisphere-slide';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
@@ -31,6 +32,7 @@ import { CarouselSlide } from '../carousel/carousel-slide';
     PortfolioSlide,
     DjpSunsetSlide,
     DjpMoonlightSlide,
+    BlognostisphereSlide,
     Aside,
     Thingamajob,
     Carousel,

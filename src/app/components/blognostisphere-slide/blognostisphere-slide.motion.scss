@@ -1,0 +1,162 @@
+// Keep keyframes and their references together for Angular's scoped keyframe rewrite.
+.cloud-far {
+  animation: blog-far 17.3s ease-in-out infinite alternate;
+}
+.cloud-near {
+  animation: blog-near 11.7s ease-in-out -4s infinite alternate;
+}
+.wisp {
+  animation: blog-wisp 9.1s ease-in-out -3s infinite alternate;
+}
+.spectral {
+  animation: blog-spectrum 6.7s ease-in-out -2s infinite alternate;
+}
+.fin-light {
+  animation: blog-fin 5.3s ease-in-out -1s infinite alternate;
+}
+.amber {
+  transform-origin: 50% 50%;
+  animation: blog-amber 4.7s ease-in-out -1.3s infinite alternate;
+}
+.vortex-flow::before {
+  animation: blog-vortex 7.9s linear infinite;
+  animation-play-state: inherit;
+}
+.cyan {
+  animation: blog-cyan 3.7s ease-in-out -2s infinite alternate;
+}
+.resonator-flow {
+  animation: blog-resonate 2.9s linear infinite;
+}
+.reflection {
+  animation: blog-reflect 8.9s ease-in-out -5s infinite alternate;
+}
+.brass {
+  animation: blog-brass 7.1s ease-in-out -1s infinite;
+}
+.star {
+  animation: blog-star 6s ease-in-out infinite;
+}
+.art .world * {
+  animation-play-state: paused;
+}
+.running .art .world * {
+  animation-play-state: running;
+}
+@keyframes blog-far {
+  from {
+    transform: translate(-1.6%, 1%);
+  }
+  to {
+    transform: translate(3%, -2%);
+  }
+}
+@keyframes blog-near {
+  from {
+    transform: translate(2%, 2%) scale(1.04);
+  }
+  to {
+    transform: translate(-3%, -2%) scale(1.04);
+  }
+}
+@keyframes blog-wisp {
+  from {
+    transform: translate(-3%, 1%);
+    opacity: 0.4;
+  }
+  to {
+    transform: translate(4%, -4%);
+    opacity: 0.9;
+  }
+}
+@keyframes blog-spectrum {
+  from {
+    transform: translate(-0.5%, -1%);
+    opacity: 0.2;
+  }
+  to {
+    transform: translate(1.2%, 1%);
+    opacity: 0.9;
+  }
+}
+@keyframes blog-fin {
+  from {
+    background-position: 0% 50%;
+    opacity: 0.35;
+  }
+  to {
+    background-position: 100% 50%;
+    opacity: 0.8;
+  }
+}
+@keyframes blog-amber {
+  from {
+    transform: rotate(-12deg) scale(0.94);
+    opacity: 0.45;
+  }
+  to {
+    transform: rotate(14deg) scale(1.05);
+    opacity: 1;
+  }
+}
+@keyframes blog-vortex {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes blog-cyan {
+  from {
+    transform: translateY(4%);
+    opacity: 0.35;
+  }
+  to {
+    transform: translateY(-4%);
+    opacity: 0.95;
+  }
+}
+@keyframes blog-resonate {
+  to {
+    background-position: 0 -44px;
+  }
+}
+@keyframes blog-reflect {
+  from {
+    transform: translateX(-0.7%);
+    opacity: 0.25;
+  }
+  to {
+    transform: translateX(0.7%);
+    opacity: 0.85;
+  }
+}
+@keyframes blog-brass {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  28% {
+    opacity: 0.85;
+  }
+  55%,
+  79% {
+    opacity: 0.2;
+  }
+}
+@keyframes blog-star {
+  0%,
+  60%,
+  100% {
+    opacity: 0.2;
+    scale: 0.7;
+  }
+  26% {
+    opacity: 0.95;
+    scale: 1.6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .art .world *,
+  .vortex-flow::before {
+    animation: none !important;
+  }
+}
