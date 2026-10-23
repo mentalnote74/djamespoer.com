@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { buildBrief, generate, savePublication } from './generate.mjs';
+import { buildBrief, generate, savePublication, readJiraBrief } from './generate.mjs';
 import { collectGitEvidence, previousPublication } from './evidence.mjs';
 const cwd = fileURLToPath(new URL('../../', import.meta.url));
 const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd, encoding: 'utf8' }).trim();
@@ -162,16 +162,58 @@ async function withPublication(fn) {
   }
 }
 
-test('next-day generation uses PROD previous cutoff; preserves all history/note and freezes same-day retries', async () => {
+// Synthetic Jira transport fixture; never stored as a real journal entry.
+const payload = {
+  author: 'ChatGPT',
+  date: '2026-10-22',
+  sections: [
+    {
+      heading: 'Recently shipped',
+      paragraphs: ['Exact authored wording: a tested outcome, not a generated digest.'],
+    },
+    { heading: 'Next', items: ["Keep the author's words unchanged."] },
+  ],
+};
+const jiraComment = (id = '12345', data = payload) => ({
+  id,
+  created: '2026-10-22T13:00:00.000Z',
+  updated: '2026-10-22T13:00:00.000Z',
+  body: {
+    type: 'doc',
+    version: 1,
+    content: [
+      {
+        type: 'heading',
+        content: [{ type: 'text', text: 'Daily Executive Scrum Brief - 2026-10-22' }],
+      },
+      {
+        type: 'codeBlock',
+        attrs: { language: 'json' },
+        content: [{ type: 'text', text: JSON.stringify(data) }],
+      },
+    ],
+  },
+});
+const jira = (comments = [jiraComment()]) => ({
+  config: { JIRA_EMAIL: 'fixture@example.test', JIRA_API_TOKEN: 'test-only' },
+  fetcher: async (url) => {
+    assert.equal(new URL(url).pathname, '/rest/api/3/issue/SCRUM-57/comment');
+    return Response.json({ comments, total: comments.length });
+  },
+});
+
+test('Jira-authored publication copies exact sections through existing history/snapshot and freezes same-day retries', async () => {
   await withPublication(async ({ journalPath, path }) => {
     const generated = await generate({
       now: new Date('2026-10-22T14:00:00Z'),
       journalPath,
       path,
       publishedJournal: historical,
+      jira: jira(),
     });
     assert.equal(generated.provenance.reportingWindow.after, '2026-10-21T14:01:36.000Z');
-    assert.match(prose(generated), /deployment grid/);
+    assert.deepEqual(generated.sections, payload.sections);
+    assert.match(generated.provenance.sources[0], /SCRUM-57.*12345/);
     const bytes = await readFile(journalPath, 'utf8');
     const next = JSON.parse(bytes);
     assert.deepEqual(next.entries.slice(1), historical.entries);
@@ -206,4 +248,73 @@ test('same-day retry retains Coach-corrected morning copy rather than ingesting 
     assert.deepEqual(brief, historical.entries[0].brief);
     assert.equal(await readFile(journalPath, 'utf8'), before);
   });
+});
+
+test('missing, duplicate or incomplete Jira handoffs leave existing journal and snapshot unchanged', async () => {
+  for (const comments of [
+    [],
+    [jiraComment(), jiraComment('12346')],
+    [jiraComment('12345', { ...payload, sections: [] })],
+  ]) {
+    await withPublication(async ({ journalPath, path }) => {
+      const before = await readFile(journalPath, 'utf8');
+      await assert.rejects(
+        generate({
+          now: new Date('2026-10-22T14:00:00Z'),
+          journalPath,
+          path,
+          publishedJournal: historical,
+          jira: jira(comments),
+        }),
+        /Missing|Ambiguous|Incomplete/,
+      );
+      assert.equal(await readFile(journalPath, 'utf8'), before);
+      assert.equal(await readFile(path, 'utf8'), 'last valid snapshot');
+    });
+  }
+});
+
+test('Jira reader follows pagination without rewriting and fails on provider/configuration errors', async () => {
+  const seen = [];
+  const result = await readJiraBrief({
+    date: payload.date,
+    now: new Date('2026-10-22T14:00:00Z'),
+    ...jira(),
+    fetcher: async (url) => {
+      seen.push(new URL(url).searchParams.get('startAt'));
+      return Response.json({
+        total: 2,
+        comments:
+          seen.length === 1
+            ? [
+                {
+                  body: {
+                    content: [
+                      {
+                        type: 'paragraph',
+                        content: [{ type: 'text', text: 'Not a publication payload.' }],
+                      },
+                    ],
+                  },
+                },
+              ]
+            : [jiraComment()],
+      });
+    },
+  });
+  assert.deepEqual(seen, ['0', '1']);
+  assert.deepEqual(result.sections, payload.sections);
+  await assert.rejects(
+    readJiraBrief({ date: payload.date, now: new Date('2026-10-22T14:00:00Z'), config: {} }),
+    /JIRA_EMAIL/,
+  );
+  await assert.rejects(
+    readJiraBrief({
+      date: payload.date,
+      now: new Date('2026-10-22T14:00:00Z'),
+      ...jira(),
+      fetcher: async () => new Response('', { status: 401 }),
+    }),
+    /HTTP 401/,
+  );
 });

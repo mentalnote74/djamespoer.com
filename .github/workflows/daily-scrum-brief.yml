@@ -36,10 +36,14 @@ jobs:
           cache: npm
       - run: npm ci
         if: steps.clock.outputs.due == 'true'
-      - name: Validate generator and immutable history
+      - name: Validate publication adapter and immutable history
         if: steps.clock.outputs.due == 'true'
         run: node --test scripts/scrum-brief/generate.test.mjs
-      - name: Generate, build, commit content and confirm Cloudflare publication
+      - name: Publish Jira-authored brief, build, commit and confirm Cloudflare publication
         if: steps.clock.outputs.due == 'true'
+        env:
+          JIRA_BASE_URL: https://djamespoer.atlassian.net
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
         run: node scripts/scrum-brief/publish.mjs
 # Editorial history remains available manually. Production Worker Cron owns automatic daily measurement reports.

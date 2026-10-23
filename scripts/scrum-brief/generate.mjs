@@ -157,12 +157,139 @@ export async function savePublication(
   }
   return current;
 }
+// One read-only handoff from SCRUM-57, using the existing brief section shape.
+// ChatGPT authors the text; this adapter only validates and carries it unchanged.
+export async function readJiraBrief({
+  date,
+  now = new Date(),
+  config = process.env,
+  fetcher = fetch,
+} = {}) {
+  if (!isoDate(date) || date !== easternDate(now))
+    throw Error("Jira handoff requires today's Eastern date");
+  const site = 'https://djamespoer.atlassian.net';
+  if (
+    (config.JIRA_BASE_URL && config.JIRA_BASE_URL !== site) ||
+    !config.JIRA_EMAIL ||
+    !config.JIRA_API_TOKEN
+  )
+    throw Error(
+      'Jira handoff unavailable: configure Actions secrets JIRA_EMAIL and JIRA_API_TOKEN',
+    );
+  const comments = [];
+  for (let startAt = 0; ;) {
+    const response = await fetcher(
+      `${site}/rest/api/3/issue/SCRUM-57/comment?startAt=${startAt}&maxResults=100&orderBy=created`,
+      {
+        headers: {
+          Accept: 'application/json',
+          Authorization:
+            'Basic ' +
+            Buffer.from(config.JIRA_EMAIL + ':' + config.JIRA_API_TOKEN).toString('base64'),
+        },
+        redirect: 'error',
+        signal: AbortSignal.timeout(15000),
+      },
+    );
+    if (!response.ok) throw Error('Jira handoff read failed: HTTP ' + response.status);
+    const page = await response.json();
+    if (
+      !Array.isArray(page.comments) ||
+      !Number.isInteger(page.total) ||
+      page.total < 0 ||
+      (page.comments.length === 0 && startAt < page.total)
+    )
+      throw Error('Invalid Jira comment page; no brief published');
+    comments.push(...page.comments);
+    startAt += page.comments.length;
+    if (startAt >= page.total) break;
+  }
+  const nodeText = (node) =>
+    node.type === 'text'
+      ? node.text
+      : node.type === 'hardBreak'
+        ? '\n'
+        : (node.content ?? []).map(nodeText).join('');
+  const titleDate = /^Daily Executive Scrum Brief\s*[-\u2013\u2014:]\s*(\d{4}-\d{2}-\d{2})$/;
+  const matches = comments.filter((comment) => {
+    const first = comment.body?.content?.[0];
+    return first && titleDate.exec(nodeText(first))?.[1] === date;
+  });
+  if (matches.length !== 1)
+    throw Error(
+      `${matches.length ? 'Ambiguous' : 'Missing'} ChatGPT-authored Executive Scrum Brief for ${date} in SCRUM-57; expected one dated publication payload, found ${matches.length}. No brief published.`,
+    );
+  const comment = matches[0];
+  if (
+    !/^\d+$/.test(comment.id) ||
+    !Number.isFinite(Date.parse(comment.created)) ||
+    !Number.isFinite(Date.parse(comment.updated)) ||
+    easternDate(comment.created) !== date ||
+    Date.parse(comment.updated) > new Date(now).getTime()
+  )
+    throw Error('Jira handoff has invalid or non-current authoring timestamps');
+  const blocks = comment.body.content.filter(
+    (node) => node.type === 'codeBlock' && node.attrs?.language === 'json',
+  );
+  if (blocks.length !== 1)
+    throw Error(
+      'Incomplete Jira handoff: expected one JSON publication payload in comment ' + comment.id,
+    );
+  if (Buffer.byteLength(nodeText(blocks[0]), 'utf8') > 65536)
+    throw Error('Jira handoff exceeds the public brief size limit');
+  let payload;
+  try {
+    payload = JSON.parse(nodeText(blocks[0]));
+  } catch {
+    throw Error('Invalid JSON publication payload in SCRUM-57 comment ' + comment.id);
+  }
+  const text = (value) =>
+    typeof value === 'string' &&
+    value.trim().length > 0 &&
+    value.length <= 12000 &&
+    !/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value);
+  if (
+    payload?.author !== 'ChatGPT' ||
+    payload.date !== date ||
+    !Array.isArray(payload.sections) ||
+    payload.sections.length === 0 ||
+    payload.sections.length > 12 ||
+    payload.sections.some(
+      (section) =>
+        !section ||
+        !text(section.heading) ||
+        Object.keys(section).some(
+          (key) => !['heading', 'paragraph', 'paragraphs', 'items'].includes(key),
+        ) ||
+        (section.paragraph !== undefined && !text(section.paragraph)) ||
+        ['paragraphs', 'items'].some(
+          (key) =>
+            section[key] !== undefined &&
+            (!Array.isArray(section[key]) || !section[key].every(text)),
+        ) ||
+        !(section.paragraph || section.paragraphs?.length || section.items?.length),
+    ) ||
+    new Set(payload.sections.map((section) => section.heading)).size !== payload.sections.length
+  )
+    throw Error(
+      'Incomplete/invalid ChatGPT-authored publication payload in SCRUM-57 comment ' + comment.id,
+    );
+  // Do not trim, summarize, interpret Markdown or otherwise rewrite these strings.
+  return {
+    date,
+    sections: payload.sections,
+    commentId: comment.id,
+    authoredAt: comment.updated,
+    source: `${site}/browse/SCRUM-57?focusedCommentId=${comment.id}`,
+  };
+}
 export async function generate({
   date,
   now = new Date(),
   path = destination,
   journalPath = journalDestination,
   publishedJournal,
+  jira = {},
 } = {}) {
   const day = date ?? easternDate(now);
   if (!isoDate(day) || day !== easternDate(now))
@@ -179,12 +306,24 @@ export async function generate({
   const previous = previousPublication(publishedJournal, day);
   if (!previous) throw Error('No confirmed prior publication cutoff; last valid brief retained');
   const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim();
-  const notes = JSON.parse(
-    await readFile(resolve(root, 'scripts/scrum-brief/status.json'), 'utf8'),
-  );
-  const cutoff = new Date(now).toISOString();
-  const events = collectGitEvidence({ cwd: root, head, after: previous.cutoff, cutoff });
-  const brief = buildBrief(events, { date: day, head, after: previous.cutoff, cutoff, notes });
+  const authored = await readJiraBrief({ ...jira, date: day, now });
+  if (Date.parse(authored.authoredAt) <= Date.parse(previous.cutoff))
+    throw Error('Jira authoring cutoff does not follow the previous published brief');
+  const brief = {
+    date: day,
+    sections: authored.sections,
+    provenance: {
+      sourceCommit: head,
+      generatorCommit: head,
+      evidenceSha256: createHash('sha256')
+        .update(JSON.stringify({ date: day, sections: authored.sections }))
+        .digest('hex'),
+      method:
+        'ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.',
+      reportingWindow: { after: previous.cutoff, cutoff: authored.authoredAt },
+      sources: [authored.source],
+    },
+  };
   return savePublication(brief, { snapshotPath: path, journalPath });
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -197,7 +336,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const brief = await generate({ publishedJournal: await response.json() });
     console.log('Validated public brief checkpoint: ' + brief.date);
   } catch (error) {
-    console.error('Brief generation failed; last valid snapshot retained. ' + error.message);
+    console.error('Brief publication input failed; last valid snapshot retained. ' + error.message);
     process.exitCode = 1;
   }
 }

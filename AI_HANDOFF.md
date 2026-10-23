@@ -1,5 +1,24 @@
 # AI Engineering Handoff
 
+## October 23 - SCRUM-57 Jira-authored 9 AM -> 10 AM handoff
+
+Implemented comment 10136 and retained Oct 19 editorial ownership (comment 10091).
+The existing publisher's generate() now reads one current-day ChatGPT-authored
+SCRUM-57 JSON comment payload into the existing sections/provenance shape; no
+narrative generation or digest fallback. Exact first heading/payload contract:
+scripts/scrum-brief/README.md. Author at 9 AM Eastern; existing Worker/Actions
+publication at 10 AM. No new scheduler, report store, publisher or deployment path.
+Same-day freeze/upsert, prior PROD checks, atomic writes, build/content-only commit,
+Cloudflare read-back and manual recovery are retained. Today's published history
+is not rewritten. Missing/ambiguous/incomplete/provider input fails before writes.
+12 focused Node integration/history checks and production build/budgets pass.
+Live Actions Jira read is NOT verified: JIRA_EMAIL/JIRA_API_TOKEN repository secret
+presence/access remains unknown (owner confirmed unknown). No credential values
+were read or changed; no signed-in browser surface was available. Confirm/configure
+those two Actions secrets and tomorrow's one authored payload before claiming
+end-to-end readiness. No mistaken earlier 9->10 code found to revert. Saved local
+queue at 88543bb remains separate on work/local-queue-20261023; no queue work included.
+
 ## October 23 ? Surgical homepage LCP discovery correction
 
 Owner chose the prerendered Conservatory opener over request-time random selection.
