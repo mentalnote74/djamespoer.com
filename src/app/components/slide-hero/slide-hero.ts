@@ -1,12 +1,10 @@
 import { Component, input, linkedSignal } from '@angular/core';
 import { chooseSlide, destinationSlides } from '../../content/portfolio-slides';
 import { SlideVisual } from '../slide-visual/slide-visual';
-import { TccPigSlide } from '../tcc-pig-slide/tcc-pig-slide';
-import { SlideVisualReady } from '../slide-visual/slide-visual-ready';
 
 @Component({
   selector: 'app-slide-hero',
-  imports: [SlideVisual, TccPigSlide, SlideVisualReady],
+  imports: [SlideVisual],
   templateUrl: './slide-hero.html',
   styleUrl: './slide-hero.scss',
 })

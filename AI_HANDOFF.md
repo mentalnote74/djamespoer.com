@@ -1,27 +1,5 @@
 # AI Engineering Handoff
 
-## Direct TCC hero eager preparation — local review only
-
-Follow-up to e406a5c1. `SlideHero` directly mounts the existing pig for TCC,
-bypassing its extra deferred artwork boundary. Carousel branch remains deferred;
-assets/priorities, atomic decode/reveal, complete fallback and motion are unchanged.
-Extended the existing keyboard-only pause selector to preserve it outside the
-slide-renderer wrapper. Build/budgets/48-route prerender and 35 focused tests pass.
-
-Matched cold/150ms/1.638Mbps/CPU4x comparisons: final desktop readiness checks
-3670→3325 / 3845→3731ms; LCP 3848→3520 / 4016→3912ms. Mobile readiness starts
-~0.8s earlier, but preview LCP varies and is not detail readiness. Final frames
-show no partial faces/holes; keyboard pause, reduced/forced colors and scoped
-axe pass at both widths. Cold Home still requests no pig art/code before Next,
-then the same five selected image assets/bytes.
-
-Remaining Angular bootstrap/initial-render delay is material; no broader fix
-attempted. Bundle tradeoff: static import in shared SlideHero also makes its
-other route consumers load the ~14.17kB pig chunk; deferred carousel gains a
-204B re-export entry on arrival. Retained for local review, not production.
-See [comparison and filmstrips](docs/evidence/pig-eager-hero/README.md).
-No push/deploy; atlas and unrelated workspace work remain isolated.
-
 ## Pig loading — local separate-assets review checkpoint
 
 No push/deploy. Branch `fix/pig-seamless-loading`, based on `2842cd73`.
