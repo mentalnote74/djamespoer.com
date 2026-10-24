@@ -1,4 +1,17 @@
-<div class="dyno" [class.dyno--running]="active() && pageVisible() && !motionPaused()">
+<div
+  class="dyno slide-surface"
+  [class.dyno--running]="active() && pageVisible() && !motionPaused()"
+>
+  @if (!hero()) {
+    <a
+      class="slide-destination"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      routerLink="/buildometer"
+      aria-label="Explore Buildometer"
+    ></a>
+  }
   <app-slide-image layer="buildometer/dyno" [priority]="hero()" aria-hidden="true" />
   @if (enhanced()) {
     <!-- Registered physical instruments, not project metric readings. The car,
@@ -50,25 +63,17 @@
       <circle class="lamp" cx="1895" cy="43" r="3" fill="#edb870" />
     </svg>
   }
-  <div class="dyno__copy">
+  <div class="dyno__copy slide-surface__copy">
     @if (!hero()) {
       <h2>Buildometer</h2>
       <p>Know exactly what you are doing.</p>
     }
     <div class="dyno__actions">
       @if (!hero()) {
-        <a
-          class="scene-action"
-          publicTrack
-          trackLocation="carousel"
-          trackSource="carousel"
-          routerLink="/buildometer"
-          aria-label="Explore Buildometer"
-          >Explore</a
-        >
+        <span class="slide-explore" aria-hidden="true">Explore</span>
       }
       <button
-        class="scene-action motion-control"
+        class="scene-action motion-control slide-motion-control"
         type="button"
         (click)="motionPaused.set(!motionPaused())"
         [attr.aria-label]="

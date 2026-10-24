@@ -1,4 +1,17 @@
-<div class="interlock" [class.interlock--running]="active() && pageVisible() && !motionPaused()">
+<div
+  class="interlock slide-surface"
+  [class.interlock--running]="active() && pageVisible() && !motionPaused()"
+>
+  @if (!hero()) {
+    <a
+      class="slide-destination"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      routerLink="/case-studies/ips"
+      aria-label="Explore IPS / PowerSchool case study"
+    ></a>
+  }
   <app-slide-image class="room" layer="ips/room" aria-hidden="true" />
   <app-slide-image class="hardware" layer="ips/interlock" [priority]="hero()" aria-hidden="true" />
   @if (enhanced()) {
@@ -102,25 +115,17 @@
       <path class="reflection" d="M1040 299H1550M1663 132H1965" stroke-width="4" />
     </svg>
   }
-  <div class="interlock__copy">
+  <div class="interlock__copy slide-surface__copy">
     @if (!hero()) {
       <h2>IPS / PowerSchool</h2>
       <p>Put the rules where the work happens.</p>
     }
     <div class="interlock__actions">
       @if (!hero()) {
-        <a
-          class="scene-action"
-          publicTrack
-          trackLocation="carousel"
-          trackSource="carousel"
-          routerLink="/case-studies/ips"
-          aria-label="Explore IPS / PowerSchool case study"
-          >Explore</a
-        >
+        <span class="slide-explore" aria-hidden="true">Explore</span>
       }
       <button
-        class="scene-action motion-control"
+        class="scene-action motion-control slide-motion-control"
         type="button"
         (click)="motionPaused.set(!motionPaused())"
         [attr.aria-label]="

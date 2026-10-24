@@ -1,9 +1,19 @@
 <section
-  class="pig-scene"
+  class="pig-scene slide-surface"
   [class.eligible]="eligible()"
   [class.paused]="motionPaused()"
   aria-label="TCC UX philosophy"
 >
+  @if (!hero()) {
+    <a
+      class="slide-destination"
+      routerLink="/case-studies/tcc"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      aria-label="Explore the TCC case study"
+    ></a>
+  }
   <div class="art" aria-hidden="true">
     @for (layer of layers; track layer.name) {
       <app-slide-image
@@ -14,24 +24,16 @@
       />
     }
   </div>
-  <div class="copy">
+  <div class="copy slide-surface__copy">
     @if (!hero()) {
       <h2>Like the status quo? Then pucker up.</h2>
     }
     <div class="actions">
       @if (!hero()) {
-        <a
-          class="action"
-          routerLink="/case-studies/tcc"
-          publicTrack
-          trackLocation="carousel"
-          trackSource="carousel"
-          aria-label="Explore the TCC case study"
-          >Explore</a
-        >
+        <span class="slide-explore" aria-hidden="true">Explore</span>
       }
       <button
-        class="action motion-control"
+        class="action motion-control slide-motion-control"
         type="button"
         (click)="toggleMotion()"
         [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"

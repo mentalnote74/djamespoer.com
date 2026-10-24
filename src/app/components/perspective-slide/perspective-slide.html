@@ -1,4 +1,15 @@
-<div class="artwork-slide">
+<div class="artwork-slide slide-surface">
+  @if (showExplore()) {
+    <a
+      class="slide-destination"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      [trackSlide]="kind()"
+      [routerLink]="copy().route"
+      [attr.aria-label]="'Explore ' + copy().title"
+    ></a>
+  }
   <picture aria-hidden="true">
     @if (homepageOptimized()) {
       <source
@@ -32,7 +43,7 @@
   @defer (when magicReady()) {
     <app-perspective-magic [kind]="kind()" [source]="artworkSource()" [paused]="motionPaused()" />
   }
-  <div class="slide-copy">
+  <div class="slide-copy slide-surface__copy">
     @if (pageHeading()) {
       <h1>{{ copy().title }}</h1>
     } @else {
@@ -40,22 +51,14 @@
     }
     <p>{{ copy().line }}</p>
     @if (showExplore()) {
-      <a
-        publicTrack
-        trackLocation="carousel"
-        trackSource="carousel"
-        [trackSlide]="kind()"
-        [routerLink]="copy().route"
-        [attr.aria-label]="'Explore ' + copy().title"
-        >Explore</a
-      >
+      <span class="slide-explore" aria-hidden="true">Explore</span>
     }
   </div>
 </div>
 
 @if (pageHeading()) {
   <button
-    class="artwork-motion"
+    class="artwork-motion slide-motion-control"
     type="button"
     (click)="motionPaused.set(!motionPaused())"
     [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"

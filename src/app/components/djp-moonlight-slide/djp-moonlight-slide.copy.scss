@@ -22,7 +22,7 @@
 .djp-beach .actions {
   display: flex;
   gap: 0.5rem;
-  pointer-events: auto;
+  pointer-events: none;
 }
 .djp-beach .action {
   display: inline-flex;

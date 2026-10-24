@@ -1,4 +1,6 @@
 import { Component, input, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { PublicTrack } from '../../services/public-track';
 import { SlideVisualReady } from './slide-visual-ready';
 import type { PortfolioSlideDefinition } from '../../content/portfolio-slides';
 import { PerspectiveSlide } from '../perspective-slide/perspective-slide';
@@ -14,6 +16,8 @@ import { TccPigSlide } from '../tcc-pig-slide/tcc-pig-slide';
 @Component({
   selector: 'app-slide-visual',
   imports: [
+    RouterLink,
+    PublicTrack,
     SlideVisualReady,
     PerspectiveSlide,
     ThingamajobSlide,

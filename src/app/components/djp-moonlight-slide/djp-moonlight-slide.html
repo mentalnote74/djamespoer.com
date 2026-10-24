@@ -1,8 +1,18 @@
 <section
-  class="djp-beach moonlight"
+  class="djp-beach moonlight slide-surface"
   [class.running]="running()"
   aria-label="djamespoer.com — Moonlit beach"
 >
+  @if (!hero()) {
+    <a
+      class="slide-destination"
+      routerLink="/work/djamespoer"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      aria-label="Explore djamespoer.com"
+    ></a>
+  }
   <div class="art" aria-hidden="true">
     <div class="world">
       <app-slide-image
@@ -53,25 +63,17 @@
       />
     </div>
   </div>
-  <div class="copy">
+  <div class="copy slide-surface__copy">
     @if (!hero()) {
       <h2>djamespoer.com</h2>
       <p>The portfolio is the proof.</p>
     }
     <div class="actions">
       @if (!hero()) {
-        <a
-          class="action"
-          routerLink="/work/djamespoer"
-          publicTrack
-          trackLocation="carousel"
-          trackSource="carousel"
-          aria-label="Explore djamespoer.com"
-          >Explore</a
-        >
+        <span class="slide-explore" aria-hidden="true">Explore</span>
       }
       <button
-        class="action motion-control"
+        class="action motion-control slide-motion-control"
         type="button"
         (click)="toggleMotion()"
         [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"

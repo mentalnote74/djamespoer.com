@@ -1,4 +1,18 @@
-<section class="blognostisphere-scene" [class.running]="running()" aria-label="Blognostisphere">
+<section
+  class="blognostisphere-scene slide-surface"
+  [class.running]="running()"
+  aria-label="Blognostisphere"
+>
+  @if (!hero()) {
+    <a
+      class="slide-destination"
+      routerLink="/blognostisphere"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      aria-label="Explore Blognostisphere"
+    ></a>
+  }
   <div class="art" aria-hidden="true">
     <div class="world">
       @for (layer of layers; track layer.name) {
@@ -30,24 +44,16 @@
       }
     </div>
   </div>
-  <div class="copy">
+  <div class="copy slide-surface__copy">
     @if (!hero()) {
       <h2>Blognostisphere</h2>
     }
     <div class="actions">
       @if (!hero()) {
-        <a
-          class="action"
-          routerLink="/blognostisphere"
-          publicTrack
-          trackLocation="carousel"
-          trackSource="carousel"
-          aria-label="Explore Blognostisphere"
-          >Explore</a
-        >
+        <span class="slide-explore" aria-hidden="true">Explore</span>
       }
       <button
-        class="action motion-control"
+        class="action motion-control slide-motion-control"
         type="button"
         (click)="toggleMotion()"
         [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"

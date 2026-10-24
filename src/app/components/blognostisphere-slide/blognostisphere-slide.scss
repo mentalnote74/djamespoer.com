@@ -145,7 +145,7 @@ h2 {
 .actions {
   display: flex;
   gap: 0.5rem;
-  pointer-events: auto;
+  pointer-events: none;
 }
 .action {
   display: inline-flex;

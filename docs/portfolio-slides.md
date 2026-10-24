@@ -11,6 +11,22 @@ slides, thirteen destinations. The approved artwork/assets and Magic are reused.
 One new owner-authorized TCC piglet is included; rejected old TCC artwork and
 Dreyer & Reinbold stay excluded.
 
+All carousel scenes now have one native full-surface Explore link with a
+destination-specific accessible name. The visible Explore treatment is shared
+through `src/styles/components/_slide-actions.scss` and existing theme control
+tokens; its decorative label does not create a second link or tab stop. Copy and
+art pass pointer input to the real link. Artwork pause buttons remain separate
+native controls in the keyboard/assistive-technology order, visually hidden until
+keyboard focus and revealed with a visible focus treatment. Carousel rotation
+controls remain visible. Existing motion preferences, pause handlers, routes,
+fragments and tracking are preserved; destination heroes have no self-link.
+
+Verification: 30 focused carousel/hero tests, production build/style budgets,
+all 15 slides at 1440/390px (270 full-surface hit checks), identical Explore
+styling, keyboard focus/pause/resume, native click/tap navigation, no overflow or
+application errors and zero scoped axe violations. Shared presentation is emitted
+once; no JavaScript click-routing layer or animation dependency was added.
+
 | Slide ID | Destination | Hero |
 | --- | --- | --- |
 | djp-conservatory | /work/djamespoer | Random djp variant |
@@ -20,7 +36,7 @@ Dreyer & Reinbold stay excluded.
 | ux | /ux-product | Existing canonical perspective |
 | accessibility | /accessibility | Existing canonical perspective |
 | ai | /ai | Existing canonical perspective |
-| creative | /creative | Existing canonical artwork; no new carousel CTA |
+| creative | /creative | Existing canonical artwork with shared Explore |
 | impact | /impact | Existing canonical perspective |
 | thingamajob | /thingamajob | Existing Thingamajob composition |
 | exl | /case-studies/exl | Reused EXL LifePRO component |

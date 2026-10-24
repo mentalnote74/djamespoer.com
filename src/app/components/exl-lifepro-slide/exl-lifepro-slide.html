@@ -1,4 +1,17 @@
-<div class="retrofit" [class.retrofit--running]="active() && pageVisible() && !motionPaused()">
+<div
+  class="retrofit slide-surface"
+  [class.retrofit--running]="active() && pageVisible() && !motionPaused()"
+>
+  @if (!hero()) {
+    <a
+      class="slide-destination"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      routerLink="/case-studies/exl"
+      aria-label="Explore EXL LifePRO case study"
+    ></a>
+  }
   <app-slide-image
     class="infrastructure"
     layer="exl/infrastructure"
@@ -37,25 +50,17 @@
       <path class="bay-reflection" d="M1105 190L1530 183V403L1110 414Z" />
     </svg>
   }
-  <div class="retrofit__copy">
+  <div class="retrofit__copy slide-surface__copy">
     @if (!hero()) {
       <h2>EXL LifePRO</h2>
       <p>Fix the right layer.</p>
     }
     <div class="retrofit__actions">
       @if (!hero()) {
-        <a
-          class="scene-action"
-          publicTrack
-          trackLocation="carousel"
-          trackSource="carousel"
-          routerLink="/case-studies/exl"
-          aria-label="Explore EXL LifePRO case study"
-          >Explore</a
-        >
+        <span class="slide-explore" aria-hidden="true">Explore</span>
       }
       <button
-        class="scene-action motion-control"
+        class="scene-action motion-control slide-motion-control"
         type="button"
         (click)="motionPaused.set(!motionPaused())"
         [attr.aria-label]="

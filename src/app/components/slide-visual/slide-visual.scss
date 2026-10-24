@@ -2,6 +2,14 @@
   display: block;
   inline-size: 100%;
 }
+.creative-slide {
+  position: relative;
+  .slide-explore {
+    position: absolute;
+    inset: auto auto 0.75rem 0.75rem;
+    z-index: 6;
+  }
+}
 picture,
 img {
   display: block;

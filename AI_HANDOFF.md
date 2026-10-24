@@ -1,5 +1,19 @@
 # AI Engineering Handoff
 
+## Shared slide Explore and keyboard-revealed artwork pause
+
+Every carousel scene now has one native full-surface destination link and the
+same theme-token Explore treatment, including Creative Town's existing mural.
+Artwork pause buttons remain in keyboard/AT order and reveal on keyboard focus;
+they are separate from links and retain their handlers. Rotation controls stay
+visible. Destinations/fragments/tracking, hero suppression, artwork, pig timing,
+motion preferences and carousel order/autoplay are preserved. Shared CSS is
+emitted once in src/styles/components/_slide-actions.scss, with no click-routing
+controller. Thirty focused carousel/hero tests and production/style budgets pass.
+Built browser checks cover all 15 slides at desktop/390px: native surface targets,
+consistent Explore, keyboard pause/reveal, click/tap navigation and scoped axe
+(zero), without overflow/application errors. See docs/portfolio-slides.md.
+
 ## October 23 — two pig expressions per carousel dwell
 
 TCC pig artwork now repeats its existing wink/kiss sequence every four seconds,

@@ -1,4 +1,18 @@
-<div class="apparatus" [class.apparatus--running]="active() && pageVisible() && !motionPaused()">
+<div
+  class="apparatus slide-surface"
+  [class.apparatus--running]="active() && pageVisible() && !motionPaused()"
+>
+  @if (showExplore()) {
+    <a
+      class="slide-destination"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      [routerLink]="destination.route"
+      [fragment]="destination.fragment"
+      aria-label="Explore Thingamajob case study"
+    ></a>
+  }
   <app-slide-image layer="thingamajob/apparatus" aria-hidden="true" [priority]="pageHeading()" />
 
   <!-- Original-art coordinates. Separate apertures retain their own occlusion,
@@ -45,7 +59,7 @@
     </svg>
   }
 
-  <div class="apparatus__copy">
+  <div class="apparatus__copy slide-surface__copy">
     @if (pageHeading()) {
       <h1 class="apparatus__title">Thingamajob</h1>
     } @else {
@@ -53,21 +67,13 @@
     }
     <p>Truth before tailoring.</p>
     @if (showExplore()) {
-      <a
-        publicTrack
-        trackLocation="carousel"
-        trackSource="carousel"
-        [routerLink]="destination.route"
-        [fragment]="destination.fragment"
-        aria-label="Explore Thingamajob case study"
-        >Explore</a
-      >
+      <span class="slide-explore" aria-hidden="true">Explore</span>
     }
   </div>
 </div>
 @if (pageHeading()) {
   <button
-    class="artwork-motion"
+    class="artwork-motion slide-motion-control"
     type="button"
     (click)="motionPaused.set(!motionPaused())"
     [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"
