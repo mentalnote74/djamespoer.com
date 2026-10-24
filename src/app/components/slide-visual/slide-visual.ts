@@ -13,6 +13,7 @@ import { DjpSunsetSlide } from '../djp-sunset-slide/djp-sunset-slide';
 import { DjpMoonlightSlide } from '../djp-moonlight-slide/djp-moonlight-slide';
 import { BlognostisphereSlide } from '../blognostisphere-slide/blognostisphere-slide';
 import { TccPigSlide } from '../tcc-pig-slide/tcc-pig-slide';
+import { BigDumbBassSlide } from '../big-dumb-bass-slide/big-dumb-bass-slide';
 @Component({
   selector: 'app-slide-visual',
   imports: [
@@ -29,6 +30,7 @@ import { TccPigSlide } from '../tcc-pig-slide/tcc-pig-slide';
     DjpMoonlightSlide,
     BlognostisphereSlide,
     TccPigSlide,
+    BigDumbBassSlide,
   ],
   templateUrl: './slide-visual.html',
   styleUrl: './slide-visual.scss',

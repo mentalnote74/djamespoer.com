@@ -1,0 +1,326 @@
+{
+  "canvas": {
+    "width": 2172,
+    "height": 724,
+    "aspectRatio": "3:1"
+  },
+  "status": "prepared design handoff; not deployed; generated layer reconstruction is not pixel-identical extraction",
+  "layers": [
+    {
+      "id": "approved-concept",
+      "z": -1,
+      "master": "masters/approved-concept.png",
+      "alphaBounds": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "registeredCanvas": true
+    },
+    {
+      "id": "pond",
+      "z": 0,
+      "master": "masters/pond.png",
+      "alphaBounds": [
+        0,
+        0,
+        2172,
+        724
+      ],
+      "registeredCanvas": true
+    },
+    {
+      "id": "bass",
+      "z": 10,
+      "master": "masters/bass.png",
+      "alphaBounds": [
+        140,
+        0,
+        2172,
+        724
+      ],
+      "registeredCanvas": true
+    },
+    {
+      "id": "lure",
+      "z": 30,
+      "master": "masters/lure.png",
+      "alphaBounds": [
+        0,
+        0,
+        2003,
+        724
+      ],
+      "registeredCanvas": true
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/approved-concept-768.webp",
+      "bytes": 44422,
+      "width": 768,
+      "height": 256,
+      "sha256": "ca4423ac78aaa3b4ed896850bbfabda57a970c692f5b11829eb14e0ab0848949"
+    },
+    {
+      "path": "assets/approved-concept-768.avif",
+      "bytes": 35344,
+      "width": 768,
+      "height": 256,
+      "sha256": "527b21a2336eb3ab14fc8a8043f2e2aeb333a07efc2a5bd82248e43c10f8eb59"
+    },
+    {
+      "path": "assets/approved-concept-1440.webp",
+      "bytes": 115286,
+      "width": 1440,
+      "height": 480,
+      "sha256": "2d3be240df348443636301ffcece392ca20c0e1fa324b39b51571075b4f15445"
+    },
+    {
+      "path": "assets/approved-concept-1440.avif",
+      "bytes": 90715,
+      "width": 1440,
+      "height": 480,
+      "sha256": "2aa63d09c523e372ff5b457d101b3d600544f48690d25e825fd82e40d5e8b163"
+    },
+    {
+      "path": "assets/approved-concept-2172.webp",
+      "bytes": 199930,
+      "width": 2172,
+      "height": 724,
+      "sha256": "09d944b101b788a56ad95a58540545a6983d7defa48c0d116f489811e63c9234"
+    },
+    {
+      "path": "assets/approved-concept-2172.avif",
+      "bytes": 160648,
+      "width": 2172,
+      "height": 724,
+      "sha256": "c6bde665f4637089c50a93a8af05f65a4105e0ec34a892b7843fe0ad04e7c216"
+    },
+    {
+      "path": "assets/pond-768.webp",
+      "bytes": 27558,
+      "width": 768,
+      "height": 256,
+      "sha256": "7cbbb622fcd1b1e3099922681b53fa93e16aef345a03273be4e837526a61c541"
+    },
+    {
+      "path": "assets/pond-768.avif",
+      "bytes": 24153,
+      "width": 768,
+      "height": 256,
+      "sha256": "ef0f2b66d614e78a828e06894cd02f97b62c35ca2370f93f482471f282382983"
+    },
+    {
+      "path": "assets/pond-1440.webp",
+      "bytes": 65776,
+      "width": 1440,
+      "height": 480,
+      "sha256": "90ccf61285cd4193e619d46ad65919143ee93b9c40ba2597cfe9ad5007008a62"
+    },
+    {
+      "path": "assets/pond-1440.avif",
+      "bytes": 59611,
+      "width": 1440,
+      "height": 480,
+      "sha256": "4e07d5de7300d3325fb0ea2233bfcf17a8c4533160405227dbedc42f75aae653"
+    },
+    {
+      "path": "assets/pond-2172.webp",
+      "bytes": 110498,
+      "width": 2172,
+      "height": 724,
+      "sha256": "d194dc8e9121edcae204e4a193bf67e5d8e3dbb8b24317df1a67d99b999c9e82"
+    },
+    {
+      "path": "assets/pond-2172.avif",
+      "bytes": 102274,
+      "width": 2172,
+      "height": 724,
+      "sha256": "dea88f748e9bef2ad23c599a981fae0bd3f9a46e8b13d5f12d4f91e4328f6949"
+    },
+    {
+      "path": "assets/bass-768.webp",
+      "bytes": 20862,
+      "width": 768,
+      "height": 256,
+      "sha256": "72de6f784b4ccd63ed852ea28e31d87a6f449a0a942f10d5cc1b41a80f955bcd"
+    },
+    {
+      "path": "assets/bass-768.avif",
+      "bytes": 14797,
+      "width": 768,
+      "height": 256,
+      "sha256": "4335436b93f2b41dc8cb0d35f2a29f85623cb0ac7b927ff891959a7b65d8f81f"
+    },
+    {
+      "path": "assets/bass-1440.webp",
+      "bytes": 53246,
+      "width": 1440,
+      "height": 480,
+      "sha256": "51620949d4064839bbe9a736d86a0d75dbf38cbc8236194b7eab3e9a9b4a36fe"
+    },
+    {
+      "path": "assets/bass-1440.avif",
+      "bytes": 37697,
+      "width": 1440,
+      "height": 480,
+      "sha256": "dea489f74ae2778f982b8645690e9509582d384f649618f21bd3793bf1df6b63"
+    },
+    {
+      "path": "assets/bass-2172.webp",
+      "bytes": 93386,
+      "width": 2172,
+      "height": 724,
+      "sha256": "f1810ba0834172c238db333c6b0665160a528f11508ebeb7d1024c1c92b647a9"
+    },
+    {
+      "path": "assets/bass-2172.avif",
+      "bytes": 64561,
+      "width": 2172,
+      "height": 724,
+      "sha256": "07b46729dbd5d58e2134fee5d1d4e29590856c8669fc2ecd8052f750a8f6a49b"
+    },
+    {
+      "path": "assets/lure-768.webp",
+      "bytes": 59850,
+      "width": 768,
+      "height": 256,
+      "sha256": "6798897f2554d88677b827825ae6b6dc07b9f4fd1aa4785385c874a5c5cf0716"
+    },
+    {
+      "path": "assets/lure-768.avif",
+      "bytes": 37840,
+      "width": 768,
+      "height": 256,
+      "sha256": "f837ae30a92639a6f565b9f6367ef8e38722b508cba1e49716a056245a9d18a9"
+    },
+    {
+      "path": "assets/lure-1440.webp",
+      "bytes": 173638,
+      "width": 1440,
+      "height": 480,
+      "sha256": "e3d4b6e373ca059268d49a81f7c3a6c8dd592c13d2dda46bb888225274e98fe1"
+    },
+    {
+      "path": "assets/lure-1440.avif",
+      "bytes": 102299,
+      "width": 1440,
+      "height": 480,
+      "sha256": "ab8de46f035c321bd46c6611d0637cce10c6469573c8f6a74da05cc7ebd71e3f"
+    },
+    {
+      "path": "assets/lure-2172.webp",
+      "bytes": 333638,
+      "width": 2172,
+      "height": 724,
+      "sha256": "65dc683bbbe24b5d8db1f816f5bf036936ea945b185c5c94cffb68269c919114"
+    },
+    {
+      "path": "assets/lure-2172.avif",
+      "bytes": 181132,
+      "width": 2172,
+      "height": 724,
+      "sha256": "45d79dd57372a9a0343ecb9c38fa102de1f1cd4e9f2c1e9c15910f1bdffb5201"
+    },
+    {
+      "path": "assets/fallback-768.webp",
+      "bytes": 54652,
+      "width": 768,
+      "height": 256,
+      "sha256": "b48a84127e14915a2ae13e0e2e1f9893f580ca2a765be06e4c1349e2579193f2"
+    },
+    {
+      "path": "assets/fallback-768.avif",
+      "bytes": 42501,
+      "width": 768,
+      "height": 256,
+      "sha256": "462ca0a331bb9abe9a0aafd84a8fe9d1bfa45248fbb25bb1cfb6fd08969c48fd"
+    },
+    {
+      "path": "assets/fallback-1440.webp",
+      "bytes": 145002,
+      "width": 1440,
+      "height": 480,
+      "sha256": "64066b2bb163c85ca7851e2e1de0eb03cf6bcadce6749d267b32157d081e4e3e"
+    },
+    {
+      "path": "assets/fallback-1440.avif",
+      "bytes": 113296,
+      "width": 1440,
+      "height": 480,
+      "sha256": "0b822c26ed37b727e08a8882721d2a1a4874c37a94e0d8c836621a5a93a77d8d"
+    },
+    {
+      "path": "assets/fallback-2172.webp",
+      "bytes": 257938,
+      "width": 2172,
+      "height": 724,
+      "sha256": "8017b80aa597cb377cba90082742e95c1cdabf7ccac4d4c6be1d4c5edd2d695e"
+    },
+    {
+      "path": "assets/fallback-2172.avif",
+      "bytes": 196135,
+      "width": 2172,
+      "height": 724,
+      "sha256": "7534242c8e3eed84a8526e37d8cd5ca87b547280ac49c2fa5d0bf3aed9cb3e37"
+    },
+    {
+      "path": "assets/opening-768.webp",
+      "bytes": 50232,
+      "width": 768,
+      "height": 256,
+      "sha256": "a312c05f3852c820a3888e87a1f51bdf5bfcd4bcb377a66e4f48a8cde90c7802"
+    },
+    {
+      "path": "assets/opening-768.avif",
+      "bytes": 39794,
+      "width": 768,
+      "height": 256,
+      "sha256": "b3d82457b50bb987f6841f4eadf939b628c0eb3b4fff18c98f6e5f8ce0b96e85"
+    },
+    {
+      "path": "assets/opening-1440.webp",
+      "bytes": 131202,
+      "width": 1440,
+      "height": 480,
+      "sha256": "c8aed871897ef41c483a121041608b11fd41cec8b54e5217c77352e05a48c528"
+    },
+    {
+      "path": "assets/opening-1440.avif",
+      "bytes": 103473,
+      "width": 1440,
+      "height": 480,
+      "sha256": "5334bbe099f318885e27a180e1456596bf0178298cb077a660e8c129bb3de1c6"
+    },
+    {
+      "path": "assets/opening-2172.webp",
+      "bytes": 230786,
+      "width": 2172,
+      "height": 724,
+      "sha256": "065cabb7e9223ec1208494b596f128509da2886bfe80d18eed5aacd3a7aa899b"
+    },
+    {
+      "path": "assets/opening-2172.avif",
+      "bytes": 177883,
+      "width": 2172,
+      "height": 724,
+      "sha256": "aad41cfd821212e33329974d03d880b91b303390aff9604356a6237caa398f59"
+    }
+  ],
+  "openingPoster": "assets/opening-{width}.{avif|webp}",
+  "reducedMotionStill": "assets/fallback-{width}.{avif|webp}",
+  "motion": {
+    "bass": {
+      "initialOpacity": 0,
+      "delaySeconds": 2,
+      "fadeSeconds": 5.5,
+      "finalOpacity": 1,
+      "brightness": 0.62,
+      "repeat": "once per actual visit"
+    },
+    "pause": "freeze all animation clocks",
+    "reducedMotion": "static final composition"
+  }
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "width": 1440,
+    "start": "0",
+    "end": "1",
+    "reduced": {
+      "opacity": "1",
+      "animation": "none"
+    },
+    "overflow": false,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "start": "0",
+    "end": "1",
+    "reduced": {
+      "opacity": "1",
+      "animation": "none"
+    },
+    "overflow": false,
+    "errors": []
+  }
+]

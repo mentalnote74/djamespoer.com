@@ -1,0 +1,89 @@
+// Keep names and references together for Angular's keyframe scoping.
+// Persistent depth wrappers keep clocks across responsive image replacement.
+.started {
+  .bass {
+    animation: bass-approach 5.5s ease-in-out 2s both;
+  }
+  .lure-halo {
+    animation: lure-breath 6.8s ease-in-out infinite;
+  }
+  .pond-caustics {
+    animation: pond-light 16s ease-in-out infinite alternate;
+  }
+  .glints i {
+    animation: glint 7.6s ease-in-out infinite;
+  }
+  .glints i:nth-child(2) {
+    animation-delay: -3.2s;
+  }
+  .glints i:nth-child(3) {
+    animation-delay: -5.4s;
+  }
+  .motes i {
+    animation: mote 19s ease-in-out infinite alternate;
+  }
+  .motes i:nth-child(2) {
+    animation-delay: -6s;
+  }
+  .motes i:nth-child(3) {
+    animation-delay: -12s;
+  }
+  .motes i:nth-child(4) {
+    animation-delay: -3s;
+  }
+}
+.paused .world * {
+  animation-play-state: paused !important;
+}
+@keyframes bass-approach {
+  from {
+    transform: translateX(40%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes lure-breath {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+@keyframes pond-light {
+  from {
+    transform: translateX(-0.5%);
+    opacity: 0.025;
+  }
+  to {
+    transform: translateX(0.5%);
+    opacity: 0.065;
+  }
+}
+@keyframes glint {
+  0%,
+  65%,
+  100% {
+    opacity: 0.12;
+    transform: scale(0.8);
+  }
+  78% {
+    opacity: 0.58;
+    transform: scale(1.15);
+  }
+}
+@keyframes mote {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(3px, -6px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .world * {
+    animation: none !important;
+  }
+}

@@ -4,6 +4,13 @@ export const canvas = [2172, 724];
 export const widths = { desktop: [768, 1440, 2172], mobile: [384, 768, 1200] };
 export const sets = [
   {
+    id: 'big-dumb-bass',
+    supplied: true, // Approved pre-encoded exports; validate without re-encoding.
+    root: 'artwork/big-dumb-bass/masters/',
+    mobileWidths: [], // Same full-canvas responsive family serves desktop and mobile.
+    layers: ['pond', 'bass', 'lure', 'opening', 'fallback'].map((name) => ({ name })),
+  },
+  {
     id: 'buildometer',
     root: 'artwork/buildometer/',
     mobileCrop: [300, 80, 1800, 600],

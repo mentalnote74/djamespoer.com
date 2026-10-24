@@ -1,0 +1,178 @@
+:host {
+  display: block;
+  inline-size: 100%;
+}
+.bass-scene {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 3 / 1;
+  overflow: hidden;
+  container-type: inline-size;
+  background: #06191b;
+  color: #fff;
+}
+.art,
+.poster,
+.poster img,
+.preparing,
+.preparing picture,
+.preparing img,
+.world,
+.depth,
+.plate {
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.art {
+  z-index: 0;
+  pointer-events: none;
+}
+.preparing,
+.plate {
+  opacity: 0;
+}
+.plate.current {
+  opacity: 1;
+}
+.world {
+  visibility: hidden;
+}
+.world.ready {
+  visibility: visible;
+}
+.pond {
+  z-index: 0;
+}
+.pond-caustics {
+  position: absolute;
+  inset: -2%;
+  z-index: 5;
+  background: repeating-linear-gradient(126deg, transparent 0 9%, #6edbd0 10%, transparent 11% 23%);
+  filter: blur(10px);
+  opacity: 0.035;
+}
+.bass {
+  z-index: 10;
+  filter: brightness(0.62);
+  // Only horizontal travel: the cropped right edge stays outside the scene.
+  transform: translateX(40%);
+}
+.lure-halo {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background:
+    radial-gradient(ellipse 24% 64% at 42% 51%, #48d7ef30, transparent 72%),
+    radial-gradient(ellipse 15% 45% at 48% 58%, #ffc85725, transparent 73%);
+  mix-blend-mode: screen;
+  opacity: 0.35;
+}
+.lure {
+  z-index: 30;
+}
+.glints,
+.motes {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+}
+.glints i {
+  position: absolute;
+  inline-size: 0.35%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #e2ffff;
+  box-shadow: 0 0 9px 2px #5fe5ff;
+  opacity: 0.12;
+}
+.glints i:nth-child(1) {
+  left: 26.8%;
+  top: 73.5%;
+}
+.glints i:nth-child(2) {
+  left: 55%;
+  top: 20.5%;
+}
+.glints i:nth-child(3) {
+  left: 47.8%;
+  top: 16.5%;
+  background: #ffdfa4;
+}
+.motes i {
+  position: absolute;
+  left: 16%;
+  top: 57%;
+  inline-size: 2px;
+  block-size: 2px;
+  background: #8bcac2;
+  opacity: 0.15;
+  border-radius: 50%;
+}
+.motes i:nth-child(2) {
+  left: 68%;
+  top: 68%;
+}
+.motes i:nth-child(3) {
+  left: 75%;
+  top: 25%;
+}
+.motes i:nth-child(4) {
+  left: 10%;
+  top: 35%;
+}
+.copy {
+  position: absolute;
+  inset: 0 auto 0 0;
+  inline-size: 36%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(0.45rem, 2.5cqi, 2rem);
+  gap: clamp(0.3rem, 1cqi, 0.8rem);
+  text-shadow:
+    0 2px 12px #000,
+    0 0 28px #000;
+  background: linear-gradient(90deg, #041012ad, transparent);
+}
+h2 {
+  margin: 0;
+  font: 800 clamp(1.05rem, 2.7cqi, 2.3rem)/1.05 var(--font-ui);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.motion-control svg {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+@media (max-width: 600px) {
+  .copy {
+    inline-size: 39%;
+    padding: 0.4rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .world,
+  .preparing,
+  .motion-control {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .art,
+  .motion-control {
+    display: none;
+  }
+  .bass-scene {
+    background: Canvas;
+    color: CanvasText;
+  }
+  .copy {
+    background: none;
+    text-shadow: none;
+  }
+}

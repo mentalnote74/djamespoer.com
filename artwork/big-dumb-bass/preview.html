@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Big Dumb Bass — layered design</title><link rel="stylesheet" href="scene.css">
+<body><main><h1>Big Dumb Bass — layered design</h1><p>Design reference. The lure appears first; the bass emerges from shadow after a two-second hold. Explore is a visual label here; production uses the real article link and established GA tracking.</p>
+<section class="bass-scene paused" aria-label="Big Dumb Bass slide design">
+<img class="plate poster" src="assets/opening-1440.webp" width="2172" height="724" alt="An impossibly glowing geometric fishing lure in a shadowy pond.">
+<div class="composition" aria-hidden="true"><img class="plate pond" src="assets/pond-1440.webp" width="2172" height="724" alt=""><div class="pond-caustics"></div><img class="plate bass" src="assets/bass-1440.webp" width="2172" height="724" alt=""><div class="lure-halo"></div><img class="plate lure" src="assets/lure-1440.webp" width="2172" height="724" alt=""><div class="glints"><i></i><i></i><i></i></div><div class="motes"><i></i><i></i><i></i><i></i></div></div>
+<div class="copy"><h2>Whatever You Do,<br>Do Not Click Here</h2><span class="explore">Explore <span aria-hidden="true">→</span></span></div><button class="motion" type="button" aria-label="Pause artwork motion">Pause</button></section>
+<div class="toolbar"><button id="toggle" type="button">Pause motion</button><button id="replay" type="button">Replay entrance</button></div><p id="status" role="status">Preparing complete layered artwork.</p><details><summary>Approved source concept</summary><img class="reference" src="assets/approved-concept-1440.webp" alt="Approved concept before AI layer reconstruction."></details><p>Reconstructed plates are not pixel-identical segmentation. See HANDOFF.md for production requirements.</p></main>
+<script>
+const scene=document.querySelector('.bass-scene'),motion=document.querySelector('.motion'),toggle=document.querySelector('#toggle'),replay=document.querySelector('#replay'),status=document.querySelector('#status');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');let ready=false,requested=true,inView=false;
+function sync(){const run=ready&&requested&&!reduced.matches&&!document.hidden&&inView;scene.classList.toggle('paused',!run);for(const b of [motion,toggle]){b.textContent=run?'Pause motion':'Resume motion';b.setAttribute('aria-label',run?'Pause artwork motion':'Resume artwork motion');b.disabled=reduced.matches||!ready;}replay.disabled=!ready||reduced.matches;}
+for(const b of [motion,toggle])b.addEventListener('click',()=>{requested=!requested;sync()});
+replay.addEventListener('click',()=>{scene.classList.remove('ready');void scene.offsetWidth;scene.classList.add('ready');requested=true;sync()});
+document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);new IntersectionObserver(es=>{inView=es.some(e=>e.isIntersecting);sync()}).observe(scene);sync();
+Promise.all([...document.querySelectorAll('.composition img')].map(i=>i.decode())).then(()=>requestAnimationFrame(()=>{ready=true;scene.classList.add('ready');status.textContent='Layers decoded. Bass holds invisible for 2 seconds, fades in over 5.5 seconds, then stays. Motion pauses offscreen or in a hidden tab.';sync()})).catch(()=>{status.textContent='A layer failed; complete fish-free opening retained.';sync()});
+</script></body></html>

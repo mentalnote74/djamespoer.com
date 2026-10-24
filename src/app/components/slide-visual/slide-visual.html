@@ -1,4 +1,15 @@
 @switch (slide().visual) {
+  @case ('big-dumb-bass') {
+    @defer (on immediate; hydrate when active()) {
+      <app-big-dumb-bass-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+        [priority]="priority()"
+      />
+    }
+  }
   @case ('tcc-pig') {
     @defer (on immediate; hydrate when active()) {
       <app-tcc-pig-slide

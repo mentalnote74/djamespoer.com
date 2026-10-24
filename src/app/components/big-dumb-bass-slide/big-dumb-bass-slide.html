@@ -1,0 +1,106 @@
+<section
+  class="bass-scene slide-surface"
+  [class.started]="started()"
+  [class.paused]="paused()"
+  aria-label="Like a Big Dumb Bass"
+>
+  @if (!hero()) {
+    <a
+      class="slide-destination"
+      routerLink="/blognostisphere/like-a-big-dumb-bass"
+      publicTrack
+      trackLocation="carousel"
+      trackSource="carousel"
+      trackSlide="big-dumb-bass"
+      aria-label="Explore Like a Big Dumb Bass"
+    ></a>
+  }
+  <div class="art" aria-hidden="true">
+    <picture class="poster">
+      <source
+        media="(prefers-reduced-motion: reduce)"
+        type="image/avif"
+        [srcset]="srcset('fallback', 'avif')"
+        [sizes]="sizes"
+      />
+      <source
+        media="(prefers-reduced-motion: reduce)"
+        type="image/webp"
+        [srcset]="srcset('fallback', 'webp')"
+        [sizes]="sizes"
+      />
+      <source type="image/avif" [srcset]="srcset('opening', 'avif')" [sizes]="sizes" />
+      <img
+        [src]="root + 'opening-1440.webp'"
+        [srcset]="srcset('opening', 'webp')"
+        [sizes]="sizes"
+        width="2172"
+        height="724"
+        alt=""
+        decoding="async"
+        [loading]="priority() || hero() ? 'eager' : 'lazy'"
+        [attr.fetchpriority]="priority() || hero() ? 'high' : null"
+      />
+    </picture>
+    <div class="preparing">
+      @for (layer of layers; track layer) {
+        <picture>
+          <source type="image/avif" [srcset]="srcset(layer, 'avif')" [sizes]="sizes" />
+          <img
+            [src]="root + layer + '-1440.webp'"
+            [srcset]="srcset(layer, 'webp')"
+            [sizes]="sizes"
+            width="2172"
+            height="724"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            (load)="prepare()"
+          />
+        </picture>
+      }
+    </div>
+    <div class="world" [class.ready]="ready()">
+      @for (layer of layers; track layer; let index = $index) {
+        <div [class]="'depth ' + layer">
+          @for (frame of frames(); track frame.id) {
+            <img
+              class="plate"
+              [class.current]="frame.id === presented()"
+              [attr.data-bass-frame]="frame.id"
+              [src]="frame.sources[index]"
+              width="2172"
+              height="724"
+              alt=""
+              decoding="async"
+            />
+          }
+        </div>
+      }
+      <div class="pond-caustics"></div>
+      <div class="lure-halo"></div>
+      <div class="glints"><i></i><i></i><i></i></div>
+      <div class="motes"><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+  <div class="copy slide-surface__copy">
+    @if (!hero()) {
+      <h2>Whatever You Do, Do Not Click Here</h2>
+    }
+    @if (!hero()) {
+      <span class="slide-explore" aria-hidden="true">Explore</span>
+    }
+  </div>
+  <button
+    class="motion-control slide-motion-control"
+    type="button"
+    (click)="toggleMotion()"
+    [attr.aria-label]="motionPaused() ? 'Resume artwork motion' : 'Pause artwork motion'"
+  >
+    @if (motionPaused()) {
+      <svg lucidePlay aria-hidden="true" focusable="false"></svg>
+    } @else {
+      <svg lucidePause aria-hidden="true" focusable="false"></svg>
+    }
+  </button>
+</section>

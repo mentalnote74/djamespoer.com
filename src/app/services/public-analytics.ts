@@ -13,9 +13,10 @@ export type Source =
   | 'hero'
   | 'page-content'
   | 'footer';
-export type Slide = 'engineering' | 'ux' | 'accessibility' | 'ai' | 'impact';
+export type Slide = 'engineering' | 'ux' | 'accessibility' | 'ai' | 'impact' | 'big-dumb-bass';
 export const PUBLIC_ROUTES = [
   '/',
+  '/blognostisphere/like-a-big-dumb-bass',
   '/about',
   '/thingamajob',
   '/buildometer',

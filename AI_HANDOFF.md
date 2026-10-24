@@ -1,5 +1,86 @@
 # AI Engineering Handoff
 
+## SCRUM-145 — Big Dumb Bass slide, local review only
+
+Added one deferred article slide from the approved supplied package. Exact HTML
+headline and existing `/blognostisphere/like-a-big-dumb-bass` destination; original
+Blognostisphere/other slides, opener/shuffle, icons and nine-second autoplay stay.
+Three decoded registered plates reveal atomically above a fish-free poster.
+Bass holds 2s, fades 5.5s, stays for the visit; CSS clocks freeze on user pause,
+offscreen/hidden and survive responsive replacement. Reduced motion fetches
+only the complete still. Standard Explore arrow/keyboard-revealed pause; trusted
+keyboard/pointer each emit one existing GA event with slide=big-dumb-bass;
+pause excluded. No new analytics stack, dependencies or SCRUM-144 work.
+
+Final build/budgets/48-route prerender, 656 image geometry checks and 44 focused
+tests pass. Desktop/390px natural reveal, failure/static fallback, revisit,
+mid-fade/user/background pause, resize, native navigation, WebP, forced colors
+and scoped axe (zero) pass. All 30 exports match supplied hashes; PNG masters
+and original provenance retained under artwork/big-dumb-bass, not public.
+
+Four selected AVIFs including poster: desktop 303080B / mobile 116584B. Cold
+throttled readiness ~2.0s / 1.1s; warm ~0.18s. Opening LCP samples vary; no Bass
+images before cold arrival and no speed-win claim. The ~2s cold desktop wait +
+7.5s reveal can exceed the existing 9s dwell; timing/autoplay/preload unchanged.
+See [measurements and final filmstrips](docs/evidence/scrum-145/README.md).
+
+Working local preview: http://127.0.0.1:8835/?preview=big-dumb-bass . It exercises
+the real carousel controls; no production preview route. Static APIs are marked
+unavailable. No push/deploy; unrelated dirty checkout and pig experiments kept.
+
+## Historical experiment — Direct TCC hero eager preparation (rolled back)
+
+Current main reverted this experiment at 9ff9d91; the following notes describe
+the preserved experiment, not current behavior. Its artifacts remain in Git
+history and the isolated pig worktree. SCRUM-145 does not reintroduce it.
+
+Follow-up to e406a5c1. `SlideHero` directly mounts the existing pig for TCC,
+bypassing its extra deferred artwork boundary. Carousel branch remains deferred;
+assets/priorities, atomic decode/reveal, complete fallback and motion are unchanged.
+Extended the existing keyboard-only pause selector to preserve it outside the
+slide-renderer wrapper. Build/budgets/48-route prerender and 35 focused tests pass.
+
+Matched cold/150ms/1.638Mbps/CPU4x comparisons: final desktop readiness checks
+3670→3325 / 3845→3731ms; LCP 3848→3520 / 4016→3912ms. Mobile readiness starts
+~0.8s earlier, but preview LCP varies and is not detail readiness. Final frames
+show no partial faces/holes; keyboard pause, reduced/forced colors and scoped
+axe pass at both widths. Cold Home still requests no pig art/code before Next,
+then the same five selected image assets/bytes.
+
+Remaining Angular bootstrap/initial-render delay is material; no broader fix
+attempted. Bundle tradeoff: static import in shared SlideHero also makes its
+other route consumers load the ~14.17kB pig chunk; deferred carousel gains a
+204B re-export entry on arrival. Retained for local review, not production.
+See [comparison and filmstrips](docs/evidence/pig-eager-hero/README.md).
+No push/deploy; atlas and unrelated workspace work remain isolated.
+
+## Historical experiment — Pig loading (rolled back)
+
+Current main reverted this experiment at 9fdc46d. These notes remain historical;
+the implementation and linked artifacts are not carried forward by SCRUM-145.
+
+No push/deploy. Branch `fix/pig-seamless-loading`, based on `2842cd73`.
+Atlas `f23d1cea` remains isolated and is not promoted. Original separate assets,
+source masters, animation timings, native link and tracking stay intact.
+Complete inline previews from approved pig pixels cover preparation/failure;
+all five actual rendered images decode before an atomic grouped reveal.
+Responsive replacement keeps the old complete batch; failure freezes it.
+
+Actual desktop/390px filmstrips reproduce baseline isolated patches/rectangular
+holes and show a complete fallback/detail in the fix. Build/budgets, 48-route
+prerender and 34 focused tests pass. Browser checks pass for two wink/kiss cycles,
+keyboard pause, real hidden-tab/offscreen reset, reduced-motion kiss (also with
+failed images), forced colors, native click/tap and scoped axe (zero).
+
+Tradeoff: fallback is visibly softer (384x128). Five image requests/bytes are
+unchanged, but Home HTML adds 3791 gzip B and the lazy pig chunk adds 4251 gzip B.
+96 repeated cold/warm comparisons: cold throttled Home detail readiness median
+549→621ms desktop / 499→601ms mobile; direct TCC hero 1611→3809ms / 1031→3829ms.
+Desktop throttled hero LCP also regresses 980→3828ms. Opening Home LCP is mixed,
+not a proven speed win. Review these limitations before promotion; no whole-deck
+preload workaround. Original dirty checkout and unrelated local work untouched.
+See [full evidence and visual review](docs/evidence/pig-loading/README.md).
+
 ## Explore and Blognostisphere icons
 
 Shared slide Explore labels now include one decorative right-arrow mask in the

@@ -12,6 +12,7 @@ const temp = 'tmp/slide-assets/';
 await mkdir(temp, { recursive: true });
 const receipts = [];
 for (const set of sets.filter((s) => !process.argv[2] || s.id === process.argv[2])) {
+  if (set.supplied) continue; // Preserve the approved package's existing encodes.
   if (set.prepare) execFileSync(process.execPath, [set.prepare], { stdio: 'inherit' });
   for (const layer of set.layers) {
     const source = set.root + layer.source;

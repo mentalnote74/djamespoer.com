@@ -9,7 +9,8 @@
   | 'sunset'
   | 'moonlight'
   | 'blognostisphere'
-  | 'tcc-pig';
+  | 'tcc-pig'
+  | 'big-dumb-bass';
 export interface HeroCopyZone {
   width: number;
   alignment: 'start' | 'center' | 'end';
@@ -49,6 +50,7 @@ const HERO_COPY: Record<SlideVisualKind, HeroCopyZone> = {
     mobileAlignment: 'end',
   },
   'tcc-pig': { ...LEFT, mobileWidth: 47, mobileAlignment: 'center', ink: 'dark' },
+  'big-dumb-bass': { ...LEFT, width: 36, mobileWidth: 39 },
 };
 export interface PortfolioSlideDefinition {
   id: string;
@@ -135,6 +137,12 @@ const definitions: readonly PortfolioSlideDefinition[] = [
     label: 'TCC — UX philosophy',
     destination: '/case-studies/tcc',
     visual: 'tcc-pig',
+  },
+  {
+    id: 'big-dumb-bass',
+    label: 'Like a Big Dumb Bass',
+    destination: '/blognostisphere/like-a-big-dumb-bass',
+    visual: 'big-dumb-bass',
   },
 ];
 export const PORTFOLIO_SLIDES: readonly PortfolioSlideDefinition[] = definitions.map(

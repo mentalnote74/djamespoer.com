@@ -33,6 +33,23 @@ describe('Public analytics transport', () => {
       cta_location: 'home-thingamajob',
     });
   });
+  it('identifies the dedicated article slide without collapsing its destination to other', () => {
+    TestBed.inject(PublicAnalytics).track('carousel_cta_click', {
+      location: 'carousel',
+      slide: 'big-dumb-bass',
+      destination: '/blognostisphere/like-a-big-dumb-bass',
+    });
+    expect(gtag).toHaveBeenCalledExactlyOnceWith('event', 'carousel_cta_click', {
+      location: 'carousel',
+      slide: 'big-dumb-bass',
+      destination: '/blognostisphere/like-a-big-dumb-bass',
+      page_path: '/',
+      cta_location: 'carousel',
+    });
+    expect(publicPath('/blognostisphere/like-a-big-dumb-bass')).toBe(
+      '/blognostisphere/like-a-big-dumb-bass',
+    );
+  });
   it('drops arbitrary route data and strips queries/hashes from the browser path', () => {
     expect(publicPath('/private/client-record')).toBe('/other');
     window.location = new URL('https://djamespoer.com/about?email=private@example.invalid#private');

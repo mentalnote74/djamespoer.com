@@ -1,0 +1,218 @@
+[
+  {
+    "mode": "candidate",
+    "width": 1440,
+    "rep": 1,
+    "cache": "cold",
+    "opening": {
+      "lcp": [
+        {
+          "at": 1136,
+          "url": "",
+          "tag": "BUTTON",
+          "class": ""
+        },
+        {
+          "at": 1188,
+          "url": "",
+          "tag": "BUTTON",
+          "class": ""
+        },
+        {
+          "at": 1704,
+          "url": "http://127.0.0.1:61302/assets/registered-slides/conservatory/desktop/background-2172.avif",
+          "tag": "IMG",
+          "class": ""
+        }
+      ],
+      "cls": 0.0031655239076967597,
+      "fcp": 1136,
+      "bytesBefore": 0
+    },
+    "artwork": {
+      "decode": [
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/pond-1440.avif",
+          "start": 5255,
+          "end": 5269.700000047684
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/bass-1440.avif",
+          "start": 5255.200000047684,
+          "end": 5276.600000023842
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+          "start": 5255.200000047684,
+          "end": 5299.900000095367
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/pond-1440.avif",
+          "start": 5303.800000071526,
+          "end": 5315.300000071526
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/bass-1440.avif",
+          "start": 5303.900000095367,
+          "end": 5315.600000023842
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+          "start": 5303.900000095367,
+          "end": 5315.700000047684
+        }
+      ],
+      "images": [
+        {
+          "url": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+          "start": 3556.8000000715256,
+          "end": 5225.600000023842,
+          "body": 103473,
+          "transfer": 103773
+        },
+        {
+          "url": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/pond-1440.avif",
+          "start": 3558.100000023842,
+          "end": 4786.100000023842,
+          "body": 59611,
+          "transfer": 59911
+        },
+        {
+          "url": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/bass-1440.avif",
+          "start": 3559.100000023842,
+          "end": 4483.600000023842,
+          "body": 37697,
+          "transfer": 37997
+        },
+        {
+          "url": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+          "start": 3559.9000000953674,
+          "end": 5242,
+          "body": 102299,
+          "transfer": 102599
+        }
+      ],
+      "rect": {
+        "x": 81,
+        "y": 111.390625,
+        "width": 1278,
+        "height": 426,
+        "top": 111.390625,
+        "right": 1359,
+        "bottom": 537.390625,
+        "left": 81
+      },
+      "timeOrigin": 1792884291294.4,
+      "arrival": 3354,
+      "ready": 5367,
+      "readyAfterArrival": 2013,
+      "filmstrip": "1440-1-cold"
+    },
+    "errors": []
+  },
+  {
+    "mode": "candidate",
+    "width": 390,
+    "rep": 1,
+    "cache": "cold",
+    "opening": {
+      "lcp": [
+        {
+          "at": 648,
+          "url": "http://127.0.0.1:61302/assets/registered-slides/conservatory/mobile/background-1440.avif",
+          "tag": "IMG",
+          "class": ""
+        },
+        {
+          "at": 1168,
+          "url": "",
+          "tag": "P",
+          "class": ""
+        }
+      ],
+      "cls": 0,
+      "fcp": 548,
+      "bytesBefore": 0
+    },
+    "artwork": {
+      "decode": [
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/pond-768.avif",
+          "start": 4679.400000095367,
+          "end": 4687.200000047684
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/bass-768.avif",
+          "start": 4679.700000047684,
+          "end": 4690
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+          "start": 4679.700000047684,
+          "end": 4698.600000023842
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/pond-768.avif",
+          "start": 4708.300000071526,
+          "end": 4721
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/bass-768.avif",
+          "start": 4708.300000071526,
+          "end": 4721.200000047684
+        },
+        {
+          "src": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+          "start": 4708.300000071526,
+          "end": 4721.400000095367
+        }
+      ],
+      "images": [
+        {
+          "url": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+          "start": 3897.600000023842,
+          "end": 4665.300000071526,
+          "body": 39794,
+          "transfer": 40094
+        },
+        {
+          "url": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/pond-768.avif",
+          "start": 3898.8000000715256,
+          "end": 4524.700000047684,
+          "body": 24153,
+          "transfer": 24453
+        },
+        {
+          "url": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/bass-768.avif",
+          "start": 3899.5,
+          "end": 4370.300000071526,
+          "body": 14797,
+          "transfer": 15097
+        },
+        {
+          "url": "http://127.0.0.1:61302/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+          "start": 3900.100000023842,
+          "end": 4665,
+          "body": 37840,
+          "transfer": 38140
+        }
+      ],
+      "rect": {
+        "x": 17,
+        "y": 105,
+        "width": 356,
+        "height": 118.65625,
+        "top": 105,
+        "right": 373,
+        "bottom": 223.65625,
+        "left": 17
+      },
+      "timeOrigin": 1792884305395,
+      "arrival": 3626.2000000476837,
+      "ready": 4781.700000047684,
+      "readyAfterArrival": 1155.5,
+      "filmstrip": "390-1-cold"
+    },
+    "errors": []
+  }
+]
