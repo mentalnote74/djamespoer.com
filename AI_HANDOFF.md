@@ -1,5 +1,17 @@
 # AI Engineering Handoff
 
+## Explore and Blognostisphere icons
+
+Shared slide Explore labels now include one decorative right-arrow mask in the
+existing global slide-actions stylesheet (no added image request or slide
+controllers). Blognostisphere's navigation icon is Lucide Newspaper; Case Studies
+keeps BookOpen. Labels, native full-surface links, tracking and keyboard-revealed
+pause behavior are unchanged. Build/style budgets and 42 existing header/carousel
+tests pass. Chrome checks cover all 15 slides at 1440/390px, arrow alignment,
+distinct navigation SVGs, forced-colors icon treatment, keyboard pause/reveal,
+native click/tap navigation and zero scoped axe violations/application errors.
+This branch excludes the separate SCRUM-142 resume review checkpoint.
+
 ## Shared slide Explore and keyboard-revealed artwork pause
 
 Every carousel scene now has one native full-surface destination link and the
