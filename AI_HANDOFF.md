@@ -1,5 +1,30 @@
 # AI Engineering Handoff
 
+## SCRUM-142 - approved downloadable resume replacement (review checkpoint)
+
+Prepared in isolated feature/scrum-142-resume worktree from main ec12409;
+the dirty protected-TEST root checkout is untouched. Only this handoff and
+public/assets/resume/d-james-poer-resume.pdf are intended changes. The PDF uses
+SCRUM-142's complete approved Spray & Pray copy without factual/editorial
+changes (contact separators wrap to two lines). One US Letter page, embedded
+Arial, 9pt body/10.3pt leading, selectable text, GitHub included; all five contact
+links are active. Exact extracted wording matches the approved ticket after
+whitespace/contact-divider normalization. No Angular 7/10 callouts; the approved
+Angular 2 RC 2.2 through modern Angular sentence is retained.
+
+PDF: 80,806 bytes; SHA-256
+ca69c2f02bd78d26ef6697a589040fc5fceb456485c0d19258380567b75b462f.
+Rendered at 2x and inspected: no clipping/overlap; extracted word bounds and
+all link annotations verified. Production build/budgets pass (47 routes);
+27 existing header/navigation and public-analytics tests pass. Real Chrome
+1440px keyboard and 390px touch downloads from the built site return this exact
+PDF, with the same URL, filename, download attribute and tracking contract.
+The legacy Hero template's matching link/tracking remains untouched, but no
+current route mounts app-hero; a live hero click therefore cannot be claimed.
+No unrelated UI restoration was attempted. Supporting render/text/download
+evidence is local under tmp/scrum-142/tmp/pdfs. No PROD deployment; prepared
+for Codex review as requested.
+
 ## Shared slide Explore and keyboard-revealed artwork pause
 
 Every carousel scene now has one native full-surface destination link and the
