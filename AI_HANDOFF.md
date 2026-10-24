@@ -1,6 +1,32 @@
 # AI Engineering Handoff
 
-## SCRUM-145 — Big Dumb Bass slide, local review only
+## SCRUM-145 — Bass approach revision, local review only
+
+Rebased onto origin/main 9fdc46d, preserving both pig rollbacks exactly (no pig,
+SlideHero or shared slide-action diff against main). Original fade checkpoint
+2503567 and its evidence remain historical. No push/deploy.
+
+Replaced only the Bass wrapper's opacity reveal with horizontal translation:
+40% → 0 after a 2s hold, over 5.5s ease-in-out, once per visit. Opacity stays 1;
+brightness .62 and final registered position stay. Lure does not translate.
+No new art: supplied head's cropped right boundary stays outside the scene;
+top/bottom crops stay at the scene boundary. Actual desktop/390px cold throttled
+filmstrips show no exposed straight edge, bite/contact or retreat.
+
+Build/budgets, 656 geometry checks, 48-route prerender and 44 focused tests pass.
+Built browser checks pass at both widths: natural approach, keyboard pause,
+offscreen/hidden freezing, revisit reset, responsive decoded replacement,
+failure fish-free poster, reduced still, forced colors, native navigation,
+one GA event per keyboard/pointer activation, zero scoped axe/browser errors.
+Live preview and native WebP fallback confirmed:
+http://127.0.0.1:8835/?preview=big-dumb-bass . APIs unavailable in static preview.
+
+Selected bytes unchanged: desktop 303080 / mobile 116584 including poster.
+No Bass images before first arrival. Existing cold readiness + 7.5s motion can
+exceed nine-second autoplay dwell; unchanged, no deck preload/timing workaround.
+See [approach evidence](docs/evidence/scrum-145/approach/README.md).
+
+## Historical SCRUM-145 fade checkpoint — superseded locally
 
 Added one deferred article slide from the approved supplied package. Exact HTML
 headline and existing `/blognostisphere/like-a-big-dumb-bass` destination; original

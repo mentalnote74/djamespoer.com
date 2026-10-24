@@ -3,8 +3,11 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import puppeteer from 'puppeteer-core';
 import { startPreview } from './preview.mjs';
 const final = process.env.BASS_FINAL === '1';
+const approach = process.env.BASS_APPROACH === '1';
 const out = final
-  ? 'tmp/evidence/scrum-145/performance-final'
+  ? approach
+    ? 'tmp/evidence/scrum-145/approach/performance'
+    : 'tmp/evidence/scrum-145/performance-final'
   : 'tmp/evidence/scrum-145/performance';
 await mkdir(out, { recursive: true });
 const baseline = await startPreview({ root: '../pig-seamless-loading/dist/djamespoer/browser' }),
@@ -129,10 +132,10 @@ try {
             if (capture)
               await page.waitForFunction(
                 () =>
-                  Number(
+                  new DOMMatrixReadOnly(
                     getComputedStyle(document.querySelector('.carousel__slide:not([hidden]) .bass'))
-                      .opacity,
-                  ) === 1,
+                      .transform,
+                  ).m41 === 0,
                 { timeout: 16000 },
               );
             const id = width + '-' + rep + '-' + cache;

@@ -1,5 +1,9 @@
 # SCRUM-145 — Big Dumb Bass article slide
 
+**Historical fade checkpoint:** the following captures describe the original
+2503567 implementation. The current local revision uses a horizontal approach;
+see [current approach and pig rollback integration](approach/README.md).
+
 Local review checkpoint, October 24, 2026. No push/deployment. Based on remote
 main `cb09be858d1453302293145f15777a7ef9e0cf07`; the existing pig checkpoints,
 dirty protected-client checkout, approved slides and icon work are preserved.

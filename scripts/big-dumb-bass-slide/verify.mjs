@@ -5,7 +5,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import puppeteer from 'puppeteer-core';
 import { startPreview } from './preview.mjs';
-const out = 'tmp/evidence/scrum-145';
+const out = 'tmp/evidence/scrum-145/approach';
 await mkdir(out, { recursive: true });
 const manifest = JSON.parse(await readFile('artwork/big-dumb-bass/manifest.json', 'utf8'));
 const assets = Object.values(manifest).find(
@@ -38,6 +38,9 @@ const inspect = (page) =>
       started: e.classList.contains('started'),
       paused: e.classList.contains('paused'),
       opacity: Number(getComputedStyle(e.querySelector('.bass')).opacity),
+      x:
+        new DOMMatrixReadOnly(getComputedStyle(e.querySelector('.bass')).transform).m41 /
+        e.getBoundingClientRect().width,
       time: a?.currentTime ?? null,
       current: e.querySelectorAll('.plate.current').length,
       poster: e.querySelector('.poster img').currentSrc,
@@ -114,10 +117,11 @@ try {
     await page.waitForSelector(scene + '.started');
     const start = await inspect(page);
     assert.equal(start.current, 3);
-    assert.equal(start.opacity, 0);
+    assert.equal(start.opacity, 1);
+    assert(Math.abs(start.x - 0.4) < 0.001);
     await page.screenshot({ path: out + '/' + width + '-opening.png' });
     await wait(900);
-    assert.equal((await inspect(page)).opacity, 0);
+    assert(Math.abs((await inspect(page)).x - 0.4) < 0.001);
     await page.focus(scene + ' .motion-control');
     await page.keyboard.press('Space', { delay: 80 });
     const held = await inspect(page);
@@ -127,11 +131,15 @@ try {
     assert(still.paused);
     await page.keyboard.press('Space', { delay: 80 });
     await page.waitForFunction(
-      (s) => Number(getComputedStyle(document.querySelector(s + ' .bass')).opacity) > 0.08,
+      (s) =>
+        new DOMMatrixReadOnly(getComputedStyle(document.querySelector(s + ' .bass')).transform)
+          .m41 /
+          document.querySelector(s).getBoundingClientRect().width <
+        0.32,
       {},
       scene,
     );
-    // Offscreen/hidden freeze an in-progress fade; they do not reset the visit.
+    // Offscreen/hidden freeze an in-progress approach; they do not reset the visit.
     await page.focus(scene + ' .motion-control');
     await page.keyboard.press('Space', { delay: 80 });
     await page.waitForFunction(
@@ -139,7 +147,7 @@ try {
       {},
       scene,
     );
-    const manualFade = await inspect(page);
+    const manualApproach = await inspect(page);
     const pausedTab = await context.newPage();
     await pausedTab.bringToFront();
     await page.waitForFunction(() => document.hidden);
@@ -147,7 +155,7 @@ try {
     await page.bringToFront();
     await pausedTab.close();
     assert.equal((await inspect(page)).paused, true);
-    assert(Math.abs((await inspect(page)).time - manualFade.time) < 35);
+    assert(Math.abs((await inspect(page)).time - manualApproach.time) < 35);
     await page.focus(scene + ' .motion-control');
     await page.keyboard.press('Space', { delay: 80 });
     await page.evaluate(() => scrollTo(0, 1100));
@@ -174,11 +182,15 @@ try {
     await page.bringToFront();
     await other.close();
     await page.waitForFunction(
-      (s) => Number(getComputedStyle(document.querySelector(s + ' .bass')).opacity) === 1,
+      (s) =>
+        new DOMMatrixReadOnly(getComputedStyle(document.querySelector(s + ' .bass')).transform)
+          .m41 === 0,
       { timeout: 12000 },
       scene,
     );
     const end = await inspect(page);
+    assert.equal(end.x, 0);
+    assert.equal(end.opacity, 1);
     assert(end.time >= 7490, JSON.stringify(end));
     await wait(300);
     assert.equal((await inspect(page)).opacity, 1);
@@ -217,7 +229,7 @@ try {
     await page.click('[aria-label="Previous slide"]');
     await page.click('[aria-label="Next slide"]');
     await page.waitForSelector(scene + '.started');
-    assert.equal((await inspect(page)).opacity, 0);
+    assert(Math.abs((await inspect(page)).x - 0.4) < 0.001);
     await page.focus(scene + ' .motion-control');
     await page.keyboard.press('Space', { delay: 80 });
     await page.waitForFunction(
@@ -297,7 +309,7 @@ try {
       axe,
       keyboardAndPointerOneEventEach: true,
       clickEvents: events,
-      manualMidFadePauseAndBackgroundPreserved: true,
+      manualMidApproachPauseAndBackgroundPreserved: true,
       responsiveAnimationPreserved: true,
       pauseExcluded: true,
       canonical,
