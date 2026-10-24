@@ -1,5 +1,18 @@
 # AI Engineering Handoff
 
+## October 23 — SCRUM-141 public evaluation funnel
+
+Approved 90-day retention for new public JD/results/telemetry only. Portable
+evaluator now shares an attempt key across intake/evaluation, discloses retention,
+and emits safe submitted/completed/failed/result-view events. Existing analytics
+adds completed case-study/evidence navigation and private short-lived follow-up
+correlation for résumé/contact/profile actions; no submitted content or correlation
+IDs go to GA. Optional analytics cannot block input/navigation. Existing evaluator
+classification, canonical-only data and provider usage limits remain unchanged.
+Matching D1/R2/backend work ships from the isolated evaluator branch; never merge
+that whole branch into public main. See docs/thingamajob-telemetry.md and SCRUM-141
+for storage/expiry, limitations, verification and separate release receipts.
+
 ## October 23 - SCRUM-26 accessible not-found page
 
 Unknown Angular URLs retain their address and load a small lazy NotFound view,

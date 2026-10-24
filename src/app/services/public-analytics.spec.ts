@@ -69,6 +69,40 @@ describe('Public analytics transport', () => {
     });
     expect(() => service.track('cookie_settings_open', { location: 'footer' })).not.toThrow();
   });
+  it('joins private follow-up intent without sending correlation IDs or submitted content to GA', async () => {
+    const fetch = vi.fn().mockResolvedValue({});
+    const data = new Map<string, string>();
+    const testWindow = {
+      ...window,
+      fetch,
+      sessionStorage: {
+        getItem: (key: string) => data.get(key) ?? null,
+        setItem: (key: string, value: string) => data.set(key, value),
+        removeItem: (key: string) => data.delete(key),
+      },
+    };
+    TestBed.overrideProvider(DOCUMENT, { useValue: { defaultView: testWindow } });
+    const service = TestBed.inject(PublicAnalytics);
+    const first = service.beginEvaluation('file');
+    service.track('evaluation_result_viewed', { location: 'page-content', input_method: 'file' });
+    service.track('external_profile_click', { location: 'footer', profile: 'linkedin' });
+    expect(fetch).toHaveBeenCalledTimes(2);
+    const [, options] = fetch.mock.calls[1];
+    expect(options.headers['Idempotency-Key']).toBe(first['Idempotency-Key']);
+    expect(options.headers['X-TAMJ-Session']).toBe(first['X-TAMJ-Session']);
+    expect(JSON.parse(options.body)).toEqual({
+      event: 'external_profile_click',
+      context: 'linkedin',
+    });
+    const next = service.beginEvaluation('text');
+    expect(next['Idempotency-Key']).not.toBe(first['Idempotency-Key']);
+    expect(next['X-TAMJ-Session']).toBe(first['X-TAMJ-Session']);
+    expect(JSON.stringify(gtag.mock.calls)).not.toContain(first['X-TAMJ-Session']);
+    expect(JSON.stringify(gtag.mock.calls)).not.toContain(first['Idempotency-Key']);
+    const saved = JSON.parse(data.get('thingamajob.funnel')!);
+    data.set('thingamajob.funnel', JSON.stringify({ ...saved, expires: Date.now() - 1 }));
+    expect(service.beginEvaluation('url')['X-TAMJ-Session']).not.toBe(first['X-TAMJ-Session']);
+  });
 });
 describe('Explicit public link hooks', () => {
   const track = vi.fn();

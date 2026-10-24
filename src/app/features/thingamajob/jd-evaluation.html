@@ -91,6 +91,9 @@
     <p class="data-notice">
       Evaluate sends the job text and canonical career facts to OpenAI. Private career-source
       documents and private-only history are excluded.
+      Public submissions, responses and usage records are retained privately for 90 days for
+      troubleshooting and improvement. A random 30-minute session links evaluation and follow-up
+      actions; job text, filenames and results are never sent to Google Analytics.
     </p>
     <button type="submit">{{ busy() ? 'Evaluating…' : 'Evaluate' }}</button>
   </fieldset>
