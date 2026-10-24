@@ -1,0 +1,48 @@
+{
+  "inspectionDate": "2026-10-23",
+  "scope": "Recovered SCRUM-64 sources only; later afternoon independent-character assets are unrecovered, not confirmed lost.",
+  "files": [
+    {
+      "path": "scrum-64/larry-v1-c/frozen-brief.md",
+      "originalRepositoryPath": "output/experiments/SCRUM-64/larry-v1-c/frozen-brief.md",
+      "bytes": 10301,
+      "sha256": "78723376f26c9fe1295c186c01f04f5baa365bff1853342cff1fc2b6e3651c1d"
+    },
+    {
+      "path": "scrum-64/larry-v1-c/provenance.md",
+      "originalRepositoryPath": "output/experiments/SCRUM-64/larry-v1-c/provenance.md",
+      "bytes": 788,
+      "sha256": "80b476d443d3c726c75699c3e623d6764c5596b78a8173cf0508cf63978c4636"
+    },
+    {
+      "path": "scrum-64/larry-v1-c/SCRUM-64-larry-v1-c.png",
+      "originalRepositoryPath": "output/experiments/SCRUM-64/larry-v1-c/SCRUM-64-larry-v1-c.png",
+      "bytes": 3931278,
+      "sha256": "3b4ae17b89a9a473d34e50c8207998abbd4510e8bbbb3350f3d96fda282d125f",
+      "width": 2067,
+      "height": 761,
+      "bitDepth": 8,
+      "pngColorType": 2,
+      "independentCharacter": false,
+      "role": "flattened_composite_master"
+    },
+    {
+      "path": "scrum-64/larry-v2-c/exact-prompt.md",
+      "originalRepositoryPath": "output/experiments/SCRUM-64/larry-v2-c/exact-prompt.md",
+      "bytes": 10536,
+      "sha256": "8dc56df88da796d99eca06daed44283ac9d6a6d909e667ba0b87e8b25ecf4c05"
+    },
+    {
+      "path": "scrum-64/larry-v2-c/SCRUM-64-Larry-V2-C.png",
+      "originalRepositoryPath": "output/experiments/SCRUM-64/larry-v2-c/SCRUM-64-Larry-V2-C.png",
+      "bytes": 3608344,
+      "sha256": "af243514833341e9f9cdc6d63642bf1859e31ab5e6171d5668b6d201a8b73de5",
+      "width": 2172,
+      "height": 724,
+      "bitDepth": 8,
+      "pngColorType": 2,
+      "independentCharacter": false,
+      "role": "flattened_composite_master"
+    }
+  ]
+}
