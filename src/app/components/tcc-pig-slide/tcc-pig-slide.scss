@@ -15,6 +15,25 @@
   inset: 0;
   pointer-events: none;
 }
+.static-pig,
+.static-pig img,
+.preparing,
+.layered-pig {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+// The complete inline pig is always underneath. Reveal one decoded group in
+// a single style update; never crossfade individual patches or remove the cover.
+.preparing,
+.layered-pig {
+  opacity: 0;
+}
+.layered-pig.current {
+  opacity: 1;
+}
 .plate {
   inset: 0;
   width: 100%;

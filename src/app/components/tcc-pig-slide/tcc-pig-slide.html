@@ -1,7 +1,7 @@
 <section
   class="pig-scene slide-surface"
   [class.eligible]="eligible()"
-  [class.paused]="motionPaused()"
+  [class.paused]="motionPaused() || preparationFailed()"
   aria-label="TCC UX philosophy"
 >
   @if (!hero()) {
@@ -15,13 +15,38 @@
     ></a>
   }
   <div class="art" aria-hidden="true">
-    @for (layer of layers; track layer.name) {
-      <app-slide-image
-        [priority]="hero() && layer.name === 'base'"
-        [class]="'plate ' + layer.name"
-        [layer]="'tcc-pig/' + layer.name"
-        (loaded)="checkReady()"
-      />
+    <picture class="static-pig">
+      <source media="(prefers-reduced-motion: reduce)" [srcset]="kissFallback" />
+      <img [src]="restFallback" width="384" height="128" alt="" />
+    </picture>
+    <div class="preparing">
+      @for (layer of layers; track layer.name) {
+        <app-slide-image
+          [priority]="hero() && layer.name === 'base'"
+          class="plate"
+          [layer]="'tcc-pig/' + layer.name"
+          (loaded)="checkReady()"
+        />
+      }
+    </div>
+    @for (frame of frames(); track frame.id) {
+      <div
+        class="layered-pig"
+        [class.current]="frame.id === presented()"
+        [class.paused]="frame.id !== presented()"
+        [attr.data-pig-frame]="frame.id"
+      >
+        @for (layer of layers; track layer.name; let index = $index) {
+          <img
+            [class]="'plate ' + layer.name"
+            [src]="frame.sources[index]"
+            width="2172"
+            height="724"
+            alt=""
+            decoding="async"
+          />
+        }
+      </div>
     }
   </div>
   <div class="copy slide-surface__copy">
