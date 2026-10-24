@@ -8,6 +8,21 @@
   "env": {
     "test": {
       "name": "thingamajob-api-test",
+      "version_metadata": { "binding": "CF_VERSION_METADATA" },
+      // SCRUM-141: delete only expired new public-evaluation records, daily 04:17 UTC.
+      "triggers": { "crons": ["17 4 * * *"] },
+      "ratelimits": [
+        {
+          "name": "JD_HARNESS_LIMIT",
+          "namespace_id": "120192026",
+          "simple": { "limit": 2, "period": 60 },
+        },
+        {
+          "name": "JD_TELEMETRY_LIMIT",
+          "namespace_id": "120192027",
+          "simple": { "limit": 60, "period": 60 },
+        },
+      ],
       // OPENAI_API_KEY is a TEST runtime secret, never a build/browser variable.
       "vars": { "JD_EVALUATION_MODEL": "gpt-5.6-sol" },
       "assets": {

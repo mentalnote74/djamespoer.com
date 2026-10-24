@@ -361,7 +361,8 @@ export async function fromJobUrl(
     );
   }
 }
-export async function fromJdFile(file: File): Promise<PreparedJd> {
+type IntakeAudit = (source: { method: string; text?: string; url?: string }) => Promise<void>;
+export async function fromJdFile(file: File, audit?: IntakeAudit): Promise<PreparedJd> {
   if (!file.size || file.size > 1_000_000)
     throw new JdIntakeError('Choose a nonempty document up to 1 MB, or paste the job text.');
   const ext = file.name.split('.').at(-1)?.toLowerCase(),
@@ -390,12 +391,14 @@ export async function fromJdFile(file: File): Promise<PreparedJd> {
       'This document could not be read. Export UTF-8 text/DOCX or paste the job text.',
     );
   }
+  await audit?.({ method: 'file', text });
   return { method: 'file', sourceLabel: file.name.slice(0, 200), ...normalizeJd(text) };
 }
 export async function intakeJd(
   request: Request,
   transport: typeof fetch = fetch,
   resolve: PublicHostResolver = resolvePublicHost,
+  audit?: IntakeAudit,
 ): Promise<PreparedJd> {
   let bytes: Uint8Array;
   try {
@@ -419,7 +422,7 @@ export async function intakeJd(
     const entries = [...form.entries()];
     if (entries.length !== 1 || entries[0][0] !== 'file' || !(entries[0][1] instanceof File))
       throw new JdIntakeError('Choose one supported JD file.');
-    return fromJdFile(entries[0][1]);
+    return fromJdFile(entries[0][1], audit);
   }
   let body: Record<string, unknown>;
   try {
@@ -433,9 +436,13 @@ export async function intakeJd(
     Object.keys(body).some((k) => !['method', 'text', 'url'].includes(k))
   )
     throw new JdIntakeError('Invalid job input.');
-  if (body['method'] === 'text' && typeof body['text'] === 'string')
+  if (body['method'] === 'text' && typeof body['text'] === 'string') {
+    await audit?.({ method: 'text', text: body['text'] });
     return { method: 'text', sourceLabel: 'Pasted text', ...normalizeJd(body['text']) };
-  if (body['method'] === 'url' && typeof body['url'] === 'string')
+  }
+  if (body['method'] === 'url' && typeof body['url'] === 'string') {
+    await audit?.({ method: 'url', url: body['url'] });
     return fromJobUrl(body['url'], transport, resolve);
+  }
   throw new JdIntakeError('Choose Paste text, URL or File.');
 }

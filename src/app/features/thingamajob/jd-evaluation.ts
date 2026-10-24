@@ -6,10 +6,13 @@ import {
   input,
   signal,
   viewChild,
+  DestroyRef,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { PublicAnalytics } from '../../services/public-analytics';
 
 export interface JdResult {
   evaluationId: string;
@@ -45,6 +48,10 @@ export const JD_EVALUATION_API = new InjectionToken<{
 export class JdEvaluation {
   private readonly http = inject(HttpClient);
   private readonly api = inject(JD_EVALUATION_API);
+  private readonly analytics = inject(PublicAnalytics);
+  private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+  private stopViewing: (() => void) | undefined;
   readonly showBackLink = input(true);
   readonly headingLevel = input(1);
   readonly clientLabel = input('your');
@@ -59,6 +66,7 @@ export class JdEvaluation {
   readonly failed = signal(false);
   readonly resultHeading = viewChild<ElementRef<HTMLElement>>('resultHeading');
   private reset() {
+    this.stopViewing?.();
     this.prepared.set(null);
     this.result.set(null);
     this.status.set('');
@@ -110,6 +118,11 @@ export class JdEvaluation {
     this.busy.set(true);
     this.failed.set(false);
     this.result.set(null);
+    this.stopViewing?.();
+    const method = this.prepared()?.method ?? this.mode();
+    const headers = this.api.public
+      ? this.analytics.beginEvaluation(method)
+      : { 'Idempotency-Key': crypto.randomUUID() };
     try {
       if (!this.prepared()) {
         this.status.set('Reading the job description…');
@@ -124,14 +137,16 @@ export class JdEvaluation {
             this.mode() === 'url'
               ? { method: 'url', url: this.url() }
               : { method: 'text', text: this.jd() };
-        this.prepared.set(await firstValueFrom(this.http.post<PreparedJd>(this.api.input, body)));
+        this.prepared.set(
+          await firstValueFrom(this.http.post<PreparedJd>(this.api.input, body, { headers })),
+        );
       }
       this.status.set('Evaluating the job against canonical career evidence…');
       const result = await firstValueFrom(
         this.http.post<JdResult>(
           this.api.evaluate,
           { jobDescription: this.prepared()!.jobDescription },
-          { headers: { 'Idempotency-Key': crypto.randomUUID() } },
+          { headers },
         ),
       );
       if (
@@ -141,9 +156,46 @@ export class JdEvaluation {
       )
         throw new Error('Incomplete result');
       this.result.set(result);
+      if (this.api.public)
+        this.analytics.track('evaluation_completed', {
+          location: 'page-content',
+          input_method: method,
+        });
       this.status.set('Evaluation complete. The Library of Truth was not changed.');
-      setTimeout(() => this.resultHeading()?.nativeElement.focus());
+      setTimeout(() => {
+        if (this.destroyRef.destroyed) return;
+        const heading = this.resultHeading()?.nativeElement;
+        heading?.focus();
+        if (!this.api.public || !heading) return;
+        const visible = () => {
+          const bounds = heading.getBoundingClientRect();
+          if (
+            this.document.visibilityState !== 'hidden' &&
+            bounds.bottom > 0 &&
+            bounds.top < (this.document.defaultView?.innerHeight ?? 0)
+          ) {
+            this.analytics.track('evaluation_result_viewed', {
+              location: 'page-content',
+              input_method: method,
+            });
+            this.stopViewing?.();
+          }
+        };
+        const observer = new IntersectionObserver(visible);
+        observer.observe(heading);
+        this.document.addEventListener('visibilitychange', visible);
+        this.stopViewing = () => {
+          observer.disconnect();
+          this.document.removeEventListener('visibilitychange', visible);
+        };
+        this.destroyRef.onDestroy(this.stopViewing);
+      });
     } catch (error) {
+      if (this.api.public)
+        this.analytics.track('evaluation_failed', {
+          location: 'page-content',
+          input_method: method,
+        });
       this.failed.set(true);
       this.status.set(
         this.failure(

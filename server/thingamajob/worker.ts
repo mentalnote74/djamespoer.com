@@ -40,6 +40,7 @@ import type { JdReasoner } from './jd-provider.ts';
 import { intakeJd, JdIntakeError } from './jd-intake.ts';
 import { isJdHarness, jdHarness } from './jd-harness.ts';
 import type { JdHarnessEnvironment } from './jd-harness.ts';
+import { expirePublicEvaluations } from './public-evaluation.ts';
 import {
   createUnknown,
   answerUnknown,
@@ -74,6 +75,9 @@ function reply(status: number, body: object): Response {
 /** Keys are an operator/test construction seam, never request-supplied. */
 export function createWorker(keys?: JWTVerifyGetKey, jdReasoner?: JdReasoner) {
   return {
+    async scheduled(_event: unknown, env: WorkerEnvironment): Promise<void> {
+      await expirePublicEvaluations(env);
+    },
     async fetch(request: Request, env: WorkerEnvironment): Promise<Response> {
       if (isJdHarness(request, env)) return jdHarness(request, env, jdReasoner);
       const path = new URL(request.url).pathname;

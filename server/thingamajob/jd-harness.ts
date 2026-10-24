@@ -5,20 +5,33 @@ import { openAiReasoner, providerMetadata } from './jd-provider.ts';
 import type { JdReasoner } from './jd-provider.ts';
 import { validateEvaluation, EvaluationUnavailable, JD_POLICY } from './jd-contract.ts';
 import type { EvaluationTruth } from './jd-contract.ts';
-import { evaluationContext } from './jd-policy.ts';
+import { evaluationContext, canonicalInventoryDigest } from './jd-policy.ts';
 import type { CompletenessConfiguration } from './jd-policy.ts';
 import { evaluationSummary } from './jd-summary.ts';
 import type { OriginalBucket } from './original-storage.ts';
+import {
+  attemptIdentity,
+  beginAttempt,
+  claimAttempt,
+  retainPublicContent,
+  updateAttempt,
+  publicEvent,
+  uuid,
+} from './public-evaluation.ts';
+import type { PublicEvaluationEnvironment } from './public-evaluation.ts';
 
-export interface JdHarnessEnvironment extends CompletenessConfiguration {
+export interface JdHarnessEnvironment
+  extends CompletenessConfiguration, PublicEvaluationEnvironment {
   IDENTITY_DB: IdentityDatabase;
   TEST_REFERENCE_WORKSPACE?: string;
   OPENAI_API_KEY?: string;
   JD_EVALUATION_MODEL?: string;
   JD_HARNESS_ENABLED?: string;
   JD_HARNESS_LIMIT?: { limit(options: { key: string }): Promise<{ success: boolean }> };
+  JD_TELEMETRY_LIMIT?: { limit(options: { key: string }): Promise<{ success: boolean }> };
+  CF_VERSION_METADATA?: { id: string };
   TEST_UI?: { fetch(request: Request): Promise<Response> };
-  PRIVATE_ORIGINALS?: Partial<OriginalBucket>;
+  PRIVATE_ORIGINALS?: Partial<OriginalBucket> & { delete?(keys: string[]): Promise<void> };
 }
 const root = '/test/thingamajob';
 
@@ -31,13 +44,26 @@ function safeDetails(details: Record<string, string | number | null>) {
     'outputTokens',
     'canonicalTruthCount',
     'elapsedMs',
+    'totalTokens',
+    'cachedInputTokens',
+    'reasoningTokens',
   ]) {
     const value = details[key];
     if (typeof value === 'number' && Number.isFinite(value) && value >= 0) safe[key] = value;
   }
-  for (const key of ['requestId', 'providerCode', 'status', 'reason', 'professionalInventory']) {
+  for (const key of [
+    'requestId',
+    'responseId',
+    'model',
+    'providerCode',
+    'status',
+    'reason',
+    'professionalInventory',
+    'truthDigest',
+    'workerVersion',
+  ]) {
     const value = details[key];
-    if (typeof value === 'string' && /^[a-z0-9_-]{1,100}$/i.test(value)) safe[key] = value;
+    if (typeof value === 'string' && /^[a-z0-9_.-]{1,100}$/i.test(value)) safe[key] = value;
   }
   return safe;
 }
@@ -182,7 +208,7 @@ export async function jdHarness(
     );
     return new Response(response.body, { status: response.status, headers });
   }
-  if (path !== root + '/evaluate' && path !== root + '/jd-input')
+  if (path !== root + '/evaluate' && path !== root + '/jd-input' && path !== root + '/events')
     return reply(404, { error: 'Not found' });
   if (request.method !== 'POST') return reply(405, { error: 'Use POST.' });
   if (
@@ -191,11 +217,56 @@ export async function jdHarness(
       request.headers.get('Sec-Fetch-Site') !== 'same-origin')
   )
     return reply(403, { error: 'Submit from the test page.' });
-  const reference = 'jd-' + crypto.randomUUID();
+  const identity = attemptIdentity(request);
+  const reference = 'jd-' + identity.id;
   const started = Date.now();
   let stage = 'configuration';
   let metadata: Record<string, string | number | null> = {};
+  let ownsAttempt = false;
+  const rejected = async (status: number, error: string, code: string) => {
+    await updateAttempt(env, identity.id, 'rejected', stage, {}, code);
+    await publicEvent(env, identity, 'evaluation_failed', identity.method);
+    return reply(status, { error, evaluationId: reference });
+  };
   try {
+    if (path === root + '/events') {
+      if (
+        !uuid(request.headers.get('Idempotency-Key')) ||
+        !uuid(request.headers.get('X-TAMJ-Session'))
+      )
+        return reply(400, { error: 'Invalid event identity.' });
+      if (
+        !env.JD_TELEMETRY_LIMIT ||
+        !(await env.JD_TELEMETRY_LIMIT.limit({ key: identity.session! })).success
+      )
+        return reply(429, { error: 'Telemetry rate limit.' });
+      const value = JSON.parse(new TextDecoder().decode(await boundedBytes(request.body, 300)));
+      if (
+        !value ||
+        Object.keys(value).sort().join(',') !== 'context,event' ||
+        typeof value.event !== 'string' ||
+        typeof value.context !== 'string' ||
+        ['evaluation_submitted', 'evaluation_completed', 'evaluation_failed'].includes(
+          value.event,
+        ) ||
+        !(await publicEvent(env, identity, value.event, value.context))
+      )
+        return reply(400, { error: 'Invalid event.' });
+      return reply(200, { accepted: true });
+    }
+    const state = await beginAttempt(env, identity);
+    if (!['preparing', 'prepared'].includes(state))
+      return reply(409, {
+        error:
+          'This attempt was already processed. Review the existing result or submit a new attempt.',
+      });
+    // A prepared request is only continued by /evaluate, never re-extracted or re-spent.
+    if (state === 'prepared' && path === root + '/jd-input')
+      return reply(409, { error: 'This input was already prepared. Submit a new attempt.' });
+    ownsAttempt = true;
+    metadata = safeDetails({ workerVersion: env.CF_VERSION_METADATA?.id ?? null });
+    await updateAttempt(env, identity.id, state, stage, metadata);
+    await publicEvent(env, identity, 'evaluation_submitted', identity.method);
     if (
       !env.TEST_REFERENCE_WORKSPACE ||
       !env.JD_HARNESS_LIMIT ||
@@ -204,16 +275,29 @@ export async function jdHarness(
     )
       throw new EvaluationUnavailable('configuration');
     stage = 'input';
-    if (path === root + '/jd-input') return reply(200, await intakeJd(request));
+    if (path === root + '/jd-input') {
+      const prepared = await intakeJd(request, undefined, undefined, (source) =>
+        retainPublicContent(env, identity.id, 'submitted', source),
+      );
+      await retainPublicContent(env, identity.id, 'input', {
+        jobDescription: prepared.jobDescription,
+      });
+      await updateAttempt(env, identity.id, 'prepared', stage);
+      return reply(200, prepared);
+    }
     if (!request.headers.get('Content-Type')?.startsWith('application/json'))
-      return reply(400, { error: 'Paste a job description.' });
+      return await rejected(400, 'Paste a job description.', 'input_type');
     let value: unknown;
     try {
       value = JSON.parse(
         new TextDecoder('utf-8', { fatal: true }).decode(await boundedBytes(request.body, 100000)),
       );
     } catch {
-      return reply(400, { error: 'The job description could not be read or is too large.' });
+      return await rejected(
+        400,
+        'The job description could not be read or is too large.',
+        'input_size',
+      );
     }
     if (
       !value ||
@@ -222,28 +306,71 @@ export async function jdHarness(
       Object.keys(value).join(',') !== 'jobDescription' ||
       typeof (value as { jobDescription?: unknown }).jobDescription !== 'string'
     )
-      return reply(400, { error: 'Paste a job description.' });
+      return await rejected(400, 'Paste a job description.', 'input_shape');
     const jd = normalizeJd((value as { jobDescription: string }).jobDescription).jobDescription;
+    if (!(await claimAttempt(env, identity.id))) {
+      ownsAttempt = false;
+      return reply(409, {
+        error: 'This attempt is already being processed. No automatic retry was made.',
+      });
+    }
+    // Store exactly what is evaluated, including direct/legacy API submissions.
+    // Intake already owns input.json for the current two-step client flow.
+    if (state !== 'prepared')
+      await retainPublicContent(env, identity.id, 'input', { jobDescription: jd });
+    await retainPublicContent(env, identity.id, 'evaluated', { jobDescription: jd });
     if (!(await env.JD_HARNESS_LIMIT.limit({ key: 'temporary-jd-harness' })).success)
-      return reply(429, { error: 'The test evaluator is busy. Wait a minute and try again.' });
+      return await rejected(
+        429,
+        'The test evaluator is busy. Wait a minute and try again.',
+        'rate_limit',
+      );
     stage = 'canonical';
+    await updateAttempt(env, identity.id, 'evaluating', stage);
     const truths = await snapshot(env);
     const context = await evaluationContext(env.TEST_REFERENCE_WORKSPACE!, truths, env);
     metadata = {
+      ...metadata,
       canonicalTruthCount: truths.length,
       professionalInventory: context.professionalInventory,
+      truthDigest:
+        context.professionalInventory === 'complete'
+          ? env.JD_COMPLETE_CORPUS_DIGEST!
+          : await canonicalInventoryDigest(truths),
     };
     stage = 'provider';
+    await updateAttempt(env, identity.id, 'evaluating', stage, metadata);
     const raw = await (
       reasoner ?? openAiReasoner(env.OPENAI_API_KEY!, env.JD_EVALUATION_MODEL!)
-    ).evaluate(jd, truths, context);
+    ).evaluate(jd, truths, context, async (usage, body) => {
+      metadata = { ...metadata, ...safeDetails(usage) };
+      let failed = false;
+      try {
+        await updateAttempt(env, identity.id, 'evaluating', 'provider_response', metadata);
+      } catch {
+        failed = true;
+      }
+      // Attempt both stores: a D1 allowance failure must not discard a paid R2 response.
+      try {
+        await retainPublicContent(env, identity.id, 'provider', { metadata, response: body });
+      } catch {
+        failed = true;
+      }
+      if (failed) throw new EvaluationUnavailable('audit_store', safeDetails(metadata));
+    });
     metadata = { ...metadata, ...providerMetadata(raw) };
     stage = 'validation';
+    await updateAttempt(env, identity.id, 'evaluating', stage, safeDetails(metadata));
+    await retainPublicContent(env, identity.id, 'unvalidated', raw);
     const result = validateEvaluation(raw, jd, truths, context);
     stage = 'canonical_recheck';
     if (JSON.stringify(await snapshot(env)) !== JSON.stringify(truths))
-      return reply(409, { error: 'The Library of Truth changed during evaluation. Submit again.' });
-    const evaluationId = crypto.randomUUID();
+      return await rejected(
+        409,
+        'The Library of Truth changed during evaluation. Submit again.',
+        'canonical_changed',
+      );
+    const evaluationId = identity.id;
     const detail = {
       evaluationId,
       evaluatedAt: new Date().toISOString(),
@@ -261,12 +388,16 @@ export async function jdHarness(
     };
     const summary = evaluationSummary(result, context.professionalInventory === 'complete');
     stage = 'persistence';
-    const stored = await env.PRIVATE_ORIGINALS!.put!(
-      `workspaces/${env.TEST_REFERENCE_WORKSPACE}/evaluations/${evaluationId}.json`,
-      new TextEncoder().encode(JSON.stringify({ ...detail, jobDescription: jd, summary })),
-      { onlyIf: { etagDoesNotMatch: '*' } },
-    );
-    if (!stored) throw new EvaluationUnavailable('result_store');
+    await retainPublicContent(env, identity.id, 'result', {
+      ...detail,
+      jobDescription: jd,
+      summary,
+    });
+    await updateAttempt(env, identity.id, 'complete', 'complete', {
+      ...safeDetails(metadata),
+      elapsedMs: Date.now() - started,
+    });
+    await publicEvent(env, identity, 'evaluation_completed', identity.method);
     return reply(200, {
       evaluationId,
       evaluatedAt: detail.evaluatedAt,
@@ -275,6 +406,29 @@ export async function jdHarness(
       summary,
     });
   } catch (error) {
+    if (path === root + '/events') return reply(503, { error: 'Telemetry unavailable.' });
+    if (ownsAttempt)
+      try {
+        await updateAttempt(
+          env,
+          identity.id,
+          'failed',
+          stage,
+          safeDetails({
+            ...metadata,
+            ...(error instanceof EvaluationUnavailable ? error.details : {}),
+            elapsedMs: Date.now() - started,
+          }),
+          error instanceof EvaluationUnavailable
+            ? error.code
+            : error instanceof JdIntakeError
+              ? 'intake_failed'
+              : 'evaluation_failed',
+        );
+        await publicEvent(env, identity, 'evaluation_failed', identity.method);
+      } catch {
+        /* Do not expose input or recursively retry a failed telemetry store. */
+      }
     if (error instanceof JdIntakeError) return reply(error.status, { error: error.message });
     return failure(env, reference, stage, error, { ...metadata, elapsedMs: Date.now() - started });
   }

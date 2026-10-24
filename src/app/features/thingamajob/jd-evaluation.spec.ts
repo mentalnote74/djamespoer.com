@@ -43,11 +43,17 @@ describe('one-action JD evaluator', () => {
     const { fixture, http, component } = setup();
     component.jd.set('A complete fictional job description.');
     const pending = component.evaluate(new Event('submit'));
-    http
-      .expectOne('/test/thingamajob/jd-input')
-      .flush(prepared('Normalized fictional job description.'));
+    const intake = http.expectOne('/test/thingamajob/jd-input');
+    const attempt = intake.request.headers.get('Idempotency-Key');
+    const session = intake.request.headers.get('X-TAMJ-Session');
+    expect(attempt).toMatch(/^[a-f0-9-]{36}$/);
+    expect(session).toMatch(/^[a-f0-9-]{36}$/);
+    expect(intake.request.headers.get('X-TAMJ-Method')).toBe('text');
+    intake.flush(prepared('Normalized fictional job description.'));
     await Promise.resolve();
     const request = http.expectOne('/test/thingamajob/evaluate');
+    expect(request.request.headers.get('Idempotency-Key')).toBe(attempt);
+    expect(request.request.headers.get('X-TAMJ-Session')).toBe(session);
     expect(request.request.body).toEqual({
       jobDescription: 'Normalized fictional job description.',
     });

@@ -43,8 +43,12 @@ async function fixture(reason) {
   let calls = 0;
   const ids = [];
   const reasoner = {
-    async evaluate(jd, truths) {
+    async evaluate(jd, truths, context, audit) {
       calls++;
+      await audit?.(
+        { model: 'fixture-model', requestId: 'req_fixture', inputTokens: 200, outputTokens: 40 },
+        { output: 'Private fake response' },
+      );
       return reason(jd, truths, ids, f);
     },
   };
@@ -61,6 +65,7 @@ async function fixture(reason) {
     'jd-evaluation.sql',
     'jd-diagnostics.sql',
     'jd-harness-diagnostics.sql',
+    'public-evaluation.sql',
   ])
     f.db.exec(readFileSync(new URL(name, import.meta.url), 'utf8'));
   const root = '/api/thingamajob/workspaces/workspace-one';
@@ -750,7 +755,7 @@ test('invalid references, provider failures and LoT changes fail closed without 
   }
 });
 
-test('public sandbox failures retain a safe operator-readable reference without storing JD or career text', async (t) => {
+test('public failures retain private attempt/content/usage while diagnostics and responses remain content-free', async (t) => {
   const log = t.mock.method(console, 'error', () => {});
   for (const mode of ['provider', 'validation', 'diagnostic-store']) {
     const f = await fixture((jd, truths, ids) => {
@@ -806,6 +811,12 @@ test('public sandbox failures retain a safe operator-readable reference without 
       );
       assert.equal(f.db.prepare('SELECT count(*) n FROM thingamajob_jd_evaluations').get().n, 0);
       assert.equal(f.calls, 1);
+      const attempt = f.db.prepare('SELECT * FROM thingamajob_public_attempts').get();
+      assert.equal(attempt.status, 'failed');
+      assert.equal(JSON.parse(attempt.metadata_json).inputTokens, 200);
+      assert.equal(attempt.expires_at - attempt.created_at, 90 * 86400);
+      assert(f.objects.has('public-evaluations/v1/' + attempt.attempt_id + '/provider.json'));
+      assert(f.objects.has('public-evaluations/v1/' + attempt.attempt_id + '/input.json'));
     } finally {
       f.db.close();
     }
@@ -824,10 +835,14 @@ test('public summary keeps details private, preserves classification, and quota 
       TEST_REFERENCE_WORKSPACE: 'workspace-one',
       JD_HARNESS_LIMIT: { limit: async () => ({ success: allowed }) },
     };
-    const request = () =>
+    const request = (key = crypto.randomUUID()) =>
       new Request('https://djamespoer.com/test/thingamajob/evaluate', {
         method: 'POST',
-        headers: { Origin: 'https://djamespoer.com', 'Content-Type': 'application/json' },
+        headers: {
+          Origin: 'https://djamespoer.com',
+          'Content-Type': 'application/json',
+          'Idempotency-Key': key,
+        },
         body: JSON.stringify({ jobDescription: description }),
       });
     const before = JSON.stringify(f.db.prepare('SELECT * FROM thingamajob_canonical_truth').all());
@@ -839,7 +854,7 @@ test('public summary keeps details private, preserves classification, and quota 
     assert.equal(body.requirements, undefined);
     assert.equal(body.canonicalTruthCount, undefined);
     const stored = await f.env.PRIVATE_ORIGINALS.get(
-      'workspaces/workspace-one/evaluations/' + body.evaluationId + '.json',
+      'public-evaluations/v1/' + body.evaluationId + '/result.json',
     );
     assert(stored);
     const detail = JSON.parse(new TextDecoder().decode(await stored.arrayBuffer()));
@@ -847,6 +862,8 @@ test('public summary keeps details private, preserves classification, and quota 
     assert.equal(detail.requirements.length, 4);
     assert.equal(detail.requirements[0].outcome, 'MET');
     assert.equal(detail.summary, body.summary);
+    assert.equal(f.calls, 1);
+    assert.equal((await f.worker.fetch(request(body.evaluationId), env)).status, 409);
     assert.equal(f.calls, 1);
     allowed = false;
     assert.equal((await f.worker.fetch(request(), env)).status, 429);

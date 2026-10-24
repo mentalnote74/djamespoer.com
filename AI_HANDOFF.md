@@ -1,5 +1,21 @@
 # AI Engineering Handoff
 
+## October 23 — SCRUM-141 public evaluation telemetry
+
+Phase 2 approved with 90-day retention for NEW public submission records only.
+Existing Worker/D1/private R2 now hold attempt lifecycle, input/method/session,
+canonical digest/policy/runtime, provider IDs/model/token metadata and private
+submitted/normalized/evaluated JD plus responses/results, including invalid paid
+responses. Canonical data, prior evaluations and classification remain unchanged.
+Atomic attempt claim prevents duplicate-key provider spend. No paid test call.
+Only new public-evaluations/v1/ objects and new attempt/event rows expire; daily
+04:17 UTC cleanup plus prefix-only R2 lifecycle preserve all career/history data.
+Portable component shares one attempt across intake/evaluation, discloses 90 days,
+and adds safe GA events/private 30-minute latest-attempt follow-through. Main's
+matching component/analytics change ships separately; do not merge this private
+branch wholesale into public main. Full contract, limitations and setup are in
+server/thingamajob/public-evaluation.md; release receipts are tracked in SCRUM-141.
+
 ## October 20 Fullsteam logistics correction (canonical-jd-v7)
 
 Retained result 27a02277-35ca-46e5-8ecd-0e623e4f1eec proves the uncertain headline
