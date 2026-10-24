@@ -8,7 +8,17 @@
     [style.--mobile-copy-width]="(slide.heroCopy?.mobileWidth ?? 66) + '%'"
     [style.--mobile-copy-align]="slide.heroCopy?.mobileAlignment ?? 'start'"
   >
-    <app-slide-visual class="hero-art" [slide]="slide" [hero]="true" (ready)="selectVariant()" />
+    @if (slide.visual === 'tcc-pig') {
+      <!-- Prepare the direct hero with its route; carousel artwork stays deferred. -->
+      <app-tcc-pig-slide
+        class="hero-art"
+        [hero]="true"
+        slideVisualReady
+        (slideVisualReady)="selectVariant()"
+      />
+    } @else {
+      <app-slide-visual class="hero-art" [slide]="slide" [hero]="true" (ready)="selectVariant()" />
+    }
     <header class="hero-copy" [class.shaded]="slide.heroCopy?.shade">
       @if (eyebrow()) {
         <p class="eyebrow">{{ eyebrow() }}</p>

@@ -1,0 +1,182 @@
+[
+  {
+    "mode": "gated",
+    "width": 1440,
+    "before": {
+      "pigImages": [],
+      "pigCode": []
+    },
+    "after": {
+      "images": [
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "bytes": 11634,
+          "transfer": 11934
+        },
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "bytes": 3119,
+          "transfer": 3419
+        },
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "bytes": 3047,
+          "transfer": 3347
+        },
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "bytes": 6387,
+          "transfer": 6687
+        },
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "bytes": 6112,
+          "transfer": 6412
+        }
+      ],
+      "sources": [
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif"
+      ],
+      "h2": "Like the status quo? Then pucker up."
+    }
+  },
+  {
+    "mode": "eager",
+    "width": 1440,
+    "before": {
+      "pigImages": [],
+      "pigCode": []
+    },
+    "after": {
+      "images": [
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "bytes": 11634,
+          "transfer": 11934
+        },
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "bytes": 3119,
+          "transfer": 3419
+        },
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "bytes": 3047,
+          "transfer": 3347
+        },
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "bytes": 6387,
+          "transfer": 6687
+        },
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "bytes": 6112,
+          "transfer": 6412
+        }
+      ],
+      "sources": [
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif"
+      ],
+      "h2": "Like the status quo? Then pucker up."
+    }
+  },
+  {
+    "mode": "gated",
+    "width": 390,
+    "before": {
+      "pigImages": [],
+      "pigCode": []
+    },
+    "after": {
+      "images": [
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "bytes": 4038,
+          "transfer": 4338
+        },
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "bytes": 1331,
+          "transfer": 1631
+        },
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "bytes": 1385,
+          "transfer": 1685
+        },
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "bytes": 2247,
+          "transfer": 2547
+        },
+        {
+          "url": "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "bytes": 2259,
+          "transfer": 2559
+        }
+      ],
+      "sources": [
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+        "http://127.0.0.1:51188/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif"
+      ],
+      "h2": "Like the status quo? Then pucker up."
+    }
+  },
+  {
+    "mode": "eager",
+    "width": 390,
+    "before": {
+      "pigImages": [],
+      "pigCode": []
+    },
+    "after": {
+      "images": [
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "bytes": 4038,
+          "transfer": 4338
+        },
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "bytes": 1331,
+          "transfer": 1631
+        },
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "bytes": 1385,
+          "transfer": 1685
+        },
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "bytes": 2247,
+          "transfer": 2547
+        },
+        {
+          "url": "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "bytes": 2259,
+          "transfer": 2559
+        }
+      ],
+      "sources": [
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+        "http://127.0.0.1:51189/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif"
+      ],
+      "h2": "Like the status quo? Then pucker up."
+    }
+  }
+]

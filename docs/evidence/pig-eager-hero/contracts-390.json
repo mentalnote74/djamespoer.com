@@ -1,0 +1,12 @@
+{
+  "hiddenPause": true,
+  "focusReveals": true,
+  "keyboardPauseResume": true,
+  "reduced": {
+    "animations": 0,
+    "kiss": "visible"
+  },
+  "forcedColors": true,
+  "axe": [],
+  "errors": []
+}

@@ -1,6 +1,6 @@
 // Shared native-link treatment. The copy remains above the link visually while
 // pointer events pass through to it; the separate pause button is keyboard-revealed.
-:is(app-slide-visual, app-perspective-slide, app-thingamajob-slide) {
+:is(app-slide-visual, app-perspective-slide, app-thingamajob-slide, app-tcc-pig-slide) {
   position: relative;
 }
 .slide-surface > .slide-destination {
@@ -50,7 +50,8 @@
     inline-size: 1.1em;
     block-size: 1.1em;
     background-color: currentColor;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14m-7-7 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14m-7-7 7 7-7 7'/%3E%3C/svg%3E")
+      center / contain no-repeat;
     forced-color-adjust: none;
   }
 }
@@ -65,7 +66,8 @@
   box-shadow: 0 0 0 5px var(--focus-outer);
 }
 // Keep controls in the focus order/AT tree; take no space until keyboard focus.
-:is(app-slide-visual, app-perspective-slide, app-thingamajob-slide) button.slide-motion-control {
+:is(app-slide-visual, app-perspective-slide, app-thingamajob-slide, app-tcc-pig-slide)
+  button.slide-motion-control {
   position: absolute;
   inset: auto 0.75rem 0.75rem auto;
   z-index: 7;
