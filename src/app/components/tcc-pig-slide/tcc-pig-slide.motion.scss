@@ -1,21 +1,22 @@
 // Keep keyframe names and references in this one Angular-scoped stylesheet.
-// Discrete replacement avoids doubled lips/eyes. 11.4 s includes 8 s at rest.
+// Discrete replacement avoids doubled lips/eyes. Two 4 s cycles fit the 9 s slide:
+// wink 1.50–2.05 / 5.50–6.05 s; kiss 2.40–3.40 / 6.40–7.40 s.
 .eye-wink,
 .mouth-kiss {
   visibility: hidden;
 }
 .eligible {
   .eye-open {
-    animation: eye-open 11.4s step-end infinite;
+    animation: eye-open 4s step-end infinite;
   }
   .eye-wink {
-    animation: eye-wink 11.4s step-end infinite;
+    animation: eye-wink 4s step-end infinite;
   }
   .mouth-rest {
-    animation: mouth-rest 11.4s step-end infinite;
+    animation: mouth-rest 4s step-end infinite;
   }
   .mouth-kiss {
-    animation: mouth-kiss 11.4s step-end infinite;
+    animation: mouth-kiss 4s step-end infinite;
   }
 }
 .paused .plate {
@@ -23,41 +24,41 @@
 }
 @keyframes eye-open {
   0%,
-  17.9825%,
+  51.25%,
   100% {
     visibility: visible;
   }
-  13.1579% {
+  37.5% {
     visibility: hidden;
   }
 }
 @keyframes eye-wink {
   0%,
-  17.9825%,
+  51.25%,
   100% {
     visibility: hidden;
   }
-  13.1579% {
+  37.5% {
     visibility: visible;
   }
 }
 @keyframes mouth-rest {
   0%,
-  29.8246%,
+  85%,
   100% {
     visibility: visible;
   }
-  21.0526% {
+  60% {
     visibility: hidden;
   }
 }
 @keyframes mouth-kiss {
   0%,
-  29.8246%,
+  85%,
   100% {
     visibility: hidden;
   }
-  21.0526% {
+  60% {
     visibility: visible;
   }
 }

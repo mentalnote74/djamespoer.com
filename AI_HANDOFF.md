@@ -1,5 +1,15 @@
 # AI Engineering Handoff
 
+## October 23 — two pig expressions per carousel dwell
+
+TCC pig artwork now repeats its existing wink/kiss sequence every four seconds,
+finishing the two kisses at 3.4 and 7.4 seconds within the nine-second slide.
+Only scoped CSS timing changes; registered assets, carousel interval/order,
+eligibility/reset, pause/resume, reduced-motion and forced-colors rules remain.
+Build/budgets and 27 carousel tests pass. Real 1440/390px autoplay checks observe
+two wink/kiss sequences per nine-second dwell, no doubled features/overflow/errors,
+keyboard pause/resume, static reduced motion, forced colors and zero scoped axe.
+
 ## October 23 — SCRUM-141 public evaluation funnel
 
 Approved 90-day retention for new public JD/results/telemetry only. Portable

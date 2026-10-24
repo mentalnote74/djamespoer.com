@@ -2,7 +2,8 @@
 
 October 23: the initial snug delivery patches described below are historical.
 Current runtime exports retain the complete registered 3:1 canvas for every
-layer; original masters, masks and expression timing are unchanged. Current
+layer; original masters and masks are unchanged. Current expression timing is
+documented below. Current
 pipeline, paths, dimensions, selected bytes and verification:
 [slide geometry correction](../../docs/slide-geometry.md).
 
@@ -34,7 +35,10 @@ loading; there are no runtime PNG or full-frame pose replacements.
 ## Motion and responsive behavior
 
 CSS discrete registered replacements: wink at 1.50 s, open again at 2.05 s,
-kiss at 2.40 s, rest at 3.40 s. Period 11.40 s: eight seconds of rest afterward.
+kiss at 2.40 s, rest at 3.40 s. Owner's October 23 timing update uses a four-second
+cycle so the nine-second carousel dwell shows two sequences: wink again at
+5.50 s, kiss again at 6.40 s, rest at 7.40 s. The following cycle is still resting
+when the carousel advances. The old 11.40-second loop is superseded.
 The rest of the pig and background never move. No animation library or JS loop.
 Animation names and keyframe references share one Angular-scoped stylesheet.
 
