@@ -1,29 +1,5 @@
 # AI Engineering Handoff
 
-## Pig loading — local separate-assets review checkpoint
-
-No push/deploy. Branch `fix/pig-seamless-loading`, based on `2842cd73`.
-Atlas `f23d1cea` remains isolated and is not promoted. Original separate assets,
-source masters, animation timings, native link and tracking stay intact.
-Complete inline previews from approved pig pixels cover preparation/failure;
-all five actual rendered images decode before an atomic grouped reveal.
-Responsive replacement keeps the old complete batch; failure freezes it.
-
-Actual desktop/390px filmstrips reproduce baseline isolated patches/rectangular
-holes and show a complete fallback/detail in the fix. Build/budgets, 48-route
-prerender and 34 focused tests pass. Browser checks pass for two wink/kiss cycles,
-keyboard pause, real hidden-tab/offscreen reset, reduced-motion kiss (also with
-failed images), forced colors, native click/tap and scoped axe (zero).
-
-Tradeoff: fallback is visibly softer (384x128). Five image requests/bytes are
-unchanged, but Home HTML adds 3791 gzip B and the lazy pig chunk adds 4251 gzip B.
-96 repeated cold/warm comparisons: cold throttled Home detail readiness median
-549→621ms desktop / 499→601ms mobile; direct TCC hero 1611→3809ms / 1031→3829ms.
-Desktop throttled hero LCP also regresses 980→3828ms. Opening Home LCP is mixed,
-not a proven speed win. Review these limitations before promotion; no whole-deck
-preload workaround. Original dirty checkout and unrelated local work untouched.
-See [full evidence and visual review](docs/evidence/pig-loading/README.md).
-
 ## Explore and Blognostisphere icons
 
 Shared slide Explore labels now include one decorative right-arrow mask in the
