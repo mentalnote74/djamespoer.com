@@ -16,12 +16,35 @@
   }
   <div class="art" aria-hidden="true">
     @for (layer of layers; track layer.name) {
-      <app-slide-image
-        [priority]="hero() && layer.name === 'base'"
-        [class]="'plate ' + layer.name"
-        [layer]="'tcc-pig/' + layer.name"
-        (loaded)="checkReady()"
-      />
+      <div [class]="'plate ' + layer.name">
+        <span
+          class="sprite-crop"
+          [style.left.%]="(layer.x / 2172) * 100"
+          [style.top.%]="(layer.y / 724) * 100"
+          [style.width.%]="(layer.w / 2172) * 100"
+          [style.height.%]="(layer.h / 724) * 100"
+        >
+          <picture>
+            <source type="image/avif" [srcset]="atlasSrcset('avif')" [sizes]="sizes" />
+            <img
+              src="/assets/pig-sprite/atlas-1440.webp"
+              [srcset]="atlasSrcset('webp')"
+              [sizes]="sizes"
+              width="2172"
+              height="928"
+              alt=""
+              [loading]="hero() && layer.name === 'base' ? 'eager' : 'lazy'"
+              [attr.fetchpriority]="hero() && layer.name === 'base' ? 'high' : null"
+              decoding="async"
+              [style.width.%]="(2172 / layer.w) * 100"
+              [style.height.%]="(928 / layer.h) * 100"
+              [style.left.%]="(-layer.sx / layer.w) * 100"
+              [style.top.%]="(-layer.sy / layer.h) * 100"
+              (load)="checkReady()"
+            />
+          </picture>
+        </span>
+      </div>
     }
   </div>
   <div class="copy slide-surface__copy">

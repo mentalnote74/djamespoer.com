@@ -1,0 +1,74 @@
+[
+  {
+    "width": 1440,
+    "motion": {
+      "wink": 2,
+      "kiss": 2,
+      "changes": [
+        {
+          "pose": "wink",
+          "at": 1497
+        },
+        {
+          "pose": "kiss",
+          "at": 2399
+        },
+        {
+          "pose": "wink",
+          "at": 5501
+        },
+        {
+          "pose": "kiss",
+          "at": 6400
+        }
+      ],
+      "doubled": false,
+      "advanced": true,
+      "elapsed": 8987
+    },
+    "keyboardPauseResume": true,
+    "reduced": {
+      "animations": 0,
+      "kiss": "visible"
+    },
+    "forcedColors": true,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "motion": {
+      "wink": 2,
+      "kiss": 2,
+      "changes": [
+        {
+          "pose": "wink",
+          "at": 1503
+        },
+        {
+          "pose": "kiss",
+          "at": 2396
+        },
+        {
+          "pose": "wink",
+          "at": 5490
+        },
+        {
+          "pose": "kiss",
+          "at": 6392
+        }
+      ],
+      "doubled": false,
+      "advanced": true,
+      "elapsed": 8988
+    },
+    "keyboardPauseResume": true,
+    "reduced": {
+      "animations": 0,
+      "kiss": "visible"
+    },
+    "forcedColors": true,
+    "axe": [],
+    "errors": []
+  }
+]

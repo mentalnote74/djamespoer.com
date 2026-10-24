@@ -1,5 +1,43 @@
 # AI Engineering Handoff
 
+## Pig sprite comparison - local review only, not approved for promotion
+
+Isolated experiment/pig-sprite-comparison starts at main/PROD 2842cd7. Baseline
+build is frozen in ignored tmp/baseline-browser. Original pig masters, prompts,
+registered deliveries, timing stylesheet, native link and tracking are preserved.
+Only this branch uses one responsive per-pig atlas with five clipped pose views;
+no carousel preload/eager change and no push/deployment.
+
+Baseline filmstrips prove independent image assembly: isolated facial rectangles
+and unfilled eye/mouth holes. The atlas makes the sampled assembly more coherent,
+reduces requests 5 to 1 and theoretical decoded RGBA by 74.4%. Three-repetition
+matched matrix: 96 cold/warm navigations, 1440px/DPR1 and 390px/DPR2, native or
+150ms/1.6Mbps/4x CPU, direct TCC hero and first Home arrival. Slow cold readiness:
+Home desktop 552 to 538ms/mobile 459 to 454ms; direct hero 2622 to 1570ms/1568 to
+802ms. Slow warm desktop Home regresses in all three pairs (median 133 to 280ms).
+Desktop actual transfer rises 31,799 to 36,942B; mobile falls 12,760 to 11,602B.
+Isolated core decode CPU medians drop 22.72 to 6.35ms desktop / 8.33 to 2.36ms
+mobile. Pig-attributed paint CPU remains sub-ms in sampled traces; GPU memory
+was not measured. Opening-page observed LCP varies and establishes no win or
+clean nonregression. Readiness timings are post-decode/two-rAF proxies; exact
+scanout timing, real Android and Cloudflare HTTP/2/3 remain limitations.
+
+Recommendation: reject the present candidate for production promotion; retain
+the prototype/evidence. Visual coherence and decoder savings are real, but do
+not obscure the repeatable warm-desktop regression or claim faster Home LCP.
+Full measurements, ranges, filmstrips, scripts and limitations:
+docs/evidence/pig-sprite-comparison/README.md (visual index.html beside it).
+Raw frames/traces stay local in tmp/evidence/pig-sprite. No paid evaluations.
+
+Final build/style budgets pass (468.57kB initial; 48 prerendered routes); 30
+existing carousel/hero tests and the atlas receipt/registration test pass.
+Actual 1440/390px motion retains two wink/kiss sequences within 9s, pause/resume,
+static reduced-motion kiss, forced colors and zero scoped axe. Offscreen and
+actual background-tab reset, WebP fallback, native click/tap and unchanged GA
+attributes pass. Original image/prompt hashes match; unrelated root work and the
+separate resume-review branch remain untouched. No claim of uniformly zero
+desktop page CLS: existing small shifts occur in both variants; mobile is zero.
+
 ## Explore and Blognostisphere icons
 
 Shared slide Explore labels now include one decorative right-arrow mask in the

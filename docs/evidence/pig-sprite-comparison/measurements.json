@@ -1,0 +1,6377 @@
+{
+  "schemaVersion": 2,
+  "baselineSha": "2842cd73f88c57a5b75d746f3f3f6c9bf1c62213",
+  "timingDefinition": "all five image elements complete, decode() resolved, then two animation frames; readiness proxy, not a GPU presentation timestamp",
+  "rows": [
+    {
+      "id": "baseline-1440-native-home-1-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 111.09999990463257,
+      "completeAfterVisibleMs": 95.89999997615814,
+      "openingLcpMs": 1436,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.000027793330439814813,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 2099.899999976158,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 2128.7999999523163,
+          "state": "11100",
+          "eligible": false
+        },
+        {
+          "at": 2145.2999999523163,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 2084.7000000476837,
+      "firstVisible": 2099.899999976158,
+      "decodedReady": 2195.7999999523163,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 18.899999976158142,
+          "start": 2103,
+          "end": 2121.899999976158
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 23.600000023841858,
+          "start": 2103.100000023842,
+          "end": 2126.7000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 18.399999976158142,
+          "start": 2103.2000000476837,
+          "end": 2121.600000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 29.399999976158142,
+          "start": 2103.2000000476837,
+          "end": 2132.600000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 31.299999952316284,
+          "start": 2103.2000000476837,
+          "end": 2134.5
+        }
+      ],
+      "trace": {
+        "id": "baseline-1440-native-home-1-cold",
+        "pigPaintCpuMs": 0.16699999999999998,
+        "pageCoreDecodeCpuMs": 40.53300000000001,
+        "pageRasterWallMs": 15.630999999999995
+      }
+    },
+    {
+      "id": "baseline-1440-native-home-1-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 86.79999995231628,
+      "completeAfterVisibleMs": 75.20000004768372,
+      "openingLcpMs": 156,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.000036723632812500006,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 837.6999999284744,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 826.1000000238419,
+      "firstVisible": 837.6999999284744,
+      "decodedReady": 912.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 28.699999928474426,
+          "end": 28.699999928474426
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 28.699999928474426,
+          "end": 28.699999928474426
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 28.799999952316284,
+          "end": 28.799999952316284
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 29,
+          "end": 29
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 29.100000023841858,
+          "end": 29.100000023841858
+        }
+      ],
+      "trace": {
+        "id": "baseline-1440-native-home-1-warm",
+        "pigPaintCpuMs": 0.092,
+        "pageCoreDecodeCpuMs": 29.766000000000002,
+        "pageRasterWallMs": 8.872999999999996
+      }
+    },
+    {
+      "id": "sprite-1440-native-home-1-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 60.799999952316284,
+      "completeAfterVisibleMs": 49,
+      "openingLcpMs": 220,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.000027793330439814813,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 1051.7000000476837,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 1074.2000000476837,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 1039.9000000953674,
+      "firstVisible": 1051.7000000476837,
+      "decodedReady": 1100.7000000476837,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 7.100000023841858,
+          "start": 1054.7000000476837,
+          "end": 1061.8000000715256
+        }
+      ],
+      "trace": {
+        "id": "sprite-1440-native-home-1-cold",
+        "pigPaintCpuMs": 0.16699999999999998,
+        "pageCoreDecodeCpuMs": 25.954,
+        "pageRasterWallMs": 12.493999999999991
+      }
+    },
+    {
+      "id": "sprite-1440-native-home-1-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 71.79999995231628,
+      "completeAfterVisibleMs": 64.89999997615814,
+      "openingLcpMs": 228,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.000036723632812500006,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 1003.8000000715256,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 996.9000000953674,
+      "firstVisible": 1003.8000000715256,
+      "decodedReady": 1068.7000000476837,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 46.90000009536743,
+          "end": 46.90000009536743
+        }
+      ],
+      "trace": {
+        "id": "sprite-1440-native-home-1-warm",
+        "pigPaintCpuMs": 0.09499999999999999,
+        "pageCoreDecodeCpuMs": 18.696,
+        "pageRasterWallMs": 8.148000000000001
+      }
+    },
+    {
+      "id": "baseline-1440-native-hero-1-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 342.3000000715256,
+      "completeAfterVisibleMs": 233.30000007152557,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 156,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 109,
+          "state": "10000",
+          "eligible": false
+        },
+        {
+          "at": 143.89999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 109,
+      "decodedReady": 342.3000000715256,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 9.399999976158142,
+          "start": 20.5,
+          "end": 29.899999976158142
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 3.399999976158142,
+          "start": 126.30000007152557,
+          "end": 129.70000004768372
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 4.699999928474426,
+          "start": 126.30000007152557,
+          "end": 131
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 4.800000071525574,
+          "start": 126.39999997615814,
+          "end": 131.20000004768372
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 4.5,
+          "start": 126.80000007152557,
+          "end": 131.30000007152557
+        }
+      ],
+      "trace": {
+        "id": "baseline-1440-native-hero-1-cold",
+        "pigPaintCpuMs": 0.42800000000000005,
+        "pageCoreDecodeCpuMs": 22.363,
+        "pageRasterWallMs": 5.879999999999998
+      }
+    },
+    {
+      "id": "baseline-1440-native-hero-1-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 151.30000007152557,
+      "completeAfterVisibleMs": 58,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 136,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 93.30000007152557,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 93.30000007152557,
+      "decodedReady": 151.30000007152557,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 15.800000071525574,
+          "end": 15.800000071525574
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 25.899999976158142,
+          "end": 25.899999976158142
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 26.100000023841858,
+          "end": 26.100000023841858
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 26.399999976158142,
+          "end": 26.399999976158142
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 26.600000023841858,
+          "end": 26.600000023841858
+        }
+      ],
+      "trace": {
+        "id": "baseline-1440-native-hero-1-warm",
+        "pigPaintCpuMs": 0.181,
+        "pageCoreDecodeCpuMs": 19.308,
+        "pageRasterWallMs": 4.715
+      }
+    },
+    {
+      "id": "sprite-1440-native-hero-1-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 474.60000002384186,
+      "completeAfterVisibleMs": 386.8000000715256,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 476,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 87.79999995231628,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 116.19999992847443,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 87.79999995231628,
+      "decodedReady": 474.60000002384186,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 9.200000047683716,
+          "start": 17.199999928474426,
+          "end": 26.399999976158142
+        }
+      ],
+      "trace": {
+        "id": "sprite-1440-native-hero-1-cold",
+        "pigPaintCpuMs": 0.32100000000000006,
+        "pageCoreDecodeCpuMs": 9.184999999999999,
+        "pageRasterWallMs": 4.9479999999999995
+      }
+    },
+    {
+      "id": "sprite-1440-native-hero-1-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 128.89999997615814,
+      "completeAfterVisibleMs": 46.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 124,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 82.39999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 82.39999997615814,
+      "decodedReady": 128.89999997615814,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 11.699999928474426,
+          "end": 11.699999928474426
+        }
+      ],
+      "trace": {
+        "id": "sprite-1440-native-hero-1-warm",
+        "pigPaintCpuMs": 0.158,
+        "pageCoreDecodeCpuMs": 3.9850000000000003,
+        "pageRasterWallMs": 4.767000000000001
+      }
+    },
+    {
+      "id": "sprite-1440-native-home-2-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 80.89999997615814,
+      "completeAfterVisibleMs": 68.09999990463257,
+      "openingLcpMs": 188,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.000027793330439814813,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 896,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 921.1999999284744,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 883.1999999284744,
+      "firstVisible": 896,
+      "decodedReady": 964.0999999046326,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 2,
+          "start": 901.8999999761581,
+          "end": 903.8999999761581
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-native-home-2-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 169.39999997615814,
+      "completeAfterVisibleMs": 136.89999997615814,
+      "openingLcpMs": 124,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.000036723632812500006,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 756.3000000715256,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 723.8000000715256,
+      "firstVisible": 756.3000000715256,
+      "decodedReady": 893.2000000476837,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 36.60000002384186,
+          "end": 36.60000002384186
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-native-home-2-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 75.19999992847443,
+      "completeAfterVisibleMs": 60.10000002384186,
+      "openingLcpMs": 184,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.000027793330439814813,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 907.0999999046326,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 918.7999999523163,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 892,
+      "firstVisible": 907.0999999046326,
+      "decodedReady": 967.1999999284744,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 2.700000047683716,
+          "start": 909.5999999046326,
+          "end": 912.2999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 3.3000000715255737,
+          "start": 909.5999999046326,
+          "end": 912.8999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 3.600000023841858,
+          "start": 909.6999999284744,
+          "end": 913.2999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 3.5,
+          "start": 909.6999999284744,
+          "end": 913.1999999284744
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 5.299999952316284,
+          "start": 909.7999999523163,
+          "end": 915.0999999046326
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-native-home-2-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 204.60000002384186,
+      "completeAfterVisibleMs": 56,
+      "openingLcpMs": 116,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.000036723632812500006,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 876.6000000238419,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 728,
+      "firstVisible": 876.6000000238419,
+      "decodedReady": 932.6000000238419,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 25.300000071525574,
+          "end": 25.300000071525574
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 25.5,
+          "end": 25.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 25.600000023841858,
+          "end": 25.600000023841858
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 25.700000047683716,
+          "end": 25.700000047683716
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 25.700000047683716,
+          "end": 25.700000047683716
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-native-hero-2-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 241.89999997615814,
+      "completeAfterVisibleMs": 163.60000002384186,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 248,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 78.29999995231628,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 103.39999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 78.29999995231628,
+      "decodedReady": 241.89999997615814,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 10.300000071525574,
+          "start": 12.299999952316284,
+          "end": 22.600000023841858
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-native-hero-2-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 123.60000002384186,
+      "completeAfterVisibleMs": 42.10000002384186,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 124,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 81.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 81.5,
+      "decodedReady": 123.60000002384186,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 11.300000071525574,
+          "end": 11.300000071525574
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-native-hero-2-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 251.10000002384186,
+      "completeAfterVisibleMs": 171.60000002384186,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 256,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 79.5,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 107.89999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 79.5,
+      "decodedReady": 251.10000002384186,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 8,
+          "start": 12.5,
+          "end": 20.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 2.899999976158142,
+          "start": 94.39999997615814,
+          "end": 97.29999995231628
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 3.200000047683716,
+          "start": 94.39999997615814,
+          "end": 97.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 3.299999952316284,
+          "start": 94.60000002384186,
+          "end": 97.89999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 3.5999999046325684,
+          "start": 94.70000004768372,
+          "end": 98.29999995231628
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-native-hero-2-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 140.89999997615814,
+      "completeAfterVisibleMs": 63.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 124,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 77.39999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 77.39999997615814,
+      "decodedReady": 140.89999997615814,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 10.699999928474426,
+          "end": 10.699999928474426
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 18.299999952316284,
+          "end": 18.299999952316284
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 18.399999976158142,
+          "end": 18.399999976158142
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 18.600000023841858,
+          "end": 18.600000023841858
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 18.699999928474426,
+          "end": 18.699999928474426
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-native-home-3-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 242.39999997615814,
+      "completeAfterVisibleMs": 230.69999992847443,
+      "openingLcpMs": 184,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.000027793330439814813,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 924.6000000238419,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 939.7000000476837,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 912.8999999761581,
+      "firstVisible": 924.6000000238419,
+      "decodedReady": 1155.2999999523163,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 3.899999976158142,
+          "start": 927.3999999761581,
+          "end": 931.2999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 3.600000023841858,
+          "start": 927.6000000238419,
+          "end": 931.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 3.799999952316284,
+          "start": 927.6000000238419,
+          "end": 931.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 4.299999952316284,
+          "start": 927.7000000476837,
+          "end": 932
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 5.799999952316284,
+          "start": 927.7000000476837,
+          "end": 933.5
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-native-home-3-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 739.1000000238419,
+      "completeAfterVisibleMs": 703.8000000715256,
+      "openingLcpMs": 232,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.000036723632812500006,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 817.7999999523163,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 782.5,
+      "firstVisible": 817.7999999523163,
+      "decodedReady": 1521.6000000238419,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 38.60000002384186,
+          "end": 38.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 38.799999952316284,
+          "end": 38.799999952316284
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 38.89999997615814,
+          "end": 38.89999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 39.10000002384186,
+          "end": 39.10000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 39.39999997615814,
+          "end": 39.39999997615814
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-native-home-3-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 56.10000002384186,
+      "completeAfterVisibleMs": 38.5,
+      "openingLcpMs": 196,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.000027793330439814813,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 907.3999999761581,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 920.8999999761581,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 889.7999999523163,
+      "firstVisible": 907.3999999761581,
+      "decodedReady": 945.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 1.899999976158142,
+          "start": 913.2999999523163,
+          "end": 915.1999999284744
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-native-home-3-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 248.89999997615814,
+      "completeAfterVisibleMs": 192.79999995231628,
+      "openingLcpMs": 120,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.000036723632812500006,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 775.3999999761581,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 719.2999999523163,
+      "firstVisible": 775.3999999761581,
+      "decodedReady": 968.1999999284744,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 28.299999952316284,
+          "end": 28.299999952316284
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-native-hero-3-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 415.7000000476837,
+      "completeAfterVisibleMs": 338.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 424,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 77.20000004768372,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 105.70000004768372,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 77.20000004768372,
+      "decodedReady": 415.7000000476837,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 10.599999904632568,
+          "start": 12.700000047683716,
+          "end": 23.299999952316284
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 3.4000000953674316,
+          "start": 92.79999995231628,
+          "end": 96.20000004768372
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 4,
+          "start": 93,
+          "end": 97
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 4.5,
+          "start": 93.10000002384186,
+          "end": 97.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 4.699999928474426,
+          "start": 93.10000002384186,
+          "end": 97.79999995231628
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-native-hero-3-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 138.5,
+      "completeAfterVisibleMs": 62.60000002384186,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 124,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 75.89999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 75.89999997615814,
+      "decodedReady": 138.5,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 10.399999976158142,
+          "end": 10.399999976158142
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 18.899999976158142,
+          "end": 18.899999976158142
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 19,
+          "end": 19
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 19,
+          "end": 19
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 19.100000023841858,
+          "end": 19.100000023841858
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-native-hero-3-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 339.10000002384186,
+      "completeAfterVisibleMs": 254.39999997615814,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 140,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 84.70000004768372,
+          "state": "10000",
+          "eligible": false
+        },
+        {
+          "at": 110.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 84.70000004768372,
+      "decodedReady": 339.10000002384186,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 7,
+          "start": 15.399999976158142,
+          "end": 22.399999976158142
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-native-hero-3-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 117.89999997615814,
+      "completeAfterVisibleMs": 38.700000047683716,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 112,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 79.19999992847443,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 79.19999992847443,
+      "decodedReady": 117.89999997615814,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 12.399999976158142,
+          "end": 12.399999976158142
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-home-1-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 720.8999999761581,
+      "completeAfterVisibleMs": 649.3000000715256,
+      "openingLcpMs": 740,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.003750481589988426,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 4645,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4947.200000047684,
+          "state": "01100",
+          "eligible": false
+        },
+        {
+          "at": 5148.200000047684,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 4573.400000095367,
+      "firstVisible": 4645,
+      "decodedReady": 5294.300000071526,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 333.2000000476837,
+          "start": 4668.600000023842,
+          "end": 5001.800000071526
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 253.70000004768372,
+          "start": 4669.700000047684,
+          "end": 4923.400000095367
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 252.79999995231628,
+          "start": 4670.800000071526,
+          "end": 4923.600000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 307,
+          "start": 4671.800000071526,
+          "end": 4978.800000071526
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 306.1999999284744,
+          "start": 4672.800000071526,
+          "end": 4979
+        }
+      ],
+      "trace": {
+        "id": "baseline-1440-slow-home-1-cold",
+        "pigPaintCpuMs": 0.488,
+        "pageCoreDecodeCpuMs": 31.625000000000004,
+        "pageRasterWallMs": 15.684999999999988
+      }
+    },
+    {
+      "id": "baseline-1440-slow-home-1-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 136.79999995231628,
+      "completeAfterVisibleMs": 51.89999997615814,
+      "openingLcpMs": 1072,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.016246443232783566,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3402.600000023842,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3317.7000000476837,
+      "firstVisible": 3402.600000023842,
+      "decodedReady": 3454.5,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 614.5,
+          "end": 614.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 616.8999999761581,
+          "end": 616.8999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 619.6000000238419,
+          "end": 619.6000000238419
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 621.8999999761581,
+          "end": 621.8999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 624.5,
+          "end": 624.5
+        }
+      ],
+      "trace": {
+        "id": "baseline-1440-slow-home-1-warm",
+        "pigPaintCpuMs": 0.258,
+        "pageCoreDecodeCpuMs": 19.963000000000005,
+        "pageRasterWallMs": 11.417000000000002
+      }
+    },
+    {
+      "id": "sprite-1440-slow-home-1-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 657.5,
+      "completeAfterVisibleMs": 566.3999999761581,
+      "openingLcpMs": 684,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.003750481589988426,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 4095.3000000715256,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4501.600000023842,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 4004.2000000476837,
+      "firstVisible": 4095.3000000715256,
+      "decodedReady": 4661.700000047684,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 347.60000002384186,
+          "start": 4126,
+          "end": 4473.600000023842
+        }
+      ],
+      "trace": {
+        "id": "sprite-1440-slow-home-1-cold",
+        "pigPaintCpuMs": 0.575,
+        "pageCoreDecodeCpuMs": 23.739,
+        "pageRasterWallMs": 14.600999999999999
+      }
+    },
+    {
+      "id": "sprite-1440-slow-home-1-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 280.39999997615814,
+      "completeAfterVisibleMs": 139.29999995231628,
+      "openingLcpMs": 640,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.008278497751494984,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3607,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3465.899999976158,
+      "firstVisible": 3607,
+      "decodedReady": 3746.2999999523163,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 683.1999999284744,
+          "end": 683.1999999284744
+        }
+      ],
+      "trace": {
+        "id": "sprite-1440-slow-home-1-warm",
+        "pigPaintCpuMs": 0.428,
+        "pageCoreDecodeCpuMs": 11.704999999999998,
+        "pageRasterWallMs": 10.866999999999996
+      }
+    },
+    {
+      "id": "baseline-1440-slow-hero-1-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 2636.6999999284744,
+      "completeAfterVisibleMs": 2197.899999976158,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 1312,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 438.7999999523163,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 1102.1999999284744,
+          "state": "10000",
+          "eligible": false
+        },
+        {
+          "at": 2434.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 438.7999999523163,
+      "decodedReady": 2636.6999999284744,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 741.5,
+          "start": 330.89999997615814,
+          "end": 1072.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 1321.1000000238419,
+          "start": 470.89999997615814,
+          "end": 1792
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 1382.5,
+          "start": 471,
+          "end": 1853.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 1366.3999999761581,
+          "start": 472,
+          "end": 1838.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 1350,
+          "start": 472.60000002384186,
+          "end": 1822.6000000238419
+        }
+      ],
+      "trace": {
+        "id": "baseline-1440-slow-hero-1-cold",
+        "pigPaintCpuMs": 0.542,
+        "pageCoreDecodeCpuMs": 13.891,
+        "pageRasterWallMs": 9.310999999999998
+      }
+    },
+    {
+      "id": "baseline-1440-slow-hero-1-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 1231.8999999761581,
+      "completeAfterVisibleMs": 789.3999999761581,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 684,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 442.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 442.5,
+      "decodedReady": 1231.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 312.1999999284744,
+          "end": 312.1999999284744
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 314.09999990463257,
+          "end": 314.09999990463257
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 314.6999999284744,
+          "end": 314.6999999284744
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 315.6999999284744,
+          "end": 315.6999999284744
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 317.5,
+          "end": 317.5
+        }
+      ],
+      "trace": {
+        "id": "baseline-1440-slow-hero-1-warm",
+        "pigPaintCpuMs": 0.32500000000000007,
+        "pageCoreDecodeCpuMs": 11.882000000000001,
+        "pageRasterWallMs": 6.943999999999996
+      }
+    },
+    {
+      "id": "sprite-1440-slow-hero-1-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 1072.6000000238419,
+      "completeAfterVisibleMs": 461.8000000715256,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 1136,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 610.7999999523163,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 820.6000000238419,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 610.7999999523163,
+      "decodedReady": 1072.6000000238419,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 379.3000000715256,
+          "start": 315.7999999523163,
+          "end": 695.1000000238419
+        }
+      ],
+      "trace": {
+        "id": "sprite-1440-slow-hero-1-cold",
+        "pigPaintCpuMs": 0.72,
+        "pageCoreDecodeCpuMs": 9.283,
+        "pageRasterWallMs": 9.852
+      }
+    },
+    {
+      "id": "sprite-1440-slow-hero-1-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 1216.7000000476837,
+      "completeAfterVisibleMs": 815.1000000238419,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 480,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 401.60000002384186,
+          "state": "111",
+          "eligible": false
+        },
+        {
+          "at": 582.7999999523163,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 401.60000002384186,
+      "decodedReady": 1216.7000000476837,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 298.60000002384186,
+          "end": 298.60000002384186
+        }
+      ],
+      "trace": {
+        "id": "sprite-1440-slow-hero-1-warm",
+        "pigPaintCpuMs": 0.5980000000000001,
+        "pageCoreDecodeCpuMs": 3.19,
+        "pageRasterWallMs": 5.213999999999999
+      }
+    },
+    {
+      "id": "sprite-1440-slow-home-2-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 538.1000000238419,
+      "completeAfterVisibleMs": 426.89999997615814,
+      "openingLcpMs": 1052,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.008375548412181712,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 4205.900000095367,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4568.800000071526,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 4094.7000000476837,
+      "firstVisible": 4205.900000095367,
+      "decodedReady": 4632.800000071526,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 338.89999997615814,
+          "start": 4198.200000047684,
+          "end": 4537.100000023842
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-slow-home-2-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 383.5,
+      "completeAfterVisibleMs": 199.10000002384186,
+      "openingLcpMs": 1436,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.014950659270109953,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3046.399999976158,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 2862,
+      "firstVisible": 3046.399999976158,
+      "decodedReady": 3245.5,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 514.5,
+          "end": 514.5
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-home-2-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 551.6000000238419,
+      "completeAfterVisibleMs": 458.90000009536743,
+      "openingLcpMs": 820,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.000978722873263889,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 4261.5,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4534.400000095367,
+          "state": "01000",
+          "eligible": false
+        },
+        {
+          "at": 4554.200000047684,
+          "state": "01100",
+          "eligible": false
+        },
+        {
+          "at": 4608.600000023842,
+          "state": "01111",
+          "eligible": false
+        },
+        {
+          "at": 4638.100000023842,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 4168.800000071526,
+      "firstVisible": 4261.5,
+      "decodedReady": 4720.400000095367,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 334,
+          "start": 4280.100000023842,
+          "end": 4614.100000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 244.89999997615814,
+          "start": 4280.700000047684,
+          "end": 4525.600000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 254.69999992847443,
+          "start": 4281.300000071526,
+          "end": 4536
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 301.89999997615814,
+          "start": 4281.900000095367,
+          "end": 4583.800000071526
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 316.3000000715256,
+          "start": 4282.5,
+          "end": 4598.800000071526
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-home-2-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 133.29999995231628,
+      "completeAfterVisibleMs": 67.69999992847443,
+      "openingLcpMs": 724,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.013706605480806325,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3604.2000000476837,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3538.600000023842,
+      "firstVisible": 3604.2000000476837,
+      "decodedReady": 3671.899999976158,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 825.5,
+          "end": 825.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 828,
+          "end": 828
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 830.3999999761581,
+          "end": 830.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 832.6000000238419,
+          "end": 832.6000000238419
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 835,
+          "end": 835
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-slow-hero-2-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 1569.5,
+      "completeAfterVisibleMs": 901.7999999523163,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 1576,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 667.7000000476837,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 1537,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 667.7000000476837,
+      "decodedReady": 1569.5,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 1041,
+          "start": 491.10000002384186,
+          "end": 1532.1000000238419
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-slow-hero-2-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 1314.8999999761581,
+      "completeAfterVisibleMs": 640.1000000238419,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 740,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 674.7999999523163,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 674.7999999523163,
+      "decodedReady": 1314.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 273.39999997615814,
+          "end": 273.39999997615814
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-hero-2-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 2622.399999976158,
+      "completeAfterVisibleMs": 2132.399999976158,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 868,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.0030928648546006948,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 490,
+          "state": "0000",
+          "eligible": false
+        },
+        {
+          "at": 734.5,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 828.8999999761581,
+          "state": "01000",
+          "eligible": false
+        },
+        {
+          "at": 907.6000000238419,
+          "state": "11000",
+          "eligible": false
+        },
+        {
+          "at": 1741.6000000238419,
+          "state": "11100",
+          "eligible": false
+        },
+        {
+          "at": 1768.7999999523163,
+          "state": "11110",
+          "eligible": false
+        },
+        {
+          "at": 1834.3999999761581,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 490,
+      "decodedReady": 2622.399999976158,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 369.2000000476837,
+          "start": 472.5,
+          "end": 841.7000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 249.59999990463257,
+          "start": 500.7000000476837,
+          "end": 750.2999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 1231.8999999761581,
+          "start": 501.39999997615814,
+          "end": 1733.2999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 1261.8999999761581,
+          "start": 502.2000000476837,
+          "end": 1764.1000000238419
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 1044.6000000238419,
+          "start": 781.8999999761581,
+          "end": 1826.5
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-hero-2-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 1403.6000000238419,
+      "completeAfterVisibleMs": 273.3000000715256,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 1240,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.014662782841435185,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 1130.2999999523163,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 1130.2999999523163,
+      "decodedReady": 1403.6000000238419,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 465.7999999523163,
+          "end": 465.7999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 468,
+          "end": 468
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 470.39999997615814,
+          "end": 470.39999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 495.2999999523163,
+          "end": 495.2999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 498.89999997615814,
+          "end": 498.89999997615814
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-home-3-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 503.10000002384186,
+      "completeAfterVisibleMs": 422.2999999523163,
+      "openingLcpMs": 676,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.01122318431712963,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 4426.200000047684,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4699.600000023842,
+          "state": "01000",
+          "eligible": false
+        },
+        {
+          "at": 4723,
+          "state": "01100",
+          "eligible": false
+        },
+        {
+          "at": 4762.700000047684,
+          "state": "01111",
+          "eligible": false
+        },
+        {
+          "at": 4795.600000023842,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 4345.399999976158,
+      "firstVisible": 4426.200000047684,
+      "decodedReady": 4848.5,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 343.09999990463257,
+          "start": 4441.700000047684,
+          "end": 4784.799999952316
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 249.40000009536743,
+          "start": 4442.299999952316,
+          "end": 4691.700000047684
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 264.7000000476837,
+          "start": 4442.5,
+          "end": 4707.200000047684
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 311.2999999523163,
+          "start": 4442.600000023842,
+          "end": 4753.899999976158
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 311.60000002384186,
+          "start": 4442.600000023842,
+          "end": 4754.200000047684
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-home-3-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 120.39999997615814,
+      "completeAfterVisibleMs": 56.200000047683716,
+      "openingLcpMs": 736,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.013289834466628085,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3429.7999999523163,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3365.600000023842,
+      "firstVisible": 3429.7999999523163,
+      "decodedReady": 3486,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 731.3999999761581,
+          "end": 731.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 732.8999999761581,
+          "end": 732.8999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 734.1000000238419,
+          "end": 734.1000000238419
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 734.1999999284744,
+          "end": 734.1999999284744
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 735.7999999523163,
+          "end": 735.7999999523163
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-slow-home-3-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 501,
+      "completeAfterVisibleMs": 385.2999999523163,
+      "openingLcpMs": 1616,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.000027793330439814813,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 4545.299999952316,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4899.299999952316,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 4429.599999904633,
+      "firstVisible": 4545.299999952316,
+      "decodedReady": 4930.599999904633,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 339.5,
+          "start": 4533.5,
+          "end": 4873
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-slow-home-3-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 170.79999995231628,
+      "completeAfterVisibleMs": 38.199999928474426,
+      "openingLcpMs": 700,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.014699506474247684,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3864.600000023842,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3732,
+      "firstVisible": 3864.600000023842,
+      "decodedReady": 3902.7999999523163,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 708.6000000238419,
+          "end": 708.6000000238419
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-hero-3-cold",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 1782.6000000238419,
+      "completeAfterVisibleMs": 1304.7999999523163,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 524,
+      "pigRequests": 5,
+      "pigTransferred": 31799,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 477.8000000715256,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 632.3000000715256,
+          "state": "10000",
+          "eligible": false
+        },
+        {
+          "at": 750.3999999761581,
+          "state": "11000",
+          "eligible": false
+        },
+        {
+          "at": 766.1000000238419,
+          "state": "11100",
+          "eligible": false
+        },
+        {
+          "at": 1725.1000000238419,
+          "state": "11110",
+          "eligible": false
+        },
+        {
+          "at": 1757.8999999761581,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 477.8000000715256,
+      "decodedReady": 1782.6000000238419,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 11934,
+          "body": 11634,
+          "duration": 310.3000000715256,
+          "start": 316.89999997615814,
+          "end": 627.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 3419,
+          "body": 3119,
+          "duration": 227.20000004768372,
+          "start": 506.89999997615814,
+          "end": 734.1000000238419
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 3347,
+          "body": 3047,
+          "duration": 242.60000002384186,
+          "start": 507.7000000476837,
+          "end": 750.3000000715256
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 6687,
+          "body": 6387,
+          "duration": 1213.5,
+          "start": 507.89999997615814,
+          "end": 1721.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 6412,
+          "body": 6112,
+          "duration": 1243,
+          "start": 508.60000002384186,
+          "end": 1751.6000000238419
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-1440-slow-hero-3-warm",
+      "mode": "baseline",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 658.2000000476837,
+      "completeAfterVisibleMs": 287.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 392,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 30299,
+      "decodedRgbaBytes": 13824000,
+      "cls": 0.012030321451822918,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 370.7000000476837,
+          "state": "111",
+          "eligible": false
+        },
+        {
+          "at": 531.1000000238419,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 370.7000000476837,
+      "decodedReady": 658.2000000476837,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/base-1440.avif",
+          "transfer": 0,
+          "body": 11634,
+          "duration": 0,
+          "start": 342.5,
+          "end": 342.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-open-1440.avif",
+          "transfer": 0,
+          "body": 3119,
+          "duration": 0,
+          "start": 343.10000002384186,
+          "end": 343.10000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/eye-wink-1440.avif",
+          "transfer": 0,
+          "body": 3047,
+          "duration": 0,
+          "start": 346.2000000476837,
+          "end": 346.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-rest-1440.avif",
+          "transfer": 0,
+          "body": 6387,
+          "duration": 0,
+          "start": 397.40000009536743,
+          "end": 397.40000009536743
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/desktop/mouth-kiss-1440.avif",
+          "transfer": 0,
+          "body": 6112,
+          "duration": 0,
+          "start": 400.2000000476837,
+          "end": 400.2000000476837
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-slow-hero-3-cold",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 1590,
+      "completeAfterVisibleMs": 1065.3000000715256,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 756,
+      "pigRequests": 1,
+      "pigTransferred": 36942,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 524.6999999284744,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 1552.7999999523163,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 524.6999999284744,
+      "decodedReady": 1590,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 36942,
+          "body": 36642,
+          "duration": 1035.2999999523163,
+          "start": 512.3999999761581,
+          "end": 1547.6999999284744
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-1440-slow-hero-3-warm",
+      "mode": "sprite",
+      "width": 1440,
+      "dpr": 1,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 772.8999999761581,
+      "completeAfterVisibleMs": 98.10000002384186,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 740,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 36642,
+      "decodedRgbaBytes": 3542400,
+      "cls": 0.008359095775462962,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 674.7999999523163,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 674.7999999523163,
+      "decodedReady": 772.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-1440.avif",
+          "transfer": 0,
+          "body": 36642,
+          "duration": 0,
+          "start": 280.89999997615814,
+          "end": 280.89999997615814
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-home-1-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 79.79999995231628,
+      "completeAfterVisibleMs": 55.799999952316284,
+      "openingLcpMs": 252,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 871.7000000476837,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 893.3000000715256,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 847.7000000476837,
+      "firstVisible": 871.7000000476837,
+      "decodedReady": 927.5,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 4.5,
+          "start": 878,
+          "end": 882.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 5.100000023841858,
+          "start": 878.1000000238419,
+          "end": 883.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 5.100000023841858,
+          "start": 878.2000000476837,
+          "end": 883.3000000715256
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 5.699999928474426,
+          "start": 878.2000000476837,
+          "end": 883.8999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 5.799999952316284,
+          "start": 878.2000000476837,
+          "end": 884
+        }
+      ],
+      "trace": {
+        "id": "baseline-390-native-home-1-cold",
+        "pigPaintCpuMs": 0.158,
+        "pageCoreDecodeCpuMs": 19.275000000000002,
+        "pageRasterWallMs": 8.333999999999998
+      }
+    },
+    {
+      "id": "baseline-390-native-home-1-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 37.5,
+      "completeAfterVisibleMs": 28.399999976158142,
+      "openingLcpMs": 120,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 723.6000000238419,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 714.5,
+      "firstVisible": 723.6000000238419,
+      "decodedReady": 752,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 37,
+          "end": 37
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 37.40000009536743,
+          "end": 37.40000009536743
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 37.700000047683716,
+          "end": 37.700000047683716
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 37.90000009536743,
+          "end": 37.90000009536743
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 38,
+          "end": 38
+        }
+      ],
+      "trace": {
+        "id": "baseline-390-native-home-1-warm",
+        "pigPaintCpuMs": 0.106,
+        "pageCoreDecodeCpuMs": 15.559999999999999,
+        "pageRasterWallMs": 6.846000000000003
+      }
+    },
+    {
+      "id": "sprite-390-native-home-1-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 218.10000002384186,
+      "completeAfterVisibleMs": 203.5,
+      "openingLcpMs": 200,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 930.8999999761581,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 1115.8999999761581,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 916.2999999523163,
+      "firstVisible": 930.8999999761581,
+      "decodedReady": 1134.3999999761581,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 5.299999952316284,
+          "start": 939.6000000238419,
+          "end": 944.8999999761581
+        }
+      ],
+      "trace": {
+        "id": "sprite-390-native-home-1-cold",
+        "pigPaintCpuMs": 0.266,
+        "pageCoreDecodeCpuMs": 13.739000000000003,
+        "pageRasterWallMs": 8.033
+      }
+    },
+    {
+      "id": "sprite-390-native-home-1-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 83.60000002384186,
+      "completeAfterVisibleMs": 69.29999995231628,
+      "openingLcpMs": 132,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 744.7000000476837,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 730.3999999761581,
+      "firstVisible": 744.7000000476837,
+      "decodedReady": 814,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 39.300000071525574,
+          "end": 39.300000071525574
+        }
+      ],
+      "trace": {
+        "id": "sprite-390-native-home-1-warm",
+        "pigPaintCpuMs": 0.138,
+        "pageCoreDecodeCpuMs": 13.258,
+        "pageRasterWallMs": 7.623999999999998
+      }
+    },
+    {
+      "id": "baseline-390-native-hero-1-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 326.5,
+      "completeAfterVisibleMs": 239.39999997615814,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 320,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 87.10000002384186,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 119.70000004768372,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 87.10000002384186,
+      "decodedReady": 326.5,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 17.199999928474426,
+          "start": 16.40000009536743,
+          "end": 33.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 5.600000023841858,
+          "start": 106.10000002384186,
+          "end": 111.70000004768372
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 9,
+          "start": 106.20000004768372,
+          "end": 115.20000004768372
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 9,
+          "start": 106.30000007152557,
+          "end": 115.30000007152557
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 9.399999976158142,
+          "start": 106.40000009536743,
+          "end": 115.80000007152557
+        }
+      ],
+      "trace": {
+        "id": "baseline-390-native-hero-1-cold",
+        "pigPaintCpuMs": 0.45899999999999996,
+        "pageCoreDecodeCpuMs": 10.819999999999997,
+        "pageRasterWallMs": 5.9659999999999975
+      }
+    },
+    {
+      "id": "baseline-390-native-hero-1-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 135,
+      "completeAfterVisibleMs": 52.39999997615814,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 136,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 82.60000002384186,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 82.60000002384186,
+      "decodedReady": 135,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 13.399999976158142,
+          "end": 13.399999976158142
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 20.100000023841858,
+          "end": 20.100000023841858
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 20.200000047683716,
+          "end": 20.200000047683716
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 20.399999976158142,
+          "end": 20.399999976158142
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 20.5,
+          "end": 20.5
+        }
+      ],
+      "trace": {
+        "id": "baseline-390-native-hero-1-warm",
+        "pigPaintCpuMs": 0.237,
+        "pageCoreDecodeCpuMs": 8.73,
+        "pageRasterWallMs": 3.6189999999999998
+      }
+    },
+    {
+      "id": "sprite-390-native-hero-1-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 274.39999997615814,
+      "completeAfterVisibleMs": 190.79999995231628,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 152,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 83.60000002384186,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 113.30000007152557,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 83.60000002384186,
+      "decodedReady": 274.39999997615814,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 8.299999952316284,
+          "start": 17.600000023841858,
+          "end": 25.899999976158142
+        }
+      ],
+      "trace": {
+        "id": "sprite-390-native-hero-1-cold",
+        "pigPaintCpuMs": 0.459,
+        "pageCoreDecodeCpuMs": 4.6819999999999995,
+        "pageRasterWallMs": 4.782999999999997
+      }
+    },
+    {
+      "id": "sprite-390-native-hero-1-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 110.5,
+      "completeAfterVisibleMs": 11.699999928474426,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 152,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 98.80000007152557,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 98.80000007152557,
+      "decodedReady": 110.5,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 17.600000023841858,
+          "end": 17.600000023841858
+        }
+      ],
+      "trace": {
+        "id": "sprite-390-native-hero-1-warm",
+        "pigPaintCpuMs": 0.219,
+        "pageCoreDecodeCpuMs": 3.129,
+        "pageRasterWallMs": 3.968
+      }
+    },
+    {
+      "id": "sprite-390-native-home-2-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 78,
+      "completeAfterVisibleMs": 61.40000009536743,
+      "openingLcpMs": 188,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 881.5999999046326,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 892.5999999046326,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 865,
+      "firstVisible": 881.5999999046326,
+      "decodedReady": 943,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 2.399999976158142,
+          "start": 884,
+          "end": 886.3999999761581
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-native-home-2-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 53.09999990463257,
+      "completeAfterVisibleMs": 28.59999990463257,
+      "openingLcpMs": 132,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 730.4000000953674,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 705.9000000953674,
+      "firstVisible": 730.4000000953674,
+      "decodedReady": 759,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 35.10000002384186,
+          "end": 35.10000002384186
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-home-2-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 77.89999997615814,
+      "completeAfterVisibleMs": 65.39999997615814,
+      "openingLcpMs": 204,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 886.4000000953674,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 921.7000000476837,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 873.9000000953674,
+      "firstVisible": 886.4000000953674,
+      "decodedReady": 951.8000000715256,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 3.600000023841858,
+          "start": 901.2000000476837,
+          "end": 904.8000000715256
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 2.799999952316284,
+          "start": 901.7000000476837,
+          "end": 904.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 3,
+          "start": 902,
+          "end": 905
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 6.399999976158142,
+          "start": 902.2000000476837,
+          "end": 908.6000000238419
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 6.600000023841858,
+          "start": 902.2000000476837,
+          "end": 908.8000000715256
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-home-2-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 37.89999997615814,
+      "completeAfterVisibleMs": 28.799999952316284,
+      "openingLcpMs": 140,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 752.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 743.3999999761581,
+      "firstVisible": 752.5,
+      "decodedReady": 781.2999999523163,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 38.89999997615814,
+          "end": 38.89999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 39.299999952316284,
+          "end": 39.299999952316284
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 39.39999997615814,
+          "end": 39.39999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 39.699999928474426,
+          "end": 39.699999928474426
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 39.89999997615814,
+          "end": 39.89999997615814
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-native-hero-2-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 223,
+      "completeAfterVisibleMs": 149.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 144,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 73.5,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 98.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 73.5,
+      "decodedReady": 223,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 6.800000071525574,
+          "start": 15.199999928474426,
+          "end": 22
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-native-hero-2-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 108,
+      "completeAfterVisibleMs": 37.799999952316284,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 120,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 70.20000004768372,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 70.20000004768372,
+      "decodedReady": 108,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 12.100000023841858,
+          "end": 12.100000023841858
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-hero-2-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 298.7999999523163,
+      "completeAfterVisibleMs": 217.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 284,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 81.29999995231628,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 107.39999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 81.29999995231628,
+      "decodedReady": 298.7999999523163,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 7.100000023841858,
+          "start": 16.699999928474426,
+          "end": 23.799999952316284
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 2.600000023841858,
+          "start": 95.79999995231628,
+          "end": 98.39999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 3.600000023841858,
+          "start": 95.79999995231628,
+          "end": 99.39999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 3.700000047683716,
+          "start": 95.89999997615814,
+          "end": 99.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 3.799999952316284,
+          "start": 95.89999997615814,
+          "end": 99.69999992847443
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-hero-2-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 124.39999997615814,
+      "completeAfterVisibleMs": 46.799999952316284,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 124,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 77.60000002384186,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 77.60000002384186,
+      "decodedReady": 124.39999997615814,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 13,
+          "end": 13
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 18.600000023841858,
+          "end": 18.600000023841858
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 18.700000047683716,
+          "end": 18.700000047683716
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 18.800000071525574,
+          "end": 18.800000071525574
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 19,
+          "end": 19
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-home-3-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 51.59999990463257,
+      "completeAfterVisibleMs": 43.699999928474426,
+      "openingLcpMs": 180,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 854.2000000476837,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 866.1000000238419,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 846.3000000715256,
+      "firstVisible": 854.2000000476837,
+      "decodedReady": 897.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 2.700000047683716,
+          "start": 857.5,
+          "end": 860.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 2.399999976158142,
+          "start": 857.6000000238419,
+          "end": 860
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 3,
+          "start": 857.6000000238419,
+          "end": 860.6000000238419
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 3,
+          "start": 857.7000000476837,
+          "end": 860.7000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 4.100000023841858,
+          "start": 857.7000000476837,
+          "end": 861.8000000715256
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-home-3-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 47.10000002384186,
+      "completeAfterVisibleMs": 32.39999997615814,
+      "openingLcpMs": 124,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 741.1000000238419,
+          "state": "11111",
+          "eligible": true
+        }
+      ],
+      "arrival": 726.3999999761581,
+      "firstVisible": 741.1000000238419,
+      "decodedReady": 773.5,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 35.200000047683716,
+          "end": 35.200000047683716
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 35.60000002384186,
+          "end": 35.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 35.800000071525574,
+          "end": 35.800000071525574
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 35.89999997615814,
+          "end": 35.89999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 36.10000002384186,
+          "end": 36.10000002384186
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-native-home-3-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 44.10000002384186,
+      "completeAfterVisibleMs": 36.300000071525574,
+      "openingLcpMs": 180,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 846.6999999284744,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 860.3999999761581,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 838.8999999761581,
+      "firstVisible": 846.6999999284744,
+      "decodedReady": 883,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 1.7999999523162842,
+          "start": 851.1000000238419,
+          "end": 852.8999999761581
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-native-home-3-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 31.5,
+      "completeAfterVisibleMs": 22.300000071525574,
+      "openingLcpMs": 116,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 725.5999999046326,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 716.3999999761581,
+      "firstVisible": 725.5999999046326,
+      "decodedReady": 747.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 33.699999928474426,
+          "end": 33.699999928474426
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-hero-3-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 273.60000002384186,
+      "completeAfterVisibleMs": 194,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 272,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 79.60000002384186,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 112,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 79.60000002384186,
+      "decodedReady": 273.60000002384186,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 11.300000071525574,
+          "start": 15.299999952316284,
+          "end": 26.600000023841858
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 2.200000047683716,
+          "start": 99.39999997615814,
+          "end": 101.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 2.5,
+          "start": 99.5,
+          "end": 102
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 2.700000047683716,
+          "start": 99.5,
+          "end": 102.20000004768372
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 2.799999952316284,
+          "start": 99.60000002384186,
+          "end": 102.39999997615814
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-native-hero-3-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 134,
+      "completeAfterVisibleMs": 41.60000002384186,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 132,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 92.39999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 92.39999997615814,
+      "decodedReady": 134,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 14.100000023841858,
+          "end": 14.100000023841858
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 22,
+          "end": 22
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 22.300000071525574,
+          "end": 22.300000071525574
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 22.600000023841858,
+          "end": 22.600000023841858
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 22.700000047683716,
+          "end": 22.700000047683716
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-native-hero-3-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 320.7999999523163,
+      "completeAfterVisibleMs": 240.09999990463257,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 328,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 80.70000004768372,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 112.20000004768372,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 80.70000004768372,
+      "decodedReady": 320.7999999523163,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 9.600000023841858,
+          "start": 14.899999976158142,
+          "end": 24.5
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-native-hero-3-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "native",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 107.39999997615814,
+      "completeAfterVisibleMs": 24.799999952316284,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 120,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 82.60000002384186,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 82.60000002384186,
+      "decodedReady": 107.39999997615814,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 14.700000047683716,
+          "end": 14.700000047683716
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-home-1-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 459.39999997615814,
+      "completeAfterVisibleMs": 381,
+      "openingLcpMs": 1272,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 4149,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4461.800000071526,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 4070.600000023842,
+      "firstVisible": 4149,
+      "decodedReady": 4530,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 213,
+          "start": 4186.600000023842,
+          "end": 4399.600000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 211,
+          "start": 4188,
+          "end": 4399
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 210.30000007152557,
+          "start": 4189.100000023842,
+          "end": 4399.400000095367
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 223.89999997615814,
+          "start": 4189.900000095367,
+          "end": 4413.800000071526
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 223.59999990463257,
+          "start": 4190.400000095367,
+          "end": 4414
+        }
+      ],
+      "trace": {
+        "id": "baseline-390-slow-home-1-cold",
+        "pigPaintCpuMs": 0.348,
+        "pageCoreDecodeCpuMs": 18.339,
+        "pageRasterWallMs": 14.558999999999994
+      }
+    },
+    {
+      "id": "baseline-390-slow-home-1-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 118.29999995231628,
+      "completeAfterVisibleMs": 64.09999990463257,
+      "openingLcpMs": 1132,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3371.3000000715256,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3317.100000023842,
+      "firstVisible": 3371.3000000715256,
+      "decodedReady": 3435.399999976158,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 647,
+          "end": 647
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 647.2000000476837,
+          "end": 647.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 649.8999999761581,
+          "end": 649.8999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 654.8999999761581,
+          "end": 654.8999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 660.8000000715256,
+          "end": 660.8000000715256
+        }
+      ],
+      "trace": {
+        "id": "baseline-390-slow-home-1-warm",
+        "pigPaintCpuMs": 0.187,
+        "pageCoreDecodeCpuMs": 14.311000000000003,
+        "pageRasterWallMs": 10.788999999999993
+      }
+    },
+    {
+      "id": "sprite-390-slow-home-1-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 538.1999999284744,
+      "completeAfterVisibleMs": 406.89999997615814,
+      "openingLcpMs": 1432,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3945.7000000476837,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4290.800000071526,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3814.4000000953674,
+      "firstVisible": 3945.7000000476837,
+      "decodedReady": 4352.600000023842,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 223.10000002384186,
+          "start": 4055.7000000476837,
+          "end": 4278.800000071526
+        }
+      ],
+      "trace": {
+        "id": "sprite-390-slow-home-1-cold",
+        "pigPaintCpuMs": 0.529,
+        "pageCoreDecodeCpuMs": 13.306999999999997,
+        "pageRasterWallMs": 12.892999999999997
+      }
+    },
+    {
+      "id": "sprite-390-slow-home-1-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 98.20000004768372,
+      "completeAfterVisibleMs": 17.100000023841858,
+      "openingLcpMs": 1280,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3666.399999976158,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3585.2999999523163,
+      "firstVisible": 3666.399999976158,
+      "decodedReady": 3683.5,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 951.5999999046326,
+          "end": 951.5999999046326
+        }
+      ],
+      "trace": {
+        "id": "sprite-390-slow-home-1-warm",
+        "pigPaintCpuMs": 0.202,
+        "pageCoreDecodeCpuMs": 17.830000000000002,
+        "pageRasterWallMs": 17.851
+      }
+    },
+    {
+      "id": "baseline-390-slow-hero-1-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 1620,
+      "completeAfterVisibleMs": 1126.8999999761581,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 1572,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 493.10000002384186,
+          "state": "000",
+          "eligible": false
+        },
+        {
+          "at": 728,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 1500.8999999761581,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 493.10000002384186,
+      "decodedReady": 1620,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 242.89999997615814,
+          "start": 478.5,
+          "end": 721.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 202.60000002384186,
+          "start": 503.1999999284744,
+          "end": 705.7999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 215.60000002384186,
+          "start": 505.1999999284744,
+          "end": 720.7999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 184.19999992847443,
+          "start": 783.5,
+          "end": 967.6999999284744
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 184,
+          "start": 784.8999999761581,
+          "end": 968.8999999761581
+        }
+      ],
+      "trace": {
+        "id": "baseline-390-slow-hero-1-cold",
+        "pigPaintCpuMs": 0.433,
+        "pageCoreDecodeCpuMs": 10.399000000000001,
+        "pageRasterWallMs": 10.897999999999998
+      }
+    },
+    {
+      "id": "baseline-390-slow-hero-1-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 1446.8000000715256,
+      "completeAfterVisibleMs": 957.1000000238419,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 612,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 489.7000000476837,
+          "state": "1",
+          "eligible": false
+        },
+        {
+          "at": 1227.7000000476837,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 489.7000000476837,
+      "decodedReady": 1446.8000000715256,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 464.40000009536743,
+          "end": 464.40000009536743
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 505.5,
+          "end": 505.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 508.10000002384186,
+          "end": 508.10000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 511.60000002384186,
+          "end": 511.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 525.4000000953674,
+          "end": 525.4000000953674
+        }
+      ],
+      "trace": {
+        "id": "baseline-390-slow-hero-1-warm",
+        "pigPaintCpuMs": 0.634,
+        "pageCoreDecodeCpuMs": 8.559,
+        "pageRasterWallMs": 8.761999999999999
+      }
+    },
+    {
+      "id": "sprite-390-slow-hero-1-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 1152.8999999761581,
+      "completeAfterVisibleMs": 641.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 1152,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 511.39999997615814,
+          "state": "0",
+          "eligible": false
+        },
+        {
+          "at": 747.3000000715256,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 900.7000000476837,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 511.39999997615814,
+      "decodedReady": 1152.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 367,
+          "start": 499.39999997615814,
+          "end": 866.3999999761581
+        }
+      ],
+      "trace": {
+        "id": "sprite-390-slow-hero-1-cold",
+        "pigPaintCpuMs": 0.37700000000000006,
+        "pageCoreDecodeCpuMs": 2.939,
+        "pageRasterWallMs": 8.992
+      }
+    },
+    {
+      "id": "sprite-390-slow-hero-1-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 1,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 899.6000000238419,
+      "completeAfterVisibleMs": 574.2000000476837,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 436,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 325.39999997615814,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 325.39999997615814,
+      "decodedReady": 899.6000000238419,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 272.39999997615814,
+          "end": 272.39999997615814
+        }
+      ],
+      "trace": {
+        "id": "sprite-390-slow-hero-1-warm",
+        "pigPaintCpuMs": 0.534,
+        "pageCoreDecodeCpuMs": 3.499,
+        "pageRasterWallMs": 5.998999999999999
+      }
+    },
+    {
+      "id": "sprite-390-slow-home-2-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 454.10000002384186,
+      "completeAfterVisibleMs": 331,
+      "openingLcpMs": 1208,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3965.6999999284744,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4253.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3842.5999999046326,
+      "firstVisible": 3965.6999999284744,
+      "decodedReady": 4296.699999928474,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 242.60000002384186,
+          "start": 3943.6999999284744,
+          "end": 4186.299999952316
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-slow-home-2-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 98.19999992847443,
+      "completeAfterVisibleMs": 42.89999997615814,
+      "openingLcpMs": 1108,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 2987.100000023842,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 2931.8000000715256,
+      "firstVisible": 2987.100000023842,
+      "decodedReady": 3030,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 746.7000000476837,
+          "end": 746.7000000476837
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-home-2-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 486.89999997615814,
+      "completeAfterVisibleMs": 366.39999997615814,
+      "openingLcpMs": 1028,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3686.7000000476837,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 3899.3000000715256,
+          "state": "01100",
+          "eligible": false
+        },
+        {
+          "at": 3926,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3566.2000000476837,
+      "firstVisible": 3686.7000000476837,
+      "decodedReady": 4053.100000023842,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 251.59999990463257,
+          "start": 3661.4000000953674,
+          "end": 3913
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 218.39999997615814,
+          "start": 3662.7000000476837,
+          "end": 3881.100000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 219.10000002384186,
+          "start": 3663.5,
+          "end": 3882.600000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 233.30000007152557,
+          "start": 3664.5,
+          "end": 3897.8000000715256
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 233.5,
+          "start": 3664.600000023842,
+          "end": 3898.100000023842
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-home-2-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 91.39999997615814,
+      "completeAfterVisibleMs": 43.5,
+      "openingLcpMs": 1092,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3080.2000000476837,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3032.3000000715256,
+      "firstVisible": 3080.2000000476837,
+      "decodedReady": 3123.7000000476837,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 683.2000000476837,
+          "end": 683.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 686.3999999761581,
+          "end": 686.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 689.2000000476837,
+          "end": 689.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 692.5,
+          "end": 692.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 694.8000000715256,
+          "end": 694.8000000715256
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-slow-hero-2-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 801.6000000238419,
+      "completeAfterVisibleMs": 331.8000000715256,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 800,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 469.7999999523163,
+          "state": "00",
+          "eligible": false
+        },
+        {
+          "at": 644,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 774.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 469.7999999523163,
+      "decodedReady": 801.6000000238419,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 296.5,
+          "start": 458.6999999284744,
+          "end": 755.1999999284744
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-slow-hero-2-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 1467.7000000476837,
+      "completeAfterVisibleMs": 995.3000000715256,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 860,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 472.39999997615814,
+          "state": "1111",
+          "eligible": false
+        },
+        {
+          "at": 1242.3000000715256,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 472.39999997615814,
+      "decodedReady": 1467.7000000476837,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 265.5,
+          "end": 265.5
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-hero-2-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 1567.8999999761581,
+      "completeAfterVisibleMs": 1173.5999999046326,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 740,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 394.3000000715256,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 700.7000000476837,
+          "state": "11100",
+          "eligible": false
+        },
+        {
+          "at": 1417.7000000476837,
+          "state": "11110",
+          "eligible": false
+        },
+        {
+          "at": 1541.7000000476837,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 394.3000000715256,
+      "decodedReady": 1567.8999999761581,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 236.10000002384186,
+          "start": 259,
+          "end": 495.10000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 185.19999992847443,
+          "start": 447.8000000715256,
+          "end": 633
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 185.19999992847443,
+          "start": 448.2000000476837,
+          "end": 633.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 960.8000000715256,
+          "start": 448.89999997615814,
+          "end": 1409.7000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 1084.2000000476837,
+          "start": 449,
+          "end": 1533.2000000476837
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-hero-2-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 2,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 686,
+      "completeAfterVisibleMs": 296.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 600,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 389.5,
+          "state": "11",
+          "eligible": false
+        },
+        {
+          "at": 599,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 389.5,
+      "decodedReady": 686,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 366.5,
+          "end": 366.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 369.2000000476837,
+          "end": 369.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 422.2000000476837,
+          "end": 422.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 424.60000002384186,
+          "end": 424.60000002384186
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 427.7000000476837,
+          "end": 427.7000000476837
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-home-3-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 400.7000000476837,
+      "completeAfterVisibleMs": 339.89999997615814,
+      "openingLcpMs": 1116,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3866.100000023842,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4160.100000023842,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3805.2999999523163,
+      "firstVisible": 3866.100000023842,
+      "decodedReady": 4206,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 238.60000002384186,
+          "start": 3902.899999976158,
+          "end": 4141.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 219.39999997615814,
+          "start": 3904.2000000476837,
+          "end": 4123.600000023842
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 219.10000002384186,
+          "start": 3904.7999999523163,
+          "end": 4123.899999976158
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 224.80000007152557,
+          "start": 3905.399999976158,
+          "end": 4130.200000047684
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 232.89999997615814,
+          "start": 3906.399999976158,
+          "end": 4139.299999952316
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-home-3-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 109.20000004768372,
+      "completeAfterVisibleMs": 39.200000047683716,
+      "openingLcpMs": 1000,
+      "initialHeroLcpMs": null,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 2886.5,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 2816.5,
+      "firstVisible": 2886.5,
+      "decodedReady": 2925.7000000476837,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 667.2000000476837,
+          "end": 667.2000000476837
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 667.3999999761581,
+          "end": 667.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 668.8999999761581,
+          "end": 668.8999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 672,
+          "end": 672
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 673.8999999761581,
+          "end": 673.8999999761581
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-slow-home-3-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "cold",
+      "completeAfterArrivalMs": 397.40000009536743,
+      "completeAfterVisibleMs": 328.40000009536743,
+      "openingLcpMs": 1180,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3919.5,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 4199.600000023842,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 3850.5,
+      "firstVisible": 3919.5,
+      "decodedReady": 4247.900000095367,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 213.40000009536743,
+          "start": 3953,
+          "end": 4166.400000095367
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-slow-home-3-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "home",
+      "cache": "warm",
+      "completeAfterArrivalMs": 112.79999995231628,
+      "completeAfterVisibleMs": 37.09999990463257,
+      "openingLcpMs": 1096,
+      "initialHeroLcpMs": null,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 3060.100000023842,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": 2984.399999976158,
+      "firstVisible": 3060.100000023842,
+      "decodedReady": 3097.1999999284744,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 691.3999999761581,
+          "end": 691.3999999761581
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-hero-3-cold",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 1055.1999999284744,
+      "completeAfterVisibleMs": 565.8999999761581,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 828,
+      "pigRequests": 5,
+      "pigTransferred": 12760,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 489.2999999523163,
+          "state": "0",
+          "eligible": false
+        },
+        {
+          "at": 667.2999999523163,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 792.5999999046326,
+          "state": "10000",
+          "eligible": false
+        },
+        {
+          "at": 959.5999999046326,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 489.2999999523163,
+      "decodedReady": 1055.1999999284744,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 4338,
+          "body": 4038,
+          "duration": 233.10000002384186,
+          "start": 480.39999997615814,
+          "end": 713.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 1631,
+          "body": 1331,
+          "duration": 203.40000009536743,
+          "start": 712.0999999046326,
+          "end": 915.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 1685,
+          "body": 1385,
+          "duration": 218.19999992847443,
+          "start": 713,
+          "end": 931.1999999284744
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 2547,
+          "body": 2247,
+          "duration": 218.10000002384186,
+          "start": 713.2999999523163,
+          "end": 931.3999999761581
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 2559,
+          "body": 2259,
+          "duration": 233.80000007152557,
+          "start": 713.5999999046326,
+          "end": 947.3999999761581
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "baseline-390-slow-hero-3-warm",
+      "mode": "baseline",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 1317.7999999523163,
+      "completeAfterVisibleMs": 849.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 516,
+      "pigRequests": 5,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11260,
+      "decodedRgbaBytes": 3932160,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 468.2999999523163,
+          "state": "11",
+          "eligible": false
+        },
+        {
+          "at": 640.6000000238419,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 468.2999999523163,
+      "decodedReady": 1317.7999999523163,
+      "resources": [
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/base-768.avif",
+          "transfer": 0,
+          "body": 4038,
+          "duration": 0,
+          "start": 440.5,
+          "end": 440.5
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-open-768.avif",
+          "transfer": 0,
+          "body": 1331,
+          "duration": 0,
+          "start": 442.89999997615814,
+          "end": 442.89999997615814
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/eye-wink-768.avif",
+          "transfer": 0,
+          "body": 1385,
+          "duration": 0,
+          "start": 479.7999999523163,
+          "end": 479.7999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-rest-768.avif",
+          "transfer": 0,
+          "body": 2247,
+          "duration": 0,
+          "start": 480.2999999523163,
+          "end": 480.2999999523163
+        },
+        {
+          "url": "/assets/registered-slides/tcc-pig/mobile/mouth-kiss-768.avif",
+          "transfer": 0,
+          "body": 2259,
+          "duration": 0,
+          "start": 480.7999999523163,
+          "end": 480.7999999523163
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-slow-hero-3-cold",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "cold",
+      "completeAfterArrivalMs": 752.8000000715256,
+      "completeAfterVisibleMs": 198.5,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 736,
+      "pigRequests": 1,
+      "pigTransferred": 11602,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 554.3000000715256,
+          "state": "00000",
+          "eligible": false
+        },
+        {
+          "at": 703.1000000238419,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 554.3000000715256,
+      "decodedReady": 752.8000000715256,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 11602,
+          "body": 11302,
+          "duration": 304.10000002384186,
+          "start": 364.89999997615814,
+          "end": 669
+        }
+      ],
+      "trace": null
+    },
+    {
+      "id": "sprite-390-slow-hero-3-warm",
+      "mode": "sprite",
+      "width": 390,
+      "dpr": 2,
+      "profile": "slow",
+      "rep": 3,
+      "scenario": "hero",
+      "cache": "warm",
+      "completeAfterArrivalMs": 700.7000000476837,
+      "completeAfterVisibleMs": 269.90000009536743,
+      "openingLcpMs": null,
+      "initialHeroLcpMs": 560,
+      "pigRequests": 1,
+      "pigTransferred": 0,
+      "pigEncodedBytes": 11302,
+      "decodedRgbaBytes": 1007616,
+      "cls": 0,
+      "overflow": false,
+      "errors": [],
+      "states": [
+        {
+          "at": 430.7999999523163,
+          "state": "11111",
+          "eligible": false
+        }
+      ],
+      "arrival": null,
+      "firstVisible": 430.7999999523163,
+      "decodedReady": 700.7000000476837,
+      "resources": [
+        {
+          "url": "/assets/pig-sprite/atlas-768.avif",
+          "transfer": 0,
+          "body": 11302,
+          "duration": 0,
+          "start": 403.7999999523163,
+          "end": 403.7999999523163
+        }
+      ],
+      "trace": null
+    }
+  ],
+  "isolatedDecode": [
+    {
+      "mode": "baseline",
+      "width": 1440,
+      "rep": 1,
+      "cache": "cold",
+      "decodeWallMs": 94,
+      "coreDecodeCpuMs": 22.717,
+      "coreDecodeEventWallMs": 55.727,
+      "decodeEvents": 5
+    },
+    {
+      "mode": "baseline",
+      "width": 1440,
+      "rep": 1,
+      "cache": "warm",
+      "decodeWallMs": 3.5,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "sprite",
+      "width": 1440,
+      "rep": 1,
+      "cache": "cold",
+      "decodeWallMs": 39.10000002384186,
+      "coreDecodeCpuMs": 7.24,
+      "coreDecodeEventWallMs": 25.06,
+      "decodeEvents": 1
+    },
+    {
+      "mode": "sprite",
+      "width": 1440,
+      "rep": 1,
+      "cache": "warm",
+      "decodeWallMs": 1.2999999523162842,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "sprite",
+      "width": 1440,
+      "rep": 2,
+      "cache": "cold",
+      "decodeWallMs": 31.5,
+      "coreDecodeCpuMs": 6.348,
+      "coreDecodeEventWallMs": 19.505,
+      "decodeEvents": 1
+    },
+    {
+      "mode": "sprite",
+      "width": 1440,
+      "rep": 2,
+      "cache": "warm",
+      "decodeWallMs": 1.399999976158142,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "baseline",
+      "width": 1440,
+      "rep": 2,
+      "cache": "cold",
+      "decodeWallMs": 83.40000009536743,
+      "coreDecodeCpuMs": 23.628,
+      "coreDecodeEventWallMs": 53.67,
+      "decodeEvents": 5
+    },
+    {
+      "mode": "baseline",
+      "width": 1440,
+      "rep": 2,
+      "cache": "warm",
+      "decodeWallMs": 0.8000000715255737,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "baseline",
+      "width": 1440,
+      "rep": 3,
+      "cache": "cold",
+      "decodeWallMs": 53.40000009536743,
+      "coreDecodeCpuMs": 14.803999999999998,
+      "coreDecodeEventWallMs": 34.715999999999994,
+      "decodeEvents": 5
+    },
+    {
+      "mode": "baseline",
+      "width": 1440,
+      "rep": 3,
+      "cache": "warm",
+      "decodeWallMs": 0.7000000476837158,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "sprite",
+      "width": 1440,
+      "rep": 3,
+      "cache": "cold",
+      "decodeWallMs": 21.899999976158142,
+      "coreDecodeCpuMs": 4.14,
+      "coreDecodeEventWallMs": 12.666,
+      "decodeEvents": 1
+    },
+    {
+      "mode": "sprite",
+      "width": 1440,
+      "rep": 3,
+      "cache": "warm",
+      "decodeWallMs": 0.5999999046325684,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "baseline",
+      "width": 768,
+      "rep": 1,
+      "cache": "cold",
+      "decodeWallMs": 24.300000071525574,
+      "coreDecodeCpuMs": 6.742,
+      "coreDecodeEventWallMs": 12.212,
+      "decodeEvents": 5
+    },
+    {
+      "mode": "baseline",
+      "width": 768,
+      "rep": 1,
+      "cache": "warm",
+      "decodeWallMs": 0.3999999761581421,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "sprite",
+      "width": 768,
+      "rep": 1,
+      "cache": "cold",
+      "decodeWallMs": 11.800000071525574,
+      "coreDecodeCpuMs": 1.842,
+      "coreDecodeEventWallMs": 4.358,
+      "decodeEvents": 1
+    },
+    {
+      "mode": "sprite",
+      "width": 768,
+      "rep": 1,
+      "cache": "warm",
+      "decodeWallMs": 0.8000000715255737,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "sprite",
+      "width": 768,
+      "rep": 2,
+      "cache": "cold",
+      "decodeWallMs": 15.399999976158142,
+      "coreDecodeCpuMs": 2.359,
+      "coreDecodeEventWallMs": 6.133,
+      "decodeEvents": 1
+    },
+    {
+      "mode": "sprite",
+      "width": 768,
+      "rep": 2,
+      "cache": "warm",
+      "decodeWallMs": 0.6000000238418579,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "baseline",
+      "width": 768,
+      "rep": 2,
+      "cache": "cold",
+      "decodeWallMs": 30.800000071525574,
+      "coreDecodeCpuMs": 8.815000000000001,
+      "coreDecodeEventWallMs": 14.67,
+      "decodeEvents": 5
+    },
+    {
+      "mode": "baseline",
+      "width": 768,
+      "rep": 2,
+      "cache": "warm",
+      "decodeWallMs": 1.9000000953674316,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "baseline",
+      "width": 768,
+      "rep": 3,
+      "cache": "cold",
+      "decodeWallMs": 33.89999997615814,
+      "coreDecodeCpuMs": 8.328,
+      "coreDecodeEventWallMs": 14.977,
+      "decodeEvents": 5
+    },
+    {
+      "mode": "baseline",
+      "width": 768,
+      "rep": 3,
+      "cache": "warm",
+      "decodeWallMs": 0.7999999523162842,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    },
+    {
+      "mode": "sprite",
+      "width": 768,
+      "rep": 3,
+      "cache": "cold",
+      "decodeWallMs": 15.700000047683716,
+      "coreDecodeCpuMs": 2.625,
+      "coreDecodeEventWallMs": 6.198,
+      "decodeEvents": 1
+    },
+    {
+      "mode": "sprite",
+      "width": 768,
+      "rep": 3,
+      "cache": "warm",
+      "decodeWallMs": 0.7999999523162842,
+      "coreDecodeCpuMs": 0,
+      "coreDecodeEventWallMs": 0,
+      "decodeEvents": 0
+    }
+  ]
+}

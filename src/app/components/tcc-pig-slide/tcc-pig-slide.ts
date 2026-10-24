@@ -11,12 +11,11 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LucidePause, LucidePlay } from '@lucide/angular';
-import { SlideImage } from '../slide-image/slide-image';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
   selector: 'app-tcc-pig-slide',
-  imports: [SlideImage, RouterLink, PublicTrack, LucidePause, LucidePlay],
+  imports: [RouterLink, PublicTrack, LucidePause, LucidePlay],
   templateUrl: './tcc-pig-slide.html',
   styleUrls: ['./tcc-pig-slide.scss', './tcc-pig-slide.motion.scss'],
 })
@@ -46,12 +45,19 @@ export class TccPigSlide {
   );
   readonly running = computed(() => this.eligible() && !this.motionPaused());
   readonly layers = [
-    { name: 'base', x: 0, y: 0, w: 2172, h: 724, small: 768, large: 1440 },
-    { name: 'eye-open', x: 1410, y: 185, w: 185, h: 165, small: 96, large: 185 },
-    { name: 'eye-wink', x: 1410, y: 185, w: 185, h: 165, small: 96, large: 185 },
-    { name: 'mouth-rest', x: 1500, y: 415, w: 400, h: 200, small: 192, large: 400 },
-    { name: 'mouth-kiss', x: 1500, y: 415, w: 400, h: 200, small: 192, large: 400 },
+    { name: 'base', x: 0, y: 0, w: 2172, h: 724, sx: 0, sy: 0 },
+    { name: 'eye-open', x: 1410, y: 185, w: 185, h: 165, sx: 4, sy: 728 },
+    { name: 'eye-wink', x: 1410, y: 185, w: 185, h: 165, sx: 197, sy: 728 },
+    { name: 'mouth-rest', x: 1500, y: 415, w: 400, h: 200, sx: 390, sy: 728 },
+    { name: 'mouth-kiss', x: 1500, y: 415, w: 400, h: 200, sx: 798, sy: 728 },
   ];
+  readonly sizes =
+    '(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2 - 2px)';
+  atlasSrcset(format: 'avif' | 'webp'): string {
+    return [384, 768, 1200, 1440, 2172]
+      .map((width) => `/assets/pig-sprite/atlas-${width}.${format} ${width}w`)
+      .join(', ');
+  }
 
   checkReady(): void {
     const images = this.element.nativeElement.querySelectorAll<HTMLImageElement>('.art img');

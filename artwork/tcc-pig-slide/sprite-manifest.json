@@ -1,0 +1,144 @@
+{
+  "experimental": true,
+  "canvas": [
+    2172,
+    724
+  ],
+  "atlas": [
+    2172,
+    928
+  ],
+  "pieces": [
+    {
+      "name": "base",
+      "x": 0,
+      "y": 0,
+      "w": 2172,
+      "h": 724,
+      "sx": 0,
+      "sy": 0
+    },
+    {
+      "name": "eye-open",
+      "x": 1410,
+      "y": 185,
+      "w": 185,
+      "h": 165,
+      "sx": 4,
+      "sy": 728
+    },
+    {
+      "name": "eye-wink",
+      "x": 1410,
+      "y": 185,
+      "w": 185,
+      "h": 165,
+      "sx": 197,
+      "sy": 728
+    },
+    {
+      "name": "mouth-rest",
+      "x": 1500,
+      "y": 415,
+      "w": 400,
+      "h": 200,
+      "sx": 390,
+      "sy": 728
+    },
+    {
+      "name": "mouth-kiss",
+      "x": 1500,
+      "y": 415,
+      "w": 400,
+      "h": 200,
+      "sx": 798,
+      "sy": 728
+    }
+  ],
+  "sources": [
+    {
+      "file": "artwork/tcc-pig-slide/rest-master.png",
+      "sha256": "e83c90fba033e313de6e669c4fb89d80b304c442da22e443b87a4862145541fd"
+    },
+    {
+      "file": "artwork/tcc-pig-slide/wink-master.png",
+      "sha256": "02c43cb9e44b1f02ed16736d7ad3562634be409cfa2a4743dc70354e7199bb98"
+    },
+    {
+      "file": "artwork/tcc-pig-slide/kiss-master.png",
+      "sha256": "ae37cfcd3d0b636f66835c54b336a34fe38d0e657ca91543a3f35dd0f84ff85e"
+    }
+  ],
+  "receipts": [
+    {
+      "file": "public/assets/pig-sprite/atlas-384.avif",
+      "width": 384,
+      "height": 164,
+      "bytes": 4054,
+      "sha256": "d0757c1f97387ec2bfffab6eaaa321f838972dff68c34c3d59413961fe5df20d"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-384.webp",
+      "width": 384,
+      "height": 164,
+      "bytes": 4094,
+      "sha256": "c695da8a79c8deb8b316875b31398aef33d6fce2d8d6eca31a2358428c2028eb"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-768.avif",
+      "width": 768,
+      "height": 328,
+      "bytes": 11302,
+      "sha256": "2ff30c847b77a89fc2cddbd620a91f7fbbd22c7ed23f799f750d4774fa005e9e"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-768.webp",
+      "width": 768,
+      "height": 328,
+      "bytes": 12464,
+      "sha256": "b5d8ae9187f6545e3db6740ed8a3ac12bb22b11252f06b41c9d1750c1b3bb225"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-1200.avif",
+      "width": 1200,
+      "height": 513,
+      "bytes": 25905,
+      "sha256": "9645af83f8c64c0e90903de59e0041572e2c6b7bf72dd6bcdd89e8ae4f3b36e5"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-1200.webp",
+      "width": 1200,
+      "height": 513,
+      "bytes": 29122,
+      "sha256": "981bfdfa077c3f48c62fc52de307d5b113c774deb6afb3367190ebe07ea7084c"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-1440.avif",
+      "width": 1440,
+      "height": 615,
+      "bytes": 36642,
+      "sha256": "4ea1e765dbaa5591837f4062ba3a6289a909f8624521d6cc8516aa8facd7e1c0"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-1440.webp",
+      "width": 1440,
+      "height": 615,
+      "bytes": 43650,
+      "sha256": "6e87a82feeedefc329064872ad2b33e72240251eac56740e9656c6d82e434a94"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-2172.avif",
+      "width": 2172,
+      "height": 928,
+      "bytes": 81400,
+      "sha256": "9a6431d7e09ed4b81bbdf70c814e0f093b14237c775ab1320b7fe1f961813af9"
+    },
+    {
+      "file": "public/assets/pig-sprite/atlas-2172.webp",
+      "width": 2172,
+      "height": 928,
+      "bytes": 106944,
+      "sha256": "b881786d7959e5da646ccd9a972d6e323faae48495d5f2e6dd414cbe972c7910"
+    }
+  ]
+}
