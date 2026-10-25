@@ -79,6 +79,12 @@ limitations: docs/evidence/rigby-first-encounter/README.md. Placement before
 Buildometer keeps its existing hydration expansion below the biscuit.
 Review preview http://127.0.0.1:8849/ (before Buildometer); no pane opened.
 James reviews likeness/pogo/placement before release. Unrelated work preserved.
+## Desktop navigation alignment — local review
+
+Header tabs now align with the content container's right edge using automatic
+start margin and zero end margin. Mobile menu unchanged. Build/budgets pass.
+Chrome 1440px confirms 0px right gap; 390px retains collapsed menu. Neither
+width overflows horizontally. No push/deploy.
 
 ## SCRUM-145 - stronger shared lure magic
 

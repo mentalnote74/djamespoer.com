@@ -24,7 +24,8 @@
   &__nav {
     position: relative;
     z-index: 2;
-    margin-inline: auto;
+    margin-inline-start: auto;
+    margin-inline-end: 0;
   }
   &__nav-list,
   &__submenu {
