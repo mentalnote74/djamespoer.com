@@ -41,6 +41,7 @@ type PublicPath = (typeof PUBLIC_ROUTES)[number];
 type Employer = 'djamespoer' | 'exl' | 'ips' | 'tcc' | 'dr';
 type Common = { location: Location };
 export interface EventParameters {
+  rigby_encounter: Common & { action: 'shown' | 'fed' | 'dismissed' };
   resume_download: Common & { asset_name: 'public-current'; resume_id: 'public-current' };
   contact_click: Common & { contact_method: 'email' };
   thingamajob_open: Common & { source: Source; destination_path: '/thingamajob' };

@@ -1,5 +1,25 @@
 # AI Engineering Handoff
 
+## SCRUM-123/124/125 - Pixel Rigby first encounter (local review)
+
+Normal-flow Home encounter before Buildometer: decoded 3-pose, 64px/14-color
+Rigby (8,803-byte lossless PNG, 2x display), stationary native biscuit button,
+three 700ms vertical pogo bounces with alternating ear/tongue poses, then still.
+Separate tracked TCC evidence link; feeding never navigates. Native dismiss,
+session-only feed/dismiss memory, polite feedback and focus to surviving link.
+Pause/offscreen/hidden freeze clocks; reduced motion excited still; forced-color
+controls work without decorative image readiness. Private photos stay private.
+No full trail, rewards, accounts, new dependencies, push or deployment.
+
+19 focused tests pass; build/style budgets and 49-route prerender pass. Built
+Chrome desktop/390px, keyboard, stationary target, bounded motion, pause/offscreen,
+reduced/forced colors, session dismissal, asset failure and scoped axe pass.
+Source master/prompt/provenance: artwork/rigby-first-encounter/. Evidence and
+limitations: docs/evidence/rigby-first-encounter/README.md. Placement before
+Buildometer keeps its existing hydration expansion below the biscuit.
+Review preview http://127.0.0.1:8849/ (before Buildometer); no pane opened.
+James reviews likeness/pogo/placement before release. Unrelated work preserved.
+
 ## SCRUM-145 - stronger shared lure magic
 
 Approved production follow-up to d233437: cyan/amber halo now pulses smoothly

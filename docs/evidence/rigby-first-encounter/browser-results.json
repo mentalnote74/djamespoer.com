@@ -1,0 +1,57 @@
+[
+  {
+    "width": 1440,
+    "keyboard": "Enter",
+    "stationaryTarget": true,
+    "poses": [
+      "translateX(-128px)",
+      "translateX(-256px)"
+    ],
+    "bounded": true,
+    "paused": true,
+    "offscreenFrozen": true,
+    "nativeEvidenceLink": true,
+    "overflow": false,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "keyboard": "Space",
+    "stationaryTarget": true,
+    "poses": [
+      "translateX(-128px)",
+      "translateX(-256px)"
+    ],
+    "bounded": true,
+    "paused": true,
+    "offscreenFrozen": true,
+    "nativeEvidenceLink": true,
+    "overflow": false,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "media": {
+      "name": "prefers-reduced-motion",
+      "value": "reduce"
+    },
+    "staticEquivalent": true,
+    "dismissFocus": true,
+    "sessionDismissal": true
+  },
+  {
+    "media": {
+      "name": "forced-colors",
+      "value": "active"
+    },
+    "staticEquivalent": true,
+    "dismissFocus": true,
+    "sessionDismissal": true
+  },
+  {
+    "failedImage": true,
+    "inert": true,
+    "evidenceAvailable": true
+  }
+]

@@ -1,0 +1,48 @@
+<section class="encounter" aria-labelledby="rigby-heading">
+  <h2 id="rigby-heading" class="visually-hidden">A biscuit for Rigby</h2>
+  <div class="stage" aria-hidden="true">
+    <div
+      class="dog"
+      [class.revealed]="ready() && pose() !== 'dormant' && !dismissed()"
+      [style.transform]="'translate(' + entrance() + 'px, ' + lift() + 'px)'"
+    >
+      <img
+        #sprite
+        src="/assets/rigby/encounter.png"
+        width="384"
+        height="128"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        draggable="false"
+        [style.transform]="'translateX(' + -frame() * 128 + 'px)'"
+        (load)="decoded(sprite)"
+        (error)="fail()"
+      />
+    </div>
+  </div>
+  <div class="choices">
+    @if (!dismissed()) {
+      <div class="actions">
+        <button type="button" class="feed" [disabled]="!available() || fed()" (click)="feed()">
+          <span aria-hidden="true">🦴</span>
+          {{ fed() ? 'Biscuit enjoyed' : 'Feed Rigby a biscuit' }}
+        </button>
+        <button type="button" (click)="dismiss()">Dismiss Rigby</button>
+        <button type="button" [attr.aria-pressed]="paused()" (click)="paused.set(!paused())">
+          {{ paused() ? 'Resume Rigby' : 'Pause Rigby' }}
+        </button>
+      </div>
+    }
+    <p class="feedback" role="status">{{ status() }}</p>
+    <a
+      #evidence
+      routerLink="/case-studies/tcc"
+      publicTrack
+      trackLocation="page-content"
+      trackSource="homepage"
+    >
+      Explore how research changed a product
+    </a>
+  </div>
+</section>

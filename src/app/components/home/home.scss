@@ -22,6 +22,8 @@ app-carousel {
   padding-block: clamp(2rem, 5vw, 4rem);
 }
 
+.home-editorial > app-rigby-encounter { grid-column: 1 / -1; }
+
 // Keep the journal editorial/open rather than turning every section into a card.
 .home-editorial > app-daily-scrum-brief {
   border-inline-start: 2px solid color-mix(in srgb, var(--coast-water) 24%, transparent);

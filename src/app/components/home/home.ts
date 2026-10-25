@@ -10,6 +10,7 @@ import { afterNextRender, Component, computed, inject, signal } from '@angular/c
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
 import { CarouselSlide } from '../carousel/carousel-slide';
+import { RigbyEncounter } from '../rigby-encounter/rigby-encounter';
 
 @Component({
   imports: [
@@ -22,6 +23,7 @@ import { CarouselSlide } from '../carousel/carousel-slide';
     Thingamajob,
     Carousel,
     CarouselSlide,
+    RigbyEncounter,
   ],
   selector: 'app-home',
   templateUrl: './home.html',

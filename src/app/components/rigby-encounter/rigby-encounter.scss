@@ -1,0 +1,67 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+.encounter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  min-block-size: 12rem;
+}
+.stage {
+  inline-size: 176px;
+  block-size: 176px;
+  flex: 0 0 176px;
+  display: grid;
+  place-items: end center;
+  padding-block-end: 8px;
+}
+.dog {
+  inline-size: 128px;
+  block-size: 128px;
+  overflow: hidden;
+  visibility: hidden;
+}
+.dog.revealed {
+  visibility: visible;
+}
+.dog img {
+  display: block;
+  max-inline-size: none;
+  inline-size: 384px;
+  block-size: 128px;
+  image-rendering: pixelated;
+}
+.choices {
+  flex: 1 1 16rem;
+  min-inline-size: 0;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+button {
+  min-block-size: 44px;
+}
+.feed {
+  font-weight: 700;
+  min-inline-size: 14rem;
+}
+.feedback {
+  min-block-size: 3em;
+  margin-block: 0.5rem;
+}
+@media (forced-colors: active) {
+  .dog {
+    display: none;
+  }
+  .stage {
+    display: none;
+  }
+  .encounter {
+    min-block-size: 10rem;
+  }
+}

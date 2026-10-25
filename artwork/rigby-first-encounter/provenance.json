@@ -1,0 +1,22 @@
+{
+  "source": "SCRUM-123 comment 10161 and supplied READ-ME-FIRST.md",
+  "generatedWith": "built-in image_gen",
+  "originalOutput": "exec-6f787058-cfe9-4ec5-bc29-3de77141edb1.png",
+  "masterSha256": "b2b1ccd60f8f60582fbb8f0dc4a0ef5258c23afa9bf0ec00e9fe2e44a7544870",
+  "directionPath": "C:/Users/djame/Documents/Codex/2026-10-24/files-pasted-by-the-user-codex/outputs/rigby-art-direction/pixel-vs-cartoon.png",
+  "directionHash": "0b6679bcac8417ea694cb64370d45a0a45377e8447a7c2a8fcdfc20e24c6135d",
+  "references": [
+    {
+      "path": "C:\\Users\\djame\\Documents\\Codex\\2026-10-24\\files-pasted-by-the-user-codex\\outputs\\rigby-art-direction\\references\\1000009184.jpg",
+      "sha256": "cb164b7f326b0702d4e346964d5c76382428e53f92cb9724a4993a517f219b84",
+      "usage": "private likeness reference only; not copied to public or committed"
+    },
+    {
+      "path": "C:\\Users\\djame\\Documents\\Codex\\2026-10-24\\files-pasted-by-the-user-codex\\outputs\\rigby-art-direction\\references\\1000009246.jpg",
+      "sha256": "291e40144744f46ae45bdde18c9239d38e701192ef97828ecad21cfbbdd405d5",
+      "usage": "private likeness reference only; not copied to public or committed"
+    }
+  ],
+  "derivation": "Nearest-neighbor reduction of 2172x724 registered three-cell master to 192x64. Hard alpha, no dither, 16-color cap (14 resulting colors). Three 64x64 poses at 2x integer display size. Master unchanged.",
+  "identity": "Rigby only. Eleanor (black cat), Otis (other larger goldendoodle), people and backgrounds excluded."
+}
