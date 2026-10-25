@@ -20,32 +20,10 @@ const boxes = {
   eye: { x: 1410, y: 185, w: 185, h: 165, small: 96, large: 185 },
   mouth: { x: 1500, y: 415, w: 400, h: 200, small: 192, large: 400 },
 };
-// Remove the resting features from the runtime base. Every pose fills the same
-// holes with generous opaque overlap, so replacement never doubles a feature.
-await writeFile(
-  temp + 'holes.svg',
-  svg(
-    2172,
-    724,
-    '<rect width="2172" height="724" fill="white"/>' +
-      Object.values(boxes)
-        .map(
-          ({ x, y, w, h }) =>
-            `<rect x="${x + 16}" y="${y + 16}" width="${w - 32}" height="${h - 32}" rx="14" fill="black"/>`,
-        )
-        .join(''),
-  ),
-);
-run(
-  temp + 'rest.png',
-  temp + 'holes.svg',
-  '-alpha',
-  'off',
-  '-compose',
-  'CopyOpacity',
-  '-composite',
-  temp + 'base.png',
-);
+// Keep a complete full-resolution resting pig beneath expression overlays.
+// Late/failed lazy overlays must never expose eye or mouth holes. The existing
+// opaque registered patches cover resting features when expressions change.
+run(temp + 'rest.png', temp + 'base.png');
 
 const layers = [{ name: 'base', w: 2172, h: 724, small: 768, large: 1440, q: 48 }];
 for (const [name, pose, region] of [

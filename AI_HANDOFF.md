@@ -1,5 +1,21 @@
 # AI Engineering Handoff
 
+## Complete pig base — asset-only correction
+
+James requested production correction of the rectangular eye/mouth holes after
+rolling back the soft-fallback/loading-gate experiments. prepare.mjs now copies
+the existing full-resolution resting master as the base rather than punching
+transparent holes. All 12 responsive base AVIF/WebP exports were regenerated;
+expression exports are byte-unchanged. No Angular/template/style/loading,
+priority, pause or timing change. Existing opaque expression patches cover the
+resting face; a delayed/failed patch now leaves a complete pig underneath.
+
+All 12 base decodes are fully opaque; neutral/wink/kiss composites visually
+checked for holes/double features. 656 geometry checks and production
+build/budgets/48-route prerender pass. Existing focused hero/carousel checks
+run for release. No low-resolution fallback or readiness gate reintroduced.
+Fish release 2c1197a remains intact. Deploy via normal main/Cloudflare path.
+
 ## SCRUM-145 â€” shared article hero and copy alignment, local only
 
 Extended the current Bass swim-in revision: Article looks up its exact canonical
