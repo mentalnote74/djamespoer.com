@@ -17,7 +17,7 @@
     line-height: 1.65;
   }
 
-  h2 {
+  :is(h2, h3) {
     line-height: 1.25;
     text-wrap: balance;
   }

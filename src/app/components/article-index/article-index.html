@@ -4,11 +4,12 @@
     UX, front-end engineering and AI, considered through what we are actually building and learning
     on djamespoer.com. Inspiration-driven, not calendar-driven.
   </p>
+  <h2>Blognostifications</h2>
   @for (article of articles; track article.slug) {
     <section class="blognostisphere-index__entry">
-      <h2>
+      <h3>
         <a [routerLink]="['/blognostisphere', article.slug]">{{ article.title }}</a>
-      </h2>
+      </h3>
       <p>{{ article.dek }}</p>
       <p>
         <a href="#index-author-note">{{ byline }}</a> ·

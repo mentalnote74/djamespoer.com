@@ -29,6 +29,13 @@ export const ARTICLES: readonly ArticleSummary[] = [
     publishedDate: '2026-10-22',
     modifiedDate: '2026-10-22',
   },
+  {
+    slug: 'the-difference-between-good-and-good-enough',
+    title: 'The Difference Between Good, and Good Enough',
+    dek: 'There is a dangerous phrase in software development.',
+    publishedDate: '2026-10-24',
+    modifiedDate: '2026-10-24',
+  },
 ];
 
 /** Published public content only. Shared by routing, prerendering and the sitemap. */
@@ -193,7 +200,7 @@ export const PUBLIC_PAGES: readonly PublicPage[] = [
     title: 'Blognostisphere | D. James Poer',
     description:
       'Original articles on UX, front-end engineering and AI, written under D. James Poer’s direction as Blognosticator and grounded in building djamespoer.com.',
-    lastModified: '2026-10-22',
+    lastModified: '2026-10-24',
   },
   ...ARTICLES.map((article): PublicPage => ({
     path: `blognostisphere/${article.slug}`,

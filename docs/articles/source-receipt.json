@@ -94,6 +94,22 @@
         "https://www.nngroup.com/articles/information-scent/",
         "https://www.nngroup.com/articles/perceived-value/"
       ]
+    },
+    {
+      "file": "04-good-and-good-enough.md",
+      "source": "SCRUM-143 comment 10155 (sole complete manuscript; no attachments or later revisions)",
+      "sourceURL": "https://djamespoer.atlassian.net/browse/SCRUM-143?focusedCommentId=10155",
+      "sourceCreated": "2026-10-24T12:03:35.336-0400",
+      "sha256": "af576a5a10a0507068c93b2dec364103239974a4a608d2288bfcaf1334b18272",
+      "publicationApproval": "James explicitly lifted the prior publication hold in the October 24 Blognostisphere publication directive.",
+      "publicationDate": "2026-10-24",
+      "proseComparison": "Every manuscript word and all four citation explanations/URLs preserved; first source sentence uses existing dek. Only editorial Consideration #1/title wrapper and superseded status are excluded from public body.",
+      "sourceURLs": [
+        "https://www.w3.org/TR/WCAG22/",
+        "https://www.nngroup.com/articles/iterative-design/",
+        "https://martinfowler.com/bliki/DesignStaminaHypothesis.html",
+        "https://martinfowler.com/bliki/TechnicalDebt.html"
+      ]
     }
   ]
 }

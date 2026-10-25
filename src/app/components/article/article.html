@@ -15,16 +15,18 @@
   </header>
   <div class="blognostisphere-article__body" [innerHTML]="article().body"></div>
   <footer>
-    <section aria-labelledby="article-sources-heading">
-      <h2 id="article-sources-heading">Sources and research</h2>
-      <ul>
-        @for (source of article().sources; track source.url) {
-          <li>
-            <a [href]="source.url">{{ source.label }}</a>
-          </li>
-        }
-      </ul>
-    </section>
+    @if (article().sources.length) {
+      <section aria-labelledby="article-sources-heading">
+        <h2 id="article-sources-heading">Sources and research</h2>
+        <ul>
+          @for (source of article().sources; track source.url) {
+            <li>
+              <a [href]="source.url">{{ source.label }}</a>
+            </li>
+          }
+        </ul>
+      </section>
+    }
     <p id="article-author-note" class="blognostisphere-article__author-note" tabindex="-1">
       *{{ authorNote }}
     </p>

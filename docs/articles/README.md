@@ -1,5 +1,42 @@
 # Blognostisphere — approved articles
 
+## October 24 publication — SCRUM-143 / SCRUM-144
+
+James explicitly lifted the publication hold on SCRUM-143 comment 10155. The
+description remains an old idea capture, but its sole comment contains the
+completed **The Difference Between Good, and Good Enough** manuscript, all four
+research citations and the superseded hold. No attachments or later versions.
+The original comment is archived intact in `approved/04-good-and-good-enough.md`;
+the hold remains there as history, not as a current instruction or public copy.
+
+The existing article pipeline publishes every manuscript word. Its first
+sentence uses the existing dek field; the remaining prose and complete citation
+list remain in the body. Only the editorial "Consideration #1", repeated title
+and superseded status note are excluded from the public body. No rewrite,
+generated copy or new Markdown runtime. The shared optional footer source list
+is omitted when citations are already fully present in the body. Article 4 uses
+October 24 publication/modification dates; the index's lastmod reflects its real
+heading/list update. Existing article dates remain unchanged.
+
+SCRUM-144 adds the H2 **Blognostifications** immediately above the list; article
+titles use H3 below it. Current inventory is four article routes plus the index.
+The existing registry supplies nav entries, related links, metadata/BlogPosting
+schema and sitemap inclusion. Existing slides, Bass hero/swim-in, pig correction,
+GA and themes are unchanged. Earlier verification notes below remain history.
+
+Focused verification: 36 Angular tests and six discoverability/render tests pass;
+production build/style budgets pass with 49 prerendered routes (468.82kB initial,
+116.00kB estimated transfer). Local static HTML comparison matches every source
+word including four citations. Desktop/390px index and article keyboard,
+canonical/robots/schema/sitemap, overflow and scoped axe checks pass (zero
+violations/application errors). Headless only; no preview pane opened.
+Repeatable read-back: `node scripts/articles/verify-publication.mjs` or add
+`--live`. Receipts/screenshots remain under ignored
+`tmp/evidence/blognostisphere-publication/`; production receipt is also recorded
+in Jira on release. Initial compilation used the older checkout's incomplete
+dependencies; corrected only the worktree dependency junction and reran cleanly.
+The route-test worker emitted a shutdown warning after all tests passed.
+
 Approved October 22, 2026; inspiration-driven, not calendar-driven. No schedule,
 newsletter, CMS, external ingestion or runtime Markdown parser.
 

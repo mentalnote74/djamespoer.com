@@ -18,9 +18,17 @@ test('sitemap contains canonical public pages and real journal dates without inv
   assert.ok(urls.every((url) => /^https:\/\/djamespoer\.com\//.test(url)));
   assert.ok(!/test\/|api\/|career-source|changefreq|priority/.test(xml));
   const dated = [...xml.matchAll(/<url><loc>(.*?)<\/loc><lastmod>(.*?)<\/lastmod><\/url>/g)];
-  assert.equal(dated.length, 4);
+  assert.equal(dated.length, 5);
   assert.ok(
-    dated.every((match) => match[1].includes('/blognostisphere') && match[2] === '2026-10-22'),
+    dated.every(
+      (match) =>
+        match[1].includes('/blognostisphere') &&
+        match[2] ===
+          (match[1].endsWith('/blognostisphere') ||
+          match[1].endsWith('/the-difference-between-good-and-good-enough')
+            ? '2026-10-24'
+            : '2026-10-22'),
+    ),
   );
   assert.throws(() => sitemapFor({ schemaVersion: 1, entries: [{ date: '2026-02-31' }] }));
   assert.throws(() => sitemapFor({ entries: [] }));

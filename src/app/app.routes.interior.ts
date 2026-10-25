@@ -134,7 +134,11 @@ export const interiorRoutes: Routes = [
           ? import('./components/article/top-of-the-stack.content').then(({ ARTICLE }) => ARTICLE)
           : article.slug === ARTICLES[1].slug
             ? import('./components/article/bot-herder.content').then(({ ARTICLE }) => ARTICLE)
-            : import('./components/article/big-dumb-bass.content').then(({ ARTICLE }) => ARTICLE),
+            : article.slug === ARTICLES[2].slug
+              ? import('./components/article/big-dumb-bass.content').then(({ ARTICLE }) => ARTICLE)
+              : import('./components/article/good-and-good-enough.content').then(
+                  ({ ARTICLE }) => ARTICLE,
+                ),
     },
     loadComponent: () => import('./components/article/article').then(({ Article }) => Article),
   })),

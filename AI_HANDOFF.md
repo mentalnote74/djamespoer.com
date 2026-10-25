@@ -1,5 +1,27 @@
 # AI Engineering Handoff
 
+## SCRUM-143 / SCRUM-144 - Blognostisphere publication
+
+Owner lifted SCRUM-143 comment 10155's publication hold. Archived that exact
+completed manuscript and receipt; published "The Difference Between Good, and
+Good Enough" through the existing lazy article pipeline, with all words and four
+full citations preserved. Opening source sentence becomes the existing dek;
+editorial draft wrapper/status remain archival. No rewrite or invented hero.
+New route: /blognostisphere/the-difference-between-good-and-good-enough . Existing
+registry supplies nav, related links, metadata/schema and sitemap. Editorial
+dates October 24; older article dates stay. H2 "Blognostifications" directly
+precedes the list; article titles use H3. Empty duplicate source footer omitted
+only when citations are already in body.
+
+Based on main 02f3fda. Fish slide/hero, corrected full-resolution pig assets,
+themes, GA, original articles and dirty protected checkout untouched.
+36 focused Angular tests + six discovery/render checks pass. Build/budgets and
+49-route prerender pass; source prose matches compiled HTML exactly. Headless
+desktop/390px keyboard, canonical/schema/robots/sitemap, overflow and scoped axe
+checks pass (zero violations/errors); no preview pane opened. Read-back:
+node scripts/articles/verify-publication.mjs [--live]. Release through existing
+main -> Cloudflare Builds path; final production receipt in SCRUM-143/144.
+
 ## Complete pig base — asset-only correction
 
 James requested production correction of the rectangular eye/mouth holes after
