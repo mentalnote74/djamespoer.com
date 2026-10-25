@@ -1,0 +1,467 @@
+{
+  "hashes": 30,
+  "results": [
+    {
+      "width": 1440,
+      "mode": "normal",
+      "start": {
+        "ready": true,
+        "started": true,
+        "paused": false,
+        "opacity": 1,
+        "x": 0.39999999999999997,
+        "time": 8.250999932363667,
+        "current": 3,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+        "lureTransform": "none",
+        "lightClocks": [
+          {
+            "part": "cyan-sweep",
+            "time": 8.250999932363667
+          },
+          {
+            "part": "amber-sweep",
+            "time": 8.250999932363667
+          },
+          {
+            "part": "lure-halo",
+            "time": 8.250999932363667
+          }
+        ]
+      },
+      "end": {
+        "ready": true,
+        "started": true,
+        "paused": false,
+        "opacity": 1,
+        "x": 0,
+        "time": 7500,
+        "current": 3,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+        "lureTransform": "none",
+        "lightClocks": [
+          {
+            "part": "cyan-sweep",
+            "time": 7500.003999796809
+          },
+          {
+            "part": "amber-sweep",
+            "time": 7500.003999796809
+          },
+          {
+            "part": "lure-halo",
+            "time": 7500.003999796809
+          }
+        ]
+      },
+      "composition": {
+        "ratio": 3,
+        "font": "40.896px",
+        "copyInside": true,
+        "title": "Whatever You Do, Do Not Click Here",
+        "href": "/blognostisphere/like-a-big-dumb-bass",
+        "arrow": "\"\""
+      },
+      "carouselLight": [
+        {
+          "time": 0,
+          "pulse": 0.45,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, -575.1, 0)",
+            "matrix(1, 0, 0, 1, 346.264, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif\")"
+        },
+        {
+          "time": 2400,
+          "pulse": 1,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, -224.655, 0)",
+            "matrix(1, 0, 0, 1, -154.024, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif\")"
+        },
+        {
+          "time": 4800,
+          "pulse": 0.45,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, 375.036, 0)",
+            "matrix(1, 0, 0, 1, -441.729, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif\")"
+        }
+      ],
+      "articleLight": [
+        {
+          "time": 0,
+          "pulse": 0.45,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, -488.7, 0)",
+            "matrix(1, 0, 0, 1, 294.243, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif\")"
+        },
+        {
+          "time": 2400,
+          "pulse": 1,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, -190.904, 0)",
+            "matrix(1, 0, 0, 1, -130.884, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif\")"
+        },
+        {
+          "time": 4800,
+          "pulse": 0.45,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, 318.693, 0)",
+            "matrix(1, 0, 0, 1, -375.366, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif\")"
+        }
+      ],
+      "articleHero": {
+        "h1Count": 1,
+        "title": "Like a Big Dumb Bass",
+        "ratio": 3,
+        "selfLinks": 0,
+        "duplicateHeadlines": 0,
+        "explore": 0,
+        "pause": true,
+        "font": "41.268px",
+        "titleRight": 0.24053291896869244,
+        "overflow": false
+      },
+      "heroAxe": [],
+      "axe": [],
+      "keyboardAndPointerOneEventEach": true,
+      "clickEvents": [
+        [
+          "event",
+          "carousel_cta_click",
+          {
+            "location": "carousel",
+            "slide": "big-dumb-bass",
+            "destination": "/blognostisphere/like-a-big-dumb-bass",
+            "page_path": "/",
+            "cta_location": "carousel"
+          }
+        ],
+        [
+          "event",
+          "carousel_cta_click",
+          {
+            "location": "carousel",
+            "slide": "big-dumb-bass",
+            "destination": "/blognostisphere/like-a-big-dumb-bass",
+            "page_path": "/",
+            "cta_location": "carousel"
+          }
+        ]
+      ],
+      "manualMidApproachPauseAndBackgroundPreserved": true,
+      "responsiveAnimationPreserved": true,
+      "pauseExcluded": true,
+      "canonical": "https://djamespoer.com/blognostisphere/like-a-big-dumb-bass",
+      "offscreenFreeze": true,
+      "hiddenFreeze": true,
+      "revisitReset": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "mode": "failure",
+      "state": {
+        "ready": false,
+        "started": false,
+        "paused": true,
+        "opacity": 1,
+        "x": 0.39999999999999997,
+        "time": null,
+        "current": 0,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+        "lureTransform": "none",
+        "lightClocks": [
+          {
+            "part": "lure-halo",
+            "time": null
+          }
+        ]
+      },
+      "resources": [
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/pond-1440.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/bass-1440.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif"
+      ],
+      "nativeNavigation": true,
+      "forcedColors": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "mode": "reduced",
+      "state": {
+        "ready": false,
+        "started": false,
+        "paused": true,
+        "opacity": 1,
+        "x": 0,
+        "time": null,
+        "current": 0,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/fallback-1440.avif",
+        "lureTransform": "none",
+        "lightClocks": [
+          {
+            "part": "lure-halo",
+            "time": null
+          }
+        ]
+      },
+      "resources": [
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/fallback-1440.avif"
+      ],
+      "nativeNavigation": true,
+      "forcedColors": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "normal",
+      "start": {
+        "ready": true,
+        "started": true,
+        "paused": false,
+        "opacity": 1,
+        "x": 0.4,
+        "time": 0,
+        "current": 3,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+        "lureTransform": "none",
+        "lightClocks": [
+          {
+            "part": "cyan-sweep",
+            "time": 0
+          },
+          {
+            "part": "amber-sweep",
+            "time": 0
+          },
+          {
+            "part": "lure-halo",
+            "time": 0
+          }
+        ]
+      },
+      "end": {
+        "ready": true,
+        "started": true,
+        "paused": false,
+        "opacity": 1,
+        "x": 0,
+        "time": 7500,
+        "current": 3,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+        "lureTransform": "none",
+        "lightClocks": [
+          {
+            "part": "cyan-sweep",
+            "time": 7508.219999856502
+          },
+          {
+            "part": "amber-sweep",
+            "time": 7508.219999856502
+          },
+          {
+            "part": "lure-halo",
+            "time": 7508.219999856502
+          }
+        ]
+      },
+      "composition": {
+        "ratio": 3.000263365815117,
+        "font": "14.4px",
+        "copyInside": true,
+        "title": "Whatever You Do, Do Not Click Here",
+        "href": "/blognostisphere/like-a-big-dumb-bass",
+        "arrow": "\"\""
+      },
+      "carouselLight": [
+        {
+          "time": 0,
+          "pulse": 0.45005,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, -160.196, 0)",
+            "matrix(1, 0, 0, 1, 95.713, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif\")"
+        },
+        {
+          "time": 2400,
+          "pulse": 1,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, -62.5799, 0)",
+            "matrix(1, 0, 0, 1, -42.9049, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif\")"
+        },
+        {
+          "time": 4800,
+          "pulse": 0.45,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, 104.47, 0)",
+            "matrix(1, 0, 0, 1, -123.048, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif\")"
+        }
+      ],
+      "articleLight": [
+        {
+          "time": 0,
+          "pulse": 0.450013,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, -161.099, 0)",
+            "matrix(1, 0, 0, 1, 96.6217, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-2172.avif\")"
+        },
+        {
+          "time": 2400,
+          "pulse": 1,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, -62.9315, 0)",
+            "matrix(1, 0, 0, 1, -43.1459, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-2172.avif\")"
+        },
+        {
+          "time": 4800,
+          "pulse": 0.45,
+          "lureTransform": "none",
+          "bands": [
+            "matrix(1, 0, 0, 1, 105.057, 0)",
+            "matrix(1, 0, 0, 1, -123.739, 0)"
+          ],
+          "mask": "url(\"https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-2172.avif\")"
+        }
+      ],
+      "articleHero": {
+        "h1Count": 1,
+        "title": "Like a Big Dumb Bass",
+        "ratio": 3.0001309414691635,
+        "selfLinks": 0,
+        "duplicateHeadlines": 0,
+        "explore": 0,
+        "pause": true,
+        "font": "16px",
+        "titleRight": 0.2431913407821229,
+        "overflow": false
+      },
+      "heroAxe": [],
+      "axe": [],
+      "keyboardAndPointerOneEventEach": true,
+      "clickEvents": [
+        [
+          "event",
+          "carousel_cta_click",
+          {
+            "location": "carousel",
+            "slide": "big-dumb-bass",
+            "destination": "/blognostisphere/like-a-big-dumb-bass",
+            "page_path": "/",
+            "cta_location": "carousel"
+          }
+        ],
+        [
+          "event",
+          "carousel_cta_click",
+          {
+            "location": "carousel",
+            "slide": "big-dumb-bass",
+            "destination": "/blognostisphere/like-a-big-dumb-bass",
+            "page_path": "/",
+            "cta_location": "carousel"
+          }
+        ]
+      ],
+      "manualMidApproachPauseAndBackgroundPreserved": true,
+      "responsiveAnimationPreserved": true,
+      "pauseExcluded": true,
+      "canonical": "https://djamespoer.com/blognostisphere/like-a-big-dumb-bass",
+      "offscreenFreeze": true,
+      "hiddenFreeze": true,
+      "revisitReset": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "failure",
+      "state": {
+        "ready": false,
+        "started": false,
+        "paused": true,
+        "opacity": 1,
+        "x": 0.4,
+        "time": null,
+        "current": 0,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+        "lureTransform": "none",
+        "lightClocks": [
+          {
+            "part": "lure-halo",
+            "time": null
+          }
+        ]
+      },
+      "resources": [
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/pond-768.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/bass-768.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif"
+      ],
+      "nativeNavigation": true,
+      "forcedColors": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "reduced",
+      "state": {
+        "ready": false,
+        "started": false,
+        "paused": true,
+        "opacity": 1,
+        "x": 0,
+        "time": null,
+        "current": 0,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/fallback-768.avif",
+        "lureTransform": "none",
+        "lightClocks": [
+          {
+            "part": "lure-halo",
+            "time": null
+          }
+        ]
+      },
+      "resources": [
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/fallback-768.avif"
+      ],
+      "nativeNavigation": true,
+      "forcedColors": true,
+      "errors": []
+    }
+  ]
+}

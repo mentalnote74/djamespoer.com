@@ -5,7 +5,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import puppeteer from 'puppeteer-core';
 import { startPreview } from './preview.mjs';
-const out = 'tmp/evidence/scrum-145/article-hero';
+const out = 'tmp/evidence/scrum-145/lure-magic/contracts';
 await mkdir(out, { recursive: true });
 const manifest = JSON.parse(await readFile('artwork/big-dumb-bass/manifest.json', 'utf8'));
 const assets = Object.values(manifest).find(
@@ -44,8 +44,61 @@ const inspect = (page) =>
       time: a?.currentTime ?? null,
       current: e.querySelectorAll('.plate.current').length,
       poster: e.querySelector('.poster img').currentSrc,
+      lureTransform: getComputedStyle(e.querySelector('.lure')).transform,
+      lightClocks: [...e.querySelectorAll('.lure-halo, .lure-sheen.current i')].map((n) => ({
+        part: n.className,
+        time: n.getAnimations()[0]?.currentTime ?? null,
+      })),
     };
   });
+const lightFrozen = (before, after) => {
+  assert.equal(before.lightClocks.length, 3);
+  assert.equal(after.lightClocks.length, 3);
+  before.lightClocks.forEach((clock, i) => {
+    assert.equal(clock.part, after.lightClocks[i].part);
+    assert(Math.abs(clock.time - after.lightClocks[i].time) < 35);
+  });
+};
+async function lightSamples(page, selector, width, surface) {
+  const samples = [];
+  // Deliberate paused CSS-clock samples show extrema, not a fabricated filmstrip.
+  await page.focus(selector + ' .motion-control');
+  if (!(await page.$eval(selector, (e) => e.classList.contains('paused'))))
+    await page.keyboard.press('Space');
+  const rect = await page.$eval(selector, (e) => {
+    const r = e.getBoundingClientRect();
+    return { x: r.x + scrollX, y: r.y + scrollY, width: r.width, height: r.height };
+  });
+  for (const time of [0, 2400, 4800]) {
+    await page.$eval(
+      selector,
+      (e, time) => {
+        for (const n of e.querySelectorAll('.lure-halo,.lure-sheen.current i'))
+          for (const a of n.getAnimations()) a.currentTime = time;
+      },
+      time,
+    );
+    await wait(60);
+    const light = await page.$eval(selector, (e) => ({
+      pulse: Number(getComputedStyle(e.querySelector('.lure-halo')).opacity),
+      lureTransform: getComputedStyle(e.querySelector('.lure')).transform,
+      bands: [...e.querySelectorAll('.lure-sheen.current i')].map(
+        (n) => getComputedStyle(n).transform,
+      ),
+      mask: getComputedStyle(e.querySelector('.lure-sheen.current')).maskImage,
+    }));
+    assert.equal(light.lureTransform, 'none');
+    await page.screenshot({
+      path: out + '/' + width + '-' + surface + '-' + time + '.png',
+      clip: rect,
+    });
+    samples.push({ time, ...light });
+  }
+  assert(samples[1].pulse > samples[0].pulse + 0.5);
+  assert.notEqual(samples[0].bands[0], samples[1].bands[0]);
+  await page.keyboard.press('Space');
+  return samples;
+}
 async function open(width, mode = 'normal') {
   const context = await browser.createBrowserContext(),
     page = await context.newPage();
@@ -117,6 +170,7 @@ try {
     await page.waitForSelector(scene + '.started');
     const start = await inspect(page);
     assert.equal(start.current, 3);
+    assert.equal(start.lureTransform, 'none');
     assert.equal(start.opacity, 1);
     assert(Math.abs(start.x - 0.4) < 0.001);
     await page.screenshot({ path: out + '/' + width + '-opening.png' });
@@ -128,6 +182,7 @@ try {
     await wait(400);
     const still = await inspect(page);
     assert(Math.abs(held.time - still.time) < 35);
+    lightFrozen(held, still);
     assert(still.paused);
     await page.keyboard.press('Space', { delay: 80 });
     await page.waitForFunction(
@@ -156,6 +211,7 @@ try {
     await pausedTab.close();
     assert.equal((await inspect(page)).paused, true);
     assert(Math.abs((await inspect(page)).time - manualApproach.time) < 35);
+    lightFrozen(manualApproach, await inspect(page));
     await page.focus(scene + ' .motion-control');
     await page.keyboard.press('Space', { delay: 80 });
     await page.evaluate(() => scrollTo(0, 1100));
@@ -167,6 +223,7 @@ try {
     const off = await inspect(page);
     await wait(250);
     assert(Math.abs((await inspect(page)).time - off.time) < 35);
+    lightFrozen(off, await inspect(page));
     await page.evaluate(() => scrollTo(0, 0));
     await page.waitForFunction(
       (s) => !document.querySelector(s).classList.contains('paused'),
@@ -179,6 +236,7 @@ try {
     const hidden = await inspect(page);
     await wait(250);
     assert(Math.abs((await inspect(page)).time - hidden.time) < 35);
+    lightFrozen(hidden, await inspect(page));
     await page.bringToFront();
     await other.close();
     await page.waitForFunction(
@@ -191,10 +249,12 @@ try {
     const end = await inspect(page);
     assert.equal(end.x, 0);
     assert.equal(end.opacity, 1);
+    assert.equal(end.lureTransform, 'none');
     assert(end.time >= 7490, JSON.stringify(end));
     await wait(300);
     assert.equal((await inspect(page)).opacity, 1);
     await page.screenshot({ path: out + '/' + width + '-revealed.png' });
+    const carouselLight = await lightSamples(page, scene, width, 'carousel');
     const composition = await page.$eval(scene, (e) => {
       const r = e.getBoundingClientRect();
       const h = e.querySelector('h2').getBoundingClientRect(),
@@ -325,6 +385,7 @@ try {
       hero,
     );
     await page.screenshot({ path: out + '/' + width + '-article-hero.png' });
+    const articleLight = await lightSamples(page, hero, width, 'article');
     const heroAxe = await page.evaluate(async () =>
       (await axe.run(document.querySelector('app-article'))).violations.map((v) => ({
         id: v.id,
@@ -363,6 +424,8 @@ try {
       start,
       end,
       composition,
+      carouselLight,
+      articleLight,
       articleHero,
       heroAxe,
       axe,

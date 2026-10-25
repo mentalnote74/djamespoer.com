@@ -1,5 +1,27 @@
 # AI Engineering Handoff
 
+## SCRUM-145 - stronger shared lure magic
+
+Approved production follow-up to d233437: cyan/amber halo now pulses smoothly
+.45 -> 1 over4.8s; two broad staggered metallic sweeps (5.9s/7.3s) use the
+already decoded lure alpha, confined to its core. Geometry/hooks/line stay
+stationary. Pond, Bass2s hold/5.5s swim-in, readiness/fallback, copy/layout,
+native links/GA and pig correction remain. No new assets/dependencies/runtime.
+Shared scene applies to carousel and article hero. Existing pause rule freezes
+all light clocks; reduced motion retains the complete static image.
+
+Build/style budgets/49-route prerender and50 focused tests pass. Desktop/390px
+both-surface lifecycle, keyboard/native GA, fallback/reduced/forced colors and
+scoped axe checks pass with zero violations/errors/overflow. Four downloads
+remain303080B/116584B; CSS mask lookup is cached with zero extra transfer.
+Matched10s whole-page render sample: desktop task994 ->1168ms, mobile1149 ->1147;
+zero layout/steady Paint events and no rAF gaps>50ms. Not an Android GPU/memory
+benchmark or claimed speed gain. Bass lazy chunk +1.65kB raw/~.35kB transfer;
+initial bundle unchanged. Details: docs/evidence/scrum-145/lure-magic/README.md.
+Release via existing main/Cloudflare pipeline, then verify both live surfaces
+headlessly and record final commit/Worker/deployment receipt in SCRUM-145.
+No preview pane opened. Existing cold-load versus nine-second dwell stays.
+
 ## SCRUM-143 / SCRUM-144 - Blognostisphere publication
 
 Owner lifted SCRUM-143 comment 10155's publication hold. Archived that exact

@@ -74,6 +74,14 @@
               alt=""
               decoding="async"
             />
+            @if (layer === 'lure') {
+              <span
+                class="lure-sheen"
+                [class.current]="frame.id === presented()"
+                [style.mask-image]="'url(' + frame.sources[index] + ')'"
+                ><i class="cyan-sweep"></i><i class="amber-sweep"></i
+              ></span>
+            }
           }
         </div>
       }

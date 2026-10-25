@@ -1,0 +1,128 @@
+[
+  {
+    "width": 1440,
+    "label": "baseline",
+    "sampleSeconds": 10,
+    "delta": {
+      "TaskDuration": 0.994121,
+      "ScriptDuration": 0.043104,
+      "LayoutDuration": 0,
+      "RecalcStyleDuration": 0.313737,
+      "LayoutCount": 0,
+      "RecalcStyleCount": 1203
+    },
+    "durations": {
+      "Paint": {
+        "count": 0,
+        "ms": 0
+      },
+      "PrePaint": {
+        "count": 1202,
+        "ms": 191.128
+      },
+      "RasterTask": {
+        "count": 0,
+        "ms": 0
+      },
+      "UpdateLayerTree": {
+        "count": 0,
+        "ms": 0
+      },
+      "Layerize": {
+        "count": 1202,
+        "ms": 2.45
+      },
+      "CompositeLayers": {
+        "count": 0,
+        "ms": 0
+      }
+    },
+    "frameGaps": {
+      "count": 1201,
+      "p95": 8.400000000001455,
+      "max": 8.899999999999636,
+      "over50ms": 0
+    },
+    "images": [
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+        "bytes": 103473
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/pond-1440.avif",
+        "bytes": 59611
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/bass-1440.avif",
+        "bytes": 37697
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+        "bytes": 102299
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "label": "baseline",
+    "sampleSeconds": 10,
+    "delta": {
+      "TaskDuration": 1.1492170000000002,
+      "ScriptDuration": 0.050166,
+      "LayoutDuration": 0,
+      "RecalcStyleDuration": 0.309433,
+      "LayoutCount": 0,
+      "RecalcStyleCount": 1199
+    },
+    "durations": {
+      "Paint": {
+        "count": 0,
+        "ms": 0
+      },
+      "PrePaint": {
+        "count": 1199,
+        "ms": 268.049
+      },
+      "RasterTask": {
+        "count": 0,
+        "ms": 0
+      },
+      "UpdateLayerTree": {
+        "count": 0,
+        "ms": 0
+      },
+      "Layerize": {
+        "count": 1199,
+        "ms": 3.748
+      },
+      "CompositeLayers": {
+        "count": 0,
+        "ms": 0
+      }
+    },
+    "frameGaps": {
+      "count": 1198,
+      "p95": 8.400000000001455,
+      "max": 25,
+      "over50ms": 0
+    },
+    "images": [
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+        "bytes": 39794
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/pond-768.avif",
+        "bytes": 24153
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/bass-768.avif",
+        "bytes": 14797
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+        "bytes": 37840
+      }
+    ]
+  }
+]

@@ -5,7 +5,13 @@
     animation: bass-approach 5.5s ease-in-out 2s both;
   }
   .lure-halo {
-    animation: lure-breath 6.8s ease-in-out infinite;
+    animation: lure-breath 4.8s ease-in-out infinite;
+  }
+  .cyan-sweep {
+    animation: cyan-shimmer 5.9s ease-in-out infinite alternate;
+  }
+  .amber-sweep {
+    animation: amber-shimmer 7.3s ease-in-out -2.1s infinite alternate;
   }
   .pond-caustics {
     animation: pond-light 16s ease-in-out infinite alternate;
@@ -46,10 +52,30 @@
 @keyframes lure-breath {
   0%,
   100% {
-    opacity: 0.35;
+    opacity: 0.45;
   }
   50% {
-    opacity: 0.72;
+    opacity: 1;
+  }
+}
+@keyframes cyan-shimmer {
+  from {
+    transform: translateX(-45%);
+    opacity: 0.3;
+  }
+  to {
+    transform: translateX(35%);
+    opacity: 0.95;
+  }
+}
+@keyframes amber-shimmer {
+  from {
+    transform: translateX(40%);
+    opacity: 0.85;
+  }
+  to {
+    transform: translateX(-35%);
+    opacity: 0.25;
   }
 }
 @keyframes pond-light {

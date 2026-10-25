@@ -90,6 +90,9 @@ describe('Big Dumb Bass complete artwork and visit lifecycle', () => {
     await shown();
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelectorAll('.plate.current')).toHaveLength(3);
+    const sheen = root.querySelector<HTMLElement>('.lure-sheen.current');
+    expect(sheen?.style.maskImage).toContain('https://example.test/a-2.avif');
+    expect(sheen?.querySelectorAll('i')).toHaveLength(2);
     expect(root.querySelector('h2')?.textContent).toBe('Whatever You Do, Do Not Click Here');
     expect(root.querySelector('a')?.getAttribute('href')).toBe(
       '/blognostisphere/like-a-big-dumb-bass',

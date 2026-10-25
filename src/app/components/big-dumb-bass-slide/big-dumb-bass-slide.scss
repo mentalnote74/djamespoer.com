@@ -65,13 +65,53 @@
   inset: 0;
   z-index: 20;
   background:
-    radial-gradient(ellipse 24% 64% at 42% 51%, #48d7ef30, transparent 72%),
-    radial-gradient(ellipse 15% 45% at 48% 58%, #ffc85725, transparent 73%);
+    radial-gradient(ellipse 22% 66% at 42% 51%, #48d7ef85, transparent 72%),
+    radial-gradient(ellipse 17% 50% at 48% 58%, #ffc85770, transparent 73%);
   mix-blend-mode: screen;
-  opacity: 0.35;
+  opacity: 0.45;
 }
 .lure {
   z-index: 30;
+}
+.lure-sheen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  visibility: hidden;
+  // Reuse the current, already decoded alpha plate. Core-only light keeps
+  // hooks/line fixed and avoids a rectangular sweep through the pond.
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  clip-path: ellipse(20% 46% at 43% 51%);
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  &.current {
+    visibility: visible;
+  }
+  i {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      112deg,
+      transparent 32%,
+      #60eaff40 39%,
+      #dfffffc9 46%,
+      #7defff80 51%,
+      transparent 59%
+    );
+    transform: translateX(-45%);
+  }
+  .amber-sweep {
+    background: linear-gradient(
+      68deg,
+      transparent 39%,
+      #ffbc5b40 45%,
+      #fff0b8b3 49%,
+      #ffd07866 53%,
+      transparent 61%
+    );
+    transform: translateX(40%);
+  }
 }
 .glints,
 .motes {

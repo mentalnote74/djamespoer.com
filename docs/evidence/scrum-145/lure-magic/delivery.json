@@ -1,0 +1,126 @@
+[
+  {
+    "width": 1440,
+    "responses": [
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+        "cached": false
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/pond-1440.avif",
+        "cached": false
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/bass-1440.avif",
+        "cached": false
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+        "cached": false
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+        "cached": true
+      }
+    ],
+    "resources": [
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+        "transfer": 103773,
+        "body": 103473,
+        "delivery": "",
+        "initiator": "img"
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/pond-1440.avif",
+        "transfer": 59911,
+        "body": 59611,
+        "delivery": "",
+        "initiator": "img"
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/bass-1440.avif",
+        "transfer": 37997,
+        "body": 37697,
+        "delivery": "",
+        "initiator": "img"
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+        "transfer": 102599,
+        "body": 102299,
+        "delivery": "",
+        "initiator": "img"
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+        "transfer": 0,
+        "body": 102299,
+        "delivery": "cache",
+        "initiator": "css"
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "responses": [
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+        "cached": false
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/bass-768.avif",
+        "cached": false
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/pond-768.avif",
+        "cached": false
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+        "cached": false
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+        "cached": true
+      }
+    ],
+    "resources": [
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+        "transfer": 40094,
+        "body": 39794,
+        "delivery": "",
+        "initiator": "img"
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/pond-768.avif",
+        "transfer": 24453,
+        "body": 24153,
+        "delivery": "",
+        "initiator": "img"
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/bass-768.avif",
+        "transfer": 15097,
+        "body": 14797,
+        "delivery": "",
+        "initiator": "img"
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+        "transfer": 38140,
+        "body": 37840,
+        "delivery": "",
+        "initiator": "img"
+      },
+      {
+        "url": "/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+        "transfer": 0,
+        "body": 37840,
+        "delivery": "cache",
+        "initiator": "css"
+      }
+    ]
+  }
+]
