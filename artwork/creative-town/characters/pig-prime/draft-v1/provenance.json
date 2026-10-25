@@ -1,0 +1,26 @@
+﻿{
+    "characterId":  "pig-prime",
+    "state":  "draft-awaiting-review",
+    "assetApproval":  "not-approved",
+    "canon":  "SCRUM-101",
+    "authorization":  "SCRUM-101 comment 10160; James October 25 overnight queue directive",
+    "intent":  "New authorized transparent draft, not recovery/regeneration of an identified missing prior asset",
+    "references":  [
+                       {
+                           "role":  "style only",
+                           "path":  "artwork/creative-town/scrum-64/larry-v2-c/SCRUM-64-Larry-V2-C.png",
+                           "sourceCommit":  "4cdd0de",
+                           "approval":  "Historically approved SCRUM-64 V2 town composite; not independent character source"
+                       },
+                       {
+                           "role":  "lipstick/piglet features only",
+                           "path":  "artwork/tcc-pig-slide/rest-master.png",
+                           "approval":  "Existing approved TCC piglet artwork; opaque full-scene reference, not an independent full-body town asset"
+                       }
+                   ],
+    "existingIndependentAsset":  "None verified in the actual repo/worktrees and previously recorded handoff locations; unrecovered afternoon work remains unresolved",
+    "provider":  "built-in image_gen",
+    "transparencyRequested":  true,
+    "generationTimeUtc":  "2026-10-25T05:33:00Z",
+    "originalProviderOutput":  "C:/Users/djame/.codex/generated_images/01a13a5a-e027-7590-9447-727504781400/exec-d8879414-2afd-4f6c-ade1-add8f9a3c3db.png"
+}

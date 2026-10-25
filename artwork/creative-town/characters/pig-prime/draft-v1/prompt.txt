@@ -1,0 +1,8 @@
+Use case: illustration-story.
+Asset type: one independent Creative Town character draft, transparent PNG.
+Primary request: Pig Prime / the Lipsticked Pig, the established cute pig with conspicuously badly applied lipstick, reinterpreted ONLY into the approved town illustration style.
+Input image 1 is STYLE REFERENCE ONLY: the approved Creative Town mural. Match its expressive hand-drawn 2D cartoon linework, controlled saturated color, painted shading, readable silhouette, warm daylight and illustrated materials. Do not reproduce the town, buildings, signs, other characters or composition.
+Input image 2 is IDENTITY/FEATURE REFERENCE ONLY: the approved TCC piglet. Preserve the friendly rounded pink piglet, soft ears, expressive eyes, prominent snout and comically uneven, overdrawn, smeared red lipstick. This is not a photoreal output.
+Composition: one full piglet, standing naturally on all four hooves, gentle three-quarter angle with face toward viewer; complete ears, feet and curly tail visible, centered with a little clear padding on every side. Keep the lips and red smears unmistakable at a 64-pixel character height. Simple clean cutout, no scenery or cast sheet.
+Backdrop: genuinely transparent alpha, not a painted checkerboard, white rectangle or studio backdrop. No ground plane; no separate opaque shadow patch.
+Constraints: one pig only; no costume, additional props, text, names, captions, logos or invented backstory. Keep it adorable rather than grotesque or sexual. This is a proposed draft awaiting James review, not an approved canonical redesign.

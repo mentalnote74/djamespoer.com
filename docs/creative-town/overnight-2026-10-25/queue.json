@@ -1,0 +1,417 @@
+﻿{
+    "schemaVersion":  1,
+    "authorization":  "SCRUM-101 comment 10160; James October 25 overnight directive",
+    "cutoff":  "2026-10-25T08:00:00-04:00",
+    "automationId":  "creative-town-overnight-character-queue",
+    "worktree":  "C:/Users/djame/OneDrive/Desktop/djamespoer.com/tmp/creative-town-queue",
+    "state":  "running",
+    "activeEntry":  "hecklefish-moriarty",
+    "throttle":  null,
+    "entries":  [
+                    {
+                        "order":  1,
+                        "id":  "pig-prime",
+                        "name":  "Pig Prime / Lipsticked Pig",
+                        "group":  "core",
+                        "status":  "draft-awaiting-review",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  true,
+                        "notes":  [
+                                      "Alpha min 0/max 65535. Bounds 1177x1086+183+29 in 1374x1145 master; ears/feet/tail intact. Light/dark and 64px previews inspected. Tiny right padding; placement/palette/style and James approval remain pending."
+                                  ],
+                        "assetDirectory":  "artwork/creative-town/characters/pig-prime/draft-v1"
+                    },
+                    {
+                        "order":  2,
+                        "id":  "hecklefish-moriarty",
+                        "name":  "Hecklefish Moriarty",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  3,
+                        "id":  "jiggler-the-mouse",
+                        "name":  "Jiggler the Mouse",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  4,
+                        "id":  "featured-bug",
+                        "name":  "Featured Bug",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  5,
+                        "id":  "buildometer-car",
+                        "name":  "Buildometer muscle/race-car",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  6,
+                        "id":  "rubber-duck",
+                        "name":  "Rubber Duck",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  7,
+                        "id":  "yaks",
+                        "name":  "Yaks",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  8,
+                        "id":  "tyrone-biggums",
+                        "name":  "Tyrone Biggums",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "resident",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  9,
+                        "id":  "techie",
+                        "name":  "Techie",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  10,
+                        "id":  "job-fairy",
+                        "name":  "Tinkerbell / ChatGPT Job Fairy",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  11,
+                        "id":  "larry",
+                        "name":  "Larry",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  12,
+                        "id":  "desktop-sally",
+                        "name":  "DTS / Desktop Sally",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  13,
+                        "id":  "smoke-break-sally",
+                        "name":  "SBS / Smoke Break Sally",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  14,
+                        "id":  "emotional-support-donkey",
+                        "name":  "James\u0027s Emotional Support Donkey",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "resident",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  15,
+                        "id":  "rigby",
+                        "name":  "Rigby",
+                        "group":  "core",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  16,
+                        "id":  "superman",
+                        "name":  "Superman",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  17,
+                        "id":  "batman",
+                        "name":  "Batman",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  18,
+                        "id":  "spider-man",
+                        "name":  "Spider-Man",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  19,
+                        "id":  "wonder-woman",
+                        "name":  "Wonder Woman",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  20,
+                        "id":  "deadpool",
+                        "name":  "Deadpool",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  21,
+                        "id":  "r2-d2",
+                        "name":  "R2-D2",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  22,
+                        "id":  "yoda",
+                        "name":  "Yoda",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  23,
+                        "id":  "lgm",
+                        "name":  "LGM / gray alien",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  24,
+                        "id":  "scoob-and-shag",
+                        "name":  "Scoob and Shag",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+                                      "Preserve the canonical pair as a paired draft."
+                                  ]
+                    },
+                    {
+                        "order":  25,
+                        "id":  "pythonesque-knights",
+                        "name":  "Pythonesque Kinnnigggittts",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  26,
+                        "id":  "elvis-like",
+                        "name":  "Elvis-like figure",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  27,
+                        "id":  "bigfoot",
+                        "name":  "Bigfoot",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  28,
+                        "id":  "rocky-and-bullwinkle",
+                        "name":  "Rocky and Bullwinkle",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+                                      "Preserve the canonical pair as a paired draft."
+                                  ]
+                    },
+                    {
+                        "order":  29,
+                        "id":  "oscar",
+                        "name":  "Oscar the Grouch",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+
+                                  ]
+                    },
+                    {
+                        "order":  30,
+                        "id":  "waldo-photo",
+                        "name":  "Waldo missing-person photo",
+                        "group":  "cameo-queue",
+                        "status":  "pending",
+                        "assetApproval":  "not-approved",
+                        "participation":  "cameo",
+                        "alwaysPresent":  false,
+                        "notes":  [
+                                      "Photo/prop only; never an independent roaming Waldo figure."
+                                  ]
+                    },
+                    {
+                        "order":  31,
+                        "id":  "historical-moose",
+                        "name":  "Historical Moose",
+                        "group":  "unresolved-history",
+                        "status":  "blocked",
+                        "assetApproval":  "not-approved",
+                        "participation":  "unresolved",
+                        "alwaysPresent":  false,
+                        "blocker":  "Original identity/reason and approved visual canon are unresolved. Do not substitute Bullwinkle.",
+                        "notes":  [
+
+                                  ]
+                    }
+                ]
+}
