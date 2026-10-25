@@ -5,7 +5,7 @@
     "automationId":  "creative-town-overnight-character-queue",
     "worktree":  "C:/Users/djame/OneDrive/Desktop/djamespoer.com/tmp/creative-town-queue",
     "state":  "running",
-    "activeEntry":  "tyrone-biggums",
+    "activeEntry":  "larry",
     "throttle":  null,
     "entries":  [
                     {
@@ -111,39 +111,42 @@
                         "id":  "tyrone-biggums",
                         "name":  "Tyrone Biggums",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "draft-awaiting-review",
                         "assetApproval":  "not-approved",
                         "participation":  "resident",
                         "alwaysPresent":  false,
                         "notes":  [
-
-                                  ]
+                                      "Historical mural appearance preserved; not actor portrait. Full crop/alpha and 64px checked. Added belt tools need review; narrow top/bottom padding."
+                                  ],
+                        "assetDirectory":  "artwork/creative-town/characters/tyrone-biggums/draft-v1"
                     },
                     {
                         "order":  9,
                         "id":  "techie",
                         "name":  "Techie",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "blocked",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
 
-                                  ]
+                                  ],
+                        "blocker":  "Historical approved independent Techie asset/likeness not recovered; do not regenerate absent work."
                     },
                     {
                         "order":  10,
                         "id":  "job-fairy",
                         "name":  "Tinkerbell / ChatGPT Job Fairy",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "blocked",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
 
-                                  ]
+                                  ],
+                        "blocker":  "Name established; essential approved Job Fairy likeness/treatment not recovered."
                     },
                     {
                         "order":  11,

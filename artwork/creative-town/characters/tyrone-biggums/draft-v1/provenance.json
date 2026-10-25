@@ -1,0 +1,10 @@
+﻿{
+    "state":  "draft-awaiting-review",
+    "provider":  "built-in image_gen",
+    "sourceOutput":  "exec-6f395e5d-f232-4576-9c3d-f42920f5c1c9.png",
+    "canon":  "SCRUM-101 reconciled historical yak-shaver; SCRUM-64 exact prompt",
+    "references":  [
+                       "artwork/creative-town/scrum-64/larry-v2-c/SCRUM-64-Larry-V2-C.png"
+                   ],
+    "limitation":  "Uses approved historical mural appearance, not an actor likeness. Name-to-likeness reconciliation awaits James. Generator added belt tools not required by prompt; review/remove before approval."
+}

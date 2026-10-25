@@ -1,0 +1,49 @@
+﻿{
+    "dimensions":  "1024x1536",
+    "alphaMinMaxMean":  "0,65278,21792.1",
+    "alphaBoundsAtOnePercent":  "906x1518+81+10",
+    "files":  [
+                  {
+                      "path":  "character-512.webp",
+                      "bytes":  42458,
+                      "sha256":  "e96815624185fdb1247753e1d3762f7b6c1e76eb5267ecc8c6b369d7f37d2980"
+                  },
+                  {
+                      "path":  "master.png",
+                      "bytes":  2041956,
+                      "sha256":  "5c8ba363cf984527933bc76a4d8b1ae3ed8c68054b3f0878d2d1ed9965bbbd0c"
+                  },
+                  {
+                      "path":  "preview-64.png",
+                      "bytes":  4554,
+                      "sha256":  "f8c930273503824457f237c9f67ae15715e8ae5ed64fea50aeef112b0336c614"
+                  },
+                  {
+                      "path":  "preview-dark.jpg",
+                      "bytes":  53935,
+                      "sha256":  "865561de3c96058f553e22af525b2fc8322ae3e632100b4892bb762be8af43d0"
+                  },
+                  {
+                      "path":  "preview-light.jpg",
+                      "bytes":  57743,
+                      "sha256":  "3c054780ea7760e92c1974ed1be169dc7e252c348bb5e55cd5233dc71ad636eb"
+                  },
+                  {
+                      "path":  "prompt.txt",
+                      "bytes":  1154,
+                      "sha256":  "d20fc6eca3a4893aefea4eeba786cacf5a3a8929d1f3c6b06601038e730053f0"
+                  },
+                  {
+                      "path":  "provenance.json",
+                      "bytes":  597,
+                      "sha256":  "dfb9a2531b379f1e1dd62c191f13fcde35b4f67592afe3fa56e877f4a55515b7"
+                  },
+                  {
+                      "path":  "review-sheet.jpg",
+                      "bytes":  115819,
+                      "sha256":  "35772eae4c13ab28065759e467cd4bf885ec4914ad40e09224cd2831e2c0a5f3"
+                  }
+              ],
+    "approval":  "draft awaiting James review",
+    "checks":  "Inspect review-sheet.jpg and original; numeric alpha checks do not establish aesthetic approval."
+}
