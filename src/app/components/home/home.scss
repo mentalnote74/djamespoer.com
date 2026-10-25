@@ -4,6 +4,7 @@
 :host {
   @include coast.environment;
   display: block;
+  position: relative;
 }
 
 app-carousel {
@@ -22,7 +23,27 @@ app-carousel {
   padding-block: clamp(2rem, 5vw, 4rem);
 }
 
-.home-editorial > app-rigby-encounter { grid-column: 1 / -1; }
+[data-rigby-anchor] {
+  scroll-margin-block-start: 16rem;
+}
+.rigby-shortcut {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  &:focus-visible {
+    position: fixed;
+    inset: 1rem auto auto 1rem;
+    inline-size: auto;
+    block-size: auto;
+    clip-path: none;
+    padding: 0.75rem;
+    z-index: 1000;
+    background: var(--control-background);
+    color: var(--control-foreground);
+  }
+}
 
 // Keep the journal editorial/open rather than turning every section into a card.
 .home-editorial > app-daily-scrum-brief {

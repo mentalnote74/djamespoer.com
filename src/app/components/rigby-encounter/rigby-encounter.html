@@ -1,48 +1,66 @@
-<section class="encounter" aria-labelledby="rigby-heading">
-  <h2 id="rigby-heading" class="visually-hidden">A biscuit for Rigby</h2>
-  <div class="stage" aria-hidden="true">
-    <div
-      class="dog"
-      [class.revealed]="ready() && pose() !== 'dormant' && !dismissed()"
-      [style.transform]="'translate(' + entrance() + 'px, ' + lift() + 'px)'"
-    >
-      <img
-        #sprite
-        src="/assets/rigby/encounter.png"
-        width="384"
-        height="128"
-        alt=""
-        loading="lazy"
-        decoding="async"
-        draggable="false"
-        [style.transform]="'translateX(' + -frame() * 128 + 'px)'"
-        (load)="decoded(sprite)"
-        (error)="fail()"
-      />
-    </div>
+<div
+  class="rover"
+  [class.shown]="shown()"
+  [attr.data-pose]="pose()"
+  [style.transform]="'translate(' + position().x + 'px,' + position().y + 'px)'"
+>
+  <div class="dog" aria-hidden="true" [style.transform]="'translateY(' + lift() + 'px)'">
+    <img
+      #sprite
+      src="/assets/rigby/encounter.png"
+      width="192"
+      height="64"
+      alt=""
+      decoding="async"
+      draggable="false"
+      [style.transform]="'translateX(' + -frame() * 64 + 'px)'"
+      (load)="decoded(sprite)"
+      (error)="fail()"
+    />
   </div>
-  <div class="choices">
-    @if (!dismissed()) {
-      <div class="actions">
-        <button type="button" class="feed" [disabled]="!available() || fed()" (click)="feed()">
-          <span aria-hidden="true">🦴</span>
-          {{ fed() ? 'Biscuit enjoyed' : 'Feed Rigby a biscuit' }}
-        </button>
-        <button type="button" (click)="dismiss()">Dismiss Rigby</button>
-        <button type="button" [attr.aria-pressed]="paused()" (click)="paused.set(!paused())">
-          {{ paused() ? 'Resume Rigby' : 'Pause Rigby' }}
-        </button>
-      </div>
-    }
-    <p class="feedback" role="status">{{ status() }}</p>
+  <button
+    class="local-biscuit"
+    type="button"
+    tabindex="-1"
+    aria-label="Feed Rigby a biscuit"
+    [class.offered]="pose() === 'begging'"
+    [disabled]="!canFeed()"
+    (click)="feed()"
+  >
+    <span aria-hidden="true">🦴</span>
+  </button>
+</div>
+<div
+  class="controls"
+  id="rigby-controls"
+  tabindex="-1"
+  role="group"
+  aria-labelledby="rigby-heading"
+>
+  <h2 id="rigby-heading" class="visually-hidden">Rigby controls</h2>
+  <button class="feed" type="button" [disabled]="!canFeed()" (click)="feed()">
+    Feed Rigby a biscuit
+  </button>
+  <button
+    type="button"
+    [attr.aria-pressed]="paused()"
+    [disabled]="dismissed()"
+    (click)="paused.set(!paused())"
+  >
+    {{ paused() ? 'Resume Rigby' : 'Pause Rigby' }}
+  </button>
+  <button type="button" [attr.aria-disabled]="dismissed()" (click)="dismiss()">
+    {{ dismissed() ? 'Rigby dismissed' : 'Dismiss Rigby' }}
+  </button>
+  <p class="visually-hidden" role="status">{{ feedback() }}</p>
+  <span class="evidence-slot">
     <a
-      #evidence
       routerLink="/case-studies/tcc"
       publicTrack
       trackLocation="page-content"
       trackSource="homepage"
+      [style.visibility]="offer() || failed() ? 'visible' : 'hidden'"
+      >Explore how research changed a product</a
     >
-      Explore how research changed a product
-    </a>
-  </div>
-</section>
+  </span>
+</div>

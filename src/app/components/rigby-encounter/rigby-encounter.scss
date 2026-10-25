@@ -1,67 +1,73 @@
 :host {
-  display: block;
-  min-inline-size: 0;
+  display: contents;
 }
-.encounter {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  min-block-size: 12rem;
-}
-.stage {
-  inline-size: 176px;
-  block-size: 176px;
-  flex: 0 0 176px;
-  display: grid;
-  place-items: end center;
-  padding-block-end: 8px;
-}
-.dog {
-  inline-size: 128px;
-  block-size: 128px;
-  overflow: hidden;
+.rover {
+  position: absolute;
+  inset: 0 auto auto 0;
+  inline-size: 88px;
+  block-size: 80px;
+  z-index: 1;
+  pointer-events: none;
   visibility: hidden;
 }
-.dog.revealed {
+.rover.shown {
   visibility: visible;
+}
+.dog {
+  position: absolute;
+  inset: 16px auto auto 0;
+  inline-size: 64px;
+  block-size: 64px;
+  overflow: hidden;
 }
 .dog img {
   display: block;
   max-inline-size: none;
-  inline-size: 384px;
-  block-size: 128px;
+  inline-size: 192px;
+  block-size: 64px;
   image-rendering: pixelated;
 }
-.choices {
-  flex: 1 1 16rem;
-  min-inline-size: 0;
+.local-biscuit {
+  position: absolute;
+  inset: 36px auto auto 44px;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: transparent;
+  border-color: transparent;
 }
-.actions {
+.local-biscuit span {
+  display: grid;
+  place-items: center;
+  inline-size: 26px;
+  block-size: 26px;
+  background: #f5d49e;
+  border: 1px solid #70542a;
+  border-radius: 50%;
+}
+.shown .local-biscuit.offered {
+  visibility: visible;
+  pointer-events: auto;
+}
+.controls {
+  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+  min-inline-size: 0;
 }
-button {
+.controls button {
   min-block-size: 44px;
 }
-.feed {
-  font-weight: 700;
-  min-inline-size: 14rem;
-}
-.feedback {
-  min-block-size: 3em;
-  margin-block: 0.5rem;
+.evidence-slot {
+  flex-basis: 100%;
+  min-block-size: 1.5em;
 }
 @media (forced-colors: active) {
-  .dog {
+  .rover {
     display: none;
-  }
-  .stage {
-    display: none;
-  }
-  .encounter {
-    min-block-size: 10rem;
   }
 }

@@ -1,4 +1,5 @@
 <h1 class="visually-hidden">D. James Poer</h1>
+<a class="rigby-shortcut" href="#rigby-controls">Rigby: feed, pause or dismiss</a>
 
 <app-carousel
   [mobileProfile]="true"
@@ -16,7 +17,11 @@
 </app-carousel>
 
 <div class="home-editorial layout-container">
-  <section class="home-construction surface-feature" aria-labelledby="construction-site-heading">
+  <section
+    class="home-construction surface-feature"
+    data-rigby-anchor="introduction"
+    aria-labelledby="construction-site-heading"
+  >
     <h2 id="construction-site-heading">Pardon the dust.</h2>
     <p>
       I’m <strong>D. James Poer, a Senior UX Engineer and Front-End Architect.</strong>
@@ -50,7 +55,12 @@
       </strong>
     </p>
   </section>
-  <app-aside class="home-thingamajob-entry" label="Thingamajob">
+  <app-aside
+    class="home-thingamajob-entry"
+    id="rigby-start"
+    data-rigby-anchor="thingamajob"
+    label="Thingamajob"
+  >
     <app-thingamajob />
     <p>
       <a
@@ -68,10 +78,10 @@
     hydrate on viewport;
     hydrate on interaction
   ) {
-    <app-daily-scrum-brief />
+    <app-daily-scrum-brief data-rigby-anchor="journal" />
   }
-  <app-rigby-encounter class="editorial-wide" />
   @defer (on immediate; hydrate on viewport; hydrate on interaction) {
-    <app-buildometer-overview class="editorial-wide" />
+    <app-buildometer-overview class="editorial-wide" data-rigby-anchor="telemetry" />
   }
+  <app-rigby-encounter />
 </div>

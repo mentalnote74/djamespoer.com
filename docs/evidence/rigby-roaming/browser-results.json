@@ -1,0 +1,48 @@
+[
+  {
+    "width": 1440,
+    "visits": [
+      "translate(1264px, 612px)",
+      "translate(1192px, 612px)",
+      "translate(1344px, 676px)"
+    ],
+    "repeatFeeds": true,
+    "stationaryBiscuit": true,
+    "unobstructed": true,
+    "formSuppression": true,
+    "menuSuppression": true,
+    "keyboardPause": true,
+    "stableKeyboardFeed": true,
+    "dismissSession": true,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "visits": [
+      "translate(206px, 1112px)",
+      "translate(294px, 1176px)",
+      "translate(206px, 1176px)"
+    ],
+    "repeatFeeds": true,
+    "stationaryBiscuit": true,
+    "unobstructed": true,
+    "formSuppression": true,
+    "menuSuppression": true,
+    "keyboardPause": true,
+    "stableKeyboardFeed": true,
+    "dismissSession": true,
+    "axe": [],
+    "errors": []
+  },
+  {
+    "media": "prefers-reduced-motion",
+    "repeatable": true,
+    "static": true
+  },
+  {
+    "media": "forced-colors",
+    "repeatable": true,
+    "static": true
+  }
+]

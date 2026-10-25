@@ -1,5 +1,29 @@
 # AI Engineering Handoff
 
+## SCRUM-125 - Rigby living-presence loop (local review)
+
+Supersedes the confined one-biscuit prototype below; approved pixels/masters in
+82ea845a are unchanged. Home now supplies four existing semantic anchor regions,
+not a reserved dog field. Measured text/control/form/image/table bounds protect
+safe pockets and direct/gutter paths. Rigby scampers, notices, stops, accepts a
+stationary biscuit, pogos three times, rests, relocates and accepts another.
+Native 64px display fits whitespace; no layout space added for the dog. Stable
+keyboard controls and focus-visible shortcut remain separate from his location.
+Occasional TCC evidence link; feeding never navigates. Reduced/forced colors,
+paused or offscreen feeding use repeatable static feedback. Forms/menus/dialogs
+suppress relocation. Hidden/offscreen/pause freeze clocks; dismissal is session-
+only. No engine, dependencies, rewards, sound, full trail, push or deployment.
+
+22 focused tests and production build/budgets/49 routes pass. Built 1440px/390px
+checks prove two repeat feed/scamper cycles, three distinct clear stops, fixed
+biscuit target, keyboard focus/pause, form/menu suppression, dismissal and static
+modes; scoped axe zero violations/errors/overflow. Detailed limits and visuals:
+docs/evidence/rigby-roaming/README.md. Home chunk ~+1.97kB estimated transfer;
+8,803-byte sprite unchanged. No broad performance/CLS claim. SCRUM-125 scope
+updated; James reviews the living-presence result before any release.
+Preview http://127.0.0.1:8849/#rigby-start (normal cookie dialog may need closing).
+No pane opened. Older first-encounter and art provenance remain preserved below.
+
 ## SCRUM-123/124/125 - Pixel Rigby first encounter (local review)
 
 Normal-flow Home encounter before Buildometer: decoded 3-pose, 64px/14-color
