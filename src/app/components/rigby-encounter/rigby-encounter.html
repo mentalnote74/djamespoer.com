@@ -19,14 +19,14 @@
       alt=""
       decoding="async"
       draggable="false"
-      [class.inactive-art]="sideProfile()"
+      [class.inactive-art]="sideProfile() || pose() === 'celebrating'"
       [style.transform]="'translateX(' + -frame() * 64 + 'px)'"
       (load)="decoded(sprite)"
       (error)="fail()"
     />
     <img
       class="side-sprite"
-      [class.inactive-art]="!sideProfile()"
+      [class.inactive-art]="!sideProfile() || pose() === 'celebrating'"
       src="/assets/rigby/side-profiles.png"
       width="128"
       height="128"
@@ -38,6 +38,11 @@
       "
       (load)="sideReady.set(true)"
     />
+    <span
+      class="jump-sprite"
+      [class.jumping]="pose() === 'celebrating'"
+      [style.animation-play-state]="running() ? 'running' : 'paused'"
+    ></span>
   </div>
   <button
     class="local-biscuit"

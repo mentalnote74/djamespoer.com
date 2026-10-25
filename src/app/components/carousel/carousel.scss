@@ -4,6 +4,17 @@
   display: block;
 }
 
+@media (max-width: 600px) {
+  .carousel__control-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
 .carousel {
   padding-block-start: var(--carousel-padding-start, clamp(3rem, 8vw, 6rem));
   padding-block-end: var(--carousel-padding-end, clamp(3rem, 8vw, 6rem));

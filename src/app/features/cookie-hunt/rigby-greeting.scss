@@ -50,7 +50,7 @@
 }
 .hello-kiss {
   opacity: 0;
-  animation: kiss-camera 2.8s ease-in-out both, greeting-bounce 700ms ease-in-out 2.8s infinite;
+  animation: kiss-camera 2.8s ease-in-out both;
 }
 .hello-kiss span {
   background-position: -256px -128px;
@@ -124,17 +124,70 @@ button {
     transform: scale(2.2);
   }
   100% {
-    opacity: 1;
+    opacity: 0;
     transform: scale(1.4);
   }
 }
 @keyframes lick {
-  0%, 100% { background-position: -256px -128px; }
-  50% { background-position: -384px -128px; }
+  0%,
+  100% {
+    background-position: -256px -128px;
+  }
+  50% {
+    background-position: -384px -128px;
+  }
 }
-@keyframes greeting-bounce {
-  0%, 100% { transform: translateY(0) scale(1.4); }
-  50% { transform: translateY(-80px) scale(1.4); }
+.hello-jump {
+  position: absolute;
+  inset-block-start: calc(38% - 64px);
+  inset-inline-start: calc(50% - 64px);
+  inline-size: 128px;
+  block-size: 128px;
+  opacity: 0;
+  transform: scale(1.4);
+  animation: reveal-jump 2.8s step-end forwards;
+}
+.hello-jump span {
+  display: block;
+  inline-size: 128px;
+  block-size: 128px;
+  background: url('/assets/rigby/tricks-v1.webp') -256px -256px / 512px 512px no-repeat;
+  image-rendering: pixelated;
+  animation: greeting-jump-poses 700ms steps(1, end) 2.8s infinite;
+}
+@keyframes reveal-jump {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes greeting-jump-poses {
+  0%,
+  100% {
+    background-position: -256px -256px;
+  }
+  15% {
+    background-position: -384px -256px;
+  }
+  30% {
+    background-position: 0 -384px;
+  }
+  45% {
+    background-position: -128px -384px;
+  }
+  65% {
+    background-position: -256px -384px;
+  }
+  85% {
+    background-position: -384px -384px;
+  }
+}
+.still .hello-jump {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hello-jump {
+    display: none;
+  }
 }
 @keyframes smooch {
   0%,

@@ -1,5 +1,14 @@
 # AI Engineering Handoff
 
+## October 25 — mobile whitespace, stationary wag and additional poses
+
+Mobile <=600px keeps full page/footer width with Rigby enabled, hides decorative Explore badges and shows carousel controls as icons with accessible labels and >=44px targets. The companion measures rendered ink/media/controls and uses clear viewport space; hides when no safe position exists. Scroll, resize, route, opt-in and content resize refresh placement. Desktop lane remains unchanged.
+
+Bored wag compensates for a measured 3px tail-down registration offset, clips the neighboring edge, disables repeat and uses a 2.2s cold-trail cycle (previously 3.2s). New transparent atlas adds sit, shake, beg, roll-over and crouch/takeoff/rise/apex/descent/landing. Trick controls are in the cookie-trail guide. Companion, greeting and rover celebrations use articulated frames. Artwork provenance: artwork/rigby-first-encounter/tricks-prompt.md.
+
+Verification: production build/budgets pass; 41 focused carousel/Rigby/scent tests pass. Chrome 320/390/600/601/1440 responsive checks pass, controls scoped axe zero; trick/greeting and reduced-motion checks pass. 390px scroll checks found zero text overlaps and verified both clear-space visibility and dense-content hiding. Full npm test remains blocked by unchanged authored-studies.spec.ts evidence/items TS2339 errors. Release pending at time of this entry; do not infer deployment from this note.
+
+
 ## October 25 — greeting correction after owner review
 
 Removed editorial coffee/Decaf jokes and SMOOCH lettering. Greeting keeps only the exact introduction and hunt button; physical enthusiasm is a repeating CSS bounce. The frontal sprite cell had five pixels of its neighbour at its left edge: clip the 6-native-pixel gutter and disable background repeat. Lick now selects only the two intended frames. Chrome confirms clean sprite, changing bounce transforms, reduced-motion animation none, no 390px overflow; production build/budgets and 49 prerenders pass. Screenshots in local chat outputs/rigby-greeting-corrected*.png. Local only.

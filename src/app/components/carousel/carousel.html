@@ -51,7 +51,7 @@
         @if (showPreviousNext()) {
           <button type="button" aria-label="Previous slide" (click)="showPreviousSlide()">
             <svg lucideChevronLeft class="action-icon" aria-hidden="true" focusable="false"></svg
-            >Previous
+            ><span class="carousel__control-label">Previous</span>
           </button>
         }
         @if (showPausePlay()) {
@@ -69,17 +69,13 @@
             } @else {
               <svg lucidePlay class="action-icon" aria-hidden="true" focusable="false"></svg>
             }
-            {{ isPlaying() ? 'Pause' : 'Play' }}
+            <span class="carousel__control-label">{{ isPlaying() ? 'Pause' : 'Play' }}</span>
           </button>
         }
         @if (showPreviousNext()) {
           <button type="button" aria-label="Next slide" (click)="showNextSlide()">
-            Next<svg
-              lucideChevronRight
-              class="action-icon"
-              aria-hidden="true"
-              focusable="false"
-            ></svg>
+            <span class="carousel__control-label">Next</span
+            ><svg lucideChevronRight class="action-icon" aria-hidden="true" focusable="false"></svg>
           </button>
         }
       </div>

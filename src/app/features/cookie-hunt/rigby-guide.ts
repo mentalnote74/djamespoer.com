@@ -18,6 +18,7 @@ import { CookiePreferencesService } from '../cookie-preferences/cookie-preferenc
 import { distanceToTarget, warmthAtDistance } from './rigby-scent';
 import { RigbyArrival } from './rigby-arrival';
 import { RigbyGreeting } from './rigby-greeting';
+import { companionSpace } from './companion-space';
 @Component({
   selector: 'app-rigby-guide',
   imports: [RouterLink, RigbyGreeting],
@@ -38,7 +39,10 @@ export class RigbyGuide {
   readonly reduced = signal(true);
   readonly busy = signal(false);
   readonly celebrating = signal(false);
+  readonly trick = signal<'sit' | 'shake' | 'beg' | 'roll' | null>(null);
   readonly facing = signal(-1);
+  readonly placement = signal<{ x: number; y: number } | null>(null);
+  readonly compact = signal(false);
   readonly noMotion = computed(
     () => this.rigby.paused() || this.reduced() || !this.visible() || this.busy(),
   );
@@ -54,7 +58,7 @@ export class RigbyGuide {
   readonly wagDuration = computed(() =>
     Math.round(
       this.mood() === 'bored'
-        ? 3200 - this.warmth() * 2400
+        ? 2200 - this.warmth() * 1400
         : this.mood() === 'walking'
           ? 540 - this.warmth() * 360
           : 420 - this.warmth() * 280,
@@ -74,8 +78,15 @@ export class RigbyGuide {
   private lastCheck = 0;
   private idleTimer = 0;
   private rewardTimer = 0;
+  private trickTimer = 0;
   private routeTimer = 0;
   constructor() {
+    effect(() => {
+      const enabled = this.rigby.enabled();
+      const opened = this.preferences.opened();
+      const view = this.document.defaultView;
+      if (enabled && !opened && view) view.requestAnimationFrame(() => this.checkScent());
+    });
     inject(RigbyArrival);
     let count = this.hunt.count();
     effect(() => {
@@ -105,6 +116,7 @@ export class RigbyGuide {
       if (!view) return;
       const media = view.matchMedia('(prefers-reduced-motion: reduce)');
       const update = () => {
+        this.compact.set(view.matchMedia('(max-width: 600px)').matches);
         this.visible.set(!this.document.hidden);
         this.reduced.set(media.matches);
         this.checkScent();
@@ -149,10 +161,15 @@ export class RigbyGuide {
       this.document.addEventListener('toggle', focus, true);
       this.document.addEventListener('visibilitychange', update);
       media.addEventListener('change', update);
+      const layoutObserver = new ResizeObserver(() => this.checkScent());
+      const main = this.document.querySelector('main');
+      if (main) layoutObserver.observe(main);
       update();
       this.destroy.onDestroy(() => {
+        layoutObserver.disconnect();
         view.clearTimeout(this.idleTimer);
         view.clearTimeout(this.rewardTimer);
+        view.clearTimeout(this.trickTimer);
         view.clearTimeout(this.routeTimer);
         view.removeEventListener('scroll', scroll);
         view.removeEventListener('resize', update);
@@ -177,6 +194,7 @@ export class RigbyGuide {
       this.busy()
     )
       return;
+    if (this.compact()) this.placement.set(companionSpace(this.document));
     const remaining = this.hunt.stops.filter((stop) => !this.hunt.has(stop.id));
     let heat = 0,
       target: CookieStop | undefined;
@@ -223,7 +241,16 @@ export class RigbyGuide {
     const view = this.document.defaultView;
     if (!view || !this.rigby.enabled()) return;
     view.clearTimeout(this.rewardTimer);
+    view.clearTimeout(this.trickTimer);
+    this.trick.set(null);
     this.celebrating.set(true);
     this.rewardTimer = view.setTimeout(() => this.celebrating.set(false), 2100);
+  }
+  perform(trick: 'sit' | 'shake' | 'beg' | 'roll'): void {
+    const view = this.document.defaultView;
+    if (!view || !this.rigby.enabled()) return;
+    view.clearTimeout(this.trickTimer);
+    this.trick.set(trick);
+    this.trickTimer = view.setTimeout(() => this.trick.set(null), trick === 'roll' ? 2400 : 4000);
   }
 }
