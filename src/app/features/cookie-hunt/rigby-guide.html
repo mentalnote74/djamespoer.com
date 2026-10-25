@@ -1,0 +1,95 @@
+@if (rigby.enabled()) {
+  <div
+    class="companion"
+    [class.hidden]="busy() || preferences.opened()"
+    [class.no-motion]="noMotion()"
+    [attr.data-mood]="mood()"
+    [attr.data-warmth]="warmth()"
+    [style.--wag-duration]="wagDuration() + 'ms'"
+  >
+    <button
+      class="companion-hello"
+      type="button"
+      (click)="rigby.greet()"
+      [attr.aria-label]="'Meet Rigby Decaf Poer. ' + temperature()"
+    >
+      <span class="dog-facing" [style.transform]="'scaleX(' + facing() + ')'" aria-hidden="true"
+        ><span
+          class="dog-motion"
+          [class.walking]="mood() === 'walking'"
+          [class.celebrating]="mood() === 'celebrating'"
+          ><span
+            class="dog-sprite"
+            [class.walking]="mood() === 'walking'"
+            [class.bored]="mood() === 'bored'"
+            [class.excited]="mood() === 'excited'"
+            [class.celebrating]="mood() === 'celebrating'"
+          ></span></span
+      ></span>
+    </button>
+    <span class="temperature" aria-hidden="true">{{ temperature() }}</span>
+    <button
+      class="jar-shortcut"
+      type="button"
+      (click)="preferences.openSettings()"
+      [attr.aria-label]="'Cookie Jar: ' + hunt.count() + '/' + hunt.total + ' cookies collected'"
+    >
+      <span aria-hidden="true">🍪</span> {{ hunt.count() }}/{{ hunt.total }}
+    </button>
+  </div>
+  <aside
+    class="rigby-guide layout-container"
+    id="rigby-controls"
+    tabindex="-1"
+    aria-label="Rigby's cookie trail"
+  >
+    <p>
+      <strong>{{ hunt.count() }} / {{ hunt.total }} cookies collected</strong>
+    </p>
+    <p>
+      {{ temperature() }}
+      {{
+        mood() === 'bored'
+          ? 'Rigby flops down and waits for the next adventure.'
+          : 'Rigby is following your lead.'
+      }}
+    </p>
+    @if (destination(); as next) {
+      <p>{{ next.clue }}</p>
+      <a [routerLink]="next.path" [fragment]="'hidden-cookie-' + next.id"
+        >Follow Rigby to {{ next.label }} →</a
+      >
+    } @else {
+      <p>You found them all! Rigby is one happy dog.</p>
+    }
+    <div class="controls">
+      <button type="button" (click)="rigby.greet()">Meet Rigby Decaf Poer</button>
+      <button
+        type="button"
+        (click)="reward()"
+        (pointerenter)="rigby.anticipating.set(true)"
+        (pointerleave)="rigby.anticipating.set(false)"
+        (focus)="rigby.anticipating.set(true)"
+        (blur)="rigby.anticipating.set(false)"
+      >
+        Feed Rigby a biscuit
+      </button>
+      <button type="button" (click)="preferences.openSettings()">Open the Cookie Jar</button>
+      <button
+        type="button"
+        [attr.aria-pressed]="rigby.paused()"
+        (click)="rigby.paused.set(!rigby.paused())"
+      >
+        {{ rigby.paused() ? 'Resume Rigby' : 'Pause Rigby' }}
+      </button>
+      <button type="button" (click)="rigby.setEnabled(false)">Turn Rigby off</button>
+    </div>
+    @if (!hunt.saved()) {
+      <p>Your browser could not save the jar. Progress lasts for this page visit.</p>
+    }
+    <p class="visually-hidden" role="status">{{ hunt.announcement() }}</p>
+  </aside>
+}
+@defer (when rigby.greetingRequest() > 0) {
+  <app-rigby-greeting />
+}

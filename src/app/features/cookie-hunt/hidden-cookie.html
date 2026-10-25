@@ -1,0 +1,26 @@
+@if (rigby.enabled()) {
+  @if (stop(); as cookie) {
+    <div class="cookie-pocket" [id]="'hidden-cookie-' + cookie.id" tabindex="-1">
+      <button
+        type="button"
+        class="hidden-cookie"
+        [attr.aria-label]="
+          hunt.has(cookie.id)
+            ? hunt.flavors[cookie.flavor] + ' already collected'
+            : 'Collect the hidden ' + hunt.flavors[cookie.flavor] + ' cookie'
+        "
+        [attr.aria-disabled]="hunt.has(cookie.id)"
+        (click)="hunt.collect(cookie.id)"
+        (pointerenter)="rigby.anticipating.set(true)"
+        (pointerleave)="rigby.anticipating.set(false)"
+        (focus)="rigby.anticipating.set(true)"
+        (blur)="rigby.anticipating.set(false)"
+      >
+        <app-cookie-sprite [index]="cookie.flavor" />
+        @if (hunt.has(cookie.id)) {
+          <span aria-hidden="true">✓</span>
+        }
+      </button>
+    </div>
+  }
+}

@@ -10,7 +10,7 @@ import { afterNextRender, Component, computed, inject, signal } from '@angular/c
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
 import { CarouselSlide } from '../carousel/carousel-slide';
-import { RigbyEncounter } from '../rigby-encounter/rigby-encounter';
+import { HiddenCookie } from '../../features/cookie-hunt/hidden-cookie';
 
 @Component({
   imports: [
@@ -23,7 +23,7 @@ import { RigbyEncounter } from '../rigby-encounter/rigby-encounter';
     Thingamajob,
     Carousel,
     CarouselSlide,
-    RigbyEncounter,
+    HiddenCookie,
   ],
   selector: 'app-home',
   templateUrl: './home.html',
@@ -32,7 +32,7 @@ import { RigbyEncounter } from '../rigby-encounter/rigby-encounter';
 export class Home {
   readonly slides = PORTFOLIO_SLIDES;
   readonly deck = signal(PORTFOLIO_SLIDES);
-  readonly deckIds = computed(() => this.deck().map(slide => slide.id));
+  readonly deckIds = computed(() => this.deck().map((slide) => slide.id));
   constructor() {
     afterNextRender(() => this.deck.set(shufflePortfolioDeck(PORTFOLIO_SLIDES)));
   }

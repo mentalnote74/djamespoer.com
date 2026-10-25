@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+.cookie-pocket {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.25rem 0.5rem;
+  scroll-margin-block-start: 8rem;
+}
+.hidden-cookie {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 44px;
+  min-block-size: 44px;
+  padding: 2px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--page-foreground);
+  cursor: pointer;
+}
+.hidden-cookie:hover,
+.hidden-cookie:focus-visible {
+  border-color: currentColor;
+}
+.hidden-cookie[aria-disabled='true'] {
+  cursor: default;
+  opacity: 0.65;
+}

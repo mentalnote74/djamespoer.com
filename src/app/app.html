@@ -10,4 +10,6 @@
 ) {
   <app-footer [(identityPaused)]="identityPaused"></app-footer>
 }
-<app-cookie-preferences />
+@defer (when cookies.opened()) {
+  <app-cookie-preferences />
+}

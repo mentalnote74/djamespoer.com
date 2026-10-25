@@ -2,6 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script>
+      // Restore the optional companion lane before first paint, avoiding returning-visitor CLS.
+      try {
+        if (localStorage.getItem('rigby.enabled.v1') === 'on')
+          document.documentElement.style.setProperty('--rigby-lane', '80px');
+      } catch {
+        /* Optional game storage. */
+      }
+    </script>
 
     <title>D. James Poer | UX Engineer & Front-End Architect</title>
 

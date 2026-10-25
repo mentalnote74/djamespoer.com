@@ -6,16 +6,80 @@
   (cancel)="close($event)"
 >
   <div class="cookie-dialog__content">
-    <h2 #heading id="cookie-heading" tabindex="-1">We like cookies.</h2>
+    <div class="rigby-portrait" aria-hidden="true">
+      <img src="/assets/rigby/encounter.png" width="192" height="64" alt="" />
+    </div>
+    <h2 #heading id="cookie-heading" tabindex="-1">The Cookie Jar</h2>
     @if (!choosing()) {
-      <p>Chocolate Chip. Snickerdoodles. Maybe peanut butter.</p>
+      <p>A curious dog, hidden cookies, and a portfolio to explore.</p>
     }
     <p id="cookie-description">
       @if (choosing()) {
         Pick your favorites.
       } @else {
-        Tell me what kind you like and I’ll remember so I don’t keep asking.
+        Start with an empty jar. Find cookies around the site, and Rigby will point you toward the
+        next one.
       }
+    </p>
+    <section class="rigby-choice" aria-labelledby="rigby-choice-heading">
+      <h3 id="rigby-choice-heading">Bring Rigby along?</h3>
+      <p>Rigby is optional. You can pause his motion or turn him off any time.</p>
+      <button
+        type="button"
+        [attr.aria-pressed]="rigby.enabled()"
+        (click)="rigby.setEnabled(true); preferences.save(preferences.selection())"
+      >
+        Play with Rigby
+      </button>
+      <button
+        type="button"
+        [attr.aria-pressed]="!rigby.enabled()"
+        (click)="rigby.setEnabled(false); preferences.save(preferences.selection())"
+      >
+        Browse without Rigby
+      </button>
+      @if (!rigby.saved()) {
+        <p role="status">This choice applies to this visit; your browser could not save it.</p>
+      }
+    </section>
+    <p class="jar-count">
+      <strong>{{ hunt.count() }} / {{ hunt.total }} cookies collected</strong>
+    </p>
+    <ul class="cookie-collection" aria-label="Your cookie collection">
+      @for (cookie of hunt.stops; track cookie.id) {
+        <li [class.collected]="hunt.has(cookie.id)">
+          @if (hunt.has(cookie.id)) {
+            <app-cookie-sprite [index]="cookie.flavor" />
+          } @else {
+            <span class="empty-cookie" aria-hidden="true">?</span>
+          }
+          <span>{{ hunt.has(cookie.id) ? hunt.flavors[cookie.flavor] : 'Hidden cookie' }}</span>
+          <small>{{ hunt.has(cookie.id) ? 'Collected' : 'Not found yet' }}</small>
+        </li>
+      }
+    </ul>
+    @if (hunt.next(); as next) {
+      <p>Rigby's next clue: {{ next.clue }}</p>
+      @if (rigby.enabled()) {
+        <a [routerLink]="next.path" [fragment]="'hidden-cookie-' + next.id" (click)="close()"
+          >Follow Rigby to {{ next.label }} →</a
+        >
+      }
+    } @else {
+      <p>You found every cookie! Rigby is delighted.</p>
+    }
+    <button type="button" (click)="hunt.restart()">Clear cookies and restart</button>
+    <p>
+      Progress stays on this device between visits. Restarting clears only your collected cookies.
+    </p>
+    @if (!hunt.saved()) {
+      <p role="status">This browser could not save your jar. Progress lasts for this page visit.</p>
+    }
+    <p class="visually-hidden" role="status">{{ hunt.announcement() }}</p>
+
+    <p>
+      Cookie flavors are just for fun. These choices do not change analytics or provide tracking
+      consent.
     </p>
     @if (choosing()) {
       <fieldset>
@@ -38,9 +102,10 @@
       </button>
     } @else {
       <div class="cookie-actions">
-        <button type="button" (click)="acceptAll()">All of them</button>
-        <button type="button" (click)="rejectAll()">None for me</button>
-        <button type="button" (click)="choosing.set(true)">Pick some</button>
+        <button type="button" (click)="preferences.save(preferences.selection())">
+          Keep exploring
+        </button>
+        <button type="button" (click)="choosing.set(true)">Favorite flavors</button>
       </div>
     }
     @if (preferences.error()) {

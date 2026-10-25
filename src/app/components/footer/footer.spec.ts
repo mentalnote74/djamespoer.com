@@ -40,7 +40,7 @@ describe('Footer', () => {
   it('keeps persistent cookie controls in the shared footer', () => {
     const root = fixture.nativeElement as HTMLElement;
     expect(root.querySelector('.site-footer__cookies button')?.textContent?.trim()).toBe(
-      'Cookie settings',
+      'Cookie Jar',
     );
     expect(root.querySelector('.site-footer__cookies a')?.getAttribute('href')).toBe(
       '/cookie-policy',

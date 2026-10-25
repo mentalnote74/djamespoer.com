@@ -8,10 +8,13 @@ import {
   ElementRef,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PublicAnalytics } from '../../services/public-analytics';
 import { PublicTrack } from '../../services/public-track';
+import { CookieHuntService } from '../../features/cookie-hunt/cookie-hunt.service';
+import { RigbyPreferences } from '../../features/cookie-preferences/rigby-preferences';
 import {
   along,
   Box,
@@ -32,12 +35,14 @@ const SESSION_KEY = 'rigby.first-encounter.v1';
   styleUrl: './rigby-encounter.scss',
 })
 export class RigbyEncounter {
+  readonly settings = inject(RigbyPreferences);
+  readonly hunt = inject(CookieHuntService);
   readonly ready = signal(false);
   readonly failed = signal(false);
   readonly dismissed = signal(false);
   readonly pose = signal<Pose>('dormant');
   readonly elapsed = signal(0);
-  readonly paused = signal(false);
+  readonly paused = this.settings.paused;
   readonly reduced = signal(true);
   readonly forced = signal(false);
   readonly visible = signal(false);
@@ -47,27 +52,45 @@ export class RigbyEncounter {
   readonly placed = signal(false);
   readonly position = signal<Point>({ x: 0, y: 0 });
   readonly excited = signal(false);
+  readonly anticipating = this.settings.anticipating;
+  readonly sideReady = signal(false);
+  readonly facing = signal(1);
+  readonly motionTime = signal(0);
+  readonly jumpHeight = signal(0);
+  readonly tailFrame = computed(() =>
+    this.reduced() || this.forced() || this.paused()
+      ? 0
+      : Math.floor(this.motionTime() / (this.anticipating() ? 90 : 220)) % 2,
+  );
+  readonly sideProfile = computed(() => this.sideReady() && !this.forced());
   readonly feedback = signal('');
   readonly offer = signal(false);
   readonly available = computed(() => this.ready() || this.forced());
   readonly canFeed = computed(
     () =>
       this.available() &&
+      this.settings.enabled() &&
       !this.dismissed() &&
       !this.busy() &&
       (this.pose() === 'begging' || this.forced() || !this.placed()),
   );
   readonly shown = computed(
-    () => this.ready() && this.placed() && !this.dismissed() && !this.forced() && !this.busy(),
+    () =>
+      this.settings.enabled() &&
+      this.ready() &&
+      this.placed() &&
+      !this.dismissed() &&
+      !this.forced() &&
+      !this.busy(),
   );
   readonly frame = computed(() =>
     this.pose() === 'celebrating' ? (this.elapsed() % 700 < 350 ? 1 : 2) : this.excited() ? 2 : 0,
   );
   readonly lift = computed(() =>
-    this.reduced() || this.forced()
+    this.reduced() || this.forced() || this.paused()
       ? 0
       : this.pose() === 'celebrating'
-        ? -Math.round(Math.sin(((this.elapsed() % 700) / 700) * Math.PI) * 14)
+        ? -Math.round(Math.sin(((this.elapsed() % 700) / 700) * Math.PI) * this.jumpHeight())
         : this.pose() === 'roaming'
           ? -Math.round(Math.abs(Math.sin((this.elapsed() / 180) * Math.PI)) * 4)
           : 0,
@@ -75,6 +98,7 @@ export class RigbyEncounter {
   readonly running = computed(
     () =>
       this.ready() &&
+      this.settings.enabled() &&
       this.placed() &&
       this.visible() &&
       this.inView() &&
@@ -99,15 +123,26 @@ export class RigbyEncounter {
   private exposure = false;
 
   constructor() {
+    let seen = this.hunt.count();
+    effect(() => {
+      const count = this.hunt.count(),
+        gained = count > seen;
+      seen = count;
+      if (gained)
+        untracked(() => {
+          if (this.canFeed()) this.feed();
+        });
+    });
+    effect(() => {
+      if (this.settings.enabled()) {
+        this.dismissed.set(false);
+        this.refreshSpace();
+      }
+    });
     effect((cleanup) => {
       const view = this.document.defaultView,
         state = this.pose();
-      if (
-        !view ||
-        !this.running() ||
-        !['roaming', 'noticing', 'celebrating', 'resting'].includes(state)
-      )
-        return;
+      if (!view || !this.running() || state === 'dormant') return;
       let previous: number | undefined,
         request = 0;
       const tick = (now: number) => {
@@ -260,12 +295,13 @@ export class RigbyEncounter {
       return;
     }
     const current = this.position();
-    for (let n = 0; n < this.spots.length; n++) {
-      const next = this.spots[(this.waypoint + n) % this.spots.length];
+    const spots = this.spots;
+    for (let n = 0; n < spots.length; n++) {
+      const next = spots[(this.waypoint + n) % spots.length];
       if (Math.hypot(next.x - current.x, next.y - current.y) < 40 || !this.onScreen(next)) continue;
       const path = routeBetween(current, next, this.blockers, this.width);
       if (!path) continue;
-      this.waypoint = (this.waypoint + n + 1) % this.spots.length;
+      this.waypoint = (this.waypoint + n + 1) % spots.length;
       this.excited.set(false);
       this.elapsed.set(0);
       if (this.reduced() || this.forced()) {
@@ -285,11 +321,14 @@ export class RigbyEncounter {
   }
   advance(milliseconds: number): void {
     if (!this.running()) return;
+    this.motionTime.update((t) => t + Math.min(100, milliseconds));
     this.elapsed.update((t) => t + Math.min(100, milliseconds));
     const time = this.elapsed(),
       state = this.pose();
     if (state === 'roaming') {
-      this.position.set(along(this.path, Math.min(1, time / this.travelTime)));
+      const next = along(this.path, Math.min(1, time / this.travelTime));
+      if (next.x !== this.position().x) this.facing.set(next.x > this.position().x ? 1 : -1);
+      this.position.set(next);
       if (time >= this.travelTime) {
         this.elapsed.set(0);
         this.pose.set('noticing');
@@ -340,11 +379,16 @@ export class RigbyEncounter {
     } else if (this.reduced() || this.forced() || this.paused()) {
       this.relocate();
       this.excited.set(true);
-    } else this.pose.set('celebrating');
+    } else {
+      // Transient flights may cross content; the checked landing spot remains clear.
+      this.jumpHeight.set(256);
+      this.pose.set('celebrating');
+    }
   }
   dismiss(): void {
     if (this.dismissed()) return;
     this.dismissed.set(true);
+    this.settings.setEnabled(false);
     this.placed.set(false);
     this.feedback.set('Rigby is dismissed for this visit.');
     try {

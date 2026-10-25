@@ -2,9 +2,15 @@
   class="rover"
   [class.shown]="shown()"
   [attr.data-pose]="pose()"
+  [class.motion-running]="running()"
+  [class.anticipating]="anticipating()"
   [style.transform]="'translate(' + position().x + 'px,' + position().y + 'px)'"
 >
-  <div class="dog" aria-hidden="true" [style.transform]="'translateY(' + lift() + 'px)'">
+  <div
+    class="dog"
+    aria-hidden="true"
+    [style.transform]="'translateY(' + lift() + 'px) scaleX(' + facing() + ')'"
+  >
     <img
       #sprite
       src="/assets/rigby/encounter.png"
@@ -13,9 +19,24 @@
       alt=""
       decoding="async"
       draggable="false"
+      [class.inactive-art]="sideProfile()"
       [style.transform]="'translateX(' + -frame() * 64 + 'px)'"
       (load)="decoded(sprite)"
       (error)="fail()"
+    />
+    <img
+      class="side-sprite"
+      [class.inactive-art]="!sideProfile()"
+      src="/assets/rigby/side-profiles.png"
+      width="128"
+      height="128"
+      alt=""
+      decoding="async"
+      draggable="false"
+      [style.transform]="
+        'translate(' + -tailFrame() * 64 + 'px,' + (pose() === 'celebrating' ? -64 : 0) + 'px)'
+      "
+      (load)="sideReady.set(true)"
     />
   </div>
   <button
@@ -25,6 +46,10 @@
     aria-label="Feed Rigby a biscuit"
     [class.offered]="pose() === 'begging'"
     [disabled]="!canFeed()"
+    (pointerenter)="anticipating.set(true)"
+    (pointerleave)="anticipating.set(false)"
+    (focus)="anticipating.set(true)"
+    (blur)="anticipating.set(false)"
     (click)="feed()"
   >
     <span aria-hidden="true">🦴</span>
@@ -38,7 +63,19 @@
   aria-labelledby="rigby-heading"
 >
   <h2 id="rigby-heading" class="visually-hidden">Rigby controls</h2>
-  <button class="feed" type="button" [disabled]="!canFeed()" (click)="feed()">
+  @if (!settings.enabled()) {
+    <button type="button" (click)="settings.setEnabled(true)">Play with Rigby</button>
+  }
+  <button
+    class="feed"
+    type="button"
+    [disabled]="!canFeed()"
+    (click)="feed()"
+    (pointerenter)="anticipating.set(true)"
+    (pointerleave)="anticipating.set(false)"
+    (focus)="anticipating.set(true)"
+    (blur)="anticipating.set(false)"
+  >
     Feed Rigby a biscuit
   </button>
   <button
@@ -50,9 +87,12 @@
     {{ paused() ? 'Resume Rigby' : 'Pause Rigby' }}
   </button>
   <button type="button" [attr.aria-disabled]="dismissed()" (click)="dismiss()">
-    {{ dismissed() ? 'Rigby dismissed' : 'Dismiss Rigby' }}
+    {{ settings.enabled() ? 'Turn Rigby off' : 'Rigby is off' }}
   </button>
   <p class="visually-hidden" role="status">{{ feedback() }}</p>
+  @if (!settings.saved()) {
+    <p>Your Rigby choice applies to this visit; this browser could not save it.</p>
+  }
   <span class="evidence-slot">
     <a
       routerLink="/case-studies/tcc"

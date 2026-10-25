@@ -65,6 +65,9 @@
           }
         }
       }
+      @if ($first) {
+        <app-hidden-cookie />
+      }
     </section>
   }
   @if (study().relatedPage; as related) {

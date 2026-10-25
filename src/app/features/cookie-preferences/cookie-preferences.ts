@@ -1,23 +1,20 @@
 import { LucideX } from '@lucide/angular';
-import {
-  Component,
-  ElementRef,
-  afterNextRender,
-  effect,
-  inject,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, effect, inject, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CookiePreferencesService } from './cookie-preferences.service';
 import { COOKIE_VARIETIES } from './preferences';
+import { RigbyPreferences } from './rigby-preferences';
+import { CookieHuntService } from '../cookie-hunt/cookie-hunt.service';
+import { CookieSprite } from '../cookie-hunt/cookie-sprite';
 @Component({
   selector: 'app-cookie-preferences',
-  imports: [LucideX, RouterLink],
+  imports: [LucideX, RouterLink, CookieSprite],
   templateUrl: './cookie-preferences.html',
   styleUrl: './cookie-preferences.scss',
 })
 export class CookiePreferences {
+  readonly hunt = inject(CookieHuntService);
+  readonly rigby = inject(RigbyPreferences);
   readonly preferences = inject(CookiePreferencesService);
   readonly varieties = COOKIE_VARIETIES;
   readonly selected = signal<readonly string[]>([]);
@@ -25,13 +22,12 @@ export class CookiePreferences {
   private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private readonly heading = viewChild<ElementRef<HTMLElement>>('heading');
   constructor() {
-    afterNextRender(() => this.preferences.openFirstVisit());
     effect(() => {
       const dialog = this.dialog()?.nativeElement;
       if (!dialog) return;
       if (this.preferences.opened()) {
         this.selected.set([...this.preferences.selection()]);
-        this.choosing.set(this.preferences.editing());
+        this.choosing.set(false);
         if (!dialog.open) {
           dialog.showModal();
           this.heading()?.nativeElement.focus();

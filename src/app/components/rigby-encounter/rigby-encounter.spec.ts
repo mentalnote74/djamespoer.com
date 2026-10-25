@@ -20,6 +20,7 @@ describe('Rigby whitespace loop', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     rigby = fixture.componentInstance;
+    rigby.settings.setEnabled(true);
     rigby.ready.set(true);
     rigby.placed.set(true);
     rigby.visible.set(true);
@@ -33,10 +34,58 @@ describe('Rigby whitespace loop', () => {
     vi.unstubAllGlobals();
     track.mockClear();
     sessionStorage.clear();
+    localStorage.removeItem('rigby.enabled.v1');
   });
   function advance(ms: number) {
     for (let i = 0; i < ms; i += 50) rigby.advance(50);
   }
+  it('requires opting in, persists opting out, and allows returning without losing keyboard controls', () => {
+    rigby.settings.setEnabled(false);
+    expect(rigby.canFeed()).toBe(false);
+    expect(rigby.shown()).toBe(false);
+    expect(rigby.running()).toBe(false);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('Play with Rigby');
+    rigby.settings.setEnabled(true);
+    expect(rigby.canFeed()).toBe(true);
+    rigby.dismiss();
+    expect(localStorage.getItem('rigby.enabled.v1')).toBe('off');
+    rigby.settings.setEnabled(true);
+    fixture.detectChanges();
+    expect(rigby.dismissed()).toBe(false);
+    expect(rigby.canFeed()).toBe(true);
+  });
+  it('rises four sprite heights, briefly crosses content, and lands back in clear space', () => {
+    const home = document.createElement('div');
+    Object.assign(rigby, { home, width: 390, blockers: [] });
+    rigby.position.set({ x: 200, y: 400 });
+    rigby.feed();
+    advance(350);
+    expect(rigby.lift()).toBe(-256);
+    rigby.pose.set('begging');
+    Object.assign(rigby, { blockers: [{ x: 200, y: 250, width: 88, height: 30 }] });
+    rigby.feed();
+    advance(350);
+    expect(rigby.lift()).toBe(-256);
+    advance(1750);
+    expect(rigby.lift()).toBe(0);
+    expect(rigby.position()).toEqual({ x: 200, y: 400 });
+  });
+  it('wags while waiting, accelerates for a biscuit, and freezes all motion on pause or reduced motion', () => {
+    advance(100);
+    expect(rigby.tailFrame()).toBe(0);
+    rigby.anticipating.set(true);
+    expect(rigby.tailFrame()).toBe(1);
+    rigby.paused.set(true);
+    const time = rigby.motionTime();
+    advance(500);
+    expect(rigby.motionTime()).toBe(time);
+    rigby.paused.set(false);
+    rigby.reduced.set(true);
+    advance(500);
+    expect(rigby.motionTime()).toBe(time);
+    expect(rigby.lift()).toBe(0);
+  });
   it('feeds repeatedly, completes exactly three bounces and never turns a biscuit into navigation', () => {
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelector('.feed')?.tagName).toBe('BUTTON');

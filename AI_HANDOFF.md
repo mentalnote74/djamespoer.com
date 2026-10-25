@@ -1,5 +1,41 @@
 # AI Engineering Handoff
 
+## October 25 — greeting correction after owner review
+
+Removed editorial coffee/Decaf jokes and SMOOCH lettering. Greeting keeps only the exact introduction and hunt button; physical enthusiasm is a repeating CSS bounce. The frontal sprite cell had five pixels of its neighbour at its left edge: clip the 6-native-pixel gutter and disable background repeat. Lick now selects only the two intended frames. Chrome confirms clean sprite, changing bounce transforms, reduced-motion animation none, no 390px overflow; production build/budgets and 49 prerenders pass. Screenshots in local chat outputs/rigby-greeting-corrected*.png. Local only.
+
+
+
+## October 25 — sitewide Rigby, delayed Decaf greeting and expandable hunt (current local review)
+
+Supersedes earlier ten-stop and pending-hunt notes below. Sixteen stops now cover every unique carousel destination plus Home/About. Saved progress survives expansion. Sitewide fixed companion walks on scroll, lies bored after stopping, and responds to graded cookie/link warmth. Reserved lane follows resizing without resting over text. Delayed first introduction includes camera lick/full black lens; reduced motion/skip/Escape and independent opt-in remain. WebP sprites are lossless and greeting/jar are deferred. Cookie policy includes the greeting-seen marker.
+
+27 focused tests, build budgets and 49 prerenders pass. All sixteen destinations, saved jar, focus restore, 390/1000/1440 resizing and scoped axe zero verified. Lighthouse desktop 100 both cold and enabled; mobile 92 cold / 91 enabled, CLS 0. Mobile near-100 target remains unresolved; LCP is opening portfolio text. Full test-suite pre-existing failures remain described below. No commit, push or deploy. Evidence and art provenance: docs/evidence/rigby-follow/README.md and artwork/rigby-first-encounter/behaviors-prompt.md. Preview http://127.0.0.1:8849/.
+
+
+
+## October 25 — expandable Cookie Jar hunt (local review)
+
+Owner confirmed ten initial recruiter placement priorities, not a game cap. The single COOKIE_TRAIL manifest drives the total and clues: Home, About, Engineering, UX & Product, Accessibility, AI, Impact, portfolio work, EXL case study, TCC case study. Added normal-flow collectible buttons after introductory content; no idle text occlusion. Collection is idempotent and unknown IDs are rejected. Cookie Jar replaces the Footer's Cookie settings label, shows found art/unknown slots and the next clue, saves device-local collected IDs across visits, and clears only game progress on restart. Rigby points to the next uncollected stop through an explicit link and accessible anchor focus. Opt-in/out is independent of saved progress and favorite flavors; opt-out hides dog/collectibles/guide without emptying the jar. Guide pause is shared with the roaming dog, honors reduced motion, and pauses offscreen/hidden. Biscuit hover/focus accelerates wagging.
+
+Built-in imagegen produced a 13-cookie transparent pixel sprite sheet: existing twelve varieties plus Rigby's bone biscuit. Runtime is public/assets/rigby/cookies.png, 4x4 cells (13 filled, 3 empty); master/prompt under artwork/rigby-first-encounter/. Ten variants are initially placed, the remaining artwork is available for expansion. Approved front sprite remains unchanged. The movement/side-profile implementation below still applies.
+
+36 focused tests pass (hunt, Rigby, cookie preferences, About, case-study component, Footer). Production build/budgets and 49 prerenders pass, initial 481.11kB / estimated 119.01kB transfer. Chrome 1440/390 walks all ten stops to completion, confirms reload persistence, duplicate-click safety, reset-to-zero, saved opt-out and no errors/overflow; jar/trail scoped axe zero. Final mobile checks confirm opt-out preserves progress, opt-in restores it, choice buttons are initially visible, guide animates in view, pauses offscreen and has no animation under reduced motion. Earlier both-width checks prove -256px bounce and static modes.
+
+Broader checks: full npm test blocked by unchanged authored-studies.spec.ts TS2339 evidence/items typing. Separate app.spec run: 18 failures involving missing observer mocks and existing metadata/artwork assertions (38 passed alongside five other files). These unrelated test files/production behaviors were not changed; do not claim the full suite passes. Local only, no push/deploy. Preview http://127.0.0.1:8849/#rigby-start; choose Play with Rigby, or reopen Cookie Jar in Footer. Evidence summary: docs/evidence/rigby-cookie-jar/README.md. Supersedes the earlier pending hunt note below.
+
+
+
+## October 25 — Rigby side profiles, high bounce, optional companion (local review)
+
+Supersedes session-only dismissal above. Added matching generated side-profile sniff/bounce sprites; approved encounter.png stays byte-unchanged and appears in the welcome prompt. Tail alternates continuously while active, faster on biscuit hover/focus. Three 700ms celebration bounces rise 256px (four 64px sprite heights). Owner permits transient flights across text; landing positions and walking paths still use checked whitespace. Pause returns lift to zero; reduced motion/forced colors stop clocks. Rigby is off until opt-in; Play with Rigby / Browse without Rigby in the flavor prompt and Home controls persist an on/off choice in local storage, with an honest in-memory fallback.
+
+20 focused Rigby/cookie tests and production build/budgets/49 prerenders pass. Chrome at 1440/390 confirms -256px peak, pause/reduced baseline, persisted opt-out, no horizontal overflow or page errors; scoped Rigby axe zero. Full npm test is blocked by TS2339 in unchanged authored-studies.spec.ts (evidence/items union fields). No unrelated fixes made. Asset provenance in artwork/rigby-first-encounter/side-profiles-prompt.md.
+
+Owner also requested a sitewide 0/X hidden-cookie hunt and Rigby assistance. NOT implemented yet: owner selected a different count/progress behavior from six saved biscuits; exact total and persistence/reset behavior are awaiting reply. Keep this separate from tracking consent: current flavor picker does not control analytics consent. Welcome styling/opt-in controls are prepared; do not claim collectibles exist yet. No push/deploy. Existing preview http://127.0.0.1:8849/#rigby-start now serves the rebuilt local assets.
+
+
+
 ## SCRUM-125 - Rigby living-presence loop (local review)
 
 Supersedes the confined one-biscuit prototype below; approved pixels/masters in
@@ -88,7 +124,7 @@ checks pass (zero violations/errors); no preview pane opened. Read-back:
 node scripts/articles/verify-publication.mjs [--live]. Release through existing
 main -> Cloudflare Builds path; final production receipt in SCRUM-143/144.
 
-## Complete pig base � asset-only correction
+## Complete pig base � asset-only correction
 
 James requested production correction of the rectangular eye/mouth holes after
 rolling back the soft-fallback/loading-gate experiments. prepare.mjs now copies

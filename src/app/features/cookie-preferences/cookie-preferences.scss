@@ -1,6 +1,64 @@
 :host {
   display: contents;
 }
+.rigby-portrait {
+  inline-size: 64px;
+  block-size: 64px;
+  overflow: hidden;
+}
+.rigby-portrait img {
+  display: block;
+  max-inline-size: none;
+  image-rendering: pixelated;
+}
+.rigby-choice {
+  padding-block: 0.5rem;
+  border-block: 1px solid var(--panel-border);
+  margin-block: 0.75rem;
+}
+.rigby-choice h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+.rigby-choice button {
+  margin: 0.25rem;
+}
+.rigby-choice [aria-pressed='true'] {
+  outline: 2px solid currentColor;
+  outline-offset: 1px;
+}
+.cookie-collection {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+.cookie-collection li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.2rem;
+  padding: 0.4rem;
+  border: 1px dashed var(--panel-border);
+  border-radius: 0.35rem;
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+.cookie-collection .collected {
+  border-style: solid;
+}
+.empty-cookie {
+  display: grid;
+  place-items: center;
+  inline-size: 40px;
+  block-size: 40px;
+  font-size: 1.25rem;
+}
+.cookie-collection small {
+  font-size: 0.7rem;
+}
 .cookie-dialog {
   padding: 0;
   border: 0;

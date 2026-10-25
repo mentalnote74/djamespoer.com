@@ -1,0 +1,284 @@
+.rigby-greeting {
+  inline-size: min(36rem, calc(100vw - 2rem));
+  max-block-size: calc(100dvh - 2rem);
+  box-sizing: border-box;
+  padding: 1rem;
+  overflow: auto;
+  color: var(--page-foreground);
+  background: var(--section-surface);
+  border: 1px solid var(--panel-border);
+  border-radius: 0.75rem;
+  text-align: center;
+}
+.rigby-greeting::backdrop {
+  background: rgb(0 0 0 / 0.45);
+}
+.skip {
+  display: block;
+  margin-inline-start: auto;
+  min-block-size: 44px;
+}
+.hello-stage {
+  position: relative;
+  block-size: 17rem;
+  overflow: hidden;
+  contain: paint;
+}
+.hello-runner,
+.hello-kiss {
+  position: absolute;
+  inline-size: 128px;
+  block-size: 128px;
+  inset-block-start: 3rem;
+  inset-inline-start: calc(50% - 64px);
+}
+.hello-runner span,
+.hello-kiss span {
+  display: block;
+  inline-size: 128px;
+  block-size: 128px;
+  background-image: url('/assets/rigby/behaviors.webp');
+  background-size: 512px 256px;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
+.hello-runner {
+  animation: run-up 1.4s cubic-bezier(0.2, 0.8, 0.4, 1) both;
+}
+.hello-runner span {
+  animation: run-legs 180ms steps(2) 8;
+}
+.hello-kiss {
+  opacity: 0;
+  animation: kiss-camera 2.8s ease-in-out both, greeting-bounce 700ms ease-in-out 2.8s infinite;
+}
+.hello-kiss span {
+  background-position: -256px -128px;
+  // The generated cell contains five pixels of its neighbour at the left edge.
+  // Clip that transparent gutter while preserving Rigby's complete silhouette.
+  clip-path: inset(0 0 0 12px);
+  animation: lick 220ms steps(1, end) 1.1s infinite;
+}
+.smooch {
+  position: absolute;
+  inset-block-end: 0.5rem;
+  inset-inline: 0;
+  font-weight: bold;
+  color: var(--page-foreground);
+  opacity: 0;
+  animation: smooch 2.8s both;
+}
+h2 {
+  margin-block: 0.5rem;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+}
+h2:focus {
+  outline: none;
+}
+p {
+  margin-block: 0.5rem;
+}
+button {
+  min-block-size: 44px;
+}
+@keyframes run-up {
+  0% {
+    transform: translateX(-22rem) scale(0.45);
+  }
+  25% {
+    transform: translateX(-10rem) translateY(-2rem) scale(0.8);
+  }
+  55% {
+    transform: translateX(-3rem) translateY(0) scale(1.1);
+  }
+  75% {
+    transform: translateX(0) translateY(-3rem) scale(1.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+@keyframes run-legs {
+  to {
+    background-position: -256px 0;
+  }
+}
+@keyframes kiss-camera {
+  0%,
+  36% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  44% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  62% {
+    opacity: 1;
+    transform: scale(3);
+  }
+  82% {
+    opacity: 1;
+    transform: scale(2.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+@keyframes lick {
+  0%, 100% { background-position: -256px -128px; }
+  50% { background-position: -384px -128px; }
+}
+@keyframes greeting-bounce {
+  0%, 100% { transform: translateY(0) scale(1.4); }
+  50% { transform: translateY(-80px) scale(1.4); }
+}
+@keyframes smooch {
+  0%,
+  43%,
+  94%,
+  100% {
+    opacity: 0;
+  }
+  48%,
+  85% {
+    opacity: 1;
+  }
+}
+.still .hello-runner,
+.still .smooch {
+  display: none;
+}
+.still .hello-kiss {
+  animation: none;
+  opacity: 1;
+  transform: scale(1.4);
+}
+.still .hello-kiss span {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hello-runner,
+  .smooch {
+    display: none;
+  }
+  .hello-kiss {
+    animation: none;
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  .hello-kiss span {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .hello-stage {
+    display: none;
+  }
+}
+
+// The camera is briefly covered at the peak of the lick; this is one fade, not flashing.
+.rigby-greeting {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  inline-size: 100vw;
+  block-size: 100dvh;
+  max-inline-size: none;
+  max-block-size: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  overflow: hidden;
+}
+.rigby-greeting::backdrop {
+  background: transparent;
+}
+.skip {
+  position: absolute;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+  z-index: 5;
+}
+.hello-stage {
+  position: absolute;
+  inset: 0;
+  block-size: 100%;
+}
+.hello-runner,
+.hello-kiss {
+  inset-block-start: calc(38% - 64px);
+}
+.lens-blackout {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0;
+  animation: covered-lens 3.6s ease-in-out both;
+}
+.introduction {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline: 1rem;
+  max-inline-size: 34rem;
+  margin-inline: auto;
+  padding: 1rem;
+  background: var(--section-surface);
+  color: var(--page-foreground);
+  border: 1px solid var(--panel-border);
+  border-radius: 0.5rem;
+  animation: introduce 3.6s both;
+}
+@keyframes covered-lens {
+  0%,
+  35%,
+  82%,
+  100% {
+    opacity: 0;
+  }
+  44%,
+  66% {
+    opacity: 1;
+  }
+}
+@keyframes introduce {
+  0%,
+  76% {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+.still.lens-blackout {
+  display: none;
+}
+.still.introduction {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lens-blackout {
+    display: none;
+  }
+  .introduction {
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .hello-stage,
+  .lens-blackout {
+    display: none;
+  }
+  .introduction {
+    animation: none;
+    inset-block-start: 20%;
+  }
+}

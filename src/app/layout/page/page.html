@@ -9,5 +9,9 @@
       #outlet="outlet"
       (activate)="setLayout(outlet.activatedRoute.snapshot.data['layout'])"
     />
+    <app-hidden-cookie placement="page-end" />
   </div>
+  @defer (on idle) {
+    <app-rigby-guide />
+  }
 </main>

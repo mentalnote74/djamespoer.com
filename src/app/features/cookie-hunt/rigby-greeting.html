@@ -1,0 +1,17 @@
+<dialog
+  #hello
+  class="rigby-greeting"
+  aria-labelledby="rigby-introduction"
+  (cancel)="close($event)"
+>
+  <button class="skip" type="button" (click)="close()">Skip the greeting</button>
+  <span class="lens-blackout" [class.still]="still() || rigby.paused()" aria-hidden="true"></span>
+  <div class="hello-stage" [class.still]="still() || rigby.paused()" aria-hidden="true">
+    <div class="hello-runner"><span></span></div>
+    <div class="hello-kiss"><span></span></div>
+  </div>
+  <section class="introduction" [class.still]="still() || rigby.paused()">
+    <h2 #title id="rigby-introduction" tabindex="-1">Hi! I'm Rigby Decaf Poer</h2>
+    <button type="button" (click)="startPlaying()">Let's find some cookies</button>
+  </section>
+</dialog>

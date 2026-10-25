@@ -1,0 +1,142 @@
+:host {
+  display: block;
+}
+.companion {
+  position: fixed;
+  inset-inline-end: 0;
+  inset-block-end: clamp(6rem, 20dvh, 12rem);
+  inline-size: 80px;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+}
+.companion.hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+.companion-hello {
+  display: block;
+  inline-size: 72px;
+  block-size: 72px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: var(--page-foreground);
+  cursor: pointer;
+}
+.dog-facing,
+.dog-motion,
+.dog-sprite {
+  display: block;
+  inline-size: 64px;
+  block-size: 64px;
+  pointer-events: none;
+}
+.dog-sprite {
+  background-image: url('/assets/rigby/behaviors.webp');
+  background-size: 256px 128px;
+  image-rendering: pixelated;
+}
+.dog-sprite.walking {
+  animation: walk-frames var(--wag-duration) steps(2) infinite;
+}
+.dog-sprite.bored {
+  background-position: 0 -64px;
+  animation: bored-frames var(--wag-duration) steps(2) infinite;
+}
+.dog-sprite.excited {
+  background-position: -128px 0;
+  animation: excited-frames var(--wag-duration) steps(2) infinite;
+}
+.dog-sprite.celebrating {
+  background-image: url('/assets/rigby/side-profiles.webp');
+  background-size: 128px 128px;
+  background-position: 0 -64px;
+  animation: bored-frames 180ms steps(2) infinite;
+}
+.dog-motion.walking {
+  animation: trot 320ms ease-in-out infinite;
+}
+.dog-motion.celebrating {
+  animation: high-bounce 700ms ease-in-out 3;
+}
+.temperature {
+  font-size: 0.65rem;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--page-foreground);
+  max-inline-size: 76px;
+  padding-block: 0.15rem;
+}
+.jar-shortcut {
+  min-block-size: 44px;
+  max-inline-size: 76px;
+  padding: 0.2rem;
+  font-size: 0.75rem;
+}
+.rigby-guide {
+  padding-block: 1rem;
+  border-block-start: 1px solid var(--panel-border);
+  margin-block-start: 1rem;
+  scroll-margin-block-start: 8rem;
+}
+p {
+  margin: 0 0 0.5rem;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-start: 0.5rem;
+}
+.controls button {
+  min-block-size: 44px;
+}
+.rigby-guide a {
+  display: inline-block;
+  padding-block: 0.5rem;
+}
+.no-motion .dog-motion,
+.no-motion .dog-sprite {
+  animation: none;
+}
+@keyframes walk-frames {
+  to {
+    background-position: -128px 0;
+  }
+}
+@keyframes bored-frames {
+  to {
+    background-position: -128px -64px;
+  }
+}
+@keyframes excited-frames {
+  to {
+    background-position: -256px 0;
+  }
+}
+@keyframes trot {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes high-bounce {
+  50% {
+    transform: translateY(-256px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dog-motion,
+  .dog-sprite {
+    animation: none !important;
+  }
+}
+@media (forced-colors: active) {
+  .companion-hello {
+    display: none;
+  }
+  .companion {
+    background: Canvas;
+    color: CanvasText;
+  }
+}
