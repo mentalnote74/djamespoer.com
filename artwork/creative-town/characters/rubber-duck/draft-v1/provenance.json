@@ -1,0 +1,10 @@
+﻿{
+    "state":  "draft-needs-cleanup",
+    "provider":  "built-in image_gen",
+    "sourceOutput":  "exec-6ef76e29-66a6-44e9-9e33-acbedeeceb67.png",
+    "canon":  "SCRUM-101 and SCRUM-64 approved mural prompt",
+    "references":  [
+                       "artwork/creative-town/scrum-64/larry-v2-c/SCRUM-64-Larry-V2-C.png"
+                   ],
+    "limitation":  "Provider added an unwanted soft yellow halo outside the toy; preserve original, do not call it a clean production cutout."
+}

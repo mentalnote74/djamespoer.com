@@ -5,7 +5,7 @@
     "automationId":  "creative-town-overnight-character-queue",
     "worktree":  "C:/Users/djame/OneDrive/Desktop/djamespoer.com/tmp/creative-town-queue",
     "state":  "running",
-    "activeEntry":  "rubber-duck",
+    "activeEntry":  "yaks",
     "throttle":  null,
     "entries":  [
                     {
@@ -83,13 +83,14 @@
                         "id":  "rubber-duck",
                         "name":  "Rubber Duck",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "draft-awaiting-review",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
-
-                                  ]
+                                      "Inanimate toy; complete silhouette and readable at 64px. Soft alpha edge needs review before production; tool display suggested halo, flat light/dark saved previews appear clean."
+                                  ],
+                        "assetDirectory":  "artwork/creative-town/characters/rubber-duck/draft-v1"
                     },
                     {
                         "order":  7,
