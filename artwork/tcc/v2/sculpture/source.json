@@ -1,0 +1,107 @@
+{
+  "master": "master.png",
+  "sha256": "285dd9bb2473fe2f42a4ce88a73c49ce1046564af14c86247eb3fa761e8b7e5f",
+  "dimensions": [
+    2172,
+    724
+  ],
+  "generation": "built-in imagegen",
+  "layers": [
+    {
+      "name": "sculpture",
+      "widths": [
+        768,
+        1440,
+        2172
+      ],
+      "crop": [],
+      "avif": 48,
+      "webp": 76
+    },
+    {
+      "name": "sculpture-mobile",
+      "widths": [
+        384,
+        768
+      ],
+      "crop": [
+        "-crop",
+        "1440x480+620+145",
+        "+repage"
+      ],
+      "avif": 46,
+      "webp": 74
+    },
+    {
+      "name": "depth",
+      "widths": [
+        480
+      ],
+      "crop": [
+        "-crop",
+        "1030x340+880+180",
+        "+repage",
+        "-background",
+        "#10161f",
+        "-alpha",
+        "remove",
+        "-alpha",
+        "off"
+      ],
+      "avif": 12,
+      "webp": 25
+    }
+  ],
+  "outputs": [
+    {
+      "file": "sculpture-768.avif",
+      "bytes": 15402
+    },
+    {
+      "file": "sculpture-768.webp",
+      "bytes": 35634
+    },
+    {
+      "file": "sculpture-1440.avif",
+      "bytes": 33447
+    },
+    {
+      "file": "sculpture-1440.webp",
+      "bytes": 95364
+    },
+    {
+      "file": "sculpture-2172.avif",
+      "bytes": 65276
+    },
+    {
+      "file": "sculpture-2172.webp",
+      "bytes": 208804
+    },
+    {
+      "file": "sculpture-mobile-384.avif",
+      "bytes": 7215
+    },
+    {
+      "file": "sculpture-mobile-384.webp",
+      "bytes": 16248
+    },
+    {
+      "file": "sculpture-mobile-768.avif",
+      "bytes": 16825
+    },
+    {
+      "file": "sculpture-mobile-768.webp",
+      "bytes": 49940
+    },
+    {
+      "file": "depth-480.avif",
+      "bytes": 2116
+    },
+    {
+      "file": "depth-480.webp",
+      "bytes": 8190
+    }
+  ],
+  "qualityTarget": "assembled desktop/mobile scene; sharp alpha foreground, severely compressed obscured moving depth, native CSS atmosphere",
+  "regenerate": "node scripts/tcc-slide/optimize-v2.mjs"
+}
