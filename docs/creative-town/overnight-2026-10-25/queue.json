@@ -5,7 +5,7 @@
     "automationId":  "creative-town-overnight-character-queue",
     "worktree":  "C:/Users/djame/OneDrive/Desktop/djamespoer.com/tmp/creative-town-queue",
     "state":  "running",
-    "activeEntry":  "hecklefish-moriarty",
+    "activeEntry":  "rubber-duck",
     "throttle":  null,
     "entries":  [
                     {
@@ -27,52 +27,56 @@
                         "id":  "hecklefish-moriarty",
                         "name":  "Hecklefish Moriarty",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "blocked",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
 
-                                  ]
+                                  ],
+                        "blocker":  "Name/role known; essential approved likeness and visual brief not recovered."
                     },
                     {
                         "order":  3,
                         "id":  "jiggler-the-mouse",
                         "name":  "Jiggler the Mouse",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "blocked",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
 
-                                  ]
+                                  ],
+                        "blocker":  "Canon explicitly requires later visual-canon reconciliation; source asset not recovered."
                     },
                     {
                         "order":  4,
                         "id":  "featured-bug",
                         "name":  "Featured Bug",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "blocked",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
 
-                                  ]
+                                  ],
+                        "blocker":  "Discovery/feature concept known; no established body, face or visual identity."
                     },
                     {
                         "order":  5,
                         "id":  "buildometer-car",
                         "name":  "Buildometer muscle/race-car",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "draft-awaiting-review",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
-
-                                  ]
+                                      "Transparent; complete nose/spoiler/wheels, 12px side margins. Light/dark and 64px preview inspected. Detailed polished finish needs James style review; small livery not readable at 64px."
+                                  ],
+                        "assetDirectory":  "artwork/creative-town/characters/buildometer-car/draft-v1"
                     },
                     {
                         "order":  6,

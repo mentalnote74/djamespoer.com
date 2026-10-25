@@ -1,0 +1,11 @@
+﻿{
+    "state":  "draft-awaiting-review",
+    "provider":  "built-in image_gen",
+    "sourceOutput":  "exec-bdc72352-25e7-477a-bf1b-7ef1243424f9.png",
+    "canon":  "SCRUM-101 description/comment 10160",
+    "references":  [
+                       "artwork/buildometer/dyno-master.png: car identity",
+                       "artwork/creative-town/scrum-64/larry-v2-c/SCRUM-64-Larry-V2-C.png: style"
+                   ],
+    "notes":  "New authorized independent draft; not recovered afternoon asset. No approval or runtime eligibility implied."
+}
