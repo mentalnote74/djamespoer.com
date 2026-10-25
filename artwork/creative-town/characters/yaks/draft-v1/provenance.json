@@ -1,0 +1,10 @@
+﻿{
+    "state":  "draft-awaiting-review",
+    "provider":  "built-in image_gen",
+    "sourceOutput":  "exec-25e002a8-5352-4921-8ebd-ec0c4e4c4e81.png",
+    "canon":  "SCRUM-101 and SCRUM-64 exact prompt: bovine anatomy, patchy shave, ticket in mouth",
+    "references":  [
+                       "artwork/creative-town/scrum-64/larry-v2-c/SCRUM-64-Larry-V2-C.png"
+                   ],
+    "relationship":  "One Customer Service yak variant only; not complete two-yak queue or Tyrone shaving scene."
+}

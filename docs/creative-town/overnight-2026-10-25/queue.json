@@ -5,7 +5,7 @@
     "automationId":  "creative-town-overnight-character-queue",
     "worktree":  "C:/Users/djame/OneDrive/Desktop/djamespoer.com/tmp/creative-town-queue",
     "state":  "running",
-    "activeEntry":  "yaks",
+    "activeEntry":  "tyrone-biggums",
     "throttle":  null,
     "entries":  [
                     {
@@ -97,13 +97,14 @@
                         "id":  "yaks",
                         "name":  "Yaks",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "draft-awaiting-review",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
-
-                                  ]
+                                      "One ticket-holding yak variant; alpha and complete crop verified; readable patchy silhouette at 64px. Does not represent the complete two-yak Customer Service queue."
+                                  ],
+                        "assetDirectory":  "artwork/creative-town/characters/yaks/draft-v1"
                     },
                     {
                         "order":  8,
