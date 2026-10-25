@@ -1,0 +1,10 @@
+﻿{
+    "state":  "draft-awaiting-review",
+    "provider":  "built-in image_gen",
+    "sourceOutput":  "exec-f4eb735b-9f88-40c2-925f-223ad43b903d.png",
+    "canon":  "SCRUM-101; SCRUM-64 Mission Control",
+    "references":  [
+                       "artwork/creative-town/scrum-64/larry-v2-c/SCRUM-64-Larry-V2-C.png"
+                   ],
+    "notes":  "Pointing coordinator, separate from Customer Service/SBS; provider-added blank lanyard needs review."
+}

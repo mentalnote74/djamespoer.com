@@ -4,8 +4,8 @@
     "cutoff":  "2026-10-25T08:00:00-04:00",
     "automationId":  "creative-town-overnight-character-queue",
     "worktree":  "C:/Users/djame/OneDrive/Desktop/djamespoer.com/tmp/creative-town-queue",
-    "state":  "running",
-    "activeEntry":  "desktop-sally",
+    "state":  "stopped-owner-handoff",
+    "activeEntry":  null,
     "throttle":  null,
     "entries":  [
                     {
@@ -167,13 +167,14 @@
                         "id":  "desktop-sally",
                         "name":  "DTS / Desktop Sally",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "draft-awaiting-review",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
-
-                                  ]
+                                      "Master, prompt, provenance, WebP and light/dark/64px previews saved and inspected. Full silhouette intact, genuine alpha. Provider added a blank lanyard; draft awaits James review, not approved."
+                                  ],
+                        "assetDirectory":  "artwork/creative-town/characters/desktop-sally/draft-v1"
                     },
                     {
                         "order":  13,
@@ -423,5 +424,7 @@
 
                                   ]
                     }
-                ]
+                ],
+    "nextEntry":  "smoke-break-sally",
+    "stopReason":  "James instructed finish current character only, then stop; QB takes generation. Owner reports overnight automation paused."
 }
