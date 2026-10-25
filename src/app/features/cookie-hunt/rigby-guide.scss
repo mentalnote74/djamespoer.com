@@ -16,8 +16,43 @@
 }
 .companion-mobile {
   inset: auto;
-  block-size: 156px;
+  inline-size: 64px;
+  block-size: 64px;
+  z-index: 8;
   align-content: start;
+  transition:
+    left 700ms linear,
+    top 700ms linear;
+  .companion-hello {
+    inline-size: 64px;
+    block-size: 64px;
+    padding: 0;
+  }
+  .temperature,
+  .jar-shortcut {
+    display: none;
+  }
+  &.no-motion {
+    transition: none;
+  }
+  &.hopping {
+    pointer-events: none;
+    .dog-motion {
+      animation: travelling-jump 700ms ease-out infinite;
+    }
+    .dog-sprite {
+      animation: jump-poses 700ms steps(1, end) infinite;
+    }
+  }
+}
+@keyframes travelling-jump {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-48px);
+  }
 }
 .companion-hello {
   display: block;
@@ -179,7 +214,7 @@ p {
 }
 .no-motion .dog-motion,
 .no-motion .dog-sprite {
-  animation: none;
+  animation: none !important;
 }
 @keyframes walk-frames {
   to {

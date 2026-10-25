@@ -1,5 +1,12 @@
 # AI Engineering Handoff
 
+## October 25 — mobile resting gap and transient crossings
+
+Owner review supersedes the previous strict mobile hiding policy: Rigby may cross written content and controls during jumps, but must not remain over them. Mobile now measures only the 64px dog, hides the temperature/jar stack (equivalent full controls remain in the guide/footer), and prioritizes the existing gap above Pardon the dust. Position changes use 700ms articulated hops. With no safe resting position he continues moving between temporary landing points; the moving overlay passes pointer input through. Pause/reduced motion stops animations and uses only clear resting positions. No page width is reserved.
+
+Chrome verifies visible resting above the heading at 390px, visible resting at 320/600px, and continuous movement without hiding or intercepting taps under a forced fully occupied viewport. Screenshot: this chat outputs/rigby-mobile-resting.png. Build and focused test results recorded in the release verification. This corrects the previous disappearance on mobile rather than changing the editorial layout.
+
+
 ## October 25 — mobile whitespace, stationary wag and additional poses
 
 Mobile <=600px keeps full page/footer width with Rigby enabled, hides decorative Explore badges and shows carousel controls as icons with accessible labels and >=44px targets. The companion measures rendered ink/media/controls and uses clear viewport space; hides when no safe position exists. Scroll, resize, route, opt-in and content resize refresh placement. Desktop lane remains unchanged.

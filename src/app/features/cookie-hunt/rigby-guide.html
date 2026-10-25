@@ -3,6 +3,7 @@
     class="companion"
     [class.hidden]="busy() || preferences.opened() || (compact() && !placement())"
     [class.companion-mobile]="compact()"
+    [class.hopping]="hopping()"
     [style.left.px]="compact() ? placement()?.x : null"
     [style.top.px]="compact() ? placement()?.y : null"
     [class.no-motion]="noMotion()"

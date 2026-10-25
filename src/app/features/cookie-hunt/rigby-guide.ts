@@ -43,11 +43,12 @@ export class RigbyGuide {
   readonly facing = signal(-1);
   readonly placement = signal<{ x: number; y: number } | null>(null);
   readonly compact = signal(false);
+  readonly hopping = signal(false);
   readonly noMotion = computed(
     () => this.rigby.paused() || this.reduced() || !this.visible() || this.busy(),
   );
   readonly mood = computed(() =>
-    this.celebrating()
+    this.celebrating() || this.hopping()
       ? 'celebrating'
       : this.warmth() > 0.55 || this.rigby.anticipating()
         ? 'excited'
@@ -80,6 +81,8 @@ export class RigbyGuide {
   private rewardTimer = 0;
   private trickTimer = 0;
   private routeTimer = 0;
+  private hopTimer = 0;
+  private hopStep = 0;
   constructor() {
     effect(() => {
       const enabled = this.rigby.enabled();
@@ -171,6 +174,7 @@ export class RigbyGuide {
         view.clearTimeout(this.rewardTimer);
         view.clearTimeout(this.trickTimer);
         view.clearTimeout(this.routeTimer);
+        view.clearTimeout(this.hopTimer);
         view.removeEventListener('scroll', scroll);
         view.removeEventListener('resize', update);
         this.document.removeEventListener('pointermove', pointer);
@@ -194,7 +198,7 @@ export class RigbyGuide {
       this.busy()
     )
       return;
-    if (this.compact()) this.placement.set(companionSpace(this.document));
+    if (this.compact()) this.placeCompanion();
     const remaining = this.hunt.stops.filter((stop) => !this.hunt.has(stop.id));
     let heat = 0,
       target: CookieStop | undefined;
@@ -245,6 +249,42 @@ export class RigbyGuide {
     this.trick.set(null);
     this.celebrating.set(true);
     this.rewardTimer = view.setTimeout(() => this.celebrating.set(false), 2100);
+  }
+  private placeCompanion(): void {
+    const view = this.document.defaultView;
+    if (!view) return;
+    if (this.noMotion()) {
+      view.clearTimeout(this.hopTimer);
+      this.hopping.set(false);
+    }
+    const resting = companionSpace(this.document);
+    if (!resting && this.hopping() && !this.noMotion()) return;
+    let next = resting;
+    if (!next && this.noMotion()) {
+      // A paused dog stays with the document's whitespace rather than covering a paragraph.
+      next = { x: Math.max(2, view.innerWidth - 80), y: -66 };
+    }
+    if (!next) {
+      this.hopStep++;
+      next = {
+        x: this.hopStep % 2 ? 8 : Math.max(8, view.innerWidth - 72),
+        y: Math.round(view.innerHeight * (this.hopStep % 3 === 0 ? 0.35 : 0.65)),
+      };
+    }
+    const previous = this.placement();
+    if (previous && Math.hypot(previous.x - next.x, previous.y - next.y) < 4) return;
+    this.placement.set(next);
+    if (!this.noMotion() && (previous || !resting)) {
+      this.hopping.set(true);
+      view.clearTimeout(this.hopTimer);
+      this.hopTimer = view.setTimeout(() => {
+        this.hopping.set(false);
+        this.checkScent();
+      }, 700);
+    } else {
+      view.clearTimeout(this.hopTimer);
+      this.hopping.set(false);
+    }
   }
   perform(trick: 'sit' | 'shake' | 'beg' | 'roll'): void {
     const view = this.document.defaultView;
