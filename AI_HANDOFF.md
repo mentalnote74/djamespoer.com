@@ -1,5 +1,12 @@
 # AI Engineering Handoff
 
+## Desktop navigation alignment â€” local review
+
+Header tabs now align with the content container's right edge using automatic
+start margin and zero end margin. Mobile menu unchanged. Build/budgets pass.
+Chrome 1440px confirms 0px right gap; 390px retains collapsed menu. Neither
+width overflows horizontally. No push/deploy.
+
 ## SCRUM-145 - stronger shared lure magic
 
 Approved production follow-up to d233437: cyan/amber halo now pulses smoothly
@@ -44,7 +51,7 @@ checks pass (zero violations/errors); no preview pane opened. Read-back:
 node scripts/articles/verify-publication.mjs [--live]. Release through existing
 main -> Cloudflare Builds path; final production receipt in SCRUM-143/144.
 
-## Complete pig base — asset-only correction
+## Complete pig base ï¿½ asset-only correction
 
 James requested production correction of the rectangular eye/mouth holes after
 rolling back the soft-fallback/loading-gate experiments. prepare.mjs now copies
