@@ -5,7 +5,7 @@
     "automationId":  "creative-town-overnight-character-queue",
     "worktree":  "C:/Users/djame/OneDrive/Desktop/djamespoer.com/tmp/creative-town-queue",
     "state":  "running",
-    "activeEntry":  "larry",
+    "activeEntry":  "desktop-sally",
     "throttle":  null,
     "entries":  [
                     {
@@ -153,13 +153,14 @@
                         "id":  "larry",
                         "name":  "Larry",
                         "group":  "core",
-                        "status":  "pending",
+                        "status":  "draft-awaiting-review",
                         "assetApproval":  "not-approved",
                         "participation":  "unresolved",
                         "alwaysPresent":  false,
                         "notes":  [
-
-                                  ]
+                                      "Full crop/alpha and light/dark/64px inspected; serious shirt/tie/clipboard silhouette retained. Pocket lettering cannot be read at 64px; style approval pending."
+                                  ],
+                        "assetDirectory":  "artwork/creative-town/characters/larry/draft-v1"
                     },
                     {
                         "order":  12,
