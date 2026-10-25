@@ -1,5 +1,34 @@
 # AI Engineering Handoff
 
+## SCRUM-145 — shared article hero and copy alignment, local only
+
+Extended the current Bass swim-in revision: Article looks up its exact canonical
+destination in the existing slide registry and mounts SlideHero when registered.
+Bass is currently the only article match; other articles retain their headers.
+The article has one unchanged title/H1, no slide headline or Explore self-link.
+Article's ordinary H1 rule is scoped to its own header so it cannot override the
+shared hero typography. No article prose/meta/schema changes.
+
+Carousel uses start-aligned UI typography and the existing vertical copy/Explore
+pattern, with an art-specific left copy zone. At 390px the existing compact
+0.9rem heading convention fits all exact copy plus the standard 44px Explore.
+Separate keyboard-revealed pause stays at the far corner. Hero copy uses the
+existing registry metadata, with title fully within the left quarter. Artwork,
+2s hold/5.5s swim-in, atomic loading, fallback, clocks and GA remain unchanged.
+
+Build/budgets, 656 geometry checks and 48-route prerender pass. Focused tests
+cover article H1/registry isolation and hero suppression; built desktop/390px
+checks cover both surfaces, natural approach, pause/freeze/reset, native GA,
+fallback, forced/reduced motion and scoped axe (zero). Final direct-refresh
+preview confirms one prerendered H1, no self-link/overflow and reduced still.
+See [current evidence](docs/evidence/scrum-145/article-hero/README.md).
+
+Live carousel: http://127.0.0.1:8835/?preview=big-dumb-bass
+Live article: http://127.0.0.1:8835/blognostisphere/like-a-big-dumb-bass
+No push/deploy. Pig rollback still exactly matches origin/main 9fdc46d; no pig,
+SlideHero implementation or shared slide-action changes. Static preview APIs
+remain unavailable. Existing cold-load versus nine-second dwell limitation stays.
+
 ## SCRUM-145 — Bass approach revision, local review only
 
 Rebased onto origin/main 9fdc46d, preserving both pig rollbacks exactly (no pig,

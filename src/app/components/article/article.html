@@ -1,7 +1,12 @@
 <article class="blognostisphere-article editorial-content">
+  @if (heroDestination(); as destination) {
+    <app-slide-hero class="editorial-wide" [destination]="destination" [heading]="article().title" />
+  }
   <header>
     <p><a routerLink="/blognostisphere">Back to Blognostisphere</a></p>
-    <h1>{{ article().title }}</h1>
+    @if (!heroDestination()) {
+      <h1>{{ article().title }}</h1>
+    }
     <p class="blognostisphere-article__dek">{{ article().dek }}</p>
     <p>
       <a href="#article-author-note">{{ byline }}</a> ·

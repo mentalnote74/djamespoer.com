@@ -5,7 +5,7 @@ app-article {
 .blognostisphere-article {
   overflow-wrap: anywhere;
 
-  h1 {
+  > header h1 {
     margin-block: 1rem;
     font-size: clamp(2rem, 5vw, 3.75rem);
     line-height: 1.12;

@@ -126,14 +126,15 @@
 .copy {
   position: absolute;
   inset: 0 auto 0 0;
-  inline-size: 36%;
+  inline-size: 28%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: clamp(0.45rem, 2.5cqi, 2rem);
-  gap: clamp(0.3rem, 1cqi, 0.8rem);
+  padding: clamp(0.5rem, 3cqi, 2.5rem);
+  gap: clamp(0.35rem, 1.7cqi, 1.5rem);
+  text-align: start;
   text-shadow:
     0 2px 12px #000,
     0 0 28px #000;
@@ -141,7 +142,8 @@
 }
 h2 {
   margin: 0;
-  font: 800 clamp(1.05rem, 2.7cqi, 2.3rem)/1.05 var(--font-ui);
+  font: 800 clamp(1.05rem, 3.2cqi, 3.5rem)/1.05 var(--font-ui);
+  text-align: start;
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
@@ -151,8 +153,12 @@ h2 {
 }
 @media (max-width: 600px) {
   .copy {
-    inline-size: 39%;
-    padding: 0.4rem;
+    inline-size: 29%;
+    padding: 0.25rem;
+    gap: 0.2rem;
+  }
+  h2 {
+    font-size: clamp(0.9rem, 3.8cqi, 1.25rem);
   }
 }
 @media (prefers-reduced-motion: reduce) {

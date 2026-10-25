@@ -1,0 +1,39 @@
+{
+  "url": "http://127.0.0.1:8835/blognostisphere/like-a-big-dumb-bass",
+  "prerenderH1": 1,
+  "results": [
+    {
+      "width": 1440,
+      "composition": {
+        "title": "Like a Big Dumb Bass",
+        "h1Count": 1,
+        "right": 0.24053291896869244,
+        "inside": true,
+        "links": 0,
+        "ratio": 3,
+        "overflow": false
+      },
+      "violations": [],
+      "errors": []
+    },
+    {
+      "width": 390,
+      "composition": {
+        "title": "Like a Big Dumb Bass",
+        "h1Count": 1,
+        "right": 0.2431913407821229,
+        "inside": true,
+        "links": 0,
+        "ratio": 3.0001309414691635,
+        "overflow": false,
+        "reduced": {
+          "src": "http://127.0.0.1:8835/assets/registered-slides/big-dumb-bass/desktop/fallback-768.avif",
+          "clock": 0,
+          "explore": 0
+        }
+      },
+      "violations": [],
+      "errors": []
+    }
+  ]
+}

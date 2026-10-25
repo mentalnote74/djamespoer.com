@@ -1,0 +1,251 @@
+{
+  "hashes": 30,
+  "results": [
+    {
+      "width": 1440,
+      "mode": "normal",
+      "start": {
+        "ready": true,
+        "started": true,
+        "paused": false,
+        "opacity": 1,
+        "x": 0.39999999999999997,
+        "time": 8.241999911703157,
+        "current": 3,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif"
+      },
+      "end": {
+        "ready": true,
+        "started": true,
+        "paused": false,
+        "opacity": 1,
+        "x": 0,
+        "time": 7500,
+        "current": 3,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif"
+      },
+      "composition": {
+        "ratio": 3,
+        "font": "40.896px",
+        "copyInside": true,
+        "title": "Whatever You Do, Do Not Click Here",
+        "href": "/blognostisphere/like-a-big-dumb-bass",
+        "arrow": "\"\""
+      },
+      "articleHero": {
+        "h1Count": 1,
+        "title": "Like a Big Dumb Bass",
+        "ratio": 3,
+        "selfLinks": 0,
+        "duplicateHeadlines": 0,
+        "explore": 0,
+        "pause": true,
+        "font": "41.268px",
+        "titleRight": 0.2505323434622468,
+        "overflow": false
+      },
+      "heroAxe": [],
+      "axe": [],
+      "keyboardAndPointerOneEventEach": true,
+      "clickEvents": [
+        [
+          "event",
+          "carousel_cta_click",
+          {
+            "location": "carousel",
+            "slide": "big-dumb-bass",
+            "destination": "/blognostisphere/like-a-big-dumb-bass",
+            "page_path": "/",
+            "cta_location": "carousel"
+          }
+        ],
+        [
+          "event",
+          "carousel_cta_click",
+          {
+            "location": "carousel",
+            "slide": "big-dumb-bass",
+            "destination": "/blognostisphere/like-a-big-dumb-bass",
+            "page_path": "/",
+            "cta_location": "carousel"
+          }
+        ]
+      ],
+      "manualMidApproachPauseAndBackgroundPreserved": true,
+      "responsiveAnimationPreserved": true,
+      "pauseExcluded": true,
+      "canonical": "https://djamespoer.com/blognostisphere/like-a-big-dumb-bass",
+      "offscreenFreeze": true,
+      "hiddenFreeze": true,
+      "revisitReset": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "mode": "failure",
+      "state": {
+        "ready": false,
+        "started": false,
+        "paused": true,
+        "opacity": 1,
+        "x": 0.39999999999999997,
+        "time": null,
+        "current": 0,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif"
+      },
+      "resources": [
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-1440.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/pond-1440.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/bass-1440.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-1440.avif"
+      ],
+      "nativeNavigation": true,
+      "forcedColors": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "mode": "reduced",
+      "state": {
+        "ready": false,
+        "started": false,
+        "paused": true,
+        "opacity": 1,
+        "x": 0,
+        "time": null,
+        "current": 0,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/fallback-1440.avif"
+      },
+      "resources": [
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/fallback-1440.avif"
+      ],
+      "nativeNavigation": true,
+      "forcedColors": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "normal",
+      "start": {
+        "ready": true,
+        "started": true,
+        "paused": false,
+        "opacity": 1,
+        "x": 0.4,
+        "time": 8.369999989308429,
+        "current": 3,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif"
+      },
+      "end": {
+        "ready": true,
+        "started": true,
+        "paused": false,
+        "opacity": 1,
+        "x": 0,
+        "time": 7500,
+        "current": 3,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif"
+      },
+      "composition": {
+        "ratio": 3.000263365815117,
+        "font": "14.4px",
+        "copyInside": true,
+        "title": "Whatever You Do, Do Not Click Here",
+        "href": "/blognostisphere/like-a-big-dumb-bass",
+        "arrow": "\"\""
+      },
+      "articleHero": {
+        "h1Count": 1,
+        "title": "Like a Big Dumb Bass",
+        "ratio": 3.0001309414691635,
+        "selfLinks": 0,
+        "duplicateHeadlines": 0,
+        "explore": 0,
+        "pause": true,
+        "font": "16px",
+        "titleRight": 0.2631808659217877,
+        "overflow": false
+      },
+      "heroAxe": [],
+      "axe": [],
+      "keyboardAndPointerOneEventEach": true,
+      "clickEvents": [
+        [
+          "event",
+          "carousel_cta_click",
+          {
+            "location": "carousel",
+            "slide": "big-dumb-bass",
+            "destination": "/blognostisphere/like-a-big-dumb-bass",
+            "page_path": "/",
+            "cta_location": "carousel"
+          }
+        ],
+        [
+          "event",
+          "carousel_cta_click",
+          {
+            "location": "carousel",
+            "slide": "big-dumb-bass",
+            "destination": "/blognostisphere/like-a-big-dumb-bass",
+            "page_path": "/",
+            "cta_location": "carousel"
+          }
+        ]
+      ],
+      "manualMidApproachPauseAndBackgroundPreserved": true,
+      "responsiveAnimationPreserved": true,
+      "pauseExcluded": true,
+      "canonical": "https://djamespoer.com/blognostisphere/like-a-big-dumb-bass",
+      "offscreenFreeze": true,
+      "hiddenFreeze": true,
+      "revisitReset": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "failure",
+      "state": {
+        "ready": false,
+        "started": false,
+        "paused": true,
+        "opacity": 1,
+        "x": 0.4,
+        "time": null,
+        "current": 0,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif"
+      },
+      "resources": [
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/opening-768.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/bass-768.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/pond-768.avif",
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/lure-768.avif"
+      ],
+      "nativeNavigation": true,
+      "forcedColors": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "mode": "reduced",
+      "state": {
+        "ready": false,
+        "started": false,
+        "paused": true,
+        "opacity": 1,
+        "x": 0,
+        "time": null,
+        "current": 0,
+        "poster": "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/fallback-768.avif"
+      },
+      "resources": [
+        "https://djamespoer.com/assets/registered-slides/big-dumb-bass/desktop/fallback-768.avif"
+      ],
+      "nativeNavigation": true,
+      "forcedColors": true,
+      "errors": []
+    }
+  ]
+}

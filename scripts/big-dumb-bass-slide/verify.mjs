@@ -5,7 +5,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import puppeteer from 'puppeteer-core';
 import { startPreview } from './preview.mjs';
-const out = 'tmp/evidence/scrum-145/approach';
+const out = 'tmp/evidence/scrum-145/article-hero';
 await mkdir(out, { recursive: true });
 const manifest = JSON.parse(await readFile('artwork/big-dumb-bass/manifest.json', 'utf8'));
 const assets = Object.values(manifest).find(
@@ -275,6 +275,63 @@ try {
     await page.focus(scene + ' .slide-destination');
     await page.keyboard.press('Enter');
     await page.waitForFunction(() => location.pathname === '/blognostisphere/like-a-big-dumb-bass');
+    const hero = 'app-article app-slide-hero app-big-dumb-bass-slide .bass-scene';
+    await page.waitForSelector(hero + '.started');
+    const articleHero = await page.$eval(hero, (e) => {
+      const frame = e.closest('.slide-hero');
+      const r = frame.getBoundingClientRect();
+      const h = frame.querySelector('h1');
+      return {
+        h1Count: document.querySelectorAll('h1').length,
+        title: h.textContent,
+        ratio: r.width / r.height,
+        selfLinks: e.querySelectorAll('a').length,
+        duplicateHeadlines: e.querySelectorAll('h2').length,
+        explore: e.querySelectorAll('.slide-explore').length,
+        pause: !!e.querySelector('.motion-control'),
+        font: getComputedStyle(h).fontSize,
+        titleRight: (h.getBoundingClientRect().right - r.left) / r.width,
+        overflow: document.documentElement.scrollWidth > innerWidth,
+      };
+    });
+    assert.equal(articleHero.h1Count, 1);
+    assert.equal(articleHero.title, 'Like a Big Dumb Bass');
+    assert.equal(articleHero.selfLinks, 0);
+    assert.equal(articleHero.explore, 0);
+    assert.equal(articleHero.duplicateHeadlines, 0);
+    assert(articleHero.pause);
+    assert(!articleHero.overflow);
+    assert(Math.abs(articleHero.ratio - 3) < 0.01);
+    await page.focus(hero + ' .motion-control');
+    await page.keyboard.press('Space');
+    await page.waitForFunction(
+      (s) => document.querySelector(s).classList.contains('paused'),
+      {},
+      hero,
+    );
+    const frozen = await page.$eval(hero + ' .bass', (e) => e.getAnimations()[0].currentTime);
+    await wait(250);
+    assert(
+      Math.abs(
+        (await page.$eval(hero + ' .bass', (e) => e.getAnimations()[0].currentTime)) - frozen,
+      ) < 35,
+    );
+    await page.keyboard.press('Space');
+    await page.waitForFunction(
+      (s) =>
+        new DOMMatrixReadOnly(getComputedStyle(document.querySelector(s + ' .bass')).transform)
+          .m41 === 0,
+      { timeout: 12000 },
+      hero,
+    );
+    await page.screenshot({ path: out + '/' + width + '-article-hero.png' });
+    const heroAxe = await page.evaluate(async () =>
+      (await axe.run(document.querySelector('app-article'))).violations.map((v) => ({
+        id: v.id,
+        nodes: v.nodes.map((n) => n.target),
+      })),
+    );
+    assert.deepEqual(heroAxe, []);
     let events = await page.evaluate(() =>
       window.__events.filter((e) => e[1] === 'carousel_cta_click'),
     );
@@ -306,6 +363,8 @@ try {
       start,
       end,
       composition,
+      articleHero,
+      heroAxe,
       axe,
       keyboardAndPointerOneEventEach: true,
       clickEvents: events,

@@ -50,7 +50,7 @@ const HERO_COPY: Record<SlideVisualKind, HeroCopyZone> = {
     mobileAlignment: 'end',
   },
   'tcc-pig': { ...LEFT, mobileWidth: 47, mobileAlignment: 'center', ink: 'dark' },
-  'big-dumb-bass': { ...LEFT, width: 36, mobileWidth: 39 },
+  'big-dumb-bass': { ...LEFT, width: 27, mobileWidth: 27, mobileAlignment: 'center' },
 };
 export interface PortfolioSlideDefinition {
   id: string;

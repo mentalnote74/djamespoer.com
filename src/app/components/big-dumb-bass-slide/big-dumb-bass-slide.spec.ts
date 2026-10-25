@@ -60,6 +60,18 @@ describe('Big Dumb Bass complete artwork and visit lifecycle', () => {
       expect(fixture.componentInstance.presented()).toBeGreaterThan(0);
     });
   }
+  it('reuses artwork as a hero without a self-link or duplicate slide headline', () => {
+    fixture.componentRef.setInput('hero', true);
+    fixture.detectChanges();
+    const root: HTMLElement = fixture.nativeElement;
+    expect(root.querySelector('a')).toBeNull();
+    expect(root.querySelector('h2')).toBeNull();
+    expect(root.querySelector('.slide-explore')).toBeNull();
+    expect(root.querySelector('.copy')).toBeNull();
+    expect(root.querySelector('.motion-control')).not.toBeNull();
+    expect(root.querySelector<HTMLImageElement>('.poster img')?.loading).toBe('eager');
+    expect(root.querySelector('.poster img')?.getAttribute('fetchpriority')).toBe('high');
+  });
   it('keeps the fish-free poster until the actual three-image batch decodes, with native tracked HTML', async () => {
     // Each buffered image must resolve, not only the last image.
     const pending: Array<() => void> = [];

@@ -83,14 +83,12 @@
       <div class="motes"><i></i><i></i><i></i><i></i></div>
     </div>
   </div>
-  <div class="copy slide-surface__copy">
-    @if (!hero()) {
+  @if (!hero()) {
+    <div class="copy slide-surface__copy">
       <h2>Whatever You Do, Do Not Click Here</h2>
-    }
-    @if (!hero()) {
       <span class="slide-explore" aria-hidden="true">Explore</span>
-    }
-  </div>
+    </div>
+  }
   <button
     class="motion-control slide-motion-control"
     type="button"
