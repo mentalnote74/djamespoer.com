@@ -1,5 +1,19 @@
 # AI Engineering Handoff
 
+## Rigby greeting polish ? October 26, local review
+
+Updated greeting punctuation and primary paw-icon play / secondary bed-icon
+Maybe later actions. Play enables Rigby, briefly celebrates and announces
+Let's go find some cookies!, then closes. Maybe later/Skip/Escape disable
+Rigby; stationary cookies replay the greeting without collecting or opting in.
+Progress remains. Timer cleanup, focus return, static reduced-motion equivalents
+and responsive wrapping/stacking retained. Inline decorative SVGs; no new assets,
+dependencies or polling. Removed obsolete CSS rather than raise budgets.
+10 focused tests and production build/budgets/50-route prerender pass; no size
+warnings. Initial 473.32 kB vs 473.26 kB (~60 B raw increase); device performance
+and browser visual/AT acceptance not claimed. No push/deploy. Separate existing
+Creative hero label removal preserved.
+
 ## October 25 — greeting correction after owner review
 
 Removed editorial coffee/Decaf jokes and SMOOCH lettering. Greeting keeps only the exact introduction and hunt button; physical enthusiasm is a repeating CSS bounce. The frontal sprite cell had five pixels of its neighbour at its left edge: clip the 6-native-pixel gutter and disable background repeat. Lick now selects only the two intended frames. Chrome confirms clean sprite, changing bounce transforms, reduced-motion animation none, no 390px overflow; production build/budgets and 49 prerenders pass. Screenshots in local chat outputs/rigby-greeting-corrected*.png. Local only.

@@ -9,7 +9,11 @@
     [style.--mobile-copy-align]="slide.heroCopy?.mobileAlignment ?? 'start'"
   >
     <app-slide-visual class="hero-art" [slide]="slide" [hero]="true" (ready)="selectVariant()" />
-    <header class="hero-copy" [class.shaded]="slide.heroCopy?.shade">
+    <header
+      class="hero-copy"
+      [class.shaded]="slide.heroCopy?.shade"
+      [class.visually-hidden]="destination() === '/creative'"
+    >
       @if (eyebrow()) {
         <p class="eyebrow">{{ eyebrow() }}</p>
       }

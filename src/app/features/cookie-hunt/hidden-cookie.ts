@@ -35,6 +35,13 @@ export class HiddenCookie {
       (stop) => stop.path === this.path() && cookiePlacement(stop.path) === this.placement(),
     ),
   );
+  activate(id: string): void {
+    if (!this.rigby.enabled()) {
+      this.rigby.greet();
+      return;
+    }
+    this.hunt.collect(id);
+  }
   constructor() {
     effect(() => {
       const cookie = this.stop();

@@ -2,16 +2,54 @@
   #hello
   class="rigby-greeting"
   aria-labelledby="rigby-introduction"
-  (cancel)="close($event)"
+  (cancel)="maybeLater($event)"
 >
-  <button class="skip" type="button" (click)="close()">Skip the greeting</button>
+  <button class="skip" type="button" (click)="maybeLater()">Skip the greeting</button>
   <span class="lens-blackout" [class.still]="still() || rigby.paused()" aria-hidden="true"></span>
-  <div class="hello-stage" [class.still]="still() || rigby.paused()" aria-hidden="true">
+  <div
+    class="hello-stage"
+    [class.still]="still() || rigby.paused()"
+    [class.excited]="playing()"
+    aria-hidden="true"
+  >
     <div class="hello-runner"><span></span></div>
     <div class="hello-kiss"><span></span></div>
   </div>
   <section class="introduction" [class.still]="still() || rigby.paused()">
-    <h2 #title id="rigby-introduction" tabindex="-1">Hi! I'm Rigby Decaf Poer</h2>
-    <button type="button" (click)="startPlaying()">Let's find some cookies</button>
+    <h2 #title id="rigby-introduction" tabindex="-1">Hi! I'm Rigby Decaf Poer!!!</h2>
+    <p role="status">{{ playing() ? "Let's go find some cookies!" : '' }}</p>
+    <div class="greeting-actions">
+      <button class="play" type="button" [disabled]="playing()" (click)="startPlaying()">
+        <svg
+          class="action-icon"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <ellipse cx="5" cy="8" rx="2.5" ry="3" />
+          <ellipse cx="10" cy="5" rx="2.5" ry="3" />
+          <ellipse cx="16" cy="5" rx="2.5" ry="3" />
+          <ellipse cx="21" cy="9" rx="2.5" ry="3" />
+          <path d="M6 17c0-3 3-7 6-7s6 4 6 7c0 5-4 2-6 2s-6 3-6-2Z" />
+        </svg>
+        <span>Do you want to play with me?</span>
+      </button>
+      <button type="button" (click)="maybeLater()">
+        <svg
+          class="action-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M3 19V5m0 11h18v3m0-3v-5a2 2 0 0 0-2-2h-7v7" />
+          <circle cx="7.5" cy="11.5" r="2" />
+        </svg>
+        <span>Maybe later</span>
+      </button>
+    </div>
   </section>
 </dialog>
