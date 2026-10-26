@@ -6,6 +6,7 @@ $-breakpoints: (
   'content-stack': 40rem,
   'artwork-compact': 48rem,
   'navigation-wrap': 64rem,
+  'navigation-inline': 70rem,
 );
 
 @function breakpoint($name) {

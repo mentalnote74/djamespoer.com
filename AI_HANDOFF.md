@@ -1,5 +1,12 @@
 # AI Engineering Handoff
 
+## October 25 — single-row desktop header
+
+Owner requested logo/navigation fit one line. Desktop header now stays nowrap, uses compact menu padding/gaps and a responsive identity width shared by the logo and its Bedlam paint field. Header switches to the existing menu disclosure at <=70rem before full navigation can overflow. Interior content's separate 64rem policy is unchanged. End dropdown anchors inside the right edge.
+
+Production build/budgets and 20 focused Header/Bedlam tests pass. Chrome at 390/1024/1120/1121/1200/1280/1440/1920 verifies no horizontal overflow, single-row desktop alignment, working mobile disclosure, open Theme dropdown within viewport and scoped axe zero. Screenshot in this chat outputs/header-inline-desktop.png. Deployment not inferred from this note; verify release separately.
+
+
 ## October 25 — mobile resting gap and transient crossings
 
 Owner review supersedes the previous strict mobile hiding policy: Rigby may cross written content and controls during jumps, but must not remain over them. Mobile now measures only the 64px dog, hides the temperature/jar stack (equivalent full controls remain in the guide/footer), and prioritizes the existing gap above Pardon the dust. Position changes use 700ms articulated hops. With no safe resting position he continues moving between temporary landing points; the moving overlay passes pointer input through. Pause/reduced motion stops animations and uses only clear resting positions. No page width is reserved.
