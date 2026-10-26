@@ -28,16 +28,3 @@
     left: 1rem;
   }
 }
-
-// Reserve the companion's lane so he never rests over editorial text.
-app-page,
-app-footer {
-  margin-inline-end: var(--rigby-lane, 0px);
-}
-
-@media (max-width: 600px) {
-  app-page,
-  app-footer {
-    margin-inline-end: 0;
-  }
-}

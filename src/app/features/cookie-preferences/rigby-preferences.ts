@@ -25,7 +25,6 @@ export class RigbyPreferences {
   setEnabled(enabled: boolean, greet = true): void {
     const newlyEnabled = enabled && !this.enabled();
     this.enabled.set(enabled);
-    this.document.documentElement.style.setProperty('--rigby-lane', enabled ? '80px' : '0px');
     if (newlyEnabled && greet) this.greet();
     try {
       const storage = this.document.defaultView?.localStorage;

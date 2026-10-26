@@ -1,5 +1,10 @@
-import { distanceToTarget, warmthAtDistance } from './rigby-scent';
+import { distanceToTarget, facingTarget, warmthAtDistance } from './rigby-scent';
 describe('Rigby warmer and colder', () => {
+  it('faces the cookie on either side and keeps orientation when directly aligned', () => {
+    expect(facingTarget(200, 100, 1)).toBe(-1);
+    expect(facingTarget(100, 200, -1)).toBe(1);
+    expect(facingTarget(100, 101, -1)).toBe(-1);
+  });
   it('gets steadily warmer approaching a target and colder retreating', () => {
     const distances = [400, 150, 100, 50, 0];
     const heat = distances.map((distance) => warmthAtDistance(distance, 180));

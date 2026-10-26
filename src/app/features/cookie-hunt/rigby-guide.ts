@@ -15,7 +15,7 @@ import { CookieHuntService } from './cookie-hunt.service';
 import { CookieStop } from './cookie-trail';
 import { RigbyPreferences } from '../cookie-preferences/rigby-preferences';
 import { CookiePreferencesService } from '../cookie-preferences/cookie-preferences.service';
-import { distanceToTarget, warmthAtDistance } from './rigby-scent';
+import { distanceToTarget, facingTarget, warmthAtDistance } from './rigby-scent';
 import { RigbyArrival } from './rigby-arrival';
 import { RigbyGreeting } from './rigby-greeting';
 import { companionSpace } from './companion-space';
@@ -42,7 +42,6 @@ export class RigbyGuide {
   readonly trick = signal<'sit' | 'shake' | 'beg' | 'roll' | null>(null);
   readonly facing = signal(-1);
   readonly placement = signal<{ x: number; y: number } | null>(null);
-  readonly compact = signal(false);
   readonly hopping = signal(false);
   readonly noMotion = computed(
     () => this.rigby.paused() || this.reduced() || !this.visible() || this.busy(),
@@ -82,13 +81,16 @@ export class RigbyGuide {
   private trickTimer = 0;
   private routeTimer = 0;
   private hopTimer = 0;
-  private hopStep = 0;
+  private placementDirty = true;
   constructor() {
     effect(() => {
       const enabled = this.rigby.enabled();
       const opened = this.preferences.opened();
       const view = this.document.defaultView;
-      if (enabled && !opened && view) view.requestAnimationFrame(() => this.checkScent());
+      if (enabled && !opened && view) {
+        this.placementDirty = true;
+        view.requestAnimationFrame(() => this.checkScent());
+      }
     });
     inject(RigbyArrival);
     let count = this.hunt.count();
@@ -104,6 +106,7 @@ export class RigbyGuide {
     });
     this.router?.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        this.placementDirty = true;
         this.warmth.set(0);
         this.scent.set(undefined);
         this.scrolling.set(false);
@@ -119,7 +122,7 @@ export class RigbyGuide {
       if (!view) return;
       const media = view.matchMedia('(prefers-reduced-motion: reduce)');
       const update = () => {
-        this.compact.set(view.matchMedia('(max-width: 600px)').matches);
+        this.placementDirty = true;
         this.visible.set(!this.document.hidden);
         this.reduced.set(media.matches);
         this.checkScent();
@@ -133,11 +136,9 @@ export class RigbyGuide {
           );
           this.checkScent();
         });
-      let previousScroll = view.scrollY;
       const scroll = () => {
         if (!this.rigby.enabled() || this.busy()) return;
-        this.facing.set(view.scrollY >= previousScroll ? -1 : 1);
-        previousScroll = view.scrollY;
+        this.placementDirty = true;
         this.scrolling.set(true);
         if (Date.now() - this.lastCheck >= 100) this.checkScent();
         view.clearTimeout(this.idleTimer);
@@ -164,7 +165,10 @@ export class RigbyGuide {
       this.document.addEventListener('toggle', focus, true);
       this.document.addEventListener('visibilitychange', update);
       media.addEventListener('change', update);
-      const layoutObserver = new ResizeObserver(() => this.checkScent());
+      const layoutObserver = new ResizeObserver(() => {
+        this.placementDirty = true;
+        this.checkScent();
+      });
       const main = this.document.querySelector('main');
       if (main) layoutObserver.observe(main);
       update();
@@ -198,16 +202,18 @@ export class RigbyGuide {
       this.busy()
     )
       return;
-    if (this.compact()) this.placeCompanion();
     const remaining = this.hunt.stops.filter((stop) => !this.hunt.has(stop.id));
     let heat = 0,
       target: CookieStop | undefined;
+    let cookiePoint: { x: number; y: number } | undefined;
+    let linkPoint: { x: number; y: number } | undefined;
     const path = (this.router?.url ?? this.document.location.pathname).split(/[?#]/)[0],
       current = remaining.find((stop) => stop.path === path);
     if (current) {
       const cookie = this.document.getElementById('hidden-cookie-' + current.id);
       if (cookie) {
         const rect = cookie.getBoundingClientRect();
+        cookiePoint = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
         heat = warmthAtDistance(
           Math.abs(rect.top + rect.height / 2 - view.innerHeight * 0.55),
           view.innerHeight * 1.4,
@@ -236,10 +242,19 @@ export class RigbyGuide {
       if (proximity > heat) {
         heat = proximity;
         target = stop;
+        linkPoint = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
       }
     }
     this.warmth.set(Math.round(heat * 100) / 100);
     this.scent.set(target);
+    const point = cookiePoint ?? linkPoint;
+    if (this.placementDirty) {
+      this.placementDirty = false;
+      this.placeCompanion(point);
+    }
+    const dog = this.document.querySelector('.companion-hello')?.getBoundingClientRect();
+    if (point && dog)
+      this.facing.set(facingTarget(dog.left + dog.width / 2, point.x, this.facing()));
   }
   reward(): void {
     const view = this.document.defaultView;
@@ -250,35 +265,30 @@ export class RigbyGuide {
     this.celebrating.set(true);
     this.rewardTimer = view.setTimeout(() => this.celebrating.set(false), 2100);
   }
-  private placeCompanion(): void {
+  private placeCompanion(target?: { x: number; y: number }): void {
     const view = this.document.defaultView;
     if (!view) return;
     if (this.noMotion()) {
       view.clearTimeout(this.hopTimer);
       this.hopping.set(false);
     }
-    const resting = companionSpace(this.document);
-    if (!resting && this.hopping() && !this.noMotion()) return;
-    let next = resting;
-    if (!next && this.noMotion()) {
-      // A paused dog stays with the document's whitespace rather than covering a paragraph.
-      next = { x: Math.max(2, view.innerWidth - 80), y: -66 };
-    }
+    const next = companionSpace(this.document, target);
     if (!next) {
-      this.hopStep++;
-      next = {
-        x: this.hopStep % 2 ? 8 : Math.max(8, view.innerWidth - 72),
-        y: Math.round(view.innerHeight * (this.hopStep % 3 === 0 ? 0.35 : 0.65)),
-      };
+      // Dense content has no safe resting place. Wait out of sight, never lie over it.
+      view.clearTimeout(this.hopTimer);
+      this.hopping.set(false);
+      this.placement.set(null);
+      return;
     }
     const previous = this.placement();
     if (previous && Math.hypot(previous.x - next.x, previous.y - next.y) < 4) return;
     this.placement.set(next);
-    if (!this.noMotion() && (previous || !resting)) {
+    if (!this.noMotion() && previous) {
       this.hopping.set(true);
       view.clearTimeout(this.hopTimer);
       this.hopTimer = view.setTimeout(() => {
         this.hopping.set(false);
+        this.placementDirty = true;
         this.checkScent();
       }, 700);
     } else {

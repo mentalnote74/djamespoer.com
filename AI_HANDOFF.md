@@ -1,5 +1,21 @@
 # AI Engineering Handoff
 
+## Rigby shared roaming and cookie-facing - October 26
+
+Removed the desktop reserved margin/lane. Both widths use the same 64px roaming
+companion and measured clear resting spots near the cookie; CSS transitions may
+cross content with pointer interaction disabled while moving. No safe whitespace
+means hidden, never resting on ink. Facing derives from cookie geometry, with a
+scent-link fallback and no scroll-direction override. Layout/scroll changes
+invalidate placement; pointer scent checks reuse placement instead of rescanning
+all text. Existing pause/reduced motion, greeting and progress remain.
+13 focused tests pass (11 hunt/greeting/scent plus two whitespace tests; test DOM
+visibility stub corrected). Build/50 prerenders pass; existing stylesheet budget
+warnings remain. Chrome 1440/390, four down/up positions each: zero text overlap
+at rest, no lane, correct cookie-facing, no horizontal overflow. No new assets,
+dependencies or continuous JS animation loop. Release via main/Cloudflare;
+production receipt belongs in SCRUM-125 after live verification.
+
 <<<<<<< HEAD
 ## Rigby greeting polish ? October 26, local review
 

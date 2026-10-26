@@ -9,3 +9,7 @@ export function distanceToTarget(x: number, y: number, box: DOMRect): number {
     Math.max(box.top - y, 0, y - box.bottom),
   );
 }
+// Authored side-profile sprites face right; scrolling never determines orientation.
+export function facingTarget(dogX: number, targetX: number, previous = 1): number {
+  return Math.abs(targetX - dogX) < 2 ? previous : targetX > dogX ? 1 : -1;
+}

@@ -1,5 +1,8 @@
 // Find room in the rendered page without changing its layout or covering its ink.
-export function companionSpace(document: Document): { x: number; y: number } | null {
+export function companionSpace(
+  document: Document,
+  target?: { x: number; y: number },
+): { x: number; y: number } | null {
   const view = document.defaultView;
   if (!view) return null;
   const width = 64,
@@ -43,20 +46,42 @@ export function companionSpace(document: Document): { x: number; y: number } | n
         y + height + gap <= r.top ||
         y - gap >= r.bottom,
     );
-  // Prefer the existing gap above the introduction rather than a separate control stack.
+  // Choose whitespace near the cookie throughout the viewport, never a dedicated lane.
+  const goal = {
+    x: Math.max(
+      gap,
+      Math.min(view.innerWidth - width - gap, (target?.x ?? view.innerWidth / 2) - width / 2),
+    ),
+    y: Math.max(
+      gap,
+      Math.min(
+        view.innerHeight - height - gap,
+        (target?.y ?? view.innerHeight * 0.65) - height / 2,
+      ),
+    ),
+  };
+  let best: { x: number; y: number } | null = null;
+  let score = Infinity;
+  const consider = (x: number, y: number) => {
+    const distance = Math.hypot(x - goal.x, y - goal.y);
+    if (distance < score && clear(x, y)) {
+      best = { x, y };
+      score = distance;
+    }
+  };
   const introduction = document.querySelector('.home-construction');
   if (introduction) {
     const top = introduction.getBoundingClientRect().top;
     for (const y of [top - height - gap, top - height / 2]) {
       for (let x = view.innerWidth - width - 16; x >= gap; x -= 8) {
-        if (clear(x, y)) return { x, y };
+        consider(x, y);
       }
     }
   }
   for (let y = view.innerHeight - height - gap; y >= gap; y -= 16) {
     for (let x = view.innerWidth - width - gap; x >= gap; x -= 16) {
-      if (clear(x, y)) return { x, y };
+      consider(x, y);
     }
   }
-  return null;
+  return best;
 }

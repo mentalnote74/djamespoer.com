@@ -1,11 +1,11 @@
 @if (rigby.enabled()) {
   <div
     class="companion"
-    [class.hidden]="busy() || preferences.opened() || (compact() && !placement())"
-    [class.companion-mobile]="compact()"
+    [class.hidden]="busy() || preferences.opened() || !placement()"
+    [class.companion-roaming]="true"
     [class.hopping]="hopping()"
-    [style.left.px]="compact() ? placement()?.x : null"
-    [style.top.px]="compact() ? placement()?.y : null"
+    [style.left.px]="placement()?.x"
+    [style.top.px]="placement()?.y"
     [class.no-motion]="noMotion()"
     [attr.data-mood]="mood()"
     [attr.data-trick]="trick()"
