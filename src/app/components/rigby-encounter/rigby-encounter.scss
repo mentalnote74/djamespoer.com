@@ -36,6 +36,43 @@
 .dog .inactive-art {
   visibility: hidden;
 }
+.jump-sprite {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: url('/assets/rigby/tricks-v1.webp') -128px -128px / 256px 256px no-repeat;
+  image-rendering: pixelated;
+}
+.jump-sprite.jumping {
+  display: block;
+  animation: articulated-jump 700ms steps(1, end) 3;
+}
+@keyframes articulated-jump {
+  0%,
+  100% {
+    background-position: -128px -128px;
+  }
+  15% {
+    background-position: -192px -128px;
+  }
+  30% {
+    background-position: 0 -192px;
+  }
+  45% {
+    background-position: -64px -192px;
+  }
+  65% {
+    background-position: -128px -192px;
+  }
+  85% {
+    background-position: -192px -192px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jump-sprite.jumping {
+    animation: none;
+  }
+}
 .local-biscuit {
   position: absolute;
   inset: 36px auto auto 44px;

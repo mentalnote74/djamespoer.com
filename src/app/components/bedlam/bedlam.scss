@@ -1,6 +1,6 @@
 :host {
   display: block;
-  inline-size: clamp(12rem, 25vw, 18rem);
+  inline-size: var(--bedlam-inline-size, clamp(12rem, 25vw, 18rem));
 }
 .bedlam {
   position: relative;
@@ -80,7 +80,7 @@
   .bedlam__field {
     inset: 1rem auto auto
       max(var(--layout-gutter-inline), calc((100% - var(--layout-shell-max-inline-size)) / 2));
-    inline-size: clamp(12rem, 25vw, 18rem);
+    inline-size: var(--bedlam-inline-size, clamp(12rem, 25vw, 18rem));
     block-size: 4rem;
   }
   .bedlam__identity {
@@ -155,7 +155,7 @@
       max(var(--layout-gutter-inline), calc((100% - var(--layout-shell-max-inline-size)) / 2)) +
         0.5rem
     );
-  inline-size: calc(clamp(12rem, 25vw, 18rem) - 1rem);
+  inline-size: calc(var(--bedlam-inline-size, clamp(12rem, 25vw, 18rem)) - 1rem);
   block-size: 3rem;
 }
 @media (forced-colors: active) {

@@ -1,9 +1,14 @@
 @if (rigby.enabled()) {
   <div
     class="companion"
-    [class.hidden]="busy() || preferences.opened()"
+    [class.hidden]="busy() || preferences.opened() || (compact() && !placement())"
+    [class.companion-mobile]="compact()"
+    [class.hopping]="hopping()"
+    [style.left.px]="compact() ? placement()?.x : null"
+    [style.top.px]="compact() ? placement()?.y : null"
     [class.no-motion]="noMotion()"
     [attr.data-mood]="mood()"
+    [attr.data-trick]="trick()"
     [attr.data-warmth]="warmth()"
     [style.--wag-duration]="wagDuration() + 'ms'"
   >
@@ -11,19 +16,27 @@
       class="companion-hello"
       type="button"
       (click)="rigby.greet()"
-      [attr.aria-label]="'Meet Rigby Decaf Poer. ' + temperature()"
+      [attr.aria-label]="
+        'Meet Rigby Decaf Poer. ' +
+        (trick() ? 'Showing his ' + trick() + ' pose. ' : '') +
+        temperature()
+      "
     >
       <span class="dog-facing" [style.transform]="'scaleX(' + facing() + ')'" aria-hidden="true"
         ><span
           class="dog-motion"
-          [class.walking]="mood() === 'walking'"
-          [class.celebrating]="mood() === 'celebrating'"
+          [class.walking]="!trick() && mood() === 'walking'"
+          [class.celebrating]="!trick() && mood() === 'celebrating'"
           ><span
             class="dog-sprite"
-            [class.walking]="mood() === 'walking'"
-            [class.bored]="mood() === 'bored'"
-            [class.excited]="mood() === 'excited'"
-            [class.celebrating]="mood() === 'celebrating'"
+            [class.walking]="!trick() && mood() === 'walking'"
+            [class.bored]="!trick() && mood() === 'bored'"
+            [class.excited]="!trick() && mood() === 'excited'"
+            [class.celebrating]="!trick() && mood() === 'celebrating'"
+            [class.sitting]="trick() === 'sit'"
+            [class.shaking]="trick() === 'shake'"
+            [class.begging]="trick() === 'beg'"
+            [class.rolling]="trick() === 'roll'"
           ></span></span
       ></span>
     </button>
@@ -63,6 +76,10 @@
       <p>You found them all! Rigby is one happy dog.</p>
     }
     <div class="controls">
+      <button type="button" (click)="perform('sit')">Sit</button>
+      <button type="button" (click)="perform('shake')">Shake</button>
+      <button type="button" (click)="perform('beg')">Beg</button>
+      <button type="button" (click)="perform('roll')">Roll over</button>
       <button type="button" (click)="rigby.greet()">Meet Rigby Decaf Poer</button>
       <button
         type="button"

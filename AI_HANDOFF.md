@@ -1,5 +1,6 @@
 # AI Engineering Handoff
 
+<<<<<<< HEAD
 ## Rigby greeting polish ? October 26, local review
 
 Updated greeting punctuation and primary paw-icon play / secondary bed-icon
@@ -13,6 +14,30 @@ dependencies or polling. Removed obsolete CSS rather than raise budgets.
 warnings. Initial 473.32 kB vs 473.26 kB (~60 B raw increase); device performance
 and browser visual/AT acceptance not claimed. No push/deploy. Separate existing
 Creative hero label removal preserved.
+=======
+## October 25 — single-row desktop header
+
+Owner requested logo/navigation fit one line. Desktop header now stays nowrap, uses compact menu padding/gaps and a responsive identity width shared by the logo and its Bedlam paint field. Header switches to the existing menu disclosure at <=70rem before full navigation can overflow. Interior content's separate 64rem policy is unchanged. End dropdown anchors inside the right edge.
+
+Production build/budgets and 20 focused Header/Bedlam tests pass. Chrome at 390/1024/1120/1121/1200/1280/1440/1920 verifies no horizontal overflow, single-row desktop alignment, working mobile disclosure, open Theme dropdown within viewport and scoped axe zero. Screenshot in this chat outputs/header-inline-desktop.png. Deployment not inferred from this note; verify release separately.
+
+
+## October 25 — mobile resting gap and transient crossings
+
+Owner review supersedes the previous strict mobile hiding policy: Rigby may cross written content and controls during jumps, but must not remain over them. Mobile now measures only the 64px dog, hides the temperature/jar stack (equivalent full controls remain in the guide/footer), and prioritizes the existing gap above Pardon the dust. Position changes use 700ms articulated hops. With no safe resting position he continues moving between temporary landing points; the moving overlay passes pointer input through. Pause/reduced motion stops animations and uses only clear resting positions. No page width is reserved.
+
+Chrome verifies visible resting above the heading at 390px, visible resting at 320/600px, and continuous movement without hiding or intercepting taps under a forced fully occupied viewport. Screenshot: this chat outputs/rigby-mobile-resting.png. Build and focused test results recorded in the release verification. This corrects the previous disappearance on mobile rather than changing the editorial layout.
+
+
+## October 25 — mobile whitespace, stationary wag and additional poses
+
+Mobile <=600px keeps full page/footer width with Rigby enabled, hides decorative Explore badges and shows carousel controls as icons with accessible labels and >=44px targets. The companion measures rendered ink/media/controls and uses clear viewport space; hides when no safe position exists. Scroll, resize, route, opt-in and content resize refresh placement. Desktop lane remains unchanged.
+
+Bored wag compensates for a measured 3px tail-down registration offset, clips the neighboring edge, disables repeat and uses a 2.2s cold-trail cycle (previously 3.2s). New transparent atlas adds sit, shake, beg, roll-over and crouch/takeoff/rise/apex/descent/landing. Trick controls are in the cookie-trail guide. Companion, greeting and rover celebrations use articulated frames. Artwork provenance: artwork/rigby-first-encounter/tricks-prompt.md.
+
+Verification: production build/budgets pass; 41 focused carousel/Rigby/scent tests pass. Chrome 320/390/600/601/1440 responsive checks pass, controls scoped axe zero; trick/greeting and reduced-motion checks pass. 390px scroll checks found zero text overlaps and verified both clear-space visibility and dense-content hiding. Full npm test remains blocked by unchanged authored-studies.spec.ts evidence/items TS2339 errors. Release pending at time of this entry; do not infer deployment from this note.
+
+>>>>>>> origin/main
 
 ## October 25 — greeting correction after owner review
 

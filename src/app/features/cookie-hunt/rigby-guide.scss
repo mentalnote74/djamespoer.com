@@ -14,6 +14,46 @@
   visibility: hidden;
   pointer-events: none;
 }
+.companion-mobile {
+  inset: auto;
+  inline-size: 64px;
+  block-size: 64px;
+  z-index: 8;
+  align-content: start;
+  transition:
+    left 700ms linear,
+    top 700ms linear;
+  .companion-hello {
+    inline-size: 64px;
+    block-size: 64px;
+    padding: 0;
+  }
+  .temperature,
+  .jar-shortcut {
+    display: none;
+  }
+  &.no-motion {
+    transition: none;
+  }
+  &.hopping {
+    pointer-events: none;
+    .dog-motion {
+      animation: travelling-jump 700ms ease-out infinite;
+    }
+    .dog-sprite {
+      animation: jump-poses 700ms steps(1, end) infinite;
+    }
+  }
+}
+@keyframes travelling-jump {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-48px);
+  }
+}
 .companion-hello {
   display: block;
   inline-size: 72px;
@@ -35,6 +75,7 @@
 .dog-sprite {
   background-image: url('/assets/rigby/behaviors.webp');
   background-size: 256px 128px;
+  background-repeat: no-repeat;
   image-rendering: pixelated;
 }
 .dog-sprite.walking {
@@ -42,23 +83,98 @@
 }
 .dog-sprite.bored {
   background-position: 0 -64px;
-  animation: bored-frames var(--wag-duration) steps(2) infinite;
+  animation: stationary-wag var(--wag-duration) steps(1, end) infinite;
 }
 .dog-sprite.excited {
   background-position: -128px 0;
   animation: excited-frames var(--wag-duration) steps(2) infinite;
 }
 .dog-sprite.celebrating {
-  background-image: url('/assets/rigby/side-profiles.webp');
-  background-size: 128px 128px;
-  background-position: 0 -64px;
-  animation: bored-frames 180ms steps(2) infinite;
+  background-image: url('/assets/rigby/tricks-v1.webp');
+  background-size: 256px 256px;
+  background-position: -128px -128px;
+  animation: jump-poses 700ms steps(1, end) 3;
 }
 .dog-motion.walking {
   animation: trot 320ms ease-in-out infinite;
 }
 .dog-motion.celebrating {
-  animation: high-bounce 700ms ease-in-out 3;
+  animation: none;
+}
+.dog-sprite:is(.sitting, .shaking, .begging, .rolling) {
+  background-image: url('/assets/rigby/tricks-v1.webp');
+  background-size: 256px 256px;
+  background-position: 0 0;
+}
+.dog-sprite.shaking {
+  animation: shake-poses 900ms steps(1, end) infinite;
+}
+.dog-sprite.begging {
+  background-position: -192px 0;
+  animation: beg-poses 1200ms steps(1, end) infinite;
+}
+.dog-sprite.rolling {
+  animation: roll-poses 2400ms steps(1, end) 1 both;
+}
+@keyframes shake-poses {
+  0%,
+  100% {
+    background-position: 0 0;
+  }
+  25%,
+  75% {
+    background-position: -64px 0;
+  }
+  50% {
+    background-position: -128px 0;
+  }
+}
+@keyframes beg-poses {
+  0%,
+  100% {
+    background-position: -192px 0;
+  }
+  50% {
+    background-position: 0 -64px;
+  }
+}
+@keyframes roll-poses {
+  0% {
+    background-position: -64px -64px;
+  }
+  25% {
+    background-position: -128px -64px;
+  }
+  50% {
+    background-position: -192px -64px;
+  }
+  75% {
+    background-position: 0 -128px;
+  }
+  100% {
+    background-position: -64px -128px;
+  }
+}
+@keyframes jump-poses {
+  0%,
+  100% {
+    background-position: -128px -128px;
+  }
+  15% {
+    background-position: -192px -128px;
+  }
+  30% {
+    background-position: 0 -192px;
+  }
+  45% {
+    background-position: -64px -192px;
+  }
+  65% {
+    background-position: -128px -192px;
+  }
+  85% {
+    background-position: -192px -192px;
+  }
 }
 .temperature {
   font-size: 0.65rem;
@@ -98,7 +214,7 @@ p {
 }
 .no-motion .dog-motion,
 .no-motion .dog-sprite {
-  animation: none;
+  animation: none !important;
 }
 @keyframes walk-frames {
   to {
@@ -110,6 +226,18 @@ p {
     background-position: -128px -64px;
   }
 }
+@keyframes stationary-wag {
+  0%,
+  100% {
+    background-position: 0 -64px;
+    clip-path: inset(0);
+  }
+  50% {
+    // Tail-down art sits three pixels forward within its authored cell.
+    background-position: -67px -64px;
+    clip-path: inset(0 3px 0 0);
+  }
+}
 @keyframes excited-frames {
   to {
     background-position: -256px 0;
@@ -118,11 +246,6 @@ p {
 @keyframes trot {
   50% {
     transform: translateY(-4px);
-  }
-}
-@keyframes high-bounce {
-  50% {
-    transform: translateY(-256px);
   }
 }
 @media (prefers-reduced-motion: reduce) {
