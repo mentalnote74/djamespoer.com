@@ -82,11 +82,11 @@ p {
 }
 @keyframes kiss-camera {
   0%,
-  36% {
+  49.99% {
     opacity: 0;
     transform: scale(0.5);
   }
-  44% {
+  50% {
     opacity: 1;
     transform: scale(1.5);
   }
@@ -98,8 +98,12 @@ p {
     opacity: 1;
     transform: scale(2.2);
   }
-  100% {
+  99.99% {
     opacity: 1;
+    transform: scale(1.4);
+  }
+  100% {
+    opacity: 0;
     transform: scale(1.4);
   }
 }
@@ -176,7 +180,9 @@ p {
 .still .hello-kiss span {
   animation: none;
 }
+.hello-stage.excited:not(.still) .hello-runner,
 .hello-stage.excited:not(.still) .hello-kiss {
+  display: none;
   animation: none;
   opacity: 0;
 }

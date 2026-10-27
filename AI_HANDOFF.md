@@ -1,5 +1,20 @@
 # AI Engineering Handoff
 
+## Greeting overlap investigation - October 27, local correction
+
+Reproduced at 1440/390 without long idle: kiss-camera retained opacity 1 at its
+2.8s endpoint while hello-jump became visible. Two greeting sprites overlapped;
+roaming companion was hidden in captures. Reopening after brief ordinary tab
+background/resume reproduced it; reduced motion showed one sprite. This is a
+separate confirmed CSS defect, not evidence of SCRUM-147 routing's cause.
+Local CSS hands off runner -> kiss -> jump, clears the kiss endpoint and hides
+earlier sprites on play. Three existing greeting tests and production build pass
+(existing stylesheet warnings remain); normal/reduced motion first/reopened
+background-resumed desktop/mobile captures verify one sprite and hidden roamer.
+Evidence in chat workspace work/scrum-147/greeting-overlap-{before,after}.json;
+screenshots outputs/scrum-147/. No production source elsewhere changed; no commit,
+push or deployment for this correction. Original phone/idle state not captured.
+
 ## Rigby shared roaming and cookie-facing - October 26
 
 Removed the desktop reserved margin/lane. Both widths use the same 64px roaming
