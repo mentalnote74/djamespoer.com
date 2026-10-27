@@ -1,5 +1,42 @@
 # AI Engineering Handoff
 
+## SCRUM-139 production receipt — October 27
+
+Code release ad438351d65f7817b455c6a8c990e29139dfdddd passed existing main/Workers
+Builds pipeline: f56ffcd8-9e2e-4168-831f-608c814d7c9d, check 122542718867 success,
+Worker version c05b8364-03cb-4b3e-b764-3e43be8ca70a. Production fetch checks pass
+all 52 sitemap URLs and 149 journal strings across 26 entries. Normalized Work
+301 and trailing-slash 307 retained; unknown/unwritten dates return genuine 404.
+Internal shell and evaluator remain noindex. Live Chrome 1440/390 checks match
+the local results below; no tested axe violations, missing alt, overflow or errors.
+
+Found plain HTTP returned 200. Deployed native Cloudflare Single Redirect named
+SCRUM-139 Canonical HTTPS for djamespoer.com: http://djamespoer.com/* ->
+https://djamespoer.com/${1}, status 301. Live root/about/journal/encoded-query
+checks pass, preserving paths/query. Zone routing configuration, no DNS/ownership
+changes or extra Worker request overhead. Existing security settings untouched.
+
+Google: Home/About indexed; Oct27 journal Discovered-currently-not-indexed, live
+test URL available to Google, one indexing request accepted into priority queue.
+Bing: Home indexed, sitemap Processing. Bing cached description-length/missing-alt
+warnings are not current missing-alt evidence: current Home DOM has no img without
+alt; long truthful description retained. Six exact-name/domain/specialty queries
+recorded through available search tool; no target page returned in that limited
+result set. This does not override account indexing receipts or establish rank.
+GitHub public profile name/bio are blank; sameAs URL is consistent. Live resume
+matches repository SHA256 f7a88e9bf5c3850a8a7d78586a60b21584a497430817eb85bf35a3627dd9f463
+(116046 bytes); separate unshipped resume optimization is not part of this change.
+
+Single mobile Lighthouse 13.5 runs: Home performance82/accessibility100/SEO100,
+LCP3.2s/TBT280ms/CLS0; journal performance90/accessibility100/SEO100,
+LCP2.8s/TBT180ms/CLS0. No comparable before run/field CWV or ranking gain claimed.
+Full suite compilation limitation below remains open, as do indexing/measurement
+follow-up and SCRUM-147 routing. No Done transition. Creative Town remains paused.
+Evidence in chat workspace work/scrum-139 and outputs/scrum-139; Jira receives
+the complete durable audit/production receipt. This follow-up changes notes only.
+
+
+
 ## SCRUM-139 SEO audit/corrections — October 27
 
 Work order 10195 executed against main 5cbb6ef and live production. Existing
