@@ -58,6 +58,7 @@ test('built hints and inline CSS are idempotent and preload only the requested p
     await preparePublicRender(dir);
     const csr = await readFile(join(dir, 'browser', 'index.csr.html'), 'utf8');
     assert.equal(csr.includes('data-public-styles'), true);
+    assert.match(csr, /name="robots" content="noindex, nofollow"/);
     assert.equal(csr.includes('data-home-artwork-preload'), false);
     assert.equal(csr.includes('<app-root></app-root>'), true);
     const first = await readFile(join(dir, 'browser', 'index.html'), 'utf8');

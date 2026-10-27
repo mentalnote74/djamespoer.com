@@ -24,9 +24,9 @@
         }
       </ul>
     </nav>
-    @if (selected(); as entry) {
+    @if (selected()?.brief; as brief) {
       <app-daily-scrum-brief
-        [brief]="entry.brief"
+        [brief]="brief"
         [showJournalLink]="false"
         headingId="journal-brief-heading"
       />

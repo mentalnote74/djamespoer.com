@@ -145,6 +145,13 @@ export async function preparePublicRender(
       `<app-root></app-root><noscript><main><p>404</p><h1>${NOT_FOUND.heading}</h1><p>${NOT_FOUND.description}</p><p><a href="/">Return to Home</a></p></main></noscript>`,
     );
   await writeFile(resolve(directory, 'browser', '404.html'), fallback);
+  // This internal bootstrap asset is already excluded by X-Robots-Tag; keep its
+  // HTML directive consistent before the router sets a real page's metadata.
+  await writeFile(
+    resolve(directory, 'browser', 'index.csr.html'),
+    clientShell.replace(/<meta\b[^>]*name="robots"[^>]*>/g,
+      '<meta name="robots" content="noindex, nofollow">'),
+  );
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   await preparePublicRender();

@@ -6,16 +6,11 @@ import {
   inject,
   input,
   signal,
+  TransferState,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DailyScrumBrief } from './daily-scrum-brief';
-import type { ScrumBrief } from './brief.model';
-interface Journal {
-  schemaVersion: 1;
-  latestDate: string;
-  correctionNote?: string;
-  entries: { date: string; generatedDate: string; publishedDate: string; brief: ScrumBrief }[];
-}
+import { Journal, journalPage, JOURNAL_STATE, PRERENDER_JOURNAL } from './journal.model';
 @Component({
   selector: 'app-product-journal',
   imports: [RouterLink, DailyScrumBrief],
@@ -31,6 +26,16 @@ export class ProductJournal {
   );
   private readonly abort = new AbortController();
   constructor() {
+    const transfer = inject(TransferState);
+    const history = inject(PRERENDER_JOURNAL, { optional: true });
+    if (history) {
+      const page = journalPage(history, inject(ActivatedRoute).snapshot.params['date']);
+      this.journal.set(page);
+      transfer.set(JOURNAL_STATE, page);
+    } else {
+      this.journal.set(transfer.get(JOURNAL_STATE, null));
+      transfer.remove(JOURNAL_STATE);
+    }
     inject(DestroyRef).onDestroy(() => this.abort.abort());
     afterNextRender(() => void this.load());
   }

@@ -1,5 +1,38 @@
 # AI Engineering Handoff
 
+## SCRUM-139 SEO audit/corrections — October 27
+
+Work order 10195 executed against main 5cbb6ef and live production. Existing
+52-route sitemap, unique titles/descriptions, absolute canonicals, semantic H1/main,
+public identity/profile relationships and small JSON-LD graphs were retained.
+robots.txt, private/test exclusions, Work redirect and genuine HTTP 404s checked.
+Sitemap/new journal routes already regenerate during prebuild; no fake lastmod.
+
+Corrected journal prerendering: every dated brief previously returned only Loading
+the journal in raw HTML. Server-only public JSON now supplies the existing Angular
+view. TransferState carries dates and only the selected brief; browser loading and
+archive navigation remain. No full archive in client JS, dependencies or copy edits.
+Internal CSR shell meta robots now agrees with its existing noindex HTTP header.
+
+Build passes, 52 prerenders, 473.67 kB initial / 118.29 kB estimated transfer;
+existing Rigby stylesheet warnings remain. Static checks cover 52 unique metadata
+sets, schema/canonicals, 26 journal entries and 149 published strings. Eight focused
+Angular tests and six Node SEO/render tests pass. Full unit suite cannot compile
+unchanged authored-studies.spec.ts (section evidence/items typing); not reported green.
+Chrome 1440/390 home/about/work-exl/journal: zero tested axe WCAG A/AA violations,
+horizontal overflow, missing img alt or page errors; archive route switching passes.
+
+Google DOMAIN property/sitemap retained, Success with 52 discovered; homepage URL
+is on Google/Page indexed. Bing existing sitemap Processing, zero errors/warnings;
+homepage Indexed successfully. Account inspection and final production release
+receipt continue in SCRUM-139. Search retrieval baseline is not a ranking claim.
+No ownership/DNS changes or private verification contents read/published.
+SCRUM-147 greeting fix was deployed as 5cbb6ef (receipt 10194); routing remains open.
+Creative Town remains paused; no Town/source-art changes. Preserve existing handoff
+history below (including pre-existing conflict markers); no unrelated cleanup.
+
+
+
 ## Greeting overlap investigation - October 27, local correction
 
 Reproduced at 1440/390 without long idle: kiss-camera retained opacity 1 at its
