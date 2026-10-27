@@ -1,47 +1,46 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "sections": [
     {
-      "heading": "Recently shipped",
+      "heading": "Implemented and reviewed",
       "paragraphs": [
-        "Rigby’s Biscuit Trail expanded from its first encounter into a sitewide cookie hunt with a delayed greeting. Follow-up releases added articulated sit, shake, beg, roll and jumping poses, corrected the drifting idle wag, and kept the mobile companion visible while allowing brief crossings of written content. The work makes the playful layer more expressive while retaining ordinary portfolio navigation as the primary experience.",
-        "The desktop header now keeps the logo and navigation on one line, with compact navigation used when the available width is too small. This resolves the visible wrapping problem without forcing desktop controls into narrow layouts."
+        "Rigby’s portfolio greeting now offers clearer play and dismissal choices, with a brief excited response and a stationary cookie that can reopen the invitation. The October 26 release was verified on desktop and mobile under reduced motion. A subsequent change on main removes the reserved roaming lane and turns Rigby toward cookies; that later integration is not reported here as independently verified in production."
       ]
     },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "The navigation release passed its production build, focused header checks and scoped accessibility checks across desktop and mobile widths. Those short-session checks did not establish long-idle reliability: James has now reported that desktop navigation stops responding after the site is left dormant. The defect is logged at high priority, with reproduction and root cause still unverified.",
-        "Today’s 9 AM editorial handoff did not produce a dated Jira payload. The configured authoring automation remained active, but the visible chat history contains yesterday’s successful wake and no corresponding execution for this morning. This late recovery supplies the missing narrative; it does not establish why the scheduled wake was missed or claim that publication has completed."
+        "The October 27 Executive Scrum Brief failed at the authoring handoff for a second consecutive day. No dated Jira payload was available when the publisher ran. All 13 tests passed, and the publisher stopped before publishing rather than substituting invented content. This late recovery records the missed delivery; the cause of the missed scheduled authoring execution remains unverified.",
+        "The reported desktop navigation failure after inactivity remains unresolved in the current Jira record. Fresh-page and short-session checks cannot establish idle reliability, so the earlier successful checks do not close that defect."
       ]
     },
     {
       "heading": "Current focus",
       "paragraphs": [
-        "The immediate reliability concern is the newly reported desktop navigation failure after inactivity. Investigation needs to capture the idle interval, browser state, input behavior and any blocking layer or application error before selecting a fix.",
-        "Creative Town is progressing through independent character review rather than a town-runtime release. The owner is correcting likeness, costume, expression and relative scale, reusing verified source artwork where possible, and distinguishing finished drafts from rejected or unresolved requests. Rigby remains the mayor and sole fully interactive character."
+        "Creative Town has reached local character sizing and review, with reusable artwork, source attribution and explicit approval tracked separately. Its work is now paused by owner direction. The local sizing scene and accumulated character drafts are not a shipped town experience.",
+        "The immediate delivery focus is restoring the existing editorial handoff: one verified daily narrative in Jira, followed by the established publisher. Recovery must preserve the historical record and avoid adding another reporting pipeline."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Reproduce and resolve the idle-navigation defect, then verify the affected idle and background-tab conditions rather than relying only on fresh-page checks. Recover this morning’s missed authoring handoff through the existing Jira-to-publisher path, and confirm the next scheduled execution. Continue the character-review corrections with consistent relative scale; do not treat the asset catalog or illustration drafts as a shipped town scene."
+        "Establish why scheduled authoring missed its deadline and verify the next execution by its saved Jira payload. Reproduce the desktop navigation defect under idle and background-tab conditions before choosing a fix. Resume Creative Town only on renewed owner direction, starting from the saved sizing and review work."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "8b8cd80350246b1c917e210c0a65083de2ece2e3",
-    "generatorCommit": "8b8cd80350246b1c917e210c0a65083de2ece2e3",
-    "evidenceSha256": "eedb11eedd6b90ece5445f77da523db7ab70e2f15f16e2dc27096bb05eca68d5",
+    "sourceCommit": "a51b046c716356aff9c6201d4b5817dcd6009d08",
+    "generatorCommit": "a51b046c716356aff9c6201d4b5817dcd6009d08",
+    "evidenceSha256": "f63e9745f6cfdfb690644e22963410de4e69b4e4e7fbab2f8c2836a19a2599d1",
     "method": "ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.",
     "reportingWindow": {
-      "after": "2026-10-25T09:04:34.607-0400",
-      "cutoff": "2026-10-26T11:55:35.509-0400"
+      "after": "2026-10-26T11:55:35.509-0400",
+      "cutoff": "2026-10-27T16:12:40.466-0400"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10177"
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10189"
     ]
   }
 };
