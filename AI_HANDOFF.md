@@ -1,5 +1,39 @@
 # AI Engineering Handoff
 
+## SCRUM-141 corrective production receipt — October 28
+
+Code bdef63c8a4d9c1ce396f23dad07f0c9612730fdd deployed through existing main/Workers
+Builds: e4905a62-f3be-421b-8dc7-7d7a7add66e7, check 122683073949 success,
+Worker version 0d33005c-1510-4401-8840-a429310842d6. This corrects the bootstrap
+page-location precedence found while verifying initial c113671 release below.
+Final production Chrome 1440/390: exact initial/header/Back page-view counts,
+accurate titles/paths, one carousel CTA with bounded slide/destination/placement.
+Actual GA collection requests carry those values; no duplicate views observed.
+One resumed operator verification per resume/contact/GitHub action confirms both
+standard page_location and source_page are /about. Native actions prevented; no
+email sent, profile opened, reading/download completion or paid evaluation claimed.
+All operator activity is campaign operator / verification / scrum141; exclude from
+visitor conclusions. Fixture lifecycle verification remained offline/intercepted.
+
+GAreports: earlier ordinary reports contain existing high-value events; new Realtime
+queries remain empty despite collection requests. New report receipt/filtering is
+not established. Three required key events saved/read back; six custom dimensions
+remain absent (API verified), with native account UI geometry failures preventing
+registration/stream-setting read-back. Current live collection shows no duplicate
+history views; do not claim the stream setting itself was changed or verified.
+Viewing instructions and exact remaining dimension names are in the telemetry doc.
+
+Search follow-through: refreshed Bing sitemap Success/52 discovered. Google's
+existing Oct27 journal Index result still Discovered-currently-not-indexed; live
+test says available. No repeat submission/request. Further representative input
+checks blocked by native UI geometry; earlier Home/About indexed is prior evidence,
+not a newly verified status. No registration/SEO audit repeated.
+Private evidence/90-day boundaries and billing/live-success limits remain below.
+Jira receives the full durable release report; story remains open. Creative Town
+paused, SCRUM-147 idle navigation separate, unrelated work preserved. Notes only.
+
+
+
 ## SCRUM-141 release verification checkpoint — October 28
 
 Initial release c1136711884184f368134a935dcb5b4bb9344dc0 passed main/Cloudflare:
