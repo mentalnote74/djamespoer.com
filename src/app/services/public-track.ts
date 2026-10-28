@@ -59,9 +59,7 @@ export class PublicTrack {
             page,
           );
         }
-        const slide = this.trackSlide();
-        if (slide && route !== '/other')
-          this.analytics.track('carousel_cta_click', { location, slide, destination: route }, page);
+        // The shared route-link listener records carousel context once for every registered slide.
       } else {
         // Profile types only, never send handles, full URLs or queries. Repositories are not profiles.
         if (target.hostname === 'www.linkedin.com' && /^\/in\/[^/]+\/?$/.test(target.pathname))

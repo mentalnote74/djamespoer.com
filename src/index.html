@@ -67,7 +67,22 @@
           window.dataLayer.push(arguments);
         };
         window.gtag('js', new Date());
-        window.gtag('config', 'G-WQBYGF4Z8F');
+        // Angular owns page_view after completed navigation; GA history measurement is disabled.
+        // Configuration never forwards the browser's arbitrary query/fragment or full referrer.
+        let referrer = '';
+        try { referrer = document.referrer ? new URL(document.referrer).origin + '/' : ''; } catch {}
+        const campaign = {};
+        for (const [query, parameter] of [['utm_source','campaign_source'], ['utm_medium','campaign_medium'],
+          ['utm_campaign','campaign_name'], ['utm_content','campaign_content'], ['utm_term','campaign_term']]) {
+          const value = new URLSearchParams(window.location.search).get(query);
+          if (value && /^[a-zA-Z0-9_.-]{1,80}$/.test(value)) campaign[parameter] = value;
+        }
+        window.gtag('config', 'G-WQBYGF4Z8F', {
+          ...campaign,
+          send_page_view: false,
+          page_location: window.location.origin + '/',
+          page_referrer: referrer,
+        });
 
         // Keep third-party startup off the rendering path; clicks can queue before it loads.
         const loadAnalytics = () => {

@@ -1,5 +1,30 @@
 # AI Engineering Handoff
 
+## SCRUM-141 lean attribution pass — October 28
+
+Preserved current work and Creative Town pause. Existing GA acquisition/high-value
+events retained; bounded public route-link context and completed-navigation page
+views now reuse PublicAnalytics. Registry covers all public articles/journal dates;
+queries/fragments/private IDs are excluded, external campaign slugs retained.
+Header/carousel/in-page/Rigby context is separate from acquisition; history means
+Back/Forward popstate combined. No dependencies, new framework or depth tracking.
+About profile hooks added; private evaluator/retention transport unchanged.
+
+Prior 19 focused analytics/evaluator tests and four startup tests passed; after
+the return-from-nonpublic-route correction, the affected 15 analytics tests pass.
+Prior intercepted desktop/mobile route/CTA/high-value/lifecycle checks pass with
+zero paid requests. Final build and production release receipt belong in SCRUM-141.
+GA saved/read-back: resume_download, contact_click, evaluation_completed key events.
+Native account UI geometry failures leave custom dimensions/stream settings and
+fresh Search Console/Bing follow-up unverified; do not recreate registrations.
+Instructions and required six event dimensions: docs/thingamajob-telemetry.md.
+Private production SELECTs wrote zero rows: only the prior operator fixture, fixed
+7,776,000-second retention, no genuine success/provider usage; cleanup cron and R2
+prefix-only 90-day expiry verified. No billing attribution or marketing published.
+Story remains open; SCRUM-147 routing remains separate and open.
+
+
+
 ## SCRUM-139 production receipt — October 27
 
 Code release ad438351d65f7817b455c6a8c990e29139dfdddd passed existing main/Workers

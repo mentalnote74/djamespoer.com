@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 const html = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
-const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+const script = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]).find(s => s.includes('G-WQBYGF4Z8F'));
 class Element {
   constructor(href, zone = 'content', download = false) {
     Object.assign(this, { href, zone, download });
@@ -22,6 +22,7 @@ function load(url = 'https://djamespoer.com/', storage = new Map()) {
   let idle;
   const context = {
     Date,
+    matchMedia: () => ({ matches: false }),
     URL,
     URLSearchParams,
     Element,
@@ -90,4 +91,14 @@ test('internal marker suppresses GA before configuration and persists until expl
   assert.equal(load('https://djamespoer.com/?internal=1', storage).context.dataLayer, undefined);
   assert.equal(load('https://djamespoer.com/thingamajob', storage).context.dataLayer, undefined);
   assert.equal(load('https://djamespoer.com/?internal=0', storage).context.dataLayer.length, 2);
+});
+
+test('one page-view owner and safe external campaigns, without arbitrary browser data', () => {
+  const f=load('https://djamespoer.com/about?utm_source=linkedin&utm_medium=social&utm_campaign=good-enough&email=hidden@example.invalid#private');
+  const config=Array.from(f.context.dataLayer[1])[2];
+  assert.equal(config.send_page_view,false);
+  assert.equal(config.campaign_source,'linkedin');
+  assert.equal(config.campaign_name,'good-enough');
+  assert.equal(config.page_location,'https://djamespoer.com/');
+  assert.doesNotMatch(JSON.stringify(config),/hidden|@|private|email/);
 });
