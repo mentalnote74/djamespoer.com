@@ -1,46 +1,48 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-10-27",
+  "date": "2026-10-28",
   "sections": [
     {
-      "heading": "Implemented and reviewed",
+      "heading": "Recently shipped",
       "paragraphs": [
-        "Rigby’s portfolio greeting now offers clearer play and dismissal choices, with a brief excited response and a stationary cookie that can reopen the invitation. The October 26 release was verified on desktop and mobile under reduced motion. A subsequent change on main removes the reserved roaming lane and turns Rigby toward cookies; that later integration is not reported here as independently verified in production."
+        "The portfolio’s published Product Journal is now readable in the initial page HTML, including each dated brief and its archive links. The release preserves the historical wording while making that evidence available before JavaScript runs. A production redirect also consolidates plain HTTP visits onto the corresponding HTTPS address, reducing duplicate delivery without changing the site’s content.",
+        "Public analytics now follows completed page journeys and distinguishes header navigation, carousel links and other meaningful entry points. A production correction keeps action locations aligned with the page actually visited. Résumé, contact and completed-evaluation events are configured as key events, giving the measurement model a clearer separation between browsing and high-value intent."
       ]
     },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "The October 27 Executive Scrum Brief failed at the authoring handoff for a second consecutive day. No dated Jira payload was available when the publisher ran. All 13 tests passed, and the publisher stopped before publishing rather than substituting invented content. This late recovery records the missed delivery; the cause of the missed scheduled authoring execution remains unverified.",
-        "The reported desktop navigation failure after inactivity remains unresolved in the current Jira record. Fresh-page and short-session checks cannot establish idle reliability, so the earlier successful checks do not close that defect."
+        "The discoverability release was checked across all 52 sitemap URLs, with focused desktop, mobile and accessibility checks. Google reports Home and About indexed, while the latest inspected journal entry remains discovered but not indexed despite a successful live eligibility test. Bing’s sitemap has since reached Success with 52 discovered URLs. Crawl eligibility and sitemap acceptance do not establish ranking gains.",
+        "Production analytics requests show the expected page counts and distinct navigation context in representative desktop and mobile journeys. New Realtime queries still returned no rows, and the reporting dimensions needed for richer context remain unconfigured. Verified collection therefore does not yet establish complete reporting readiness or visitor conversion outcomes.",
+        "The 9 AM editorial handoff missed another day: no October 28 authored payload was present in Jira when this recovery began. The existing authoring automation was still attached to a chat with interrupted authoring runs. Its destination has now been moved to a dedicated brief chat; that configuration change does not establish the cause of today’s missed wake or prove the next unattended execution will succeed."
       ]
     },
     {
       "heading": "Current focus",
       "paragraphs": [
-        "Creative Town has reached local character sizing and review, with reusable artwork, source attribution and explicit approval tracked separately. Its work is now paused by owner direction. The local sizing scene and accumulated character drafts are not a shipped town experience.",
-        "The immediate delivery focus is restoring the existing editorial handoff: one verified daily narrative in Jira, followed by the established publisher. Recovery must preserve the historical record and avoid adding another reporting pipeline."
+        "Measurement follow-through is the active delivery gap: finish the bounded reporting configuration, verify new report receipt and continue search-indexing follow-up. Thingamajob’s private audit trail retains its privacy and retention boundaries; genuine production-success metadata and billed-cost reconciliation remain unverified.",
+        "Creative Town’s renewed overnight asset pass has reached a saved review checkpoint. Independent drafts remain distinct from approved production assets, blocked references remain explicit, and the queue is paused while awaiting review or new actionable sources. The reported navigation failure after retained-tab inactivity also remains open; fresh-page checks do not close it."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Establish why scheduled authoring missed its deadline and verify the next execution by its saved Jira payload. Reproduce the desktop navigation defect under idle and background-tab conditions before choosing a fix. Resume Creative Town only on renewed owner direction, starting from the saved sizing and review work."
+        "Register and verify the missing reporting dimensions, confirm processed acquisition-to-page-to-action evidence, and inspect indexing progress without treating operator checks as visitor behavior. Reproduce the retained-tab navigation defect under the reported conditions. Review the saved Creative Town drafts before further production use, and judge the next 9 AM authoring run by its actual verified Jira payload."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "a51b046c716356aff9c6201d4b5817dcd6009d08",
-    "generatorCommit": "a51b046c716356aff9c6201d4b5817dcd6009d08",
-    "evidenceSha256": "f63e9745f6cfdfb690644e22963410de4e69b4e4e7fbab2f8c2836a19a2599d1",
+    "sourceCommit": "ba0676b92f81d338cc3b34d3e1fed42f6494e9dd",
+    "generatorCommit": "ba0676b92f81d338cc3b34d3e1fed42f6494e9dd",
+    "evidenceSha256": "d4aa1c2677f9b0d784d0e6c3f702f7efbdc9d957ee7381d19a4cb1a1b7b4ca09",
     "method": "ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.",
     "reportingWindow": {
-      "after": "2026-10-26T11:55:35.509-0400",
-      "cutoff": "2026-10-27T16:12:40.466-0400"
+      "after": "2026-10-27T16:12:40.466-0400",
+      "cutoff": "2026-10-28T10:16:03.972-0400"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10189"
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10202"
     ]
   }
 };
