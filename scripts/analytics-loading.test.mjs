@@ -63,7 +63,7 @@ function load(url = 'https://djamespoer.com/', storage = new Map()) {
 }
 test('keeps the same GA configuration and deferred rendered-readiness loading', () => {
   const f = load();
-  assert.equal(f.context.dataLayer.length, 2);
+  assert.equal(f.context.dataLayer.length, 3);
   assert.equal(f.appended.length, 0);
   assert.equal(f.clicks.size, 0, 'custom events now use explicit typed Angular hooks');
   f.listeners.get('portfolio-ready')();
@@ -84,21 +84,22 @@ test('only production hosts initialize analytics', () => {
     assert.equal(f.context.dataLayer, undefined);
     assert.equal(f.clicks.size, 0);
   }
-  assert.equal(load('https://www.djamespoer.com/').context.dataLayer.length, 2);
+  assert.equal(load('https://www.djamespoer.com/').context.dataLayer.length, 3);
 });
 test('internal marker suppresses GA before configuration and persists until explicitly cleared', () => {
   const storage = new Map();
   assert.equal(load('https://djamespoer.com/?internal=1', storage).context.dataLayer, undefined);
   assert.equal(load('https://djamespoer.com/thingamajob', storage).context.dataLayer, undefined);
-  assert.equal(load('https://djamespoer.com/?internal=0', storage).context.dataLayer.length, 2);
+  assert.equal(load('https://djamespoer.com/?internal=0', storage).context.dataLayer.length, 3);
 });
 
 test('one page-view owner and safe external campaigns, without arbitrary browser data', () => {
   const f=load('https://djamespoer.com/about?utm_source=linkedin&utm_medium=social&utm_campaign=good-enough&email=hidden@example.invalid#private');
-  const config=Array.from(f.context.dataLayer[1])[2];
+  const config=Array.from(f.context.dataLayer).map(a=>Array.from(a)).find(a=>a[0]==='config')[2];
   assert.equal(config.send_page_view,false);
   assert.equal(config.campaign_source,'linkedin');
   assert.equal(config.campaign_name,'good-enough');
-  assert.equal(config.page_location,'https://djamespoer.com/');
+  assert.equal(config.page_location,undefined);
+  assert.equal(Array.from(f.context.dataLayer[1])[1].page_location,'https://djamespoer.com/');
   assert.doesNotMatch(JSON.stringify(config),/hidden|@|private|email/);
 });

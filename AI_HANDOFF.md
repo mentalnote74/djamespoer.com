@@ -1,5 +1,32 @@
 # AI Engineering Handoff
 
+## SCRUM-141 release verification checkpoint — October 28
+
+Initial release c1136711884184f368134a935dcb5b4bb9344dc0 passed main/Cloudflare:
+build 962cf3d9-9bdd-4a21-96e5-d428b86de67d, check 122676947248,
+Worker version 63599e13-1fc4-4e86-881f-460385904134. Live desktop/mobile
+collection has exactly three page views for initial/header/Back and two for
+Home/carousel destination; header vs carousel and slide context are distinct.
+GA batches events; the first short transport assertion was retried with normal
+batching time and passed. No paid evaluations or production input submissions.
+
+Live high-value checks exposed config-scoped page_location=/ overriding later
+global updates on action events. This follow-up moves bootstrap safe defaults to
+global set before config, preserving sanitization while allowing route updates.
+Four affected startup tests and build pass (476.68 kB / 119.72 kB estimated transfer,
+52 prerenders, existing stylesheet warnings). Final action-path verification and
+the follow-up release receipt will be recorded in SCRUM-141.
+
+Bing refreshed: sitemap Success, 52 discovered. Google journal live-test result
+still says URL available to Google; this is not indexed proof. Native browser
+geometry errors prevent the requested additional inspection inputs/custom GA
+dimensions/stream-settings receipt. GA custom-dimensions API confirms none saved.
+Required key events were saved/read back earlier. Fresh GA Realtime returned no
+rows despite collection requests: distinguish production transport from report
+receipt; no claimed new report data, visitor outcomes or usefulness.
+
+
+
 ## SCRUM-141 lean attribution pass — October 28
 
 Preserved current work and Creative Town pause. Existing GA acquisition/high-value

@@ -77,12 +77,10 @@
           const value = new URLSearchParams(window.location.search).get(query);
           if (value && /^[a-zA-Z0-9_.-]{1,80}$/.test(value)) campaign[parameter] = value;
         }
-        window.gtag('config', 'G-WQBYGF4Z8F', {
-          ...campaign,
-          send_page_view: false,
-          page_location: window.location.origin + '/',
-          page_referrer: referrer,
-        });
+        // Global defaults can be updated by Angular; config-scoped defaults would
+        // override later set calls and incorrectly pin action events to Home.
+        window.gtag('set', { page_location: window.location.origin + '/', page_referrer: referrer });
+        window.gtag('config', 'G-WQBYGF4Z8F', { ...campaign, send_page_view: false });
 
         // Keep third-party startup off the rendering path; clicks can queue before it loads.
         const loadAnalytics = () => {

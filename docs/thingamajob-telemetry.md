@@ -100,3 +100,9 @@ Missing follow-through does not prove abandonment. GA is not session replay.
 No paid evaluation was run; completed/result-view code paths use intercepted
 fictional fixtures. The new production ledger only held the prior marked operator
 fixture at inspection. Provider success/usage and billed USD remain unverified.
+
+Production verification note: bootstrap page defaults use global set, not fixed
+config-scoped page_location; otherwise later route set calls lose precedence.
+Bing follow-through now shows sitemap Success with 52 discovered URLs. Fresh GA
+Realtime was empty despite observed production collection; do not label transport
+verification as confirmed new report receipt.
