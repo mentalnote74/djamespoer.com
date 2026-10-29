@@ -1,73 +1,174 @@
 import { TestBed } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { Bedlam } from './bedlam';
-import { bedlamThemePalette, createBedlam } from './engine';
-describe('seeded Bedlam recipe', () => {
-  it('repeats identical inputs and distinguishes seeds and instance configurations', () => {
-    const a = createBedlam(bedlamThemePalette, 'one');
-    expect(createBedlam(bedlamThemePalette, 'one')).toEqual(a);
-    expect(createBedlam(bedlamThemePalette, 'two')).not.toEqual(a);
-    expect(
-      createBedlam(bedlamThemePalette, 'one', { symmetry: 1, density: 1, depth: 0 }),
-    ).not.toEqual(a);
-    expect(a.some((layer) => layer.kind === 'particles')).toBe(false);
-  });
-  it('toggles modules without changing retained slots and bounds particles/numerical inputs', () => {
-    const a = createBedlam(bedlamThemePalette, 42);
-    expect(createBedlam(bedlamThemePalette, 42, { layers: { rings: false } })).toEqual(
-      a.filter((x) => x.kind !== 'rings'),
-    );
-    const extreme = createBedlam(bedlamThemePalette, 42, {
-      particles: true,
-      particleCount: 10000,
-      density: 100,
-      scale: Infinity,
-      turbulence: NaN,
-      positionX: 900,
-    });
-    expect(extreme.filter((x) => x.kind === 'particles')).toHaveLength(24);
-    expect(JSON.stringify(extreme)).not.toMatch(/NaN|Infinity/);
-    expect(extreme.length).toBeLessThanOrEqual(32);
-  });
-  it('accepts distinct palettes while rejecting non-color CSS payloads', () => {
-    expect(
-      createBedlam({ primary: '#ff9900', secondary: '#33bbff', accent: '#fff' }, 1),
-    ).not.toEqual(createBedlam(bedlamThemePalette, 1));
-    expect(() =>
-      createBedlam({ ...bedlamThemePalette, primary: 'url(https://example.com)' }, 1),
-    ).toThrow();
-  });
+import { Algorithm, bounded, presentation, select } from './contract';
+import { pool } from './pool';
+import { startBedlam } from './runtime';
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
-describe('Bedlam presentation', () => {
-  it('renders decorative 2D layers and preserves the canonical identity without canvas', () => {
-    const f = TestBed.createComponent(Bedlam);
-    f.detectChanges();
-    expect(f.nativeElement.querySelector('canvas')).toBeNull();
-    expect(f.nativeElement.querySelectorAll('.bedlam__layer').length).toBe(6);
-    expect(f.nativeElement.querySelector('.bedlam').getAttribute('aria-hidden')).toBe('true');
-    expect(f.nativeElement.querySelector('.bedlam__mask')).not.toBeNull();
-    f.componentInstance.paused.set(true);
-    f.detectChanges();
-    expect(f.nativeElement.querySelector('.bedlam').style.getPropertyValue('--bedlam-motion')).toBe(
-      'paused',
-    );
-    f.destroy();
+
+describe('BEDLAM cartridges and slots', () => {
+  it('uses the approved fixed v1 stack', () => {expect(pool.map(model=>model.id)).toEqual(['point-vortex','curl-noise','physarum']);});
+  it('routes mask channels by slot and clamps hostile numerical chatter', () => {
+    expect(bounded({ x: NaN, y: -5, energy: Infinity })).toEqual({ x: 0, y: 0, energy: 0 });
+    const raw = { x: 2, y: -1, energy: 5 };
+    expect(presentation('A', raw)['--mask-color']).toBeDefined();
+    expect(presentation('A', raw)['--mask-opacity']).toBeUndefined();
+    expect(presentation('B', raw)['--mask-opacity']).toBe('1');
+    expect(presentation('C', raw)['--mask-depth']).toBe('4px');
+    expect(presentation('B', { x: 0, y: 0, energy: 0 })['--mask-opacity']).toBe('0.9');
   });
-  it('keeps instances independent and regenerates only for recipe input changes', () => {
-    const a = TestBed.createComponent(Bedlam),
-      b = TestBed.createComponent(Bedlam);
-    a.detectChanges();
-    b.detectChanges();
-    const original = b.componentInstance.layers();
-    a.componentRef.setInput('seed', 'independent');
-    a.componentRef.setInput('config', { particles: true, particleCount: 3 });
-    a.detectChanges();
-    expect(a.componentInstance.layers()).not.toEqual(original);
-    expect(b.componentInstance.layers()).toBe(original);
-    b.componentInstance.paused.set(true);
-    b.detectChanges();
-    expect(b.componentInstance.layers()).toBe(original);
-    a.destroy();
-    b.destroy();
+  it('keeps every canvas slot transparent at both energy bounds', () => {
+    for (const slot of ['A', 'B', 'C'] as const) {
+      expect(presentation(slot, { x: 0.5, y: 0.5, energy: 0 })['--layer-opacity']).toBe('0.15');
+      expect(presentation(slot, { x: 0.5, y: 0.5, energy: 1 })['--layer-opacity']).toBe('0.25');
+    }
+  });
+  for (const algorithm of pool) {
+    it(`${algorithm.id} evolves independently with bounded chatter`, () => {
+      let seed = 21;
+      const random = () => {
+        seed = (seed * 1664525 + 1013904223) >>> 0;
+        return seed / 4294967296;
+      };
+      const first = algorithm.create(24, 12, random),
+        second = algorithm.create(24, 12, random);
+      const untouched = second.chatter();
+      for (let i = 0; i < 100; i++) first.step();
+      expect(second.chatter()).toEqual(untouched);
+      for (const value of Object.values(first.chatter())) {
+        expect(value).toBeGreaterThanOrEqual(0);
+        expect(value).toBeLessThanOrEqual(1);
+      }
+      first.destroy();
+      second.destroy();
+    });
+  }
+});
+
+describe('BEDLAM lifecycle', () => {
+  it('forwards live pause and speed changes to an initialized runtime and tears down', async () => {
+    const configure = vi.fn(),
+      destroy = vi.fn();
+    vi.stubGlobal('matchMedia', () => ({
+      matches: true,
+      addEventListener() {},
+      removeEventListener() {},
+    }));
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null);
+    const fixture = TestBed.createComponent(Bedlam);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    await vi.waitFor(() => expect(Reflect.get(fixture.componentInstance, 'runtime')).toBeDefined());
+    // Replace the initialized platform boundary, not ES-module exports.
+    Reflect.set(fixture.componentInstance, 'runtime', { configure, destroy });
+    fixture.componentInstance.paused.set(true);
+    fixture.componentRef.setInput('speed', 0.01);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(configure).toHaveBeenLastCalledWith(0.01, true);
+    fixture.destroy();
+    expect(destroy).toHaveBeenCalledOnce();
+  });
+  function setup(reduced = false) {
+    let callback: FrameRequestCallback | undefined;
+    let intersection: IntersectionObserverCallback | undefined;
+    const media = new EventTarget();
+    Object.defineProperty(media, 'matches', { value: reduced, writable: true });
+    vi.stubGlobal('matchMedia', () => media);
+    vi.stubGlobal(
+      'requestAnimationFrame',
+      vi.fn((fn: FrameRequestCallback) => {
+        callback = fn;
+        return 1;
+      }),
+    );
+    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+    const disconnect = vi.fn();
+    vi.stubGlobal(
+      'IntersectionObserver',
+      class {
+        constructor(fn: IntersectionObserverCallback) {
+          intersection = fn;
+        }
+        observe() {}
+        disconnect = disconnect;
+      },
+    );
+    const created = Array.from({ length: 3 }, () => ({
+      step: vi.fn(),
+      draw: vi.fn(),
+      chatter: () => ({ x: 0.4, y: 0.6, energy: 0.5 }),
+      destroy: vi.fn(),
+    }));
+    const registry = created.map((cartridge, i) => ({
+      id: `test-${i}`,
+      create: vi.fn(() => cartridge),
+    }));
+    const canvases = Array.from({ length: 3 }, () => {
+      const canvas = document.createElement('canvas');
+      vi.spyOn(canvas, 'getContext').mockReturnValue({} as CanvasRenderingContext2D);
+      return canvas;
+    });
+    const runtime = startBedlam(document.createElement('span'), canvases, registry);
+    return {
+      runtime,
+      created,
+      registry,
+      media,
+      disconnect,
+      tick: (time: number) => callback?.(time),
+      hide: () =>
+        intersection?.(
+          [{ isIntersecting: false }] as IntersectionObserverEntry[],
+          {} as IntersectionObserver,
+        ),
+    };
+  }
+  it('initializes only three, advances only selected cartridges and destroys all active state', () => {
+    const s = setup();
+    expect(s.registry.filter((item) => item.create.mock.calls.length)).toHaveLength(3);
+    s.runtime.configure(1, false);
+    s.tick(100);
+    s.tick(200);
+    s.tick(300);
+    s.tick(400);
+    expect(s.created.filter((item) => item.step.mock.calls.length)).toHaveLength(3);
+    s.runtime.configure(0, true);
+    s.runtime.destroy();
+    expect(s.created.filter((item) => item.destroy.mock.calls.length)).toHaveLength(3);
+    expect(s.disconnect).toHaveBeenCalled();
+  });
+  it('does not schedule motion for reduced-motion users', () => {
+    const s = setup(true);
+    expect(requestAnimationFrame).not.toHaveBeenCalled();
+    s.runtime.destroy();
+  });
+  it('cancels motion on pause, invisibility and changed reduced-motion preference', () => {
+    const s = setup();
+    s.runtime.configure(0.01, true);
+    expect(cancelAnimationFrame).toHaveBeenCalled();
+    s.runtime.configure(0.12, false);
+    s.hide();
+    (s.media as unknown as { matches: boolean }).matches = true;
+    s.media.dispatchEvent(new Event('change'));
+    s.runtime.destroy();
+    expect(cancelAnimationFrame).toHaveBeenCalled();
+  });
+  it('renders three decorative layers with the static identity preserved', async () => {
+    vi.stubGlobal('matchMedia', () => ({
+      matches: true,
+      addEventListener() {},
+      removeEventListener() {},
+    }));
+    const fixture = TestBed.createComponent(Bedlam);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelectorAll('canvas')).toHaveLength(3);
+    expect(fixture.nativeElement.querySelector('.bedlam').getAttribute('aria-hidden')).toBe('true');
+    expect(fixture.nativeElement.querySelector('.bedlam__mask')).not.toBeNull();
+    fixture.destroy();
   });
 });

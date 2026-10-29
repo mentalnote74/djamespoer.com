@@ -1,5 +1,12 @@
 # AI Engineering Handoff
 
+## Approved Bedlam v1 production restoration — October 28
+
+Owner explicitly approved deployment of the historical v1 toolbar preview after tuning. Restore original numerical/rendering rules with fixed immutable mask and no model-controlled mask/theme colors. Three fixed models reproduce approved seed 712: point-vortex, curl-noise, Physarum. Speed .74 (about 6.2x original .12), original layer opacity multiplied by 3. Light field spans navbar, strongest near logo and fading transparent by 66%; mobile adds vertical fade above expanded menu. Dark themes retain field inside exact canonical SVG. No added CSS spins, libraries or prototype controls. Runtime remains lazy, reduced-motion/offscreen/hidden-document pauses and static fallback retained. Latest source base 449e340 preserves today's publication and recent analytics/Rigby work.
+
+Verification: npm run build passed, initial 465.78 kB / estimated transfer 116.16 kB; existing Rigby stylesheet warning budgets remain. Bedlam 11 and header 15 tests passed. App suite has the same 18 failures on changed and unchanged production baseline; whole suite also hits existing authored-studies.spec.ts evidence/items type errors. No full-suite pass claimed. Canonical SVG hash test passed; deterministic 1,200-frame test matches approved original v1 rasters/particle commands/layer styles at .74. Local actual-site desktop and 390px mobile navigation, dark mask clipping verified; header axe 0 violations / 16 passing rules. Release is authorized via main/Workers Builds; deployment receipt to follow.
+
+
 ## SCRUM-141 corrective production receipt — October 28
 
 Code bdef63c8a4d9c1ce396f23dad07f0c9612730fdd deployed through existing main/Workers
