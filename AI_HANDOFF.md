@@ -1,5 +1,26 @@
 # AI Engineering Handoff
 
+## SCRUM-148 production receipt — October 29
+
+Owner-approved dances released through existing main/Workers Builds. Release
+c380f8edf62a0689a7dbfdbb35fabe91884bb5aa (implementation4e70380), build
+75de8401-c4c1-4067-b0ca-ec85e7393d93, GitHub check123349372000 success;
+deployment2b23a999-6715-4598-9ca7-435bd792b9ff, Worker
+7ec11436-03d8-4130-930a-ba4ed775b113 at100%, October29 08:47:49Z.
+Live atlas is63,536bytes and exactly matches approved SHA256 in the provenance doc.
+
+Live Chrome1440: home top-rock, About breakdance and EXL blue transformation
+all dispatched on collection with one192px envelope, clean completion and no
+duplicate replay. Chrome390:64px avatar and homepage dance128px envelope verified.
+About/EXL mobile collection succeeded but dance skipped: read-only live whitespace
+diagnostic found no128px safe slot. This is the explicit content-safety fallback,
+not a lost collection. Greeting reopen hid the companion at both widths. Audition
+controls absent even with preview query; jar restoration did not fake rewards.
+Verification used isolated browser storage, blocked GA collection and no paid
+evaluation. Real Android long-idle behavior remains unverified; SCRUM-147 stays open.
+No Bedlam or Creative Town changes; Town remains paused. Local14 tests/build and
+full13-audition checks remain applicable; no unrelated full-suite pass is claimed.
+
 ## SCRUM-148 cookie dances — October 29, local audition
 
 Owner approved first implementation as "good enough" on October 29, Jira comment

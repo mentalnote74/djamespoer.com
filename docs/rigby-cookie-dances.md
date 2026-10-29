@@ -1,5 +1,16 @@
 # Rigby cookie dance preview — SCRUM-148
 
+Production release: c380f8edf62a0689a7dbfdbb35fabe91884bb5aa through Workers Build
+75de8401-c4c1-4067-b0ca-ec85e7393d93; check123349372000 succeeded. Worker version
+7ec11436-03d8-4130-930a-ba4ed775b113 at100%; deployment
+2b23a999-6715-4598-9ca7-435bd792b9ff. Live atlas hash matches the provenance below.
+Production Chrome1440 verified home/About/EXL collection dances, completion and
+duplicate protection. Chrome390 verified home collection dance; About/EXL saved
+collections but skipped animation because no128px whitespace slot fit. Greeting
+exclusivity, unchanged64px mobile sizing and absence of production audition controls
+verified at both widths. These are isolated Chrome checks, not real Android idle
+reproduction; no paid evaluations or visitor analytics were generated.
+
 Local-only implementation on `feature/rigby-cookie-dances`, based on `f54e107`.
 Owner authorized production release October29 through the existing main/Workers
 Builds pipeline. Creative Town remains paused; Bedlam and SCRUM-141/147 are unchanged.
