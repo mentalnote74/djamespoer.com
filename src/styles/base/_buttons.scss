@@ -63,3 +63,18 @@ button {
 a:has(> .action-icon) {
   gap: 0.5rem;
 }
+
+// Interactive character art keeps native button/keyboard semantics without chrome.
+button.character-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  &:is(:hover, :active):not(:disabled):not([aria-disabled='true']) {
+    border-color: transparent;
+    background: transparent;
+    color: inherit;
+    box-shadow: none;
+  }
+}

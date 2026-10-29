@@ -34,3 +34,19 @@ The accepted audit baseline and fresh production artifacts use the same extracti
 | Combined gzip comparison bytes             |  2,311 |  2,371 |
 
 The gzip comparison compresses concatenated extracted CSS; it is not an actual network-transfer measurement. The four width media blocks and one reduced-motion block remain unchanged. Hero and Smart Grid account for the component reduction; Carousel output is unchanged. The total CSS footprint is approximately unchanged, with clearer ownership rather than a claimed performance improvement.
+
+## Native accordion/disclosure
+
+Use `<details class="disclosure surface-card surface-raised">` with a native
+`<summary>`, an optional decorative `.disclosure-chevron` SVG, and a
+`.disclosure-content` body. Leave off `open` for the collapsed default.
+`components/_disclosure.scss` owns only header/body layout and open-state geometry.
+Existing surface classes own colors/radius/shadows; shared base styles own UI
+fonts, action icons and keyboard focus. No component-specific accordion chrome
+or JavaScript state is needed. Other native details remain unchanged until they
+opt in to this treatment.
+
+Transparent character art can use `.sprite-shadow`. Its `--sprite-shadow` filter
+is derived from the existing live light direction, blur, ink and opacity roles.
+Place it outside a facing/mirroring wrapper so cursor direction does not reverse
+the light source. It follows theme changes without another animation clock.

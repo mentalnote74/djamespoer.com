@@ -1,0 +1,39 @@
+@use 'sass:list';
+@use 'sass:map';
+@use '../../../styles/abstracts' as foundation;
+
+// Largest connected alpha region, including faint edge pixels. Do not crop only
+// one opaque gutter: different poses contain stray art on different sides.
+$bounds: (
+  behaviors: (
+    (2, 16, 63, 61),
+    (1, 21, 64, 61),
+    (2, 16, 64, 61),
+    (0, 21, 62, 61),
+    (2, 16, 64, 53),
+    (1, 25, 64, 53),
+    (9, 11, 60, 55),
+    (7, 11, 58, 55),
+  ),
+  tricks: (
+    (6, 15, 60, 60),
+    (4, 13, 58, 60),
+    (5, 14, 60, 60),
+    (9, 9, 52, 60),
+    (7, 1, 53, 61),
+    (1, 27, 61, 61),
+    (2, 27, 63, 61),
+    (3, 31, 60, 62),
+    (5, 16, 60, 55),
+    (4, 12, 61, 54),
+    (6, 17, 63, 55),
+    (4, 7, 60, 54),
+    (6, 4, 61, 48),
+    (4, 1, 58, 39),
+    (2, 8, 62, 50),
+    (4, 14, 61, 54),
+  ),
+);
+@function crop($sheet, $frame, $scale: 1) {
+  @return foundation.sprite-crop(list.nth(map.get($bounds, $sheet), $frame + 1), 64, $scale);
+}

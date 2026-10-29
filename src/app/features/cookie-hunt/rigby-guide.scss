@@ -1,3 +1,4 @@
+@use './rigby-frames' as frames;
 :host {
   display: block;
 }
@@ -79,37 +80,37 @@
   inline-size: 72px;
   block-size: 72px;
   padding: 4px;
-  border: 0;
-  background: transparent;
-  color: var(--page-foreground);
-  cursor: pointer;
 }
 .dog-facing,
 .dog-motion,
 .dog-sprite {
+  position: relative;
   display: block;
   inline-size: 64px;
   block-size: 64px;
   pointer-events: none;
 }
 .dog-sprite {
+  clip-path: frames.crop(behaviors, 0);
   background-image: url('/assets/rigby/behaviors.webp');
   background-size: 256px 128px;
   background-repeat: no-repeat;
   image-rendering: pixelated;
 }
 .dog-sprite.walking {
-  animation: walk-frames var(--wag-duration) steps(2) infinite;
+  animation: walk-frames var(--wag-duration) steps(1, end) infinite;
 }
 .dog-sprite.bored {
+  clip-path: polygon(22px 29px, 64px 29px, 64px 53px, 2px 53px, 2px 36px, 8px 36px, 8px 35px, 14px 35px, 14px 33px, 18px 33px, 18px 31px, 22px 31px);
   background-position: 0 -64px;
-  animation: stationary-wag var(--wag-duration) steps(1, end) infinite;
 }
 .dog-sprite.excited {
+  clip-path: frames.crop(behaviors, 2);
   background-position: -128px 0;
-  animation: excited-frames var(--wag-duration) steps(2) infinite;
+  animation: excited-frames var(--wag-duration) steps(1, end) infinite;
 }
 .dog-sprite.celebrating {
+  clip-path: frames.crop(tricks, 10);
   background-image: url('/assets/rigby/tricks-v1.webp');
   background-size: 256px 256px;
   background-position: -128px -128px;
@@ -122,6 +123,7 @@
   animation: travelling-jump 700ms ease-out infinite;
 }
 .dog-sprite:is(.sitting, .shaking, .begging, .rolling) {
+  clip-path: frames.crop(tricks, 0);
   background-image: url('/assets/rigby/tricks-v1.webp');
   background-size: 256px 256px;
   background-position: 0 0;
@@ -139,61 +141,77 @@
 @keyframes shake-poses {
   0%,
   100% {
-    background-position: 0 0;
+    background-position: 0px 0px;
+    clip-path: frames.crop(tricks, 0, 1);
   }
   25%,
   75% {
-    background-position: -64px 0;
+    background-position: -64px 0px;
+    clip-path: frames.crop(tricks, 1, 1);
   }
   50% {
-    background-position: -128px 0;
+    background-position: -128px 0px;
+    clip-path: frames.crop(tricks, 2, 1);
   }
 }
 @keyframes beg-poses {
   0%,
   100% {
-    background-position: -192px 0;
+    background-position: -192px 0px;
+    clip-path: frames.crop(tricks, 3, 1);
   }
   50% {
-    background-position: 0 -64px;
+    background-position: 0px -64px;
+    clip-path: frames.crop(tricks, 4, 1);
   }
 }
 @keyframes roll-poses {
   0% {
     background-position: -64px -64px;
+    clip-path: frames.crop(tricks, 5, 1);
   }
   25% {
     background-position: -128px -64px;
+    clip-path: frames.crop(tricks, 6, 1);
   }
   50% {
     background-position: -192px -64px;
+    clip-path: frames.crop(tricks, 7, 1);
   }
   75% {
-    background-position: 0 -128px;
+    background-position: 0px -128px;
+    clip-path: frames.crop(tricks, 8, 1);
   }
   100% {
     background-position: -64px -128px;
+    clip-path: frames.crop(tricks, 9, 1);
   }
 }
 @keyframes jump-poses {
   0%,
   100% {
     background-position: -128px -128px;
+    clip-path: frames.crop(tricks, 10, 1);
   }
   15% {
     background-position: -192px -128px;
+    clip-path: frames.crop(tricks, 11, 1);
   }
   30% {
-    background-position: 0 -192px;
+    background-position: 0px -192px;
+    clip-path: frames.crop(tricks, 12, 1);
   }
   45% {
     background-position: -64px -192px;
+    clip-path: frames.crop(tricks, 13, 1);
   }
   65% {
     background-position: -128px -192px;
+    clip-path: frames.crop(tricks, 14, 1);
   }
   85% {
     background-position: -192px -192px;
+    clip-path: frames.crop(tricks, 15, 1);
   }
 }
 .temperature {
@@ -212,7 +230,6 @@
 }
 .rigby-guide {
   padding-block: 1rem;
-  border-block-start: 1px solid var(--panel-border);
   margin-block-start: 1rem;
   scroll-margin-block-start: 8rem;
 }
@@ -237,30 +254,25 @@ p {
   animation: none !important;
 }
 @keyframes walk-frames {
-  to {
-    background-position: -128px 0;
-  }
-}
-@keyframes bored-frames {
-  to {
-    background-position: -128px -64px;
-  }
-}
-@keyframes stationary-wag {
   0%,
   100% {
-    background-position: 0 -64px;
-    clip-path: inset(0);
+    background-position: 0px 0px;
+    clip-path: frames.crop(behaviors, 0, 1);
   }
   50% {
-    // Tail-down art sits three pixels forward within its authored cell.
-    background-position: -67px -64px;
-    clip-path: inset(0 3px 0 0);
+    background-position: -64px 0px;
+    clip-path: frames.crop(behaviors, 1, 1);
   }
 }
 @keyframes excited-frames {
-  to {
-    background-position: -256px 0;
+  0%,
+  100% {
+    background-position: -128px 0px;
+    clip-path: frames.crop(behaviors, 2, 1);
+  }
+  50% {
+    background-position: -192px 0px;
+    clip-path: frames.crop(behaviors, 3, 1);
   }
 }
 @keyframes trot {
@@ -284,45 +296,12 @@ p {
   }
 }
 
-// A doghouse cue replaces the generic hover rectangle; native keyboard focus stays.
-.companion-roaming button.companion-hello:hover:not(:disabled),
-.companion-roaming button.companion-hello:active:not(:disabled) {
-  background: transparent;
-  color: var(--page-foreground);
-  border-color: transparent;
-}
-.companion-hello {
-  position: relative;
-}
-.companion-hello::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: currentColor;
-  opacity: 0;
-  pointer-events: none;
-  clip-path: polygon(
-    5% 44%,
-    50% 5%,
-    95% 44%,
-    86% 44%,
-    86% 95%,
-    62% 95%,
-    62% 68%,
-    38% 68%,
-    38% 95%,
-    14% 95%,
-    14% 44%
-  );
-}
-.companion-hello:is(:hover, :focus-visible)::before {
-  opacity: 0.22;
-}
 .dog-scale {
   position: relative;
 }
 
 .dog-sprite.standing {
+  clip-path: frames.crop(behaviors, 6);
   background-position: -128px -64px;
   animation: panting 900ms steps(1, end) infinite;
 }
@@ -332,32 +311,21 @@ p {
   background-size: 256px 256px;
   background-position: 0 0;
 }
-.dog-sprite.idle-sitting::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  clip-path: polygon(0 28px, 20px 28px, 24px 45px, 0 56px);
-  transform-origin: 23px 44px;
-  animation: sitting-wag 520ms ease-in-out infinite alternate;
-}
 .dog-motion.circling {
   animation: nesting-circle 900ms linear 3;
 }
 .dog-sprite.circling {
-  animation: walk-frames 220ms steps(2) infinite;
+  animation: walk-frames 220ms steps(1, end) infinite;
 }
 @keyframes panting {
+  0%,
+  100% {
+    background-position: -128px -64px;
+    clip-path: frames.crop(behaviors, 6, 1);
+  }
   50% {
     background-position: -192px -64px;
-  }
-}
-@keyframes sitting-wag {
-  from {
-    transform: rotate(-10deg);
-  }
-  to {
-    transform: rotate(14deg);
+    clip-path: frames.crop(behaviors, 7, 1);
   }
 }
 @keyframes nesting-circle {
@@ -378,24 +346,62 @@ p {
     transform: translate(0, 0) rotateY(360deg);
   }
 }
-.no-motion .dog-sprite::after {
-  animation: none;
+.dog-tail {
+  display: none;
+  position: absolute;
+  inset: 0;
+  inline-size: 64px;
+  block-size: 64px;
+  image-rendering: pixelated;
+  pointer-events: none;
+  animation: tail-wag-frames 800ms steps(1, end) infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .dog-sprite::after {
-    animation: none !important;
+.dog-tail:is(.tail-resting, .tail-sitting) {
+  display: block;
+  background: url('/assets/rigby/tail-wag-v2.webp') 0 0 / 256px 128px no-repeat;
+}
+.dog-tail.tail-resting {
+  transform: translate(-20px, -12px);
+}
+.dog-tail.tail-sitting {
+  transform: translate(-15px, -2px);
+}
+@keyframes tail-wag-frames {
+  0%,
+  100% {
+    background-position: 0 0;
+  }
+  12.5% {
+    background-position: -64px 0;
+  }
+  25% {
+    background-position: -128px 0;
+  }
+  37.5% {
+    background-position: -192px 0;
+  }
+  50% {
+    background-position: 0 -64px;
+  }
+  62.5% {
+    background-position: -64px -64px;
+  }
+  75% {
+    background-position: -128px -64px;
+  }
+  87.5% {
+    background-position: -192px -64px;
   }
 }
 
-.doghouse > summary {
-  min-block-size: 44px;
-  padding: 0.5rem 0.75rem;
-  font-weight: 700;
-  cursor: pointer;
+.dog-sprite:is(.idle-sitting, .sitting) {
+  clip-path: polygon(25px 15px, 60px 15px, 60px 60px, 6px 60px, 6px 49px, 25px 49px);
 }
-.doghouse > summary .action-icon {
-  margin-inline: 0.25rem;
+.no-motion .dog-tail {
+  animation: none !important;
 }
-.doghouse-content {
-  padding-block: 0.75rem;
+@media (prefers-reduced-motion: reduce) {
+  .dog-tail {
+    animation: none !important;
+  }
 }

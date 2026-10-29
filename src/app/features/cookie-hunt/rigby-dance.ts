@@ -9,7 +9,13 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { DANCE_DURATION, DanceRequest, RIGBY_DANCES, type DanceStep } from './rigby-dances';
+import {
+  DANCE_DURATION,
+  DANCE_CLIPS,
+  DanceRequest,
+  RIGBY_DANCES,
+  type DanceStep,
+} from './rigby-dances';
 
 @Component({
   selector: 'app-rigby-dance',
@@ -72,6 +78,7 @@ export class RigbyDance {
             steps.map((s, index) => ({
               backgroundPosition: `${-(s.pose % 4) * 64}px ${-Math.floor(s.pose / 4) * 64}px`,
               easing: 'steps(1,end)',
+              clipPath: DANCE_CLIPS[s.pose],
               filter:
                 request.blue && s.pose < 13 && (!request.hulking || index > 1)
                   ? 'hue-rotate(175deg) saturate(0.8)'

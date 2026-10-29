@@ -133,3 +133,26 @@ export const DANCE_DURATION = 3600;
 export function danceEnvelope(spriteSize: number): number {
   return spriteSize * 2;
 }
+
+// Largest connected alpha bounds for all16 atlas cells, including faint fringes.
+const danceBounds = [
+  [12, 12, 55, 60],
+  [10, 12, 52, 60],
+  [4, 21, 56, 60],
+  [8, 12, 55, 59],
+  [9, 11, 60, 58],
+  [4, 25, 60, 58],
+  [6, 8, 60, 58],
+  [4, 22, 55, 58],
+  [10, 4, 57, 59],
+  [4, 16, 60, 57],
+  [9, 4, 53, 60],
+  [4, 20, 58, 57],
+  [9, 14, 60, 54],
+  [8, 4, 58, 54],
+  [6, 4, 56, 55],
+  [4, 5, 55, 55],
+] as const;
+export const DANCE_CLIPS = danceBounds.map(
+  ([left, top, right, bottom]) => `inset(${top}px ${64 - right}px ${64 - bottom}px ${left}px)`,
+);

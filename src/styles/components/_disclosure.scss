@@ -1,0 +1,44 @@
+@use '../abstracts' as foundation;
+
+// Opt-in native accordion layout. Existing surface-* classes supply material/depth;
+// base styles supply UI typography, icons and keyboard-focus geometry.
+.disclosure {
+  border: 1px solid var(--panel-border);
+}
+.disclosure > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-block-size: foundation.$control-target;
+  padding: 0.875rem 1rem;
+  border-radius: inherit;
+  font-weight: foundation.$heading-weight;
+  list-style: none;
+  cursor: pointer;
+}
+.disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.disclosure-chevron {
+  margin-inline-start: auto;
+}
+.disclosure[open] > summary {
+  border-block-end: 1px solid var(--panel-border);
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+.disclosure[open] > summary > .disclosure-chevron {
+  transform: rotate(180deg);
+}
+.disclosure-content {
+  padding: 1rem;
+}
+// Fragment navigation focuses the content; show its focus on the header instead
+// of drawing a rectangle around the entire expanded panel.
+.disclosure-content:focus {
+  outline: none;
+}
+.disclosure:has(> .disclosure-content:focus) > summary {
+  outline: foundation.$focus-width solid currentColor;
+  outline-offset: -1 * foundation.$focus-width;
+}

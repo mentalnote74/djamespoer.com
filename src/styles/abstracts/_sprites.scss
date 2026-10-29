@@ -1,0 +1,9 @@
+@use 'sass:list';
+
+// Pixel bounds (left, top, right, bottom), excluding atlas neighbors and alpha specks.
+@function sprite-crop($bounds, $cell-size: 64, $scale: 1) {
+  @return inset(
+    list.nth($bounds, 2) * $scale * 1px ($cell-size - list.nth($bounds, 3)) * $scale * 1px
+      ($cell-size - list.nth($bounds, 4)) * $scale * 1px list.nth($bounds, 1) * $scale * 1px
+  );
+}

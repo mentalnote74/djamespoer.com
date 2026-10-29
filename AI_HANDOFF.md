@@ -1,5 +1,40 @@
 # AI Engineering Handoff
 
+## SCRUM-148 approved release - October 29
+
+Owner accepted the current Rigby pass and directed release. Supersedes earlier
+local kiss/audition notes: auditions removed; Doghouse uses reusable global
+closed disclosure styling; no hover backing shape; keyboard focus retained.
+Kiss uses the authored single tongue and close duck/weave. Blue cookie circus,
+unhurried settling, pointer facing, eight drawn tail poses and living-light
+sprite shadows included. Per-frame sprite bounds and discrete frame jumps
+exclude atlas neighbors. Resting body contour preserves back fur while removing
+the old tail; enlarged original/body/composite comparison inspected.
+
+Final npm run build passed: 54 routes, initial474.84kB /119.25kB transfer.
+Guide/greeting CSS warnings7.07/5.52kB, below8kB hard budgets. Reusing prior
+13 focused Rigby tests; final CSS compiled and Chrome frame sampling passed,
+including reduced motion. No paid evaluations or analytics traffic generated.
+Tail asset12,614bytes; provenance docs/rigby-tail-wag-provenance.md.
+Release receipt and production checks will be recorded after pipeline completion.
+Creative Town remains paused outside the separate un-reproduced collision report.
+
+## Local Rigby resting-tail correction - October 29
+
+Owner reported an extra stick/second tail during the otherwise approved resting
+wag. Enlarged Chrome rendering of body alone reproduced a detached upright
+remnant of the original tail. Corrected only the resting body's polygon mask;
+The first rectangular fix also clipped back fur and was rejected. Replaced it
+with a stepped contour following the tail/back junction. Compared original,
+masked body and combined sprite enlarged side by side; back tuft silhouette
+restored without the detached old tail. Kept the added atlas, alignment and
+800ms wag unchanged. Re-rendered
+composite confirms the upright remnant is absent. Local only, not deployed.
+Walking/excited/circling/greeting-run sprite timing also now uses steps(1,end),
+removing intermediate half-cells. Chrome sampling confirmed whole walking cells
+and reduced-motion animation:none. This does not establish that every reported
+split-avatar occurrence shares that cause. Broader visual acceptance remains open.
+
 ## Local Bedlam night accents and softer Rigby kiss - October 29
 
 Owner asked for random night twinkles, a faint comet toward the logo instead of

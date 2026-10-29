@@ -73,6 +73,10 @@ $light: (
   --material-relief:
     inset 0 1px 0 rgb(255 255 255 / var(--material-edge-light)),
     inset 0 -1px 0 rgb(var(--shadow-ink) / var(--material-edge-shade));
+  --sprite-shadow: drop-shadow(
+    calc(var(--shadow-x) * 0.35) calc(var(--shadow-y) * 0.5) calc(var(--shadow-blur) * 0.2)
+      rgb(var(--shadow-ink) / var(--shadow-opacity))
+  );
   --elevation-flat: none;
   --elevation-ambient:
     0 3px 8px rgb(var(--shadow-ink) / 0.14),
@@ -196,5 +200,15 @@ body,
   .surface-feature,
   .surface-inset {
     border: 1px solid CanvasText;
+  }
+}
+
+// Alpha silhouettes share the same lighting environment as page surfaces.
+.sprite-shadow {
+  filter: var(--sprite-shadow);
+}
+@media (forced-colors: active) {
+  .sprite-shadow {
+    filter: none;
   }
 }

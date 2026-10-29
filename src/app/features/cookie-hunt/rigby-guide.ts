@@ -7,7 +7,6 @@ import {
   untracked,
   afterNextRender,
   DestroyRef,
-  isDevMode,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { RouterLink, Router, NavigationEnd } from '@angular/router';
@@ -21,12 +20,11 @@ import { RigbyArrival } from './rigby-arrival';
 import { RigbyGreeting } from './rigby-greeting';
 import { companionSpace } from './companion-space';
 import { RigbyDance as RigbyDanceComponent } from './rigby-dance';
-import { RigbyAuditions } from './rigby-auditions';
 import { DanceRequest, danceEnvelope } from './rigby-dances';
 import { RigbyLoadError } from './rigby-load-error';
 @Component({
   selector: 'app-rigby-guide',
-  imports: [RouterLink, RigbyGreeting, RigbyDanceComponent, RigbyAuditions, RigbyLoadError],
+  imports: [RouterLink, RigbyGreeting, RigbyDanceComponent, RigbyLoadError],
   templateUrl: './rigby-guide.html',
   styleUrl: './rigby-guide.scss',
 })
@@ -51,13 +49,11 @@ export class RigbyGuide {
   readonly placement = signal<{ x: number; y: number } | null>(null);
   readonly hopping = signal(false);
   readonly dance = signal<DanceRequest | null>(null);
-  readonly auditions = signal(false);
   private danceToken = 0;
   private readonly spriteScale = signal(1);
   readonly air = computed(() =>
     Math.min(112, Math.max(0, (this.placement()?.y ?? 0) / this.spriteScale())),
   );
-  private auditioning = false;
   readonly noMotion = computed(
     () => this.rigby.paused() || this.reduced() || !this.visible() || this.busy(),
   );
@@ -167,9 +163,6 @@ export class RigbyGuide {
     afterNextRender(() => {
       const view = this.document.defaultView;
       if (!view) return;
-      this.auditions.set(
-        isDevMode() && new URL(view.location.href).searchParams.has('rigbyAudition'),
-      );
       const media = view.matchMedia('(prefers-reduced-motion: reduce)');
       const update = () => {
         this.placementDirty = true;
@@ -342,12 +335,6 @@ export class RigbyGuide {
         ? parseFloat(view.getComputedStyle(companion).getPropertyValue('--rigby-scale')) || 1
         : 1);
     this.spriteScale.set(size / 64);
-    if (this.auditioning) {
-      const stage = this.document
-        .querySelector('[data-rigby-audition-stage]')
-        ?.getBoundingClientRect();
-      if (stage) target = { x: stage.left + stage.width / 2, y: stage.top + stage.height / 2 };
-    }
     const dancing = !!this.dance();
     const movingDance = dancing && !this.noMotion();
     let next = companionSpace(this.document, target, movingDance ? danceEnvelope(size) : size);
@@ -384,7 +371,7 @@ export class RigbyGuide {
       this.hopping.set(false);
     }
   }
-  playDance(flavor: number, audition = false): void {
+  playDance(flavor: number): void {
     if (
       !Number.isInteger(flavor) ||
       flavor < 0 ||
@@ -404,25 +391,14 @@ export class RigbyGuide {
     this.hopping.set(false);
     this.celebrating.set(false);
     this.trick.set(null);
-    this.auditioning = audition;
-    this.dance.set({ token: ++this.danceToken, flavor, blue: !audition, hulking: !audition });
+    this.dance.set({ token: ++this.danceToken, flavor, blue: true, hulking: true });
     this.placeCompanion();
     // A static pose without any safe resting spot stays out of sight.
     if (!this.placement()) this.endDance();
   }
-  previewCircus(): void {
-    this.playDance(0, true);
-    this.auditioning = false;
-    const request = this.dance();
-    if (request) this.dance.set({ ...request, blue: true, hulking: true });
-  }
   danceFinished(token: number): void {
     const current = this.dance();
     if (!current || current.token !== token) return;
-    if (this.auditioning) {
-      this.endDance(token);
-      return;
-    }
     // One player, cached atlas, no queue: run every routine until browsing resumes.
     this.dance.set({
       token: ++this.danceToken,
@@ -433,7 +409,6 @@ export class RigbyGuide {
   endDance(token?: number): void {
     if (token !== undefined && token !== this.dance()?.token) return;
     this.dance.set(null);
-    this.auditioning = false;
     this.placementDirty = true;
     this.document.defaultView?.requestAnimationFrame(() => this.checkScent());
   }
