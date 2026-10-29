@@ -48,6 +48,7 @@ export class ThemeState {
   ): void {
     if (!this.availableThemes.some((available) => available.id === theme))
       throw new Error('Unsupported theme');
+    this.document.documentElement.setAttribute('data-living-sky', '');
     const version = ++this.selectionVersion;
     this.stopLiving?.();
     this.stopLiving = undefined;
@@ -56,7 +57,6 @@ export class ThemeState {
       const view = this.browser ? this.document.defaultView : null;
       const initial = preview ? preview.clock.elapsed() : livingLocalElapsed(new Date());
       const startTime = view?.performance.now() ?? 0;
-      this.document.documentElement.setAttribute('data-living-sky', '');
       this.document.documentElement.setAttribute(
         'data-theme',
         livingFrame(initial, preview?.timing).from,
@@ -78,7 +78,6 @@ export class ThemeState {
             if (version === this.selectionVersion) this.setTheme('tequila-sunrise');
           });
     } else {
-      this.document.documentElement.removeAttribute('data-living-sky');
       this.document.documentElement.setAttribute('data-theme', theme);
     }
     this.selected.set(theme);

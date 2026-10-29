@@ -64,6 +64,7 @@ describe('Header', () => {
           : state.availableThemes[index].id,
       );
       expect(option.getAttribute('aria-pressed')).toBe('true');
+      expect(root.querySelector('app-bedlam')?.classList.contains('sky-preview')).toBe(true);
       expect(list.hidden).toBe(true);
       expect(trigger.getAttribute('aria-expanded')).toBe('false');
       expect(document.activeElement).toBe(trigger);

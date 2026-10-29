@@ -1,4 +1,5 @@
 @use 'sass:list';
+@use 'sass:map';
 $skies: (
   'tequila-sunset': (
     #685c99,
@@ -78,6 +79,7 @@ $skies: (
     0.65,
   ),
 );
+$skies: map.set($skies, 'teetotaler', map.get($skies, 'pina-colada'));
 $roles: (
   'top',
   'mid',

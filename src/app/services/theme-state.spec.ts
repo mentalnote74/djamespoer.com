@@ -17,7 +17,7 @@ describe('ThemeState', () => {
     expect(state.activeTheme()).toBe('dusk-to-dusk');
     expect(document.documentElement.dataset['theme']).toBe('mojito');
     state.setTheme('teetotaler');
-    expect(document.documentElement.hasAttribute('data-living-sky')).toBe(false);
+    expect(document.documentElement.hasAttribute('data-living-sky')).toBe(true);
   });
   it('initializes the root from local time in Dusk-to-Dusk without altering local artwork selectors', () => {
     const artwork = document.createElement('div');
@@ -42,6 +42,7 @@ describe('ThemeState', () => {
       for (const theme of state.availableThemes) {
         state.setTheme(theme.id);
         expect(state.activeTheme()).toBe(theme.id);
+        expect(document.documentElement.hasAttribute('data-living-sky')).toBe(true);
         expect(document.documentElement.dataset['theme']).toBe(
           theme.id === 'dusk-to-dusk' ? 'mojito' : theme.id,
         );

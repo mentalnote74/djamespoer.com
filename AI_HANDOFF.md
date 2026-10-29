@@ -1,5 +1,17 @@
 # AI Engineering Handoff
 
+## SCRUM-77 sky retained across theme selections ? October 29
+
+Owner clarified that switching static themes must retain the approved sky Bedlam.
+Removed the Dusk-only renderer gate and kept sky tokens active for every selection.
+Each static theme holds its matching sky palette; Teetotaler uses the existing
+blue daytime sky. Dusk alone advances the full180-second cycle from local time.
+No change to static site palettes, stars, cloud algorithm or new assets/dependencies.
+17 focused ThemeState/header tests passed; build passed (initial474.93kB /
+119.26kB estimated transfer, existing Rigby style warnings). Built Chrome1440/390
+selected all9 options, retained sky canvas/palette and one active selection, with
+no overflow. Release receipt follows live verification. Creative Town stays paused.
+
 ## SCRUM-147 Cookie Jar deferred-load recovery ? October 29
 
 Owner screenshot on /case-studies/exl shows another retired deferred module404
