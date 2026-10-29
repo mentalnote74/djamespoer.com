@@ -10,6 +10,7 @@ export class RigbyPreferences {
   readonly anticipating = signal(false);
   readonly saved = signal(true);
   readonly greetingRequest = signal(0);
+  readonly greetingOpen = signal(false);
   constructor() {
     afterNextRender(() => {
       try {

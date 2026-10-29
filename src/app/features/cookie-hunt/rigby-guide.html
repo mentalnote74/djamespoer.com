@@ -1,9 +1,12 @@
 @if (rigby.enabled()) {
   <div
     class="companion"
-    [class.hidden]="busy() || preferences.opened() || !placement()"
+    [class.hidden]="
+      busy() || preferences.opened() || rigby.greetingOpen() || !visible() || !placement()
+    "
     [class.companion-roaming]="true"
     [class.hopping]="hopping()"
+    [class.dancing]="!!dance()"
     [style.left.px]="placement()?.x"
     [style.top.px]="placement()?.y"
     [class.no-motion]="noMotion()"
@@ -12,34 +15,46 @@
     [attr.data-warmth]="warmth()"
     [style.--wag-duration]="wagDuration() + 'ms'"
   >
-    <button
-      class="companion-hello"
-      type="button"
-      (click)="rigby.greet()"
-      [attr.aria-label]="
-        'Meet Rigby Decaf Poer. ' +
-        (trick() ? 'Showing his ' + trick() + ' pose. ' : '') +
-        temperature()
-      "
-    >
-      <span class="dog-facing" [style.transform]="'scaleX(' + facing() + ')'" aria-hidden="true"
-        ><span
-          class="dog-motion"
-          [class.walking]="!trick() && mood() === 'walking'"
-          [class.celebrating]="!trick() && mood() === 'celebrating'"
-          ><span
-            class="dog-sprite"
-            [class.walking]="!trick() && mood() === 'walking'"
-            [class.bored]="!trick() && mood() === 'bored'"
-            [class.excited]="!trick() && mood() === 'excited'"
-            [class.celebrating]="!trick() && mood() === 'celebrating'"
-            [class.sitting]="trick() === 'sit'"
-            [class.shaking]="trick() === 'shake'"
-            [class.begging]="trick() === 'beg'"
-            [class.rolling]="trick() === 'roll'"
-          ></span></span
-      ></span>
-    </button>
+    @if (dance(); as request) {
+      @defer (when dance()) {
+        <app-rigby-dance
+          [request]="request"
+          [still]="reduced() || rigby.paused()"
+          [suspended]="!visible() || busy() || rigby.paused()"
+          (finished)="endDance($event)"
+        />
+      }
+    } @else {
+      <button
+        class="companion-hello"
+        type="button"
+        (click)="rigby.greet()"
+        [attr.aria-label]="
+          'Meet Rigby Decaf Poer. ' +
+          (trick() ? 'Showing his ' + trick() + ' pose. ' : '') +
+          temperature()
+        "
+      >
+        <span class="dog-scale" aria-hidden="true"
+          ><span class="dog-facing" [style.transform]="'scaleX(' + facing() + ')'"
+            ><span
+              class="dog-motion"
+              [class.walking]="!trick() && mood() === 'walking'"
+              [class.celebrating]="!trick() && mood() === 'celebrating'"
+              ><span
+                class="dog-sprite"
+                [class.walking]="!trick() && mood() === 'walking'"
+                [class.bored]="!trick() && mood() === 'bored'"
+                [class.excited]="!trick() && mood() === 'excited'"
+                [class.celebrating]="!trick() && mood() === 'celebrating'"
+                [class.sitting]="trick() === 'sit'"
+                [class.shaking]="trick() === 'shake'"
+                [class.begging]="trick() === 'beg'"
+                [class.rolling]="trick() === 'roll'"
+              ></span></span></span
+        ></span>
+      </button>
+    }
     <span class="temperature" aria-hidden="true">{{ temperature() }}</span>
     <button
       class="jar-shortcut"
@@ -106,6 +121,11 @@
     }
     <p class="visually-hidden" role="status">{{ hunt.announcement() }}</p>
   </aside>
+  @if (auditions()) {
+    @defer (when auditions()) {
+      <app-rigby-auditions (audition)="playDance($event, true)" (stop)="endDance()" />
+    }
+  }
 }
 @defer (when rigby.greetingRequest() > 0) {
   <app-rigby-greeting />

@@ -15,17 +15,19 @@
   pointer-events: none;
 }
 .companion-roaming {
+  --rigby-scale: 1;
+  --rigby-size: calc(64px * var(--rigby-scale));
   inset: auto;
-  inline-size: 64px;
-  block-size: 64px;
+  inline-size: var(--rigby-size);
+  block-size: var(--rigby-size);
   z-index: 8;
   align-content: start;
   transition:
     left 700ms linear,
     top 700ms linear;
   .companion-hello {
-    inline-size: 64px;
-    block-size: 64px;
+    inline-size: var(--rigby-size);
+    block-size: var(--rigby-size);
     padding: 0;
   }
   .temperature,
@@ -43,6 +45,24 @@
     .dog-sprite {
       animation: jump-poses 700ms steps(1, end) infinite;
     }
+  }
+}
+.dog-scale {
+  display: block;
+  inline-size: 64px;
+  block-size: 64px;
+  transform: scale(var(--rigby-scale));
+  transform-origin: top left;
+}
+.companion-roaming.dancing {
+  inline-size: calc(var(--rigby-size) * 2);
+  block-size: calc(var(--rigby-size) * 2);
+  transition: none;
+  pointer-events: none;
+}
+@media (min-width: 64rem) {
+  .companion-roaming {
+    --rigby-scale: 1.5;
   }
 }
 @keyframes travelling-jump {

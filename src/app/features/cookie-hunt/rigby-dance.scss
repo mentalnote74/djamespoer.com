@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  inline-size: calc(128px * var(--rigby-scale, 1));
+  block-size: calc(128px * var(--rigby-scale, 1));
+  pointer-events: none;
+}
+.dance-stage {
+  display: block;
+  position: relative;
+  inline-size: 128px;
+  block-size: 128px;
+  transform: scale(var(--rigby-scale, 1));
+  transform-origin: top left;
+}
+.dance-step {
+  position: absolute;
+  inset: 32px auto auto 32px;
+  inline-size: 64px;
+  block-size: 64px;
+}
+.dance-sprite {
+  display: block;
+  inline-size: 64px;
+  block-size: 64px;
+  background: url('/assets/rigby/dance-poses-v1.webp') 0 0 / 256px 256px no-repeat;
+  image-rendering: pixelated;
+}

@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, afterNextRender, computed, inject, signal } from '@angular/core';
 import { COOKIE_TRAIL, COOKIE_FLAVORS, CookieStop } from './cookie-trail';
+import { Subject } from 'rxjs';
 
 const KEY = 'rigby.cookie-jar.v1';
 export function decodeJar(value: string | null): string[] {
@@ -33,6 +34,8 @@ export class CookieHuntService {
   readonly announcement = signal('');
   readonly saved = signal(true);
   readonly resetVersion = signal(0);
+  private readonly collectedStop = new Subject<CookieStop>();
+  readonly collections = this.collectedStop.asObservable();
   constructor() {
     afterNextRender(() => {
       try {
@@ -53,6 +56,7 @@ export class CookieHuntService {
     this.announcement.set(
       `${COOKIE_FLAVORS[stop.flavor]} collected. ${this.count()} of ${this.total} cookies in your jar.${this.next() ? '' : ' You found them all! Rigby is delighted.'}`,
     );
+    this.collectedStop.next(stop);
     return true;
   }
   restart(): void {

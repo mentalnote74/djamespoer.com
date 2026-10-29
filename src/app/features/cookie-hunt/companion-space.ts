@@ -2,11 +2,12 @@
 export function companionSpace(
   document: Document,
   target?: { x: number; y: number },
+  size = 64,
 ): { x: number; y: number } | null {
   const view = document.defaultView;
   if (!view) return null;
-  const width = 64,
-    height = 64,
+  const width = size,
+    height = size,
     gap = 2;
   const blockers: DOMRect[] = [];
   const excluded = '.companion,.visually-hidden,script,style,[hidden]';

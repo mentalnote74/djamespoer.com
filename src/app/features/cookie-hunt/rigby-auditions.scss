@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  padding-block: 1rem;
+}
+[data-rigby-audition-stage] {
+  min-block-size: 216px;
+}
+.auditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+button {
+  min-block-size: 44px;
+  text-align: start;
+}
+p {
+  margin-block: 0.75rem;
+}

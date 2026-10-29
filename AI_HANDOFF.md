@@ -1,5 +1,51 @@
 # AI Engineering Handoff
 
+## SCRUM-148 cookie dances — October 29, local audition
+
+First implementation ready for owner audition on feature/rigby-cookie-dances
+(base f54e107). All 13 flavors have distinct 4.2-second pose/movement sequences,
+including breakdance floor support and Double Chocolate's blue cookie-beast
+transformation. Successful collection IDs/flavors dispatch rewards; restoration,
+duplicates, invalid IDs and restart cannot invent them. Newest collection replaces
+the current routine, with no queue. Greeting/roamer/dance are mutually exclusive.
+The entire 192px desktop / 128px mobile dance envelope must fit whitespace; skip
+the visual reward if it cannot. Scroll/layout changes cancel for content safety.
+
+Local preview http://127.0.0.1:4315/?rigbyAudition=1 (development mode only); enable
+Rigby and use the 13 audition controls below his ordinary controls. Auditions never
+write the jar. Desktop avatar remains 96px, mobile64px. Native Web Animations only;
+no dependencies, audio or video. Shared lazy WebP atlas is 63,536 bytes. Full prompt,
+asset SHA-256 and deterministic packing instructions: docs/rigby-cookie-dances.md.
+
+Verification: 14 focused tests passed (cookie collection, choreography envelope,
+placement, greeting). Local Chrome 1440/390 exercised all13 auditions, entire
+viewport/text/control clearance, jar isolation, latest-wins, completion, real
+collection dispatch, duplicates/restart, light/dark, reduced motion, pause, native
+Enter-key auditions and
+greeting reopen. Native hidden-tab clocks paused; desktop resumed, mobile cleanly
+canceled on return with one roamer. Audition axe: zero violations at both widths.
+Production build passed: initial 465.99 kB / estimated transfer 116.62 kB; existing
+Rigby warning budgets remain (guide now 4.51kB, greeting4.89kB). Broad known baseline
+failures were not pursued. No production verification or release is claimed.
+Owner art/choreography audition remains; these are stylized first-pass moves.
+Bedlam, SCRUM-141/147 and unrelated work preserved; Creative Town remains paused.
+
+## Rigby desktop sizing — October 28, local preview
+
+Owner requested a larger desktop avatar with mobile unchanged. Roaming Rigby and
+his button now render at 96px from 64rem upward; smaller viewports retain 64px.
+CSS owns the breakpoint and sprite scale; whitespace placement reads the rendered
+button width so the larger resting footprint avoids content. Existing assets,
+animation preferences and greeting remain unchanged. This is isolated on
+feature/rigby-cookie-dances, based on the Bedlam restoration f54e107; not deployed.
+Creative Town remains paused, and SCRUM-141/147 work is preserved.
+
+Verification: two existing companion-space tests passed. Production build passed
+(initial 465.78 kB / estimated transfer 116.20 kB); existing Rigby style warning
+budgets remain, with guide CSS now 4.37 kB. Local Chrome checked 1440px: button and
+sprite both 96px; 390px: both 64px, neither viewport horizontally overflows.
+Preview superseded by the SCRUM-148 audition above.
+
 ## Approved Bedlam v1 production restoration — October 28
 
 Owner explicitly approved deployment of the historical v1 toolbar preview after tuning. Restore original numerical/rendering rules with fixed immutable mask and no model-controlled mask/theme colors. Three fixed models reproduce approved seed 712: point-vortex, curl-noise, Physarum. Speed .74 (about 6.2x original .12), original layer opacity multiplied by 3. Light field spans navbar, strongest near logo and fading transparent by 66%; mobile adds vertical fade above expanded menu. Dark themes retain field inside exact canonical SVG. No added CSS spins, libraries or prototype controls. Runtime remains lazy, reduced-motion/offscreen/hidden-document pauses and static fallback retained. Latest source base 449e340 preserves today's publication and recent analytics/Rigby work.

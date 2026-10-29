@@ -30,9 +30,10 @@ export class RigbyGreeting {
   private seen = 0;
   private returnTarget: HTMLElement | null = null;
   constructor() {
-    inject(DestroyRef).onDestroy(() =>
-      this.document.defaultView?.clearTimeout(this.celebrationTimer),
-    );
+    inject(DestroyRef).onDestroy(() => {
+      this.document.defaultView?.clearTimeout(this.celebrationTimer);
+      this.rigby.greetingOpen.set(false);
+    });
     effect(() => {
       const request = this.rigby.greetingRequest(),
         opened = this.preferences.opened();
@@ -49,6 +50,7 @@ export class RigbyGreeting {
               !!this.document.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches,
           );
           this.playing.set(false);
+          this.rigby.greetingOpen.set(true);
           dialog.showModal();
           this.title()?.nativeElement.focus();
           try {
@@ -77,6 +79,7 @@ export class RigbyGreeting {
     event?.preventDefault();
     this.document.defaultView?.clearTimeout(this.celebrationTimer);
     this.dialog()?.nativeElement.close();
+    this.rigby.greetingOpen.set(false);
     // The companion is hidden while a modal is open; restore after its lane is rendered again.
     const view = this.document.defaultView;
     const restore = () => {

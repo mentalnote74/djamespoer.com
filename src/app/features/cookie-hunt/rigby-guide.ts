@@ -7,6 +7,7 @@ import {
   untracked,
   afterNextRender,
   DestroyRef,
+  isDevMode,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { RouterLink, Router, NavigationEnd } from '@angular/router';
@@ -19,9 +20,12 @@ import { distanceToTarget, facingTarget, warmthAtDistance } from './rigby-scent'
 import { RigbyArrival } from './rigby-arrival';
 import { RigbyGreeting } from './rigby-greeting';
 import { companionSpace } from './companion-space';
+import { RigbyDance as RigbyDanceComponent } from './rigby-dance';
+import { RigbyAuditions } from './rigby-auditions';
+import { DanceRequest, danceEnvelope } from './rigby-dances';
 @Component({
   selector: 'app-rigby-guide',
-  imports: [RouterLink, RigbyGreeting],
+  imports: [RouterLink, RigbyGreeting, RigbyDanceComponent, RigbyAuditions],
   templateUrl: './rigby-guide.html',
   styleUrl: './rigby-guide.scss',
 })
@@ -43,6 +47,10 @@ export class RigbyGuide {
   readonly facing = signal(-1);
   readonly placement = signal<{ x: number; y: number } | null>(null);
   readonly hopping = signal(false);
+  readonly dance = signal<DanceRequest | null>(null);
+  readonly auditions = signal(false);
+  private danceToken = 0;
+  private auditioning = false;
   readonly noMotion = computed(
     () => this.rigby.paused() || this.reduced() || !this.visible() || this.busy(),
   );
@@ -93,19 +101,20 @@ export class RigbyGuide {
       }
     });
     inject(RigbyArrival);
-    let count = this.hunt.count();
+    this.hunt.collections.pipe(takeUntilDestroyed()).subscribe((stop) => {
+      this.playDance(stop.flavor);
+    });
     effect(() => {
-      const next = this.hunt.count(),
-        gained = next > count && !!this.hunt.announcement();
-      count = next;
-      if (gained)
-        untracked(() => {
-          this.reward();
-          this.checkScent();
-        });
+      const blocked =
+        !this.rigby.enabled() || this.rigby.greetingOpen() || this.preferences.opened();
+      this.hunt.resetVersion();
+      untracked(() => {
+        if (blocked || this.hunt.resetVersion()) this.endDance();
+      });
     });
     this.router?.events.pipe(takeUntilDestroyed()).subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        this.endDance();
         this.placementDirty = true;
         this.warmth.set(0);
         this.scent.set(undefined);
@@ -120,6 +129,9 @@ export class RigbyGuide {
     afterNextRender(() => {
       const view = this.document.defaultView;
       if (!view) return;
+      this.auditions.set(
+        isDevMode() && new URL(view.location.href).searchParams.has('rigbyAudition'),
+      );
       const media = view.matchMedia('(prefers-reduced-motion: reduce)');
       const update = () => {
         this.placementDirty = true;
@@ -137,6 +149,7 @@ export class RigbyGuide {
           this.checkScent();
         });
       const scroll = () => {
+        if (this.dance()) this.endDance();
         if (!this.rigby.enabled() || this.busy()) return;
         this.placementDirty = true;
         this.scrolling.set(true);
@@ -157,15 +170,25 @@ export class RigbyGuide {
         this.checkScent();
       };
       view.addEventListener('scroll', scroll, { passive: true });
-      view.addEventListener('resize', update, { passive: true });
+      const resize = () => {
+        this.endDance();
+        update();
+      };
+      view.addEventListener('resize', resize, { passive: true });
       this.document.addEventListener('pointermove', pointer, { passive: true });
       this.document.addEventListener('pointerleave', leave);
       this.document.addEventListener('focusin', focus);
       this.document.addEventListener('focusout', focus);
-      this.document.addEventListener('toggle', focus, true);
+      const toggle = () => {
+        this.endDance();
+        this.placementDirty = true;
+        focus();
+      };
+      this.document.addEventListener('toggle', toggle, true);
       this.document.addEventListener('visibilitychange', update);
       media.addEventListener('change', update);
       const layoutObserver = new ResizeObserver(() => {
+        if (this.dance()) this.endDance();
         this.placementDirty = true;
         this.checkScent();
       });
@@ -180,12 +203,12 @@ export class RigbyGuide {
         view.clearTimeout(this.routeTimer);
         view.clearTimeout(this.hopTimer);
         view.removeEventListener('scroll', scroll);
-        view.removeEventListener('resize', update);
+        view.removeEventListener('resize', resize);
         this.document.removeEventListener('pointermove', pointer);
         this.document.removeEventListener('pointerleave', leave);
         this.document.removeEventListener('focusin', focus);
         this.document.removeEventListener('focusout', focus);
-        this.document.removeEventListener('toggle', focus, true);
+        this.document.removeEventListener('toggle', toggle, true);
         this.document.removeEventListener('visibilitychange', update);
         media.removeEventListener('change', update);
       });
@@ -257,6 +280,7 @@ export class RigbyGuide {
       this.facing.set(facingTarget(dog.left + dog.width / 2, point.x, this.facing()));
   }
   reward(): void {
+    this.endDance();
     const view = this.document.defaultView;
     if (!view || !this.rigby.enabled()) return;
     view.clearTimeout(this.rewardTimer);
@@ -272,7 +296,19 @@ export class RigbyGuide {
       view.clearTimeout(this.hopTimer);
       this.hopping.set(false);
     }
-    const next = companionSpace(this.document, target);
+    const companion = this.document.querySelector<HTMLElement>('.companion');
+    const size =
+      64 *
+      (companion
+        ? parseFloat(view.getComputedStyle(companion).getPropertyValue('--rigby-scale')) || 1
+        : 1);
+    if (this.auditioning) {
+      const stage = this.document
+        .querySelector('[data-rigby-audition-stage]')
+        ?.getBoundingClientRect();
+      if (stage) target = { x: stage.left + stage.width / 2, y: stage.top + stage.height / 2 };
+    }
+    const next = companionSpace(this.document, target, this.dance() ? danceEnvelope(size) : size);
     if (!next) {
       // Dense content has no safe resting place. Wait out of sight, never lie over it.
       view.clearTimeout(this.hopTimer);
@@ -283,7 +319,7 @@ export class RigbyGuide {
     const previous = this.placement();
     if (previous && Math.hypot(previous.x - next.x, previous.y - next.y) < 4) return;
     this.placement.set(next);
-    if (!this.noMotion() && previous) {
+    if (!this.noMotion() && previous && !this.dance()) {
       this.hopping.set(true);
       view.clearTimeout(this.hopTimer);
       this.hopTimer = view.setTimeout(() => {
@@ -296,7 +332,41 @@ export class RigbyGuide {
       this.hopping.set(false);
     }
   }
+  playDance(flavor: number, audition = false): void {
+    if (
+      !Number.isInteger(flavor) ||
+      flavor < 0 ||
+      flavor >= 13 ||
+      !this.rigby.enabled() ||
+      this.rigby.greetingOpen() ||
+      this.preferences.opened() ||
+      this.busy() ||
+      this.document.hidden
+    )
+      return;
+    // Latest successful collection wins: one player, no queue, no stale rewards.
+    const view = this.document.defaultView;
+    view?.clearTimeout(this.rewardTimer);
+    view?.clearTimeout(this.trickTimer);
+    view?.clearTimeout(this.hopTimer);
+    this.hopping.set(false);
+    this.celebrating.set(false);
+    this.trick.set(null);
+    this.auditioning = audition;
+    this.dance.set({ token: ++this.danceToken, flavor });
+    this.placeCompanion();
+    // No room for the whole choreography: remain out of sight, never dance over ink.
+    if (!this.placement()) this.endDance();
+  }
+  endDance(token?: number): void {
+    if (token !== undefined && token !== this.dance()?.token) return;
+    this.dance.set(null);
+    this.auditioning = false;
+    this.placementDirty = true;
+    this.document.defaultView?.requestAnimationFrame(() => this.checkScent());
+  }
   perform(trick: 'sit' | 'shake' | 'beg' | 'roll'): void {
+    this.endDance();
     const view = this.document.defaultView;
     if (!view || !this.rigby.enabled()) return;
     view.clearTimeout(this.trickTimer);

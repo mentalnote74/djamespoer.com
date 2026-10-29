@@ -56,4 +56,23 @@ describe('Rigby cookie hunt', () => {
     expect(hunt.count()).toBe(1);
     expect(hunt.saved()).toBe(false);
   });
+  it('emits only successful collection IDs and flavors, never duplicates, restart or restoration', () => {
+    const hunt = TestBed.inject(CookieHuntService);
+    const events: { id: string; flavor: number }[] = [];
+    const subscription = hunt.collections.subscribe((stop) => events.push(stop));
+    hunt.collected.set(decodeJar('{"version":1,"collected":["home"]}'));
+    expect(events).toHaveLength(0);
+    expect(hunt.collect('home')).toBe(false);
+    expect(hunt.collect('unknown')).toBe(false);
+    hunt.restart();
+    expect(events).toHaveLength(0);
+    for (const stop of COOKIE_TRAIL.slice(0, 3)) {
+      expect(hunt.collect(stop.id)).toBe(true);
+      expect(hunt.collect(stop.id)).toBe(false);
+    }
+    expect(events.map(({ id, flavor }) => ({ id, flavor }))).toEqual(
+      COOKIE_TRAIL.slice(0, 3).map(({ id, flavor }) => ({ id, flavor })),
+    );
+    subscription.unsubscribe();
+  });
 });
