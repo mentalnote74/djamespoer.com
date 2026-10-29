@@ -14,7 +14,11 @@ with manual reload, Close/Escape and accessible naming. No reload loop.
 (54 routes; initial474.81kB /119.20kB estimated transfer; existing Rigby style
 warnings). Four built-browser cases:1440/390px ? one-time/persistent404, each with
 exactly one automatic reload, saved jar/preferences intact; persistent fallback
-axe0 and Escape close verified. Release receipt follows production verification.
+axe0 and Escape close verified. The same four isolated production cases passed
+with GA blocked. Released9e6e99a10f24f43dad7c854c49c2b5e0b5364c96 through
+Workers Build05bbf3b9-65b4-4908-91a1-b6c714e80269 (success); Worker
+1924497e-3fd5-4177-b4bc-930f05cb96b7 at100%, deployment
+3ecdd2e2-783f-4f25-9df1-837feff3d7de at2026-10-29T18:16:55.068255Z.
 Existing pre-fix tabs require a refresh to acquire the new recovery code.
 Original Android long-idle acceptance remains open. Creative Town stays paused.
 
