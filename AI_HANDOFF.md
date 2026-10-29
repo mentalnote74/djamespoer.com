@@ -1,5 +1,19 @@
 # AI Engineering Handoff
 
+## Local Dusk-to-Dusk clock demo — October 29
+
+Owner requested one lean demo page to scrub/accelerate the existing theme cycle.
+Local only: http://127.0.0.1:4317/demo/dusk-to-dusk (development-mode route).
+Time slider,1–1440× speed, Play/Pause and Reset; default720× is20.8seconds/cycle.
+Native dawn/dusk wipes retain400ms visibility. Uses existing palettes and runtime,
+with optional controlled clock; ordinary production timing remains unchanged.
+Leaving restores the prior theme; header selection takes control, reduced motion
+uses static steps, and playback pauses while hidden. No new assets/dependencies.
+14 focused tests and production build passed; one local Chrome pass saw all seven
+palettes/both wipes, keyboard sliders,390px reflow, reduced motion, theme restore
+and scoped axe0 violations. No broad test/profile work. Not pushed or deployed.
+Creative Town and unrelated work remain untouched.
+
 ## SCRUM-147 route and Rigby deferred-load recovery — October 29
 
 Released bb1662573acb8ddc3ea5582753239d99c6bb85df through existing main/Workers

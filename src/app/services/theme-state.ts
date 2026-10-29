@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { DestroyRef, inject, Injectable, NgZone, signal } from '@angular/core';
+import type { LivingThemeClock } from './living-theme';
 export type ThemeId =
   | 'teetotaler'
   | 'tequila-sunrise'
@@ -19,6 +20,7 @@ export class ThemeState {
   private stopLiving?: () => void;
   private selectionVersion = 0;
   readonly activeTheme = this.selected.asReadonly();
+  readonly previewing = signal(false);
   readonly availableThemes: readonly { id: ThemeSelection; label: string }[] = [
     { id: 'teetotaler', label: 'Teetotaler' },
     { id: 'tequila-sunrise', label: 'Tequila Sunrise' },
@@ -37,19 +39,23 @@ export class ThemeState {
       this.stopLiving?.();
     });
   }
-  setTheme(theme: ThemeSelection): void {
+  setTheme(
+    theme: ThemeSelection,
+    preview?: { timing: { interpolationMs: number; wipeMs: number }; clock: LivingThemeClock },
+  ): void {
     if (!this.availableThemes.some((available) => available.id === theme))
       throw new Error('Unsupported theme');
     const version = ++this.selectionVersion;
     this.stopLiving?.();
     this.stopLiving = undefined;
+    this.previewing.set(!!preview && theme === 'dusk-to-dusk');
     if (theme === 'dusk-to-dusk') {
       this.document.documentElement.setAttribute('data-theme', 'tequila-sunset');
       void import('./living-theme')
         .then(({ startLivingTheme }) => {
           if (version === this.selectionVersion)
             this.zone.runOutsideAngular(() => {
-              this.stopLiving = startLivingTheme(this.document);
+              this.stopLiving = startLivingTheme(this.document, preview?.timing, preview?.clock);
             });
         })
         .catch(() => {

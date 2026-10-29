@@ -10,6 +10,10 @@ export const livingAnchors = [
 ] as const;
 export type LivingAnchor = (typeof livingAnchors)[number];
 export const livingTiming = { interpolationMs: 48 * 60 * 1000, wipeMs: 400 };
+export interface LivingThemeClock {
+  elapsed: () => number;
+  refreshMs?: number;
+}
 export function livingFrame(elapsed: number, timing = livingTiming) {
   if (
     !Number.isFinite(elapsed) ||
@@ -80,7 +84,11 @@ export function interpolatePalette(from: Palette, to: Palette, progress: number)
 }
 
 /** Progressive enhancement; native snapshots never clone accessible DOM. */
-export function startLivingTheme(document: Document, timing = livingTiming): () => void {
+export function startLivingTheme(
+  document: Document,
+  timing = livingTiming,
+  clock?: LivingThemeClock,
+): () => void {
   livingFrame(0, timing);
   const root = document.documentElement;
   const window = document.defaultView!;
@@ -111,6 +119,8 @@ export function startLivingTheme(document: Document, timing = livingTiming): () 
     stopped = false,
     transition: ViewTransition | undefined;
   let lastTarget: LivingAnchor | undefined;
+  let lastElapsed = -1;
+  const refreshMs = clock ? Math.max(16, Math.min(1000, clock.refreshMs ?? 50)) : 1000;
   const clearTokens = () => roles.forEach((role) => root.style.removeProperty(role));
   const applyAnchor = (anchor: LivingAnchor) => {
     clearTokens();
@@ -118,14 +128,19 @@ export function startLivingTheme(document: Document, timing = livingTiming): () 
   };
   const tick = () => {
     if (stopped) return;
-    const elapsed = window.performance.now() - started;
+    const elapsed = clock ? clock.elapsed() : window.performance.now() - started;
     const frame = livingFrame(elapsed, timing);
     if (transition) return;
+    if (clock && elapsed === lastElapsed) {
+      timer = window.setTimeout(tick, refreshMs);
+      return;
+    }
+    lastElapsed = elapsed;
     // The selected cycle begins at dusk, including a controlled exact t=0.
     if (elapsed === 0) {
       applyAnchor(livingAnchors[0]);
       lastTarget = livingAnchors[0];
-      timer = window.setTimeout(tick, 1);
+      timer = window.setTimeout(tick, clock ? refreshMs : 1);
       return;
     }
     if (
@@ -149,7 +164,7 @@ export function startLivingTheme(document: Document, timing = livingTiming): () 
         delete root.dataset['themeWipe'];
         root.style.removeProperty('--theme-wipe-duration');
         applyAnchor(frame.to);
-        timer = window.setTimeout(tick, Math.min(1000, frame.remainingMs));
+        timer = window.setTimeout(tick, Math.min(refreshMs, frame.remainingMs));
         return;
       }
       void transition.ready.catch(() => {});
@@ -174,9 +189,10 @@ export function startLivingTheme(document: Document, timing = livingTiming): () 
         ))
           root.style.setProperty(role, value);
     }
-    timer = window.setTimeout(tick, Math.min(1000, frame.remainingMs));
+    timer = window.setTimeout(tick, Math.min(refreshMs, frame.remainingMs));
   };
   const changedMotion = () => {
+    lastElapsed = -1;
     window.clearTimeout(timer);
     transition?.skipTransition();
     if (!transition) tick();

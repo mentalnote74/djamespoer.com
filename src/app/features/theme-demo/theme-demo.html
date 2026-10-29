@@ -1,0 +1,66 @@
+<article class="layout-container theme-demo">
+  <p class="eyebrow">Local theme preview</p>
+  <h1>Dusk to Dusk, fast forward</h1>
+  <p>Scrub the cycle or press Play to watch the site's actual palettes and lighting change.</p>
+  <section class="demo-controls" aria-labelledby="clock-heading">
+    <h2 id="clock-heading">Time controls</h2>
+    <label for="cycle-position"
+      >Time advance <output for="cycle-position">{{ phase() }}</output></label
+    >
+    <input
+      #cyclePosition
+      id="cycle-position"
+      type="range"
+      min="0"
+      max="1000"
+      step="1"
+      [value]="position()"
+      [attr.aria-valuetext]="phase() + ', ' + (position() / 10).toFixed(1) + '% of cycle'"
+      (input)="seek(cyclePosition.value)"
+    />
+    <div class="ends" aria-hidden="true"><span>Dusk</span><span>Next dusk</span></div>
+    <label for="clock-speed"
+      >Palette speed <output for="clock-speed">{{ speed() }}×</output></label
+    >
+    <input
+      #clockSpeed
+      id="clock-speed"
+      type="range"
+      min="1"
+      max="1440"
+      step="1"
+      [value]="speed()"
+      (input)="changeSpeed(clockSpeed.value)"
+    />
+    <p>
+      One cycle: {{ cycleSeconds() }} seconds at this speed. Dawn and dusk wipes stay visible at 0.4
+      seconds.
+    </p>
+    <div class="actions">
+      <button type="button" (click)="toggle()">{{ playing() ? 'Pause' : 'Play' }}</button
+      ><button type="button" (click)="reset()">Reset to dusk</button>
+    </div>
+    <p>
+      Dragging the time slider pauses playback. Arrow keys make small adjustments; Home and End jump
+      to either end.
+    </p>
+    @if (reduced()) {
+      <p role="status">Reduced motion is enabled: palettes change in static steps without wipes.</p>
+    }
+  </section>
+  <section class="samples" aria-label="Theme samples">
+    <div class="sample">
+      <h2>Read the light</h2>
+      <p>Page surfaces, text, borders, shadows, and controls all use the real theme tokens.</p>
+      <button type="button" (click)="cyclePosition.focus()">Focus time slider</button>
+    </div>
+    <div class="sample">
+      <h2>Seven palettes. One cycle.</h2>
+      <p>
+        Tequila Sunset → Rum Runner → Bloody Mary → Tequila Sunrise → Mojito → Piña Colada → Mai Tai
+        → dusk.
+      </p>
+      <button type="button" disabled>Disabled button</button>
+    </div>
+  </section>
+</article>

@@ -125,6 +125,20 @@ describe('Living theme runtime', () => {
     now += ms;
     await vi.advanceTimersByTimeAsync(ms);
   }
+  it('allows a demo clock to hold, seek and reset without changing the normal timing', async () => {
+    Reflect.deleteProperty(document, 'startViewTransition');
+    let position = 0;
+    stop = startLivingTheme(document, timing, { elapsed: () => position, refreshMs: 50 });
+    await advance(500);
+    expect(document.documentElement.dataset['theme']).toBe('tequila-sunset');
+    position = 2000;
+    await advance(50);
+    expect(document.documentElement.dataset['theme']).toBe('tequila-sunrise');
+    position = 0;
+    await advance(50);
+    expect(document.documentElement.dataset['theme']).toBe('tequila-sunset');
+    expect(livingTiming.interpolationMs).toBe(48 * 60 * 1000);
+  });
   it('discovers, updates and clears lighting tokens through the existing runtime', async () => {
     Reflect.deleteProperty(document, 'startViewTransition');
     vi.mocked(window.getComputedStyle).mockImplementation(
