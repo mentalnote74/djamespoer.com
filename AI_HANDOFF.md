@@ -1,5 +1,35 @@
 # AI Engineering Handoff
 
+## Local Bedlam night accents and softer Rigby kiss - October 29
+
+Owner asked for random night twinkles, a faint comet toward the logo instead of
+the sweeping night cloud, and a shooting star before the sunrise wipe. Existing
+CSS star pattern remains. The second existing canvas slot draws random-phase
+star glows, a slow faint comet, and a separate fast streak. No new assets,
+dependencies or animation loop. Thin accents use a capped1600px-wide crisp
+buffer; cloud noise retains its small buffer. Night cloud/orb sweep is subdued.
+Day overlay clears; pause/hidden/offscreen/reduced-motion controls remain.
+Shared living clock publishes the sunrise deadline (normal) or exact scrubbed
+progress (demo). Streak runs from1.6s to0.2s before sunrise at normal speed;
+short demo spans scale the cue. Teardown clears cue metadata, so static themes
+never inherit a stray wipe cue. Local demo: http://127.0.0.1:4317/demo/dusk-to-dusk
+Night near10% of slider; pre-wipe star around19.7% at default180s cycle.
+
+Owner then rejected the camera kiss as screen-eating. Face peak was3x with a
+full black lens cover. Removed blackout, bounded face to1.35x (under173px),
+added a decorative floppy pink SVG tongue and tiny slobber drops. No new raster
+assets. Existing greeting choices, skip, one-avatar contract and reduced-motion
+fallback remain. Preview via Rigby's Doghouse -> Meet Rigby Decaf Poer.
+
+34 focused theme/Bedlam/Rigby tests passed. Build passed:54 routes, initial
+473.62kB/119.05kB estimated transfer. Guide/greeting stylesheet warnings remain
+6.42/5.39kB against4kB warning threshold; no hard budget failure. Chrome1440/390
+verified evolving night pixels, controlled pre-wipe cue, daytime/reduced cleanup,
+no sky page errors, bounded kiss and tongue, no blackout, dialog axe0 and no
+overflow. Screenshots inspected; crisp overlay rechecked after buffer tuning.
+Both changes saved locally with pending circus/Doghouse review; not pushed or
+deployed. Owner visual acceptance remains pending. Creative Town stays paused.
+
 ## Rigby's Doghouse accordion - October 29
 
 Owner asked to hide all bottom-of-page Rigby UI in a collapsed accordion named

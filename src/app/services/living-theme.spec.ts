@@ -1,3 +1,4 @@
+import { sunriseStreakProgress } from './living-theme-clock';
 import {
   livingAnchors,
   livingFrame,
@@ -67,6 +68,15 @@ describe('Living theme controlled clock', () => {
       0.5,
     );
     expect(() => livingLocalElapsed(new Date(NaN))).toThrow();
+  });
+  it('cues one shooting star just before sunrise and leaves other phases alone', () => {
+    const end = livingTiming.wipeMs + livingTiming.interpolationMs;
+    expect(sunriseStreakProgress(livingFrame(end - 2000))).toBe(0);
+    expect(sunriseStreakProgress(livingFrame(end - 1600))).toBe(0);
+    expect(sunriseStreakProgress(livingFrame(end - 900))).toBeCloseTo(0.5);
+    expect(sunriseStreakProgress(livingFrame(end - 200))).toBe(1);
+    expect(sunriseStreakProgress(livingFrame(end))).toBe(0);
+    expect(sunriseStreakProgress(livingFrame(end + 1000))).toBe(0);
   });
   it('interpolates shared light geometry and opacity without inventing another clock', () => {
     expect(
@@ -157,6 +167,21 @@ describe('Living theme runtime', () => {
     await advance(50);
     expect(document.documentElement.dataset['theme']).toBe('tequila-sunset');
     expect(livingTiming.interpolationMs).toBe(35_840);
+  });
+  it('publishes the existing clock cue and clears it on wipe or static-theme teardown', async () => {
+    Reflect.deleteProperty(document, 'startViewTransition');
+    let position = 1000;
+    stop = startLivingTheme(document, timing, { elapsed: () => position, refreshMs: 50 });
+    expect(Number(document.documentElement.dataset['skyStreakProgress'])).toBeGreaterThan(0);
+    position = 1400;
+    await advance(50);
+    expect(document.documentElement.dataset['skyStreakProgress']).toBeUndefined();
+    stop();
+    stop = startLivingTheme(document, timing, undefined, 600);
+    expect(Number(document.documentElement.dataset['skySunriseAt'])).toBeGreaterThan(now);
+    stop();
+    expect(document.documentElement.dataset['skySunriseAt']).toBeUndefined();
+    expect(document.documentElement.dataset['skyStreakProgress']).toBeUndefined();
   });
   it('discovers, updates and clears lighting tokens through the existing runtime', async () => {
     Reflect.deleteProperty(document, 'startViewTransition');

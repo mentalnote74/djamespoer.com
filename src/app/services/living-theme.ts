@@ -2,6 +2,7 @@ import {
   livingAnchors,
   livingFrame,
   livingTiming,
+  sunriseStreakProgress,
   type LivingAnchor,
   type LivingThemeClock,
 } from './living-theme-clock';
@@ -107,6 +108,13 @@ export function startLivingTheme(
       return;
     }
     lastElapsed = elapsed;
+    if (frame.from === 'rum-runner' && !frame.wipe) {
+      if (clock) root.dataset['skyStreakProgress'] = String(sunriseStreakProgress(frame));
+      else root.dataset['skySunriseAt'] = String(window.performance.now() + frame.remainingMs);
+    } else {
+      delete root.dataset['skyStreakProgress'];
+      delete root.dataset['skySunriseAt'];
+    }
     // The selected cycle begins at dusk, including a controlled exact t=0.
     if (elapsed === 0) {
       applyAnchor(livingAnchors[0]);
@@ -176,6 +184,8 @@ export function startLivingTheme(
     transition?.skipTransition();
     motion.removeEventListener('change', changedMotion);
     clearTokens();
+    delete root.dataset['skyStreakProgress'];
+    delete root.dataset['skySunriseAt'];
     delete root.dataset['themeWipe'];
     root.style.removeProperty('--theme-wipe-duration');
   };

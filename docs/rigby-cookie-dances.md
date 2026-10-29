@@ -1,5 +1,12 @@
 # Rigby cookie dance preview — SCRUM-148
 
+## Camera-kiss local refinement - October 29
+
+Removed the full black screen cover and3x face zoom. The face now peaks at1.35x
+with a floppy decorative SVG tongue and tiny slobber drops: a goofy fuzzball
+kiss, not swallowing the screen. Desktop/mobile kiss frames inspected; dialog
+axe0. This is local alongside the circus/Doghouse pass, not deployed.
+
 ## Owner canon and current animation pass - October 29
 
 Rigby is a silly goldendoodle who was top of his class at Teddy Bear School

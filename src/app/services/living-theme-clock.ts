@@ -55,3 +55,14 @@ export function livingLocalElapsed(date: Date, timing = livingTiming): number {
   if (hour < 16) return sunrise + 2 * span + ((hour - 13) / 3) * span;
   return sunrise + 3 * span + ((hour - 16) / 2) * span;
 }
+
+export const SUNRISE_STREAK_LEAD_MS = 1600;
+export const SUNRISE_STREAK_DURATION_MS = 1400;
+/** One streak ends just before the night-to-sunrise wipe; other phases have none. */
+export function sunriseStreakProgress(frame: ReturnType<typeof livingFrame>): number {
+  if (frame.from !== 'rum-runner' || frame.wipe) return 0;
+  const phaseMs = frame.remainingMs / (1 - frame.progress);
+  const lead = Math.min(SUNRISE_STREAK_LEAD_MS, phaseMs * 0.8);
+  const duration = (lead * SUNRISE_STREAK_DURATION_MS) / SUNRISE_STREAK_LEAD_MS;
+  return Math.max(0, Math.min(1, (lead - frame.remainingMs) / duration));
+}

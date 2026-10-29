@@ -34,7 +34,7 @@
 @media(prefers-reduced-motion:reduce){.bedlam__layer{transform:none;}}
 @media(forced-colors:active){.bedlam__scene{display:none;}.bedlam__mask{background:CanvasText;}}
 
-// Living sky uses the shared clock; static themes retain the original canvas renderer.
+// All sky selections share the renderer; the living selection supplies wipe timing.
 :host(.sky-preview) {
   .bedlam { position: static; }
   .bedlam .bedlam__scene {
@@ -43,6 +43,7 @@
   }
   .bedlam__layer { opacity: 1; transform: none; }
   .bedlam__layer:not(:first-of-type) { display: none; }
+  .bedlam__layer.bedlam__night-effects { display: block; z-index: 2; }
 }
 .bedlam__stars {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
