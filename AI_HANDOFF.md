@@ -16,7 +16,14 @@ Guide/greeting CSS warnings7.07/5.52kB, below8kB hard budgets. Reusing prior
 13 focused Rigby tests; final CSS compiled and Chrome frame sampling passed,
 including reduced motion. No paid evaluations or analytics traffic generated.
 Tail asset12,614bytes; provenance docs/rigby-tail-wag-provenance.md.
-Release receipt and production checks will be recorded after pipeline completion.
+Released commit171318294c44bcda90e31f2f546e1d56d716f374 through existing
+main/Workers Builds57cc59a5-ffff-4146-8e06-b71d8177a8d9 (success).
+Worker8f96c110-9912-4bb5-ac06-59ac1af89705 at100%, deployment
+57ac604e-04cd-4e95-b60c-9a7f9a1d2986,2026-10-29T23:25:29.330662Z.
+Production exact tail asset SHA256 verified. Chrome1440/390 natural idle/rest,
+single tail800ms, fur contour, greeting hides roamer, single authored tongue,
+reduced motion, no overflow or page errors passed. Both widths verified on Cookie
+Policy, away from intentional uncollected-cookie excitement. No GA traffic.
 Creative Town remains paused outside the separate un-reproduced collision report.
 
 ## Local Rigby resting-tail correction - October 29
