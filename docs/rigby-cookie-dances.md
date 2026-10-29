@@ -1,5 +1,34 @@
 # Rigby cookie dance preview — SCRUM-148
 
+## Owner canon and current animation pass - October 29
+
+Rigby is a silly goldendoodle who was top of his class at Teddy Bear School
+before James got him: **Certified Gold Star**. This is owner-provided character
+canon. His accomplishments and exuberance belong together; no new career claims.
+
+Current local pass cycles all13 routines until scrolling resumes normal following.
+Existing sprites gain aerial flips; flights clamp to viewport headroom. Desktop
+orientation follows the pointer, falling back to cookie direction without one.
+After activity:5seconds standing/panting,5seconds sitting/wagging,3circles over
+2.7seconds, then resting/wagging. Renewed activity interrupts settling. Explicit
+reduced-motion, pause and hidden-page controls remain honored. New play message:
+"Yay! let's go find some cookies! follow me!" Decline and hover cue use doghouses.
+Latest owner direction: hulk orange Rigby into his blue cookie-beast form once
+at the start, then stay blue for all13 dances, with flying crumbs and a silent
+"nom nom nom..." bubble throughout. Scrolling restores ordinary orange Rigby.
+It is Rigby enjoying cookies, a Cookie Monster nod, not a separate character.
+No new raster assets or dependencies. Earlier one-dance descriptions below are
+historical and superseded by this owner-directed pass. Local review, not released.
+
+Preview: http://127.0.0.1:4317/?rigbyAudition=1 - enable Rigby and choose
+**Full blue cookie circus**. It does not collect cookies or change the jar.
+16 focused tests/build passed; real collection and settling checks passed in
+built Chrome desktop/mobile. Normal dense-screen celebrations may cross content
+until scrolling; resting still requires whitespace. Explicit reduced-motion,
+pause and hidden-page behavior remain supported. New guide CSS is6.24kB, above
+its4kB warning threshold; build succeeds. Owner visual acceptance is pending.
+
+
 Production release: c380f8edf62a0689a7dbfdbb35fabe91884bb5aa through Workers Build
 75de8401-c4c1-4067-b0ca-ec85e7393d93; check123349372000 succeeded. Worker version
 7ec11436-03d8-4130-930a-ba4ed775b113 at100%; deployment

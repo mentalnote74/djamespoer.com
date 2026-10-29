@@ -71,7 +71,7 @@
     transform: translateY(0);
   }
   45% {
-    transform: translateY(-48px);
+    transform: translateY(calc(-1 * var(--rigby-air, 112px)));
   }
 }
 .companion-hello {
@@ -119,7 +119,7 @@
   animation: trot 320ms ease-in-out infinite;
 }
 .dog-motion.celebrating {
-  animation: none;
+  animation: travelling-jump 700ms ease-out infinite;
 }
 .dog-sprite:is(.sitting, .shaking, .begging, .rolling) {
   background-image: url('/assets/rigby/tricks-v1.webp');
@@ -281,5 +281,108 @@ p {
   .companion {
     background: Canvas;
     color: CanvasText;
+  }
+}
+
+// A doghouse cue replaces the generic hover rectangle; native keyboard focus stays.
+.companion-roaming button.companion-hello:hover:not(:disabled),
+.companion-roaming button.companion-hello:active:not(:disabled) {
+  background: transparent;
+  color: var(--page-foreground);
+  border-color: transparent;
+}
+.companion-hello {
+  position: relative;
+}
+.companion-hello::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  clip-path: polygon(
+    5% 44%,
+    50% 5%,
+    95% 44%,
+    86% 44%,
+    86% 95%,
+    62% 95%,
+    62% 68%,
+    38% 68%,
+    38% 95%,
+    14% 95%,
+    14% 44%
+  );
+}
+.companion-hello:is(:hover, :focus-visible)::before {
+  opacity: 0.22;
+}
+.dog-scale {
+  position: relative;
+}
+
+.dog-sprite.standing {
+  background-position: -128px -64px;
+  animation: panting 900ms steps(1, end) infinite;
+}
+.dog-sprite.idle-sitting {
+  position: relative;
+  background-image: url('/assets/rigby/tricks-v1.webp');
+  background-size: 256px 256px;
+  background-position: 0 0;
+}
+.dog-sprite.idle-sitting::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  clip-path: polygon(0 28px, 20px 28px, 24px 45px, 0 56px);
+  transform-origin: 23px 44px;
+  animation: sitting-wag 520ms ease-in-out infinite alternate;
+}
+.dog-motion.circling {
+  animation: nesting-circle 900ms linear 3;
+}
+.dog-sprite.circling {
+  animation: walk-frames 220ms steps(2) infinite;
+}
+@keyframes panting {
+  50% {
+    background-position: -192px -64px;
+  }
+}
+@keyframes sitting-wag {
+  from {
+    transform: rotate(-10deg);
+  }
+  to {
+    transform: rotate(14deg);
+  }
+}
+@keyframes nesting-circle {
+  0%,
+  100% {
+    transform: translate(0, 0) rotateY(0);
+  }
+  25% {
+    transform: translate(10px, -4px) rotateY(90deg);
+  }
+  50% {
+    transform: translate(0, -7px) rotateY(180deg);
+  }
+  75% {
+    transform: translate(-10px, -4px) rotateY(270deg);
+  }
+  100% {
+    transform: translate(0, 0) rotateY(360deg);
+  }
+}
+.no-motion .dog-sprite::after {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dog-sprite::after {
+    animation: none !important;
   }
 }

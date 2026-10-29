@@ -25,14 +25,16 @@ describe('Rigby greeting choices', () => {
     fixture.detectChanges();
     expect(TestBed.inject(RigbyPreferences).enabled()).toBe(true);
     expect(play.disabled).toBe(true);
-    expect(root.querySelector('[role="status"]')?.textContent).toBe("Let's go find some cookies!");
+    expect(root.querySelector('[role="status"]')?.textContent).toBe(
+      "Yay! let's go find some cookies! follow me!",
+    );
     expect(root.querySelector('.hello-stage')?.classList.contains('excited')).toBe(true);
     expect(dialog.close).not.toHaveBeenCalled();
-    vi.advanceTimersByTime(1800);
+    vi.advanceTimersByTime(3200);
     expect(dialog.close).toHaveBeenCalledOnce();
   });
 
-  it('hides Rigby on Maybe later and cancels any pending celebration', () => {
+  it('hides Rigby on No thanks and cancels any pending celebration', () => {
     vi.useFakeTimers();
     const fixture = TestBed.createComponent(RigbyGreeting);
     fixture.detectChanges();
@@ -42,7 +44,7 @@ describe('Rigby greeting choices', () => {
     fixture.componentInstance.maybeLater();
     expect(TestBed.inject(RigbyPreferences).enabled()).toBe(false);
     expect(localStorage.getItem('rigby.enabled.v1')).toBe('off');
-    vi.advanceTimersByTime(1800);
+    vi.advanceTimersByTime(3200);
     expect(dialog.close).toHaveBeenCalledOnce();
   });
 

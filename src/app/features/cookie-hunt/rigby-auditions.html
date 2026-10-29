@@ -6,6 +6,7 @@
   </p>
   <div data-rigby-audition-stage aria-hidden="true"></div>
   <div class="auditions">
+    <button type="button" (click)="play(0, true)">Full blue cookie circus</button>
     @for (dance of dances; track dance.flavor; let index = $index) {
       <button type="button" (click)="play(index)">{{ dance.flavor }}: {{ dance.name }}</button>
     }

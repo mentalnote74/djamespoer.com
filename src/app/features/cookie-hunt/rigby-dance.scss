@@ -25,3 +25,32 @@
   background: url('/assets/rigby/dance-poses-v1.webp') 0 0 / 256px 256px no-repeat;
   image-rendering: pixelated;
 }
+
+.dance-facing {
+  position: absolute;
+  inset: 0;
+}
+
+.cookie-crumb {
+  position: absolute;
+  left: 78px;
+  top: 63px;
+  inline-size: 4px;
+  block-size: 3px;
+  background: #a86623;
+  border-radius: 1px;
+  opacity: 0;
+}
+.cookie-nom {
+  position: absolute;
+  left: 13px;
+  top: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--page-foreground);
+  background: var(--page-background);
+  border-radius: 4px;
+  padding: 2px;
+  opacity: 0;
+}

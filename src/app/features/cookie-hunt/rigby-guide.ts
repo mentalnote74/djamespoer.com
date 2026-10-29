@@ -44,6 +44,8 @@ export class RigbyGuide {
   readonly reduced = signal(true);
   readonly busy = signal(false);
   readonly celebrating = signal(false);
+  readonly settling = signal<'standing' | 'sitting' | 'circling' | 'resting'>('standing');
+  private settleTimer = 0;
   readonly trick = signal<'sit' | 'shake' | 'beg' | 'roll' | null>(null);
   readonly facing = signal(-1);
   readonly placement = signal<{ x: number; y: number } | null>(null);
@@ -51,6 +53,10 @@ export class RigbyGuide {
   readonly dance = signal<DanceRequest | null>(null);
   readonly auditions = signal(false);
   private danceToken = 0;
+  private readonly spriteScale = signal(1);
+  readonly air = computed(() =>
+    Math.min(112, Math.max(0, (this.placement()?.y ?? 0) / this.spriteScale())),
+  );
   private auditioning = false;
   readonly noMotion = computed(
     () => this.rigby.paused() || this.reduced() || !this.visible() || this.busy(),
@@ -101,6 +107,37 @@ export class RigbyGuide {
         view.requestAnimationFrame(() => this.checkScent());
       }
     });
+    effect(() => {
+      const active =
+        this.scrolling() ||
+        this.hopping() ||
+        this.celebrating() ||
+        !!this.dance() ||
+        !!this.trick() ||
+        this.warmth() > 0.55 ||
+        this.rigby.anticipating();
+      const blocked =
+        !this.rigby.enabled() ||
+        this.rigby.paused() ||
+        !this.visible() ||
+        this.busy() ||
+        this.rigby.greetingOpen() ||
+        this.preferences.opened();
+      untracked(() => {
+        const view = this.document.defaultView;
+        view?.clearTimeout(this.settleTimer);
+        this.settling.set('standing');
+        if (active || blocked || !view) return;
+        this.settleTimer = view.setTimeout(() => {
+          this.settling.set('sitting');
+          this.settleTimer = view.setTimeout(() => {
+            this.settling.set('circling');
+            this.settleTimer = view.setTimeout(() => this.settling.set('resting'), 2700);
+          }, 5000);
+        }, 5000);
+      });
+    });
+    this.destroy.onDestroy(() => this.document.defaultView?.clearTimeout(this.settleTimer));
     inject(RigbyArrival);
     this.hunt.collections.pipe(takeUntilDestroyed()).subscribe((stop) => {
       this.playDance(stop.flavor);
@@ -276,9 +313,10 @@ export class RigbyGuide {
       this.placementDirty = false;
       this.placeCompanion(point);
     }
-    const dog = this.document.querySelector('.companion-hello')?.getBoundingClientRect();
-    if (point && dog)
-      this.facing.set(facingTarget(dog.left + dog.width / 2, point.x, this.facing()));
+    const dog = this.document.querySelector('.companion')?.getBoundingClientRect();
+    const facingPoint = this.pointer ?? point;
+    if (facingPoint && dog)
+      this.facing.set(facingTarget(dog.left + dog.width / 2, facingPoint.x, this.facing()));
   }
   reward(): void {
     this.endDance();
@@ -303,13 +341,26 @@ export class RigbyGuide {
       (companion
         ? parseFloat(view.getComputedStyle(companion).getPropertyValue('--rigby-scale')) || 1
         : 1);
+    this.spriteScale.set(size / 64);
     if (this.auditioning) {
       const stage = this.document
         .querySelector('[data-rigby-audition-stage]')
         ?.getBoundingClientRect();
       if (stage) target = { x: stage.left + stage.width / 2, y: stage.top + stage.height / 2 };
     }
-    const next = companionSpace(this.document, target, this.dance() ? danceEnvelope(size) : size);
+    const dancing = !!this.dance();
+    const movingDance = dancing && !this.noMotion();
+    let next = companionSpace(this.document, target, movingDance ? danceEnvelope(size) : size);
+    if (dancing && !movingDance && next) {
+      // A static pose needs only its real sprite footprint, not empty choreography space.
+      next = { x: next.x - size / 2, y: next.y - size / 2 };
+    } else if (movingDance && !next) {
+      const envelope = danceEnvelope(size);
+      if (view.innerWidth >= envelope + 4 && view.innerHeight >= envelope + 4)
+        next = { x: (view.innerWidth - envelope) / 2, y: (view.innerHeight - envelope) * 0.68 };
+      // A deliberate celebration may cross ink; scrolling cancels it immediately.
+      // Ordinary settling still requires whitespace and never rests over content.
+    }
     if (!next) {
       // Dense content has no safe resting place. Wait out of sight, never lie over it.
       view.clearTimeout(this.hopTimer);
@@ -354,10 +405,30 @@ export class RigbyGuide {
     this.celebrating.set(false);
     this.trick.set(null);
     this.auditioning = audition;
-    this.dance.set({ token: ++this.danceToken, flavor });
+    this.dance.set({ token: ++this.danceToken, flavor, blue: !audition, hulking: !audition });
     this.placeCompanion();
-    // No room for the whole choreography: remain out of sight, never dance over ink.
+    // A static pose without any safe resting spot stays out of sight.
     if (!this.placement()) this.endDance();
+  }
+  previewCircus(): void {
+    this.playDance(0, true);
+    this.auditioning = false;
+    const request = this.dance();
+    if (request) this.dance.set({ ...request, blue: true, hulking: true });
+  }
+  danceFinished(token: number): void {
+    const current = this.dance();
+    if (!current || current.token !== token) return;
+    if (this.auditioning) {
+      this.endDance(token);
+      return;
+    }
+    // One player, cached atlas, no queue: run every routine until browsing resumes.
+    this.dance.set({
+      token: ++this.danceToken,
+      flavor: (current.flavor + 1) % 13,
+      blue: current.blue,
+    });
   }
   endDance(token?: number): void {
     if (token !== undefined && token !== this.dance()?.token) return;

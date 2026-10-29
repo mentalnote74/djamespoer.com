@@ -10,11 +10,11 @@ describe('Rigby flavor choreographies', () => {
       for (const s of dance.steps) {
         expect(s.pose).toBeGreaterThanOrEqual(0);
         expect(s.pose).toBeLessThan(16);
-        // Worst-case square rotation: full 64px cell corners must fit its 128px envelope.
+        // Horizontal footprint stays bounded; aerial frames temporarily rise above it.
         const radians = (s.turn * Math.PI) / 180;
         const radius = 32 * (Math.abs(Math.sin(radians)) + Math.abs(Math.cos(radians)));
         expect(Math.abs(s.x) + radius).toBeLessThanOrEqual(64);
-        expect(Math.abs(s.y) + radius).toBeLessThanOrEqual(64);
+        expect(Math.abs(s.y) + radius).toBeLessThanOrEqual(160);
       }
     }
     expect(DANCE_DURATION).toBeGreaterThanOrEqual(3000);

@@ -15,10 +15,12 @@ export interface RigbyDance {
 export interface DanceRequest {
   readonly token: number;
   readonly flavor: number;
+  readonly blue?: boolean;
+  readonly hulking?: boolean;
 }
 const step = (pose: number, x = 0, y = 0, turn = 0): DanceStep => ({ pose, x, y, turn });
-// Shared articulated poses, distinct short choreographies. Coordinates stay inside a
-// 128px envelope: 64px sprite centered with 32px clearance on every side.
+// Shared articulated poses with an airborne circus finale. Resting footprint stays
+// 128px; transient flights are clamped to available viewport headroom by the player.
 const routines = [
   [
     'Cross-paw top rock',
@@ -118,10 +120,16 @@ export const RIGBY_DANCES: readonly RigbyDance[] = routines.map(
     flavor: COOKIE_FLAVORS[index],
     name,
     description,
-    steps,
+    steps: [
+      ...steps,
+      step(10, -12, -72, index % 2 ? -180 : 180),
+      step(6, 8, -112, index % 2 ? -540 : 540),
+      step(3, 0, -24, index % 2 ? -720 : 720),
+      step(0),
+    ],
   }),
 );
-export const DANCE_DURATION = 4200;
+export const DANCE_DURATION = 3600;
 export function danceEnvelope(spriteSize: number): number {
   return spriteSize * 2;
 }

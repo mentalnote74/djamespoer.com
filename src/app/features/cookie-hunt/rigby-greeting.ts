@@ -68,7 +68,7 @@ export class RigbyGreeting {
     this.rigby.setEnabled(true, false);
     this.playing.set(true);
     const view = this.document.defaultView;
-    if (view) this.celebrationTimer = view.setTimeout(() => this.close(), 1800);
+    if (view) this.celebrationTimer = view.setTimeout(() => this.close(), 3200);
     else this.close();
   }
   maybeLater(event?: Event): void {

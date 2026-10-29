@@ -1,3 +1,11 @@
 <span class="dance-stage"
-  ><span class="dance-step"><span class="dance-sprite"></span></span
-></span>
+  ><span class="dance-facing" [style.transform]="'scaleX(' + facing() + ')'">
+    <span class="dance-step"><span class="dance-sprite"></span></span>
+    @if (request().blue || request().flavor === 8) {
+      @for (crumb of crumbs; track crumb) {
+        <span class="cookie-crumb"></span>
+      }
+      <span class="cookie-nom">nom nom nom...</span>
+    }
+  </span></span
+>

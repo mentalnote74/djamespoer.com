@@ -13,15 +13,19 @@
     [attr.data-mood]="mood()"
     [attr.data-trick]="trick()"
     [attr.data-warmth]="warmth()"
+    [style.--rigby-air]="air() + 'px'"
     [style.--wag-duration]="wagDuration() + 'ms'"
   >
     @if (dance(); as request) {
       @defer (when dance()) {
         <app-rigby-dance
           [request]="request"
+          [facing]="facing()"
+          [air]="air()"
           [still]="reduced() || rigby.paused()"
           [suspended]="!visible() || busy() || rigby.paused()"
-          (finished)="endDance($event)"
+          (finished)="danceFinished($event)"
+          (unavailable)="endDance($event)"
         />
       }
     } @else {
@@ -41,10 +45,14 @@
               class="dog-motion"
               [class.walking]="!trick() && mood() === 'walking'"
               [class.celebrating]="!trick() && mood() === 'celebrating'"
+              [class.circling]="!trick() && mood() === 'bored' && settling() === 'circling'"
               ><span
                 class="dog-sprite"
                 [class.walking]="!trick() && mood() === 'walking'"
-                [class.bored]="!trick() && mood() === 'bored'"
+                [class.bored]="!trick() && mood() === 'bored' && settling() === 'resting'"
+                [class.standing]="!trick() && mood() === 'bored' && settling() === 'standing'"
+                [class.idle-sitting]="!trick() && mood() === 'bored' && settling() === 'sitting'"
+                [class.circling]="!trick() && mood() === 'bored' && settling() === 'circling'"
                 [class.excited]="!trick() && mood() === 'excited'"
                 [class.celebrating]="!trick() && mood() === 'celebrating'"
                 [class.sitting]="trick() === 'sit'"
@@ -78,7 +86,13 @@
       {{ temperature() }}
       {{
         mood() === 'bored'
-          ? 'Rigby flops down and waits for the next adventure.'
+          ? settling() === 'resting'
+            ? 'Rigby is resting, tail still wagging.'
+            : settling() === 'circling'
+              ? 'Three circles, then a comfy spot.'
+              : settling() === 'sitting'
+                ? 'Rigby sits and grins, tail wagging.'
+                : 'Rigby is smiling and catching his breath.'
           : 'Rigby is following your lead.'
       }}
     </p>
@@ -123,7 +137,11 @@
   </aside>
   @if (auditions()) {
     @defer (when auditions()) {
-      <app-rigby-auditions (audition)="playDance($event, true)" (stop)="endDance()" />
+      <app-rigby-auditions
+        (audition)="playDance($event, true)"
+        (circus)="previewCircus()"
+        (stop)="endDance()"
+      />
     }
   }
 }

@@ -1,5 +1,39 @@
 # AI Engineering Handoff
 
+## SCRUM-148 local blue-cookie circus follow-up - October 29
+
+Owner-directed local animation pass; not pushed/deployed. Rigby canon: a silly
+goldendoodle, top of his class at Teddy Bear School before James got him,
+Certified Gold Star. Recorded in docs/rigby-cookie-dances.md and introduction.
+
+A collection hulks orange Rigby blue once, then cycles all13 dances in blue with
+crumbs/nom bubble until scrolling restores ordinary following. Existing atlas
+plus lightweight hue/pose/effect animation; no new raster assets/dependencies.
+Flights reach112 logical pixels (168px desktop) when viewport headroom permits.
+Pointer determines desktop orientation; cookie direction remains the fallback.
+After activity:5s standing/panting,5s sitting/wagging,3 circles over2.7s, then
+resting/wagging. Renewed activity cancels settling. Doghouse hover/focus cue
+replaces the generic rectangle; No thanks has a doghouse icon. Play says exactly
+"Yay! let's go find some cookies! follow me!" and stays visible3.2s.
+
+Normal celebrations may briefly cross content on dense screens; scrolling ends
+them. Ordinary resting still requires whitespace. Explicit reduced-motion,
+pause and background controls remain honored. Reduced-motion static portraits
+can stay hidden where no safe sprite-size resting spot exists.
+
+Local preview http://127.0.0.1:4317/?rigbyAudition=1 - enable Rigby, then
+choose Full blue cookie circus. Preview leaves collected cookies unchanged.
+16 focused tests passed; build54 routes, initial473.23kB/118.92kB estimated
+transfer. Rigby guide style warning grew to6.24kB (4kB warning threshold),
+greeting remains4.89kB; no hard budget failure. Built Chrome1440/390x1000 and
+dense390x900 exercised real collection, routine advancement/blue persistence,
+crumbs, pointer facing, pause/resume, scroll cancellation and full settling/three
+circles. One atlas request and0 page errors per normal run. Greeting at1440/390
+had scoped axe0, one avatar, exact copy, no overflow; screenshots inspected.
+Desktop reduced-motion static dance verified. Development full-circus preview
+verified without jar changes. No paid evaluations/GA test traffic.
+Creative Town stays paused. Owner visual acceptance of this new pass is pending.
+
 ## SCRUM-77 theme selection moved to footer ? October 29
 
 Owner approved moving Theme out of primary navigation beside Cookie Jar.

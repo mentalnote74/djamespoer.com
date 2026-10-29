@@ -10,12 +10,13 @@ export class RigbyAuditions {
   readonly dances = RIGBY_DANCES;
   readonly audition = output<number>();
   readonly stop = output<void>();
+  readonly circus = output<void>();
   readonly selected = signal<number | null>(null);
   private frame = 0;
   constructor() {
     inject(DestroyRef).onDestroy(() => cancelAnimationFrame(this.frame));
   }
-  play(index: number): void {
+  play(index: number, circus = false): void {
     cancelAnimationFrame(this.frame);
     this.selected.set(index);
     this.host.nativeElement
@@ -23,7 +24,9 @@ export class RigbyAuditions {
       ?.scrollIntoView({ block: 'center', behavior: 'instant' });
     // Let the scroll handler settle before starting; scrolling cancels a live dance.
     this.frame = requestAnimationFrame(() => {
-      this.frame = requestAnimationFrame(() => this.audition.emit(index));
+      this.frame = requestAnimationFrame(() =>
+        circus ? this.circus.emit() : this.audition.emit(index),
+      );
     });
   }
   stopAudition(): void {
