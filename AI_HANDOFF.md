@@ -2,6 +2,14 @@
 
 ## SCRUM-147 route and Rigby deferred-load recovery — October 29
 
+Released bb1662573acb8ddc3ea5582753239d99c6bb85df through existing main/Workers
+Buildsc8b7b943-fcb6-4298-8637-187786dfee5e, check123520274054 success. Active
+Worker7f77b26f-c5d2-4260-b9e2-b300ebdd3bca at100%, deployment
+14845012-41b9-426f-9312-4449fdb78281. Production Chrome1440/390 controlled one
+missing module per case: route recovered to/About and greeting reopened after one
+document reload, with jar intact. Four cases passed. This is deliberately induced
+live failure verification, not a claim of real Android long-idle capture.
+
 Actual owner's retained desktop /ux-product tab exposed repeated old hashed route
 module404s; fresh production HTML referenced a newer main bundle. The separate
 Rigby screenshot then showed a missing deferred greeting chunk andNG0750. These
@@ -25,7 +33,8 @@ private old-version fixture markers restored before commit, exercised1440/390:
 old route404→intended page, old greeting404→one greeting with hidden roamer,
 persistent greeting404→bounded automatic retry plus native Enter retry, and jar
 preservation. Six scenarios passed; fallback axe zero violations. No broad suite
-pass or real Android long-idle verification claimed. Production receipt follows.
+pass or real Android long-idle verification claimed. Retained old-code tabs still
+need one manual refresh to obtain this correction; no prior-asset archive added.
 Creative Town paused; Bedlam, approved dances and October29 publication preserved.
 
 ## Brief handoff recovery / host wake support — October 29
@@ -33,8 +42,9 @@ Creative Town paused; Bedlam, approved dances and October29 publication preserve
 One late payload10207 is now published through existing run40889817184, with exact
 live section-text read-back. Today's local authoring alarm was delayed by host
 standby. Owner requested a Windows wake-only task: daily08:57 Eastern,
-WakeToRun=true,15-minute awake window, next run October30. Manual task start is
-verified; a physical scheduled wake/on-time future Jira save is not yet verified.
+WakeToRun=true,awake until10:05 (4080seconds), next run October30. Initial15-minute
+manual run completed with result0; final68-minute duration/schedule read back.
+A physical scheduled wake/on-time future Jira save is not yet verified.
 Normal five-minute AC sleep was restored. Existing08:59 authoring alarm and10AM
 publisher are unchanged; no second author/publisher/store. Operational evidence
 is in SCRUM-57 comment10209 and local task XML, not public host-activity logs.
