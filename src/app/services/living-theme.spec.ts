@@ -2,12 +2,13 @@ import {
   livingAnchors,
   livingFrame,
   livingTiming,
+  livingLocalElapsed,
   interpolatePalette,
   startLivingTheme,
 } from './living-theme';
 
 describe('Living theme controlled clock', () => {
-  it('follows all seven anchors and wraps after roughly four hours', () => {
+  it('follows all seven anchors and wraps after exactly 180 seconds', () => {
     expect(livingAnchors).toEqual([
       'tequila-sunset',
       'rum-runner',
@@ -25,12 +26,12 @@ describe('Living theme controlled clock', () => {
       expect(frame.progress).toBe(0);
       time += frame.wipe ? livingTiming.wipeMs : livingTiming.interpolationMs;
     });
-    expect(time).toBe(4 * 60 * 60 * 1000 + 800);
+    expect(time).toBe(180_000);
     expect(livingFrame(time).from).toBe('tequila-sunset');
     expect(livingFrame(time + 1000).progress).toBeCloseTo(600 / livingTiming.interpolationMs);
   });
-  it('moves extremely slowly and never interpolates either polarity boundary', () => {
-    expect(livingFrame(1000).progress).toBeLessThan(0.0004);
+  it('uses the approved pace without interpolating either polarity boundary', () => {
+    expect(livingFrame(1000).progress).toBeCloseTo(600 / livingTiming.interpolationMs);
     const sunset = 0;
     expect(livingFrame(sunset).from).toBe('tequila-sunset');
     expect(livingFrame(sunset).wipe).toBe('sunset');
@@ -48,6 +49,24 @@ describe('Living theme controlled clock', () => {
     expect(livingFrame(600, { interpolationMs: 10, wipeMs: 600 }).from).toBe('rum-runner');
     expect(() => livingFrame(-1)).toThrow();
     expect(() => livingFrame(0, { interpolationMs: 0, wipeMs: 400 })).toThrow();
+  });
+  it('seeds the cycle from the visitor local clock', () => {
+    for (const [hour, anchor] of [
+      [0, 'rum-runner'],
+      [5, 'rum-runner'],
+      [6, 'tequila-sunrise'],
+      [10, 'mojito'],
+      [13, 'pina-colada'],
+      [16, 'mai-tai'],
+      [18, 'rum-runner'],
+      [23, 'rum-runner'],
+    ] as const) {
+      expect(livingFrame(livingLocalElapsed(new Date(2026, 9, 29, hour))).from).toBe(anchor);
+    }
+    expect(livingFrame(livingLocalElapsed(new Date(2026, 9, 29, 11, 30))).progress).toBeCloseTo(
+      0.5,
+    );
+    expect(() => livingLocalElapsed(new Date(NaN))).toThrow();
   });
   it('interpolates shared light geometry and opacity without inventing another clock', () => {
     expect(
@@ -137,7 +156,7 @@ describe('Living theme runtime', () => {
     position = 0;
     await advance(50);
     expect(document.documentElement.dataset['theme']).toBe('tequila-sunset');
-    expect(livingTiming.interpolationMs).toBe(48 * 60 * 1000);
+    expect(livingTiming.interpolationMs).toBe(35_840);
   });
   it('discovers, updates and clears lighting tokens through the existing runtime', async () => {
     Reflect.deleteProperty(document, 'startViewTransition');

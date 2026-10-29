@@ -1,5 +1,8 @@
 <span class="bedlam" aria-hidden="true">
   <span #field class="bedlam__scene">
+    @if (skyPreview()) {
+      <span class="bedlam__stars"></span>
+    }
     <canvas #layer class="bedlam__layer"></canvas>
     <canvas #layer class="bedlam__layer"></canvas>
     <canvas #layer class="bedlam__layer"></canvas>

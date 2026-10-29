@@ -1,6 +1,7 @@
-import { DOCUMENT } from '@angular/common';
-import { DestroyRef, inject, Injectable, NgZone, signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DestroyRef, inject, Injectable, NgZone, PLATFORM_ID, signal } from '@angular/core';
 import type { LivingThemeClock } from './living-theme';
+import { livingFrame, livingLocalElapsed } from './living-theme-clock';
 export type ThemeId =
   | 'teetotaler'
   | 'tequila-sunrise'
@@ -15,7 +16,8 @@ export type ThemeSelection = ThemeId | 'dusk-to-dusk';
 @Injectable({ providedIn: 'root' })
 export class ThemeState {
   private readonly document = inject(DOCUMENT);
-  private readonly selected = signal<ThemeSelection>('teetotaler');
+  private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly selected = signal<ThemeSelection>('dusk-to-dusk');
   private readonly zone = inject(NgZone);
   private stopLiving?: () => void;
   private selectionVersion = 0;
@@ -33,10 +35,11 @@ export class ThemeState {
     { id: 'dusk-to-dusk', label: 'Dusk-to-Dusk' },
   ];
   constructor() {
-    this.setTheme('teetotaler');
+    this.setTheme('dusk-to-dusk');
     inject(DestroyRef).onDestroy(() => {
       this.selectionVersion++;
       this.stopLiving?.();
+      this.document.documentElement.removeAttribute('data-living-sky');
     });
   }
   setTheme(
@@ -50,18 +53,34 @@ export class ThemeState {
     this.stopLiving = undefined;
     this.previewing.set(!!preview && theme === 'dusk-to-dusk');
     if (theme === 'dusk-to-dusk') {
-      this.document.documentElement.setAttribute('data-theme', 'tequila-sunset');
-      void import('./living-theme')
-        .then(({ startLivingTheme }) => {
-          if (version === this.selectionVersion)
-            this.zone.runOutsideAngular(() => {
-              this.stopLiving = startLivingTheme(this.document, preview?.timing, preview?.clock);
-            });
-        })
-        .catch(() => {
-          if (version === this.selectionVersion) this.setTheme('tequila-sunrise');
-        });
-    } else this.document.documentElement.setAttribute('data-theme', theme);
+      const view = this.browser ? this.document.defaultView : null;
+      const initial = preview ? preview.clock.elapsed() : livingLocalElapsed(new Date());
+      const startTime = view?.performance.now() ?? 0;
+      this.document.documentElement.setAttribute('data-living-sky', '');
+      this.document.documentElement.setAttribute(
+        'data-theme',
+        livingFrame(initial, preview?.timing).from,
+      );
+      if (view)
+        void import('./living-theme')
+          .then(({ startLivingTheme }) => {
+            if (version === this.selectionVersion)
+              this.zone.runOutsideAngular(() => {
+                this.stopLiving = startLivingTheme(
+                  this.document,
+                  preview?.timing,
+                  preview?.clock,
+                  initial + view.performance.now() - startTime,
+                );
+              });
+          })
+          .catch(() => {
+            if (version === this.selectionVersion) this.setTheme('tequila-sunrise');
+          });
+    } else {
+      this.document.documentElement.removeAttribute('data-living-sky');
+      this.document.documentElement.setAttribute('data-theme', theme);
+    }
     this.selected.set(theme);
   }
 }

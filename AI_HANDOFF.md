@@ -1,18 +1,21 @@
 # AI Engineering Handoff
 
-## Local Dusk-to-Dusk clock demo — October 29
+## SCRUM-77 approved living sky default ? October 29
 
-Owner requested one lean demo page to scrub/accelerate the existing theme cycle.
-Local only: http://127.0.0.1:4317/demo/dusk-to-dusk (development-mode route).
-Time slider,1–1440× speed, Play/Pause and Reset; default720× is20.8seconds/cycle.
-Native dawn/dusk wipes retain400ms visibility. Uses existing palettes and runtime,
-with optional controlled clock; ordinary production timing remains unchanged.
-Leaving restores the prior theme; header selection takes control, reduced motion
-uses static steps, and playback pauses while hidden. No new assets/dependencies.
-14 focused tests and production build passed; one local Chrome pass saw all seven
-palettes/both wipes, keyboard sliders,390px reflow, reduced motion, theme restore
-and scoped axe0 violations. No broad test/profile work. Not pushed or deployed.
-Creative Town and unrelated work remain untouched.
+Owner approved the swirling sky/stars and a complete 180-second Dusk-to-Dusk
+cycle, starting from the visitor's local clock at page load. This is now the
+default selection; all static themes remain selectable. Local entry uses night
+18?06, sunrise 06?10, morning 10?13, noon 13?16, afternoon 16?18, then advances
+through the short cycle. No geolocation or astronomical sunrise claim.
+
+Shared theme tokens drive sky colors, star opacity and directional CSS shadows.
+Small lazy procedural canvas, no new assets/dependencies; reduced motion freezes
+cloud movement and uses atomic palette changes. Hidden/offscreen sky stops work.
+Development-only /demo/dusk-to-dusk retains scrub/play/speed controls, default 1?;
+production has no demo controls. Server rendering does not start browser timers.
+Focused tests/build and desktop/mobile local-time entry checks passed; existing
+Rigby stylesheet budget warnings remain. Release receipt follows verification.
+Creative Town remains paused; unrelated work is preserved.
 
 ## SCRUM-147 route and Rigby deferred-load recovery — October 29
 

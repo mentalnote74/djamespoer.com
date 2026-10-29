@@ -1,53 +1,57 @@
 .theme-demo {
   padding-block: clamp(1.5rem, 4vw, 3rem);
-}
-.eyebrow {
-  font-weight: 600;
-}
-.demo-controls,
-.sample {
-  padding: clamp(1rem, 3vw, 1.5rem);
-  border: 1px solid var(--panel-border);
-  border-radius: 0.75rem;
-  background: var(--panel-background);
-}
-.demo-controls {
-  margin-block: 1.5rem;
-}
-label,
-.ends {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-label {
-  font-weight: 600;
-  margin-block-start: 1rem;
-}
-output {
-  font-weight: 400;
-}
-input[type='range'] {
-  display: block;
-  inline-size: 100%;
-  min-block-size: 44px;
-  margin: 0;
-  accent-color: var(--page-foreground);
-}
-.ends {
-  font-size: 0.875rem;
-}
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-button {
-  min-block-size: 44px;
-}
-.samples {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-  gap: 1rem;
+  .eyebrow {
+    font-weight: 600;
+  }
+  .demo-controls,
+  .sample {
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--control-border);
+    border-radius: 0.75rem;
+    background: var(--panel-surface);
+  }
+  .demo-controls {
+    margin-block: 1.5rem;
+    box-shadow: var(--elevation-raised);
+  }
+  .sample {
+    box-shadow: var(--elevation-floating);
+  }
+  label,
+  .ends {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  label {
+    font-weight: 600;
+    margin-block-start: 1rem;
+  }
+  output {
+    font-weight: 400;
+  }
+  input[type='range'] {
+    display: block;
+    inline-size: 100%;
+    min-block-size: 44px;
+    margin: 0;
+    accent-color: var(--page-foreground);
+  }
+  .ends {
+    font-size: 0.875rem;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  button {
+    min-block-size: 44px;
+  }
+  .samples {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 1rem;
+  }
 }

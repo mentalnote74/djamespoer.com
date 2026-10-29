@@ -33,3 +33,22 @@
 }
 @media(prefers-reduced-motion:reduce){.bedlam__layer{transform:none;}}
 @media(forced-colors:active){.bedlam__scene{display:none;}.bedlam__mask{background:CanvasText;}}
+
+// Living sky uses the shared clock; static themes retain the original canvas renderer.
+:host(.sky-preview) {
+  .bedlam { position: static; }
+  .bedlam .bedlam__scene {
+    z-index: 0;
+    mask: linear-gradient(to right, #000 0%, #000 25%, rgb(0 0 0 / .7) 42%, transparent 72%);
+  }
+  .bedlam__layer { opacity: 1; transform: none; }
+  .bedlam__layer:not(:first-of-type) { display: none; }
+}
+.bedlam__stars {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(circle at 16px 19px, #fff 0 .7px, transparent 1.5px) 0 0 / 83px 61px,
+    radial-gradient(circle at 38px 12px, #d8e6ff 0 1px, transparent 2px) 17px 12px / 137px 73px,
+    radial-gradient(circle at 20px 37px, #fff1cd 0 .6px, transparent 1.3px) 40px 0 / 107px 97px;
+  opacity: var(--sky-star-opacity);
+}

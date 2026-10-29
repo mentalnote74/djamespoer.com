@@ -1,47 +1,12 @@
-/** Timing/state only; palette values remain authored in Sass. */
-export const livingAnchors = [
-  'tequila-sunset',
-  'rum-runner',
-  'bloody-mary',
-  'tequila-sunrise',
-  'mojito',
-  'pina-colada',
-  'mai-tai',
-] as const;
-export type LivingAnchor = (typeof livingAnchors)[number];
-export const livingTiming = { interpolationMs: 48 * 60 * 1000, wipeMs: 400 };
-export interface LivingThemeClock {
-  elapsed: () => number;
-  refreshMs?: number;
-}
-export function livingFrame(elapsed: number, timing = livingTiming) {
-  if (
-    !Number.isFinite(elapsed) ||
-    elapsed < 0 ||
-    !Number.isFinite(timing.interpolationMs) ||
-    timing.interpolationMs <= 0 ||
-    !Number.isFinite(timing.wipeMs) ||
-    timing.wipeMs <= 0
-  )
-    throw new Error('Invalid living theme timing');
-  const cycleMs = 5 * timing.interpolationMs + 2 * timing.wipeMs;
-  let remaining = elapsed % cycleMs;
-  for (let index = 0; index < livingAnchors.length; index++) {
-    const wipe = index === 0 ? 'sunset' : index === 2 ? 'sunrise' : null;
-    const duration = wipe ? timing.wipeMs : timing.interpolationMs;
-    if (remaining < duration)
-      return {
-        from: livingAnchors[index],
-        to: livingAnchors[(index + 1) % livingAnchors.length],
-        progress: remaining / duration,
-        wipe,
-        remainingMs: duration - remaining,
-        cycleMs,
-      };
-    remaining -= duration;
-  }
-  throw new Error('Unreachable living theme frame');
-}
+import {
+  livingAnchors,
+  livingFrame,
+  livingTiming,
+  type LivingAnchor,
+  type LivingThemeClock,
+} from './living-theme-clock';
+export { livingAnchors, livingFrame, livingTiming, livingLocalElapsed } from './living-theme-clock';
+export type { LivingAnchor, LivingThemeClock } from './living-theme-clock';
 
 type Palette = Record<string, string>;
 const lightingRoles = new Set([
@@ -50,10 +15,15 @@ const lightingRoles = new Set([
   '--shadow-blur',
   '--shadow-spread',
   '--shadow-opacity',
+  '--sky-sun-x',
+  '--sky-sun-y',
+  '--sky-orb-opacity',
+  '--sky-star-opacity',
+  '--sky-cloud-opacity',
 ]);
 function interpolateLighting(from: string, to: string, progress: number) {
-  const a = /^(-?[\d.]+)(px)?$/.exec(from),
-    b = /^(-?[\d.]+)(px)?$/.exec(to);
+  const a = /^(-?[\d.]+)(px|%)?$/.exec(from),
+    b = /^(-?[\d.]+)(px|%)?$/.exec(to);
   if (!a || !b || a[2] !== b[2]) return from;
   return String(Number(a[1]) + (Number(b[1]) - Number(a[1])) * progress) + (a[2] ?? '');
 }
@@ -88,6 +58,7 @@ export function startLivingTheme(
   document: Document,
   timing = livingTiming,
   clock?: LivingThemeClock,
+  initialElapsed = 0,
 ): () => void {
   livingFrame(0, timing);
   const root = document.documentElement;
@@ -128,7 +99,7 @@ export function startLivingTheme(
   };
   const tick = () => {
     if (stopped) return;
-    const elapsed = clock ? clock.elapsed() : window.performance.now() - started;
+    const elapsed = clock ? clock.elapsed() : initialElapsed + window.performance.now() - started;
     const frame = livingFrame(elapsed, timing);
     if (transition) return;
     if (clock && elapsed === lastElapsed) {

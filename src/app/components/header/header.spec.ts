@@ -3,6 +3,7 @@ import { provideRouter, Router } from '@angular/router';
 import { routes } from '../../app.routes';
 import { Header } from './header';
 import { ThemeState } from '../../services/theme-state';
+import { livingFrame, livingLocalElapsed } from '../../services/living-theme-clock';
 
 describe('Header', () => {
   it('keeps Work restricted to employment history and makes project case studies available separately', () => {
@@ -49,7 +50,7 @@ describe('Header', () => {
     expect(list.querySelector('[disabled]')).toBeNull();
     expect(options.every((option) => option.classList.contains('nav-menu-button'))).toBe(true);
     expect(trigger.classList.contains('nav-menu-button')).toBe(false);
-    expect(options[0].getAttribute('aria-pressed')).toBe('true');
+    expect(options.at(-1)?.getAttribute('aria-pressed')).toBe('true');
     options.forEach((option, index) => {
       if (list.hidden) {
         trigger.click();
@@ -59,7 +60,7 @@ describe('Header', () => {
       fixture.detectChanges();
       expect(document.documentElement.getAttribute('data-theme')).toBe(
         state.availableThemes[index].id === 'dusk-to-dusk'
-          ? 'tequila-sunset'
+          ? livingFrame(livingLocalElapsed(new Date())).from
           : state.availableThemes[index].id,
       );
       expect(option.getAttribute('aria-pressed')).toBe('true');
@@ -145,7 +146,13 @@ describe('Header', () => {
   let component: Header;
   let fixture: ComponentFixture<Header>;
 
+  afterEach(() => vi.unstubAllGlobals());
   beforeEach(async () => {
+    vi.stubGlobal('matchMedia', () => ({
+      matches: false,
+      addEventListener() {},
+      removeEventListener() {},
+    }));
     await TestBed.configureTestingModule({
       imports: [Header],
       providers: [provideRouter(routes)],

@@ -1,0 +1,98 @@
+@use 'sass:list';
+$skies: (
+  'tequila-sunset': (
+    #685c99,
+    #e09aab,
+    #ffc987,
+    #ffe7ae,
+    78%,
+    78%,
+    1,
+    0.04,
+    0.35,
+  ),
+  'rum-runner': (
+    #09162e,
+    #152850,
+    #344c71,
+    #e9f0ff,
+    58%,
+    22%,
+    0.5,
+    1,
+    0.08,
+  ),
+  'bloody-mary': (
+    #111831,
+    #2e355c,
+    #816580,
+    #e9efff,
+    24%,
+    55%,
+    0.2,
+    0.8,
+    0.12,
+  ),
+  'tequila-sunrise': (
+    #768aba,
+    #eaa7b1,
+    #ffe0a6,
+    #fff0bd,
+    15%,
+    80%,
+    1,
+    0,
+    0.4,
+  ),
+  'mojito': (
+    #5ca7dd,
+    #a4d4f1,
+    #e7f2fb,
+    #fff3cd,
+    28%,
+    45%,
+    0.8,
+    0,
+    0.85,
+  ),
+  'pina-colada': (
+    #388ed0,
+    #85c5ec,
+    #d9ecfc,
+    #fff6d8,
+    50%,
+    20%,
+    0.7,
+    0,
+    1,
+  ),
+  'mai-tai': (
+    #688fc7,
+    #b8c6ed,
+    #f3ccbb,
+    #ffe4b0,
+    72%,
+    55%,
+    0.9,
+    0,
+    0.65,
+  ),
+);
+$roles: (
+  'top',
+  'mid',
+  'horizon',
+  'orb',
+  'sun-x',
+  'sun-y',
+  'orb-opacity',
+  'star-opacity',
+  'cloud-opacity'
+);
+@each $theme, $values in $skies {
+  :root[data-living-sky][data-theme='#{$theme}'] {
+    @for $i from 1 through 9 {
+      --sky-#{list.nth($roles,$i)}: #{list.nth($values, $i)};
+    }
+  }
+}

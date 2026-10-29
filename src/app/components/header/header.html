@@ -10,9 +10,11 @@
       [routerLinkActiveOptions]="{ exact: true }"
       ariaCurrentWhenActive="page"
       aria-label="djamespoer.com — Home"
-      ><app-bedlam class="navbar-bedlam" [paused]="identityPaused()" /><span class="visually-hidden"
-        >djamespoer.com</span
-      ></a
+      ><app-bedlam
+        class="navbar-bedlam"
+        [paused]="identityPaused()"
+        [skyPreview]="themeState.activeTheme() === 'dusk-to-dusk'"
+      /><span class="visually-hidden">djamespoer.com</span></a
     >
     <button
       #menuButton
@@ -317,7 +319,9 @@
                     height="24"
                     viewBox="0 0 64 64"
                   >
-                    <use [attr.href]="'/assets/theme-icons/menu-c5609b8f166a.svg#' + theme.id"></use>
+                    <use
+                      [attr.href]="'/assets/theme-icons/menu-c5609b8f166a.svg#' + theme.id"
+                    ></use>
                   </svg>
                   {{ theme.label }}
                 </button>

@@ -21,7 +21,7 @@ export class ThemeDemo {
   readonly themes = inject(ThemeState);
   private readonly document = inject(DOCUMENT);
   private readonly original = this.themes.activeTheme();
-  readonly speed = signal(720);
+  readonly speed = signal(1);
   readonly elapsed = signal(0);
   readonly playing = signal(false);
   readonly reduced = signal(false);
