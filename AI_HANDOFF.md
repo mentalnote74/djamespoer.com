@@ -13,8 +13,17 @@ Small lazy procedural canvas, no new assets/dependencies; reduced motion freezes
 cloud movement and uses atomic palette changes. Hidden/offscreen sky stops work.
 Development-only /demo/dusk-to-dusk retains scrub/play/speed controls, default 1?;
 production has no demo controls. Server rendering does not start browser timers.
-Focused tests/build and desktop/mobile local-time entry checks passed; existing
-Rigby stylesheet budget warnings remain. Release receipt follows verification.
+Released 0a91673465c0babc619233e3a0a192322d41fe00 via main/Workers Builds
+515bd183-7a04-4211-b474-014349942bc7 (success). Active Worker version
+5f0a6d81-e302-4f69-b50b-570f8fa9875f at 100%, deployment
+55f83bcd-2bfd-46f7-9196-642c2cd6e8fb, 2026-10-29T18:10:23.730767Z.
+42 focused tests passed; build passed with 54 prerendered routes, initial
+472.92kB / 118.51kB estimated transfer. Existing Rigby style warnings remain.
+Production Chrome at local 02/07/12/17 verified expected entry phases across
+1440/390px, no horizontal overflow, stable reduced-motion clouds and header
+axe 0 violations each. GA requests blocked. Representative checks, no new full
+site audit. The initial SSR build failure was corrected with a browser-platform
+guard before release.
 Creative Town remains paused; unrelated work is preserved.
 
 ## SCRUM-147 route and Rigby deferred-load recovery — October 29
