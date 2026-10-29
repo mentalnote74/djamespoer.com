@@ -10,7 +10,11 @@ No change to static site palettes, stars, cloud algorithm or new assets/dependen
 17 focused ThemeState/header tests passed; build passed (initial474.93kB /
 119.26kB estimated transfer, existing Rigby style warnings). Built Chrome1440/390
 selected all9 options, retained sky canvas/palette and one active selection, with
-no overflow. Release receipt follows live verification. Creative Town stays paused.
+no overflow. Production Chrome repeated all18 selections successfully with GA
+blocked. Released0192129a2d3c6aed2dd917a6f75f6c125f319a17; Workers Build
+ebb5e2cd-ba3c-42c8-b21a-39ed65a4145c succeeded. Worker7587eca5-577f-4a6a-96a3-e0b7f9648377
+at100%; deployment219aa2fc-b0ea-4a9b-b725-bba0b9fbcec4,2026-10-29T18:25:20.606561Z.
+Creative Town stays paused.
 
 ## SCRUM-147 Cookie Jar deferred-load recovery ? October 29
 
