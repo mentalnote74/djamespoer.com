@@ -2,7 +2,8 @@
 
 ## SCRUM-148 cookie dances — October 29, local audition
 
-First implementation ready for owner audition on feature/rigby-cookie-dances
+Owner approved first implementation as "good enough" on October 29, Jira comment
+10204; implementation commit 4e70380 on feature/rigby-cookie-dances
 (base f54e107). All 13 flavors have distinct 4.2-second pose/movement sequences,
 including breakdance floor support and Double Chocolate's blue cookie-beast
 transformation. Successful collection IDs/flavors dispatch rewards; restoration,
@@ -27,7 +28,7 @@ canceled on return with one roamer. Audition axe: zero violations at both widths
 Production build passed: initial 465.99 kB / estimated transfer 116.62 kB; existing
 Rigby warning budgets remain (guide now 4.51kB, greeting4.89kB). Broad known baseline
 failures were not pursued. No production verification or release is claimed.
-Owner art/choreography audition remains; these are stylized first-pass moves.
+Owner art/choreography audition accepted. Release remains unrequested; local and unpushed.
 Bedlam, SCRUM-141/147 and unrelated work preserved; Creative Town remains paused.
 
 ## Rigby desktop sizing — October 28, local preview

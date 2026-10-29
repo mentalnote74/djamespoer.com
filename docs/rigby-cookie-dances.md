@@ -80,7 +80,8 @@ per-frame Angular work, new dependency, video or audio.
 Output variation: the first transformation crouch was generated blue rather than
 orange. The routine intentionally uses the existing orange crouch first, then the
 blue crouch, and ends on an orange pose. Source poses are compact first-pass
-stylizations; owner audition is still needed for choreography/art direction.
+stylizations. James approved the audition as "good enough" on October29 (Jira
+comment10204, implementation4e70380). Release remains unrequested; no deployment.
 
 ## Local verification receipt
 
