@@ -1,6 +1,12 @@
 <a class="skip-link" href="#main-content" (click)="skipToMain($event)">Skip to main content</a>
 
 <app-header [identityPaused]="identityPaused()"></app-header>
+@if (moduleRecovery.routeFailure(); as destination) {
+  <aside class="layout-container" role="alert" aria-label="Page couldn't load">
+    <p>This page couldn't load. Reload to continue.</p>
+    <a [href]="destination">Reload and continue</a>
+  </aside>
+}
 <app-page></app-page>
 @defer (
   on immediate;

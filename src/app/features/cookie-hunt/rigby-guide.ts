@@ -23,9 +23,10 @@ import { companionSpace } from './companion-space';
 import { RigbyDance as RigbyDanceComponent } from './rigby-dance';
 import { RigbyAuditions } from './rigby-auditions';
 import { DanceRequest, danceEnvelope } from './rigby-dances';
+import { RigbyLoadError } from './rigby-load-error';
 @Component({
   selector: 'app-rigby-guide',
-  imports: [RouterLink, RigbyGreeting, RigbyDanceComponent, RigbyAuditions],
+  imports: [RouterLink, RigbyGreeting, RigbyDanceComponent, RigbyAuditions, RigbyLoadError],
   templateUrl: './rigby-guide.html',
   styleUrl: './rigby-guide.scss',
 })

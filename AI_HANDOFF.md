@@ -1,5 +1,44 @@
 # AI Engineering Handoff
 
+## SCRUM-147 route and Rigby deferred-load recovery — October 29
+
+Actual owner's retained desktop /ux-product tab exposed repeated old hashed route
+module404s; fresh production HTML referenced a newer main bundle. The separate
+Rigby screenshot then showed a missing deferred greeting chunk andNG0750. These
+are captured module-load failures, not an established idle expiration timer.
+The original older Android incident remains independently unverified.
+
+Focused correction: recognized lazy-route failures attempt one same-origin full
+document navigation to the intended destination. Rigby's @defer now has an @error
+fallback that attempts the same bounded recovery and resumes the requested greeting
+after reload. A shared session guard permits at most one automatic recovery per
+two minutes; offline/storage-blocked/persistent failures expose native manual
+retry controls instead of looping. Unrelated application errors are not reloaded.
+Cookie collection remains local and survives recovery. Normal navigation clears
+the route failure notice. No dependencies, art, asset-retention store or worker
+pipeline changes. Retained tabs without this new code need one manual refresh.
+
+Verification:14 focused tests pass (recovery classification/guards, greeting,
+cookie collection). Production build passed: initial468.04kB / transfer116.85kB;
+existing Rigby stylesheet warnings remain. Two actual compiled versions, with
+private old-version fixture markers restored before commit, exercised1440/390:
+old route404→intended page, old greeting404→one greeting with hidden roamer,
+persistent greeting404→bounded automatic retry plus native Enter retry, and jar
+preservation. Six scenarios passed; fallback axe zero violations. No broad suite
+pass or real Android long-idle verification claimed. Production receipt follows.
+Creative Town paused; Bedlam, approved dances and October29 publication preserved.
+
+## Brief handoff recovery / host wake support — October 29
+
+One late payload10207 is now published through existing run40889817184, with exact
+live section-text read-back. Today's local authoring alarm was delayed by host
+standby. Owner requested a Windows wake-only task: daily08:57 Eastern,
+WakeToRun=true,15-minute awake window, next run October30. Manual task start is
+verified; a physical scheduled wake/on-time future Jira save is not yet verified.
+Normal five-minute AC sleep was restored. Existing08:59 authoring alarm and10AM
+publisher are unchanged; no second author/publisher/store. Operational evidence
+is in SCRUM-57 comment10209 and local task XML, not public host-activity logs.
+
 ## SCRUM-148 production receipt — October 29
 
 Owner-approved dances released through existing main/Workers Builds. Release

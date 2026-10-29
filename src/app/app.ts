@@ -6,6 +6,7 @@ import { Component, ElementRef, inject, signal } from '@angular/core';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { Page } from './layout/page/page';
+import { ModuleRecovery } from './services/module-recovery';
 
 @Component({
   imports: [Footer, Header, Page, CookiePreferences],
@@ -15,6 +16,7 @@ import { Page } from './layout/page/page';
   templateUrl: './app.html',
 })
 export class App {
+  readonly moduleRecovery = inject(ModuleRecovery);
   readonly rigby = inject(RigbyPreferences);
   readonly cookies = inject(CookiePreferencesService);
   readonly delivery = inject(MobileDelivery);

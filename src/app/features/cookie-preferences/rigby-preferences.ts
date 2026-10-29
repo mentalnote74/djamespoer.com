@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, afterNextRender, inject, signal } from '@angular/core';
+import { GREETING_RETRY_KEY } from '../../services/module-recovery';
 
 const KEY = 'rigby.enabled.v1';
 @Injectable({ providedIn: 'root' })
@@ -15,6 +16,11 @@ export class RigbyPreferences {
     afterNextRender(() => {
       try {
         this.enabled.set(this.document.defaultView?.localStorage.getItem(KEY) === 'on');
+        const session = this.document.defaultView?.sessionStorage;
+        if (session?.getItem(GREETING_RETRY_KEY) === '1') {
+          session.removeItem(GREETING_RETRY_KEY);
+          this.greet();
+        }
       } catch {
         /* Browsing and the in-memory choice still work. */
       }

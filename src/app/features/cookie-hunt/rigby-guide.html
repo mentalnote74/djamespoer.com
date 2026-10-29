@@ -129,4 +129,6 @@
 }
 @defer (when rigby.greetingRequest() > 0) {
   <app-rigby-greeting />
+} @error {
+  <app-rigby-load-error />
 }

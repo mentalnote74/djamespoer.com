@@ -1,0 +1,32 @@
+{
+  "observedDateEastern": "2026-10-29",
+  "issue": "SCRUM-147",
+  "source": "Existing owner Chrome/Windows tab, inspected through native DevTools UI",
+  "affectedUrl": "https://djamespoer.com/ux-product",
+  "refreshedByInvestigation": false,
+  "consoleErrorCountDisplayed": 18,
+  "consoleFailure": "TypeError: Failed to fetch dynamically imported module",
+  "consoleScriptSources": ["main-4XS53J7R.js", "chunk-CtFP05lc.js", "chunk-DOnwS3Me.js"],
+  "failedModuleRequestsInAffectedConsole": [
+    "https://djamespoer.com/chunk-Dtt89tgF.js",
+    "https://djamespoer.com/chunk-C3riYH8S.js",
+    "https://djamespoer.com/chunk-nfYrcK-R.js"
+  ],
+  "independentProductionGets": [
+    { "path": "/chunk-Dtt89tgF.js", "status": 404, "contentType": "text/html" },
+    { "path": "/chunk-C3riYH8S.js", "status": 404, "contentType": "text/html" },
+    { "path": "/chunk-nfYrcK-R.js", "status": 404, "contentType": "text/html" },
+    { "path": "/main-4XS53J7R.js", "status": 404, "contentType": "text/html" }
+  ],
+  "currentPublicHtmlEntry": "main-QRMUSUJR.js",
+  "sourceConfiguration": "provideRouter(routes, withComponentInputBinding()); no custom navigation-error recovery handler found",
+  "finding": "The retained document references unavailable prior-version lazy route modules. Their failed imports prevent Angular route completion. This confirms a stale-module failure for this captured desktop incident.",
+  "unknowns": [
+    "Exact original tab load time and idle interval",
+    "Exact original loaded commit",
+    "Which deployment first retired each unavailable asset",
+    "Whether the older owner Android incident had the same failed requests"
+  ],
+  "runtimeChanges": false,
+  "fixDeployed": false
+}
