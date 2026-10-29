@@ -18,4 +18,8 @@
 }
 @defer (when cookies.opened()) {
   <app-cookie-preferences />
+} @error {
+  @if (cookies.opened()) {
+    <app-cookie-load-error />
+  }
 }

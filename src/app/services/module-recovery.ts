@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const RETRY_KEY = 'portfolio.module-recovery.v1';
 export const GREETING_RETRY_KEY = 'rigby.greeting-retry.v1';
+export const COOKIE_RETRY_KEY = 'portfolio.cookie-jar-retry.v1';
 const RETRY_WINDOW = 120_000;
 
 export function isModuleLoadFailure(error: unknown, depth = 0): boolean {
@@ -23,7 +24,7 @@ export function isModuleLoadFailure(error: unknown, depth = 0): boolean {
   );
 }
 
-/** One full-document recovery per two minutes, shared by routing and Rigby's deferred greeting. */
+/** One full-document recovery per two minutes, shared by routing and deferred dialogs. */
 @Injectable({ providedIn: 'root' })
 export class ModuleRecovery {
   private readonly document = inject(DOCUMENT);
@@ -53,6 +54,21 @@ export class ModuleRecovery {
     if (!view) return;
     try {
       view.sessionStorage.setItem(GREETING_RETRY_KEY, '1');
+    } catch {
+      /* A manual retry still reloads. */
+    }
+    view.location.reload();
+  }
+
+  cookiesFailed(editing: boolean): void {
+    if (this.canRetry()) this.reloadCookies(editing);
+  }
+
+  reloadCookies(editing: boolean): void {
+    const view = this.document.defaultView;
+    if (!view) return;
+    try {
+      view.sessionStorage.setItem(COOKIE_RETRY_KEY, editing ? 'settings' : 'first-visit');
     } catch {
       /* A manual retry still reloads. */
     }

@@ -1,0 +1,13 @@
+<dialog
+  #dialog
+  aria-labelledby="cookie-load-heading"
+  (cancel)="cookies.close()"
+  class="surface-raised"
+>
+  <h2 id="cookie-load-heading">The Cookie Jar couldn't load</h2>
+  <p>Reload to try again. Your saved cookies will stay in the jar.</p>
+  <button type="button" (click)="recovery.reloadCookies(cookies.editing())">
+    Reload Cookie Jar
+  </button>
+  <button type="button" (click)="cookies.close()">Close</button>
+</dialog>

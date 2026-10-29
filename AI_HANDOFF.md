@@ -1,5 +1,23 @@
 # AI Engineering Handoff
 
+## SCRUM-147 Cookie Jar deferred-load recovery ? October 29
+
+Owner screenshot on /case-studies/exl shows another retired deferred module404
+followed by NG0750 when opening Cookie Jar. The root Cookie Preferences defer
+had no @error handling, unlike route and Rigby greeting recovery. Added an eager
+small fallback using the existing shared one-reload/2-minute guard. Reload carries
+one-shot settings/first-visit intent; Cookie Jar reopens without changing stored
+preferences or collected cookies. Offline/repeated failure offers a native modal
+with manual reload, Close/Escape and accessible naming. No reload loop.
+
+15 focused module-recovery/preferences tests passed; production build passed
+(54 routes; initial474.81kB /119.20kB estimated transfer; existing Rigby style
+warnings). Four built-browser cases:1440/390px ? one-time/persistent404, each with
+exactly one automatic reload, saved jar/preferences intact; persistent fallback
+axe0 and Escape close verified. Release receipt follows production verification.
+Existing pre-fix tabs require a refresh to acquire the new recovery code.
+Original Android long-idle acceptance remains open. Creative Town stays paused.
+
 ## SCRUM-77 approved living sky default ? October 29
 
 Owner approved the swirling sky/stars and a complete 180-second Dusk-to-Dusk

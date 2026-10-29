@@ -1,7 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { NavigationError } from '@angular/router';
-import { GREETING_RETRY_KEY, ModuleRecovery, isModuleLoadFailure } from './module-recovery';
+import {
+  COOKIE_RETRY_KEY,
+  GREETING_RETRY_KEY,
+  ModuleRecovery,
+  isModuleLoadFailure,
+} from './module-recovery';
 
 describe('deployment module recovery', () => {
   const missing = new TypeError(
@@ -77,6 +82,27 @@ describe('deployment module recovery', () => {
     recovery.navigationFailed(new NavigationError(1, '/about', missing));
     expect(view.location.reload).toHaveBeenCalledTimes(1);
     expect(view.location.assign).not.toHaveBeenCalled();
+  });
+  it('reopens the Cookie Jar with its original intent and shares the route/greeting retry limit', () => {
+    const recovery = TestBed.inject(ModuleRecovery);
+    recovery.cookiesFailed(true);
+    expect(sessionStorage.getItem(COOKIE_RETRY_KEY)).toBe('settings');
+    expect(view.location.reload).toHaveBeenCalledTimes(1);
+    recovery.cookiesFailed(true);
+    recovery.greetingFailed();
+    recovery.navigationFailed(new NavigationError(1, '/about', missing));
+    expect(view.location.reload).toHaveBeenCalledTimes(1);
+    expect(view.location.assign).not.toHaveBeenCalled();
+  });
+  it('leaves offline Cookie Jar failures for manual retry without changing saved consent', () => {
+    const recovery = TestBed.inject(ModuleRecovery);
+    view.navigator.onLine = false;
+    recovery.cookiesFailed(false);
+    expect(view.location.reload).not.toHaveBeenCalled();
+    expect(sessionStorage.getItem(COOKIE_RETRY_KEY)).toBeNull();
+    recovery.reloadCookies(false);
+    expect(sessionStorage.getItem(COOKIE_RETRY_KEY)).toBe('first-visit');
+    expect(view.location.reload).toHaveBeenCalledTimes(1);
   });
   it('shows manual recovery when storage cannot enforce a cross-reload limit', () => {
     vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {

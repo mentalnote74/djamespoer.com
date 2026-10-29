@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, afterNextRender, computed, inject, signal } from '@angular/core';
+import { COOKIE_RETRY_KEY } from '../../services/module-recovery';
 import {
   PREFERENCE_COOKIE,
   PREFERENCE_MAX_AGE,
@@ -16,6 +17,20 @@ export class CookiePreferencesService {
   readonly editing = signal(false);
   readonly error = signal('');
   private returnTarget: HTMLElement | null = null;
+  constructor() {
+    afterNextRender(() => {
+      try {
+        const session = this.document.defaultView?.sessionStorage;
+        const intent = session?.getItem(COOKIE_RETRY_KEY);
+        if (intent !== 'settings' && intent !== 'first-visit') return;
+        session?.removeItem(COOKIE_RETRY_KEY);
+        if (intent === 'settings') this.openSettings();
+        else this.openFirstVisit();
+      } catch {
+        /* Storage is optional; the Cookie Jar button remains available. */
+      }
+    });
+  }
   private read(): readonly string[] | null {
     try {
       const value = this.document.cookie

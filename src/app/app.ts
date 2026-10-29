@@ -1,6 +1,7 @@
 import { CookiePreferencesService } from './features/cookie-preferences/cookie-preferences.service';
 import { RigbyPreferences } from './features/cookie-preferences/rigby-preferences';
 import { MobileDelivery } from './services/mobile-delivery';
+import { CookieLoadError } from './features/cookie-preferences/cookie-load-error';
 import { CookiePreferences } from './features/cookie-preferences/cookie-preferences';
 import { Component, ElementRef, inject, signal } from '@angular/core';
 import { Footer } from './components/footer/footer';
@@ -9,7 +10,7 @@ import { Page } from './layout/page/page';
 import { ModuleRecovery } from './services/module-recovery';
 
 @Component({
-  imports: [Footer, Header, Page, CookiePreferences],
+  imports: [Footer, Header, Page, CookiePreferences, CookieLoadError],
   selector: 'app-root',
   host: { '[class.with-rigby]': 'rigby.enabled()' },
   styleUrl: './app.scss',
