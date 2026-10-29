@@ -28,7 +28,9 @@ canceled on return with one roamer. Audition axe: zero violations at both widths
 Production build passed: initial 465.99 kB / estimated transfer 116.62 kB; existing
 Rigby warning budgets remain (guide now 4.51kB, greeting4.89kB). Broad known baseline
 failures were not pursued. No production verification or release is claimed.
-Owner art/choreography audition accepted. Release remains unrequested; local and unpushed.
+Owner art/choreography audition accepted. Owner explicitly authorized production
+release October 29. Existing main/Workers Builds pipeline is the release path;
+production receipt and verification will follow. Local code/tests are unchanged.
 Bedlam, SCRUM-141/147 and unrelated work preserved; Creative Town remains paused.
 
 ## Rigby desktop sizing — October 28, local preview

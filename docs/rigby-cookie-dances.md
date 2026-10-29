@@ -1,7 +1,8 @@
 # Rigby cookie dance preview — SCRUM-148
 
 Local-only implementation on `feature/rigby-cookie-dances`, based on `f54e107`.
-No deployment. Creative Town remains paused; Bedlam and SCRUM-141/147 are unchanged.
+Owner authorized production release October29 through the existing main/Workers
+Builds pipeline. Creative Town remains paused; Bedlam and SCRUM-141/147 are unchanged.
 
 ## Audition
 
@@ -81,7 +82,7 @@ Output variation: the first transformation crouch was generated blue rather than
 orange. The routine intentionally uses the existing orange crouch first, then the
 blue crouch, and ends on an orange pose. Source poses are compact first-pass
 stylizations. James approved the audition as "good enough" on October29 (Jira
-comment10204, implementation4e70380). Release remains unrequested; no deployment.
+comment10204, implementation4e70380). Owner subsequently authorized production release.
 
 ## Local verification receipt
 
