@@ -21,7 +21,9 @@ No new raster assets or dependencies. Earlier one-dance descriptions below are
 historical and superseded by this owner-directed pass. Local review, not released.
 
 Preview: http://127.0.0.1:4317/?rigbyAudition=1 - enable Rigby and choose
-**Full blue cookie circus**. It does not collect cookies or change the jar.
+**Full blue cookie circus** inside **Rigby's Doghouse** (collapsed by default).
+All bottom Rigby status/clues/controls and auditions are now in that native
+accordion. It does not collect cookies or change the jar.
 16 focused tests/build passed; real collection and settling checks passed in
 built Chrome desktop/mobile. Normal dense-screen celebrations may cross content
 until scrolling; resting still requires whitespace. Explicit reduced-motion,

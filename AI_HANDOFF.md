@@ -1,5 +1,19 @@
 # AI Engineering Handoff
 
+## Rigby's Doghouse accordion - October 29
+
+Owner asked to hide all bottom-of-page Rigby UI in a collapsed accordion named
+Rigby's Doghouse. Native details/summary now contains cookie count/status, clues,
+trail navigation, all controls and development auditions. Live collection
+announcements remain outside collapsed content. Existing #rigby-controls target
+is inside the details so native fragment navigation can reveal it. Summary uses
+the shared visible keyboard-focus treatment and a doghouse icon. Local only,
+part of the pending circus review; no production release requested this turn.
+11 focused tests and build passed. Built Chrome1440/390 verified default collapsed,
+Enter/Space toggle, visible focus, all9 controls, native #rigby-controls fragment
+reveal, live status outside details, axe0 and no overflow. Open Doghouse to access
+the local Full blue cookie circus audition button.
+
 ## SCRUM-148 local blue-cookie circus follow-up - October 29
 
 Owner-directed local animation pass; not pushed/deployed. Rigby canon: a silly
@@ -22,7 +36,7 @@ pause and background controls remain honored. Reduced-motion static portraits
 can stay hidden where no safe sprite-size resting spot exists.
 
 Local preview http://127.0.0.1:4317/?rigbyAudition=1 - enable Rigby, then
-choose Full blue cookie circus. Preview leaves collected cookies unchanged.
+open Rigby's Doghouse and choose Full blue cookie circus. Preview leaves collected cookies unchanged.
 16 focused tests passed; build54 routes, initial473.23kB/118.92kB estimated
 transfer. Rigby guide style warning grew to6.24kB (4kB warning threshold),
 greeting remains4.89kB; no hard budget failure. Built Chrome1440/390x1000 and

@@ -386,3 +386,16 @@ p {
     animation: none !important;
   }
 }
+
+.doghouse > summary {
+  min-block-size: 44px;
+  padding: 0.5rem 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.doghouse > summary .action-icon {
+  margin-inline: 0.25rem;
+}
+.doghouse-content {
+  padding-block: 0.75rem;
+}

@@ -4,7 +4,8 @@ button,
 a,
 input,
 textarea,
-select {
+select,
+summary {
   &:focus-visible {
     outline: foundation.$focus-width solid currentColor;
     outline-offset: foundation.$focus-offset;
