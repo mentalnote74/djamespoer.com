@@ -11,7 +11,11 @@ No new assets/dependencies or palette/clock changes.22 focused header/footer/the
 state tests passed; build passed with54 routes and initial473.23kB/118.92kB
 estimated transfer (existing Rigby style warnings). Built Chrome1440/390 checked
 all9 choices, header removal, keyboard Escape/focus, panel bounds/no overflow,
-footer axe0 and visual screenshots. Release receipt follows production checks.
+footer axe0 and visual screenshots. Production repeated those checks at both
+widths successfully with GA blocked. Released70a7abcfec3fcbf151f726eab769d676c2f2fd49;
+Workers Build42acb31d-199f-4d71-9363-708a2e0a1a2d succeeded. Active Worker
+f78596e4-d79a-4542-b43d-835cabf95b81 at100%, deployment
+2dda7fcd-ff7b-40c5-871d-4502d5d8107f,2026-10-29T18:38:06.040913Z.
 Creative Town remains paused and unrelated work preserved.
 
 ## SCRUM-77 sky retained across theme selections ? October 29
