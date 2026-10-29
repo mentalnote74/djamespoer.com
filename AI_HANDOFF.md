@@ -1,5 +1,19 @@
 # AI Engineering Handoff
 
+## SCRUM-77 theme selection moved to footer ? October 29
+
+Owner approved moving Theme out of primary navigation beside Cookie Jar.
+The existing choices/icons now use a footer disclosure that opens upward within
+viewport bounds, with selected aria-pressed state, Escape/focus return, outside
+pointer dismissal and focus-leave closure. Default local-time living theme stays
+active from app-shell initialization, independent of deferred footer hydration.
+No new assets/dependencies or palette/clock changes.22 focused header/footer/theme
+state tests passed; build passed with54 routes and initial473.23kB/118.92kB
+estimated transfer (existing Rigby style warnings). Built Chrome1440/390 checked
+all9 choices, header removal, keyboard Escape/focus, panel bounds/no overflow,
+footer axe0 and visual screenshots. Release receipt follows production checks.
+Creative Town remains paused and unrelated work preserved.
+
 ## SCRUM-77 sky retained across theme selections ? October 29
 
 Owner clarified that switching static themes must retain the approved sky Bedlam.

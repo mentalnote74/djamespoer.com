@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { routes } from '../../app.routes';
 import { Header } from './header';
-import { ThemeState } from '../../services/theme-state';
-import { livingFrame, livingLocalElapsed } from '../../services/living-theme-clock';
 
 describe('Header', () => {
   it('keeps Work restricted to employment history and makes project case studies available separately', () => {
@@ -34,56 +32,10 @@ describe('Header', () => {
       ),
     ).toBeNull();
   });
-  it('offers global theme selection through the shared disclosure with an accessible current state', () => {
-    const root = fixture.nativeElement as HTMLElement;
-    const trigger = root.querySelector<HTMLButtonElement>('[aria-controls="theme-navigation"]')!;
-    trigger.click();
-    fixture.detectChanges();
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
-    const list = root.querySelector<HTMLUListElement>('#theme-navigation')!;
-    expect(list.hidden).toBe(false);
-    const options = Array.from(list.querySelectorAll('button'));
-    const state = TestBed.inject(ThemeState);
-    expect(options.map((option) => option.textContent?.trim())).toEqual(
-      state.availableThemes.map((theme) => theme.label),
-    );
-    expect(list.querySelector('[disabled]')).toBeNull();
-    expect(options.every((option) => option.classList.contains('nav-menu-button'))).toBe(true);
-    expect(trigger.classList.contains('nav-menu-button')).toBe(false);
-    expect(options.at(-1)?.getAttribute('aria-pressed')).toBe('true');
-    options.forEach((option, index) => {
-      if (list.hidden) {
-        trigger.click();
-        fixture.detectChanges();
-      }
-      option.click();
-      fixture.detectChanges();
-      expect(document.documentElement.getAttribute('data-theme')).toBe(
-        state.availableThemes[index].id === 'dusk-to-dusk'
-          ? livingFrame(livingLocalElapsed(new Date())).from
-          : state.availableThemes[index].id,
-      );
-      expect(option.getAttribute('aria-pressed')).toBe('true');
-      expect(root.querySelector('app-bedlam')?.classList.contains('sky-preview')).toBe(true);
-      expect(list.hidden).toBe(true);
-      expect(trigger.getAttribute('aria-expanded')).toBe('false');
-      expect(document.activeElement).toBe(trigger);
-      expect(trigger.isContentEditable).not.toBe(true);
-      expect(trigger.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
-      expect(
-        options.filter((button) => button.getAttribute('aria-pressed') === 'true'),
-      ).toHaveLength(1);
-    });
-    options[0].click();
-    fixture.detectChanges();
-    expect(document.documentElement.getAttribute('data-theme')).toBe('teetotaler');
-    trigger.click();
-    fixture.detectChanges();
-    options[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-    fixture.detectChanges();
-    expect(list.hidden).toBe(true);
-    expect(document.activeElement).toBe(trigger);
-    expect(root.querySelector('[role="menu"]')).toBeNull();
+  it('keeps theme selection out of primary navigation', () => {
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector('[aria-controls="theme-navigation"]'),
+    ).toBeNull();
   });
   it('orders About, Work and Perspectives and preserves About destinations', async () => {
     const root = fixture.nativeElement as HTMLElement;
@@ -91,7 +43,7 @@ describe('Header', () => {
       Array.from(root.querySelectorAll('.site-header__nav-list > li > button'), (button) =>
         button.textContent?.trim(),
       ),
-    ).toEqual(['About', 'Work', 'Case Studies', 'Perspectives', 'Blognostisphere', 'Theme']);
+    ).toEqual(['About', 'Work', 'Case Studies', 'Perspectives', 'Blognostisphere']);
     const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
     const list = root.querySelector<HTMLUListElement>('#about-navigation')!;
     expect(list.hidden).toBe(true);

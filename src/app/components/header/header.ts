@@ -4,7 +4,6 @@ import {
   LucideBookOpen,
   LucideNewspaper,
   LucideLayers,
-  LucidePalette,
   LucideMenu,
   LucideChevronDown,
   LucideDownload,
@@ -12,7 +11,6 @@ import {
   LucideExternalLink,
 } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
-import { ThemeState, type ThemeSelection } from '../../services/theme-state';
 import { Component, DestroyRef, ElementRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -26,7 +24,6 @@ import { ARTICLES } from '../../content/public-pages';
     LucideBookOpen,
     LucideNewspaper,
     LucideLayers,
-    LucidePalette,
     LucideMenu,
     LucideChevronDown,
     LucideDownload,
@@ -47,11 +44,10 @@ import { ARTICLES } from '../../content/public-pages';
 })
 export class Header {
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
-  readonly themeState = inject(ThemeState);
   readonly identityPaused = input(false);
   readonly mobileOpen = signal(false);
   readonly openSection = signal<
-    'about' | 'work' | 'case-studies' | 'perspectives' | 'articles' | 'theme' | null
+    'about' | 'work' | 'case-studies' | 'perspectives' | 'articles' | null
   >(null);
   readonly articles = ARTICLES;
   readonly perspectives = [
@@ -97,12 +93,6 @@ export class Header {
       });
   }
 
-  selectTheme(theme: ThemeSelection, trigger: HTMLButtonElement): void {
-    this.themeState.setTheme(theme);
-    this.openSection.set(null);
-    trigger.focus();
-  }
-
   closeOnFocusLeave(event: FocusEvent): void {
     const navigation = event.currentTarget as HTMLElement;
     // Touch browsers may blur the trigger without focusing the pressed link.
@@ -125,7 +115,7 @@ export class Header {
   }
 
   toggleSection(
-    section: 'about' | 'work' | 'case-studies' | 'perspectives' | 'articles' | 'theme',
+    section: 'about' | 'work' | 'case-studies' | 'perspectives' | 'articles',
     button: HTMLButtonElement,
   ): void {
     this.sectionButton = button;

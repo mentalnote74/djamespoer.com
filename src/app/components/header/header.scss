@@ -113,27 +113,9 @@
   }
 }
 
-.site-header__group > .site-header__theme-trigger {
-  user-select: none;
-  &::after {
-    content: none;
-  }
-}
 .site-header__theme-chevron {
   flex: none;
 }
 .site-header__group > button[aria-expanded='true'] .site-header__theme-chevron {
   transform: rotate(180deg);
-}
-
-.site-header__theme-option {
-  gap: 0.5rem;
-}
-.site-header__theme-art {
-  inline-size: 24px;
-  block-size: 24px;
-  flex: 0 0 24px;
-  // Fixed-palette illustrations, including in forced colors; selection/focus
-  // remain on the native button and never depend on the artwork's colors.
-  forced-color-adjust: none;
 }

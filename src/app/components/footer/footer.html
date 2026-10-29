@@ -12,11 +12,61 @@
         <span>Committed to Accessibility</span>
       </button>
 
-      <nav class="site-footer__cookies" aria-label="Cookie Jar">
+      <nav class="site-footer__cookies" aria-label="Site preferences">
         <button type="button" (click)="openCookieSettings($event)">
           <svg lucideCookie class="action-icon" aria-hidden="true" focusable="false"></svg>Cookie
           Jar
         </button>
+        <div
+          #themePanel
+          class="site-footer__theme"
+          (focusout)="closeThemeOnFocusLeave($event)"
+          (keydown.escape)="closeThemeFromEscape($event)"
+        >
+          <button
+            #themeButton
+            class="site-footer__theme-trigger"
+            type="button"
+            [attr.aria-expanded]="themeOpen()"
+            aria-controls="theme-navigation"
+            (click)="themeOpen.update(toggleTheme)"
+          >
+            <svg lucidePalette class="action-icon" aria-hidden="true" focusable="false"></svg>
+            Theme
+            <svg
+              lucideChevronDown
+              class="action-icon site-footer__theme-chevron"
+              aria-hidden="true"
+              focusable="false"
+            ></svg>
+          </button>
+          <ul id="theme-navigation" class="site-footer__theme-options" [hidden]="!themeOpen()">
+            @for (theme of themeState.availableThemes; track theme.id) {
+              <li>
+                <button
+                  class="nav-menu-button site-footer__theme-option"
+                  type="button"
+                  [attr.aria-pressed]="themeState.activeTheme() === theme.id"
+                  (click)="selectTheme(theme.id, themeButton)"
+                >
+                  <svg
+                    class="site-footer__theme-art"
+                    aria-hidden="true"
+                    focusable="false"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 64 64"
+                  >
+                    <use
+                      [attr.href]="'/assets/theme-icons/menu-c5609b8f166a.svg#' + theme.id"
+                    ></use>
+                  </svg>
+                  {{ theme.label }}
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
         <a routerLink="/cookie-policy">Cookie Policy</a>
       </nav>
 

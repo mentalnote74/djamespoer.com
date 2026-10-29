@@ -7,6 +7,7 @@ import { Component, ElementRef, inject, signal } from '@angular/core';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { Page } from './layout/page/page';
+import { ThemeState } from './services/theme-state';
 import { ModuleRecovery } from './services/module-recovery';
 
 @Component({
@@ -17,6 +18,7 @@ import { ModuleRecovery } from './services/module-recovery';
   templateUrl: './app.html',
 })
 export class App {
+  readonly themeState = inject(ThemeState);
   readonly moduleRecovery = inject(ModuleRecovery);
   readonly rigby = inject(RigbyPreferences);
   readonly cookies = inject(CookiePreferencesService);

@@ -10,11 +10,10 @@
       [routerLinkActiveOptions]="{ exact: true }"
       ariaCurrentWhenActive="page"
       aria-label="djamespoer.com — Home"
-      ><app-bedlam
-        class="navbar-bedlam"
-        [paused]="identityPaused()"
-        [skyPreview]="true"
-      /><span class="visually-hidden">djamespoer.com</span></a
+      ><app-bedlam class="navbar-bedlam" [paused]="identityPaused()" [skyPreview]="true" /><span
+        class="visually-hidden"
+        >djamespoer.com</span
+      ></a
     >
     <button
       #menuButton
@@ -276,55 +275,6 @@
                   ariaCurrentWhenActive="page"
                   >{{ article.title }}</a
                 >
-              </li>
-            }
-          </ul>
-        </li>
-        <li class="site-header__group">
-          <button
-            #themeButton
-            class="site-header__theme-trigger"
-            type="button"
-            [attr.aria-expanded]="openSection() === 'theme'"
-            aria-controls="theme-navigation"
-            (click)="toggleSection('theme', themeButton)"
-          >
-            <svg lucidePalette class="action-icon" aria-hidden="true" focusable="false"></svg>
-            Theme
-            <svg
-              lucideChevronDown
-              class="action-icon site-header__theme-chevron"
-              aria-hidden="true"
-              focusable="false"
-            ></svg>
-          </button>
-          <ul
-            id="theme-navigation"
-            class="site-header__submenu"
-            [hidden]="openSection() !== 'theme'"
-          >
-            @for (theme of themeState.availableThemes; track theme.id) {
-              <li>
-                <button
-                  class="nav-menu-button site-header__theme-option"
-                  type="button"
-                  [attr.aria-pressed]="themeState.activeTheme() === theme.id"
-                  (click)="selectTheme(theme.id, themeButton)"
-                >
-                  <svg
-                    class="site-header__theme-art"
-                    aria-hidden="true"
-                    focusable="false"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 64 64"
-                  >
-                    <use
-                      [attr.href]="'/assets/theme-icons/menu-c5609b8f166a.svg#' + theme.id"
-                    ></use>
-                  </svg>
-                  {{ theme.label }}
-                </button>
               </li>
             }
           </ul>

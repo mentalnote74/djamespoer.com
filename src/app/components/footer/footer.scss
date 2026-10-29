@@ -45,3 +45,38 @@
     text-align: end;
   }
 }
+
+.site-footer__theme {
+  position: relative;
+}
+.site-footer__theme-options {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: calc(100% + 0.5rem);
+  z-index: 10;
+  inline-size: max-content;
+  max-inline-size: min(20rem, calc(100vw - 3rem));
+  max-block-size: min(65vh, 27rem);
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  border: 1px solid var(--control-border);
+  border-radius: 0.5rem;
+  background: var(--panel-surface);
+  color: var(--page-foreground);
+  box-shadow: var(--elevation-floating);
+}
+.site-footer__theme-option {
+  inline-size: 100%;
+  gap: 0.5rem;
+}
+.site-footer__theme-art {
+  inline-size: 24px;
+  block-size: 24px;
+  flex: 0 0 24px;
+  forced-color-adjust: none;
+}
+.site-footer__theme-trigger[aria-expanded='true'] .site-footer__theme-chevron {
+  transform: rotate(180deg);
+}
