@@ -1,5 +1,34 @@
 # AI Engineering Handoff
 
+## SCRUM-106 live hero correction - October 30
+
+Owner rejected the static export: it removed the existing animations and fresh
+snowflake draws. Removed all3 still hero files. Hero now embeds the saved staged
+scene, its original scene.js and scene-data.js byte-for-byte, and existing WebP/
+SVG assets. Only header/footer/detail-dialog presentation is hidden. Article and
+/creative remain unchanged; target remains /case-studies/creative-town.
+
+Existing scene placement only reserved limited roles, so extra cast could enter
+the yak queue/showbill. Hero-only presentation adapter checks visible alpha bounds
+against yaks, showbill and plans; reuses existing roam/role slots and ranks other
+occupied artwork. Ground-only cast retain ground-level slots. No cast-selection,
+pool, relationship, count, seed algorithm or animation implementation changes.
+This is targeted yak/sign exclusion, not a claim of collision-free compositions
+for every possible draw. Existing intentionally grouped artwork stays intact.
+
+Live source refreshed through8 distinct draws:47 cast each,3-4 CSS animations
+plus existing animated can asset,0 visible controls and0 unresolved protected
+placements. Embedded page1440/390:3 distinct reloads each, no yak/sign exclusion
+failures, exact199 approved article blocks, responsive16:9 hero, no overflow or
+page errors. OS reduced-motion pauses CSS and selects the existing still can.
+Original selector/manifest hashes and approved-copy tests pass; render-packaging
+checks pass4total. Build initially exposed standalone iframe HTML being treated
+as Angular output; narrowly excluded this one static document, tested, full
+npm run build then passed. Two pre-existing shared case-study test ID assertions
+remain as previously recorded, unchanged. Final static adapter filter browser-
+verified after build. Same local preview4406 remains running; not pushed/deployed.
+This entry supersedes the prior static-hero acceptance notes.
+
 ## SCRUM-106 approved Creative Town case study - October 30
 
 Owner scope: approved article verbatim plus latest assembled scene hero only.

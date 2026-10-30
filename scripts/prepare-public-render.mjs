@@ -83,6 +83,8 @@ export async function preparePublicRender(
     return groups.flat();
   };
   for (const file of await htmlFiles(resolve(directory, 'browser'))) {
+    // The embedded saved Town demo is a standalone document, not Angular output.
+    if (file === resolve(directory, 'browser', 'creative-town-hero', 'index.html')) continue;
     let html = await readFile(file, 'utf8');
     // The complete public stylesheet is only ~2 kB compressed. Inline it to remove
     // a render-blocking round trip; Angular's critical-CSS scanner cannot see lazy views.

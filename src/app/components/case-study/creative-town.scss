@@ -3,10 +3,12 @@
 }
 .town-hero {
   margin-inline: 0;
-  img {
+  iframe {
     display: block;
     inline-size: 100%;
     block-size: auto;
+    aspect-ratio: 16 / 9;
+    border: 0;
   }
 }
 .town-copy {

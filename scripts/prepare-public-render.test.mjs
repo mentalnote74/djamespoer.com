@@ -55,7 +55,11 @@ test('built hints and inline CSS are idempotent and preload only the requested p
       join(dir, 'browser', 'index.csr.html'),
       '<html><head><title>Home</title><meta name="robots" content="index, follow"><link rel="canonical" href="https://djamespoer.com/"><script id="portfolio-structured-data" type="application/ld+json">{}</script><link rel="stylesheet" href="styles-abc.css"></head><body><app-root></app-root></body></html>',
     );
+    const townDocument = '<html><body>Standalone saved Town scene<script src="scene.js"></script></body></html>';
+    await mkdir(join(dir, 'browser', 'creative-town-hero'));
+    await writeFile(join(dir, 'browser', 'creative-town-hero', 'index.html'), townDocument);
     await preparePublicRender(dir);
+    assert.equal(await readFile(join(dir, 'browser', 'creative-town-hero', 'index.html'), 'utf8'), townDocument);
     const csr = await readFile(join(dir, 'browser', 'index.csr.html'), 'utf8');
     assert.equal(csr.includes('data-public-styles'), true);
     assert.match(csr, /name="robots" content="noindex, nofollow"/);
