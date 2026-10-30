@@ -38,7 +38,7 @@
   &.no-motion {
     transition: none;
   }
-  &.hopping {
+  &.hopping:not([data-trick]) {
     pointer-events: none;
     .dog-motion {
       animation: travelling-jump 700ms ease-out infinite;

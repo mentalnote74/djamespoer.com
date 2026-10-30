@@ -1,5 +1,17 @@
 # AI Engineering Handoff
 
+## SCRUM-148 Sit versus relocation-hop priority - October 30
+
+Initial seated-mask releasefc9f795 passed pipeline76d2c2fc-65fc-4395-81d0-fc9cc6fa706b;
+Workerf15f491b-389a-426b-970f-27d0680ea3b0 at100%, deployment
+2e945ede-be27-4da2-87eb-00e8a9aa01f3. Live automatic sit had the correct mask.
+Live commanded Sit exposed a second interaction: in-flight relocation hop CSS
+overrode the sitting body's atlas pose while its tail remained sitting. Hop
+CSS now excludes explicit data-trick states. Compiled Chrome CSS check passed:
+Sit uses corrected contour/no hop animation; removing trick retains jump-poses.
+Final production verification follows the incremental release.
+
+
 ## SCRUM-148 seated duplicate-tail correction - October 30
 
 Owner screenshot reproduced: sitting body mask removed the upper original tail
