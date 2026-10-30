@@ -1,5 +1,25 @@
 # AI Engineering Handoff
 
+## SCRUM-106 production release approved - October 30
+
+Owner accepted live hero and authorized production, specifically adding Creative
+Town under Case Studies between Thingamajob and EXL and ensuring the sitemap.
+Header now uses that exact order; /case-studies/creative-town was already in the
+public page registry and sitemap. Existing /creative remains unchanged. Embedded
+scene now has an explicit /creative-town-hero/ base so Cloudflare clean-URL
+redirects preserve relative JS/artwork URLs. Selector integrity check normalizes
+Git CRLF/LF only; source code/manifest remain unchanged.
+
+Final build passed56 routes; initial475.21kB /119.50kB estimated transfer. Existing
+Rigby stylesheet warnings7.14/5.52kB remain below hard budgets. Header15tests and
+copy/selector/standalone-packaging4tests pass. Built1440/390 checks pass: actual
+nav click with correct order/current state, exact199 approved text blocks,3fresh
+47-cast draws per width, active animations,0 visible demo controls,0 unresolved
+protected yak/sign placements, correct canonical, no overflow/page errors and
+reduced motion. GA blocked. Prior2 unchanged shared CaseStudy ID test failures
+remain recorded; no unrelated fixes or dependency changes included. Production
+pipeline receipt and live results follow deployment.
+
 ## SCRUM-106 live hero correction - October 30
 
 Owner rejected the static export: it removed the existing animations and fresh

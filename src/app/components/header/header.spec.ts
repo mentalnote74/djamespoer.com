@@ -14,6 +14,7 @@ describe('Header', () => {
     expect(component.caseStudies.map((link) => link.path)).toEqual([
       '/work/djamespoer',
       '/thingamajob',
+      '/case-studies/creative-town',
       ...component.work.map((link) => link.path.replace('/work/', '/case-studies/')),
     ]);
   });
@@ -89,6 +90,7 @@ describe('Header', () => {
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '/work/djamespoer',
       '/thingamajob',
+      '/case-studies/creative-town',
       '/case-studies/exl',
       '/case-studies/ips',
       '/case-studies/tcc',

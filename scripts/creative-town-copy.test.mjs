@@ -22,7 +22,7 @@ test('Creative Town preserves approved SCRUM-106 comment 10224 article verbatim'
 });
 
 test('live hero reuses the original selector and cast manifest unchanged', () => {
-  const digest = name => createHash('sha256').update(readFileSync(new URL('../public/creative-town-hero/' + name, import.meta.url))).digest('hex');
-  assert.equal(digest('scene.js'), 'eaed168ff449867b84b9c2904361924a8d6ad6cd3bb88d221e3cd1feef3d606a');
+  const digest = name => createHash('sha256').update(readFileSync(new URL('../public/creative-town-hero/' + name, import.meta.url), 'utf8').replaceAll('\r\n', '\n')).digest('hex');
+  assert.equal(digest('scene.js'), '4e105e1a0103cb1181a72b99ac8e133ddd0d21f511ac00fffaf978dcf5d2591b');
   assert.equal(digest('scene-data.js'), 'c4212823b2dd5008724f7273e412e2c4c25ac76e3b948e011fe3075b7830f65f');
 });
