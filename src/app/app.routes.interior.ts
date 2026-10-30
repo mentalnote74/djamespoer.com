@@ -196,6 +196,14 @@ export const interiorRoutes: Routes = [
       import('./components/case-study/case-study').then(({ CaseStudy }) => CaseStudy),
   })),
   {
+    path: 'case-studies/creative-town',
+    title: 'Creative Town | D. James Poer',
+    loadComponent: () =>
+      import('./components/case-study/creative-town').then(
+        ({ CreativeTownCaseStudy }) => CreativeTownCaseStudy,
+      ),
+  },
+  {
     path: 'case-studies/exl',
     title: 'EXL Case Study | D. James Poer',
     data: {

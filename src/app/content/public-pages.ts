@@ -142,6 +142,12 @@ export const PUBLIC_PAGES: readonly PublicPage[] = [
     kind: 'work',
   },
   {
+    path: 'case-studies/creative-town',
+    title: 'Creative Town | D. James Poer',
+    description:
+      'Could I make something recognizably the same every time you visited, but different enough to make you look twice?',
+  },
+  {
     path: 'case-studies/exl',
     title: 'LifePRO Accessibility & Angular Modernization Case Study | D. James Poer',
     description:

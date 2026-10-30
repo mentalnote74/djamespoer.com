@@ -1,5 +1,31 @@
 # AI Engineering Handoff
 
+## SCRUM-106 approved Creative Town case study - October 30
+
+Owner scope: approved article verbatim plus latest assembled scene hero only.
+Owner selected /case-studies/creative-town; existing /creative is unchanged.
+Article from SCRUM-106 comment10224 preserved as approved Markdown and formatted
+HTML, excluding only the administrative approval heading and implementation note.
+Exact requested heading and all article prose/emphasis/table retained. Direct
+Jira-body comparison and source SHA/199 rendered-text-block equality passed.
+
+Uses existing CaseStudy component and editorial layout. Hero is a clean static
+viewport export of the latest parked demo at2026-10-28/o/outputs/creative-town-staged:
+89 available/47 selected, responsive480/832/1664 WebPs,16:9 full uncropped town.
+Existing scene, assets and selector unchanged; no controls/debug UI/runtime copied.
+No new dependencies, global styles, nav/carousel changes, Rigby or Town behavior.
+Added route/public-page registration/sitemap entry required to serve the URL.
+
+Validation: npm run build passed56 prerenders. Approved-copy Node check1passed;
+existing case-study/validation tests21passed,2failed; metadata5passed. The same
+2 no-ID assertions also fail on unchanged baseline because shared CaseStudy
+already includes a hidden-cookie ID. No unrelated test changes. Existing Rigby
+stylesheet warnings remain below hard budgets. Chrome1440/390 passed exact
+rendered article, loaded responsive hero, no controls/cropping/overflow, one h1/
+main, no page errors, scoped axe0. Both screenshots inspected. Mobile uses73,340B
+hero; desktop593,884B; intermediate206,514B. Local isolated branch only; no push,
+deployment or broader Town work. Changed files and baseline failures to be reported.
+
 ## SCRUM-148 Sit versus relocation-hop priority - October 30
 
 Initial seated-mask releasefc9f795 passed pipeline76d2c2fc-65fc-4395-81d0-fc9cc6fa706b;

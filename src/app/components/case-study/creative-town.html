@@ -1,0 +1,18 @@
+<app-case-study [study]="study">
+  <figure class="editorial-wide town-hero">
+    <img
+      src="/assets/creative-town-case-study/town-1664.webp"
+      srcset="
+        /assets/creative-town-case-study/town-480.webp   480w,
+        /assets/creative-town-case-study/town-832.webp   832w,
+        /assets/creative-town-case-study/town-1664.webp 1664w
+      "
+      sizes="(min-width: 1344px) 1280px, calc(100vw - clamp(1rem, 4vw, 2rem) * 2)"
+      width="1664"
+      height="936"
+      alt="Creative Town’s assembled town square, with its layered scenery, residents, visitors and activity groups."
+      fetchpriority="high"
+    />
+  </figure>
+  <div class="town-copy" [innerHTML]="body"></div>
+</app-case-study>

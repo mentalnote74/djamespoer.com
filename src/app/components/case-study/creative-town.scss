@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+.town-hero {
+  margin-inline: 0;
+  img {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+}
+.town-copy {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
