@@ -395,7 +395,9 @@ p {
 }
 
 .dog-sprite:is(.idle-sitting, .sitting) {
-  clip-path: polygon(25px 15px, 60px 15px, 60px 60px, 6px 60px, 6px 49px, 25px 49px);
+  // Follow the seated rump below the tail root; the original tail also extends
+  // along the ground, outside the upper-left cut used for the wag overlay.
+  clip-path: polygon(25px 15px, 60px 15px, 60px 60px, 23px 60px, 22px 58px, 22px 55px, 23px 52px, 25px 49px);
 }
 .no-motion .dog-tail {
   animation: none !important;

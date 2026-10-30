@@ -1,5 +1,17 @@
 # AI Engineering Handoff
 
+## SCRUM-148 seated duplicate-tail correction - October 30
+
+Owner screenshot reproduced: sitting body mask removed the upper original tail
+but retained its base along the ground beneath the animated overlay. Extended
+the mask around the seated rump below the tail root. No atlas, tail timing,
+resting mask or motion changes. Applies to idle sit and commanded Sit. Chrome
+rendered and visually inspected all8 wag poses in both facing directions;
+one tail, no ground extension. npm run build passed54 routes; existing guide/
+greeting stylesheet warnings7.09/5.52kB below hard budgets. CSS-only correction;
+prior focused behavior tests reused. Release receipt follows pipeline completion.
+
+
 ## SCRUM-148 approved release - October 29
 
 Owner accepted the current Rigby pass and directed release. Supersedes earlier
