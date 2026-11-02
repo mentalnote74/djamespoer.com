@@ -1,3 +1,24 @@
+## SCRUM-106 comment10278 - approved Monty Python addition (November 1)
+
+Read the issue and all3 comments. Inserted the supplied YouTube clip and exact
+approved paragraph after the image-generation failures, before The Stupid Awards.
+Original article, hero, scene.js and scene-data.js remain unchanged. Addition
+archived in docs/articles/approved/creative-town-scrum-106-10278.md. Existing
+CaseStudy/Creative Town styles wrap a native lazy560x315 responsive16:9 iframe;
+meaningful title, fullscreen, native keyboard controls, no autoplay permission.
+All33 supplied timestamp/dialogue cues live in creative-town-video.content.ts
+and appear once in a visually-hidden reading-order transcript; no transcript UI
+or duplicated aria-describedby text. No new runtime animation/dependency/GA logic.
+
+Verification: existing article/selector integrity2/2; focused component1/1.
+Production build passed59 prerendered routes, only existing Rigby style warnings.
+One built-page Chrome session1440/390: video1183.98x665.98 and310x174.375, no
+overflow/page errors, native Tab reaches Play video, all33 cues exposed in the
+browser accessibility tree, scoped axe0 violations. No manual spoken-screen-reader
+session claimed. Initial YouTube requests0; lazy iframe loads after scrolling.
+GA blocked; video not played. Screenshots/results: tmp/swv149/ct-video-*.
+Main/Workers Builds release authorized by James; production receipt follows.
+
 ## SCRUM-149 PROD receipt - November 1
 
 James explicitly approved push/deploy. Main/implementation:

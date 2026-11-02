@@ -8,5 +8,25 @@
       tabindex="-1"
     ></iframe>
   </figure>
-  <div class="town-copy" [innerHTML]="body"></div>
+  <div class="town-copy" [innerHTML]="beforeClip"></div>
+  <figure class="editorial-wide town-video surface-inset">
+    <iframe
+      src="https://www.youtube.com/embed/2f5MvVx8RM8?si=SPMWBcjb4cTgmU3m"
+      title="Monty Python: guards misunderstand instructions to keep the prince in his room"
+      width="560"
+      height="315"
+      loading="lazy"
+      allow="encrypted-media; picture-in-picture; fullscreen"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+    <figcaption>{{ videoParagraph }}</figcaption>
+    <div class="visually-hidden">
+      <h3>Dialogue transcript: Monty Python guard instructions</h3>
+      @for (cue of transcript; track cue.time) {
+        <p>{{ cue.time }}: {{ cue.text }}</p>
+      }
+    </div>
+  </figure>
+  <div class="town-copy" [innerHTML]="afterClip"></div>
 </app-case-study>
