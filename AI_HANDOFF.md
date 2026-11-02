@@ -1,3 +1,16 @@
+## SCRUM-149 PROD receipt - November 1
+
+James explicitly approved push/deploy. Main/implementation:
+96589f3d491f190dfe07f97fa9b0042f57e1e185. Workers Builds succeeded:
+f3296acc-4be2-4a1b-b8e6-dd9f3ba185fc. Worker djamespoer-com version
+74073824-d1f8-40af-ae63-75e00f56f995 at100%; deployment
+d4e5177b-a6f6-41b6-a10c-828a9500154c (2026-11-02T02:31:34.776Z).
+Live /case-studies/shady-white-van returns200. One browser session1440/390:
+one H1, all190 manuscript paragraphs, correct canonical/nav order, responsive
+3:1 iframe, no overflow/page errors; scoped axe0 violations. GA blocked.
+Known upstream keyboard-framing issue remains as recorded below. Ready for
+James's PROD review. Receipt-only local documentation; no second deployment.
+
 ## SCRUM-149 - Shady White Van approved manuscript and live exhibit (November 1)
 
 James supplied the complete manuscript via swv-approved-article.md and explicitly
