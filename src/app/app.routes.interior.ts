@@ -122,6 +122,13 @@ const createProofRoute = (path: string, heading: string): Route => ({
 
 export const interiorRoutes: Routes = [
   {
+    path: 'case-studies/shady-white-van',
+    loadComponent: () =>
+      import('./components/case-study/shady-white-van').then(
+        ({ ShadyWhiteVanCaseStudy }) => ShadyWhiteVanCaseStudy,
+      ),
+  },
+  {
     path: 'blognostisphere',
     loadComponent: () =>
       import('./components/article-index/article-index').then(({ ArticleIndex }) => ArticleIndex),

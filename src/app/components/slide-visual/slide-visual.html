@@ -1,4 +1,14 @@
 @switch (slide().visual) {
+  @case ('shady-white-van') {
+    @defer (on immediate; hydrate when active()) {
+      <app-swv-slide
+        slideVisualReady
+        (slideVisualReady)="ready.emit()"
+        [active]="active()"
+        [hero]="hero()"
+      />
+    }
+  }
   @case ('big-dumb-bass') {
     @defer (on immediate; hydrate when active()) {
       <app-big-dumb-bass-slide

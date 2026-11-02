@@ -142,6 +142,14 @@ export const PUBLIC_PAGES: readonly PublicPage[] = [
     kind: 'work',
   },
   {
+    path: 'case-studies/shady-white-van',
+    title: 'Shady White Van: Fake Band. Real Music. | D. James Poer',
+    description:
+      'A fake band became a React, Three.js and Blender playground: 26 van treatments, procedural graphics, accessibility and human-directed AI development.',
+    kind: 'work',
+    lastModified: '2026-11-01',
+  },
+  {
     path: 'case-studies/creative-town',
     title: 'Creative Town | D. James Poer',
     description:

@@ -16,7 +16,7 @@ export type Source =
   | 'hero'
   | 'page-content'
   | 'footer';
-export type Slide = 'engineering' | 'ux' | 'accessibility' | 'ai' | 'impact' | 'big-dumb-bass';
+export type Slide = 'engineering' | 'ux' | 'accessibility' | 'ai' | 'impact' | 'big-dumb-bass' | 'shady-white-van';
 export const PUBLIC_ROUTES = PUBLIC_PAGES.map(page => '/' + page.path);
 type PublicPath = `/${string}`;
 type NavigationMethod = 'initial' | 'header' | 'carousel' | 'in-page' | 'rigby' | 'hero' | 'footer' | 'history' | 'route';

@@ -68,6 +68,7 @@ export class Header {
     { path: '/work/djamespoer', label: 'djamespoer.com' },
     { path: '/thingamajob', label: 'Thingamajob' },
     { path: '/case-studies/creative-town', label: 'Creative Town' },
+    { path: '/case-studies/shady-white-van', label: 'Shady White Van' },
     ...this.work.map((link) =>
       link.path === '/work/exl'
         ? { ...link, path: '/case-studies/exl' }

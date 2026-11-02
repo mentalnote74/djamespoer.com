@@ -1,3 +1,31 @@
+## SCRUM-149 - Shady White Van approved manuscript and live exhibit (November 1)
+
+James supplied the complete manuscript via swv-approved-article.md and explicitly
+approved PROD release on November 1. Archived under docs/articles/approved/
+shady-white-van-scrum-149.md; original SHA256:
+603089f22f55f5c44013389d6f5fae461a411d2b6285d0c2c0ba2e5891fee0e3.
+Formatting only: exact headings, emphasis, quotes and paragraph order retained.
+
+New lazy route /case-studies/shady-white-van uses the existing CaseStudy shell.
+Case Studies links SWV immediately after Creative Town. Shared SwvSlide supplies
+the fixed https://shadywhitevan.rocks/#swv-embed-stage 1200x400 native iframe in
+the carousel and article. It mounts only when active/in view/document visible;
+unmounting releases the embedded browsing context. Native child controls remain
+keyboard-accessible; no SWV code, camera, zoom or geometry bridge changes.
+Public registry supplies canonical/index-follow/CreativeWork schema and sitemap.
+
+Verification: manuscript fidelity 1/1, header/carousel 42/42; production build
+passed, 59 prerendered routes; initial 475.74kB /119.62kB estimated transfer.
+Only existing Rigby 5.52/7.14kB stylesheet warnings. Existing route suite:
+13 passed, one stale routes[0] assertion fails because of the dev-only demo route;
+left unchanged. Prerender has one H1, all 190 prose paragraphs, correct canonical
+and sitemap entry. No paid evaluator or image generation. Release/live receipt
+will follow the established main/Cloudflare Builds pipeline.
+
+Known upstream embed issue: Tab can reach SWV header/footer links and scroll its
+3:1 view away from the van. Do not hide native keyboard access as a workaround.
+Article has a separate native link to the full SWV site. Owner PROD review follows.
+
 # AI Engineering Handoff
 
 ## SCRUM-106 production release approved - October 30

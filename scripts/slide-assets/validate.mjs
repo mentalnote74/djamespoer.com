@@ -36,6 +36,13 @@ export async function validate() {
   const registry = await readFile('src/app/content/portfolio-slides.ts', 'utf8');
   const visuals = [...registry.matchAll(/visual: '([^']+)'/g)].map((m) => m[1]);
   const covered = new Set([...sets.map((s) => s.id), 'perspective', 'creative']);
+  // The live SWV scene is an external exhibit, not a registered bitmap family.
+  const swv = await readFile('src/app/components/swv-slide/swv-slide.html', 'utf8');
+  const swvStyle = await readFile('src/app/components/swv-slide/swv-slide.scss', 'utf8');
+  if (!swv.includes('https://shadywhitevan.rocks/#swv-embed-stage') ||
+      !swv.includes('width="1200"') || !swv.includes('height="400"') ||
+      !swvStyle.includes('aspect-ratio: 3 / 1')) throw new Error('SWV exhibit must retain its native 3:1 embed contract');
+  covered.add('shady-white-van');
   for (const visual of visuals)
     if (!covered.has(visual)) throw new Error('No asset geometry coverage for ' + visual);
   // Historical URLs stay available, but cannot bypass the live canvas contract.

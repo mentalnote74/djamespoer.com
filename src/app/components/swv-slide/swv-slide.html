@@ -1,0 +1,26 @@
+<div class="swv-scene">
+  @if (mounted()) {
+    <iframe
+      src="https://shadywhitevan.rocks/#swv-embed-stage"
+      title="Shady White Van: live rotating custom van and changing visual treatments"
+      width="1200"
+      height="400"
+      loading="lazy"
+    ></iframe>
+  }
+  @if (!hero()) {
+    <div class="copy">
+      <h2>Shady White Van</h2>
+      <a
+        class="slide-explore"
+        routerLink="/case-studies/shady-white-van"
+        publicTrack
+        trackLocation="carousel"
+        trackSource="carousel"
+        trackSlide="shady-white-van"
+        aria-label="Explore Shady White Van"
+        >Explore</a
+      >
+    </div>
+  }
+</div>

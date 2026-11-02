@@ -15,6 +15,7 @@ describe('Header', () => {
       '/work/djamespoer',
       '/thingamajob',
       '/case-studies/creative-town',
+      '/case-studies/shady-white-van',
       ...component.work.map((link) => link.path.replace('/work/', '/case-studies/')),
     ]);
   });
@@ -91,6 +92,7 @@ describe('Header', () => {
       '/work/djamespoer',
       '/thingamajob',
       '/case-studies/creative-town',
+      '/case-studies/shady-white-van',
       '/case-studies/exl',
       '/case-studies/ips',
       '/case-studies/tcc',

@@ -10,7 +10,8 @@
   | 'moonlight'
   | 'blognostisphere'
   | 'tcc-pig'
-  | 'big-dumb-bass';
+  | 'big-dumb-bass'
+  | 'shady-white-van';
 export interface HeroCopyZone {
   width: number;
   alignment: 'start' | 'center' | 'end';
@@ -26,6 +27,7 @@ const LEFT: HeroCopyZone = {
   mobileAlignment: 'start',
 };
 const HERO_COPY: Record<SlideVisualKind, HeroCopyZone> = {
+  'shady-white-van': LEFT,
   perspective: LEFT,
   creative: {
     ...LEFT,
@@ -107,6 +109,12 @@ const definitions: readonly PortfolioSlideDefinition[] = [
     destination: '/impact',
     visual: 'perspective',
     perspective: 'impact',
+  },
+  {
+    id: 'shady-white-van',
+    label: 'Shady White Van',
+    destination: '/case-studies/shady-white-van',
+    visual: 'shady-white-van',
   },
   { id: 'thingamajob', label: 'Thingamajob', destination: '/thingamajob', visual: 'thingamajob' },
   { id: 'exl', label: 'EXL LifePRO', destination: '/case-studies/exl', visual: 'exl' },

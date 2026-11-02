@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { SwvSlide } from '../swv-slide/swv-slide';
 import { RouterLink } from '@angular/router';
 import { PublicTrack } from '../../services/public-track';
 import { SlideVisualReady } from './slide-visual-ready';
@@ -17,6 +18,7 @@ import { BigDumbBassSlide } from '../big-dumb-bass-slide/big-dumb-bass-slide';
 @Component({
   selector: 'app-slide-visual',
   imports: [
+    SwvSlide,
     RouterLink,
     PublicTrack,
     SlideVisualReady,
