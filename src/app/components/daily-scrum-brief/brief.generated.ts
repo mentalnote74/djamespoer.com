@@ -1,48 +1,49 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-11-02",
+  "date": "2026-11-03",
   "sections": [
     {
-      "heading": "Recently shipped",
+      "heading": "Implemented and reviewed",
       "paragraphs": [
-        "The Shady White Van case study is live with the approved project narrative and a shared, responsive 3:1 exhibit of the actual site. It now appears immediately after Creative Town in Case Studies, with its own canonical address and sitemap registration. The release turns the project’s browser-3D and generative-design work into inspectable portfolio evidence without rewriting the upstream van implementation.",
-        "Creative Town’s case study gained an owner-approved comedy clip and accompanying explanation at the point where the article discusses image-generation failures. The responsive, lazy-loaded player does not autoplay, and the supplied scene transcript is available to assistive technology. The original article, live town hero and scene-selection logic remain intact."
+        "The career-evidence work advanced from locating source files to a maintained source and résumé workflow. The protected test canonical store gained four narrowly scoped Shady White Van project facts, with existing assertions preserved and evidence references retained. A versioned long-form master now incorporates those additions and established work since its October baseline, reducing dependence on chat memory and temporary download locations. This is source maintenance, not a new public application release.",
+        "A local résumé selector now offers three direct choices: full career history, the existing general-purpose résumé, and a job-specific path into Thingamajob. The comprehensive public derivative was reviewed across all ten pages; the existing shorter download remains byte-for-byte intact. The selector and downloads are ready for owner review, with main integration and production release still separate.",
+        "Thingamajob’s future-activity telemetry continuation is also reviewable. It strengthens bounded analytics fields, explicitly marked operator or test activity, and career-evidence follow-through while reusing the existing lifecycle records, correlation and retention design. The historical usage investigation was removed from scope. No deployment or paid evaluation was performed."
       ]
     },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "The Shady White Van release preserved all 190 approved prose paragraphs. Production desktop and mobile checks confirmed the 3:1 exhibit, navigation placement, no horizontal overflow or page errors, and zero violations in the scoped automated accessibility rules. An upstream keyboard-framing limitation remains: tabbing inside the exhibit can reach its header or footer and scroll away from the stage. Native keyboard access and a link to the full site were preserved.",
-        "The Creative Town addition passed focused article-integrity and component checks and a production build. Desktop and mobile verification found all 33 supplied timestamped dialogue cues in the browser accessibility tree, usable keyboard access to the player and no scoped automated accessibility violations. A manual spoken-screen-reader session was not claimed.",
-        "The evidence review also separated historical performance results from the current heavier 3D experience. New work explicitly requires current mobile and desktop measurement before older baseline scores can be presented as results for the expanded build. Planned security work similarly establishes future verification requirements; creating those stories does not demonstrate implemented controls."
+        "Canonical-source maintenance verified that prior assertions were unchanged and that the existing evaluator query could retrieve the four new project facts with their evidence references. The work preserved the distinction between demonstrated project use and unsupported claims of expertise or tenure; downstream career surfaces were not automatically updated.",
+        "Local selector checks exercised both actual PDF downloads, matching file hashes, keyboard access and direct navigation to Thingamajob at desktop and mobile widths. Focused header tests and a production build passed, with no scoped automated accessibility violations or overflow in the inspected selector. A tagged PDF and visual page inspection do not establish PDF/UA certification.",
+        "The telemetry continuation passed 23 frontend and seven backend fixture tests, strict backend type checking and a final build without provider calls. A missing new file in the saved frontend patch was caught and corrected this morning; the complete patch then passed an isolated apply check. Actual analytics report receipt, verified dollar costs and production acceptance remain unestablished."
       ]
     },
     {
       "heading": "Current focus",
       "paragraphs": [
-        "The next career-evidence work is to reconcile shipped Shady White Van capabilities with the canonical evidence library, professional site, résumé and matching tools. The backlog requires bounded claims with provenance rather than inferring years of expertise from a newly shipped capability. These updates remain planned, not completed.",
-        "A security backlog now covers the current site’s threat model, third-party and deployment boundaries, and architecture and verification gates before account or payment features launch. This is preparation for sensitive functionality, not a claim that login, commerce or security hardening has shipped."
+        "The immediate delivery focus is review and integration of the résumé selector, maintained career sources and paired telemetry patches. All four corresponding work items are in review; completed local checks and protected-source updates must remain distinct from public production availability.",
+        "The broader Shady White Van career-propagation work remains open. Maintaining the canonical evidence and master provides a foundation, but it does not by itself complete résumé, LinkedIn, professional-site or matching-tool updates."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Review both case-study additions in production, address the demonstrated exhibit keyboard-framing issue through the upstream implementation, and measure the current 3D experience before making performance claims. Reconcile the evidence library before propagating new career assertions. Establish the security baseline and required account and payment boundaries before implementing those sensitive features."
+        "Review the comprehensive résumé and selector, then integrate and release only the accepted public changes through the existing delivery path. Review the frontend and backend telemetry patches together before a separately authorized release. Carry the scoped project evidence into downstream career claims with provenance, and keep report-ingestion and cost limits explicit until independently verified."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "20a968b372d394dfc6125968d53c9afd4db687fa",
-    "generatorCommit": "20a968b372d394dfc6125968d53c9afd4db687fa",
-    "evidenceSha256": "a736b38106c6b9926544500fcd0642a9bee307d7d5024e7dc93fab74b7c80f7f",
+    "sourceCommit": "fe5691a7692969ac839e35c8d94e253282e4f4d3",
+    "generatorCommit": "fe5691a7692969ac839e35c8d94e253282e4f4d3",
+    "evidenceSha256": "1c8ee688d7973b772335b04ccb7cc0c226f82cdff3caf077c1b8de8242e40c92",
     "method": "ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.",
     "reportingWindow": {
-      "after": "2026-11-01T09:00:13.674-0500",
-      "cutoff": "2026-11-02T09:03:04.994-0500"
+      "after": "2026-11-02T09:03:04.994-0500",
+      "cutoff": "2026-11-03T08:56:52.629-0500"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10282"
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10292"
     ]
   }
 };
