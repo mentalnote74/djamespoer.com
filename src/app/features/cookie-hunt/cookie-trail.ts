@@ -109,7 +109,17 @@ for (const slide of PORTFOLIO_SLIDES) {
   });
 }
 // Existing IDs remain stable, so expanding the trail preserves saved jars.
-export const COOKIE_TRAIL: readonly CookieStop[] = [...priorityStops, ...additionalStops];
+export const COOKIE_TRAIL: readonly CookieStop[] = [
+  ...priorityStops,
+  ...additionalStops,
+  {
+    id: 'article-never-done',
+    path: '/blognostisphere/software-development-is-never-done',
+    label: 'Software Development Is Never Done',
+    flavor: (priorityStops.length + additionalStops.length) % COOKIE_FLAVORS.length,
+    clue: 'Even work that is never done deserves a cookie break.',
+  },
+];
 const INLINE_PATHS = new Set([
   '/',
   '/about',
