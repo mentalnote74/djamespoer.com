@@ -126,14 +126,15 @@
   background: linear-gradient(to right, transparent 0%, transparent 25%, var(--navigation-surface) 72%);
 }
 .site-header__social-icon {
-  display: inline-block; flex: none; inline-size: var(--social-icon-size); block-size: var(--social-icon-size);
-  background: currentColor; mask: var(--social-icon) center / var(--social-button-size) var(--social-button-size) no-repeat;
+  // The shared action-icon class owns the 18px alignment slot.
+  display: inline-block;
+  background: currentColor;
+  mask: var(--social-icon) center / calc(var(--nav-social-glyph-size, 1.125rem) * 2) calc(var(--nav-social-glyph-size, 1.125rem) * 2) no-repeat;
+  // Dense filled marks need less visible area beside Lucide's outline glyphs.
+  &[data-profile='linkedin'], &[data-profile='bluesky'] { --nav-social-glyph-size: 1rem; }
 }
-
 .site-header__social-link {
-  min-block-size: var(--social-button-size);
-  box-sizing: border-box;
-  gap: var(--social-button-gap);
+  gap: .5rem;
   &:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: .2em; }
 }
 

@@ -1,3 +1,11 @@
+## Inline navigation icon balance — November 4, 2026
+
+Header social marks now use the shared 18px action-icon alignment slot and the
+same 8px icon/label gap and standard nav-menu-item row height/font as Resume and
+Contact. LinkedIn/Bluesky optically render at 16px; X/Facebook at 18px. Their
+official silhouettes are preserved. Footer button sizing and BEDLAM composition
+are unchanged. Nav remains plain static icons with native links/focus behavior.
+
 # Instance styling boundary — November 4, 2026
 
 BEDLAM has no CSS gradient or theme-name branch. Callers provide sky star artwork

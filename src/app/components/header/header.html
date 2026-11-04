@@ -97,7 +97,7 @@
                   <a publicTrack trackLocation="primary-navigation" trackSource="navigation"
                     class="site-header__nav-link site-header__social-link" [href]="profile.url" target="_blank"
                     rel="me noopener noreferrer" [attr.aria-label]="'D. James Poer on ' + profile.label">
-                    <span class="site-header__social-icon" aria-hidden="true"
+                    <span class="action-icon site-header__social-icon" aria-hidden="true" [attr.data-profile]="profile.id"
                       [style.--social-icon]="'url(/assets/social/positive/' + profile.id + '.svg)'" ></span>{{ profile.label }}
                   </a>
                 </li>
