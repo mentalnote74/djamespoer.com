@@ -1,3 +1,14 @@
+# One-mask composition correction — November 4, 2026
+
+Supersedes the intermediate separate negative asset/API below. One logo SVG per
+service, one container, one BEDLAM field. The same mask defines complementary
+regions using CSS exclude composition. Positive: solid logo, BEDLAM outside.
+Negative: BEDLAM inside logo, solid outside. Root theme swaps the two planes.
+No negativeMask input or negative SVG set. Geometry and interaction states stay
+48px buttons / 24px glyphs / 12px gaps / zero padding.
+
+---
+
 # Matching icon sets — owner correction, November 4, 2026
 
 This supersedes the single-asset/composite approach below. There are eight actual

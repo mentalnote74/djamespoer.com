@@ -44,19 +44,28 @@
   .bedlam__mask { background: CanvasText; }
 }
 
-// Each button uses one selected mask and one edge-to-edge material field.
-:host(.bedlam-fill.has-negative-mask) .bedlam__mask {
-  mask: var(--bedlam-mask) center / 100% 100% no-repeat;
+// One logo URL defines both complementary regions of the same button.
+:host(.bedlam-fill) {
+  --bedlam-solid-plane: none;
+  --bedlam-material-plane: linear-gradient(#000, #000);
+  .bedlam__mask, .bedlam__scene {
+    mask-size: 100% 100%, 100% 100%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-composite: exclude;
+  }
+  .bedlam__mask { mask-image: var(--bedlam-solid-plane), var(--bedlam-mask); }
+  .bedlam__scene { mask-image: var(--bedlam-material-plane), var(--bedlam-mask); }
 }
 :host-context(:root[data-theme='rum-runner']),
 :host-context(:root[data-theme='bloody-mary']) {
-  :host(.bedlam-fill.has-negative-mask) .bedlam__mask {
-    mask-image: var(--bedlam-negative-mask);
+  :host(.bedlam-fill) {
+    --bedlam-solid-plane: linear-gradient(#000, #000);
+    --bedlam-material-plane: none;
   }
 }
-// Accessibility keeps the positive mark even when the material is disabled.
 @media (prefers-reduced-motion: reduce), (forced-colors: active) {
-  :host-context(:root[data-theme]) :host(.bedlam-fill.has-negative-mask) .bedlam__mask {
-    mask-image: var(--bedlam-mask);
+  :host(.bedlam-fill) .bedlam__mask {
+    mask: var(--bedlam-mask) center / 100% 100% no-repeat;
   }
 }

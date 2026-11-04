@@ -1,3 +1,14 @@
+# One-mask composition correction — November 4, 2026
+
+Supersedes the intermediate separate negative asset/API below. One logo SVG per
+service, one container, one BEDLAM field. The same mask defines complementary
+regions using CSS exclude composition. Positive: solid logo, BEDLAM outside.
+Negative: BEDLAM inside logo, solid outside. Root theme swaps the two planes.
+No negativeMask input or negative SVG set. Geometry and interaction states stay
+48px buttons / 24px glyphs / 12px gaps / zero padding.
+
+---
+
 ## SCRUM-165 — local review, November 4
 
 feature/scrum-165 in tmp/scrum-165, based on 57d8a71. Reusable Bedlam masks,

@@ -1,9 +1,12 @@
-# Matching positive and negative social icons
+# One-mask social composition
 
-Four services: LinkedIn, X, Facebook, Bluesky. `positive/` contains standalone marks; `negative/` contains their exact cutouts. Each pair shares the same 48 × 48 viewBox, identical path geometry, position and scale, with the actual mark normalized to 24px maximum extent. No enclosing brand squares or circles. Negative assets contain the complement to the artboard edge.
+positive/ contains the sole rendered logo mask for each of LinkedIn, X, Facebook
+and Bluesky. All share 48px artboards and centered 24px maximum glyph extents.
+BEDLAM uses that one mask and its CSS complement. Theme switches solid glyph /
+material background to material glyph / solid background. No negative assets.
+Nav uses the same marks as plain static icons. Root SVGs are upstream references.
 
-The theme selects one mask per footer button; one BEDLAM field fills the button. Nav uses only positive marks, cropped to the 24px glyph region. Root-level SVGs are upstream reference shapes, no longer rendered.
-
-Font Awesome Free 7.0.0 Brands by Fonticons, Inc. CC BY 4.0. Original path data preserved; viewBoxes, transforms, and complementary masks adapted.
+Font Awesome Free 7.0.0 Brands by Fonticons, Inc., CC BY 4.0. Original path data
+preserved; viewBox and centering/scaling transform adapted.
 https://github.com/FortAwesome/Font-Awesome/tree/7.0.0/svgs/brands
 https://creativecommons.org/licenses/by/4.0/

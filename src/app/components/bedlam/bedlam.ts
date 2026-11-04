@@ -24,15 +24,11 @@ import type { BedlamRuntime } from './runtime';
     '[style.--bedlam-mask-size]': 'maskSize()',
     '[style.--bedlam-mask-position]': 'maskPosition()',
     '[style.--bedlam-mask]': 'maskImage()',
-    '[style.--bedlam-negative-mask]': 'negativeMaskImage()',
-    '[class.has-negative-mask]': '!!negativeMask()',
   },
 })
 export class Bedlam {
   /** Optional foreground identity; null leaves the entire field visible. */
   readonly mask = input<string | null>('/assets/brand/djamespoer.com.logo.svg');
-  readonly negativeMask = input<string | null>(null);
-  readonly negativeMaskImage = computed(() => this.negativeMask() ? `url(${JSON.stringify(this.negativeMask())})` : 'none');
   readonly maskImage = computed(() => this.mask() ? `url(${JSON.stringify(this.mask())})` : 'none');
   /** Fill is sized by its parent; navbar may extend the field across the header. */
   readonly layout = input<'navbar' | 'fill'>('navbar');
