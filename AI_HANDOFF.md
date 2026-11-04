@@ -1,3 +1,26 @@
+## SCRUM-102 Creative Town personal space — November 4, 2026
+
+Local branch fix/scrum-102-town-personal-space (tmp/scrum-102-personal-space),
+not pushed or deployed. Hero placement is now a rule, not hand-nudged slots:
+public/creative-town-hero/placement.js packs roaming cast by visible (alpha)
+bounds with a 22px world gap from everyone, every prop (incl. painted chalkboard/
+planters) and each table's NO TRESPASSING zone (tabletop, legs, floor between,
+seated players). Feet stay on a walkable plaza polygon; opaque planters may not
+cover anyone. Tables slide sideways (each keeps its own gap) to fit core cast.
+Players behind a table are clipped at the tabletop edge read from the SVG; short
+front players who would stand between the legs are seated behind instead. Torso
+spectators are dropped. Capacity overflow is removed and reported
+(data-capacity-conflicts) per the owner rule. scene.js/scene-data.js unchanged.
+Final 30 browser draws: 0 spacing/zone/frame violations, nobody under or
+behind a table, tables always apart, pig 30/30. Known capacity limit: ~16 of 47
+drawn cast don't fit per draw (mostly small extras; donkey missing 7/30,
+sanitation can 10/30), and the committee-to-yak-queue span (~760px) is too
+narrow for two tables plus gaps, so one table still sits within 22px of the
+committee or queue in every draw. Owner decision pending: cast target vs.
+table/committee footprint. Pre-existing ~1s hero long task (main) is ~0.7s now;
+solver runs time-sliced. ng test still fails to compile on the untouched
+authored-studies.spec.ts (pre-existing); build passes.
+
 ## Inline navigation icon balance — November 4, 2026
 
 Header social marks now use the shared 18px action-icon alignment slot and the
