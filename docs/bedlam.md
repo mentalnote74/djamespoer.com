@@ -1,3 +1,13 @@
+# Instance styling boundary — November 4, 2026
+
+BEDLAM has no CSS gradient or theme-name branch. Callers provide sky star artwork
+through --bedlam-star-field. Navbar owns its fade; its next visual tweak is separate.
+Root themes set instance plane tokens to invert solid/material regions. Opaque
+mask plane uses a uniform SVG pixel, not a gradient. One logo mask, one button,
+one BEDLAM field; dimensions and interaction states remain unchanged.
+
+---
+
 # One-mask composition correction — November 4, 2026
 
 Supersedes the intermediate separate negative asset/API below. One logo SVG per

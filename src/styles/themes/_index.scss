@@ -307,3 +307,10 @@ $themes: (
   --bedlam-solid-plane: linear-gradient(#000, #000);
   --bedlam-scene-plane: none;
 }
+
+// Theme selects the two complementary regions on each instance.
+:root[data-theme='rum-runner'] app-bedlam,
+:root[data-theme='bloody-mary'] app-bedlam {
+  --bedlam-solid-plane: var(--bedlam-opaque-plane);
+  --bedlam-material-plane: none;
+}

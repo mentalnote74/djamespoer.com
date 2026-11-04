@@ -27,10 +27,7 @@
 }
 .bedlam__stars {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background:
-    radial-gradient(circle at 16px 19px, #fff 0 .7px, transparent 1.5px) 0 0 / 83px 61px,
-    radial-gradient(circle at 38px 12px, #d8e6ff 0 1px, transparent 2px) 17px 12px / 137px 73px,
-    radial-gradient(circle at 20px 37px, #fff1cd 0 .6px, transparent 1.3px) 40px 0 / 107px 97px;
+  background: var(--bedlam-star-field, none);
   opacity: var(--sky-star-opacity);
 }
 :host(.bedlam-fill) {
@@ -46,23 +43,15 @@
 
 // One logo URL defines both complementary regions of the same button.
 :host(.bedlam-fill) {
-  --bedlam-solid-plane: none;
-  --bedlam-material-plane: linear-gradient(#000, #000);
+  --bedlam-opaque-plane: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Cpath fill='white' d='M0 0h1v1H0z'/%3E%3C/svg%3E");
   .bedlam__mask, .bedlam__scene {
     mask-size: 100% 100%, 100% 100%;
     mask-position: center;
     mask-repeat: no-repeat;
     mask-composite: exclude;
   }
-  .bedlam__mask { mask-image: var(--bedlam-solid-plane), var(--bedlam-mask); }
-  .bedlam__scene { mask-image: var(--bedlam-material-plane), var(--bedlam-mask); }
-}
-:host-context(:root[data-theme='rum-runner']),
-:host-context(:root[data-theme='bloody-mary']) {
-  :host(.bedlam-fill) {
-    --bedlam-solid-plane: linear-gradient(#000, #000);
-    --bedlam-material-plane: none;
-  }
+  .bedlam__mask { mask-image: var(--bedlam-solid-plane, none), var(--bedlam-mask); }
+  .bedlam__scene { mask-image: var(--bedlam-material-plane, var(--bedlam-opaque-plane)), var(--bedlam-mask); }
 }
 @media (prefers-reduced-motion: reduce), (forced-colors: active) {
   :host(.bedlam-fill) .bedlam__mask {
