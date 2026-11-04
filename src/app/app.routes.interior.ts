@@ -137,15 +137,19 @@ export const interiorRoutes: Routes = [
     path: `blognostisphere/${article.slug}`,
     resolve: {
       article: () =>
-        article.slug === ARTICLES[0].slug
-          ? import('./components/article/top-of-the-stack.content').then(({ ARTICLE }) => ARTICLE)
-          : article.slug === ARTICLES[1].slug
-            ? import('./components/article/bot-herder.content').then(({ ARTICLE }) => ARTICLE)
-            : article.slug === ARTICLES[2].slug
-              ? import('./components/article/big-dumb-bass.content').then(({ ARTICLE }) => ARTICLE)
-              : import('./components/article/good-and-good-enough.content').then(
-                  ({ ARTICLE }) => ARTICLE,
-                ),
+        article.slug === 'software-development-is-never-done'
+          ? import('./components/article/never-done.content').then(({ ARTICLE }) => ARTICLE)
+          : article.slug === 'how-do-i-make-it-to-the-top-of-the-stack'
+            ? import('./components/article/top-of-the-stack.content').then(({ ARTICLE }) => ARTICLE)
+            : article.slug === 'honey-should-i-add-bot-herder-to-my-resume'
+              ? import('./components/article/bot-herder.content').then(({ ARTICLE }) => ARTICLE)
+              : article.slug === 'like-a-big-dumb-bass'
+                ? import('./components/article/big-dumb-bass.content').then(
+                    ({ ARTICLE }) => ARTICLE,
+                  )
+                : import('./components/article/good-and-good-enough.content').then(
+                    ({ ARTICLE }) => ARTICLE,
+                  ),
     },
     loadComponent: () => import('./components/article/article').then(({ Article }) => Article),
   })),

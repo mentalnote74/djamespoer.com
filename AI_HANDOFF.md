@@ -2393,3 +2393,11 @@ Engineering remains one parser-discovered image. Selected AVIF bodies: Sunset
 once. Masters/prompts/manifests archived under artwork/djp-beaches, never shipped
 as browser assets. Deploy through main's normal Cloudflare Git pipeline and
 verify the resulting live release.
+
+## SCRUM-164 article publication — November 3
+
+James approved production publication in the work order, superseding the ticket's older staging hold. Added the complete approved Software Development Is Never Done / Just Done Enough for Now copy (139 blocks, 12 body headings) with three internal project links and checked primary research sources. Approved manuscript: docs/articles/approved/05-software-development-is-never-done.md; lazy content: never-done.content.ts. Existing Article/ArticleIndex/Header, themes and CSS reused.
+
+Article ordering now derives centrally from ISO publication dates, newest first, with stable same-day ordering. Old content and lazy-route bindings now use slugs instead of array positions, preserving all existing routes when the catalog is sorted. Shared registry supplies metadata/BlogPosting/canonical/prerender/sitemap; the exact subtitle is separate from the new SEO description.
+
+5 discoverability tests and 4 focused article tests passed; one local production build passed (62 prerenders, 476.19 kB initial / 119.79 kB transfer), with existing nonfatal module-type and Rigby stylesheet warnings. Built Chrome 1440/390: all 139 source blocks preserved, correct menu/index/related order, all five routes 200/correct H1, one main/H1, no overflow/page errors, axe zero for WCAG 2/2.1/2.2 A/AA tags, native keyboard focus/current-page state and browser accessibility-tree heading pass; Teetotaler and Rum Runner checked. No spoken-screen-reader or new Lighthouse benchmark claimed. Initial browser fixture needed a theme-render wait and one keyboard timing rerun; no application change was required. GA and external requests blocked in QA. Evidence: tmp/scrum-164-local/validation.json and screenshots; publication receipt to be recorded in SCRUM-164 after the existing main/Workers Builds release and live verification. Unrelated resume/telemetry worktrees preserved.

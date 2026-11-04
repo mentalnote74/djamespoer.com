@@ -2,12 +2,18 @@ export interface ArticleSummary {
   slug: string;
   title: string;
   dek: string;
+  description?: string;
   publishedDate: string;
   modifiedDate: string;
 }
 
 // Summaries only: the full articles are loaded by their individual lazy routes.
-export const ARTICLES: readonly ArticleSummary[] = [
+export function newestArticlesFirst(articles: readonly ArticleSummary[]): ArticleSummary[] {
+  // ISO publication dates sort chronologically; stable ties preserve existing same-day order.
+  return [...articles].sort((a, b) => b.publishedDate.localeCompare(a.publishedDate));
+}
+
+export const ARTICLES: readonly ArticleSummary[] = newestArticlesFirst([
   {
     slug: 'how-do-i-make-it-to-the-top-of-the-stack',
     title: 'How Do I Make It to the Top of the Stack?',
@@ -36,7 +42,16 @@ export const ARTICLES: readonly ArticleSummary[] = [
     publishedDate: '2026-10-24',
     modifiedDate: '2026-10-24',
   },
-];
+  {
+    slug: 'software-development-is-never-done',
+    title: 'Software Development Is Never Done',
+    dek: 'Just Done Enough for Now',
+    description:
+      'Software development is never done. Reflections on AI agents, engineering judgment, and knowing when useful software is ready to ship.',
+    publishedDate: '2026-11-03',
+    modifiedDate: '2026-11-03',
+  },
+]);
 
 /** Published public content only. Shared by routing, prerendering and the sitemap. */
 export const SITE_ORIGIN = 'https://djamespoer.com';
@@ -214,12 +229,12 @@ export const PUBLIC_PAGES: readonly PublicPage[] = [
     title: 'Blognostisphere | D. James Poer',
     description:
       'Original articles on UX, front-end engineering and AI, written under D. James Poer’s direction as Blognosticator and grounded in building djamespoer.com.',
-    lastModified: '2026-10-24',
+    lastModified: ARTICLES[0].publishedDate,
   },
   ...ARTICLES.map((article): PublicPage => ({
     path: `blognostisphere/${article.slug}`,
     title: `${article.title} | Blognostisphere`,
-    description: article.dek,
+    description: article.description ?? article.dek,
     kind: 'article',
     lastModified: article.modifiedDate,
     article,
@@ -293,7 +308,7 @@ export function structuredDataForPage(page: PublicPage): Record<string, unknown>
                 '@type': 'BlogPosting',
                 '@id': `${url}#article`,
                 headline: page.article.title,
-                description: page.article.dek,
+                description: page.description,
                 url,
                 author: person,
                 publisher: person,

@@ -5,6 +5,8 @@ import {
   PUBLIC_PAGES,
   publicPageForPath,
   structuredDataForPage,
+  ARTICLES,
+  newestArticlesFirst,
 } from '../src/app/content/public-pages.ts';
 
 test('sitemap contains canonical public pages and real journal dates without invented freshness or internal routes', () => {
@@ -18,20 +20,40 @@ test('sitemap contains canonical public pages and real journal dates without inv
   assert.ok(urls.every((url) => /^https:\/\/djamespoer\.com\//.test(url)));
   assert.ok(!/test\/|api\/|career-source|changefreq|priority/.test(xml));
   const dated = [...xml.matchAll(/<url><loc>(.*?)<\/loc><lastmod>(.*?)<\/lastmod><\/url>/g)];
-  assert.equal(dated.length, 5);
+  assert.equal(dated.length, PUBLIC_PAGES.filter((page) => page.lastModified).length);
   assert.ok(
     dated.every(
-      (match) =>
-        match[1].includes('/blognostisphere') &&
-        match[2] ===
-          (match[1].endsWith('/blognostisphere') ||
-          match[1].endsWith('/the-difference-between-good-and-good-enough')
-            ? '2026-10-24'
-            : '2026-10-22'),
+      (match) => match[2] === publicPageForPath(new URL(match[1]).pathname)?.lastModified,
     ),
   );
   assert.throws(() => sitemapFor({ schemaVersion: 1, entries: [{ date: '2026-02-31' }] }));
   assert.throws(() => sitemapFor({ entries: [] }));
+});
+
+test('article publication dates centrally order future additions and preserve same-day order without mutating input', () => {
+  const first = { ...ARTICLES[0], slug: 'first', publishedDate: '2027-01-02' };
+  const second = { ...ARTICLES[0], slug: 'second', publishedDate: '2027-01-02' };
+  const older = {
+    ...ARTICLES[0],
+    slug: 'older',
+    publishedDate: '2026-12-31',
+    modifiedDate: '2027-02-01',
+  };
+  const input = Object.freeze([older, first, second]);
+  assert.deepEqual(
+    newestArticlesFirst(input).map((article) => article.slug),
+    ['first', 'second', 'older'],
+  );
+  assert.deepEqual(
+    input.map((article) => article.slug),
+    ['older', 'first', 'second'],
+  );
+  assert.equal(ARTICLES[0].slug, 'software-development-is-never-done');
+  assert.ok(
+    ARTICLES.every(
+      (article, i) => i === 0 || ARTICLES[i - 1].publishedDate >= article.publishedDate,
+    ),
+  );
 });
 
 test('canonical identity ignores query, fragment, matrix and trailing slash while internal paths are never indexable', () => {

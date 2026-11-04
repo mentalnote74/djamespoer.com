@@ -4,6 +4,8 @@ import { provideRouter } from '@angular/router';
 import { Article } from './article';
 import { SlideHero } from '../slide-hero/slide-hero';
 import { ARTICLES } from '../../content/articles';
+import { interiorRoutes } from '../../app.routes.interior';
+import type { Article as ArticleContent } from './article.model';
 
 @Component({ selector: 'app-slide-hero', template: '<h1>{{ heading() }}</h1>' })
 class HeroStub {
@@ -12,7 +14,11 @@ class HeroStub {
 }
 
 describe('article shared hero composition', () => {
-  for (const slug of ['like-a-big-dumb-bass', 'honey-should-i-add-bot-herder-to-my-resume']) {
+  for (const slug of [
+    'like-a-big-dumb-bass',
+    'honey-should-i-add-bot-herder-to-my-resume',
+    'software-development-is-never-done',
+  ]) {
     it(`preserves one article H1 and only uses registered artwork for ${slug}`, async () => {
       const summary = ARTICLES.find((article) => article.slug === slug);
       expect(summary).toBeDefined();
@@ -41,4 +47,17 @@ describe('article shared hero composition', () => {
       expect(root.querySelector('a')?.getAttribute('href')).toBe('/blognostisphere');
     });
   }
+  it('resolves every existing and new article by slug after publication-date sorting', async () => {
+    for (const summary of ARTICLES) {
+      const route = interiorRoutes.find(
+        (route) => route.path === `blognostisphere/${summary.slug}`,
+      );
+      expect(route?.loadComponent).toBeTypeOf('function');
+      const resolve = route?.resolve?.['article'] as () => Promise<ArticleContent>;
+      const content = await resolve();
+      expect(content.slug).toBe(summary.slug);
+      expect(content.title).toBe(summary.title);
+      expect(content.body.length).toBeGreaterThan(100);
+    }
+  });
 });

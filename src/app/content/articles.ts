@@ -1,4 +1,12 @@
+import { ARTICLES } from './public-pages';
+
 export { ARTICLES, type ArticleSummary } from './public-pages';
+
+export function getArticleSummary(slug: string) {
+  const article = ARTICLES.find((item) => item.slug === slug);
+  if (!article) throw new Error(`Unknown article: ${slug}`);
+  return article;
+}
 
 export const ARTICLE_BYLINE = 'By Blognosticator*';
 export const ARTICLE_AUTHOR_NOTE =
