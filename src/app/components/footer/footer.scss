@@ -6,13 +6,24 @@
 .site-footer__social {
   display: flex;
   flex-wrap: wrap;
-  gap: .5rem;
+  gap: var(--social-button-gap);
   margin-block-end: 1rem;
   a {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    padding: 0;
     display: grid;
     place-items: center;
-    min-inline-size: 44px;
-    min-block-size: 44px;
+    inline-size: var(--social-button-size);
+    block-size: var(--social-button-size);
+    flex: 0 0 var(--social-button-size);
+    box-sizing: border-box;
+    color: var(--navigation-foreground);
+    &:is(:hover, :focus-visible) {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
     border-radius: .25rem;
     background: var(--navigation-surface);
     &:focus-visible {
@@ -98,4 +109,8 @@
 }
 .site-footer__theme-trigger[aria-expanded='true'] .site-footer__theme-chevron {
   transform: rotate(180deg);
+}
+
+@media (forced-colors: active) {
+  .site-footer__social a { background: Canvas; border: 1px solid ButtonText; }
 }

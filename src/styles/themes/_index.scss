@@ -293,3 +293,17 @@ $themes: (
     @include properties($tokens);
   }
 }
+
+// Shared social geometry; theme changes composition, never dimensions.
+:root {
+  --social-button-size: 48px;
+  --social-icon-size: 24px;
+  --social-button-gap: 12px;
+  --bedlam-solid-plane: none;
+  --bedlam-scene-plane: linear-gradient(#000, #000);
+}
+:root[data-theme='rum-runner'],
+:root[data-theme='bloody-mary'] {
+  --bedlam-solid-plane: linear-gradient(#000, #000);
+  --bedlam-scene-plane: none;
+}

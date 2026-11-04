@@ -1,3 +1,51 @@
+# Matching icon sets — owner correction, November 4, 2026
+
+This supersedes the single-asset/composite approach below. There are eight actual
+SVG assets: positive and matching negative sets for LinkedIn, X, Facebook and
+Bluesky. Each pair uses identical logo path data, transform and 48px artboard;
+the actual glyph has a maximum extent of 24px. Negative masks are the exact
+complement to the button edge, with no enclosing brand-square/circle geometry.
+
+BEDLAM accepts a positive mask and optional negativeMask. Each footer
+button renders one BEDLAM field and one foreground mask element. The selected
+root theme chooses which mask that element displays: positive mark over the
+material or negative surrounding area with material showing through the mark.
+Nav uses positive masks as static icons only. The navbar owns its gradient.
+
+All footer social buttons are 48 × 48px, glyphs 24px, gaps 12px, padding zero.
+No normal/hover/focus state changes button dimensions or glyph alignment.
+Hover has a visible outline; keyboard focus adds the 3px two-tone ring.
+Reduced motion and forced colors retain a static positive identity.
+
+Validated: 35 focused tests; final production build; actual preview browser
+checks of all four services in both themes in normal/hover/keyboard-focus states.
+Nothing pushed or deployed.
+
+---
+
+# Social button correction — November 4, 2026
+
+Owner direction supersedes the initial SCRUM-165 treatment below. There are two
+complete theme compositions for LinkedIn, X, Facebook and Bluesky: solid foreground
+mark over edge-to-edge BEDLAM, or BEDLAM inside the mark with a solid complement.
+Both use the same official foreground SVG and exactly one BEDLAM instance.
+Only root theme tokens select the composition. No alternate inverse asset set.
+
+Shared geometry: 48 × 48px footer buttons, 24 × 24px masks, 12px between buttons.
+Nav uses the same 24px static marks with 48px minimum row height and text labels;
+nav marks have no BEDLAM. Footer BEDLAM has zero padding/margin and fills its host.
+Hover and focus retain geometry. Both get a visible outline; keyboard focus gets
+the stronger existing two-tone ring. Nav hover/focus underlines its label.
+Reduced motion and forced colors keep the static foreground identity.
+
+Component fields: mask (nullable URL), layout (navbar/fill), maskSize,
+maskPosition, speed, skyPreview, paused. Foreground color and complementary
+composition are CSS/theme concerns. Decorative fade now belongs to the navbar.
+Facebook is explicitly confirmed: https://www.facebook.com/djamespoer.
+All four marks use Font Awesome Free 7.0.0 Brands; attribution is with the assets.
+
+---
+
 # SCRUM-165: reusable masks and reduced motion (November 4, 2026)
 
 Owner decision in SCRUM-165 comment 10304 supersedes the historical descriptions

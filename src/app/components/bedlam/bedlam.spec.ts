@@ -74,14 +74,19 @@ describe('BEDLAM lifecycle', () => {
     const first = TestBed.createComponent(Bedlam);
     const second = TestBed.createComponent(Bedlam);
     second.componentRef.setInput('mask', '/assets/social/bluesky.svg');
-    second.componentRef.setInput('contained', true);
+    second.componentRef.setInput('layout', 'fill');
+    second.componentRef.setInput('maskSize', '24px 24px');
+    second.componentRef.setInput('maskPosition', 'left center');
     first.detectChanges(); second.detectChanges();
     expect(first.nativeElement.style.getPropertyValue('--bedlam-mask')).toContain('/assets/brand/djamespoer.com.logo.svg');
-    expect(first.nativeElement.classList.contains('bedlam-mark')).toBe(false);
-    expect(first.nativeElement.querySelector('.bedlam--mark')).toBeNull();
+    expect(first.nativeElement.classList.contains('bedlam-fill')).toBe(false);
+    expect(first.componentInstance.maskSize()).toBe('contain');
     expect(second.nativeElement.style.getPropertyValue('--bedlam-mask')).toContain('/assets/social/bluesky.svg');
-    expect(second.nativeElement.classList.contains('bedlam-mark')).toBe(true);
-    expect(second.nativeElement.querySelector('.bedlam--mark')).not.toBeNull();
+    expect(second.nativeElement.classList.contains('bedlam-fill')).toBe(true);
+    expect(second.nativeElement.style.getPropertyValue('--bedlam-mask-size')).toBe('24px 24px');
+    expect(second.nativeElement.style.getPropertyValue('--bedlam-mask-position')).toBe('left center');
+    second.componentRef.setInput('mask', null); second.detectChanges();
+    expect(second.nativeElement.querySelector('.bedlam__mask')).toBeNull();
     first.destroy(); second.destroy();
   });
   it('forwards live pause and speed changes to an initialized runtime and tears down', async () => {

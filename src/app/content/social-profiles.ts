@@ -9,6 +9,6 @@ export interface SocialProfile {
 export const SOCIAL_PROFILES: readonly SocialProfile[] = [
   { id: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/djamespoer' },
   { id: 'x', label: 'X', url: 'https://x.com/djamespoer' },
-  { id: 'facebook', label: 'Facebook' },
+  { id: 'facebook', label: 'Facebook', url: 'https://www.facebook.com/djamespoer' },
   { id: 'bluesky', label: 'Bluesky', url: 'https://bsky.app/profile/djamespoer.com' },
 ];

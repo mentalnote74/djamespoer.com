@@ -1,46 +1,26 @@
-@use '../../../styles/abstracts' as foundation;
-:host {display:block;inline-size:var(--bedlam-inline-size,clamp(12rem,25vw,18rem));}
+:host {
+  display: block;
+  inline-size: var(--bedlam-inline-size, clamp(12rem, 25vw, 18rem));
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
 .bedlam {
-  display:block;block-size:4rem;pointer-events:none;
-  &__scene {
-    position:absolute;inset:0;overflow:clip;z-index:0;
-    mask-image:linear-gradient(to right,#000 0%,#000 22%,rgb(0 0 0 / .7) 34%,rgb(0 0 0 / .18) 50%,transparent 66%,transparent 100%);
-  }
+  display: block;
+  block-size: 4rem;
+  &__scene { position: absolute; inset: 0; overflow: clip; z-index: 0; }
   &__layer {
-    position:absolute;inset:0;inline-size:100%;block-size:100%;
-    opacity:calc(var(--layer-opacity,.2) * 3);
-    transform:translate(var(--layer-x,0),var(--layer-y,0)) rotate(var(--layer-angle,0deg)) scale(var(--layer-scale,1.1));
+    position: absolute; inset: 0; inline-size: 100%; block-size: 100%;
+    opacity: calc(var(--layer-opacity, .2) * 3);
+    transform: translate(var(--layer-x, 0), var(--layer-y, 0)) rotate(var(--layer-angle, 0deg)) scale(var(--layer-scale, 1.1));
   }
   &__mask {
-    display:block;position:relative;z-index:1;block-size:4rem;
-    mask:var(--bedlam-mask) center / calc(100% - 1rem) 3rem no-repeat;
-    background:var(--navigation-foreground,#111827);
+    display: block; position: relative; z-index: 1; block-size: 100%;
+    mask: var(--bedlam-mask) var(--bedlam-mask-position, center) / var(--bedlam-mask-size, contain) no-repeat;
+    background: var(--bedlam-foreground, var(--navigation-foreground, #111827));
   }
 }
-@include foundation.at-or-below('navigation-inline') {
-  .bedlam__scene {
-    max-block-size:88px;
-    mask-image:linear-gradient(to right,#000 0%,#000 22%,rgb(0 0 0 / .7) 34%,rgb(0 0 0 / .18) 50%,transparent 66%),linear-gradient(to bottom,#000 0px,#000 50px,transparent 82px);
-    mask-composite:intersect;
-  }
-}
-:host-context([data-theme='rum-runner']),:host-context([data-theme='bloody-mary']) {
-  .bedlam {position:relative;}
-  .bedlam .bedlam__scene {
-    z-index:2;max-block-size:none;
-    mask:var(--bedlam-mask) center / calc(100% - 1rem) 3rem no-repeat;
-  }
-}
-@media(prefers-reduced-motion:reduce){.bedlam__layer{transform:none;}}
-@media(forced-colors:active){.bedlam__scene{display:none;}.bedlam__mask{background:CanvasText;}}
-
-// All sky selections share the renderer; the living selection supplies wipe timing.
 :host(.sky-preview) {
-  .bedlam { position: static; }
-  .bedlam .bedlam__scene {
-    z-index: 0;
-    mask: linear-gradient(to right, #000 0%, #000 25%, rgb(0 0 0 / .7) 42%, transparent 72%);
-  }
   .bedlam__layer { opacity: 1; transform: none; }
   .bedlam__layer:not(:first-of-type) { display: none; }
   .bedlam__layer.bedlam__night-effects { display: block; z-index: 2; }
@@ -53,35 +33,30 @@
     radial-gradient(circle at 20px 37px, #fff1cd 0 .6px, transparent 1.3px) 40px 0 / 107px 97px;
   opacity: var(--sky-star-opacity);
 }
-
-// Opt-in containment leaves the default navbar field and wordmark untouched.
-:host(.bedlam-mark) {
-  position: relative;
-  flex: none;
-  inline-size: 2rem;
-  block-size: 2rem;
-  isolation: isolate;
+:host(.bedlam-fill) {
+  position: absolute; inset: 0; inline-size: 100%; block-size: 100%;
+  overflow: clip; isolation: isolate;
   .bedlam { position: relative; block-size: 100%; }
-  .bedlam__mask {
-    block-size: 100%;
-    mask: var(--bedlam-mask) center / 1.5rem 1.5rem no-repeat;
-    background: #000;
-  }
-  .bedlam .bedlam__scene { mask: none; }
 }
-:host-context([data-theme='rum-runner']),
-:host-context([data-theme='bloody-mary']) {
-  .bedlam--mark .bedlam__mask { background: var(--navigation-foreground); }
-  .bedlam.bedlam--mark .bedlam__scene {
-    z-index: 2;
-    mask: var(--bedlam-mask) center / 1.5rem 1.5rem no-repeat;
-    // Retain the existing material opacity over the permanent readable identity.
-    opacity: var(--layer-opacity, .2);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bedlam__scene { display: none; }
-}
+@media (prefers-reduced-motion: reduce) { .bedlam__scene { display: none; } }
 @media (forced-colors: active) {
-  :host(.bedlam-mark) .bedlam__mask { background: CanvasText; }
+  .bedlam__scene { display: none; }
+  .bedlam__mask { background: CanvasText; }
+}
+
+// Each button uses one selected mask and one edge-to-edge material field.
+:host(.bedlam-fill.has-negative-mask) .bedlam__mask {
+  mask: var(--bedlam-mask) center / 100% 100% no-repeat;
+}
+:host-context(:root[data-theme='rum-runner']),
+:host-context(:root[data-theme='bloody-mary']) {
+  :host(.bedlam-fill.has-negative-mask) .bedlam__mask {
+    mask-image: var(--bedlam-negative-mask);
+  }
+}
+// Accessibility keeps the positive mark even when the material is disabled.
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  :host-context(:root[data-theme]) :host(.bedlam-fill.has-negative-mask) .bedlam__mask {
+    mask-image: var(--bedlam-mask);
+  }
 }

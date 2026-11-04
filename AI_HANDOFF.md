@@ -2423,3 +2423,18 @@ Live 1440/390: all 139 approved blocks, correct subtitle/menu/related ordering, 
 ## New article cookie — November 4
 
 Added article-never-done to COOKIE_TRAIL for /blognostisphere/software-development-is-never-done using the existing page-end placement. Existing cookie IDs/flavors and saved jars preserved; total follows the registry. Six focused cookie-hunt tests and Angular production build passed (62 prerendered routes); existing Rigby stylesheet warnings remain. No article copy or telemetry changes. Local change only, awaiting release.
+
+## SCRUM-165 social treatment correction — 2026-11-04
+Local changes only. Four matching Font Awesome foreground masks (LinkedIn, X, Facebook, Bluesky); Facebook owner-confirmed URL https://www.facebook.com/djamespoer. One BEDLAM per footer button. Root theme tokens choose complementary mark/background composition; nav uses static icons only. Shared 48px buttons / 24px icons / 12px gaps. No BEDLAM padding or fade; fade belongs to navbar. Hover/focus preserve geometry; keyboard focus has two-tone ring. Configurable mask/layout/maskSize/maskPosition/speed/skyPreview/paused. See docs/bedlam.md.
+Validation: 35 focused component tests passed, final production build passed (existing Rigby stylesheet warnings). Local browser verified both theme compositions, four equal 48x48 buttons, one field per button, hover/focus and reduced-motion scene removal. Nothing pushed or deployed.
+
+## SCRUM-165 matching icon sets — owner correction
+Supersedes the single-mask asset/composite approach above: eight physical SVGs in
+public/assets/social/{positive,negative}/. Four matching logo pairs share exact
+geometry and 48px artboards with 24px glyph extents. Added optional negativeMask
+input; root theme selects one foreground mask, one BEDLAM field per button.
+Nav uses static positive marks. All footer buttons remain 48x48 with 12px gaps
+and zero padding, including hover and keyboard focus. Verification: 35 focused
+tests and final build passed (existing Rigby stylesheet warnings). Actual preview
+browser assertions passed for every service/theme/state; reduced motion verified.
+Unpushed and undeployed. See docs/bedlam.md and asset README.

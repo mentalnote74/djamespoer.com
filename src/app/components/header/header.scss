@@ -119,3 +119,20 @@
 .site-header__group > button[aria-expanded='true'] .site-header__theme-chevron {
   transform: rotate(180deg);
 }
+
+// The navbar owns the fade. BEDLAM itself always supplies an unfaded field.
+.site-header::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to right, transparent 0%, transparent 25%, var(--navigation-surface) 72%);
+}
+.site-header__social-icon {
+  display: inline-block; flex: none; inline-size: var(--social-icon-size); block-size: var(--social-icon-size);
+  background: currentColor; mask: var(--social-icon) center / var(--social-button-size) var(--social-button-size) no-repeat;
+}
+
+.site-header__social-link {
+  min-block-size: var(--social-button-size);
+  box-sizing: border-box;
+  gap: var(--social-button-gap);
+  &:is(:hover, :focus-visible) { text-decoration: underline; text-underline-offset: .2em; }
+}

@@ -1,8 +1,9 @@
-# Social masks
+# Matching positive and negative social icons
 
-Paths and viewBoxes are unmodified Simple Icons 11.15.0 assets (`linkedin`, `x`,
-`facebook`, `bluesky`), retrieved from
-https://github.com/simple-icons/simple-icons/tree/11.15.0/icons.
-Distributed under the upstream CC0 1.0 dedication (LICENSE.md). Only the outer
-SVG accessibility attributes were changed to decorative, nonfocusable markup.
-Trademark rights are not granted by CC0. No icon package is installed.
+Four services: LinkedIn, X, Facebook, Bluesky. `positive/` contains standalone marks; `negative/` contains their exact cutouts. Each pair shares the same 48 × 48 viewBox, identical path geometry, position and scale, with the actual mark normalized to 24px maximum extent. No enclosing brand squares or circles. Negative assets contain the complement to the artboard edge.
+
+The theme selects one mask per footer button; one BEDLAM field fills the button. Nav uses only positive marks, cropped to the 24px glyph region. Root-level SVGs are upstream reference shapes, no longer rendered.
+
+Font Awesome Free 7.0.0 Brands by Fonticons, Inc. CC BY 4.0. Original path data preserved; viewBoxes, transforms, and complementary masks adapted.
+https://github.com/FortAwesome/Font-Awesome/tree/7.0.0/svgs/brands
+https://creativecommons.org/licenses/by/4.0/

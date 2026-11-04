@@ -6,8 +6,9 @@
         @if (profile.url) {
           <a publicTrack trackLocation="footer" [href]="profile.url" target="_blank"
             rel="me noopener noreferrer" [attr.aria-label]="'D. James Poer on ' + profile.label">
-            <app-bedlam [mask]="'/assets/social/' + profile.id + '.svg'" [contained]="true"
-              [skyPreview]="true" [paused]="identityPaused()" />
+            <app-bedlam layout="fill" [mask]="'/assets/social/positive/' + profile.id + '.svg'"
+              [negativeMask]="'/assets/social/negative/' + profile.id + '.svg'"
+              maskSize="100% 100%" [skyPreview]="true" [paused]="identityPaused()" />
           </a>
         }
       }

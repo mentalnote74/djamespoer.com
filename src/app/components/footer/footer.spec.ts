@@ -6,23 +6,23 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Footer } from './footer';
 
 describe('Footer', () => {
-  it('shares confirmed social profiles with navigation and keeps Facebook absent', () => {
+  it('shares confirmed social profiles with navigation and includes Facebook', () => {
     const root = fixture.nativeElement as HTMLElement;
     const nav = root.querySelector('nav[aria-labelledby="social-heading"]')!;
     expect(root.querySelector('#social-heading')?.textContent).toBe('Find me on');
     const links = [...nav.querySelectorAll<HTMLAnchorElement>('a')];
     expect(links.map(link => link.getAttribute('aria-label'))).toEqual([
-      'D. James Poer on LinkedIn', 'D. James Poer on X', 'D. James Poer on Bluesky',
+      'D. James Poer on LinkedIn', 'D. James Poer on X', 'D. James Poer on Facebook', 'D. James Poer on Bluesky',
     ]);
     expect(links.map(link => link.getAttribute('href'))).toEqual([
       'https://www.linkedin.com/in/djamespoer', 'https://x.com/djamespoer',
-      'https://bsky.app/profile/djamespoer.com',
+      'https://www.facebook.com/djamespoer', 'https://bsky.app/profile/djamespoer.com',
     ]);
     for (const link of links) {
       expect(link.rel).toBe('me noopener noreferrer');
       expect(link.target).toBe('_blank');
     }
-    expect(nav.querySelector('a[href*="facebook"]')).toBeNull();
+    expect(nav.querySelector('a[href="https://www.facebook.com/djamespoer"]')).not.toBeNull();
   });
   let component: Footer;
   let fixture: ComponentFixture<Footer>;

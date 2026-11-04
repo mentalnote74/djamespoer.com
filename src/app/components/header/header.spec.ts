@@ -8,14 +8,14 @@ describe('Header', () => {
     const root = fixture.nativeElement as HTMLElement;
     const links = [...root.querySelectorAll<HTMLAnchorElement>('#about-navigation a[rel~="me"]')];
     expect(links.map(link => link.getAttribute('aria-label'))).toEqual([
-      'D. James Poer on LinkedIn', 'D. James Poer on X', 'D. James Poer on Bluesky',
+      'D. James Poer on LinkedIn', 'D. James Poer on X', 'D. James Poer on Facebook', 'D. James Poer on Bluesky',
     ]);
-    expect(root.querySelector('a[href*="facebook"]')).toBeNull();
+    expect(root.querySelector('a[href="https://www.facebook.com/djamespoer"]')).not.toBeNull();
     for (const link of links) {
       expect(link.target).toBe('_blank');
       expect(link.rel).toBe('me noopener noreferrer');
-      expect(link.querySelector('.bedlam')?.getAttribute('aria-hidden')).toBe('true');
-      expect(link.querySelector('app-bedlam')?.classList.contains('bedlam-mark')).toBe(true);
+      expect(link.querySelector('.site-header__social-icon')?.getAttribute('aria-hidden')).toBe('true');
+      expect(link.querySelector('app-bedlam')).toBeNull();
     }
   });
   it('keeps Work restricted to employment history and makes project case studies available separately', () => {
@@ -74,6 +74,7 @@ describe('Header', () => {
       'Contact',
       'LinkedIn',
       'X',
+      'Facebook',
       'Bluesky',
     ]);
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
@@ -82,6 +83,7 @@ describe('Header', () => {
       'mailto:djamespoer@djamespoer.com',
       'https://www.linkedin.com/in/djamespoer',
       'https://x.com/djamespoer',
+      'https://www.facebook.com/djamespoer',
       'https://bsky.app/profile/djamespoer.com',
     ]);
     about.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
