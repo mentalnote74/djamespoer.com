@@ -10,6 +10,10 @@ type ParticlesJs = {
 
 type ParticlesWindow = Window & {
   particlesJS?: ParticlesJs;
+  pJSDom?: { pJS: {
+    canvas: { el: HTMLCanvasElement };
+    fn: { drawAnimFrame?: number; checkAnimFrame?: number; vendors: { draw(): void } };
+  } }[];
 };
 
 @Component({
@@ -30,20 +34,30 @@ export class Hero implements AfterViewInit, OnDestroy {
 
   private particleScript?: HTMLScriptElement;
   private particleTimer?: number;
+  private motion?: MediaQueryList;
+  private destroyed = false;
+  private readonly motionChanged = (): void => {
+    window.clearTimeout(this.particleTimer);
+    const instance = (window as ParticlesWindow).pJSDom?.find(
+      item => item.pJS.canvas.el.parentElement?.id === 'hero-particles',
+    );
+    if (this.motion?.matches || this.destroyed) {
+      for (const frame of [instance?.pJS.fn.drawAnimFrame, instance?.pJS.fn.checkAnimFrame])
+        if (frame !== undefined) window.cancelAnimationFrame(frame);
+    } else if (instance) instance.pJS.fn.vendors.draw();
+    else this.particleTimer = window.setTimeout(() => this.loadParticles(), 500);
+  };
 
   ngAfterViewInit(): void {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    this.particleTimer = window.setTimeout(() => {
-      this.loadParticles();
-    }, 500);
+    this.motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.motion.addEventListener('change', this.motionChanged);
+    this.motionChanged();
   }
 
   ngOnDestroy(): void {
+    this.destroyed = true;
+    this.motionChanged();
+    this.motion?.removeEventListener('change', this.motionChanged);
     if (this.particleTimer) {
       window.clearTimeout(this.particleTimer);
     }
@@ -54,6 +68,7 @@ export class Hero implements AfterViewInit, OnDestroy {
   }
 
   private loadParticles(): void {
+    if (this.destroyed || this.motion?.matches) return;
     const particleWindow = window as ParticlesWindow;
 
     if (particleWindow.particlesJS) {
@@ -83,8 +98,12 @@ export class Hero implements AfterViewInit, OnDestroy {
   }
 
   private initializeParticles(): void {
+    if (this.destroyed || this.motion?.matches) return;
     const particleWindow = window as ParticlesWindow;
 
-    particleWindow.particlesJS?.load('hero-particles', '/assets/particles/hero.json');
+    particleWindow.particlesJS?.load('hero-particles', '/assets/particles/hero.json', () => {
+      // Preference may change while the library's configuration request is pending.
+      if (this.motion?.matches || this.destroyed) this.motionChanged();
+    });
   }
 }

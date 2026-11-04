@@ -3,6 +3,25 @@
   padding-block: 1.5rem;
   border-top: 1px solid var(--footer-divider);
 }
+.site-footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-block-end: 1rem;
+  a {
+    display: grid;
+    place-items: center;
+    min-inline-size: 44px;
+    min-block-size: 44px;
+    border-radius: .25rem;
+    background: var(--navigation-surface);
+    &:focus-visible {
+      outline: 3px solid var(--focus-outer, currentColor);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 3px var(--focus-inner, Canvas);
+    }
+  }
+}
 // Retain the runtime control wiring for future use without exposing a UI control.
 .site-footer__identity-motion {
   display: none;

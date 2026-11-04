@@ -8,7 +8,6 @@ import {
   LucideChevronDown,
   LucideDownload,
   LucideMail,
-  LucideExternalLink,
 } from '@lucide/angular';
 import { PublicTrack } from '../../services/public-track';
 import { Component, DestroyRef, ElementRef, inject, input, signal } from '@angular/core';
@@ -16,6 +15,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Bedlam } from '../bedlam/bedlam';
 import { ARTICLES } from '../../content/public-pages';
+import { SOCIAL_PROFILES } from '../../content/social-profiles';
 
 @Component({
   imports: [
@@ -28,7 +28,6 @@ import { ARTICLES } from '../../content/public-pages';
     LucideChevronDown,
     LucideDownload,
     LucideMail,
-    LucideExternalLink,
     PublicTrack,
     RouterLink,
     RouterLinkActive,
@@ -43,6 +42,7 @@ import { ARTICLES } from '../../content/public-pages';
   },
 })
 export class Header {
+  readonly socialProfiles = SOCIAL_PROFILES;
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly identityPaused = input(false);
   readonly mobileOpen = signal(false);

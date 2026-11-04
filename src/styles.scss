@@ -8,6 +8,19 @@
 
 @use 'styles/themes/depth';
 
+// Owner decision SCRUM-165: reduced motion disables all decorative CSS motion,
+// including slide effects and native view-transition snapshots.
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 @font-face {
   font-family: 'Manrope Variable';
   font-style: normal;

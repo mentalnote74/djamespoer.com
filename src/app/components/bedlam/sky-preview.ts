@@ -94,7 +94,10 @@ export function startSkyPreview(
     };
     return true;
   };
-  let width = Math.min(384, Math.max(128, Math.round(host.clientWidth / 3))),
+  // Small reusable fields never rasterize beyond their displayed width. The
+  // established navbar profile (128–384px, one third of the field) is unchanged.
+  const rasterWidth = () => Math.min(Math.max(1, host.clientWidth), 384, Math.max(128, Math.round(host.clientWidth / 3)));
+  let width = rasterWidth(),
     height = Math.max(24, Math.round((width * host.clientHeight) / Math.max(1, host.clientWidth)));
   canvas.width = width;
   canvas.height = height;
@@ -228,7 +231,7 @@ export function startSkyPreview(
     drawNight(performance.now());
   };
   const sizeObserver = new ResizeObserver(() => {
-    const nextWidth = Math.min(384, Math.max(128, Math.round(host.clientWidth / 3)));
+    const nextWidth = rasterWidth();
     const nextHeight = Math.max(
       24,
       Math.round((nextWidth * host.clientHeight) / Math.max(1, host.clientWidth)),

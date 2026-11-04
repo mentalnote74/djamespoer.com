@@ -91,24 +91,18 @@
                 >Contact</a
               >
             </li>
-            <li>
-              <a
-                publicTrack
-                trackLocation="primary-navigation"
-                trackSource="navigation"
-                class="site-header__nav-link"
-                href="https://www.linkedin.com/in/djamespoer"
-                target="_blank"
-                rel="noopener noreferrer"
-                ><svg
-                  lucideExternalLink
-                  class="action-icon"
-                  aria-hidden="true"
-                  focusable="false"
-                ></svg
-                >LinkedIn</a
-              >
-            </li>
+            @for (profile of socialProfiles; track profile.id) {
+              @if (profile.url) {
+                <li>
+                  <a publicTrack trackLocation="primary-navigation" trackSource="navigation"
+                    class="site-header__nav-link" [href]="profile.url" target="_blank"
+                    rel="me noopener noreferrer" [attr.aria-label]="'D. James Poer on ' + profile.label">
+                    <app-bedlam [mask]="'/assets/social/' + profile.id + '.svg'" [contained]="true"
+                      [skyPreview]="true" [paused]="identityPaused()" />{{ profile.label }}
+                  </a>
+                </li>
+              }
+            }
           </ul>
         </li>
         <li class="site-header__group">

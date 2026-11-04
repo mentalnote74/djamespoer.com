@@ -13,7 +13,7 @@
   }
   &__mask {
     display:block;position:relative;z-index:1;block-size:4rem;
-    mask:url('/assets/brand/djamespoer.com.logo.svg') center / calc(100% - 1rem) 3rem no-repeat;
+    mask:var(--bedlam-mask) center / calc(100% - 1rem) 3rem no-repeat;
     background:var(--navigation-foreground,#111827);
   }
 }
@@ -28,7 +28,7 @@
   .bedlam {position:relative;}
   .bedlam .bedlam__scene {
     z-index:2;max-block-size:none;
-    mask:url('/assets/brand/djamespoer.com.logo.svg') center / calc(100% - 1rem) 3rem no-repeat;
+    mask:var(--bedlam-mask) center / calc(100% - 1rem) 3rem no-repeat;
   }
 }
 @media(prefers-reduced-motion:reduce){.bedlam__layer{transform:none;}}
@@ -52,4 +52,36 @@
     radial-gradient(circle at 38px 12px, #d8e6ff 0 1px, transparent 2px) 17px 12px / 137px 73px,
     radial-gradient(circle at 20px 37px, #fff1cd 0 .6px, transparent 1.3px) 40px 0 / 107px 97px;
   opacity: var(--sky-star-opacity);
+}
+
+// Opt-in containment leaves the default navbar field and wordmark untouched.
+:host(.bedlam-mark) {
+  position: relative;
+  flex: none;
+  inline-size: 2rem;
+  block-size: 2rem;
+  isolation: isolate;
+  .bedlam { position: relative; block-size: 100%; }
+  .bedlam__mask {
+    block-size: 100%;
+    mask: var(--bedlam-mask) center / 1.5rem 1.5rem no-repeat;
+    background: #000;
+  }
+  .bedlam .bedlam__scene { mask: none; }
+}
+:host-context([data-theme='rum-runner']),
+:host-context([data-theme='bloody-mary']) {
+  .bedlam--mark .bedlam__mask { background: var(--navigation-foreground); }
+  .bedlam.bedlam--mark .bedlam__scene {
+    z-index: 2;
+    mask: var(--bedlam-mask) center / 1.5rem 1.5rem no-repeat;
+    // Retain the existing material opacity over the permanent readable identity.
+    opacity: var(--layer-opacity, .2);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bedlam__scene { display: none; }
+}
+@media (forced-colors: active) {
+  :host(.bedlam-mark) .bedlam__mask { background: CanvasText; }
 }

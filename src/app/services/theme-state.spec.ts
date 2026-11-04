@@ -7,9 +7,30 @@ describe('ThemeState', () => {
     vi.setSystemTime(new Date(2026, 9, 29, 12));
   });
   afterEach(() => {
+    vi.unstubAllGlobals();
     vi.useRealTimers();
     document.documentElement.removeAttribute('data-theme');
     document.documentElement.removeAttribute('data-living-sky');
+  });
+  it('forces Teetotaler at startup and on live reduced-motion changes, then restores the requested theme', () => {
+    const media = new EventTarget();
+    Object.defineProperty(media, 'matches', { value: true, writable: true });
+    vi.stubGlobal('matchMedia', () => media);
+    const state = TestBed.inject(ThemeState);
+    expect(state.activeTheme()).toBe('teetotaler');
+    expect(document.documentElement.dataset['theme']).toBe('teetotaler');
+    state.setTheme('rum-runner');
+    expect(state.activeTheme()).toBe('teetotaler');
+    (media as unknown as { matches: boolean }).matches = false;
+    media.dispatchEvent(new Event('change'));
+    expect(state.activeTheme()).toBe('rum-runner');
+    (media as unknown as { matches: boolean }).matches = true;
+    media.dispatchEvent(new Event('change'));
+    expect(document.documentElement.dataset['theme']).toBe('teetotaler');
+    TestBed.resetTestingModule();
+    (media as unknown as { matches: boolean }).matches = false;
+    media.dispatchEvent(new Event('change'));
+    expect(document.documentElement.dataset['theme']).toBe('teetotaler');
   });
   it('keeps server rendering free of browser animation APIs', () => {
     TestBed.configureTestingModule({ providers: [{ provide: PLATFORM_ID, useValue: 'server' }] });

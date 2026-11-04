@@ -1,5 +1,17 @@
 <footer class="site-footer">
   <div class="site-footer__inner layout-container">
+    <nav class="site-footer__social" aria-labelledby="social-heading">
+      <h2 id="social-heading" class="visually-hidden">Find me on</h2>
+      @for (profile of socialProfiles; track profile.id) {
+        @if (profile.url) {
+          <a publicTrack trackLocation="footer" [href]="profile.url" target="_blank"
+            rel="me noopener noreferrer" [attr.aria-label]="'D. James Poer on ' + profile.label">
+            <app-bedlam [mask]="'/assets/social/' + profile.id + '.svg'" [contained]="true"
+              [skyPreview]="true" [paused]="identityPaused()" />
+          </a>
+        }
+      }
+    </nav>
     <div class="site-footer__content">
       <button
         type="button"

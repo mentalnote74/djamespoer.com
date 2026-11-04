@@ -143,6 +143,24 @@ describe('Explicit public link hooks', () => {
   });
   const activate = () => hook.activate({ isTrusted: true, type: 'click', button: 0 } as MouseEvent);
   it.each([
+    ['https://x.com/djamespoer?private=hidden', 'x'],
+    ['https://www.facebook.com/djamespoer', 'facebook'],
+    ['https://bsky.app/profile/djamespoer.com', 'bluesky'],
+  ])('records only the profile type for %s', (href, profile) => {
+    anchor.href = href;
+    activate();
+    expect(track).toHaveBeenCalledExactlyOnceWith('external_profile_click',
+      { location: 'page-content', profile }, '/');
+  });
+  it.each([
+    'https://x.com/djamespoer/status/123',
+    'https://www.facebook.com/djamespoer/posts/123',
+    'https://bsky.app/profile/djamespoer.com/post/private',
+    'https://bsky.app/', 'https://x.com.evil.invalid/djamespoer',
+  ])('excludes non-profile paths and lookalike hosts: %s', href => {
+    anchor.href = href; activate(); expect(track).not.toHaveBeenCalled();
+  });
+  it.each([
     ['https://djamespoer.com/assets/resume/d-james-poer-resume.pdf', 'resume_download'],
     ['mailto:private@example.invalid?body=private', 'contact_click'],
     ['https://djamespoer.com/thingamajob?private=hidden', 'thingamajob_open'],

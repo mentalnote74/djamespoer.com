@@ -1,3 +1,15 @@
+## SCRUM-165 — local review, November 4
+
+feature/scrum-165 in tmp/scrum-165, based on 57d8a71. Reusable Bedlam masks,
+confirmed LinkedIn/X/domain-Bluesky footer + About links, hidden Facebook,
+profile analytics and owner-directed Teetotaler/no-motion preference behavior.
+Header default retained; contained selector isolation and raster cost corrected.
+63 focused tests pass; full suite blocked by existing case-study TS2339 errors.
+Production build passes (63 prerenders), only existing Rigby warnings. Lighthouse
+89/100 to 90/100; contrast bound 3.89:1. Full receipts/limitations in
+docs/scrum-165-review.md and Jira attachment. Owner review pending. Nothing pushed
+or deployed; wait for James's explicit "Push and deploy". Root checkout untouched.
+
 ## SCRUM-106 comment10278 - approved Monty Python addition (November 1)
 
 Read the issue and all3 comments. Inserted the supplied YouTube clip and exact

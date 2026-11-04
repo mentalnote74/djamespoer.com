@@ -4,6 +4,20 @@ import { routes } from '../../app.routes';
 import { Header } from './header';
 
 describe('Header', () => {
+  it('renders only confirmed profiles with accessible names and safe relationships', () => {
+    const root = fixture.nativeElement as HTMLElement;
+    const links = [...root.querySelectorAll<HTMLAnchorElement>('#about-navigation a[rel~="me"]')];
+    expect(links.map(link => link.getAttribute('aria-label'))).toEqual([
+      'D. James Poer on LinkedIn', 'D. James Poer on X', 'D. James Poer on Bluesky',
+    ]);
+    expect(root.querySelector('a[href*="facebook"]')).toBeNull();
+    for (const link of links) {
+      expect(link.target).toBe('_blank');
+      expect(link.rel).toBe('me noopener noreferrer');
+      expect(link.querySelector('.bedlam')?.getAttribute('aria-hidden')).toBe('true');
+      expect(link.querySelector('app-bedlam')?.classList.contains('bedlam-mark')).toBe(true);
+    }
+  });
   it('keeps Work restricted to employment history and makes project case studies available separately', () => {
     expect(component.work.map((link) => link.path)).toEqual([
       '/work/exl',
@@ -59,12 +73,16 @@ describe('Header', () => {
       'Resume',
       'Contact',
       'LinkedIn',
+      'X',
+      'Bluesky',
     ]);
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '/about',
       '/assets/resume/d-james-poer-resume.pdf',
       'mailto:djamespoer@djamespoer.com',
       'https://www.linkedin.com/in/djamespoer',
+      'https://x.com/djamespoer',
+      'https://bsky.app/profile/djamespoer.com',
     ]);
     about.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     fixture.detectChanges();
@@ -285,7 +303,7 @@ describe('Header', () => {
     expect(linkedin).not.toBeNull();
     expect(navigation?.contains(linkedin ?? null)).toBe(true);
     expect(linkedin?.getAttribute('target')).toBe('_blank');
-    expect(linkedin?.getAttribute('rel')).toBe('noopener noreferrer');
+    expect(linkedin?.getAttribute('rel')).toBe('me noopener noreferrer');
 
     await TestBed.inject(Router).navigateByUrl('/engineering');
     fixture.detectChanges();

@@ -4,6 +4,7 @@ import { Bedlam } from './bedlam';
 import { Algorithm, bounded, presentation, select } from './contract';
 import { pool } from './pool';
 import { startBedlam } from './runtime';
+import { startSkyPreview } from './sky-preview';
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -50,6 +51,39 @@ describe('BEDLAM cartridges and slots', () => {
 });
 
 describe('BEDLAM lifecycle', () => {
+  it('bounds small sky buffers to the instance while retaining the navbar raster profile', () => {
+    vi.stubGlobal('matchMedia', () => ({matches: true, addEventListener() {}, removeEventListener() {}}));
+    const observer = class { observe() {} disconnect() {} };
+    vi.stubGlobal('ResizeObserver', observer);vi.stubGlobal('IntersectionObserver', observer);
+    vi.stubGlobal('requestAnimationFrame', vi.fn(() => 1));
+    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+    for (const [displayWidth, expectedWidth] of [[32, 32], [1440, 384]]) {
+      const host = document.createElement('span');
+      Object.defineProperties(host, {clientWidth: {value: displayWidth}, clientHeight: {value: 32}});
+      const canvas = document.createElement('canvas');
+      vi.spyOn(canvas, 'getContext').mockReturnValue({
+        createImageData: (w: number, h: number) => ({data: new Uint8ClampedArray(w * h * 4)}),
+        putImageData() {},
+      } as unknown as CanvasRenderingContext2D);
+      const runtime = startSkyPreview(host, [canvas]);
+      expect(canvas.width).toBe(expectedWidth);
+      runtime.destroy();
+    }
+  });
+  it('defaults to the canonical wordmark and accepts an independent contained mask', () => {
+    const first = TestBed.createComponent(Bedlam);
+    const second = TestBed.createComponent(Bedlam);
+    second.componentRef.setInput('mask', '/assets/social/bluesky.svg');
+    second.componentRef.setInput('contained', true);
+    first.detectChanges(); second.detectChanges();
+    expect(first.nativeElement.style.getPropertyValue('--bedlam-mask')).toContain('/assets/brand/djamespoer.com.logo.svg');
+    expect(first.nativeElement.classList.contains('bedlam-mark')).toBe(false);
+    expect(first.nativeElement.querySelector('.bedlam--mark')).toBeNull();
+    expect(second.nativeElement.style.getPropertyValue('--bedlam-mask')).toContain('/assets/social/bluesky.svg');
+    expect(second.nativeElement.classList.contains('bedlam-mark')).toBe(true);
+    expect(second.nativeElement.querySelector('.bedlam--mark')).not.toBeNull();
+    first.destroy(); second.destroy();
+  });
   it('forwards live pause and speed changes to an initialized runtime and tears down', async () => {
     const configure = vi.fn(),
       destroy = vi.fn();

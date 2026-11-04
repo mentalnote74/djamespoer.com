@@ -11,15 +11,19 @@ import { CookiePreferencesService } from '../../features/cookie-preferences/cook
 import { Component, ElementRef, model, signal, viewChild } from '@angular/core';
 
 import { ThemeState, type ThemeSelection } from '../../services/theme-state';
+import { SOCIAL_PROFILES } from '../../content/social-profiles';
+import { Bedlam } from '../bedlam/bedlam';
+import { PublicTrack } from '../../services/public-track';
 
 @Component({
-  imports: [LucideAccessibility, LucideCookie, LucidePalette, LucideChevronDown, RouterLink],
+  imports: [LucideAccessibility, LucideCookie, LucidePalette, LucideChevronDown, RouterLink, Bedlam, PublicTrack],
   selector: 'app-footer',
   styleUrl: './footer.scss',
   templateUrl: './footer.html',
   host: { '(document:pointerdown)': 'closeThemeOnPointerOutside($event)' },
 })
 export class Footer {
+  readonly socialProfiles = SOCIAL_PROFILES;
   readonly themeState = inject(ThemeState);
   readonly themeOpen = signal(false);
   readonly toggleTheme = (open: boolean): boolean => !open;

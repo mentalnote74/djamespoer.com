@@ -1,4 +1,37 @@
-# Current Bedlam: exact rollback to 22f2590
+# SCRUM-165: reusable masks and reduced motion (November 4, 2026)
+
+Owner decision in SCRUM-165 comment 10304 supersedes the historical descriptions
+below. The actual starting renderer is main `57d8a71`, including the header's
+`skyPreview` mode; it is not a byte-for-byte `22f2590` rollback.
+
+`app-bedlam` accepts a `mask` SVG asset URL, defaulting to the unchanged canonical
+wordmark. `contained=true` opts into an independently positioned 2rem icon field
+with a centered 1.5rem mask. Default sizing, header field, engine, speed and sky
+tuning remain unchanged. Future glyph assets require no renderer branches.
+Social instances use the same sky renderer and theme palette as the header.
+Light anchors retain a black mark over material; dark anchors mask the material
+inside the permanent readable identity, using the existing material opacity.
+No animation system, color tokens or palette variants were added.
+
+The shared `content/social-profiles.ts` config contains owner-confirmed LinkedIn,
+X and domain-handle Bluesky URLs. Facebook has no URL and renders nothing.
+SVG paths/viewBoxes come from Simple Icons 11.15.0, with upstream CC0 attribution
+in `public/assets/social/`. Links retain native navigation, named destinations,
+`rel="me noopener noreferrer"`, and shared existing profile-click analytics.
+
+Reduced motion now forces Teetotaler, stops the living-theme clock and carousel
+rotation, hides Bedlam scenes, and disables decorative CSS animation/transitions.
+Hero particle startup and existing frames also respond to live preference changes.
+Turning the preference off restores the requested theme. Forced colors retains
+the CanvasText masked identity. Offscreen/document-hidden/manual pausing remains
+owned by the existing Bedlam runtime.
+
+Validation receipts and limitations: `docs/scrum-165-review.md` and the SCRUM-165
+Jira attachment. No push/deploy without James's explicit "Push and deploy".
+
+---
+
+# Historical record: exact rollback to 22f2590
 
 Owner rejected the moving-material treatments. All six Bedlam files and the manual tuning guide are restored byte-for-byte from 22f2590e41c564fb7a4e26315515ab1d9b7f2c93. See [the restored tuning guide](bedlam-pre-fart-tuning.md). No artistic changes: historical blob, historical values, centralized handles, no reduced-motion suppression, forced-colors identity and resource pausing are restored exactly.
 

@@ -1,6 +1,7 @@
 import {
   afterNextRender,
   Component,
+  computed,
   DestroyRef,
   effect,
   ElementRef,
@@ -17,9 +18,17 @@ import type { BedlamRuntime } from './runtime';
   selector: 'app-bedlam',
   templateUrl: './bedlam.html',
   styleUrl: './bedlam.scss',
-  host: { '[class.sky-preview]': 'skyPreview()' },
+  host: {
+    '[class.sky-preview]': 'skyPreview()',
+    '[class.bedlam-mark]': 'contained()',
+    '[style.--bedlam-mask]': 'maskImage()',
+  },
 })
 export class Bedlam {
+  /** Public, same-origin SVG asset; the canonical header is the default. */
+  readonly mask = input('/assets/brand/djamespoer.com.logo.svg');
+  readonly maskImage = computed(() => `url(${JSON.stringify(this.mask())})`);
+  readonly contained = input(false);
   readonly speed = input(0.74);
   readonly skyPreview = input(false);
   readonly paused = model(false);

@@ -21,6 +21,10 @@ export class ThemeState {
   private readonly zone = inject(NgZone);
   private stopLiving?: () => void;
   private selectionVersion = 0;
+  private readonly motion = this.browser
+    ? this.document.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)')
+    : undefined;
+  private requested: ThemeSelection = 'dusk-to-dusk';
   readonly activeTheme = this.selected.asReadonly();
   readonly previewing = signal(false);
   readonly availableThemes: readonly { id: ThemeSelection; label: string }[] = [
@@ -35,8 +39,11 @@ export class ThemeState {
     { id: 'dusk-to-dusk', label: 'Dusk-to-Dusk' },
   ];
   constructor() {
+    const changedMotion = () => this.setTheme(this.requested);
+    this.motion?.addEventListener('change', changedMotion);
     this.setTheme('dusk-to-dusk');
     inject(DestroyRef).onDestroy(() => {
+      this.motion?.removeEventListener('change', changedMotion);
       this.selectionVersion++;
       this.stopLiving?.();
       this.document.documentElement.removeAttribute('data-living-sky');
@@ -48,6 +55,11 @@ export class ThemeState {
   ): void {
     if (!this.availableThemes.some((available) => available.id === theme))
       throw new Error('Unsupported theme');
+    this.requested = theme;
+    if (this.motion?.matches) {
+      theme = 'teetotaler';
+      preview = undefined;
+    }
     this.document.documentElement.setAttribute('data-living-sky', '');
     const version = ++this.selectionVersion;
     this.stopLiving?.();

@@ -66,6 +66,12 @@ export class PublicTrack {
           this.analytics.track('external_profile_click', { location, profile: 'linkedin' }, page);
         if (target.hostname === 'github.com' && /^\/[^/]+\/?$/.test(target.pathname))
           this.analytics.track('external_profile_click', { location, profile: 'github' }, page);
+        if (target.hostname === 'x.com' && /^\/[^/]+\/?$/.test(target.pathname))
+          this.analytics.track('external_profile_click', { location, profile: 'x' }, page);
+        if (target.hostname === 'www.facebook.com' && /^\/[^/]+\/?$/.test(target.pathname))
+          this.analytics.track('external_profile_click', { location, profile: 'facebook' }, page);
+        if (target.hostname === 'bsky.app' && /^\/profile\/[^/]+\/?$/.test(target.pathname))
+          this.analytics.track('external_profile_click', { location, profile: 'bluesky' }, page);
       }
     } catch {
       /* Preserve native activation/navigation when telemetry is unavailable. */

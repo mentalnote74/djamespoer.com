@@ -40,7 +40,7 @@ export interface EventParameters {
   carousel_cta_click: Common & { slide: string; destination: PublicPath };
   navigation_click: Common & { destination_path: PublicPath };
   cookie_settings_open: Common;
-  external_profile_click: Common & { profile: 'linkedin' | 'github' };
+  external_profile_click: Common & { profile: 'linkedin' | 'github' | 'x' | 'facebook' | 'bluesky' };
   evaluation_submitted: Common & { input_method: 'text' | 'url' | 'file' };
   evaluation_completed: Common & { input_method: 'text' | 'url' | 'file' };
   evaluation_failed: Common & { input_method: 'text' | 'url' | 'file' };
