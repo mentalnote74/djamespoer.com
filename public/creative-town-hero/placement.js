@@ -18,6 +18,24 @@
   const PAINTED_PROPS = [[483, 530, 135, 177], [609, 593, 84, 110], [994, 603, 71, 94]];
   // Minimum clear space, in world pixels, between a character's visible artwork and anyone else's.
   const GAP = 22;
+  const LAYOUT = Object.freeze({ width: 1664, height: 936, gap: GAP, maxTorsos: 2, maskCell: 4 });
+
+  function fixtureCandidates(actor, fixtures, step) {
+    const out = [];
+    for (const fixture of fixtures) {
+      const [x, , width] = fixture.rect;
+      let layout = { x: 0, y: 0, w: actor.base.w, h: actor.base.h };
+      let box = tight(layout, actor.aspect, actor.alpha);
+      const scale = Math.min(1, (width - 2 * GAP) / box[2]);
+      if (scale <= 0) continue;
+      layout.w *= scale; layout.h *= scale;
+      box = tight(layout, actor.aspect, actor.alpha);
+      for (let left = x + GAP; left + box[2] <= x + width - GAP; left += step) {
+        out.push({ ...layout, x: left - box[0], y: fixture.lip - LAYOUT.maskCell - box[1] - box[3], fixture: fixture.id });
+      }
+    }
+    return out;
+  }
 
   function inside([x, y], polygon = WALKABLE) {
     let hit = false;
@@ -68,15 +86,22 @@
    * obstacles: fixed visible boxes [x,y,w,h]; zones: protected table zones [x,y,w,h].
    * blocked(box): fraction of the box covered by opaque foreground scenery.
    */
-  function* solving({ actors, obstacles, zones, blocked = () => 0, gap = GAP, step = 12 }) {
+  function* solving({ actors, obstacles, zones, fixtures = [], blocked = () => 0, gap = GAP, step = 12, onPlace = () => {} }) {
     const taken = [...PAINTED_PROPS, ...obstacles, ...zones];
     const placed = [], conflicts = [];
+    let torsoCount = 0;
     for (const actor of actors) {
+      if (actor.torso && torsoCount >= LAYOUT.maxTorsos) { conflicts.push(actor.id); yield; continue; }
       const preferFoot = actor.prefer[0]
         ? [actor.prefer[0].x + actor.prefer[0].w / 2, actor.prefer[0].y + actor.prefer[0].h]
         : [832, 840];
       let best = null, bestScore = Infinity;
-      for (const layout of [...actor.prefer, ...groundCandidates(actor, step)]) {
+      const registered = actor.prefer.flatMap(layout =>
+        layout.ground ? [layout] : [[0,0],[-gap,0],[gap,0],[0,-gap],[0,gap]].map(([dx,dy])=>({...layout,x:layout.x+dx,y:layout.y+dy})));
+      const candidates = actor.torso ? fixtureCandidates(actor, fixtures, step) : [...registered, ...groundCandidates(actor, step)];
+      let scanned = 0;
+      for (const layout of candidates) {
+        if (++scanned % 64 === 0) yield;
         const box = tight(layout, actor.aspect, actor.alpha);
         if (box[0] < 4 || box[1] < 0 || box[0] + box[2] > 1660 || box[1] + box[3] > 932) continue;
         if (layout.ground && !inside([box[0] + box[2] / 2, box[1] + box[3]])) continue;
@@ -85,19 +110,23 @@
           room = Math.min(room, clearance(box, other));
           if (room < gap) break;
         }
-        // Planters may brush a character's edge (the plate exists for that), never cover them.
-        if (room < gap || blocked(box) > 0.15) continue;
+        // Protect the entire artwork: stricter than the owner's 10% coverage budget,
+        // without guessing which pixel contains a face, costume detail or signature prop.
+        if (room < gap || blocked([box[0]-LAYOUT.maskCell,box[1]-LAYOUT.maskCell,box[2]+2*LAYOUT.maskCell,box[3]+2*LAYOUT.maskCell]) > 0)
+          continue;
         // Prefer the authored spot, but reward elbow room so nobody bunches up.
         const foot = [layout.x + layout.w / 2, layout.y + layout.h];
         const score =
-          Math.hypot(foot[0] - preferFoot[0], foot[1] - preferFoot[1]) * 0.4 -
-          Math.min(room, 70) +
+          Math.hypot(foot[0] - preferFoot[0], foot[1] - preferFoot[1]) * 0.05 -
+          Math.min(room, 200) +
           (layout.scaled ? 40 : 0);
         if (score < bestScore) { best = { layout, box }; bestScore = score; }
       }
       if (best) {
         taken.push(best.box);
         placed.push({ id: actor.id, ...best });
+        onPlace(placed.at(-1));
+        if (actor.torso) torsoCount++;
       } else conflicts.push(actor.id);
       yield; // one actor per slice keeps the page responsive
     }
@@ -175,7 +204,15 @@
   }
 
   const api = {
-    WALKABLE, PAINTED_PROPS, GAP, inside, tight, clearance, solve, arrange, arrangeInSlices,
+    LAYOUT, WALKABLE, PAINTED_PROPS, GAP, inside, tight, clearance, solve, arrange, arrangeInSlices,
+    async solveInSlices(options, budget = 8) {
+      const steps = solving(options); let started = performance.now(), step;
+      while (!(step = steps.next()).done) {
+        if (performance.now() - started < budget) continue;
+        await new Promise(resolve => setTimeout(resolve)); started = performance.now();
+      }
+      return step.value;
+    },
   };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.TownPlacement = api;

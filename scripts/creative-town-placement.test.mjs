@@ -105,3 +105,32 @@ test('visible bounds follow object-fit contain and either facing', () => {
   assert.ok(inside([832, 900]) && !inside([832, 400]));
   assert.ok(WALKABLE.length > 3);
 });
+
+test('torso-only art requires a covering fixture and is capped at two per scene', () => {
+  const actors=cast(random(8),6).map(a=>({...a,torso:true,base:{w:60,h:80},aspect:.75}));
+  const fixtures=[{id:'counter',rect:[200,500,1000,100],lip:500}];
+  const result=solve({actors,obstacles:[],zones:[],fixtures});
+  assert.equal(result.placed.length,2);
+  for(const {box,layout} of result.placed){
+    assert.equal(layout.fixture,'counter');
+    assert.ok(box[0]>=200&&box[0]+box[2]<=1200,'cutout cannot protrude beside its fixture');
+    assert.ok(box[1]+box[3]<=500,'no drawn lower edge below the fixture lip');
+  }
+  assert.equal(solve({actors,obstacles:[],zones:[]}).placed.length,0,'no fixture means no exposed torso');
+});
+
+test('protects the whole asset even when occlusion is outside its upper body', () => {
+  const actors=cast(random(1),1);
+  const result=solve({actors,obstacles:[],zones:[],blocked:()=>.01});
+  assert.equal(result.placed.length,0,'never trade a signature prop or costume edge for density');
+});
+
+test('progressive publication exposes only collision-free committed placements', () => {
+  const published=[];
+  const result=solve({actors:cast(random(23),25),obstacles,zones:[tableA,tableB],onPlace:item=>{
+    for(const previous of published)assert.ok(clearance(item.box,previous.box)>=GAP);
+    for(const table of [tableA,tableB])assert.ok(clearance(item.box,table)>=GAP);
+    published.push(item);
+  }});
+  assert.deepEqual(published.map(p=>p.id),plain(result.placed.map(p=>p.id)));
+});

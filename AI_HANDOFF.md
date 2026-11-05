@@ -1,3 +1,16 @@
+## SCRUM-102 — spacing review, November 4
+
+Existing fix/scrum-102-town-personal-space worktree; prior uncommitted hero/placement
+backed up before editing. One placement pass covers every rendered cutout; no table
+clipping, overlapping residents or exposed torso poses. Cached native bounds, sliced
+work and progressive publication; original selector/manifest unchanged. Final 500 seeded
+real-scene draws (1440/390): all violation counters zero; 20–25 visible, capacity
+conflicts explicit; two external torso fixtures maximum. Ten focused tests and production
+build pass. Lighthouse 56→73 Performance, Accessibility 100; LCP remains slow.
+Review/limits: docs/creative-town-spacing-scrum-102.md and Jira receipts. Pose capacity
+remains SCRUM-103; safe signature motion remains SCRUM-105. Nothing pushed/deployed;
+wait for James's explicit "Push and deploy". Root checkout untouched.
+
 ## SCRUM-102 Creative Town personal space — November 4, 2026
 
 Local branch fix/scrum-102-town-personal-space (tmp/scrum-102-personal-space),
