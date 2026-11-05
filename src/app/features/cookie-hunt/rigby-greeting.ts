@@ -9,15 +9,19 @@ import {
   signal,
   DestroyRef,
 } from '@angular/core';
+import { PublicAnalytics } from '../../services/public-analytics';
+import { RigbyExposure } from '../../services/rigby-exposure';
 import { DOCUMENT } from '@angular/common';
 import { RigbyPreferences } from '../cookie-preferences/rigby-preferences';
 import { CookiePreferencesService } from '../cookie-preferences/cookie-preferences.service';
 @Component({
   selector: 'app-rigby-greeting',
+  imports: [RigbyExposure],
   templateUrl: './rigby-greeting.html',
   styleUrl: './rigby-greeting.scss',
 })
 export class RigbyGreeting {
+  private readonly analytics = inject(PublicAnalytics);
   readonly rigby = inject(RigbyPreferences);
   private readonly preferences = inject(CookiePreferencesService);
   private readonly document = inject(DOCUMENT);
@@ -65,14 +69,15 @@ export class RigbyGreeting {
   }
   startPlaying(): void {
     if (this.playing()) return;
-    this.rigby.setEnabled(true, false);
+    this.rigby.choose(true, false);
+    this.analytics.track('rigby_play', { location: 'rigby', action: 'play' });
     this.playing.set(true);
     const view = this.document.defaultView;
     if (view) this.celebrationTimer = view.setTimeout(() => this.close(), 3200);
     else this.close();
   }
   maybeLater(event?: Event): void {
-    this.rigby.setEnabled(false);
+    this.rigby.choose(false);
     this.close(event);
   }
   close(event?: Event): void {

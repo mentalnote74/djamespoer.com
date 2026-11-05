@@ -1,6 +1,10 @@
 @if (rigby.enabled()) {
   <div
     class="companion"
+    rigbyExposure="companion"
+    [rigbyAvailable]="
+      !busy() && !preferences.opened() && !rigby.greetingOpen() && visible() && !!placement()
+    "
     [class.hidden]="
       busy() || preferences.opened() || rigby.greetingOpen() || !visible() || !placement()
     "
@@ -32,7 +36,7 @@
       <button
         class="companion-hello character-button"
         type="button"
-        (click)="rigby.greet()"
+        (click)="meet()"
         [attr.aria-label]="
           'Meet Rigby Decaf Poer. ' +
           (trick() ? 'Showing his ' + trick() + ' pose. ' : '') +
@@ -138,7 +142,7 @@
           <button type="button" (click)="perform('shake')">Shake</button>
           <button type="button" (click)="perform('beg')">Beg</button>
           <button type="button" (click)="perform('roll')">Roll over</button>
-          <button type="button" (click)="rigby.greet()">Meet Rigby Decaf Poer</button>
+          <button type="button" (click)="meet()">Meet Rigby Decaf Poer</button>
           <button
             type="button"
             (click)="reward()"
@@ -157,7 +161,7 @@
           >
             {{ rigby.paused() ? 'Resume Rigby' : 'Pause Rigby' }}
           </button>
-          <button type="button" (click)="rigby.setEnabled(false)">Turn Rigby off</button>
+          <button type="button" (click)="rigby.choose(false)">Turn Rigby off</button>
         </div>
         @if (!hunt.saved()) {
           <p>Your browser could not save the jar. Progress lasts for this page visit.</p>

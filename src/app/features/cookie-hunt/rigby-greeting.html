@@ -1,5 +1,7 @@
 <dialog
   #hello
+  rigbyExposure="greeting"
+  [rigbyAvailable]="rigby.greetingOpen()"
   class="rigby-greeting"
   aria-labelledby="rigby-introduction"
   (cancel)="maybeLater($event)"

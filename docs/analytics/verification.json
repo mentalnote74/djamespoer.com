@@ -1,0 +1,63 @@
+{
+  "scope": [
+    "SCRUM-169",
+    "SCRUM-141"
+  ],
+  "status": "local review only; not deployed",
+  "base_commit": "fc0b86611febccf61a819e10dec80da3461cffd8",
+  "focused_tests": {
+    "files": 13,
+    "passed": 90,
+    "failed": 0
+  },
+  "node_tests": {
+    "passed": 8,
+    "failed": 0
+  },
+  "full_test_blocker": "Two unchanged TS2339 errors in authored-studies.spec.ts",
+  "broad_excluding_authored": {
+    "passed": 353,
+    "failed": 31,
+    "files": 46
+  },
+  "unchanged_head_comparison_excluding_new_specs_and_authored": {
+    "passed": 330,
+    "failed": 31,
+    "files": 43
+  },
+  "build": {
+    "passed": true,
+    "initial_kb": 484.87,
+    "transfer_kb": 123.2,
+    "prerenders": 64,
+    "warnings": [
+      "existing Rigby SCSS budgets",
+      "existing module-type warnings"
+    ]
+  },
+  "browser": {
+    "request_boundary": "all requests intercepted; no GA or paid evaluator collection",
+    "checks": [
+      "fresh browser: no analytics queue/tag without consent",
+      "explicit consent starts exactly controlled local GA shim",
+      "visible Rigby exposure emitted once",
+      "pointer Sit and keyboard Shake/feed: one action emission each",
+      "keyboard cookie discovery and successful delivery separated",
+      "saved-off reload is not another dismissal",
+      "explicit bring-back emitted once; exposure and saved progress survive reload without new collection",
+      "settings desktop/mobile reflow and scoped axe zero",
+      "internal marking suppresses page views/custom events across navigation and reload",
+      "unmark restores collection while keeping consent/Rigby/progress",
+      "revocation reload stops collection",
+      "fictional intake/evaluation/result-view: one emission each, no private input"
+    ],
+    "axe_violations": [],
+    "page_errors": [],
+    "simulated_event_count": 15
+  },
+  "live_receipt": false,
+  "ga_custom_dimensions_registered": false,
+  "bigquery_sql_executed": false,
+  "experiment_active": false,
+  "historical_florida_filter": "optional, bounded by pre-internal-marker release cutoff; future Florida included"
+}

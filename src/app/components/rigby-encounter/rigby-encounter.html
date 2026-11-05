@@ -1,5 +1,7 @@
 <div
   class="rover"
+  rigbyExposure="encounter"
+  [rigbyAvailable]="shown() && visible() && inView()"
   [class.shown]="shown()"
   [attr.data-pose]="pose()"
   [class.motion-running]="running()"
@@ -69,7 +71,7 @@
 >
   <h2 id="rigby-heading" class="visually-hidden">Rigby controls</h2>
   @if (!settings.enabled()) {
-    <button type="button" (click)="settings.setEnabled(true)">Play with Rigby</button>
+    <button type="button" (click)="settings.choose(true)">Play with Rigby</button>
   }
   <button
     class="feed"

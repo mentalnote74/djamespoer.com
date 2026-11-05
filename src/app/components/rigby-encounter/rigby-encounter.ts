@@ -1,3 +1,4 @@
+import { RigbyExposure } from '../../services/rigby-exposure';
 import { DOCUMENT } from '@angular/common';
 import {
   afterNextRender,
@@ -10,6 +11,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { PublicAnalytics } from '../../services/public-analytics';
 import { PublicTrack } from '../../services/public-track';
@@ -30,7 +32,7 @@ type Pose = 'dormant' | 'roaming' | 'noticing' | 'begging' | 'celebrating' | 're
 const SESSION_KEY = 'rigby.first-encounter.v1';
 @Component({
   selector: 'app-rigby-encounter',
-  imports: [RouterLink, PublicTrack],
+  imports: [RigbyExposure, RouterLink, PublicTrack],
   templateUrl: './rigby-encounter.html',
   styleUrl: './rigby-encounter.scss',
 })
@@ -120,18 +122,13 @@ export class RigbyEncounter {
   private travelTime = 900;
   private interactions = 0;
   private waypoint = 0;
-  private exposure = false;
 
   constructor() {
-    let seen = this.hunt.count();
-    effect(() => {
-      const count = this.hunt.count(),
-        gained = count > seen;
-      seen = count;
-      if (gained)
-        untracked(() => {
-          if (this.canFeed()) this.feed();
-        });
+    this.hunt.collections.pipe(takeUntilDestroyed()).subscribe((stop) => {
+      if (this.canFeed()) {
+        this.feed(false);
+        this.hunt.fedCookie(stop.id);
+      }
     });
     effect(() => {
       if (this.settings.enabled()) {
@@ -266,10 +263,6 @@ export class RigbyEncounter {
         this.position.set(start);
         this.placed.set(true);
         this.pose.set('begging');
-        if (!this.exposure) {
-          this.exposure = true;
-          this.analytics.track('rigby_encounter', { location: 'page-content', action: 'shown' });
-        }
         if (!this.paused()) this.relocate();
       }
     }
@@ -362,7 +355,7 @@ export class RigbyEncounter {
       'Rigby’s picture could not load. Normal portfolio navigation is still available.',
     );
   }
-  feed(): void {
+  feed(userAction = true): void {
     if (!this.canFeed()) return;
     this.interactions++;
     this.excited.set(true);
@@ -371,7 +364,8 @@ export class RigbyEncounter {
       this.interactions % 2 ? 'Rigby loved that biscuit!' : 'Another biscuit! Rigby is delighted.',
     );
     this.offer.set(this.interactions % 2 === 0);
-    this.analytics.track('rigby_encounter', { location: 'page-content', action: 'fed' });
+    if (userAction)
+      this.analytics.track('rigby_encounter', { location: 'page-content', action: 'fed' });
     // Focusing the stable controls can scroll before the passive scroll event runs.
     const onScreen = this.home ? this.onScreen(this.position()) : this.inView();
     if (!onScreen) {
@@ -388,7 +382,7 @@ export class RigbyEncounter {
   dismiss(): void {
     if (this.dismissed()) return;
     this.dismissed.set(true);
-    this.settings.setEnabled(false);
+    this.settings.choose(false);
     this.placed.set(false);
     this.feedback.set('Rigby is dismissed for this visit.');
     try {
@@ -396,6 +390,5 @@ export class RigbyEncounter {
     } catch {
       /* optional */
     }
-    this.analytics.track('rigby_encounter', { location: 'page-content', action: 'dismissed' });
   }
 }

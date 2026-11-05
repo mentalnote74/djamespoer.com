@@ -1,3 +1,5 @@
+import { PublicAnalytics } from '../../services/public-analytics';
+import { RigbyExposure } from '../../services/rigby-exposure';
 import {
   Component,
   inject,
@@ -24,11 +26,12 @@ import { DanceRequest, danceEnvelope } from './rigby-dances';
 import { RigbyLoadError } from './rigby-load-error';
 @Component({
   selector: 'app-rigby-guide',
-  imports: [RouterLink, RigbyGreeting, RigbyDanceComponent, RigbyLoadError],
+  imports: [RigbyExposure, RouterLink, RigbyGreeting, RigbyDanceComponent, RigbyLoadError],
   templateUrl: './rigby-guide.html',
   styleUrl: './rigby-guide.scss',
 })
 export class RigbyGuide {
+  private readonly analytics = inject(PublicAnalytics);
   readonly hunt = inject(CookieHuntService);
   readonly rigby = inject(RigbyPreferences);
   readonly preferences = inject(CookiePreferencesService);
@@ -137,6 +140,7 @@ export class RigbyGuide {
     inject(RigbyArrival);
     this.hunt.collections.pipe(takeUntilDestroyed()).subscribe((stop) => {
       this.playDance(stop.flavor);
+      if (this.dance() && this.placement()) this.hunt.fedCookie(stop.id);
     });
     effect(() => {
       const blocked =
@@ -311,6 +315,10 @@ export class RigbyGuide {
     if (facingPoint && dog)
       this.facing.set(facingTarget(dog.left + dog.width / 2, facingPoint.x, this.facing()));
   }
+  meet(): void {
+    this.analytics.track('rigby_play', { location: 'rigby', action: 'meet' });
+    this.rigby.greet();
+  }
   reward(): void {
     this.endDance();
     const view = this.document.defaultView;
@@ -318,6 +326,7 @@ export class RigbyGuide {
     view.clearTimeout(this.rewardTimer);
     view.clearTimeout(this.trickTimer);
     this.trick.set(null);
+    this.analytics.track('rigby_encounter', { location: 'rigby', action: 'fed' });
     this.celebrating.set(true);
     this.rewardTimer = view.setTimeout(() => this.celebrating.set(false), 2100);
   }
@@ -417,6 +426,7 @@ export class RigbyGuide {
     const view = this.document.defaultView;
     if (!view || !this.rigby.enabled()) return;
     view.clearTimeout(this.trickTimer);
+    this.analytics.track('rigby_play', { location: 'rigby', action: trick });
     this.trick.set(trick);
     this.trickTimer = view.setTimeout(() => this.trick.set(null), trick === 'roll' ? 2400 : 4000);
   }

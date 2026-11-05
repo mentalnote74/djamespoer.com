@@ -77,12 +77,28 @@ export class JdEvaluation {
     this.reset();
   }
   choose(method: 'text' | 'url' | 'file') {
+    if (method === this.mode()) return;
+    if (this.api.public)
+      this.analytics.track('evaluation_input_selected', {
+        location: 'page-content',
+        input_method: method,
+      });
     this.mode.set(method);
     this.reset();
   }
   selectFile(event: Event) {
     this.file = (event.target as HTMLInputElement).files?.[0] ?? null;
     this.reset();
+    if (
+      this.api.public &&
+      this.file &&
+      this.file.size <= 1000000 &&
+      /\.(txt|md|markdown|html|htm|docx)$/i.test(this.file.name)
+    )
+      this.analytics.track('evaluation_file_selected', {
+        location: 'page-content',
+        input_method: 'file',
+      });
   }
   editUrl(event: Event) {
     this.url.set((event.target as HTMLInputElement).value);
@@ -123,6 +139,7 @@ export class JdEvaluation {
     const headers = this.api.public
       ? this.analytics.beginEvaluation(method)
       : { 'Idempotency-Key': crypto.randomUUID() };
+    let stage: 'input' | 'evaluation' = this.prepared() ? 'evaluation' : 'input';
     try {
       if (!this.prepared()) {
         this.status.set('Reading the job description…');
@@ -141,6 +158,12 @@ export class JdEvaluation {
           await firstValueFrom(this.http.post<PreparedJd>(this.api.input, body, { headers })),
         );
       }
+      if (stage === 'input' && this.api.public)
+        this.analytics.track('evaluation_input_prepared', {
+          location: 'page-content',
+          input_method: method,
+        });
+      stage = 'evaluation';
       this.status.set('Evaluating the job against canonical career evidence…');
       const result = await firstValueFrom(
         this.http.post<JdResult>(
@@ -163,17 +186,20 @@ export class JdEvaluation {
         });
       this.status.set('Evaluation complete. The Library of Truth was not changed.');
       setTimeout(() => {
-        if (this.destroyRef.destroyed) return;
+        if (this.destroyRef.destroyed || this.result() !== result) return;
         const heading = this.resultHeading()?.nativeElement;
         heading?.focus();
         if (!this.api.public || !heading) return;
+        let viewed = false;
         const visible = () => {
+          if (viewed || this.result() !== result || this.destroyRef.destroyed) return;
           const bounds = heading.getBoundingClientRect();
           if (
             this.document.visibilityState !== 'hidden' &&
             bounds.bottom > 0 &&
             bounds.top < (this.document.defaultView?.innerHeight ?? 0)
           ) {
+            viewed = true;
             this.analytics.track('evaluation_result_viewed', {
               location: 'page-content',
               input_method: method,
@@ -195,6 +221,7 @@ export class JdEvaluation {
         this.analytics.track('evaluation_failed', {
           location: 'page-content',
           input_method: method,
+          failure_stage: stage,
         });
       this.failed.set(true);
       this.status.set(

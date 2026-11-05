@@ -3,6 +3,8 @@ import { Injectable, afterNextRender, computed, inject, signal } from '@angular/
 import { COOKIE_TRAIL, COOKIE_FLAVORS, CookieStop } from './cookie-trail';
 import { Subject } from 'rxjs';
 
+import { PublicAnalytics } from '../../services/public-analytics';
+
 const KEY = 'rigby.cookie-jar.v1';
 export function decodeJar(value: string | null): string[] {
   try {
@@ -25,6 +27,8 @@ export function decodeJar(value: string | null): string[] {
 @Injectable({ providedIn: 'root' })
 export class CookieHuntService {
   private readonly document = inject(DOCUMENT);
+  private readonly analytics = inject(PublicAnalytics);
+  private readonly fed = new Set<string>();
   readonly stops = COOKIE_TRAIL;
   readonly flavors = COOKIE_FLAVORS;
   readonly collected = signal<readonly string[]>([]);
@@ -56,10 +60,28 @@ export class CookieHuntService {
     this.announcement.set(
       `${COOKIE_FLAVORS[stop.flavor]} collected. ${this.count()} of ${this.total} cookies in your jar.${this.next() ? '' : ' You found them all! Rigby is delighted.'}`,
     );
+    this.analytics.track('rigby_cookie', {
+      location: 'rigby',
+      action: 'collected',
+      cookie_id: stop.id,
+      cookie_flavor: stop.flavor,
+    });
     this.collectedStop.next(stop);
     return true;
   }
+  fedCookie(id: string): void {
+    const stop = COOKIE_TRAIL.find((item) => item.id === id);
+    if (!stop || !this.has(id) || this.fed.has(id)) return;
+    this.fed.add(id);
+    this.analytics.track('rigby_cookie', {
+      location: 'rigby',
+      action: 'fed',
+      cookie_id: stop.id,
+      cookie_flavor: stop.flavor,
+    });
+  }
   restart(): void {
+    this.fed.clear();
     this.collected.set([]);
     this.persist();
     this.resetVersion.update((value) => value + 1);

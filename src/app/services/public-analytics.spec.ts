@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 import { NavigationStart, NavigationEnd, Router } from '@angular/router';
-﻿import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
 import { ElementRef } from '@angular/core';
 import { PublicAnalytics, publicPath } from './public-analytics';
@@ -18,7 +18,12 @@ describe('Public analytics transport', () => {
     storage.mockReset().mockReturnValue(null);
     window.location = new URL('https://djamespoer.com/');
     TestBed.configureTestingModule({
-      providers: [{ provide: DOCUMENT, useValue: { defaultView: window } }],
+      providers: [
+        {
+          provide: DOCUMENT,
+          useValue: { cookie: 'portfolio_analytics_consent=granted', defaultView: window },
+        },
+      ],
     });
   });
   it('preserves homepage attribution and legacy fields with normalized typed context', () => {
@@ -102,7 +107,9 @@ describe('Public analytics transport', () => {
         removeItem: (key: string) => data.delete(key),
       },
     };
-    TestBed.overrideProvider(DOCUMENT, { useValue: { defaultView: testWindow } });
+    TestBed.overrideProvider(DOCUMENT, {
+      useValue: { cookie: 'portfolio_analytics_consent=granted', defaultView: testWindow },
+    });
     const service = TestBed.inject(PublicAnalytics);
     const first = service.beginEvaluation('file');
     service.track('evaluation_result_viewed', { location: 'page-content', input_method: 'file' });
@@ -149,16 +156,22 @@ describe('Explicit public link hooks', () => {
   ])('records only the profile type for %s', (href, profile) => {
     anchor.href = href;
     activate();
-    expect(track).toHaveBeenCalledExactlyOnceWith('external_profile_click',
-      { location: 'page-content', profile }, '/');
+    expect(track).toHaveBeenCalledExactlyOnceWith(
+      'external_profile_click',
+      { location: 'page-content', profile },
+      '/',
+    );
   });
   it.each([
     'https://x.com/djamespoer/status/123',
     'https://www.facebook.com/djamespoer/posts/123',
     'https://bsky.app/profile/djamespoer.com/post/private',
-    'https://bsky.app/', 'https://x.com.evil.invalid/djamespoer',
-  ])('excludes non-profile paths and lookalike hosts: %s', href => {
-    anchor.href = href; activate(); expect(track).not.toHaveBeenCalled();
+    'https://bsky.app/',
+    'https://x.com.evil.invalid/djamespoer',
+  ])('excludes non-profile paths and lookalike hosts: %s', (href) => {
+    anchor.href = href;
+    activate();
+    expect(track).not.toHaveBeenCalled();
   });
   it.each([
     ['https://djamespoer.com/assets/resume/d-james-poer-resume.pdf', 'resume_download'],
@@ -198,49 +211,95 @@ describe('Explicit public link hooks', () => {
 
 // A router-shaped subject isolates completed routes without bootstrapping unrelated features.
 describe('public route journeys', () => {
-  const gtag=vi.fn();
+  const gtag = vi.fn();
   let events: Subject<NavigationStart | NavigationEnd>;
   let handlers: Map<string, (event: MouseEvent) => void>;
   let location: URL;
-  const route=(id:number,path:string,trigger:'imperative'|'popstate'='imperative')=>{
-    events.next(new NavigationStart(id,path,trigger));
-    events.next(new NavigationEnd(id,path,path));
+  const route = (id: number, path: string, trigger: 'imperative' | 'popstate' = 'imperative') => {
+    events.next(new NavigationStart(id, path, trigger));
+    events.next(new NavigationEnd(id, path, path));
   };
-  beforeEach(()=>{
-    gtag.mockReset();events=new Subject();handlers=new Map();
-    location=new URL('https://djamespoer.com/blognostisphere?utm_source=linkedin&utm_medium=social&secret=hidden#private');
-    TestBed.configureTestingModule({providers:[
-      {provide:Router,useValue:{events}},
-      {provide:DOCUMENT,useValue:{location,referrer:'https://www.linkedin.com/feed/?private=hidden',
-        addEventListener:(name:string,fn:(event:MouseEvent)=>void)=>handlers.set(name,fn),removeEventListener:vi.fn(),
-        defaultView:{location,localStorage:{getItem:()=>null},gtag}}},
-    ]});TestBed.inject(PublicAnalytics);
+  beforeEach(() => {
+    gtag.mockReset();
+    events = new Subject();
+    handlers = new Map();
+    location = new URL(
+      'https://djamespoer.com/blognostisphere?utm_source=linkedin&utm_medium=social&secret=hidden#private',
+    );
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: Router, useValue: { events } },
+        {
+          provide: DOCUMENT,
+          useValue: {
+            cookie: 'portfolio_analytics_consent=granted',
+            location,
+            referrer: 'https://www.linkedin.com/feed/?private=hidden',
+            addEventListener: (name: string, fn: (event: MouseEvent) => void) =>
+              handlers.set(name, fn),
+            removeEventListener: vi.fn(),
+            defaultView: { location, localStorage: { getItem: () => null }, gtag },
+          },
+        },
+      ],
+    });
+    TestBed.inject(PublicAnalytics);
   });
-  it('covers public articles/journal, counts initial/completed/history once, and excludes query-only or unknown routes',()=>{
-    route(1,'/blognostisphere');route(2,'/about');route(3,'/about?email=hidden#private');
-    route(4,'/blognostisphere','popstate');route(5,'/private/person');route(6,'/about','popstate');
-    const views=gtag.mock.calls.filter(c=>c[0]==='event'&&c[1]==='page_view');
+  it('covers public articles/journal, counts initial/completed/history once, and excludes query-only or unknown routes', () => {
+    route(1, '/blognostisphere');
+    route(2, '/about');
+    route(3, '/about?email=hidden#private');
+    route(4, '/blognostisphere', 'popstate');
+    route(5, '/private/person');
+    route(6, '/about', 'popstate');
+    const views = gtag.mock.calls.filter((c) => c[0] === 'event' && c[1] === 'page_view');
     expect(views).toHaveLength(4);
     expect(views[0][2].page_title).toBe('Blognostisphere | D. James Poer');
-    expect(views[0][2].page_location).toBe('https://djamespoer.com/blognostisphere?utm_source=linkedin&utm_medium=social');
+    expect(views[0][2].page_location).toBe(
+      'https://djamespoer.com/blognostisphere?utm_source=linkedin&utm_medium=social',
+    );
     expect(views[0][2].page_referrer).toBe('https://www.linkedin.com/');
     expect(views[2][2].navigation_method).toBe('history');
     expect(JSON.stringify(gtag.mock.calls)).not.toMatch(/hidden|secret|person|#private/);
-    expect(publicPath('/blognostisphere/the-difference-between-good-and-good-enough')).not.toBe('/other');
+    expect(publicPath('/blognostisphere/the-difference-between-good-and-good-enough')).not.toBe(
+      '/other',
+    );
     expect(publicPath('/product-journal/2026-10-22')).not.toBe('/other');
     expect(publicPath('/product-journal/2099-01-01')).toBe('/other');
   });
-  it('distinguishes a header link from a carousel CTA and bounds its slide/context',()=>{
-    route(1,'/blognostisphere');
-    const header=document.createElement('header');header.className='site-header';header.innerHTML='<a href="https://djamespoer.com/about?private=hidden">About</a>';
-    const click=(anchor:HTMLAnchorElement)=>handlers.get('click')!({isTrusted:true,type:'click',button:0,target:anchor} as unknown as MouseEvent);
-    click(header.querySelector('a')!);route(2,'/about');
-    const carousel=document.createElement('main');carousel.innerHTML='<app-carousel><section data-slide-id="djp-conservatory"><a href="https://djamespoer.com/work/djamespoer">Explore</a></section></app-carousel>';
-    click(carousel.querySelector('a')!);route(3,'/work/djamespoer');
-    const clicks=gtag.mock.calls.filter(c=>['navigation_click','carousel_cta_click'].includes(c[1]));
+  it('distinguishes a header link from a carousel CTA and bounds its slide/context', () => {
+    route(1, '/blognostisphere');
+    const header = document.createElement('header');
+    header.className = 'site-header';
+    header.innerHTML = '<a href="https://djamespoer.com/about?private=hidden">About</a>';
+    const click = (anchor: HTMLAnchorElement) =>
+      handlers.get('click')!({
+        isTrusted: true,
+        type: 'click',
+        button: 0,
+        target: anchor,
+      } as unknown as MouseEvent);
+    click(header.querySelector('a')!);
+    route(2, '/about');
+    const carousel = document.createElement('main');
+    carousel.innerHTML =
+      '<app-carousel><section data-slide-id="djp-conservatory"><a href="https://djamespoer.com/work/djamespoer">Explore</a></section></app-carousel>';
+    click(carousel.querySelector('a')!);
+    route(3, '/work/djamespoer');
+    const clicks = gtag.mock.calls.filter((c) =>
+      ['navigation_click', 'carousel_cta_click'].includes(c[1]),
+    );
     expect(clicks).toHaveLength(2);
-    expect(clicks[0][2]).toMatchObject({navigation_method:'header',destination_path:'/about',cta_location:'primary-navigation'});
-    expect(clicks[1][2]).toMatchObject({navigation_method:'carousel',destination_path:'/work/djamespoer',slide_id:'djp-conservatory'});
+    expect(clicks[0][2]).toMatchObject({
+      navigation_method: 'header',
+      destination_path: '/about',
+      cta_location: 'primary-navigation',
+    });
+    expect(clicks[1][2]).toMatchObject({
+      navigation_method: 'carousel',
+      destination_path: '/work/djamespoer',
+      slide_id: 'djp-conservatory',
+    });
     expect(JSON.stringify(clicks)).not.toContain('private');
   });
 });

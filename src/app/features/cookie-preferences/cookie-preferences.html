@@ -27,19 +27,64 @@
       <button
         type="button"
         [attr.aria-pressed]="rigby.enabled()"
-        (click)="rigby.setEnabled(true); preferences.save(preferences.selection())"
+        (click)="rigby.choose(true); preferences.save(preferences.selection())"
       >
         Play with Rigby
       </button>
       <button
         type="button"
         [attr.aria-pressed]="!rigby.enabled()"
-        (click)="rigby.setEnabled(false); preferences.save(preferences.selection())"
+        (click)="rigby.choose(false); preferences.save(preferences.selection())"
       >
         Browse without Rigby
       </button>
       @if (!rigby.saved()) {
         <p role="status">This choice applies to this visit; your browser could not save it.</p>
+      }
+    </section>
+    <section aria-labelledby="analytics-choice-heading">
+      <h3 id="analytics-choice-heading">Optional analytics</h3>
+      <p>
+        Allow anonymous portfolio-use measurement, including Rigby interactions? Off until you allow
+        it. Changing this choice reloads the page.
+      </p>
+      <p role="status">
+        Analytics: {{ analytics.granted() ? 'allowed' : 'not allowed' }}. This browser:
+        {{ analytics.internal() ? 'internal; collection suppressed' : 'unmarked' }}.
+      </p>
+      <button
+        type="button"
+        [attr.aria-pressed]="analytics.granted()"
+        (click)="analytics.setConsent(true)"
+      >
+        Allow analytics
+      </button>
+      <button
+        type="button"
+        [attr.aria-pressed]="!analytics.granted()"
+        (click)="analytics.setConsent(false)"
+      >
+        Do not allow analytics
+      </button>
+      <details>
+        <summary>Internal browser setting</summary>
+        <p>
+          For site owners and testing. Mark each browser profile separately. Marking suppresses page
+          views and custom analytics; it does not identify you. Changing this setting reloads the
+          page.
+        </p>
+        <button
+          type="button"
+          [attr.aria-pressed]="analytics.internal()"
+          (click)="analytics.setInternal(!analytics.internal())"
+        >
+          {{
+            analytics.internal() ? 'Unmark this internal browser' : 'Mark this browser as internal'
+          }}
+        </button>
+      </details>
+      @if (analytics.error()) {
+        <p role="alert">{{ analytics.error() }}</p>
       }
     </section>
     <p class="jar-count">

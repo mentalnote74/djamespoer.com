@@ -67,6 +67,13 @@
     <script>
       (() => {
         if (!['djamespoer.com', 'www.djamespoer.com'].includes(window.location.hostname)) return;
+        if (typeof BroadcastChannel !== 'undefined') {
+          const preferences = new BroadcastChannel('portfolio-analytics-preferences');
+          preferences.onmessage = () => {
+            window['ga-disable-G-WQBYGF4Z8F'] = true;
+            window.location.reload();
+          };
+        }
         // Explicit browser opt-out, not bot classification or an authentication signal.
         // Visit ?internal=1 once; ?internal=0 clears it for this browser/origin.
         try {
@@ -74,6 +81,17 @@
           if (marker === '1') window.localStorage.setItem('portfolio.analytics.internal', '1');
           if (marker === '0') window.localStorage.removeItem('portfolio.analytics.internal');
           if (window.localStorage.getItem('portfolio.analytics.internal') === '1') return;
+        } catch {
+          return;
+        }
+        // Separate, explicit analytics consent. Flavor/Rigby choices are not consent.
+        try {
+          if (
+            !document.cookie
+              .split(';')
+              .some((value) => value.trim() === 'portfolio_analytics_consent=granted')
+          )
+            return;
         } catch {
           return;
         }
@@ -109,6 +127,18 @@
 
         // Keep third-party startup off the rendering path; clicks can queue before it loads.
         const loadAnalytics = () => {
+          // Recheck at deferred startup: preferences may have changed during the quiet window.
+          try {
+            if (
+              window.localStorage.getItem('portfolio.analytics.internal') === '1' ||
+              !document.cookie
+                .split(';')
+                .some((value) => value.trim() === 'portfolio_analytics_consent=granted')
+            )
+              return;
+          } catch {
+            return;
+          }
           const script = document.createElement('script');
           script.async = true;
           script.src = 'https://www.googletagmanager.com/gtag/js?id=G-WQBYGF4Z8F';

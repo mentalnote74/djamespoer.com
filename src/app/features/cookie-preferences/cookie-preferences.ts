@@ -1,3 +1,4 @@
+import { AnalyticsPreferences } from '../../services/analytics-preferences';
 import { LucideX } from '@lucide/angular';
 import { Component, ElementRef, effect, inject, signal, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -13,6 +14,7 @@ import { CookieSprite } from '../cookie-hunt/cookie-sprite';
   styleUrl: './cookie-preferences.scss',
 })
 export class CookiePreferences {
+  readonly analytics = inject(AnalyticsPreferences);
   readonly hunt = inject(CookieHuntService);
   readonly rigby = inject(RigbyPreferences);
   readonly preferences = inject(CookiePreferencesService);

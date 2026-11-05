@@ -42,8 +42,23 @@
   <p>
     After you explore the page, Rigby may introduce himself once. The local storage entry
     <code>rigby.greeting.seen.v1</code> remembers that introduction on this device so it does not
-    repeat automatically. Turning Rigby off prevents the automatic greeting. The introduction
-    does not start the hunt until you choose to play. Clear this site's data to remove this marker.
+    repeat automatically. Turning Rigby off prevents the automatic greeting. The introduction does
+    not start the hunt until you choose to play. Clear this site's data to remove this marker.
+  </p>
+  <h2>Optional analytics and internal browsers</h2>
+  <p>
+    Analytics is off until you explicitly allow it in the Cookie Jar. The separate first-party
+    <code>portfolio_analytics_consent</code> cookie stores only granted or denied for 180 days
+    (Path=/, SameSite=Lax, Secure on HTTPS). Changing your choice reloads the page to stop or start
+    collection. Revoking consent prevents future collection; it cannot retract events already sent.
+    Existing Google Analytics cookies may remain until cleared with browser site-data controls.
+  </p>
+  <p>
+    The reversible internal-browser setting uses the existing
+    <code>portfolio.analytics.internal</code> local-storage marker. Marked browsers suppress page
+    views and custom analytics even when analytics is allowed. It lasts until unmarked or site data
+    is cleared and applies only to this browser profile and origin. No identity or experiment
+    assignment is stored. The Rigby experiment is inactive.
   </p>
   <h2>Separate analytics</h2>
   <p>

@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 const html = await readFile(new URL('../src/index.html', import.meta.url), 'utf8');
-const script = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]).find(s => s.includes('G-WQBYGF4Z8F'));
+const script = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)]
+  .map((m) => m[1])
+  .find((s) => s.includes('G-WQBYGF4Z8F'));
 class Element {
   constructor(href, zone = 'content', download = false) {
     Object.assign(this, { href, zone, download });
@@ -15,7 +17,7 @@ class Element {
     return name === 'download' && this.download;
   }
 }
-function load(url = 'https://djamespoer.com/', storage = new Map()) {
+function load(url = 'https://djamespoer.com/', storage = new Map(), consent = 'granted') {
   const appended = [],
     listeners = new Map(),
     clicks = new Map();
@@ -33,6 +35,7 @@ function load(url = 'https://djamespoer.com/', storage = new Map()) {
       removeItem: (key) => storage.delete(key),
     },
     document: {
+      cookie: consent ? `portfolio_analytics_consent=${consent}` : '',
       createElement: () => ({}),
       head: { append: (tag) => appended.push(tag) },
       addEventListener: (name, callback) => clicks.set(name, callback),
@@ -94,12 +97,35 @@ test('internal marker suppresses GA before configuration and persists until expl
 });
 
 test('one page-view owner and safe external campaigns, without arbitrary browser data', () => {
-  const f=load('https://djamespoer.com/about?utm_source=linkedin&utm_medium=social&utm_campaign=good-enough&email=hidden@example.invalid#private');
-  const config=Array.from(f.context.dataLayer).map(a=>Array.from(a)).find(a=>a[0]==='config')[2];
-  assert.equal(config.send_page_view,false);
-  assert.equal(config.campaign_source,'linkedin');
-  assert.equal(config.campaign_name,'good-enough');
-  assert.equal(config.page_location,undefined);
-  assert.equal(Array.from(f.context.dataLayer[1])[1].page_location,'https://djamespoer.com/');
-  assert.doesNotMatch(JSON.stringify(config),/hidden|@|private|email/);
+  const f = load(
+    'https://djamespoer.com/about?utm_source=linkedin&utm_medium=social&utm_campaign=good-enough&email=hidden@example.invalid#private',
+  );
+  const config = Array.from(f.context.dataLayer)
+    .map((a) => Array.from(a))
+    .find((a) => a[0] === 'config')[2];
+  assert.equal(config.send_page_view, false);
+  assert.equal(config.campaign_source, 'linkedin');
+  assert.equal(config.campaign_name, 'good-enough');
+  assert.equal(config.page_location, undefined);
+  assert.equal(Array.from(f.context.dataLayer[1])[1].page_location, 'https://djamespoer.com/');
+  assert.doesNotMatch(JSON.stringify(config), /hidden|@|private|email/);
+});
+
+test('no tag or queue without explicit analytics consent; flavors are not consent', () => {
+  for (const consent of ['', 'denied', 'invalid']) {
+    const f = load('https://djamespoer.com/', new Map(), consent);
+    assert.equal(f.context.dataLayer, undefined);
+    assert.equal(f.appended.length, 0);
+  }
+});
+test('deferred loader rechecks revocation and internal marking before inserting the tag', () => {
+  for (const change of ['consent', 'internal']) {
+    const store = new Map();
+    const f = load('https://djamespoer.com/', store);
+    f.listeners.get('portfolio-ready')();
+    if (change === 'consent') f.context.document.cookie = 'portfolio_analytics_consent=denied';
+    else store.set('portfolio.analytics.internal', '1');
+    f.idle();
+    assert.equal(f.appended.length, 0);
+  }
 });
