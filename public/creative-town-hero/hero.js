@@ -3,7 +3,7 @@
   const world = document.getElementById('world');
   const moving = [
     ...document.querySelectorAll(
-      '#street-guests > .actor:not(.window-guest), .larry, .pizza, .sanitation, [data-actor="elvis-like"]',
+      '#street-guests > .actor:not(.window-guest), .pig, .larry, .pizza, .sanitation, [data-actor="elvis-like"]',
     ),
   ];
   await Promise.all([...document.images].map((image) => image.decode().catch(() => {})));
@@ -59,6 +59,25 @@
   const fixed = [...document.querySelectorAll('[data-actor]')].filter(
     (node) => !moving.includes(node) && !node.closest('.window-guest'),
   );
+  // Residents need personal space, including in charades/spectator draws.
+  // Place the donkey before packing the movable cast; never behind game furniture.
+  const donkey = document.querySelector('[data-actor="emotional-support-donkey"]');
+  const separated = (a, b, gap = 20) =>
+    a[0] + a[2] + gap <= b[0] || b[0] + b[2] + gap <= a[0] ||
+    a[1] + a[3] + gap <= b[1] || b[1] + b[3] + gap <= a[1];
+  const furniture = [...document.querySelectorAll('.table-furniture,.showbill,.plans,.queue-guide')].map(box);
+  const fixedObstacles = [...fixed.filter(node => node !== donkey).map(box), ...furniture];
+  const donkeySlots = [[20, 776], [55, 776]];
+  for (let y = 776; y >= 740; y -= 18)
+    for (let x = 20; x <= 1420; x += 35) donkeySlots.push([x, y]);
+  let donkeyPlaced = false;
+  for (const [x, y] of donkeySlots) {
+    Object.assign(donkey.style, { left: x + 'px', top: y + 'px', width: '160px', height: '150px', zIndex: '101' });
+    const b = box(donkey);
+    if (fixedObstacles.every(other => separated(b, other))) { donkeyPlaced = true; break; }
+  }
+  if (!donkeyPlaced) throw new Error('No clear donkey placement; scene layout needs fewer actors');
+  const donkeySpace = box(donkey);
   const occupied = [
     ...fixed.map(box),
     ...[...document.querySelectorAll('.showbill,.plans,.queue-guide,.table-furniture')].map(box),
@@ -89,6 +108,8 @@
       b[1] >= 0 &&
       b[0] + b[2] <= 1660 &&
       b[1] + b[3] <= 932 &&
+      separated(b, donkeySpace) &&
+      !furniture.some((other) => collision(b, other)) &&
       !protectedArt.some((other) => collision(b, other));
     const score = (b) =>
       occupied.reduce(
@@ -102,17 +123,21 @@
       const roleSlots = window.TOWN_SCENE.roleLocations[node.dataset.actor];
       let best = null,
         bestScore = Infinity;
-      const candidates = roleSlots || slots.filter(slot =>
+      const groundSlots = [];
+      for (let y = 530; y <= 760; y += 45)
+        for (let x = 20; x <= 1510; x += 90) groundSlots.push([x, y, 80, 150, 74]);
+      const candidates = [...(roleSlots || slots), ...groundSlots].filter(slot =>
         !window.TOWN_SCENE.windowIneligible.includes(node.dataset.actor) || slot[1] >= 500,
       );
       for (const [x, y, w, h, z] of candidates) {
-        const factor = roleSlots ? null : Math.min(1, w / width, h / height);
+        const preferredRole = roleSlots?.some(slot => slot[0] === x && slot[1] === y && slot[2] === w && slot[3] === h);
+        const factor = preferredRole ? null : Math.min(1, w / width, h / height);
         const candidate = {
           left: x + 'px',
-          top: (roleSlots ? y : y + h - height * factor) + 'px',
-          width: (roleSlots ? w : width * factor) + 'px',
-          height: (roleSlots ? h : height * factor) + 'px',
-          zIndex: roleSlots ? original.zIndex : String(z),
+          top: (preferredRole ? y : y + h - height * factor) + 'px',
+          width: (preferredRole ? w : width * factor) + 'px',
+          height: (preferredRole ? h : height * factor) + 'px',
+          zIndex: preferredRole ? original.zIndex : String(z),
         };
         Object.assign(node.style, candidate);
         const b = box(node);

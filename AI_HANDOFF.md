@@ -2467,3 +2467,7 @@ and zero padding, including hover and keyboard focus. Verification: 35 focused
 tests and final build passed (existing Rigby stylesheet warnings). Actual preview
 browser assertions passed for every service/theme/state; reduced motion verified.
 Unpushed and undeployed. See docs/bedlam.md and asset README.
+
+## Creative Town emergency clearance correction — 2026-11-04
+Removed unconditional charades performer mime/sway. Hero presentation places donkey on foreground ground, reserves 20 scene-pixel clearance, routes movable actors (including pig) around it and game furniture, and adds ground alternatives for blocked role slots. Selector/cast manifest unchanged. Verified 12 targeted draws with Sanders/Kermit together: no target overlaps, Sanders animation none, no unresolved placements; final build passed. Unrelated generated changes preserved and excluded from commit.
+
