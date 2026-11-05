@@ -1,0 +1,38 @@
+# SCRUM-169 / SCRUM-141 owner behavior review ? hold
+
+Reviewed implementation: `12138f5413052c9fbc417c6321021c84426990a6`.
+Owner reported incorrect base Rigby behavior at http://127.0.0.1:4300/.
+Push/deployment remains on hold. This record supersedes any implication that the earlier analytics validation establishes owner acceptance of Rigby's behavior.
+
+## Reproduction status
+
+No product behavior changed during this investigation. Fresh isolated installed-Chrome sessions, 1440x1000, normal motion (not forced reduced motion), native pointer/keyboard controls, localhost with external requests blocked. The owner's affected browser/profile was not reset or modified.
+
+Verified port 4300 is Angular serve from the named review worktree/branch, clean at reviewed commit. Its .git metadata is local/shared with the C:/Dev project, not Step2. `origin/main` is fc0b866; local `main` is an older private TEST checkpoint and is not the correct comparison. Exported unchanged fc0b866 source into ignored tmp/scrum-169-correction/baseline, sharing the existing dependency install via a junction, and served on 4301. No dependency install, Git repair, worktree prune, CT changes, OneDrive operation or cleanup.
+
+The actual reviewed UI showed:
+
+1. Fresh browser: Rigby initially off; genuine header activation followed by the delayed introduction (visible by the 13-second observation).
+2. Play: greeting celebration closes after its existing delay; companion visible with normal motion.
+3. Doghouse Sit / keyboard Shake update the actual trick; explicit biscuit control triggers celebration.
+4. Home cookie collection increments jar once and starts the blue/hulking dance reaction; screenshot contains the visible rendered blue sprite.
+5. Turn off removes the companion and stores off. Reload keeps it off and retains the collected cookie.
+6. Cookie Jar Play brings the greeting back. Greeting Play returns the companion; enabled reload restores him and the jar.
+
+These flows have not reproduced James's unspecified failure. All 13 observed checkpoints on unchanged main, including saved-off reload, bring-back and enabled reload, matched enabled/greeting/trick/reaction/jar state; movement coordinates differ with sampling/scroll timing, not evidence of regression. Full comparison evidence is retained in ignored tmp/scrum-169-correction/{reviewed,unchanged-main}/probe.json and screenshots. Source changes were traced: telemetry/consent are separate from enabled/progress state; the earlier changed preference wrapper and successful-collection subscription were inspected rather than presumed causal. No root cause has been established.
+
+Probe setup issues (non-clickable hidden H1 selector, initial dependency-optimization navigation timeout and reading a lazy view before it existed) were corrected in the probe, not in product code. They are not presented as application defects. No paid evaluator or public analytics traffic was generated.
+
+## Missing trigger / next action
+
+Asked James for the exact page/control, steps, observed versus expected behavior, and whether the affected session is returning with saved Rigby/cookie state. Keep that affected tab/profile intact. No speculative behavior fix or failure-specific regression assertion is appropriate until the symptom is identified. Existing analytics tests are not treated as proof that every Rigby behavior works.
+
+## Owner inspection
+
+- Review build: http://127.0.0.1:4300/ ; unchanged-main comparison: http://127.0.0.1:4301/ . Both loopback-only.
+- For a separate fresh-visitor comparison, use a new private window; do not clear the affected profile. Activate the home link and allow the delayed entrance after browsing/quiet loading. Choose Play and wait for the existing greeting to finish.
+- Open Rigby's Doghouse; inspect Sit, Shake and Feed a biscuit. Collect the Home cookie and inspect its reaction.
+- Turn off, reload, then Cookie Jar ? Play with Rigby ? greeting Play; reload again and inspect preserved progress.
+- Report the first divergence from the expected behavior and any saved state in the affected profile. A stored off/seen preference or active form/modal can intentionally suppress entrance/companion on unchanged main too; that is context to inspect, not an assumed cause.
+
+No fix commit exists yet. No new application tests/build were needed for documentation-only findings; prior 90/8 analytics checks are historical evidence and were not substituted for this actual-experience investigation. Analytics/consent/internal suppression must be rechecked after any confirmed fix.
