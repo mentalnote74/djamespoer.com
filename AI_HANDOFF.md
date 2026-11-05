@@ -1,3 +1,22 @@
+## SCRUM-102 original frame/full-cast rework — Nov 5
+
+Owner chose existing 1664x936. Removed apron extension. Native silhouette spacing,
+solid table exclusions, supported streets/roofs/fixtures, reference large-character
+proportions, cached alternate packing with relocation. No two-torso cap or accepted
+capacity reduction. 24 independent native-pixel desktop/phone draws all retained
+50/50, zero overlaps/table intrusion/frame clipping; 10 focused tests passed.
+Mean local layout 1.45s, max3.19s. See rewritten docs/creative-town-spacing-scrum-102.md.
+Previous prototype notes below are historical and superseded.
+
+## SCRUM-102 owner rejected density/scale — November 5
+
+Uncommitted prototype in this worktree is incomplete and unapproved. Preserve
+c5b65e7 as checkpoint. Owner requires full/lively density, no clumping, no table
+occlusion, credible proportions (especially Scoob/Shag and Marmaduke). Shared
+height cap and capacity exclusions rejected. Current prototype 42–43/50 is not
+success. Geometry question pending: original dimensions or deeper plaza. See
+updated docs/creative-town-spacing-scrum-102.md. Nothing pushed/deployed.
+
 ## SCRUM-102 — spacing review, November 4
 
 Existing fix/scrum-102-town-personal-space worktree; prior uncommitted hero/placement

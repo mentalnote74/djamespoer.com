@@ -106,11 +106,11 @@ test('visible bounds follow object-fit contain and either facing', () => {
   assert.ok(WALKABLE.length > 3);
 });
 
-test('torso-only art requires a covering fixture and is capped at two per scene', () => {
+test('torso-only art requires a supported fixture without an arbitrary population cap', () => {
   const actors=cast(random(8),6).map(a=>({...a,torso:true,base:{w:60,h:80},aspect:.75}));
   const fixtures=[{id:'counter',rect:[200,500,1000,100],lip:500}];
   const result=solve({actors,obstacles:[],zones:[],fixtures});
-  assert.equal(result.placed.length,2);
+  assert.equal(result.placed.length,6);
   for(const {box,layout} of result.placed){
     assert.equal(layout.fixture,'counter');
     assert.ok(box[0]>=200&&box[0]+box[2]<=1200,'cutout cannot protrude beside its fixture');

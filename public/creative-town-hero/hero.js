@@ -4,7 +4,15 @@
   const world = document.getElementById('world'),
     placement = window.TownPlacement;
   const { width: W, height: H, maskCell: cell } = placement.LAYOUT;
-  const metrics = new Map();
+  const metrics = new Map(), silhouettes = new Map();
+  function silhouette(image) {
+    if (silhouettes.has(image.src)) return silhouettes.get(image.src);
+    const canvas=document.createElement('canvas');canvas.width=canvas.height=64;
+    const ctx=canvas.getContext('2d');ctx.drawImage(image,0,0,64,64);
+    const rgba=ctx.getImageData(0,0,64,64).data, points=[];
+    for(let y=0;y<64;y++)for(let x=0;x<64;x++)if(rgba[(y*64+x)*4+3]>0)points.push([x,y]);
+    const result={size:64,points};silhouettes.set(image.src,result);return result;
+  }
   let assetBounds = {};
   const boundsReady = fetch(new URL('placement-bounds.json', document.baseURI))
     .then(response => response.ok ? response.json() : {})
@@ -57,7 +65,7 @@
     c.width = W / cell;
     c.height = H / cell;
     const ctx = c.getContext('2d', { willReadFrequently: true });
-    ctx.drawImage(image, 0, 0, c.width, c.height);
+    ctx.drawImage(image, 0, 0, c.width, 936 / cell);
     return { data: ctx.getImageData(0, 0, c.width, c.height).data, cols: c.width, rows: c.height };
   }
   // Derive usable fixture spans from opaque pixels, not a transparent plate's full box.
@@ -96,7 +104,7 @@
     c.width = W / cell;
     c.height = H / cell;
     const ctx = c.getContext('2d', { willReadFrequently: true });
-    for (const p of plates) ctx.drawImage(p, 0, 0, c.width, c.height);
+    for (const p of plates) ctx.drawImage(p, 0, 0, c.width, 936 / cell);
     const pixels = ctx.getImageData(0, 0, c.width, c.height).data,
       cols = c.width,
       rows = c.height;
@@ -116,13 +124,22 @@
     };
     scenery = {
       blocked,
-      fixtures: plates
+      fixtures: [
+        ...[515,590,665,740].map((x,i)=>({id: 'saloon-window-'+i,rect:[x,440,64,80],lip:520})),
+        {id:'workshop-window',rect:[100,520,70,110],lip:630},
+        {id:'dr-window',rect:[860,450,80,90],lip:535},
+        ...[340,425].map((x,i)=>({id:'church-window-'+i,rect:[x,470,70,130],lip:600})),
+        ...[1080,1200].map((x,i)=>({id:'office-window-'+i,rect:[x,500,90,120],lip:620})),
+        ...[1390,1520].map((x,i)=>({id:'counter-window-'+i,rect:[x,500,100,140],lip:640})),
+        ...[1060,1190].map((x,i)=>({id:'bench-seat-'+i,rect:[x,630,100,85],lip:715})),
+        ...plates
         .filter((p) => !p.src.endsWith('/foreground.webp'))
-        .map((p, i) => fixture(p, 'fixture-' + i)),
+        .map((p, i) => fixture(p, 'fixture-' + i))],
     };
     return scenery;
   }
   async function layout() {
+    const layoutStarted=performance.now();
     const version = ++generation;
     world.querySelector('#placed-residents')?.setAttribute('hidden', '');
     delete window.townHeroLayout;
@@ -151,6 +168,8 @@
         'bigfoot',
         'superman',
         'scope-creep-watcher',
+        'scoob-and-shag',
+        'marmaduke',
         'pig-prime',
         'larry',
         'yak-shaving',
@@ -161,7 +180,6 @@
         ...window.TOWN_SCENE.fixedDynamicCast,
       ]),
     ];
-    const standingHeight = window.TOWN_SCENE.roamSlots.find((s) => s[1] >= 650)[3];
     const actors = originals
       .map((node) => {
         const source = node.matches('img') ? node : node.querySelector('img');
@@ -177,7 +195,7 @@
             'internet-fairy',
             'bigfoot',
             'scope-creep-watcher',
-          ].includes(id) && !node.matches('.window-guest,.shaving');
+          ].includes(id) && !node.matches('.shaving');
         const holder = document.createElement('div');
         holder.className = 'actor';
         holder.dataset.actor = id;
@@ -200,7 +218,7 @@
         const torso = window.TOWN_SCENE.halfBodyAssets.includes(id) && id !== 'sanitation-engineer';
         const registered = [
           ...(window.TOWN_SCENE.roleLocations[id] || []),
-          ...(window.TOWN_SCENE.windowIneligible.includes(id) ||
+          ...(priority.includes(id) || window.TOWN_SCENE.windowIneligible.includes(id) ||
           [
             'pig-prime',
             'sanitation-engineer',
@@ -221,31 +239,54 @@
               registered: true,
             })),
           );
-        const size = ground || torso ? Math.min(1, standingHeight / current.h) : 1;
+        // Near-ground reference sizes follow character form, not the slot that
+        // happened to select them. Perspective is applied only after choosing depth.
+        const reference = {
+          'scoob-and-shag': [270,245], marmaduke: [280,200], 'battle-cat': [220,150],
+          larry: [80,210], 'sanitation-engineer': [100,180], 'elvis-like': [88,173], 'pizza-courier': [96,157],
+          'pig-prime': [220,184], 'emotional-support-donkey': [190,178],
+        }[id];
+        const small = /(?:mouse|smurf|turtle|tyke|noid|yoda|lgm|rabbit|snoopy)/.test(id);
+        const human = ground && !priority.includes(id) && !torso;
+        const baseH = human ? (small ? 120 : 175) : current.h;
+        const base = reference ? {w:reference[0],h:reference[1]} : human
+          ? {w:baseH * source.naturalWidth/source.naturalHeight,h:baseH}
+          : {w:current.w,h:current.h};
+        let prefer = [{ ...current, ground }, ...registered];
+        if(id==='internet-fairy')prefer.unshift({x:460,y:20,w:130,h:140});
+        if(id==='superman')prefer.unshift(...[120,320,500].map(x=>({x,y:85,w:165,h:78})));
+        if (ground && !torso) prefer = prefer.map(p => {
+          const foot=p.y+p.h;
+          const factor=foot<500?.48:foot<650?.62:Math.min(1,.62+.38*(foot-650)/286);
+          const w=base.w*factor,h=base.h*factor;
+          return {...p,x:p.x+(p.w-w)/2,y:foot-h,w,h};
+        });
         return {
           id,
           node: holder,
           aspect: source.naturalWidth / source.naturalHeight,
+          shape: {...silhouette(source),mirror:facing?.includes('-1')},
           alpha:
             id === 'sanitation-engineer' || node.querySelector('.ticket')
               ? [0, 0, 1, 1]
               : alpha(source),
-          base: { w: current.w * size, h: current.h * size },
-          baseFoot: current.y + current.h,
-          prefer: [{ ...current, ground }, ...registered],
+          base,
+          baseFoot: ground ? 930 : current.y + current.h,
+          ground,
+          foreground:true,
+          prefer,
+          surfaces: ground && !torso && !window.TOWN_SCENE.windowIneligible.includes(id) && !['pig-prime','emotional-support-donkey','complaint-yak-14','complaint-yak-27'].includes(id),
           core: priority.includes(id),
           torso,
         };
       })
       .filter(Boolean)
       .sort((a, b) => {
-        const rank = (id) => (priority.includes(id) ? priority.indexOf(id) : priority.length);
-        return (
-          rank(a.id) - rank(b.id) ||
-          Number(a.torso) - Number(b.torso) ||
-          b.base.w * b.base.h - a.base.w * a.base.h
-        );
+        const tier = actor => actor.ground === false ? 0 : actor.torso ? 1 : actor.surfaces ? 3 : 2;
+        return tier(a)-tier(b) || b.base.w*b.base.h-a.base.w*a.base.h;
       });
+    const secondTable=world.querySelector('.table-b');
+    if(secondTable&&!secondTable.dataset.spaced){secondTable.style.left=(parseFloat(getComputedStyle(secondTable).left)+155)+'px';secondTable.dataset.spaced='true';}
     const zones = [...world.querySelectorAll('.table-group')].map((group) => {
       const pieces = [...group.querySelectorAll('.table-furniture,.chair')].map(rect),
         x = Math.min(...pieces.map((p) => p.x)),
@@ -257,12 +298,13 @@
         Math.max(...pieces.map((p) => p.y + p.h)) - y,
       ];
     });
-    const obstacles = [...world.querySelectorAll('[data-prop],.showbill,.plans,.queue-guide')].map(
+    const obstacles = [...world.querySelectorAll('[data-prop],.showbill,.plans')].map(
       (n) => {
         const b = rect(n);
         return [b.x, b.y, b.w, b.h];
       },
     );
+    // The open queue barrier stays behind residents, allowing its intended queue lane.
     const byId = new Map(actors.map(actor => [actor.id, actor]));
     const show = item => {
       if (version !== generation) return;
@@ -280,7 +322,7 @@
       a.node.style.visibility = 'visible';
     };
     const env = environment(),
-      result = await placement.solveInSlices({ actors, obstacles, zones, ...env, onPlace: show });
+      result = await placement.solveCrowdInSlices({ actors, obstacles, zones, ...env, onPlace: show });
     if (version !== generation) return;
     for (const id of result.conflicts) byId.get(id).node.remove();
     world.setAttribute('role', 'img');
@@ -290,6 +332,7 @@
     );
     window.townHeroLayout = {
       ...result,
+      layoutMs:performance.now()-layoutStarted,
       actors: actors.map(({ node, ...a }) => a),
       zones,
       obstacles,
