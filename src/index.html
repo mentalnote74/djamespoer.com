@@ -2,6 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script data-internal-demo-default>
+      // All nonpublic previews are internal before application/analytics initialization.
+      try {
+        if (!['djamespoer.com', 'www.djamespoer.com'].includes(window.location.hostname))
+          localStorage.setItem('portfolio.analytics.internal', '1');
+      } catch {
+        // Existing analytics guards fail closed when storage is unreadable.
+      }
+    </script>
     <script>
       // Match the visitor's local entry phase before the themed stylesheet paints.
       const themeHour = new Date().getHours();

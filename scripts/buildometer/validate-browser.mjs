@@ -20,6 +20,7 @@ try {
   const p = await b.newPage();
   await p.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
   await p.evaluateOnNewDocument(() => {
+    localStorage.setItem('portfolio.analytics.internal', '1');
     document.cookie = 'portfolio_cookie_preferences=1.0; Path=/';
     localStorage.setItem('rigby.greeting.seen.v1', '1');
   });

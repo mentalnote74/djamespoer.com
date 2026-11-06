@@ -148,3 +148,10 @@ After meaningful engineering work, update `AI_HANDOFF.md` when the current state
 ### Buildometer release completion
 
 After a verified production release affecting eligible portfolio scope, run the named `npm run buildometer:release-check` and record its result in `AI_HANDOFF.md`. Follow `docs/buildometer/release-reconciliation.md` to prepare/review/apply the complete candidate; never replace approved scope with Jira Done counts or stamp observation time with build/fetch time. Record missing scope/estimates explicitly. A bounded projection-only follow-up is not another eligible feature release. BOM changes still require James's review before production release.
+
+
+### Internal demos and lean validation ? SCRUM-168
+
+All internal demos, previews and automated/manual QA browser profiles start INTERNAL before the first application/tag execution. Use the existing localStorage marker `portfolio.analytics.internal = '1'`; do not invent another cookie. Nonpublic preview bootstrap sets it automatically. Public production visitors keep default-on analytics. Production QA runners must seed the marker before first navigation for every profile/origin. Include INTERNAL status in demo handoffs. Dedicated analytics transport checks use mocked/intercepted collection or a QA property; necessary live production receipt is an explicitly identified controlled exception with QA attribution, never silent unmarking.
+
+Keep work and validation lean (SCRUM-168 comments 10364/10371). Make the bounded change, then use the next development/integration/release step as validation when it exercises it. Do not automatically add tests, run broad audits/suites, or repeat successful builds/browser checks after small changes. Add a focused check only for a concrete unresolved risk/failure or an explicitly required check; state why, resolve it, then continue. Reuse successful evidence unless relevant changes invalidate it. Required release checks remain; redundant/speculative checks do not. Do not claim visibility into remaining quota/throttling.

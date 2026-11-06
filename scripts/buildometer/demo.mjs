@@ -49,7 +49,8 @@ http
         file = resolve(root, 'index.csr.html');
         body = await readFile(file);
       }
-      res.writeHead(200, {
+      if (extname(file) === '.html') body = Buffer.from(body.toString('utf8').replace('<head>', '<head>'+"<script data-internal-demo-default>try{localStorage.setItem('portfolio.analytics.internal','1')}catch{}</script>"));
+    res.writeHead(200, {
         'Content-Type': mime[extname(file)] ?? 'application/octet-stream',
         'Cache-Control': 'no-store',
       });
