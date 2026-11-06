@@ -30,10 +30,16 @@
   ],
   "axe_violations": [],
   "page_errors": [],
-  "ga_dimensions_verified": false,
-  "ga_admin_access_blocked": true,
+  "ga_dimensions_verified": true,
+  "ga_admin_access_blocked": false,
   "bigquery_runtime_dependency": false,
   "pushed": false,
   "deployed": false,
-  "live_receipt_verified": false
+  "live_receipt_verified": false,
+  "ga_dimension_names": [
+    "customEvent:action",
+    "customEvent:input_method",
+    "customEvent:cookie_id"
+  ],
+  "state": "authorized release in progress; live receipt pending"
 }
