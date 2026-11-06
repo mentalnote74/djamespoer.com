@@ -111,8 +111,8 @@ test('one page-view owner and safe external campaigns, without arbitrary browser
   assert.doesNotMatch(JSON.stringify(config), /hidden|@|private|email/);
 });
 
-test('no tag or queue without explicit analytics consent; flavors are not consent', () => {
-  for (const consent of ['', 'denied', 'invalid']) {
+test('saved denial and invalid saved preferences suppress the tag and queue', () => {
+  for (const consent of ['denied', 'invalid']) {
     const f = load('https://djamespoer.com/', new Map(), consent);
     assert.equal(f.context.dataLayer, undefined);
     assert.equal(f.appended.length, 0);
@@ -128,4 +128,18 @@ test('deferred loader rechecks revocation and internal marking before inserting 
     f.idle();
     assert.equal(f.appended.length, 0);
   }
+});
+
+test('unset preference initializes analytics without settings; denial wins across saved values', () => {
+  const f = load('https://djamespoer.com/', new Map(), '');
+  assert.equal(f.context.dataLayer.length, 3);
+  f.listeners.get('portfolio-ready')();
+  f.idle();
+  assert.equal(f.appended.length, 1);
+  const denied = load(
+    'https://djamespoer.com/',
+    new Map(),
+    'granted; portfolio_analytics_consent=denied',
+  );
+  assert.equal(denied.context.dataLayer, undefined);
 });

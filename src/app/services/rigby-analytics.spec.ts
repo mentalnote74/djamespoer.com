@@ -70,9 +70,9 @@ describe('Rigby consented GA session denominators', () => {
     expect(emissions()).toHaveLength(1);
     expect(emissions()[0][2]).toMatchObject({ action: 'saved_off' });
   });
-  it('does not queue state or actions without consent or on internal browsers, and resumes only new actions', () => {
+  it('does not queue state or actions after saved denial or on internal browsers, and resumes only new actions', () => {
     const analytics = TestBed.inject(PublicAnalytics);
-    cookie = '';
+    cookie = 'portfolio_analytics_consent=denied';
     analytics.rigbySessionState('shown', 'companion');
     analytics.track('rigby_play', { location: 'rigby', action: 'sit' });
     expect(gtag).not.toHaveBeenCalled();
@@ -160,9 +160,9 @@ describe('Independent browser controls', () => {
       ],
     });
   });
-  it('defaults to denied and saves bounded independent consent without Rigby/profile data', () => {
+  it('defaults to enabled and saves bounded independent choices without Rigby/profile data', () => {
     const p = TestBed.inject(AnalyticsPreferences);
-    expect(p.granted()).toBe(false);
+    expect(p.granted()).toBe(true);
     p.setConsent(true);
     expect(cookie).toContain(
       'portfolio_analytics_consent=granted; Path=/; Max-Age=15552000; SameSite=Lax; Secure',
@@ -175,6 +175,16 @@ describe('Independent browser controls', () => {
     expect(view['ga-disable-G-WQBYGF4Z8F']).toBe(true);
     expect(store.has('rigby.analytics-session.v1')).toBe(false);
     expect(reload).toHaveBeenCalledTimes(2);
+  });
+  it.each([
+    ['', true],
+    ['portfolio_analytics_consent=granted', true],
+    ['portfolio_analytics_consent=denied', false],
+    ['portfolio_analytics_consent=invalid', false],
+    ['portfolio_analytics_consent=granted; portfolio_analytics_consent=denied', false],
+  ])('honors saved choice %s independently of unrelated preferences', (saved, allowed) => {
+    cookie = saved;
+    expect(analyticsConsent(TestBed.inject(DOCUMENT))).toBe(allowed);
   });
   it('marks and unmarks reversibly without changing consent, Rigby or progress', () => {
     store.set('rigby.enabled.v1', 'off');

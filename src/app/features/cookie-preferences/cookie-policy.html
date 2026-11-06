@@ -47,7 +47,8 @@
   </p>
   <h2>Optional analytics and internal browsers</h2>
   <p>
-    Analytics is off until you explicitly allow it in the Cookie Jar. The separate first-party
+    Analytics is enabled when no choice is saved. A saved denial keeps collection off until you
+    change it in the Cookie Jar. The separate first-party
     <code>portfolio_analytics_consent</code> cookie stores only granted or denied for 180 days
     (Path=/, SameSite=Lax, Secure on HTTPS). Changing your choice reloads the page to stop or start
     collection. Revoking consent prevents future collection; it cannot retract events already sent.
@@ -62,7 +63,8 @@
   </p>
   <h2>Separate analytics</h2>
   <p>
-    The public site also uses Google Analytics, which may set separate analytics cookies. The
+    The public site uses Google Analytics by default, unless you save a denial in the Cookie Jar.
+    You can change that choice at any time. Google Analytics may set separate analytics cookies. The
     playful selections here do not enable, disable or provide consent for analytics.
   </p>
   <p><a routerLink="/">Back to Home</a></p>
