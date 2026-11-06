@@ -120,8 +120,34 @@ try {
     await wait(400);
   };
   await load();
+  await page.waitForFunction(() => (window.__qaEvents ?? []).some((e) => e[1] === 'page_view'));
+  assert.equal(
+    await page.evaluate(() => document.cookie.includes('portfolio_analytics_consent=')),
+    false,
+  );
+  await page.click('button[aria-controls="about-navigation"]');
+  await clickText('Resume', true);
+  await page.waitForSelector('app-resume');
+  await wait(250);
+  assert.equal((await events()).filter((e) => e[1] === 'page_view').length, 2);
+  assert.equal(
+    (await events()).filter(
+      (e) => e[1] === 'navigation_click' && e[2].destination_path === '/resume',
+    ).length,
+    1,
+  );
+  receipt.checks.push(
+    'fresh unset browser: page views and native keyboard action collect without visiting settings; one page view per SPA navigation',
+  );
+  await jar();
+  const denyNavigation = page.waitForNavigation({ waitUntil: 'networkidle0' });
+  await clickText('Do not allow analytics');
+  await denyNavigation;
   assert.equal((await events()).length, 0);
-  receipt.checks.push('fresh browser: no analytics queue/tag without consent');
+  await page.reload({ waitUntil: 'networkidle0' });
+  assert.equal((await events()).length, 0);
+  assert(await page.evaluate(() => document.cookie.includes('portfolio_analytics_consent=denied')));
+  receipt.checks.push('explicit denial stops collection and remains off after another reload');
   // Acknowledged fun choices suppress the unrelated first-visit dialog; no tracking consent implied.
   await page.evaluate(() => {
     document.cookie = 'portfolio_cookie_preferences=1.0; Path=/; Secure';

@@ -5,10 +5,13 @@ export const ANALYTICS_CONSENT_COOKIE = 'portfolio_analytics_consent';
 export const INTERNAL_BROWSER_KEY = 'portfolio.analytics.internal';
 export function analyticsConsent(document: Document): boolean {
   try {
+    const saved = document.cookie
+      .split(';')
+      .map((value) => value.trim())
+      .filter((value) => value.startsWith(ANALYTICS_CONSENT_COOKIE + '='));
+    // Owner policy: unset is enabled; a saved denial remains authoritative.
     return (
-      document.cookie
-        ?.split(';')
-        .some((value) => value.trim() === ANALYTICS_CONSENT_COOKIE + '=granted') ?? false
+      saved.length === 0 || saved.every((value) => value === ANALYTICS_CONSENT_COOKIE + '=granted')
     );
   } catch {
     return false;

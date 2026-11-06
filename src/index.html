@@ -84,14 +84,19 @@
         } catch {
           return;
         }
-        // Separate, explicit analytics consent. Flavor/Rigby choices are not consent.
+        // Owner policy: enabled when unset; saved denial is independent of playful choices.
+        const analyticsAllowed = () => {
+          const saved = document.cookie
+            .split(';')
+            .map((value) => value.trim())
+            .filter((value) => value.startsWith('portfolio_analytics_consent='));
+          return (
+            saved.length === 0 ||
+            saved.every((value) => value === 'portfolio_analytics_consent=granted')
+          );
+        };
         try {
-          if (
-            !document.cookie
-              .split(';')
-              .some((value) => value.trim() === 'portfolio_analytics_consent=granted')
-          )
-            return;
+          if (!analyticsAllowed()) return;
         } catch {
           return;
         }
@@ -131,9 +136,7 @@
           try {
             if (
               window.localStorage.getItem('portfolio.analytics.internal') === '1' ||
-              !document.cookie
-                .split(';')
-                .some((value) => value.trim() === 'portfolio_analytics_consent=granted')
+              !analyticsAllowed()
             )
               return;
           } catch {

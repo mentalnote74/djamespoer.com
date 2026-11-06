@@ -772,7 +772,6 @@ at rest, no lane, correct cookie-facing, no horizontal overflow. No new assets,
 dependencies or continuous JS animation loop. Release via main/Cloudflare;
 production receipt belongs in SCRUM-125 after live verification.
 
-<<<<<<< HEAD
 ## Rigby greeting polish ? October 26, local review
 
 Updated greeting punctuation and primary paw-icon play / secondary bed-icon
@@ -786,7 +785,6 @@ dependencies or polling. Removed obsolete CSS rather than raise budgets.
 warnings. Initial 473.32 kB vs 473.26 kB (~60 B raw increase); device performance
 and browser visual/AT acceptance not claimed. No push/deploy. Separate existing
 Creative hero label removal preserved.
-=======
 ## October 25 — single-row desktop header
 
 Owner requested logo/navigation fit one line. Desktop header now stays nowrap, uses compact menu padding/gaps and a responsive identity width shared by the logo and its Bedlam paint field. Header switches to the existing menu disclosure at <=70rem before full navigation can overflow. Interior content's separate 64rem policy is unchanged. End dropdown anchors inside the right edge.
@@ -809,7 +807,6 @@ Bored wag compensates for a measured 3px tail-down registration offset, clips th
 
 Verification: production build/budgets pass; 41 focused carousel/Rigby/scent tests pass. Chrome 320/390/600/601/1440 responsive checks pass, controls scoped axe zero; trick/greeting and reduced-motion checks pass. 390px scroll checks found zero text overlaps and verified both clear-space visibility and dense-content hiding. Full npm test remains blocked by unchanged authored-studies.spec.ts evidence/items TS2339 errors. Release pending at time of this entry; do not infer deployment from this note.
 
->>>>>>> origin/main
 
 ## October 25 — greeting correction after owner review
 
@@ -2572,3 +2569,8 @@ Production build passed (66 routes; 485.07 kB initial). Required full tests rema
 Uncommitted work retained in `.worktrees/scrum-171-buildometer`, branch `feature/scrum-171-buildometer`, base e129a84. No BOM push/deployment or ledger append. Complete 173-issue reconciliation packet: `docs/buildometer/reconciliation/2026-11-06/REVIEW.md`. Corrected candidate 187 / 445 = 42.0%, 258 remaining, +50 scope; 29 potentially eligible missing estimates and 11 mixed/external/parked scope decisions explicit. Production lazy-loaded SCRUM-132 grid was verified present (initial absence inference corrected); credit proposed. Owner snapshot review remains pending; original 152/395 Oct19 baseline unchanged.
 
 Assisted prepare/apply/release-check and shared observation-date/release-based freshness implementation are local. Build passed 66 routes; 36 Node BOM/workflow tests and 21 focused UI tests passed. Four scoped axe desktop/mobile checks zero; home/dashboard agree on original date/value and explicit stale status. Required full tests retain two known authored-studies.spec.ts TS2339 errors. Local demo at http://127.0.0.1:4371/buildometer (session63119) uses retained public sources and actual ledger projection. Finish release workflow docs, API fixture/error browser cases, review packet/approval, handoff/Jira and commits after urgent default-on analytics release. No BOM release authorization exists.
+## SCRUM-141 / SCRUM-169 urgent owner policy correction - November 6
+
+James directs analytics DEFAULT ON: unset preference now enables the initial tag, deferred loader, page views, custom actions and optional follow-up telemetry. This corrects the earlier unapproved default-off behavior. Explicit saved denial still disables all collection across reloads; invalid saved values/read failures remain blocked. Internal-browser marking independently suppresses collection with unset or allowed preference. Cookie Jar Allow / Do not allow controls and 180-day saved preference lifetime remain available; UI/policy copy now states the actual default. No storage reset or conversion of saved denials, no new dependencies, experiment inactive, no Rigby behavior change.
+
+Isolated `fix/scrum-141-169-default-on` at `.worktrees/scrum-141-default-on`, based on deployed e129a84. BOM work is preserved separately and not included. `node --test scripts/analytics-loading.test.mjs scripts/analytics/report.test.mjs`: 9/9. Focused Angular analytics/privacy/evaluator/preferences: 66/66 across six files. Required full tests retain the same two unrelated authored-studies.spec.ts TS2339 errors. Final production build passes 66 prerenders, 485.13 kB / 123.32 kB estimated transfer; existing module-type/Rigby stylesheet warnings. All 13 controlled browser scenarios pass, including unset-default native keyboard SPA action, exactly one view per navigation, persistent denial, mark/unmark, Rigby restoration and payload privacy. Local browser requests fully intercepted; no public analytics. Owner explicitly authorized normal pipeline deploy and controlled live receipt; production receipt follows release.
