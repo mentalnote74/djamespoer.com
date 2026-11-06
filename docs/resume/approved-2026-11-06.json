@@ -1,0 +1,22 @@
+{
+  "General": {
+    "source_sha256": "f61872447ec2c8d759d004bfa88267251d890400222713038c7a075b4f6ffff8",
+    "pdf_sha256": "32f3bf3d94c99f95e6c8d4bf518134e9b098951ab30f31a9c97e2f47867dd39d",
+    "pages": 2,
+    "links": [
+      "https://djamespoer.com/",
+      "https://www.linkedin.com/in/djamespoer",
+      "https://github.com/mentalnote74"
+    ]
+  },
+  "Comprehensive": {
+    "source_sha256": "9d9c74cfc5468544a9813791c58127a69183b582dca874f84281a80585e9f7a5",
+    "pdf_sha256": "295f5f415870981d9daad3ab90324e15e0e539b19346b154bfadb513da1ee218",
+    "pages": 6,
+    "links": [
+      "https://djamespoer.com/",
+      "https://www.linkedin.com/in/djamespoer",
+      "https://github.com/mentalnote74"
+    ]
+  }
+}

@@ -29,7 +29,10 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
   },
   rigby_play: { action: ['play', 'sit', 'shake', 'beg', 'roll', 'meet'] },
   rigby_cookie: { action: ['collected', 'fed'], cookie_id: COOKIE_TRAIL.map((stop) => stop.id) },
-  resume_download: { asset_name: ['public-current'], resume_id: ['public-current'] },
+  resume_download: {
+    asset_name: ['public-current', 'public-comprehensive'],
+    resume_id: ['public-current', 'public-comprehensive'],
+  },
   contact_click: { contact_method: ['email'] },
   thingamajob_open: { source: sources, destination_path: ['/thingamajob'] },
   case_study_open: { employer: employers, source: sources },

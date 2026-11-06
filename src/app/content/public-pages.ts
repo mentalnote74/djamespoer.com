@@ -199,6 +199,12 @@ export const PUBLIC_PAGES: readonly PublicPage[] = [
     kind: 'work',
   },
   {
+    path: 'resume',
+    title: 'Choose Your Resume | D. James Poer',
+    description:
+      'Download the comprehensive or general resume, or go directly to Thingamajob for a job-specific resume.',
+  },
+  {
     path: 'thingamajob',
     title: 'Thingamajob: Evidence-Backed Career Tool Prototype | D. James Poer',
     description:

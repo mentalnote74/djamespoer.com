@@ -47,7 +47,10 @@ export interface EventParameters {
   };
   rigby_play: Common & { action: 'play' | 'sit' | 'shake' | 'beg' | 'roll' | 'meet' };
   rigby_cookie: Common & { action: 'collected' | 'fed'; cookie_id: string; cookie_flavor: number };
-  resume_download: Common & { asset_name: 'public-current'; resume_id: 'public-current' };
+  resume_download: Common & {
+    asset_name: 'public-current' | 'public-comprehensive';
+    resume_id: 'public-current' | 'public-comprehensive';
+  };
   contact_click: Common & { contact_method: 'email' };
   thingamajob_open: Common & { source: Source; destination_path: '/thingamajob' };
   case_study_open: Common & { employer: Employer; source: Source };

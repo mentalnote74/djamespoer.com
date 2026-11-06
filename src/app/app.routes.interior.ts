@@ -283,6 +283,10 @@ export const interiorRoutes: Routes = [
   createProofRoute('creative', 'Creative'),
   createProofRoute('impact', 'Impact'),
   {
+    path: 'resume',
+    loadComponent: () => import('./components/resume/resume').then(({ Resume }) => Resume),
+  },
+  {
     path: 'thingamajob',
     title: 'Thingamajob | D. James Poer',
     data: {

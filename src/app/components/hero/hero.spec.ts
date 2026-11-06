@@ -35,3 +35,33 @@ describe('Hero reduced-motion lifecycle', () => {
     } finally { delete particleWindow.pJSDom; }
   });
 });
+
+describe('SCRUM-161 hero resume entry', () => {
+  it('offers the selector instead of starting a PDF download', async () => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({
+        matches: true,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })),
+    );
+    try {
+      await TestBed.configureTestingModule({
+        imports: [Hero],
+        providers: [provideRouter([])],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(Hero);
+      fixture.detectChanges();
+      const anchor = (fixture.nativeElement as HTMLElement).querySelector<HTMLAnchorElement>(
+        'a[href="/resume"]',
+      );
+      expect(anchor).not.toBeNull();
+      expect(anchor?.hasAttribute('download')).toBe(false);
+      expect(anchor?.textContent?.replace(/\s+/g, ' ').trim()).toBe('Choose Resume');
+      fixture.destroy();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+});

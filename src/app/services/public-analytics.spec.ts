@@ -187,6 +187,19 @@ describe('Explicit public link hooks', () => {
     expect(track.mock.calls[0][0]).toBe(event);
     expect(JSON.stringify(track.mock.calls[0][1])).not.toMatch(/private|@|https?:|mailto:|\?/);
   });
+  it.each([
+    ['d-james-poer-resume.pdf', 'public-current'],
+    ['d-james-poer-comprehensive.pdf', 'public-comprehensive'],
+  ])('identifies the approved static download %s without exposing its URL', (filename, id) => {
+    anchor.href = 'https://djamespoer.com/assets/resume/' + filename;
+    anchor.download = '';
+    activate();
+    expect(track).toHaveBeenCalledExactlyOnceWith(
+      'resume_download',
+      { location: 'page-content', asset_name: id, resume_id: id },
+      '/',
+    );
+  });
   it('does not treat repositories, unrelated downloads or protected destinations as profile/product entries', () => {
     for (const href of [
       'https://github.com/mentalnote74/djamespoer.com',

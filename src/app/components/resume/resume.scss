@@ -1,0 +1,42 @@
+@use '../../../styles/abstracts' as foundation;
+
+:host {
+  display: block;
+}
+
+.resume-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin-block: 2rem;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    block-size: 100%;
+    min-block-size: foundation.$control-target;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid currentColor;
+    border-radius: 0.25rem;
+    text-decoration: none;
+  }
+
+  strong {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  &__action {
+    margin-block-start: auto;
+    padding-block-start: 1rem;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover &__action {
+    text-decoration-thickness: foundation.$link-hover-thickness;
+  }
+}

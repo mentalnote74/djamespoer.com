@@ -79,7 +79,7 @@ describe('Header', () => {
     ]);
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '/about',
-      '/assets/resume/d-james-poer-resume.pdf',
+      '/resume',
       'mailto:djamespoer@djamespoer.com',
       'https://www.linkedin.com/in/djamespoer',
       'https://x.com/djamespoer',
@@ -252,11 +252,11 @@ describe('Header', () => {
     expect(root.querySelectorAll('#primary-navigation')).toHaveLength(1);
   });
 
-  it('uses the ASCII Resume label for the existing download', () => {
+  it('uses the ASCII Resume label for the resume selector', () => {
     const root = fixture.nativeElement as HTMLElement;
-    const resume = root.querySelector<HTMLAnchorElement>('a[download]');
+    const resume = root.querySelector<HTMLAnchorElement>('a[href="/resume"]');
     expect(resume?.textContent?.trim()).toBe('Resume');
-    expect(resume?.getAttribute('href')).toBe('/assets/resume/d-james-poer-resume.pdf');
+    expect(resume?.getAttribute('href')).toBe('/resume');
   });
 
   it('should create', () => {

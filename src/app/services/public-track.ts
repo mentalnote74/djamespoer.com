@@ -21,16 +21,19 @@ export class PublicTrack {
       const location = this.trackLocation(),
         source = this.trackSource();
       const page = this.document.location.pathname;
+      const resume =
+        target.pathname === '/assets/resume/d-james-poer-resume.pdf'
+          ? 'public-current'
+          : target.pathname === '/assets/resume/d-james-poer-comprehensive.pdf'
+            ? 'public-comprehensive'
+            : null;
       if (target.protocol === 'mailto:')
         this.analytics.track('contact_click', { location, contact_method: 'email' }, page);
       else if (target.origin === this.document.location.origin) {
-        if (
-          anchor.hasAttribute('download') &&
-          target.pathname === '/assets/resume/d-james-poer-resume.pdf'
-        )
+        if (anchor.hasAttribute('download') && resume)
           this.analytics.track(
             'resume_download',
-            { location, asset_name: 'public-current', resume_id: 'public-current' },
+            { location, asset_name: resume, resume_id: resume },
             page,
           );
         const route = publicPath(target.pathname);
