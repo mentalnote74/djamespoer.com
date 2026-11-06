@@ -1,0 +1,24 @@
+{
+  "commit": "dbb5cb04b19eba5aca08898a1ac18519e436e637",
+  "project": {
+    "latestEligibleReleaseAt": "2026-11-06T18:50:24.766659Z",
+    "baselineId": "portfolio-known-scope-t0-v1",
+    "t0": "2026-10-19T00:10:06.000Z",
+    "observedAt": "2026-11-06T18:51:56.743Z",
+    "total": 445,
+    "shipped": 184,
+    "remaining": 261,
+    "observationCount": 3,
+    "added": 50,
+    "removed": 0,
+    "reestimated": 0
+  },
+  "percent": 41.3,
+  "googleRequests": 0,
+  "internal": true,
+  "scope": "Final data-only publication identity/value/date verification; feature responsive/axe/reload evidence reused.",
+  "deployment": "e0a174fa-379c-4f9e-8146-c185199d142e",
+  "version": "f2bfc744-73b8-4dd7-bc22-8c867a4bbce6",
+  "pipeline": "https://github.com/mentalnote74/djamespoer.com/runs/128088691774",
+  "classification": "Final bounded projection-only publication; no further observation required"
+}
