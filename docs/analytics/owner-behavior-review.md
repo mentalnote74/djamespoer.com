@@ -1,4 +1,6 @@
-# SCRUM-169 / SCRUM-141 owner behavior review ? hold
+> November 6 owner direction supersedes the historical hold below: stop this investigation; preserve existing behavior for the analytics release. Follow-up: [SCRUM-170](https://djamespoer.atlassian.net/browse/SCRUM-170). The pause/bring-back issue is not a release blocker.
+
+# SCRUM-169 / SCRUM-141 owner behavior review ? follow-up only
 
 Reviewed implementation: `12138f5413052c9fbc417c6321021c84426990a6`.
 Owner reported incorrect base Rigby behavior at http://127.0.0.1:4300/.

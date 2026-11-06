@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-06",
+  "candidate_merge": "b841606cf3050bce88321be1df66dcd4b7a44153",
+  "upstream_main": "c0bd9ab",
+  "owner_authorized_release": true,
+  "rigby_followup": "SCRUM-170",
+  "rigby_behavior_changed": false,
+  "experiment_active": false,
+  "focused_tests_passed": 90,
+  "node_tests_passed": 8,
+  "build": {
+    "passed": true,
+    "initial_kb": 484.88,
+    "transfer_kb": 123.2,
+    "prerenders": 65
+  },
+  "browser_checks": [
+    "fresh browser: no analytics queue/tag without consent",
+    "explicit consent starts exactly controlled local GA shim",
+    "visible Rigby exposure emitted once",
+    "pointer Sit and keyboard Shake/feed: one action emission each",
+    "keyboard cookie discovery and successful delivery separated",
+    "saved-off reload is not another dismissal",
+    "explicit bring-back emitted once; exposure and saved progress survive reload without new collection",
+    "settings desktop/mobile reflow and scoped axe zero",
+    "internal marking suppresses page views/custom events across navigation and reload",
+    "unmark restores collection while keeping consent/Rigby/progress",
+    "revocation reload stops collection",
+    "fictional intake/evaluation/result-view: one emission each, no private input"
+  ],
+  "axe_violations": [],
+  "page_errors": [],
+  "ga_dimensions_verified": false,
+  "ga_admin_access_blocked": true,
+  "bigquery_runtime_dependency": false,
+  "pushed": false,
+  "deployed": false,
+  "live_receipt_verified": false
+}

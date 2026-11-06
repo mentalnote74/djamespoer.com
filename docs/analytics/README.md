@@ -104,3 +104,7 @@ After owner release approval: configure the three dimensions, verify stream hist
 - `git diff --check`: passed. No lint script exists; no lint verification claimed.
 
 Owned review workspace: C:/Dev/djamespoer.com/.worktrees/scrum-169, branch feature/scrum-169-rigby-analytics, base fc0b86611febccf61a819e10dec80da3461cffd8. Canonical lockfile installed with npm ci --ignore-scripts; package files unchanged, no added dependency. Keep this named worktree and its ignored QA evidence until review/integration; no cleanup performed. Parent stale/dirty checkout and all protected SCRUM-168 material remain untouched.
+
+## November 6 release preparation
+
+Owner authorized release after analytics gates; the pause/bring-back investigation is stopped and separate [SCRUM-170](https://djamespoer.atlassian.net/browse/SCRUM-170), with existing behavior preserved. BigQuery is not a runtime dependency and will not gate collection. Main's only intervening change, the November 6 automated Scrum Brief (c0bd9ab), is merged as b841606. Refreshed 90 focused + 8 Node tests, 65-route production build (484.88 kB initial / 123.20 kB transfer), and 12 controlled browser scenarios passed. Actual GA custom-dimension registration still requires account-side access; live event receipt follows the authorized normal main/Workers Builds release. No deployment claimed at this preparation checkpoint.
