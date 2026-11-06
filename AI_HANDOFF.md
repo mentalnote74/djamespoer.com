@@ -2588,3 +2588,11 @@ Working demo: http://127.0.0.1:4371/buildometer and home http://127.0.0.1:4371/ 
 ## SCRUM-171 / 172 / 173 release approval - November 6
 
 James explicitly approved BOM push/deployment after local review. Refreshed release checks: 38 Node tests, 21 focused Angular tests and production build (66 routes) passed; current main remains 1172596 and is already merged. Preserve the approved 184/445 (41.3%) snapshot and held estimates/scope/132 correction. Release via normal main/Workers Builds. After verified feature delivery, perform the named reconciliation check; publish at most one bounded data-only follow-up if needed to record the actual verified release. No new scope/estimate credit or synthetic observations are authorized by this operational completion step.
+
+## SCRUM-171 / 172 / 173 verified feature release and bounded data publication
+
+Owner-approved feature release `3fa0cd6b3618ca69dce230b9516c56397ccbef40` succeeded in Workers Builds 128086618735; production deployment `305006bb-4741-4c72-867b-aeb6503b868d`, version `d7ab4d31-da57-4bf6-ba0f-2b1e1ad06448`, at 2026-11-06T18:50:24.766659Z. Live home/API/dashboard agree on 41.3% and 184/445; desktop/mobile scoped axe zero, skin/reload preserve source date, Last fetched changes independently. Internal-marked QA made zero Google requests.
+
+Executed the named post-release workflow against actual successful delivery: strict check correctly reported pending; reviewed candidate had zero membership/point/disposition changes; operator-approved real flat observation appended at actual 2026-11-06T18:51:56.743Z. Strict check now passes. Totals remain 184/445, 261 remaining; no new credit for unestimated BOM stories or held SCRUM-132. Original two observations and exclusions retained. Receipts/candidate/approval: `docs/buildometer/reconciliation/2026-11-06/post-release/`.
+
+Publishing this observation uses the documented single bounded projection-only follow-up. Only ledger/projection/generated summary, release/review evidence and handoff change; no feature/runtime code. It is not another eligible feature release and must not trigger a further observation/deploy loop. Node 38 tests and production build pass after the append. Final follow-up production verification follows this publication.

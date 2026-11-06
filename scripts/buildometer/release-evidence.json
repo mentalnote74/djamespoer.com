@@ -1,57 +1,33 @@
 {
   "schemaVersion": 1,
-  "verifiedAt": "2026-11-06T18:26:43.775393+00:00",
+  "verifiedAt": "2026-11-06T18:51:54.365151+00:00",
   "release": {
-    "id": "fc417722-7994-46ab-a837-411974b5eb5f",
-    "sha": "117259693172aee36e2652b6008f6d0ce6834e79",
-    "deployedAt": "2026-11-06T18:20:59.277Z",
-    "status": "succeeded",
+    "id": "305006bb-4741-4c72-867b-aeb6503b868d",
+    "sha": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
+    "deployedAt": "2026-11-06T18:50:24.766659Z",
     "environment": "production",
+    "status": "succeeded",
     "stage": "deployed",
-    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128071417095"
+    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128086618735"
   },
   "items": [
     {
-      "key": "SCRUM-26",
-      "commit": "b0b35b5ecd4cb4ceb33e3fbdb428ff3638a651ce",
-      "evidencePath": "src/app/components/not-found",
-      "acceptanceNote": "Accessible not-found route and HTTP fallback deployed.",
-      "reviewed": false
+      "key": "SCRUM-171",
+      "commit": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
+      "evidencePath": "scripts/buildometer/project-ledger.json",
+      "acceptanceNote": "Owner-approved 184/445 observation verified live in API/public projection/home; no new point credit."
     },
     {
-      "key": "SCRUM-106",
-      "commit": "20a968b372d394dfc6125968d53c9afd4db687fa",
-      "evidencePath": "src/app/components/case-study/creative-town.content.ts",
-      "acceptanceNote": "Approved case study and Python clip published; does not complete other Creative Town children.",
-      "reviewed": false
+      "key": "SCRUM-172",
+      "commit": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
+      "evidencePath": "scripts/buildometer/reconcile.mjs",
+      "acceptanceNote": "Owner-approved assisted workflow shipped; completing this actual operational release review."
     },
     {
-      "key": "SCRUM-128",
-      "commit": "054bd7c913bd265cd71761a364720220976ab578",
-      "evidencePath": "src/app/components/article-index",
-      "acceptanceNote": "Published article index, detail routes and approved original articles.",
-      "reviewed": false
-    },
-    {
-      "key": "SCRUM-134",
-      "commit": "0755444d6f178666928d76a15b9d258787b335b2",
-      "evidencePath": "src/app/components/thingamajob-slide",
-      "acceptanceNote": "Current registered Thingamajob gateway slide; public slide implementation remains in deployed main.",
-      "reviewed": false
-    },
-    {
-      "key": "SCRUM-141",
-      "commit": "cc329fd2ec4a511fb4b2daee57172441e85f6e5e",
-      "evidencePath": "docs/analytics",
-      "acceptanceNote": "Owner-authorized analytics release verified before resume release; collector receipts and limitations retained in SCRUM-141.",
-      "reviewed": false
-    },
-    {
-      "key": "SCRUM-132",
-      "commit": "4906b90d2c9706707f8c053cb0e29a3cbfb27f6e",
-      "evidencePath": "src/app/components/buildometer-overview",
-      "acceptanceNote": "Production 1440px: TAMJ and BOM both 416px, grid 832px alongside. At 390px all 358px and stacked; no overflow. Lazy-loaded deployment grid verified present.",
-      "reviewed": false
+      "key": "SCRUM-173",
+      "commit": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
+      "evidencePath": "src/app/components/buildometer/progress-observation.ts",
+      "acceptanceNote": "Live desktop/mobile date/value/fetch separation, axe and reload checks passed."
     }
   ]
 }

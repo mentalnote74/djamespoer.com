@@ -1,0 +1,20 @@
+{
+  "classification": "projection-only bounded follow-up",
+  "featureRelease": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
+  "changedPaths": [
+    "AI_HANDOFF.md",
+    "public/data/buildometer-project.json",
+    "scripts/buildometer/project-ledger.json",
+    "scripts/buildometer/release-evidence.json",
+    "src/app/generated/buildometer-summary.ts",
+    "docs/buildometer/reconciliation/2026-11-06/post-release/approval.json",
+    "docs/buildometer/reconciliation/2026-11-06/post-release/candidate-members.json",
+    "docs/buildometer/reconciliation/2026-11-06/post-release/candidate.json",
+    "docs/buildometer/reconciliation/2026-11-06/post-release/decisions.json",
+    "docs/buildometer/reconciliation/2026-11-06/post-release/feature-live-receipt.json",
+    "docs/buildometer/reconciliation/2026-11-06/post-release/release-evidence.json"
+  ],
+  "runtimeOrFeatureCodeChanged": false,
+  "anotherEligibleRelease": false,
+  "furtherObservationRequired": false
+}

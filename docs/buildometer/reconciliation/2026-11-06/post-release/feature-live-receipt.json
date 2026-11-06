@@ -1,0 +1,25 @@
+{
+  "sha": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
+  "phase": "feature",
+  "checks": [
+    "Live release SHA, public projection and API agree: 184/445, 41.3%, identical observation/release source",
+    "1440px: home/dashboard agree; scoped axe 0, no overflow, skin/reload retain observation; actual fetch timestamp changes",
+    "390px: home/dashboard agree; scoped axe 0, no overflow, skin/reload retain observation; actual fetch timestamp changes"
+  ],
+  "screens": [],
+  "googleRequests": 0,
+  "pageErrors": [],
+  "project": {
+    "latestEligibleReleaseAt": "2026-11-06T18:20:59.277Z",
+    "baselineId": "portfolio-known-scope-t0-v1",
+    "t0": "2026-10-19T00:10:06.000Z",
+    "observedAt": "2026-11-06T18:26:46.125Z",
+    "total": 445,
+    "shipped": 184,
+    "remaining": 261,
+    "observationCount": 2,
+    "added": 50,
+    "removed": 0,
+    "reestimated": 0
+  }
+}

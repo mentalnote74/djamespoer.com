@@ -1,0 +1,6 @@
+{
+  "candidateHash": "b12df08373818f08cfc7875b03bab2204be10220f8f6d7a34561a4a3db4ffddf",
+  "reviewer": "Larry (release operator)",
+  "reviewRef": "Verified feature release 3fa0cd6 / Workers Builds 128086618735 and retained feature-live-receipt.json; owner explicitly approved BOM push/deployment and reviewed workflow.",
+  "note": "Operational verified-release review only: unchanged approved membership/estimates/dispositions; no points awarded to unestimated BOM stories or held SCRUM-132 correction. One bounded projection-only follow-up, not another eligible feature release."
+}
