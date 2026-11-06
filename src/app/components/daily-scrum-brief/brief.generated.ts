@@ -1,47 +1,48 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-11-05",
+  "date": "2026-11-06",
   "sections": [
     {
-      "heading": "Recently shipped",
+      "heading": "Implemented and reviewed",
       "paragraphs": [
-        "The portfolio now exposes LinkedIn, X, Facebook and Bluesky through a shared profile configuration, with static marks in navigation and BEDLAM-treated buttons in the footer. Follow-up releases corrected the icon geometry, theme inversion and navigation alignment. Each footer button uses one logo mask and one animated field, while the reusable BEDLAM component accepts different mark shapes. Reduced-motion preferences select the static Teetotaler presentation and stop the affected animation.",
-        "Creative Town received a targeted production correction for the reported performer, donkey and neighboring-character overlap. The release removed unconditional performer sway and reserved donkey clearance while preserving the existing selector and assets. This emergency fix is narrower than the broader scene-spacing rework."
+        "A combined local analytics increment now measures meaningful Thingamajob input steps and Rigby interactions through the existing analytics helper. It distinguishes selecting an input method or file from successful preparation, submission, evaluation and result engagement. Consent and explicit internal-browser controls apply across page views and events, and documented reporting separates recorded actions from conclusions about visitor intent. The implementation remains on hold for owner behavior review and has not been deployed.",
+        "Development workspaces have moved out of synchronized storage into a local development area, with a durable operating policy covering source ownership, preservation and cleanup. The change addresses dependency and worktree accumulation that had overwhelmed shared storage. Recovery exceptions and reconciliation work remain explicit; the policy does not establish that all cleanup or backup verification is complete."
       ]
     },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "The social-link work passed focused tests, builds and representative production browser checks of all four services, complementary masks, geometry and keyboard focus. A fresh production mobile Lighthouse sample recorded Performance 74 and Accessibility 100. There was no matched production control, so the result does not establish that the social animation caused the lower performance or that its incremental cost is negligible.",
-        "The broader Creative Town solver passed 500 local renderer draws without measured overlap, but the owner rejected its composition this morning. Reducing the visible population to 20–25 and scaling characters into available slots failed the intended lively town and believable proportions. The local solver was not deployed. This review establishes that collision statistics alone are insufficient acceptance evidence for the scene."
+        "The analytics increment passed 90 focused frontend tests, eight bootstrap/report tests and a production build, plus 12 controlled browser scenarios using intercepted requests. Existing full-suite compiler errors and the same baseline test failures remain, so the suite is not reported as fully passing. These checks did not establish owner acceptance: a reported Rigby behavior failure triggered a deployment hold.",
+        "A blue but stationary second-cookie reaction was conditionally reproduced when Pause Rigby had been selected before turning him off and bringing him back. The same retained pause state occurs in unchanged main, and the existing Resume control restarts playback. This identifies a plausible pre-existing state interaction, but the owner’s affected state is not yet confirmed and no fix is claimed.",
+        "The latest inspected Creative Town record still rejects the reduced-population spacing solution. Additional full-cast layout commits exist in the repository, but no new verified acceptance or deployment receipt was found. Those commits are not reported as a shipped resolution."
       ]
     },
     {
       "heading": "Current focus",
       "paragraphs": [
-        "Creative Town spacing is being reworked from the preserved local checkpoint. The required outcome is a full, well-distributed population with believable relative scale and protected table areas, rather than hiding residents, shrinking large figures into leftover slots or dropping them as a capacity workaround. The choice between existing scene dimensions and a deeper foreground plaza remains unresolved.",
-        "The social-link story remains in review, with production behavior available for owner use and performance attribution still limited. A separate backlog item now calls for production build versions and commit stamps; its existence does not establish that build identification has been implemented."
+        "The immediate analytics delivery gate is reproducing the owner’s exact Rigby trigger and saved state, then validating any necessary correction together with consent and internal-traffic boundaries. Missing historical events remain missing evidence, not proof that visitors never used the features.",
+        "Career-source maintenance also has an owner-confirmed accessibility-tool correction to reconcile and propagate. The current Jira correction records the instruction, but persisted canonical and generated résumé updates have not yet been verified. Workspace preservation and storage reconciliation remain separate operational work."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Resolve the scene-geometry direction, then review actual desktop and mobile compositions for population, distribution, scale and protected areas before accepting another solver or authorizing deployment. Use a controlled same-build comparison to assess social-animation cost if performance investigation continues, and implement build identification through its own scoped work."
+        "Confirm the actual failing Rigby state before selecting a behavior change, and keep the combined analytics release on hold until owner review is satisfied. Verify the persisted career-source correction and its downstream derivatives. Review Creative Town’s full-cast compositions visually before accepting or releasing the spacing rework, while preserving unique workspace artifacts during operational cleanup."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "e241428764159aa4fdee57cceea0176eb3db1e58",
-    "generatorCommit": "e241428764159aa4fdee57cceea0176eb3db1e58",
-    "evidenceSha256": "10dab387ee896fb57d56b8d9f3f25a3db23c8b40e45cb4a541065cd9cec6f40b",
+    "sourceCommit": "fc0b86611febccf61a819e10dec80da3461cffd8",
+    "generatorCommit": "fc0b86611febccf61a819e10dec80da3461cffd8",
+    "evidenceSha256": "513e5ba03d84e5b115fd7c80cd6afbc4509978c358fba7ee3e276cf854735114",
     "method": "ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.",
     "reportingWindow": {
-      "after": "2026-11-04T09:00:49.281-0500",
-      "cutoff": "2026-11-05T09:03:22.748-0500"
+      "after": "2026-11-05T09:03:22.748-0500",
+      "cutoff": "2026-11-06T08:56:58.341-0500"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10327"
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10346"
     ]
   }
 };
