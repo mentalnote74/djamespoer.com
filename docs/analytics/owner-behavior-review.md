@@ -36,3 +36,13 @@ Asked James for the exact page/control, steps, observed versus expected behavior
 - Report the first divergence from the expected behavior and any saved state in the affected profile. A stored off/seen preference or active form/modal can intentionally suppress entrance/companion on unchanged main too; that is context to inspect, not an assumed cause.
 
 No fix commit exists yet. No new application tests/build were needed for documentation-only findings; prior 90/8 analytics checks are historical evidence and were not substituted for this actual-experience investigation. Analytics/consent/internal suppression must be rechecked after any confirmed fix.
+
+## Owner clarification: second cookie after bed/bring-back
+
+James clarified: first cookie worked; after sending Rigby to bed and bringing him back, the second cookie turned him blue but he sat still. Reproduced the precise two-hidden-cookie path (Home cookie, Turn off, Cookie Jar bring-back/greeting Play, About cookie) against both 4300 and unchanged main 4301. In 16 half-second samples per second reward, both builds had paused=false, running native animations, changing sprite positions and advancing routine tokens 3/4/5. No page errors.
+
+A conditional match was reproduced by additionally selecting Pause Rigby before Turn off. In both builds the in-memory pause flag survives off/bring-back: the second cookie is blue with animations paused at time zero for all 16 samples, token stays 3. Explicit keyboard activation of the existing Resume Rigby button changed paused to false and animations advanced to running (~717ms observed). The pause flag/control/dance still/suspended bindings are unchanged from main; this mechanism predates analytics and does not depend on consent or new persistence.
+
+This is **not yet proof that James's affected session was paused**. Asked which bed control and whether the second cookie was a hidden page cookie or Feed Rigby a biscuit. The affected-tab computer-use inspection failed at the tool's sandbox-helper launch; its live state was not inspected or changed. Do not clear the motion choice or alter approved behavior speculatively. Ask whether the affected Doghouse control currently says Resume Rigby or Pause Rigby.
+
+New ignored evidence: second-reviewed/trace.json, second-main/trace.json, pause-off-reviewed/trace.json, pause-off-main/trace.json and pause-resume-reviewed/trace.json under tmp/scrum-169-correction/. Product files remain unchanged. No fix commit or failure-specific regression is claimed; push/deployment hold continues pending identification of the actual failing state.
