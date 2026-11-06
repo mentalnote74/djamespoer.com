@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "verifiedAt": "2026-11-06T18:01:43.560675+00:00",
+  "verifiedAt": "2026-11-06T18:26:43.775393+00:00",
   "release": {
-    "id": "b41891bd-3291-4c7e-9eff-c96012218969",
-    "sha": "e129a84896af5347242083c9d940489d7006b7d3",
-    "deployedAt": "2026-11-06T17:43:39.555Z",
+    "id": "fc417722-7994-46ab-a837-411974b5eb5f",
+    "sha": "117259693172aee36e2652b6008f6d0ce6834e79",
+    "deployedAt": "2026-11-06T18:20:59.277Z",
     "status": "succeeded",
     "environment": "production",
     "stage": "deployed",
-    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128051949724"
+    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128071417095"
   },
   "items": [
     {

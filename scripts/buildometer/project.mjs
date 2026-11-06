@@ -25,9 +25,23 @@ try {
     }),
   );
 } catch {
-  /* First baseline is new. */
+  throw Error(
+    'Committed ledger unavailable; cannot verify immutable history. Restore Git access before projecting.',
+  );
 }
 if (old) assertAppendOnly(old, ledger);
+const receipt = JSON.parse(
+  await readFile(new URL('./release-evidence.json', import.meta.url), 'utf8'),
+);
+const release = receipt.release;
+if (
+  release?.environment !== 'production' ||
+  release.status !== 'succeeded' ||
+  release.stage !== 'deployed' ||
+  !Number.isFinite(Date.parse(release.deployedAt)) ||
+  Date.parse(release.deployedAt) > Date.now()
+)
+  throw Error('Invalid eligible production release receipt');
 if (process.argv[2] === 'observe') {
   if (!process.argv[3] || !process.argv[4])
     throw Error(
@@ -42,7 +56,10 @@ if (process.argv[2] === 'observe') {
     members,
   });
   projectMeasurement(validation);
-  if (!sameSnapshot(ledger.observations.at(-1).members, members)) {
+  const reviewedNewRelease =
+    process.argv[5] === '--verified-release-review' &&
+    Date.parse(release.deployedAt) > Date.parse(ledger.observations.at(-1).observedAt);
+  if (!sameSnapshot(ledger.observations.at(-1).members, members) || reviewedNewRelease) {
     ledger.observations.push({
       id: crypto.randomUUID(),
       observedAt: new Date().toISOString(),
@@ -52,18 +69,6 @@ if (process.argv[2] === 'observe') {
     appended = true;
   } else console.log('BOM reconciliation: unchanged evidence; no observation appended.');
 }
-const receipt = JSON.parse(
-  await readFile(new URL('./release-evidence.json', import.meta.url), 'utf8'),
-);
-const release = receipt.release;
-if (
-  release?.environment !== 'production' ||
-  release.status !== 'succeeded' ||
-  release.stage !== 'deployed' ||
-  !Number.isFinite(Date.parse(release.deployedAt)) ||
-  Date.parse(release.deployedAt) > Date.now()
-)
-  throw Error('Invalid eligible production release receipt');
 const projection = projectMeasurement(ledger, release.deployedAt);
 const output = new URL('../../public/data/buildometer-project.json', import.meta.url);
 async function atomic(url, value) {

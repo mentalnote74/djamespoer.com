@@ -14,6 +14,10 @@ import worker from './worker.ts';
 const project = JSON.parse(
   await readFile(new URL('../../public/data/buildometer-project.json', import.meta.url)),
 );
+// Historical reports intentionally exercise T0, independent of later approved observations.
+project.observations = [project.observations[0]];
+project.observedAt = project.t0;
+delete project.latestEligibleReleaseAt;
 const first = Date.parse('2026-10-19T01:20:00Z');
 class Bucket {
   value = null;

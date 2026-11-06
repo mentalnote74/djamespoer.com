@@ -161,7 +161,11 @@ export function validateApproval(candidate, ledger, approval) {
     throw Error('Exact candidate hash, reviewer and recorded review reference required');
   if (candidate.scopeChanged && !approval.scopeReviewRef?.trim())
     throw Error('Owner scope/estimate review reference required');
-  return !sameSnapshot(ledger.observations.at(-1).members, candidate.members);
+  return (
+    !sameSnapshot(ledger.observations.at(-1).members, candidate.members) ||
+    (candidate.decisions.verifyUnchangedRelease === true &&
+      Date.parse(candidate.release.deployedAt) > Date.parse(ledger.observations.at(-1).observedAt))
+  );
 }
 async function main() {
   const [command, ...args] = process.argv.slice(2);
@@ -223,6 +227,16 @@ async function main() {
       console.log('Unchanged evidence: no observation appended.');
       return;
     }
+    const activeReceipt = await json('scripts/buildometer/release-evidence.json');
+    const activeRelease = verifiedRelease(activeReceipt);
+    if (digest(activeReceipt) !== candidate.evidenceHash)
+      throw Error('Release evidence changed; prepare and review again');
+    if (
+      activeRelease.id !== candidate.release.id ||
+      activeRelease.sha !== candidate.release.sha ||
+      activeRelease.deployedAt !== candidate.release.deployedAt
+    )
+      throw Error('Release receipt changed; prepare and review again');
     const members = resolve(options.candidate, '../candidate-members.json');
     // Compare the companion file too; never apply a different snapshot from the reviewed manifest.
     if (digest(await json(members)) !== digest(candidate.members))
@@ -230,7 +244,15 @@ async function main() {
     const reason = `${approval.reviewRef}; reviewer ${approval.reviewer}; candidate ${candidate.candidateHash}; release ${candidate.release.id}; scope review ${approval.scopeReviewRef ?? 'unchanged approved scope'}`;
     execFileSync(
       process.execPath,
-      ['scripts/buildometer/project.mjs', 'observe', members, reason],
+      [
+        'scripts/buildometer/project.mjs',
+        'observe',
+        members,
+        reason,
+        ...(candidate.decisions.verifyUnchangedRelease === true
+          ? ['--verified-release-review']
+          : []),
+      ],
       { stdio: 'inherit' },
     );
   } else if (command === 'release-check') {

@@ -11,6 +11,7 @@ import {
 const ledger = JSON.parse(
   await readFile(new URL('./project-ledger.json', import.meta.url), 'utf8'),
 );
+ledger.observations = [ledger.observations[0]]; // Explicit immutable opening fixture.
 const now = Date.now();
 const evidence = {
   verifiedAt: new Date(now - 1000).toISOString(),
@@ -179,7 +180,26 @@ test('append serialization retains prior history bytes and exclusions exactly', 
   const prefix = raw.replace(/(\r?\n[ \t]*\]\s*\}\s*)$/, '');
   assert(output.startsWith(prefix + ','));
   const parsed = JSON.parse(output);
-  assertAppendOnly(ledger, parsed);
-  assert.deepEqual(parsed.observations.slice(0, -1), ledger.observations);
+  assertAppendOnly(JSON.parse(raw), parsed);
+  assert.deepEqual(parsed.observations.slice(0, -1), JSON.parse(raw).observations);
   assert.deepEqual(parsed.exclusions, ledger.exclusions);
+});
+
+test('a reviewed real eligible release can record unchanged points without treating rebuilds as observations', () => {
+  const c = prepare({ verifyUnchangedRelease: true });
+  assert.equal(c.changes.length, 0);
+  assert.equal(c.totals.shipped, 152);
+  const approval = {
+    candidateHash: c.candidateHash,
+    reviewer: 'operator',
+    reviewRef: 'reviewed new successful release fixture',
+  };
+  assert.equal(validateApproval(c, ledger, approval), true);
+  const stale = structuredClone(evidence);
+  stale.release.deployedAt = '2026-10-18T00:00:00Z';
+  const old = prepare({ verifyUnchangedRelease: true }, stale);
+  assert.equal(
+    validateApproval(old, ledger, { ...approval, candidateHash: old.candidateHash }),
+    false,
+  );
 });

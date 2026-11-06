@@ -1,6 +1,6 @@
 # SCRUM-171 candidate reconciliation
 
-REVIEW REQUIRED. Not an observation, not applied, not approved for release. Capture covers all 173 Jira issues; membership and whole-story credit are separate from Jira status. Production main e129a84/API/public projection independently verified: 152 / 395 (38.5%), observed October 19.
+James approved the original bounded 184/445 candidate via the chat reply "Apply the bounded candidate". Applied LOCALLY at 2026-11-06T18:26:46.125Z, observation 028df1b7-8f88-4b8a-b2a1-f163a5cfc4d1. BOM production release still awaits review. Capture covers all 173 Jira issues; membership and whole-story credit are separate from Jira status. Before local changes, production main e129a84/API/public projection independently verified: 152 / 395 (38.5%), observed October 19.
 
 ## Concrete candidate
 
@@ -199,4 +199,6 @@ Do not credit the larger SCRUM-102 or SCRUM-125 merely because changes shipped: 
 | SCRUM-172 | unknown | To Do | Potentially eligible; estimate/membership review required |
 | SCRUM-173 | unknown | To Do | Potentially eligible; estimate/membership review required |
 
-The full membership snapshot and item/release evidence are adjacent JSON files. Approval must name the exact candidate hash; observation time will be the actual apply time after approval. Original baseline bytes remain untouched. No historical observations are fabricated.
+The full membership snapshot and item/release evidence are adjacent JSON files. The recorded approval and exact candidate hash are in approval.json; candidate.json retains the reviewed manifest. The appended observation uses the actual apply time, not a reconstructed shipment date. Original baseline bytes remain untouched. No historical observations are fabricated.
+
+Latest eligible production receipt was then advanced to the successfully deployed analytics correction 1172596 (18:20:59 UTC); all mapped implementation commits remain its ancestors. This does not credit analytics twice. The current approved local observation follows that release.

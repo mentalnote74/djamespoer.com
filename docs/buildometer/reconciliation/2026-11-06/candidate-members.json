@@ -1,14 +1,14 @@
 [
   {
     "key": "SCRUM-12",
-    "title": "Establish Angular portfolio repository and application scaffold \u2014 DTS",
+    "title": "Establish Angular portfolio repository and application scaffold \u00e2\u20ac\u201d DTS",
     "points": 3,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-13",
-    "title": "Register and configure djamespoer.com domain \u2014 DTS",
+    "title": "Register and configure djamespoer.com domain \u00e2\u20ac\u201d DTS",
     "points": 2,
     "shipped": true,
     "disposition": "shipped"
@@ -78,7 +78,7 @@
   },
   {
     "key": "SCRUM-23",
-    "title": "Place existing construction Hero into carousel \u2014 DTS",
+    "title": "Place existing construction Hero into carousel \u00e2\u20ac\u201d DTS",
     "points": 3,
     "shipped": true,
     "disposition": "shipped"
@@ -99,7 +99,7 @@
   },
   {
     "key": "SCRUM-27",
-    "title": "Publish recruiter-ready r\u00e9sum\u00e9 download",
+    "title": "Publish recruiter-ready r\u00c3\u00a9sum\u00c3\u00a9 download",
     "points": 3,
     "shipped": true,
     "disposition": "shipped"
@@ -204,105 +204,105 @@
   },
   {
     "key": "SCRUM-46",
-    "title": "Add live portfolio case-study context \u2014 SBS",
+    "title": "Add live portfolio case-study context \u00e2\u20ac\u201d SBS",
     "points": 0,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-47",
-    "title": "Add Lighthouse performance self-check \u2014 SBS",
+    "title": "Add Lighthouse performance self-check \u00e2\u20ac\u201d SBS",
     "points": 1,
     "shipped": false,
     "disposition": "partial"
   },
   {
     "key": "SCRUM-48",
-    "title": "Build accessible responsive navigation system \u2014 SBS",
+    "title": "Build accessible responsive navigation system \u00e2\u20ac\u201d SBS",
     "points": 5,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-49",
-    "title": "Build Employment History deep-dive section \u2014 SBS",
+    "title": "Build Employment History deep-dive section \u00e2\u20ac\u201d SBS",
     "points": 5,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-50",
-    "title": "Create milestone screenshot archive \u2014 DTS",
+    "title": "Create milestone screenshot archive \u00e2\u20ac\u201d DTS",
     "points": 8,
     "shipped": false,
     "disposition": "partial"
   },
   {
     "key": "SCRUM-51",
-    "title": "Add local date and time clock to site footer \u2014 DTS",
+    "title": "Add local date and time clock to site footer \u00e2\u20ac\u201d DTS",
     "points": 2,
     "shipped": false,
     "disposition": "not"
   },
   {
     "key": "SCRUM-53",
-    "title": "Sally: Build Jira executive project summary \u2014 DTS",
+    "title": "Sally: Build Jira executive project summary \u00e2\u20ac\u201d DTS",
     "points": 8,
     "shipped": false,
     "disposition": "partial"
   },
   {
     "key": "SCRUM-54",
-    "title": "Sally: Build GitHub executive engineering summary \u2014 DTS",
+    "title": "Sally: Build GitHub executive engineering summary \u00e2\u20ac\u201d DTS",
     "points": 5,
     "shipped": false,
     "disposition": "not"
   },
   {
     "key": "SCRUM-55",
-    "title": "Sally: Present Cloudflare shipping status as executive summary \u2014 DTS",
+    "title": "Sally: Present Cloudflare shipping status as executive summary \u00e2\u20ac\u201d DTS",
     "points": 3,
     "shipped": false,
     "disposition": "partial"
   },
   {
     "key": "SCRUM-56",
-    "title": "Sally: Build axe accessibility verification summary \u2014 DTS",
+    "title": "Sally: Build axe accessibility verification summary \u00e2\u20ac\u201d DTS",
     "points": 5,
     "shipped": false,
     "disposition": "not"
   },
   {
     "key": "SCRUM-57",
-    "title": "Sally: Compose four perspectives into daily executive summary \u2014 DTS",
+    "title": "Sally: Compose four perspectives into daily executive summary \u00e2\u20ac\u201d DTS",
     "points": 5,
     "shipped": false,
     "disposition": "partial"
   },
   {
     "key": "SCRUM-58",
-    "title": "[BUG] Smart Grid pipeline history breaks on iPhone viewport \u2014 SBS",
+    "title": "[BUG] Smart Grid pipeline history breaks on iPhone viewport \u00e2\u20ac\u201d SBS",
     "points": 3,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-59",
-    "title": "Rework primary navigation and scaffold Work case-study routes \u2014 DTS",
+    "title": "Rework primary navigation and scaffold Work case-study routes \u00e2\u20ac\u201d DTS",
     "points": 5,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-60",
-    "title": "Capture and attach Sprint 0 production quality evidence \u2014 DTS",
+    "title": "Capture and attach Sprint 0 production quality evidence \u00e2\u20ac\u201d DTS",
     "points": 2,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-61",
-    "title": "[BUG] Hero particles not rendering on Samsung Galaxy S23 Ultra \u2014 DTS",
+    "title": "[BUG] Hero particles not rendering on Samsung Galaxy S23 Ultra \u00e2\u20ac\u201d DTS",
     "points": 3,
     "shipped": true,
     "disposition": "shipped"
@@ -316,7 +316,7 @@
   },
   {
     "key": "SCRUM-63",
-    "title": "[BUG] Build & Deployment History is stale and omits Oct. 7 Cloudflare attempts \u2014 DTS",
+    "title": "[BUG] Build & Deployment History is stale and omits Oct. 7 Cloudflare attempts \u00e2\u20ac\u201d DTS",
     "points": 3,
     "shipped": true,
     "disposition": "shipped"
@@ -344,7 +344,7 @@
   },
   {
     "key": "SCRUM-67",
-    "title": "Build bidirectional SBS/DTS \u2194 Larry relay and contain unreliable image-generation paths",
+    "title": "Build bidirectional SBS/DTS \u00e2\u2020\u201d Larry relay and contain unreliable image-generation paths",
     "points": 13,
     "shipped": false,
     "disposition": "not"
@@ -365,63 +365,63 @@
   },
   {
     "key": "SCRUM-71",
-    "title": "Creative Town \u2014 add Operation Pig Lips Easter egg",
+    "title": "Creative Town \u00e2\u20ac\u201d add Operation Pig Lips Easter egg",
     "points": 2,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-72",
-    "title": "SBS \u2014 Home hero restructure and Building in Public messaging",
+    "title": "SBS \u00e2\u20ac\u201d Home hero restructure and Building in Public messaging",
     "points": 3,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-73",
-    "title": "TEAM CANON \u2014 LLL universal capture and shared knowledge protocol",
+    "title": "TEAM CANON \u00e2\u20ac\u201d LLL universal capture and shared knowledge protocol",
     "points": 2,
     "shipped": false,
     "disposition": "partial"
   },
   {
     "key": "SCRUM-74",
-    "title": "DISTRIBUTE \u2014 LLL universal capture protocol",
+    "title": "DISTRIBUTE \u00e2\u20ac\u201d LLL universal capture protocol",
     "points": 1,
     "shipped": false,
     "disposition": "partial"
   },
   {
     "key": "SCRUM-75",
-    "title": "Operation Pig Lips \u2014 Living djamespoer.com identity / permanent shadow",
+    "title": "Operation Pig Lips \u00e2\u20ac\u201d Living djamespoer.com identity / permanent shadow",
     "points": 8,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-76",
-    "title": "CANON \u2014 Cocktail theme selector / Designated Driver baseline",
+    "title": "CANON \u00e2\u20ac\u201d Cocktail theme selector / Designated Driver baseline",
     "points": 2,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-77",
-    "title": "Pig Lips \u2014 Beach Drink Theme System + Dusk-to-Dusk Living Theme",
+    "title": "Pig Lips \u00e2\u20ac\u201d Beach Drink Theme System + Dusk-to-Dusk Living Theme",
     "points": 8,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-79",
-    "title": "BUG \u2014 Dusk-to-Dusk appears visually inactive in live site",
+    "title": "BUG \u00e2\u20ac\u201d Dusk-to-Dusk appears visually inactive in live site",
     "points": 3,
     "shipped": true,
     "disposition": "shipped"
   },
   {
     "key": "SCRUM-94",
-    "title": "MAINTENANCE \u2014 Dependency Closet Cleanup",
+    "title": "MAINTENANCE \u00e2\u20ac\u201d Dependency Closet Cleanup",
     "points": 3,
     "shipped": false,
     "disposition": "not"
@@ -505,7 +505,7 @@
   },
   {
     "key": "SCRUM-108",
-    "title": "Document real-time human\u2013AI development pitfalls, workarounds, and efficiency protocol",
+    "title": "Document real-time human\u00e2\u20ac\u201cAI development pitfalls, workarounds, and efficiency protocol",
     "points": 5,
     "shipped": false,
     "disposition": "partial"
@@ -526,14 +526,14 @@
   },
   {
     "key": "SCRUM-111",
-    "title": "Thingamajob case-study screenshot archive \u2014 capture now, curate later",
+    "title": "Thingamajob case-study screenshot archive \u00e2\u20ac\u201d capture now, curate later",
     "points": 2,
     "shipped": false,
     "disposition": "partial"
   },
   {
     "key": "SCRUM-120",
-    "title": "Buildometer \u2014 Dynamic Instrument Skin Architecture",
+    "title": "Buildometer \u00e2\u20ac\u201d Dynamic Instrument Skin Architecture",
     "points": 13,
     "shipped": false,
     "disposition": "partial"
@@ -613,7 +613,7 @@
     "title": "Restore deployment grid beside Buildometer on home page",
     "points": 3,
     "shipped": false,
-    "disposition": "decision"
+    "disposition": "not"
   },
   {
     "key": "SCRUM-134",
@@ -624,7 +624,7 @@
   },
   {
     "key": "SCRUM-141",
-    "title": "Thingamajob \u2014 capture public evaluation telemetry and conversion outcomes",
+    "title": "Thingamajob \u00e2\u20ac\u201d capture public evaluation telemetry and conversion outcomes",
     "points": 5,
     "shipped": true,
     "disposition": "shipped"

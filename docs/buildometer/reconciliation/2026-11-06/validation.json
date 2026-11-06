@@ -1,0 +1,81 @@
+{
+  "observationId": "028df1b7-8f88-4b8a-b2a1-f163a5cfc4d1",
+  "observedAt": "2026-11-06T18:26:46.125Z",
+  "total": 445,
+  "shipped": 184,
+  "remaining": 261,
+  "percent": 41.3,
+  "scopeAdded": 50,
+  "scopeRemoved": 0,
+  "scopeReestimated": 0,
+  "tests": {
+    "node": 38,
+    "angular": 21,
+    "full": "Blocked by unchanged authored-studies.spec.ts TS2339 evidence/items errors"
+  },
+  "build": {
+    "routes": 66,
+    "initial_kB": 485.13,
+    "transfer_kB": 123.27
+  },
+  "browser": {
+    "checks": [
+      "1440: home/dashboard same approved observation, numerator/denominator, correct release-based freshness status; no overflow; keyboard skin change preserves data",
+      "390: home/dashboard same approved observation, numerator/denominator, correct release-based freshness status; no overflow; keyboard skin change preserves data"
+    ],
+    "axe": [
+      {
+        "surface": "home",
+        "width": 1440,
+        "violations": 0
+      },
+      {
+        "surface": "dashboard",
+        "width": 1440,
+        "violations": 0
+      },
+      {
+        "surface": "home",
+        "width": 390,
+        "violations": 0
+      },
+      {
+        "surface": "dashboard",
+        "width": 390,
+        "violations": 0
+      }
+    ],
+    "errors": [],
+    "externalRequests": 1
+  },
+  "fixtures": [
+    {
+      "state": "current",
+      "date": "2026-11-06T18:26:46.125Z",
+      "axe": 0,
+      "reloadPreservesObservation": true
+    },
+    {
+      "state": "old",
+      "date": "2026-10-19T00:10:06.000Z",
+      "axe": 0,
+      "reloadPreservesObservation": true
+    },
+    {
+      "state": "missing",
+      "date": null,
+      "axe": 0,
+      "reloadPreservesObservation": true
+    },
+    {
+      "state": "invalid",
+      "date": null,
+      "axe": 0,
+      "reloadPreservesObservation": true
+    }
+  ],
+  "deployment": "Local review only; BOM not pushed or deployed",
+  "demo": "http://127.0.0.1:4371/buildometer",
+  "noOpLedgerSha256": "6292acf3b42ca1f1dda1bca4f99d3f281457da49a1c4360c02e0558c0684d3cc",
+  "historyCheck": "Original Git-normalized byte prefix unchanged; original CRLF checkout prefix also retained exactly."
+}

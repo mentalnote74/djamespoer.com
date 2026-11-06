@@ -6,6 +6,7 @@ import { emptyData } from './derive.ts';
 const ledger = JSON.parse(
   await readFile(new URL('../../scripts/buildometer/project-ledger.json', import.meta.url)),
 );
+ledger.observations = [ledger.observations[0]]; // Explicit immutable opening fixture.
 test('approved T0 is computed from unique item-level estimates and shipped dispositions', () => {
   const p = projectMeasurement(ledger),
     d = emptyData(new Date().toISOString());
@@ -72,4 +73,21 @@ test('duplicate members, rewritten approval, invalid points and invalid observat
     mutate(l);
     assert.throws(() => projectMeasurement(l));
   }
+});
+
+test('current committed projection matches the complete current ledger without rewriting T0', async () => {
+  const currentLedger = JSON.parse(
+    await readFile(new URL('../../scripts/buildometer/project-ledger.json', import.meta.url)),
+  );
+  const expected = projectMeasurement(currentLedger);
+  const data = emptyData(new Date().toISOString());
+  applyProject(data, expected);
+  const published = JSON.parse(
+    await readFile(new URL('../../public/data/buildometer-project.json', import.meta.url)),
+  );
+  assert.deepEqual(published.observations, expected.observations);
+  assert.equal(published.observedAt, expected.observedAt);
+  assert.equal(expected.observations[0].total, 395);
+  assert.equal(expected.observations[0].shipped, 152);
+  assert.equal(data.supportingFacts.project.total, expected.observations.at(-1).total);
 });

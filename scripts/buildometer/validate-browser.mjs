@@ -8,6 +8,13 @@ const b = await puppeteer.launch({
   executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
   headless: true,
 });
+const projection = JSON.parse(await readFile('public/data/buildometer-project.json', 'utf8'));
+const current = projection.observations.at(-1);
+const percent = Math.round((current.shipped / current.total) * 1000) / 10;
+const status =
+  Date.parse(projection.latestEligibleReleaseAt) > Date.parse(projection.observedAt)
+    ? 'Newer production release awaits reconciliation.'
+    : 'Reconciled through the latest recorded eligible release.';
 const result = { checks: [], axe: [], errors: [], externalRequests: 0 };
 try {
   const p = await b.newPage();
@@ -36,9 +43,10 @@ try {
       date: n.querySelector('time').dateTime,
     }));
     homeDate = home.date;
-    assert(home.text.includes('38.5%'));
-    assert(home.text.includes('152 / 395'));
-    assert(home.text.includes('Newer production release awaits reconciliation.'));
+    assert.equal(homeDate, projection.observedAt);
+    assert(home.text.includes(percent + '%'));
+    assert(home.text.includes(current.shipped + ' / ' + current.total));
+    assert(home.text.includes(status));
     await p.screenshot({ path: resolve(out, `home-${width}.png`), fullPage: false });
     await p.addScriptTag({ path: resolve('node_modules/axe-core/axe.min.js') });
     let axe = await p.evaluate(() => axe.run(document.querySelector('app-buildometer-teaser')));
@@ -51,10 +59,10 @@ try {
       date: n.querySelector('app-progress-observation time').dateTime,
     }));
     assert.equal(full.date, homeDate);
-    assert(full.text.includes('38.5%'));
-    assert(full.text.includes('152 / 395'));
+    assert(full.text.includes(percent + '%'));
+    assert(full.text.includes(current.shipped + ' / ' + current.total));
     assert(full.text.includes('Last fetched'));
-    assert(full.text.includes('Newer production release awaits reconciliation.'));
+    assert(full.text.includes(status));
     assert(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     await p.addScriptTag({ path: resolve('node_modules/axe-core/axe.min.js') });
     axe = await p.evaluate(() => axe.run(document.querySelector('app-buildometer-dashboard')));
@@ -65,10 +73,14 @@ try {
     await p.keyboard.press('Enter');
     await p.select('#buildometer-skin', 'workshop');
     await p.waitForSelector('[data-skin="workshop"]');
+    await p.keyboard.press('Escape');
     assert.equal(await p.$eval('app-progress-observation time', (n) => n.dateTime), homeDate);
-    await p.screenshot({ path: resolve(out, `dashboard-${width}.png`), fullPage: true });
+    await p.screenshot({ path: resolve(out, `dashboard-${width}.png`), fullPage: false });
+    await (
+      await p.$('.instrument--primary')
+    ).screenshot({ path: resolve(out, `completion-${width}.png`) });
     result.checks.push(
-      `${width}: home/dashboard same original observation, numerator/denominator, explicit stale status; no overflow; keyboard skin change preserves data`,
+      `${width}: home/dashboard same approved observation, numerator/denominator, correct release-based freshness status; no overflow; keyboard skin change preserves data`,
     );
   }
   assert.deepEqual(result.errors, []);
