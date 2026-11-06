@@ -1,8 +1,10 @@
+import { ProgressObservation } from './progress-observation';
 import { Component, input } from '@angular/core';
 import type { DashboardMetric } from './buildometer.model';
 import type { InstrumentSkin } from './skins/skin.model';
 /** One metric DOM for every skin; art never owns values or business data. */
 @Component({
+  imports: [ProgressObservation],
   selector: 'app-instrument-cluster',
   templateUrl: './instrument-cluster.html',
   styleUrl: './instrument-cluster.scss',

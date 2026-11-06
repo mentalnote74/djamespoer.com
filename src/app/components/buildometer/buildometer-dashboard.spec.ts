@@ -7,7 +7,7 @@ import { InstrumentCluster } from './instrument-cluster';
 describe('portable Buildometer Dashboard', () => {
   it('mounts without the Buildometer Page or router and shares one data request across skin changes', async () => {
     const load = vi.fn().mockResolvedValue(undefined);
-    const store = { data: signal(null), loading: signal(false), error: signal(false), load };
+    const store = { fetchedAt: signal(null), data: signal(null), loading: signal(false), error: signal(false), load };
     TestBed.configureTestingModule({
       imports: [BuildometerDashboard],
       providers: [{ provide: BuildometerDataStore, useValue: store }],

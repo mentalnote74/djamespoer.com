@@ -25,6 +25,7 @@ export interface ProjectMeasurement {
   baselineId: string;
   t0: string;
   observedAt: string;
+  latestEligibleReleaseAt?: string;
   observations: {
     date: string;
     total: number;
@@ -39,7 +40,16 @@ const object = (v: unknown): Record<string, unknown> => {
   if (!v || typeof v !== 'object' || Array.isArray(v)) throw Error('Invalid project evidence');
   return v as Record<string, unknown>;
 };
-export function projectMeasurement(input: unknown): ProjectMeasurement {
+export function projectMeasurement(
+  input: unknown,
+  latestEligibleReleaseAt?: string,
+): ProjectMeasurement {
+  if (
+    latestEligibleReleaseAt !== undefined &&
+    (!Number.isFinite(Date.parse(latestEligibleReleaseAt)) ||
+      Date.parse(latestEligibleReleaseAt) > Date.now())
+  )
+    throw Error('Invalid eligible release date');
   const root = object(input);
   if (
     root['schemaVersion'] !== 1 ||
@@ -122,6 +132,7 @@ export function projectMeasurement(input: unknown): ProjectMeasurement {
     t0: observations[0].date,
     observedAt: observations.at(-1)!.date,
     observations,
+    ...(latestEligibleReleaseAt ? { latestEligibleReleaseAt } : {}),
   };
 }
 export function applyProject(data: BuildometerData, input: unknown): void {
@@ -133,6 +144,13 @@ export function applyProject(data: BuildometerData, input: unknown): void {
     !p['observations'].length
   )
     throw Error('Invalid project projection');
+  if (
+    p['latestEligibleReleaseAt'] !== undefined &&
+    (typeof p['latestEligibleReleaseAt'] !== 'string' ||
+      !Number.isFinite(Date.parse(p['latestEligibleReleaseAt'])) ||
+      Date.parse(p['latestEligibleReleaseAt']) > Date.now())
+  )
+    throw Error('Invalid eligible release date');
   let last = -Infinity;
   const observations = p['observations'].map((raw) => {
     const o = object(raw),
@@ -186,6 +204,9 @@ export function applyProject(data: BuildometerData, input: unknown): void {
   }));
   data.series.projectShipped = observations.map((o) => ({ date: o.date, value: o.shipped }));
   data.supportingFacts.project = {
+    ...(typeof p['latestEligibleReleaseAt'] === 'string'
+      ? { latestEligibleReleaseAt: p['latestEligibleReleaseAt'] }
+      : {}),
     baselineId: p['baselineId'],
     t0: first.date,
     observedAt: current.date,
@@ -199,4 +220,36 @@ export function applyProject(data: BuildometerData, input: unknown): void {
   };
   data.supportingFacts.scope =
     'Owner-approved known djamespoer.com scope. Whole-story shipped credit; no fractional completion. Observations begin at T0; no reconstructed history or ideal line. Git-versioned evidence, not live Jira status.';
+}
+
+/** Only evidence-changing snapshots advance observation freshness. */
+export function sameSnapshot(a: readonly Member[], b: readonly Member[]): boolean {
+  const signature = (members: readonly Member[]) =>
+    JSON.stringify(
+      members
+        .map((m) => [m.key, m.points, m.shipped])
+        .sort((x, y) => String(x[0]).localeCompare(String(y[0]))),
+    );
+  return signature(a) === signature(b);
+}
+export function assertAppendOnly(previous: Ledger, next: Ledger): void {
+  const { observations: a, ...headerA } = previous;
+  const { observations: b, ...headerB } = next;
+  if (
+    JSON.stringify(headerA) !== JSON.stringify(headerB) ||
+    b.length < a.length ||
+    a.some((o, i) => JSON.stringify(o) !== JSON.stringify(b[i]))
+  )
+    throw Error('Prior baseline/observations are immutable; append only');
+}
+
+/** Append one object while retaining every prior header/observation byte. */
+export function appendObservationText(raw: string, observation: Observation): string {
+  const suffix = /(\r?\n[ \t]*\]\s*\}\s*)$/;
+  if (!suffix.test(raw)) throw Error('Cannot append safely to ledger format');
+  const addition = JSON.stringify(observation, null, 2)
+    .split('\n')
+    .map((line) => '    ' + line)
+    .join('\n');
+  return raw.replace(suffix, (_, tail: string) => ',\n' + addition + tail);
 }

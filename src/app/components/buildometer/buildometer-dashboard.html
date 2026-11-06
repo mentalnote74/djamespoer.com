@@ -22,6 +22,12 @@
       Retry project data
     </button>
   }
+  @if (store.fetchedAt(); as fetchedAt) {
+    <p class="sample-note">
+      Last fetched <time [attr.datetime]="fetchedAt">{{ formatTime(fetchedAt) }}</time
+      >. Fetching does not change the progress observation.
+    </p>
+  }
   <app-instrument-cluster [metrics]="metrics()" [skin]="skin()" />
   @if (store.data(); as data) {
     @if (data.supportingFacts.project; as project) {

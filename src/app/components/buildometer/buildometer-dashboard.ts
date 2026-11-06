@@ -1,3 +1,4 @@
+import { progressPresentation, formatProgressTime } from './data/progress';
 import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
 import { InstrumentCluster } from './instrument-cluster';
 import { MetricChart } from './metric-chart';
@@ -11,6 +12,7 @@ import type { DashboardMetric } from './buildometer.model';
   styleUrl: './buildometer-dashboard.scss',
 })
 export class BuildometerDashboard {
+  readonly formatTime = formatProgressTime;
   readonly store = inject(BuildometerDataStore);
   readonly skinOptions = SKIN_OPTIONS;
   readonly skin = signal<InstrumentSkin | null>(null);
@@ -18,6 +20,7 @@ export class BuildometerDashboard {
   private version = 0;
   readonly metrics = computed<readonly DashboardMetric[]>(() => {
     const d = this.store.data();
+    const progress = progressPresentation(d?.supportingFacts.project);
     const rows: [string, string, keyof NonNullable<typeof d>['metrics']][] = [
       ['completion', 'Estimated project complete', 'completion'],
       ['velocity', 'Velocity', 'velocity'],
@@ -28,7 +31,10 @@ export class BuildometerDashboard {
       ['bugs', 'Open bugs', 'bugHealth'],
     ];
     return rows.map(([id, label, key]) => {
-      const m = d?.metrics[key],
+      const m =
+          id === 'completion'
+            ? { ...d?.metrics.completion, value: progress.percent }
+            : d?.metrics[key],
         value =
           m?.value === null || m?.value === undefined
             ? id === 'completion'
@@ -38,6 +44,7 @@ export class BuildometerDashboard {
       return {
         id,
         label,
+        ...(id === 'completion' ? { progress } : {}),
         value,
         note:
           id === 'completion' && d?.supportingFacts.project

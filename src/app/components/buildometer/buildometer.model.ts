@@ -1,3 +1,4 @@
+import type { ProgressPresentation } from './data/progress';
 import type { DeploymentHistorySnapshot } from '../deployment-history/deployment-history-snapshot';
 import type { ScrumBrief } from '../daily-scrum-brief/brief.model';
 
@@ -149,6 +150,7 @@ export const BUG_PENDING: readonly PendingMetric[] = [
 ];
 
 export interface DashboardMetric {
+  progress?: ProgressPresentation;
   readonly id: string;
   readonly label: string;
   readonly value: string;

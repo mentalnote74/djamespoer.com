@@ -1,0 +1,6 @@
+@if (progress().observedAt; as observedAt) {
+  <p>
+    Progress as of <time [attr.datetime]="observedAt">{{ progress().label }}</time>
+  </p>
+}
+<p>{{ progress().status }}</p>

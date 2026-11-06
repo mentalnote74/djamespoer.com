@@ -144,3 +144,7 @@ No lint script is currently configured; do not claim lint verification unless on
 Report exactly what ran, what passed, what failed, and whether a failure appears to predate the change. Do not claim checks, accessibility audits, browser behavior, or visual verification that were not actually performed.
 
 After meaningful engineering work, update `AI_HANDOFF.md` when the current state, completed work, next task, unresolved decisions, or verification status has materially changed. Keep it concise. Do not turn it into a transcript or duplicate Jira/backlog content. Never place secrets or private `career-source/` content in it.
+
+### Buildometer release completion
+
+After a verified production release affecting eligible portfolio scope, run the named `npm run buildometer:release-check` and record its result in `AI_HANDOFF.md`. Follow `docs/buildometer/release-reconciliation.md` to prepare/review/apply the complete candidate; never replace approved scope with Jira Done counts or stamp observation time with build/fetch time. Record missing scope/estimates explicitly. A bounded projection-only follow-up is not another eligible feature release. BOM changes still require James's review before production release.

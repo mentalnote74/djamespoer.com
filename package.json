@@ -18,7 +18,9 @@
     "deploy:production": "npm run build:production && wrangler deploy",
     "postbuild": "node scripts/prepare-public-render.mjs && node scripts/scrum-brief/bind-runtime-secret.mjs",
     "assets:slides": "node scripts/slide-assets/generate.mjs",
-    "check:slides": "node scripts/slide-assets/validate.mjs"
+    "check:slides": "node scripts/slide-assets/validate.mjs",
+    "buildometer:reconcile": "node scripts/buildometer/reconcile.mjs",
+    "buildometer:release-check": "node scripts/buildometer/reconcile.mjs release-check"
   },
   "private": true,
   "packageManager": "npm@11.19.0",

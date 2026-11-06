@@ -4,6 +4,7 @@ import type { BuildometerData } from './contract';
 @Injectable({ providedIn: 'root' })
 export class BuildometerDataStore {
   readonly data = signal<BuildometerData | null>(null);
+  readonly fetchedAt = signal<string | null>(null);
   readonly loading = signal(false);
   readonly error = signal(false);
   private pending: Promise<void> | null = null;
@@ -19,6 +20,7 @@ export class BuildometerDataStore {
         if (!r.ok) throw Error('Buildometer unavailable');
         const d: unknown = await r.json();
         this.data.set(parseData(d));
+        this.fetchedAt.set(new Date().toISOString());
         this.loadedAt = Date.now();
       } catch {
         this.error.set(true);

@@ -1,12 +1,20 @@
 import { readFile, writeFile, rename, unlink } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { projectMeasurement, applyProject } from '../../server/buildometer/project.ts';
+import {
+  projectMeasurement,
+  applyProject,
+  sameSnapshot,
+  assertAppendOnly,
+  appendObservationText,
+} from '../../server/buildometer/project.ts';
 import { emptyData } from '../../server/buildometer/derive.ts';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const path = 'scripts/buildometer/project-ledger.json';
 const file = new URL('./project-ledger.json', import.meta.url);
-const ledger = JSON.parse(await readFile(file, 'utf8'));
+const ledgerRaw = await readFile(file, 'utf8');
+const ledger = JSON.parse(ledgerRaw);
+let appended = false;
 let old;
 try {
   old = JSON.parse(
@@ -19,41 +27,57 @@ try {
 } catch {
   /* First baseline is new. */
 }
-if (old) {
-  const { observations: a, ...headerA } = old,
-    { observations: b, ...headerB } = ledger;
-  if (
-    JSON.stringify(headerA) !== JSON.stringify(headerB) ||
-    b.length < a.length ||
-    a.some((o, i) => JSON.stringify(o) !== JSON.stringify(b[i]))
-  )
-    throw Error('Prior baseline/observations are immutable; append only');
-}
+if (old) assertAppendOnly(old, ledger);
 if (process.argv[2] === 'observe') {
   if (!process.argv[3] || !process.argv[4])
     throw Error(
       'Usage: npm run buildometer:observe -- candidate-members.json "approved change reason"',
     );
   const members = JSON.parse(await readFile(process.argv[3], 'utf8'));
-  ledger.observations.push({
+  const validation = structuredClone(ledger);
+  validation.observations.push({
     id: crypto.randomUUID(),
     observedAt: new Date().toISOString(),
     reason: process.argv[4],
     members,
   });
+  projectMeasurement(validation);
+  if (!sameSnapshot(ledger.observations.at(-1).members, members)) {
+    ledger.observations.push({
+      id: crypto.randomUUID(),
+      observedAt: new Date().toISOString(),
+      reason: process.argv[4],
+      members,
+    });
+    appended = true;
+  } else console.log('BOM reconciliation: unchanged evidence; no observation appended.');
 }
-const projection = projectMeasurement(ledger);
+const receipt = JSON.parse(
+  await readFile(new URL('./release-evidence.json', import.meta.url), 'utf8'),
+);
+const release = receipt.release;
+if (
+  release?.environment !== 'production' ||
+  release.status !== 'succeeded' ||
+  release.stage !== 'deployed' ||
+  !Number.isFinite(Date.parse(release.deployedAt)) ||
+  Date.parse(release.deployedAt) > Date.now()
+)
+  throw Error('Invalid eligible production release receipt');
+const projection = projectMeasurement(ledger, release.deployedAt);
 const output = new URL('../../public/data/buildometer-project.json', import.meta.url);
 async function atomic(url, value) {
   const tmp = new URL(url.href + '.tmp');
   try {
-    await writeFile(tmp, JSON.stringify(value, null, 2) + '\n');
+    await writeFile(tmp, typeof value === 'string' ? value : JSON.stringify(value, null, 2) + '\n');
     await rename(tmp, url);
   } finally {
     await unlink(tmp).catch(() => {});
   }
 }
-if (process.argv[2] === 'observe') await atomic(file, ledger);
+if (appended) {
+  await atomic(file, appendObservationText(ledgerRaw, ledger.observations.at(-1)));
+}
 await atomic(output, projection);
 await writeFile(
   new URL('../../server/buildometer/project-members.generated.ts', import.meta.url),
@@ -75,6 +99,7 @@ const summary = {
   shipped: current.shipped,
   remaining: current.remaining,
   observedAt: projection.observedAt,
+  latestEligibleReleaseAt: projection.latestEligibleReleaseAt,
 };
 await writeFile(
   new URL('../../src/app/generated/buildometer-summary.ts', import.meta.url),

@@ -63,6 +63,7 @@ export interface BuildometerData {
       baselineId: string;
       t0: string;
       observedAt: string;
+      latestEligibleReleaseAt?: string;
       total: number;
       shipped: number;
       remaining: number;

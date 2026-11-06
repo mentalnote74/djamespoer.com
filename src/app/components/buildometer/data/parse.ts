@@ -94,6 +94,7 @@ export function parseData(input: unknown): BuildometerData {
     const p = record(facts['project']);
     if (typeof p['baselineId'] !== 'string' || !date(p['t0']) || !date(p['observedAt']))
       throw Error('Invalid project provenance');
+    if (p['latestEligibleReleaseAt'] !== undefined && (!date(p['latestEligibleReleaseAt']) || Date.parse(String(p['latestEligibleReleaseAt'])) > Date.now())) throw Error('Invalid progress release date');
     for (const key of [
       'total',
       'shipped',

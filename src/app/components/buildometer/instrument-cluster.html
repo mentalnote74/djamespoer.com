@@ -61,6 +61,9 @@
         }
       </div>
       <p class="metric-value">{{ metric.value }}</p>
+      @if (metric.progress; as progress) {
+        <app-progress-observation [progress]="progress" />
+      }
       <p class="metric-note">{{ metric.note }}</p>
       @if (!compact()) {
         <span class="instrument-status">{{
