@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-11-07T01:27:43.085Z",
+  "release": {
+    "id": "5ea0604b-7db6-4445-bbac-2e5a5a900bdd",
+    "sha": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
+    "deployedAt": "2026-11-07T01:27:14.533016Z",
+    "environment": "production",
+    "status": "succeeded",
+    "stage": "deployed",
+    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128255411418"
+  },
+  "items": [
+    {
+      "key": "SCRUM-174",
+      "commit": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
+      "evidencePath": "docs/resume/scrum-174-2026-11-06.json",
+      "acceptanceNote": "Owner-directed public resume correction verified live: exact selector, both final PDF hashes; protected TEST canonical addition remains pending explicit authorization. Not whole-story completion or point credit."
+    }
+  ]
+}

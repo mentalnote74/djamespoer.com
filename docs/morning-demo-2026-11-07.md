@@ -1,3 +1,5 @@
+Production release verified: implementation `2478d4a`; final active commit `2d624c0` (editorial-only descendant). https://djamespoer.com/ and /about are live. Receipt: [release evidence](release/scrum-179-181-180-2026-11-07.json). Named BOM release check remains pending reconciliation; totals/date unchanged. The local review instructions below remain useful; the no-deployment hold was explicitly lifted by James.
+
 # Morning review ? SCRUM-179 / 181 / 180
 
 Owner subsequently authorized production release after the final softer, curved ocean refinement. Earlier local-only instructions below describe the review stage; the release receipt is recorded in AI_HANDOFF/Jira. Branch: `feature/scrum-179-181-180-overnight` in the existing `C:\Dev\djamespoer.com\.worktrees\scrum-171-buildometer` checkout. No new worktree or dependencies.

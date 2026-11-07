@@ -1,21 +1,33 @@
 {
   "schemaVersion": 1,
-  "verifiedAt": "2026-11-07T01:27:43.085Z",
+  "verifiedAt": "2026-11-07T15:07:05.459973+00:00",
   "release": {
-    "id": "5ea0604b-7db6-4445-bbac-2e5a5a900bdd",
-    "sha": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
-    "deployedAt": "2026-11-07T01:27:14.533016Z",
+    "id": "25e56dbd-378a-428c-9d57-c60c2d1fb72a",
+    "sha": "2d624c0c92fa9ace66a5abffc5938a5b67e93d6e",
+    "deployedAt": "2026-11-07T15:03:02.38836Z",
     "environment": "production",
     "status": "succeeded",
     "stage": "deployed",
-    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128255411418"
+    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128438826313"
   },
   "items": [
     {
-      "key": "SCRUM-174",
-      "commit": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
-      "evidencePath": "docs/resume/scrum-174-2026-11-06.json",
-      "acceptanceNote": "Owner-directed public resume correction verified live: exact selector, both final PDF hashes; protected TEST canonical addition remains pending explicit authorization. Not whole-story completion or point credit."
+      "key": "SCRUM-179",
+      "commit": "2478d4adb81d86a929b70b0ec1875d99ab3fb93f",
+      "evidencePath": "docs/release/scrum-179-181-180-2026-11-07.json",
+      "acceptanceNote": "Owner approved local review and requested softer curved water then production. Waterfront, typography/shadows, Jar/Policy, contrast and motion verified; no estimate or point credit inferred."
+    },
+    {
+      "key": "SCRUM-181",
+      "commit": "91543df0708b6161b3e39d310b58313ad26f34ed",
+      "evidencePath": "src/app/components/bedlam/sky-preview.ts",
+      "acceptanceNote": "Owner explicitly approved sky; reviewed themes/night/demo effects and reduced motion, production release verified. No point credit inferred."
+    },
+    {
+      "key": "SCRUM-180",
+      "commit": "c8ecacdc54822af976680fb8623bbb77ed06077c",
+      "evidencePath": "src/app/components/home/home.html",
+      "acceptanceNote": "Distinct Home/About reviewed locally and verified live; existing evaluator preserved. No point credit inferred."
     }
   ]
 }

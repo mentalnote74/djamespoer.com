@@ -1,0 +1,45 @@
+{
+  "commit": "2478d4adb81d86a929b70b0ec1875d99ab3fb93f",
+  "verifiedAt": "2026-11-07T15:02:36.830Z",
+  "url": "https://djamespoer.com/",
+  "state": {
+    "durations": [
+      "38s",
+      "27s"
+    ],
+    "mask": "url(\"https://djamespoer.com/assets/environment/water-ripples.svg\")",
+    "card": "rgba(0, 0, 0, 0)",
+    "copyWeight": "700",
+    "buttonWeight": "700",
+    "shadow": "rgba(255, 255, 255, 0.6) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.08) 0px -1px 0px 0px inset, rgba(0, 0, 0, 0.14) 0px 3px 8px 0px, color(srgb 0.0948079 0.242595 0.18863 / 0.06) 0px 0px 0px 1px, rgba(0, 0, 0, 0.227) 5.58494px 6.86165px 17.5849px -2.93082px",
+    "internal": "1"
+  },
+  "curvedAssetSha256": "05c4b0aa2341daf6411a3dbd08a83a89d7a640fe44ce7c8e541a4a391042abf0",
+  "assetStatus": 200,
+  "homeAbout": true,
+  "accessibilityReveal": true,
+  "cookiePolicyInJar": true,
+  "reducedMotion": true,
+  "mobileOverflow": false,
+  "demoControlsAbsent": true,
+  "googleRequests": 0,
+  "pageErrors": [],
+  "activatedCommit": "2d624c0c92fa9ace66a5abffc5938a5b67e93d6e",
+  "implementationCommit": "2478d4adb81d86a929b70b0ec1875d99ab3fb93f",
+  "finalActivation": {
+    "id": "25e56dbd-378a-428c-9d57-c60c2d1fb72a",
+    "deployedAt": "2026-11-07T15:03:02.38836Z",
+    "version": "d94b7628-371d-44c8-b1e0-32399261bfc7"
+  },
+  "pipelineUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128438826313",
+  "finalAssetVerification": {
+    "status": 200,
+    "decodedNavigationBodySha256": "f62de2e25b054a0dc043fbb91faf9656330f8ae2e155ec0522aa08ca7b877c0f",
+    "sourceSha256": "05c4b0aa2341daf6411a3dbd08a83a89d7a640fe44ce7c8e541a4a391042abf0",
+    "note": "Chrome navigation response decodes/removes UTF8 BOM; normalized body matches exactly. Prior fetch verified raw bytes; descendant changed editorial files only."
+  },
+  "descendantChangedOnly": [
+    "public/data/product-journal.json",
+    "src/app/components/daily-scrum-brief/brief.generated.ts"
+  ]
+}
