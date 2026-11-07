@@ -1,3 +1,13 @@
+## November 7 morning review ? SCRUM-179 / 181 / 180
+
+Completed local sequence on feature/scrum-179-181-180-overnight, existing C:/Dev/djamespoer.com/.worktrees/scrum-171-buildometer; no new worktree/dependencies. Waterfront 3acad92; sky 91543df; Home/About 032d1e0 + c8ecacd; local review tooling 8a9d2e2. Retains 69a2041 accessibility reveal/focus correction. No push/deployment; James reviews next.
+
+INTERNAL demo: http://127.0.0.1:4379/ and /about. Restart from that checkout with npm run demo:morning (currently loopback PID 9444). Local-only top review strip selects eight palettes and seeks/plays dawn/dusk/night effects; absent from public build. Exact commands/inspection steps: docs/morning-demo-2026-11-07.md.
+
+Final build passed (66 routes; 485.50 kB initial), 32 focused tests passed with INTERNAL setup. Integrated desktop/mobile eight-theme, scoped contrast/axe, keyboard/focus, Cookie Jar/Policy, denial/reload, INTERNAL/no-Google and reduced-motion checks passed. Final Home layout/encoding and accessibility-statement regressions verified. Initial discovery hit known unrelated authored-studies TS2339 blockers; explicit focused includes passed. One rebuild addressed actual visual findings; no broad suite. New warning-only Footer/Home CSS budgets (~6.02/~4.06 kB), existing Rigby/module warnings; below hard budgets. Evidence retained in ignored tmp/overnight (~18.3 MB). Local provider requests intentionally return 503; no paid evaluation/public event receipt claimed.
+
+No known incomplete implementation requirement; owner aesthetic approval/release outstanding. Existing 4371 preview retained; root dirty work/untracked assets and all protected step2/OneDrive material untouched. No cleanup, moves, deletes, installs, scope/point credit or production changes. SCRUM-177 untouched. Next: owner local review; do not deploy automatically.
+
 ## Accessibility statement visibility correction ? November 6
 
 Branch fix/accessibility-statement-visibility. Reproduced live: footer button sets expanded=true and renders statement below viewport (heading starts near 596px in a 600px viewport), with no focus/reveal feedback. Handler was active; content placement made activation appear inert. Fix uses signal state and after-render heading focus/reveal, with Close/Escape returning focus to trigger. Existing statement prose and other footer controls preserved.
