@@ -28,29 +28,12 @@
     <p>Finished work lives beside experiments, revisions, and the occasional bad idea replaced by a better one.
       The environment shows the craft; the projects show how the software works.</p>
     <nav aria-label="Start exploring">
-      <a publicTrack routerLink="/work/djamespoer">Inside the Angular portfolio</a> ?
-      <a publicTrack routerLink="/about">Who built this and why</a> ?
-      <a publicTrack routerLink="/resume">Choose a r?sum?</a>
+      <a publicTrack routerLink="/work/djamespoer">Inside the Angular portfolio</a> ·
+      <a publicTrack routerLink="/about">Who built this and why</a> ·
+      <a publicTrack routerLink="/resume">Choose a résumé</a>
     </nav>
     <app-hidden-cookie />
   </section>
-  <app-aside
-    class="home-thingamajob-entry"
-    id="rigby-start"
-    data-rigby-anchor="thingamajob"
-    label="Thingamajob"
-  >
-    <app-thingamajob />
-    <p>
-      <a
-        publicTrack
-        trackLocation="home-thingamajob"
-        trackSource="homepage"
-        routerLink="/thingamajob"
-        >View Thingamajob Case Study</a
-      >
-    </p>
-  </app-aside>
   <section class="home-projects editorial-wide" aria-labelledby="home-projects-heading">
     <h2 id="home-projects-heading">What's happening here?</h2>
     <ul class="home-projects__list">
@@ -75,6 +58,23 @@
     </ul>
     <a publicTrack routerLink="/blognostisphere">All writing</a>
   </section>
+  <app-aside
+    class="home-thingamajob-entry"
+    id="rigby-start"
+    data-rigby-anchor="thingamajob"
+    label="Thingamajob"
+  >
+    <app-thingamajob />
+    <p>
+      <a
+        publicTrack
+        trackLocation="home-thingamajob"
+        trackSource="homepage"
+        routerLink="/thingamajob"
+        >View Thingamajob Case Study</a
+      >
+    </p>
+  </app-aside>
   @defer (
     on immediate;
     hydrate when !delivery.mobile();

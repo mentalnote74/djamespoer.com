@@ -95,13 +95,11 @@ app-carousel {
 @media (width > foundation.breakpoint('artwork-compact')) {
   .home-editorial {
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    > .home-construction,
-    > app-daily-scrum-brief {
-      grid-column: 2;
-    }
+    > .home-construction { grid-column: 1 / -1; }
+    > app-daily-scrum-brief { grid-column: 2; }
     > app-aside {
       grid-column: 1;
-      grid-row: 1 / span 2;
+      grid-row: auto;
     }
     > app-buildometer-overview {
       grid-column: 1 / -1;
