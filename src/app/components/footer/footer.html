@@ -16,8 +16,9 @@
       <button
         type="button"
         class="site-footer__accessibility"
+        #accessibilityTrigger
         (click)="toggleAccessibilityStatement()"
-        [attr.aria-expanded]="accessibilityStatementOpen"
+        [attr.aria-expanded]="accessibilityStatementOpen()"
         aria-controls="accessibility-statement"
       >
         <svg lucideAccessibility class="action-icon" aria-hidden="true" focusable="false"></svg>
@@ -94,13 +95,14 @@
       </button>
     </div>
 
-    @if (accessibilityStatementOpen) {
+    @if (accessibilityStatementOpen()) {
       <section
         id="accessibility-statement"
         class="site-footer__statement"
         aria-labelledby="accessibility-statement-heading"
+        (keydown.escape)="closeAccessibilityStatement(); $event.stopPropagation()"
       >
-        <h2 id="accessibility-statement-heading">Accessibility Statement</h2>
+        <h2 #accessibilityHeading id="accessibility-statement-heading" tabindex="-1">Accessibility Statement</h2>
 
         <p>
           D. James Poer is committed to making djamespoer.com accessible to everyone, including
@@ -117,6 +119,7 @@
           Accessibility is an ongoing process. If you encounter a barrier while using this site,
           please contact me so I can investigate and correct it.
         </p>
+        <button type="button" (click)="closeAccessibilityStatement()">Close accessibility statement</button>
       </section>
     }
   </div>

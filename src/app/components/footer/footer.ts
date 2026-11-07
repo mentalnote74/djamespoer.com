@@ -8,7 +8,7 @@ import { PublicAnalytics } from '../../services/public-analytics';
 import { RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
 import { CookiePreferencesService } from '../../features/cookie-preferences/cookie-preferences.service';
-import { Component, ElementRef, model, signal, viewChild } from '@angular/core';
+import { afterNextRender, Component, ElementRef, Injector, model, signal, viewChild } from '@angular/core';
 
 import { ThemeState, type ThemeSelection } from '../../services/theme-state';
 import { SOCIAL_PROFILES } from '../../content/social-profiles';
@@ -61,9 +61,24 @@ export class Footer {
   readonly toggleIdentity = (paused: boolean): boolean => !paused;
   readonly currentYear = new Date().getFullYear();
 
-  accessibilityStatementOpen = false;
+  readonly accessibilityStatementOpen = signal(false);
+  private readonly injector = inject(Injector);
+  private readonly accessibilityHeading = viewChild<ElementRef<HTMLHeadingElement>>('accessibilityHeading');
+  private readonly accessibilityTrigger = viewChild<ElementRef<HTMLButtonElement>>('accessibilityTrigger');
 
   toggleAccessibilityStatement(): void {
-    this.accessibilityStatementOpen = !this.accessibilityStatementOpen;
+    this.accessibilityStatementOpen.update((open) => !open);
+    if (this.accessibilityStatementOpen()) {
+      afterNextRender(() => {
+        const heading = this.accessibilityHeading()?.nativeElement;
+        heading?.focus({ preventScroll: true });
+        heading?.scrollIntoView({ block: 'start', behavior: 'instant' });
+      }, { injector: this.injector });
+    }
+  }
+
+  closeAccessibilityStatement(): void {
+    this.accessibilityStatementOpen.set(false);
+    this.accessibilityTrigger()?.nativeElement.focus();
   }
 }

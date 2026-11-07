@@ -1,3 +1,9 @@
+## Accessibility statement visibility correction ? November 6
+
+Branch fix/accessibility-statement-visibility. Reproduced live: footer button sets expanded=true and renders statement below viewport (heading starts near 596px in a 600px viewport), with no focus/reveal feedback. Handler was active; content placement made activation appear inert. Fix uses signal state and after-render heading focus/reveal, with Close/Escape returning focus to trigger. Existing statement prose and other footer controls preserved.
+
+npm run build passed (existing module-type/Rigby budget warnings). Focused real-browser regression scripts/accessibility/validate-statement.mjs passed at 1440/390x600: pointer/Enter/Space, visible focused heading, Close/Escape focus return, scoped footer axe zero. All QA INTERNAL before initialization. Broad suite not repeated (known unrelated authored-studies TS2339 blockers). Local demo http://127.0.0.1:4371/about ? footer. Fix committed locally for owner review; not pushed/deployed. No BOM scope/points change; SCRUM-177 untouched.
+
 ## SCRUM-174 r?sum? correction ? November 6
 
 Branch fix/scrum-174-resume-rework. Both revised DOCX/PDF derivatives lead with current independent projects and use the exact owner career-pause line (comment 10382). Original prose/facts otherwise retained. Actual page counts: short 2, long 6; no fixed page targets. Exact approved selector titles/order; stable download URLs. Private master/catalog updated without deleting history. James explicitly authorized the protected TEST LoT addition. Applied one private R2 source plus one canonical fact; canonical consumer count 287 to 288, all 287 prior rows byte-for-byte equal as parsed records, exact statement/source hash verified. No fabricated human review or paid model call. Receipt: docs/resume/scrum-174-canonical-receipt.json.
