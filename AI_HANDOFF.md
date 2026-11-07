@@ -1,3 +1,9 @@
+## Owner refinement ? button depth and ocean movement, November 7
+
+Native buttons now reuse existing theme elevation, with a shallower pressed state; disabled/menu/character exceptions and forced colors remain deliberate. Water has two gentle independent drift/ripple layers (14.7s/8.7s), both bounded above copyright and stopped by reduced motion. Approved sky unchanged.
+
+One build passed (486.18 kB initial, 66 routes; Footer warning now ~6.70 kB, below 8 kB hard limit; other existing warnings retained). Focused INTERNAL browser check verified 8 distinct theme shadows, both water layers changing, reduced-motion stop, desktop/mobile keyboard focus/Cookie Jar, copyright region clear, scoped axe zero and zero Google requests. Receipt/screenshots: tmp/overnight/button-water/. Same local URL/branch; no push/deployment. Next owner local review.
+
 ## Owner refinement ? footer and typography, November 7
 
 Same local review branch/demo, no deployment. Removed footer content card; controls/copyright sit directly on water. Copyright is 700 white on a bounded dark-water mix; reflection artwork ends above it, including expanded content. Shared buttons and nav labels bold, with inherited-font exceptions covered. Daylight header cover now starts at 78% and reaches only 25% opacity; nighttime cover retained.

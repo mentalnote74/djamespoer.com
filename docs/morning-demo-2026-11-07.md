@@ -22,6 +22,10 @@ Dawn/dusk atmosphere: 39.6 seconds each, day/night interpolation: 24 seconds, po
 
 Footer bottom content card removed. Buttons/navigation and copyright are bold (700). Copyright sits directly on dark water, with decorative reflections ending above it; measured minimum 9.08:1 across all 8 palettes at 1440/390 widths. Daylight sky cover reduced to a faint final 22% of header width (25% maximum opacity); night cover retained. One refinement build and targeted contrast/weight/layout check passed, including no overflow at 1024, cookie button weights, footer axe zero and zero Google requests. Current images/receipt: `tmp/overnight/footer-refinement/`. Existing shared functionality evidence remains valid.
 
+### Button depth and water motion refinement
+
+Buttons now consume existing theme elevation tokens, with a shallower pressed state and deliberate disabled/menu/character exceptions. Two gentle, asynchronous water layers drift at 14.7s/8.7s; reduced motion stops both, and the copyright region remains clear. Sky unchanged. One build passed (486.18 kB initial, footer warning ~6.70 kB below hard 8 kB budget); focused INTERNAL browser check confirmed 8 distinct theme shadows, actual movement and reduced-motion stop, desktop/mobile keyboard/Cookie Jar, scoped axe zero and no Google requests. Evidence: `tmp/overnight/button-water/`.
+
 ## Commits and verification
 
 - Waterfront: `3acad92`.

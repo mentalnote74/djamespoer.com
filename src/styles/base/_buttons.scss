@@ -15,6 +15,7 @@ button {
   color: var(--control-foreground);
   cursor: pointer;
   font-weight: 700;
+  box-shadow: var(--elevation-raised);
 
   &:hover:not(:disabled):not([aria-disabled='true']) {
     border-color: var(--button-border-hover);
@@ -23,6 +24,7 @@ button {
   }
 
   &:active:not(:disabled):not([aria-disabled='true']) {
+    box-shadow: var(--elevation-ambient);
     border-color: var(--control-border);
     background: var(--control-active-background);
     color: var(--control-active-foreground);
@@ -37,10 +39,12 @@ button {
   &[aria-disabled='true'] {
     cursor: not-allowed;
     opacity: var(--disabled-opacity);
+    box-shadow: none;
   }
 }
 .nav-menu-button {
   @include foundation.nav-menu-item;
+  box-shadow: none;
   border: 0;
   background: transparent;
   color: inherit;
@@ -82,3 +86,7 @@ button.character-button {
 
 // Navigation labels share the deliberate weight of native action labels.
 nav { font-weight: 700; }
+
+@media (forced-colors: active) {
+  button { box-shadow: none; }
+}
