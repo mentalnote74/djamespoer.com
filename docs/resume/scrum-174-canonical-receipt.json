@@ -1,0 +1,13 @@
+{
+  "verifiedAt": "2026-11-07T02:21:11.422631+00:00",
+  "environment": "protected TEST",
+  "canonicalBefore": 287,
+  "canonicalAfter": 288,
+  "addedFacts": 1,
+  "existingRowsUnchanged": true,
+  "sourceReadbackHashMatches": true,
+  "statementExact": true,
+  "sourceSha256": "e655f044dee45d1231c1a223b19995b624c79ff381f6c5311315b2c4ae0e826f",
+  "authorization": "James explicit chat authorization: Authorize protected TEST LoT update",
+  "paidModelCalls": 0
+}
