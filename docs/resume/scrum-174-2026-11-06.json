@@ -1,0 +1,40 @@
+{
+  "General": {
+    "source_sha256": "f61872447ec2c8d759d004bfa88267251d890400222713038c7a075b4f6ffff8",
+    "docx_sha256": "067199fa46b1ff262a0bf7e05299f3926a737a3b818e857a11ba038fbd1af799",
+    "pages": 2,
+    "pdf_sha256": "27f3e1e00a1f3710b92da1d9fcfe6a37c8fbabfa4fda14daac4e7428e548e0ff",
+    "pdf": "public\\assets\\resume\\d-james-poer-resume.pdf",
+    "links": [
+      "https://djamespoer.com/",
+      "https://www.linkedin.com/in/djamespoer",
+      "https://github.com/mentalnote74"
+    ],
+    "authorized_changes": {
+      "pause": "Career Pause | April 2023\u2013October 2026 | I was caring for sick family members.",
+      "current_projects_first": true,
+      "obsolete_continuation_labels_removed": true,
+      "natural_pagination": true,
+      "body_font_pt": 11
+    }
+  },
+  "Comprehensive": {
+    "source_sha256": "9d9c74cfc5468544a9813791c58127a69183b582dca874f84281a80585e9f7a5",
+    "docx_sha256": "90b5c61f32a7b616b8f38ca8050f4a46395e7c07f8b54dd1a178df9d31d5e024",
+    "pages": 6,
+    "pdf_sha256": "26e26f2e94463292e9c96baab8d5d067b15a418371e99cac51a4b26a8732ece4",
+    "pdf": "public\\assets\\resume\\d-james-poer-comprehensive.pdf",
+    "links": [
+      "https://djamespoer.com/",
+      "https://www.linkedin.com/in/djamespoer",
+      "https://github.com/mentalnote74"
+    ],
+    "authorized_changes": {
+      "pause": "Career Pause | April 2023\u2013October 2026 | I was caring for sick family members.",
+      "current_projects_first": true,
+      "obsolete_continuation_labels_removed": true,
+      "natural_pagination": true,
+      "body_font_pt": 11
+    }
+  }
+}

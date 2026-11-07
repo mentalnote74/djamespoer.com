@@ -1,3 +1,15 @@
+# SCRUM-174 correction ? 2026-11-06
+
+This section supersedes the SCRUM-161 wording/order and original-source-only receipt below. Owner comments 10369, 10382 and 10383 control: Short Form Resume, Long Form Resume, Custom Resume; current independent projects first; exact career-pause statement in both documents. Actual final exports are **2 and 6 pages**, counted after natural pagination, with no page target.
+
+Both revised DOCX sources are dated SCRUM-174 versions in the private archive; originals are unchanged. Every other factual paragraph is preserved (only obsolete continuation/chronology labels removed). The EXL advice bullet remains separate immediately after Justinmind. The private full master retains all 230 existing paragraphs and appends the exact owner correction. No incorrect pause explanation was found in the 287 active canonical LoT entries or scoped r?sum?/application template files. A one-fact protected TEST canonical addition is prepared but blocked pending explicit remote-write authorization; no remote changes are claimed.
+
+Export: revised OOXML ? source-derived semantic HTML ? Chrome tagged PDF ? pypdf identity-only metadata. Native Word/LibreOffice rendering is unavailable; this is not a native Word pagination or PDF/UA certification claim. All 8 final PDF pages were rendered and inspected. Extracted PDF text equals revised DOCX text after whitespace/bullet normalization; both contain the exact owner statement, no prohibited medical explanation, and all 3 original hyperlink targets. Tags and selectable text remain; Creator/Producer/XMP residue removed. Source and final artifact hashes: [SCRUM-174 receipt](scrum-174-2026-11-06.json).
+
+Stable URLs and analytics directives/variant IDs remain unchanged. Selector order is short ? long ? direct Thingamajob. `npm run build` passed (66 prerenders, 485.13 kB initial); existing module-type and Rigby stylesheet warnings remain. `node scripts/resume/validate-browser.mjs` passed at 1440/390 widths: pointer/Enter downloads match final hashes, keyboard tab order, header/mobile entry, direct custom route, one main, no overflow, scoped axe zero and no page errors. INTERNAL was set before app initialization; no public analytics emitted. Analytics production helpers were unchanged; prior consent/privacy/variant evidence is reused. No broad suite rerun: the existing two TS2339 failures in authored-studies.spec.ts remain documented below. Local preview: http://127.0.0.1:4371/resume (INTERNAL).
+
+## Historical SCRUM-161 release receipt
+
 # SCRUM-161 / SCRUM-162 approved resume release
 
 Owner approved both November 6, 2026 DOCX sources and authorized release after checks. Sources were read from `C:/Users/djame/Documents/Codex/2026-11-05/g/outputs/`:

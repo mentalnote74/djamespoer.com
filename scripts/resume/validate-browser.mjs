@@ -1,4 +1,4 @@
-// Controlled production-host simulation: all requests are intercepted; no public analytics.
+// INTERNAL production-host simulation: all requests intercepted; no public analytics.
 import puppeteer from 'puppeteer-core';
 import assert from 'node:assert/strict';
 import { readFile, mkdir, writeFile, readdir } from 'node:fs/promises';
@@ -31,6 +31,7 @@ try {
   const page = await browser.newPage();
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
   await page.evaluateOnNewDocument(() => {
+    localStorage.setItem('portfolio.analytics.internal', '1');
     document.cookie = 'portfolio_analytics_consent=granted; Path=/; Secure';
     document.cookie = 'portfolio_cookie_preferences=1.0; Path=/; Secure';
     localStorage.setItem('rigby.greeting.seen.v1', '1');
@@ -69,7 +70,7 @@ try {
   const load = async () => {
     await page.goto('https://djamespoer.com/resume', { waitUntil: 'networkidle0' });
     await page.waitForSelector('app-resume a');
-    await page.waitForFunction(() => Array.isArray(window.__qaEvents), { timeout: 15000 });
+    assert.equal(await page.evaluate(() => localStorage.getItem('portfolio.analytics.internal')), '1');
   };
   const events = () => page.evaluate(() => window.__qaEvents ?? []);
   for (const width of [1440, 390]) {
@@ -83,13 +84,9 @@ try {
       })),
     );
     assert.deepEqual(choices, [
-      {
-        label: 'Full career history',
-        href: '/assets/resume/d-james-poer-comprehensive.pdf',
-        download: true,
-      },
-      { label: 'Modern/general', href: '/assets/resume/d-james-poer-resume.pdf', download: true },
-      { label: 'Custom for a job', href: '/thingamajob', download: false },
+      { label: 'Short Form Resume', href: '/assets/resume/d-james-poer-resume.pdf', download: true },
+      { label: 'Long Form Resume', href: '/assets/resume/d-james-poer-comprehensive.pdf', download: true },
+      { label: 'Custom Resume', href: '/thingamajob', download: false },
     ]);
     assert.equal(await page.$$eval('main', (n) => n.length), 1);
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
@@ -127,8 +124,8 @@ try {
       cdp.on('Browser.downloadProgress', cb);
     });
   for (const [index, name, id] of [
-    [0, 'd-james-poer-comprehensive.pdf', 'public-comprehensive'],
-    [1, 'd-james-poer-resume.pdf', 'public-current'],
+    [0, 'd-james-poer-resume.pdf', 'public-current'],
+    [1, 'd-james-poer-comprehensive.pdf', 'public-comprehensive'],
   ]) {
     const links = await page.$$('app-resume a');
     const done = complete();
@@ -144,12 +141,12 @@ try {
     const matching = (await events()).filter(
       (e) => e[1] === 'resume_download' && e[2].resume_id === id,
     );
-    assert.equal(matching.length, 1);
-    assert.equal(matching[0][2].asset_name, id);
+    assert.equal(matching.length, 0);
     receipt.downloads.push({
       name,
       sha256: hash(actual),
-      eventCount: 1,
+      eventCount: 0,
+      internal: true,
       input: index ? 'keyboard' : 'pointer',
     });
   }
@@ -158,9 +155,9 @@ try {
   await page.keyboard.press('Enter');
   await page.waitForSelector('app-thingamajob-product');
   assert.equal(new URL(page.url()).pathname, '/thingamajob');
-  assert.equal((await events()).filter((e) => e[1] === 'thingamajob_open').length, 1);
+  assert.equal((await events()).filter((e) => e[1] === 'thingamajob_open').length, 0);
   receipt.checks.push(
-    'Custom keyboard activation navigates directly to existing Thingamajob; one event',
+    'Custom keyboard activation navigates directly to existing Thingamajob; INTERNAL suppression confirmed',
   );
   await page.setViewport({ width: 1440, height: 1000 });
   await page.goto('https://djamespoer.com/about', { waitUntil: 'networkidle0' });

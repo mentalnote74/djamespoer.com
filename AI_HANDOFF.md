@@ -1,3 +1,9 @@
+## SCRUM-174 r?sum? correction ? November 6
+
+Branch fix/scrum-174-resume-rework. Both revised DOCX/PDF derivatives lead with current independent projects and use the exact owner career-pause line (comment 10382). Original prose/facts otherwise retained. Actual page counts: short 2, long 6; no fixed page targets. Exact approved selector titles/order; stable download URLs. Private master/catalog updated without deleting history. Canonical TEST read found no incorrect active phrase; one-fact addition awaits explicit authorization after automatic approval review rejected remote R2/D1 writes. No remote mutation occurred.
+
+Production build and INTERNAL desktop/mobile selector/download/keyboard/scoped axe checks passed; full details and hashes in docs/resume/README.md and scrum-174-2026-11-06.json. Known unrelated full-suite TS2339 blockers reused; no new broad audit. Release receipt and required post-release BOM check pending. SCRUM-177 remains untouched.
+
 ## SCRUM-102 original frame/full-cast rework — Nov 5
 
 Owner chose existing 1664x936. Removed apron extension. Native silhouette spacing,
