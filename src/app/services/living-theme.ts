@@ -100,7 +100,10 @@ export function startLivingTheme(
   };
   const tick = () => {
     if (stopped) return;
-    const elapsed = clock ? clock.elapsed() : initialElapsed + window.performance.now() - started;
+    // Only the local review server injects controls. Public origins cannot seek this clock.
+    const demo = ['127.0.0.1', 'localhost'].includes(window.location.hostname)
+      ? Number(root.dataset['demoLivingElapsed']) : NaN;
+    const elapsed = clock ? clock.elapsed() : Number.isFinite(demo) ? demo : initialElapsed + window.performance.now() - started;
     const frame = livingFrame(elapsed, timing);
     if (transition) return;
     if (clock && elapsed === lastElapsed) {

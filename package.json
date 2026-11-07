@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "demo:morning": "node scripts/review/demo.mjs",
     "prebuild": "node scripts/slide-assets/validate.mjs && node scripts/buildometer/project.mjs && node scripts/deployment-history/build-refresh.mjs && node scripts/generate-build-info.mjs && node scripts/discoverability.mjs",
     "buildometer:observe": "node scripts/buildometer/project.mjs observe",
     "build": "ng build",

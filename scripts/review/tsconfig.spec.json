@@ -1,0 +1,1 @@
+{"extends":"../../tsconfig.spec.json","include":["../../src/**/*.d.ts","../../src/app/services/living-theme.spec.ts","../../src/app/components/footer/footer.spec.ts","../../src/app/components/about/about.spec.ts","../../src/app/features/cookie-preferences/cookie-preferences.spec.ts"]}
