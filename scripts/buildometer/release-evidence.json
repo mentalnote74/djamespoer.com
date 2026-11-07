@@ -1,33 +1,21 @@
 {
   "schemaVersion": 1,
-  "verifiedAt": "2026-11-06T18:51:54.365151+00:00",
+  "verifiedAt": "2026-11-07T01:27:43.085Z",
   "release": {
-    "id": "305006bb-4741-4c72-867b-aeb6503b868d",
-    "sha": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
-    "deployedAt": "2026-11-06T18:50:24.766659Z",
+    "id": "5ea0604b-7db6-4445-bbac-2e5a5a900bdd",
+    "sha": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
+    "deployedAt": "2026-11-07T01:27:14.533016Z",
     "environment": "production",
     "status": "succeeded",
     "stage": "deployed",
-    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128086618735"
+    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128255411418"
   },
   "items": [
     {
-      "key": "SCRUM-171",
-      "commit": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
-      "evidencePath": "scripts/buildometer/project-ledger.json",
-      "acceptanceNote": "Owner-approved 184/445 observation verified live in API/public projection/home; no new point credit."
-    },
-    {
-      "key": "SCRUM-172",
-      "commit": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
-      "evidencePath": "scripts/buildometer/reconcile.mjs",
-      "acceptanceNote": "Owner-approved assisted workflow shipped; completing this actual operational release review."
-    },
-    {
-      "key": "SCRUM-173",
-      "commit": "3fa0cd6b3618ca69dce230b9516c56397ccbef40",
-      "evidencePath": "src/app/components/buildometer/progress-observation.ts",
-      "acceptanceNote": "Live desktop/mobile date/value/fetch separation, axe and reload checks passed."
+      "key": "SCRUM-174",
+      "commit": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
+      "evidencePath": "docs/resume/scrum-174-2026-11-06.json",
+      "acceptanceNote": "Owner-directed public resume correction verified live: exact selector, both final PDF hashes; protected TEST canonical addition remains pending explicit authorization. Not whole-story completion or point credit."
     }
   ]
 }

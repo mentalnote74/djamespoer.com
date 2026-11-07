@@ -8,6 +8,8 @@ Export: revised OOXML ? source-derived semantic HTML ? Chrome tagged PDF ? pypdf
 
 Stable URLs and analytics directives/variant IDs remain unchanged. Selector order is short ? long ? direct Thingamajob. `npm run build` passed (66 prerenders, 485.13 kB initial); existing module-type and Rigby stylesheet warnings remain. `node scripts/resume/validate-browser.mjs` passed at 1440/390 widths: pointer/Enter downloads match final hashes, keyboard tab order, header/mobile entry, direct custom route, one main, no overflow, scoped axe zero and no page errors. INTERNAL was set before app initialization; no public analytics emitted. Analytics production helpers were unchanged; prior consent/privacy/variant evidence is reused. No broad suite rerun: the existing two TS2339 failures in authored-studies.spec.ts remain documented below. Local preview: http://127.0.0.1:4371/resume (INTERNAL).
 
+Production release: `be025d216f1e95b9eed0ac3c3a7c50039d777432`, normal Cloudflare pipeline succeeded. INTERNAL live selector and both PDF hashes verified (HTTP 200, no analytics requests); see [production receipt](scrum-174-production.json). Required BOM release check reports pending reconciliation; totals/approved membership unchanged, no completion credit while canonical work is pending.
+
 ## Historical SCRUM-161 release receipt
 
 # SCRUM-161 / SCRUM-162 approved resume release

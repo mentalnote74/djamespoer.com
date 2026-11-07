@@ -1,0 +1,45 @@
+{
+  "verifiedAt": "2026-11-07T01:27:43.085Z",
+  "url": "https://djamespoer.com/resume",
+  "internal": "1",
+  "choices": [
+    {
+      "title": "Short Form Resume",
+      "href": "/assets/resume/d-james-poer-resume.pdf",
+      "description": "2 pages. A focused overview of my current software projects, professional experience, technical skills, and key accomplishments."
+    },
+    {
+      "title": "Long Form Resume",
+      "href": "/assets/resume/d-james-poer-comprehensive.pdf",
+      "description": "6 pages. A detailed account of my current projects, career history, technical work, and accomplishments, with additional context beyond the short form."
+    },
+    {
+      "title": "Custom Resume",
+      "href": "/thingamajob",
+      "description": "Have a specific position in mind? Use Thingamajob to create a job-targeted r\u00c3\u00a9sum\u00c3\u00a9 based on the job description and my verified experience."
+    }
+  ],
+  "downloads": [
+    {
+      "url": "https://djamespoer.com/assets/resume/d-james-poer-resume.pdf",
+      "sha256": "27f3e1e00a1f3710b92da1d9fcfe6a37c8fbabfa4fda14daac4e7428e548e0ff",
+      "status": 200
+    },
+    {
+      "url": "https://djamespoer.com/assets/resume/d-james-poer-comprehensive.pdf",
+      "sha256": "26e26f2e94463292e9c96baab8d5d067b15a418371e99cac51a4b26a8732ece4",
+      "status": 200
+    }
+  ],
+  "analyticsRequests": [],
+  "commit": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
+  "release": {
+    "id": "5ea0604b-7db6-4445-bbac-2e5a5a900bdd",
+    "sha": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
+    "deployedAt": "2026-11-07T01:27:14.533016Z",
+    "environment": "production",
+    "status": "succeeded",
+    "stage": "deployed",
+    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128255411418"
+  }
+}
