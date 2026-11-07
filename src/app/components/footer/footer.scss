@@ -8,17 +8,19 @@
   width: 100%;
   padding-block: clamp(4rem, 8vw, 7rem) 1.5rem;
   border: 0;
-  --water-deep: color-mix(in srgb, var(--sky-top) 48%, #175c70);
+  --water-deep: color-mix(in srgb, var(--sky-top) 25%, #0b2f3e);
   --water-shallows: color-mix(in srgb, var(--sky-horizon) 32%, #358a94);
   background: linear-gradient(to bottom,
     var(--page-background), var(--coast-sand) 1.5rem,
     color-mix(in srgb, var(--coast-sand) 65%, var(--water-shallows)) 2.8rem,
-    var(--water-shallows) 4rem, var(--water-deep) 100%);
+    var(--water-shallows) 4rem,
+    var(--water-deep) calc(clamp(4rem, 8vw, 7rem) + var(--social-button-size) + 2rem));
   &::before {
     content: '';
     position: absolute;
     z-index: -1;
-    inset: 2.75rem -8% 0;
+    inset: 2.75rem -8% auto;
+    block-size: calc(clamp(4rem, 8vw, 7rem) + var(--social-button-size));
     pointer-events: none;
     opacity: .32;
     background:
@@ -84,13 +86,12 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.75rem;
-  padding: 1rem;
-  border-radius: .75rem;
-  background: var(--panel-surface);
-  color: var(--page-foreground);
+  padding-block: 1rem;
 }
 .site-footer__copyright {
   margin: 0;
+  font-weight: 700;
+  color: #fff;
 }
 @media (min-width: 70rem) {
   .site-footer__content {
@@ -175,5 +176,6 @@
   .site-footer { background: Canvas; border-block-start: 1px solid CanvasText; }
   .site-footer::before { display: none; }
   .site-footer__content, .site-footer__statement { background: Canvas; color: CanvasText; }
+  .site-footer__copyright { color: CanvasText; }
   .site-footer__social a { background: Canvas; color: LinkText; box-shadow: none; }
 }

@@ -123,7 +123,7 @@
 // The navbar owns the fade. BEDLAM itself always supplies an unfaded field.
 .site-header::before {
   content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(to right, transparent 0%, transparent 48%, color-mix(in srgb, var(--navigation-surface) 92%, transparent) 84%, var(--navigation-surface) 98%);
+  background: linear-gradient(to right, transparent 0% 78%, color-mix(in srgb, var(--navigation-surface) 25%, transparent) 100%);
 }
 .site-header__social-icon {
   // The shared action-icon class owns the 18px alignment slot.
@@ -143,4 +143,10 @@
   --bedlam-star-field: radial-gradient(circle at 16px 19px, #fff 0 .7px, transparent 1.5px) 0 0 / 83px 61px,
     radial-gradient(circle at 38px 12px, #d8e6ff 0 1px, transparent 2px) 17px 12px / 137px 73px,
     radial-gradient(circle at 20px 37px, #fff1cd 0 .6px, transparent 1.3px) 40px 0 / 107px 97px;
+}
+
+// Keep the nighttime cover; daylight now leaves almost the entire sky unobscured.
+:host-context([data-theme='rum-runner']) .site-header::before,
+:host-context([data-theme='bloody-mary']) .site-header::before {
+  background: linear-gradient(to right, transparent 0% 48%, color-mix(in srgb, var(--navigation-surface) 92%, transparent) 84%, var(--navigation-surface) 98%);
 }

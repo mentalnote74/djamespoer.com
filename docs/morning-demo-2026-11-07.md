@@ -18,6 +18,10 @@ Every HTML response seeds `portfolio.analytics.internal=1` as the first script. 
 
 Dawn/dusk atmosphere: 39.6 seconds each, day/night interpolation: 24 seconds, polarity boundary: 400 ms. Existing seven-anchor cycle is 152 seconds; eight static palettes remain available. Sky/cloud/star clocks and 19-second water distortion are independent. Comet passage is 21 render-clock seconds with a 1.4-second shooting star near its end and a quiet interval. No flashing or synchronized star pulses.
 
+## Owner refinement after initial review
+
+Footer bottom content card removed. Buttons/navigation and copyright are bold (700). Copyright sits directly on dark water, with decorative reflections ending above it; measured minimum 9.08:1 across all 8 palettes at 1440/390 widths. Daylight sky cover reduced to a faint final 22% of header width (25% maximum opacity); night cover retained. One refinement build and targeted contrast/weight/layout check passed, including no overflow at 1024, cookie button weights, footer axe zero and zero Google requests. Current images/receipt: `tmp/overnight/footer-refinement/`. Existing shared functionality evidence remains valid.
+
 ## Commits and verification
 
 - Waterfront: `3acad92`.

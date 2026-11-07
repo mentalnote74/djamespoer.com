@@ -1,3 +1,9 @@
+## Owner refinement ? footer and typography, November 7
+
+Same local review branch/demo, no deployment. Removed footer content card; controls/copyright sit directly on water. Copyright is 700 white on a bounded dark-water mix; reflection artwork ends above it, including expanded content. Shared buttons and nav labels bold, with inherited-font exceptions covered. Daylight header cover now starts at 78% and reaches only 25% opacity; nighttime cover retained.
+
+One refinement build passed; focused real-browser check passed all eight themes x desktop/mobile: minimum copyright contrast 9.08:1, no card background/reflection overlap, all button/nav labels 700, cookie buttons bold, footer axe zero, no Google requests. 390/1024/1440 widths have no overflow. Day/night footer and daylight header inspected. Prior valid functional/32-unit evidence retained; no redundant full suite. Logs/screenshots/receipt: tmp/overnight/footer-refinement*. Review URL remains http://127.0.0.1:4379/; next action James review, no automatic deployment.
+
 ## November 7 morning review ? SCRUM-179 / 181 / 180
 
 Completed local sequence on feature/scrum-179-181-180-overnight, existing C:/Dev/djamespoer.com/.worktrees/scrum-171-buildometer; no new worktree/dependencies. Waterfront 3acad92; sky 91543df; Home/About 032d1e0 + c8ecacd; local review tooling 8a9d2e2. Retains 69a2041 accessibility reveal/focus correction. No push/deployment; James reviews next.
