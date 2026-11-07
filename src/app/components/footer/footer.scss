@@ -1,12 +1,39 @@
+@use '../../../styles/themes/coast';
+
 .site-footer {
+  @include coast.environment;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
   width: 100%;
-  padding-block: 1.5rem;
-  border-top: 1px solid var(--footer-divider);
+  padding-block: clamp(4rem, 8vw, 7rem) 1.5rem;
+  border: 0;
+  --water-deep: color-mix(in srgb, var(--sky-top) 48%, #175c70);
+  --water-shallows: color-mix(in srgb, var(--sky-horizon) 32%, #358a94);
+  background: linear-gradient(to bottom,
+    var(--page-background), var(--coast-sand) 1.5rem,
+    color-mix(in srgb, var(--coast-sand) 65%, var(--water-shallows)) 2.8rem,
+    var(--water-shallows) 4rem, var(--water-deep) 100%);
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 2.75rem -8% 0;
+    pointer-events: none;
+    opacity: .32;
+    background:
+      repeating-linear-gradient(178deg, transparent 0 11px, color-mix(in srgb, var(--sky-orb) 48%, transparent) 12px, transparent 14px 29px),
+      radial-gradient(ellipse at 68% 0%, var(--sky-mid), transparent 62%);
+    transform-origin: center;
+    animation: waterfront-drift 19s ease-in-out infinite alternate;
+  }
 }
 .site-footer__social {
   display: flex;
   flex-wrap: wrap;
   gap: var(--social-button-gap);
+  justify-content: center;
+  padding-block: 1rem;
   margin-block-end: 1rem;
   a {
     position: relative;
@@ -25,7 +52,11 @@
       outline-offset: 3px;
     }
     border-radius: .25rem;
-    background: var(--navigation-surface);
+    background: var(--control-background);
+    color: var(--control-foreground);
+    border: 1px solid var(--control-border);
+    border-radius: 50%;
+    box-shadow: inset 0 -5px color-mix(in srgb, var(--water-shallows) 22%, transparent), 0 6px 12px rgb(0 30 45 / .15);
     &:focus-visible {
       outline: 3px solid var(--focus-outer, currentColor);
       outline-offset: 3px;
@@ -53,6 +84,10 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 0.75rem;
+  padding: 1rem;
+  border-radius: .75rem;
+  background: var(--panel-surface);
+  color: var(--page-foreground);
 }
 .site-footer__copyright {
   margin: 0;
@@ -115,9 +150,30 @@
   .site-footer__social a { background: Canvas; border: 1px solid ButtonText; }
 }
 
-// Caller-owned sky artwork; BEDLAM itself adds no gradient treatment.
-.site-footer app-bedlam {
-  --bedlam-star-field: radial-gradient(circle at 16px 19px, #fff 0 .7px, transparent 1.5px) 0 0 / 83px 61px,
-    radial-gradient(circle at 38px 12px, #d8e6ff 0 1px, transparent 2px) 17px 12px / 137px 73px,
-    radial-gradient(circle at 20px 37px, #fff1cd 0 .6px, transparent 1.3px) 40px 0 / 107px 97px;
+
+.site-footer__social-glyph {
+  inline-size: 52%;
+  block-size: 52%;
+  background: currentColor;
+  mask: var(--social-icon) center / contain no-repeat;
+}
+.site-footer__statement {
+  margin-block-start: 1rem;
+  padding: var(--surface-padding, 1.5rem);
+  border-radius: .75rem;
+  background: var(--panel-surface);
+  color: var(--page-foreground);
+}
+@keyframes waterfront-drift {
+  from { transform: translateX(-1.5%) scaleY(1); }
+  to { transform: translateX(1.5%) scaleY(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-footer::before { animation: none; }
+}
+@media (forced-colors: active) {
+  .site-footer { background: Canvas; border-block-start: 1px solid CanvasText; }
+  .site-footer::before { display: none; }
+  .site-footer__content, .site-footer__statement { background: Canvas; color: CanvasText; }
+  .site-footer__social a { background: Canvas; color: LinkText; box-shadow: none; }
 }

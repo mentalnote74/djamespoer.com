@@ -5,18 +5,16 @@ import {
   LucideChevronDown,
 } from '@lucide/angular';
 import { PublicAnalytics } from '../../services/public-analytics';
-import { RouterLink } from '@angular/router';
 import { inject } from '@angular/core';
 import { CookiePreferencesService } from '../../features/cookie-preferences/cookie-preferences.service';
 import { afterNextRender, Component, ElementRef, Injector, model, signal, viewChild } from '@angular/core';
 
 import { ThemeState, type ThemeSelection } from '../../services/theme-state';
 import { SOCIAL_PROFILES } from '../../content/social-profiles';
-import { Bedlam } from '../bedlam/bedlam';
 import { PublicTrack } from '../../services/public-track';
 
 @Component({
-  imports: [LucideAccessibility, LucideCookie, LucidePalette, LucideChevronDown, RouterLink, Bedlam, PublicTrack],
+  imports: [LucideAccessibility, LucideCookie, LucidePalette, LucideChevronDown, PublicTrack],
   selector: 'app-footer',
   styleUrl: './footer.scss',
   templateUrl: './footer.html',

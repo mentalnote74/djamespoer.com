@@ -118,9 +118,7 @@ describe('Footer', () => {
     expect(root.querySelector('.site-footer__cookies button')?.textContent?.trim()).toBe(
       'Cookie Jar',
     );
-    expect(root.querySelector('.site-footer__cookies a')?.getAttribute('href')).toBe(
-      '/cookie-policy',
-    );
+    expect(root.querySelector('.site-footer__cookies a[href="/cookie-policy"]')).toBeNull();
     // The app shell owns the immediate first-visit prompt independently of footer hydration.
     expect(root.querySelectorAll('app-cookie-preferences')).toHaveLength(0);
   });

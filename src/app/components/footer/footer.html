@@ -6,8 +6,8 @@
         @if (profile.url) {
           <a publicTrack trackLocation="footer" [href]="profile.url" target="_blank"
             rel="me noopener noreferrer" [attr.aria-label]="'D. James Poer on ' + profile.label">
-            <app-bedlam layout="fill" [mask]="'/assets/social/positive/' + profile.id + '.svg'"
-              maskSize="100% 100%" [skyPreview]="true" [paused]="identityPaused()" />
+            <span class="site-footer__social-glyph" aria-hidden="true"
+              [style.--social-icon]="'url(/assets/social/positive/' + profile.id + '.svg)'"></span>
           </a>
         }
       }
@@ -80,7 +80,6 @@
             }
           </ul>
         </div>
-        <a routerLink="/cookie-policy">Cookie Policy</a>
       </nav>
 
       <p class="site-footer__copyright">
