@@ -1,6 +1,6 @@
 # Morning review ? SCRUM-179 / 181 / 180
 
-Local owner review only. Nothing pushed or deployed. Branch: `feature/scrum-179-181-180-overnight` in the existing `C:\Dev\djamespoer.com\.worktrees\scrum-171-buildometer` checkout. No new worktree or dependencies.
+Owner subsequently authorized production release after the final softer, curved ocean refinement. Earlier local-only instructions below describe the review stage; the release receipt is recorded in AI_HANDOFF/Jira. Branch: `feature/scrum-179-181-180-overnight` in the existing `C:\Dev\djamespoer.com\.worktrees\scrum-171-buildometer` checkout. No new worktree or dependencies.
 
 ```powershell
 Set-Location -LiteralPath 'C:\Dev\djamespoer.com\.worktrees\scrum-171-buildometer'
@@ -25,6 +25,10 @@ Footer bottom content card removed. Buttons/navigation and copyright are bold (7
 ### Button depth and water motion refinement
 
 Buttons now consume existing theme elevation tokens, with a shallower pressed state and deliberate disabled/menu/character exceptions. Two gentle, asynchronous water layers drift at 14.7s/8.7s; reduced motion stops both, and the copyright region remains clear. Sky unchanged. One build passed (486.18 kB initial, footer warning ~6.70 kB below hard 8 kB budget); focused INTERNAL browser check confirmed 8 distinct theme shadows, actual movement and reduced-motion stop, desktop/mobile keyboard/Cookie Jar, scoped axe zero and no Google requests. Evidence: `tmp/overnight/button-water/`.
+
+### Final approved ocean refinement
+
+Straight stripe textures replaced with a tiny decorative curved SVG mask. Lower opacity, reduced travel and slower independent 38s/27s motion; sky unchanged. Final production build passed (486.18 kB initial; 66 routes); focused actual desktop/mobile asset/movement/reduced-motion/footer axe checks passed with INTERNAL and no Google requests. Prior valid theme/contrast/unit evidence reused. Final local screenshot/receipt: `tmp/overnight/water-release/`. James explicitly authorized push/deployment after this refinement.
 
 ## Commits and verification
 

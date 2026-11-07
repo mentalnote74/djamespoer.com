@@ -1,3 +1,7 @@
+## Owner-approved production release ? November 7
+
+James authorized release after softer, curved ocean refinement. Straight stripe layers replaced by a small decorative SVG curve mask; opacity/travel reduced, independent 38s/27s movement. Sky unchanged. Final build passed (486.18 kB initial, 66 routes); desktop/mobile actual curved asset, movement, reduced-motion stop, footer axe zero and zero Google requests passed. Prior eight-theme contrast/shadows and focused functional/unit evidence remain valid. Evidence: tmp/overnight/water-release/. All reviewed 179/181/180 changes and accessibility-button correction included. No protected/unrelated material touched. Push through main/Cloudflare authorized; production receipt and named post-release BOM check next. This supersedes earlier local-only hold below.
+
 ## Owner refinement ? button depth and ocean movement, November 7
 
 Native buttons now reuse existing theme elevation, with a shallower pressed state; disabled/menu/character exceptions and forced colors remain deliberate. Water has two gentle independent drift/ripple layers (14.7s/8.7s), both bounded above copyright and stopped by reduced motion. Approved sky unchanged.

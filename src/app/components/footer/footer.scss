@@ -24,21 +24,17 @@
     pointer-events: none;
   }
   &::before {
-    opacity: .32;
-    background:
-      repeating-linear-gradient(178deg, transparent 0 11px, color-mix(in srgb, var(--sky-orb) 48%, transparent) 12px, transparent 14px 29px),
-      radial-gradient(ellipse at 68% 0%, var(--sky-mid), transparent 62%);
+    opacity: .14;
+    background: radial-gradient(ellipse at 68% 0%, var(--sky-mid), transparent 62%);
     transform-origin: center;
-    animation: waterfront-drift 14.7s ease-in-out infinite alternate;
+    animation: waterfront-drift 38s ease-in-out infinite alternate;
   }
   &::after {
-    opacity: .16;
-    background: repeating-linear-gradient(176deg,
-      transparent 0 17px,
-      color-mix(in srgb, var(--sky-orb) 35%, transparent) 18px,
-      transparent 20px 43px);
+    opacity: .1;
+    background: var(--sky-orb);
+    mask: url('/assets/environment/water-ripples.svg') 0 0 / 900px 180px repeat;
     transform-origin: center;
-    animation: waterfront-ripple 8.7s ease-in-out infinite alternate;
+    animation: waterfront-ripple 27s ease-in-out infinite alternate;
   }
 }
 .site-footer__social {
@@ -177,12 +173,12 @@
   color: var(--page-foreground);
 }
 @keyframes waterfront-drift {
-  from { transform: translate(-2.5%, -1px) skewX(-1deg) scaleY(1); }
-  to { transform: translate(2.5%, 1px) skewX(1deg) scaleY(1.06); }
+  from { transform: translateX(-.4%) scaleY(1); }
+  to { transform: translateX(.4%) scaleY(1.015); }
 }
 @keyframes waterfront-ripple {
-  from { transform: translateX(1.5%) skewX(2deg); background-position: 0 -2px; opacity: .11; }
-  to { transform: translateX(-1.5%) skewX(-2deg); background-position: 35px 2px; opacity: .2; }
+  from { transform: translateX(.6%); opacity: .08; }
+  to { transform: translateX(-.6%); opacity: .12; }
 }
 @media (prefers-reduced-motion: reduce) {
   .site-footer::before, .site-footer::after { animation: none; }
