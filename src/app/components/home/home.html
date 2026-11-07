@@ -22,38 +22,16 @@
     data-rigby-anchor="introduction"
     aria-labelledby="construction-site-heading"
   >
-    <h2 id="construction-site-heading">Pardon the dust.</h2>
-    <p>
-      I’m <strong>D. James Poer, a Senior UX Engineer and Front-End Architect.</strong>
-      I build Angular and TypeScript interfaces for enterprise applications, connecting UX research,
-      design engineering and accessibility work grounded in WCAG and Section 508.
-      <a routerLink="/about">About my approach</a> ·
-      <a routerLink="/engineering">Explore the engineering evidence</a> ·
-      <a routerLink="/accessibility">Explore the accessibility evidence</a>
-    </p>
-    <p class="home-construction__notice">
-      <strong>You're standing in the middle of a working construction site. On purpose.</strong>
-    </p>
-    <p>
-      Most portfolios show you the finished house after the tools, sawdust, mistakes, experiments,
-      and bad ideas have been swept away.
-    </p>
-    <p>I'm doing the opposite.</p>
-    <p>
-      djamespoer.com is being designed and built in public. The unfinished pieces are part of the
-      portfolio: UX decisions, accessibility work, Angular architecture, experiments, failures,
-      fixes, testing, AI-assisted development—and the occasional spectacularly bad idea that gets
-      replaced by a better one.
-    </p>
-    <p>
-      Some rooms are finished. Some still have studs showing. Some may change while you're standing
-      in them.
-    </p>
-    <p>
-      <strong>
-        That's the point. You're not just looking at what I built. You're watching how I build.
-      </strong>
-    </p>
+    <h2 id="construction-site-heading">A working portfolio, in motion.</h2>
+    <p>Current Angular engineering, React experiments, accessible interfaces, and the decisions behind them.</p>
+    <p class="home-construction__notice"><strong>You're standing in the middle of a working construction site. On purpose.</strong></p>
+    <p>Finished work lives beside experiments, revisions, and the occasional bad idea replaced by a better one.
+      The environment shows the craft; the projects show how the software works.</p>
+    <nav aria-label="Start exploring">
+      <a publicTrack routerLink="/work/djamespoer">Inside the Angular portfolio</a> ?
+      <a publicTrack routerLink="/about">Who built this and why</a> ?
+      <a publicTrack routerLink="/resume">Choose a r?sum?</a>
+    </nav>
     <app-hidden-cookie />
   </section>
   <app-aside
@@ -73,6 +51,30 @@
       >
     </p>
   </app-aside>
+  <section class="home-projects editorial-wide" aria-labelledby="home-projects-heading">
+    <h2 id="home-projects-heading">What's happening here?</h2>
+    <ul class="home-projects__list">
+      <li><h3><a publicTrack routerLink="/work/djamespoer">Angular, in production</a></h3>
+        <p>Reusable components, semantic page architecture, accessibility, Living Themes, and a real release pipeline.</p></li>
+      <li><h3><a publicTrack routerLink="/case-studies/shady-white-van">Shady White Van / React</a></h3>
+        <p>A React and TypeScript playground with a live Three.js showroom, procedural artwork, and performance tradeoffs.</p></li>
+      <li><h3><a publicTrack routerLink="/case-studies/creative-town">Creative Town</a></h3>
+        <p>An illustrated environment where visual experiments meet the practical work of browser layout and interaction.</p></li>
+      <li><h3><a publicTrack routerLink="/thingamajob">Thingamajob</a></h3>
+        <p>Career evidence, a Library of Truth, and job evaluation: explore the product and the reasoning behind it.</p></li>
+      <li><h3><a publicTrack routerLink="/ai">Human-directed, multi-agent development</a></h3>
+        <p>Specifications, distinct agent responsibilities, code review, rejected approaches, and human release decisions.</p></li>
+    </ul>
+  </section>
+  <section class="home-writing editorial-wide" aria-labelledby="home-writing-heading">
+    <h2 id="home-writing-heading">Recent Blognostisphere writing</h2>
+    <ul>
+      @for (article of articles; track article.slug) {
+        <li><a publicTrack [routerLink]="['/blognostisphere', article.slug]">{{ article.title }}</a></li>
+      }
+    </ul>
+    <a publicTrack routerLink="/blognostisphere">All writing</a>
+  </section>
   @defer (
     on immediate;
     hydrate when !delivery.mobile();

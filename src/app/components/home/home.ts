@@ -1,3 +1,4 @@
+import { ARTICLES } from '../../content/public-pages';
 import { PORTFOLIO_SLIDES, shufflePortfolioDeck } from '../../content/portfolio-slides';
 import { SlideVisual } from '../slide-visual/slide-visual';
 import { MobileDelivery } from '../../services/mobile-delivery';
@@ -30,6 +31,7 @@ import { HiddenCookie } from '../../features/cookie-hunt/hidden-cookie';
   styleUrl: './home.scss',
 })
 export class Home {
+  readonly articles = ARTICLES.slice(0, 3);
   readonly slides = PORTFOLIO_SLIDES;
   readonly deck = signal(PORTFOLIO_SLIDES);
   readonly deckIds = computed(() => this.deck().map((slide) => slide.id));

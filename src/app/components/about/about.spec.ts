@@ -1,9 +1,10 @@
+import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { About } from './about';
 
 describe('About', () => {
   it('presents the approved editorial copy with one page heading and emphasized statements', async () => {
-    await TestBed.configureTestingModule({ imports: [About] }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [About], providers: [provideRouter([])] }).compileComponents();
     const fixture = TestBed.createComponent(About);
     fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
