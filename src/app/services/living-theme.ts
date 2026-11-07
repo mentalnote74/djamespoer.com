@@ -57,7 +57,7 @@ export function interpolatePalette(from: Palette, to: Palette, progress: number)
 /** Progressive enhancement; native snapshots never clone accessible DOM. */
 export function startLivingTheme(
   document: Document,
-  timing = livingTiming,
+  timing: { interpolationMs: number; wipeMs: number; atmosphereRatio?: number } = livingTiming,
   clock?: LivingThemeClock,
   initialElapsed = 0,
 ): () => void {

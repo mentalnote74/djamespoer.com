@@ -1,4 +1,4 @@
-import { sunriseStreakProgress } from './living-theme-clock';
+import { nightPassage, sunriseStreakProgress } from './living-theme-clock';
 import {
   livingAnchors,
   livingFrame,
@@ -9,7 +9,7 @@ import {
 } from './living-theme';
 
 describe('Living theme controlled clock', () => {
-  it('follows all seven anchors and wraps after exactly 180 seconds', () => {
+  it('follows all anchors with longer dawn/dusk atmosphere and a complete wrap', () => {
     expect(livingAnchors).toEqual([
       'tequila-sunset',
       'rum-runner',
@@ -25,9 +25,10 @@ describe('Living theme controlled clock', () => {
       expect(frame.from).toBe(anchor);
       expect(frame.to).toBe(livingAnchors[(index + 1) % 7]);
       expect(frame.progress).toBe(0);
-      time += frame.wipe ? livingTiming.wipeMs : livingTiming.interpolationMs;
+      time += frame.remainingMs;
     });
-    expect(time).toBe(180_000);
+    expect(time).toBe(152_000);
+    expect(livingFrame(24_800).remainingMs).toBe(39_600);
     expect(livingFrame(time).from).toBe('tequila-sunset');
     expect(livingFrame(time + 1000).progress).toBeCloseTo(600 / livingTiming.interpolationMs);
   });
@@ -77,6 +78,13 @@ describe('Living theme controlled clock', () => {
     expect(sunriseStreakProgress(livingFrame(end - 200))).toBe(1);
     expect(sunriseStreakProgress(livingFrame(end))).toBe(0);
     expect(sunriseStreakProgress(livingFrame(end + 1000))).toBe(0);
+  });
+  it('pairs a slow comet with a shorter counter-travel near its end and leaves a quiet interval', () => {
+    expect(nightPassage(0)).toEqual({ comet: 0, shooting: null });
+    expect(nightPassage(18.5).comet).toBeCloseTo(18.5 / 21);
+    expect(nightPassage(18.5).shooting).toBeCloseTo(.5);
+    expect(nightPassage(25)).toEqual({ comet: null, shooting: null });
+    expect(nightPassage(43.7)).toEqual({ comet: 0, shooting: null });
   });
   it('interpolates shared light geometry and opacity without inventing another clock', () => {
     expect(
@@ -166,7 +174,7 @@ describe('Living theme runtime', () => {
     position = 0;
     await advance(50);
     expect(document.documentElement.dataset['theme']).toBe('tequila-sunset');
-    expect(livingTiming.interpolationMs).toBe(35_840);
+    expect(livingTiming.interpolationMs).toBe(24_000);
   });
   it('publishes the existing clock cue and clears it on wipe or static-theme teardown', async () => {
     Reflect.deleteProperty(document, 'startViewTransition');

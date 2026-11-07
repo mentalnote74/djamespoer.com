@@ -28,7 +28,7 @@
 .bedlam__stars {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: var(--bedlam-star-field, none);
-  opacity: var(--sky-star-opacity);
+  opacity: calc(var(--sky-star-opacity) * .12);
 }
 :host(.bedlam-fill) {
   position: absolute; inset: 0; inline-size: 100%; block-size: 100%;

@@ -1,7 +1,4 @@
-import {
-  SUNRISE_STREAK_LEAD_MS,
-  SUNRISE_STREAK_DURATION_MS,
-} from '../../services/living-theme-clock';
+import { nightPassage } from '../../services/living-theme-clock';
 import type { BedlamRuntime } from './runtime';
 
 /** Small asset-free sky study. The fixed star layer remains CSS, above this canvas. */
@@ -14,8 +11,7 @@ export function startSkyPreview(
   if (!context) return { configure() {}, destroy() {} };
   const effects = canvases[1];
   const night = effects?.getContext('2d');
-  let stars: { x: number; y: number; phase: number; period: number }[] = [];
-  let logoX = 0.14;
+  let stars: { x: number; y: number; phase: number; period: number; warmth: number; radius: number }[] = [];
   let unit = 0.25;
   let seed = 712;
   const grid = Float32Array.from({ length: 4096 }, () => {
@@ -110,8 +106,6 @@ export function startSkyPreview(
     effects.height = Math.max(1, Math.round(box.height));
     night.setTransform(effects.width / width, 0, 0, effects.height / height, 0, 0);
     unit = width / Math.max(1, box.width);
-    const logo = host.parentElement?.querySelector('.bedlam__mask')?.getBoundingClientRect();
-    if (logo && box.width) logoX = (logo.left + logo.width / 2 - box.left) / box.width;
     const patterns = [
       [16, 19, 83, 61],
       [55, 24, 137, 73],
@@ -128,65 +122,58 @@ export function startSkyPreview(
           ((y + Math.floor(Math.random() * Math.max(1, box.height / tileY)) * tileY) * height) /
           Math.max(1, box.height),
         phase: Math.random() * Math.PI * 2,
-        period: 4 + Math.random() * 8,
+        period: 7 + Math.random() * 17,
+        warmth: Math.random(),
+        radius: .7 + Math.random() * .8,
       };
     });
   };
-  const drawNight = (now: number) => {
+  const drawNight = () => {
     if (!night) return;
     night.clearRect(0, 0, width, height);
     if (paused || motion.matches || speed <= 0 || palette.stars < 0.2) return;
     for (const star of stars) {
-      const shimmer = Math.pow(
-        Math.max(0, Math.sin((time * Math.PI * 2) / star.period + star.phase)),
-        8,
-      );
-      night.fillStyle = `rgba(227,238,255,${shimmer * palette.stars * 0.5})`;
+      const shimmer = .32 + .28 * Math.sin((time * Math.PI * 2) / star.period + star.phase)
+        + .09 * Math.sin(time / (star.period * .37) + star.phase * 2.3);
+      const warmth = star.warmth + Math.sin(time / 13 + star.phase) * .08;
+      night.fillStyle = `rgba(${218 + warmth * 30},${229 + warmth * 13},${255 - warmth * 25},${shimmer * palette.stars * .65})`;
       night.beginPath();
-      night.arc(star.x, star.y, Math.max(0.35, unit * 1.8), 0, Math.PI * 2);
+      night.arc(star.x, star.y, Math.max(.3, unit * star.radius), 0, Math.PI * 2);
       night.fill();
     }
-    const streak = (x: number, y: number, dx: number, dy: number, opacity: number) => {
+    const streak = (x: number, y: number, dx: number, dy: number, opacity: number, diffuse = false) => {
       const gradient = night.createLinearGradient(x + dx, y + dy, x, y);
       gradient.addColorStop(0, 'rgba(174,204,244,0)');
+      gradient.addColorStop(.65, `rgba(191,215,244,${opacity * .2})`);
       gradient.addColorStop(1, `rgba(220,237,255,${opacity})`);
       night.strokeStyle = gradient;
-      night.lineWidth = Math.max(0.3, unit * 1.2);
+      night.lineWidth = Math.max(0.3, unit * (diffuse ? 4 : .9));
+      night.shadowBlur = diffuse ? 5 * unit : 0;
+      night.shadowColor = `rgba(198,222,255,${opacity * .5})`;
       night.beginPath();
       night.moveTo(x + dx, y + dy);
       night.lineTo(x, y);
       night.stroke();
       night.fillStyle = `rgba(235,245,255,${opacity})`;
       night.beginPath();
-      night.arc(x, y, Math.max(0.3, unit), 0, Math.PI * 2);
+      night.arc(x, y, Math.max(0.3, unit * (diffuse ? 2.4 : .7)), 0, Math.PI * 2);
       night.fill();
+      night.shadowBlur = 0;
     };
-    // Slow, faint approach toward the logo replaces the night cloud/orb sweep.
-    const comet = (time / 10) % 1;
-    streak(
-      (0.61 + (logoX - 0.61) * comet) * width,
-      (0.12 + comet * 0.4) * height,
-      width * 0.08,
-      -height * 0.17,
-      Math.sin(comet * Math.PI) ** 2 * palette.stars * 0.28,
+    // Local preview server owns demonstration controls; no controls ship in client assets.
+    const demo = location.hostname === '127.0.0.1' || location.hostname === 'localhost'
+      ? Number(document.documentElement.dataset['demoSkySeconds']) : NaN;
+    const { comet, shooting } = nightPassage(Number.isFinite(demo) ? demo : time);
+    if (comet !== null) streak(
+      (.88 - comet * .76) * width, (.12 + comet * .42) * height,
+      width * .13, -height * .12,
+      Math.sin(comet * Math.PI) ** 2 * palette.stars * .19, true,
     );
-    const root = document.documentElement;
-    const controlled = root.dataset['skyStreakProgress'];
-    const deadline = Number(root.dataset['skySunriseAt']);
-    const shooting =
-      controlled !== undefined
-        ? Number(controlled)
-        : deadline
-          ? (now - deadline + SUNRISE_STREAK_LEAD_MS) / SUNRISE_STREAK_DURATION_MS
-          : 0;
-    if (shooting > 0 && shooting < 1)
-      streak(
-        (0.64 - shooting * 0.61) * width,
-        (0.12 + shooting * 0.65) * height,
-        width * 0.15,
-        -height * 0.18,
-        Math.sin(shooting * Math.PI) * palette.stars * 0.85,
-      );
+    if (shooting !== null) streak(
+      (.1 + shooting * .79) * width, (.65 - shooting * .43) * height,
+      -width * .055, height * .045,
+      Math.sin(shooting * Math.PI) * palette.stars * .48,
+    );
   };
   layoutNight();
   const draw = () => {
@@ -194,15 +181,17 @@ export function startSkyPreview(
       for (let x = 0; x < width; x++) {
         const u = (x / height) * 0.7,
           v = (y / height) * 1.8,
-          t = time * 0.11;
+          t = time * 0.15;
         const warp = noise(u * 0.55 + t * 0.24, v * 0.8 - t * 0.1);
-        const a = u + warp * 2.4 + t,
+        const a = u + warp * 2.7 + t,
           b = v + noise(u * 0.65 - t * 0.12, v * 0.6) * 1.9;
         const density =
           (noise(a, b) +
             0.5 * noise(a * 2.1 - t * 0.3, b * 2.1) +
             0.25 * noise(a * 4.2, b * 4.2 + t * 0.2)) /
           1.75;
+        const atmosphere = 1 - Math.min(1, Math.abs(palette.y - .8) * 2);
+        const veil = noise(u * .36 - t * .16, v * .42 + t * .13);
         const cloud =
           Math.pow(Math.max(0, Math.min(1, (density - 0.38) / 0.35)), 1.6) *
           palette.clouds *
@@ -223,12 +212,15 @@ export function startSkyPreview(
             255,
             palette.orb[channel] * 0.25 + 195 + (density - 0.5) * 35,
           );
-          image.data[offset + channel] = lit * (1 - cloud * 0.82) + cloudLight * cloud * 0.82;
+          const layered = lit * (1 - cloud * .65) + cloudLight * cloud * .65;
+          const tint = palette.mid[channel] * .65 + palette.orb[channel] * .35;
+          const swirl = Math.max(0, veil - .3) * .24 * atmosphere * (1 - palette.stars);
+          image.data[offset + channel] = layered * (1 - swirl) + tint * swirl;
         }
         image.data[offset + 3] = 255;
       }
     context.putImageData(image, 0, 0);
-    drawNight(performance.now());
+    drawNight();
   };
   const sizeObserver = new ResizeObserver(() => {
     const nextWidth = rasterWidth();
