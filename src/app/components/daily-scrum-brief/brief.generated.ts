@@ -1,49 +1,48 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-11-07",
+  "date": "2026-11-08",
   "sections": [
     {
       "heading": "Recently shipped",
       "paragraphs": [
-        "Thingamajob and Rigby action measurement reached production after the owner separated the pre-existing pause behavior into its own follow-up. The release adds meaningful evaluator input and outcome steps, companion actions and cookie activity, with the required reporting dimensions registered. A subsequent owner-directed correction makes analytics available when no preference has been saved, while preserving explicit denial and independent internal-browser suppression.",
-        "Buildometer now publishes a reconciled progress observation with an actual observation date and freshness state. The approved snapshot is 184 shipped points out of 445 known points, or 41.3%, with 261 remaining. A repeatable assisted release check now identifies when a newer eligible deployment needs reconciliation, while preserving prior observations and preventing data-only refreshes from creating an endless release loop.",
-        "Both public résumé downloads and their selector were corrected and verified live. They lead with current independent projects, preserve the owner-approved chronology and explanation, and use the exact Short Form Resume, Long Form Resume and Custom Resume order. Final page counts were measured after export rather than imposed as layout targets. The associated protected test canonical correction was subsequently authorized, applied and verified."
+        "The portfolio’s footer now extends the coastal setting into a waterfront, with restrained curved ripples and sky-derived color. Recognizable social marks replace the separate animated fields previously used for each footer icon. Owner review refined the water movement, removed the content card and kept the copyright area clear, while stronger button and navigation typography and theme-based depth improve the controls’ visual presence.",
+        "The same release refined the living sky and separated Home from About. Home introduces current project and writing evidence; About emphasizes enterprise constraints, accessibility philosophy and engineering judgment. These approved changes reached production through the existing pipeline, alongside yesterday’s successfully published brief."
       ]
     },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "Live analytics checks confirmed collector acceptance of page views and meaningful actions, explicit-denial persistence and zero Google requests from internally marked browsers. A duplicate automatic history page view was identified and disabled; the final checks recorded one initial view and one per completed application navigation. Collector HTTP 204 responses do not establish processed report visibility, which remains unconfirmed. Fictional evaluator responses exercised the deployed interface without paid evaluations, and the labeled QA campaigns must be excluded from visitor conclusions.",
-        "Buildometer’s home, dashboard and public data agreed in production. Focused calculation and interface checks passed; missing estimates and mixed-scope membership decisions remain held rather than guessed. The later résumé release correctly caused a new pending-reconciliation result, so the existing observation must not be described as accounting for every subsequent release.",
-        "The revised résumé downloads matched the inspected final artifacts, with all eight exported pages visually reviewed and desktop/mobile selector checks completed. The protected correction preserved existing canonical records and was visible through the evaluator consumer boundary. No external LinkedIn or application synchronization is established. Known unrelated full-suite compiler blockers remain documented across these releases."
+        "Production desktop and mobile checks covered the approved pages, footer, accessibility-statement focus recovery, Cookie Policy access and reduced-motion behavior, with no overflow, page errors or Google requests from the internally marked QA browser. The build passed, and prior focused tests and eight-theme contrast evidence were retained. Stylesheet warnings remain below hard limits; no new performance score is claimed.",
+        "Further owner review found the next homepage proposal too crowded and disconnected from the site’s visual identity. The revised local direction puts the Conservatory first and uses distinctive proof treatments, existing writing and a compact Buildometer. Thingamajob, construction messaging and the deployment grid are removed from that local homepage, while project routes and underlying work remain preserved. The revision is not deployed.",
+        "The Shady White Van exhibit’s parent-page scroll jump was reproduced: a child-page scrollIntoView call propagated scrolling into its ancestor. A local child-window scroll correction preserves the exhibit’s internal starting position and leaves parent scroll and focus unchanged in the tested scenario. The upstream correction remains unpublished, so public resolution cannot yet be claimed."
       ]
     },
     {
       "heading": "Current focus",
       "paragraphs": [
-        "The measurement focus has moved from collection setup to processed reporting: verify event and dimension visibility, inspect filters if necessary, and preserve the distinction between recorded intent and completed outcomes. The Rigby experiment remains inactive, with pause/off/bring-back behavior handled separately.",
-        "Buildometer needs a bounded reconciliation of the newer résumé release against accepted whole-story scope. Additional footer, living-sky and Home/About passes are now backlog work; their creation does not establish implementation or deployment."
+        "The active review is the revised homepage’s visual storytelling, hierarchy and project discovery, preserving the Conservatory, BEDLAM and Living Themes. Its local implementation and paired exhibit correction await owner visual approval and coordinated release.",
+        "Buildometer’s release check reports pending reconciliation for the newer waterfront and page release. Existing totals and the observation date were preserved rather than adding unsupported point credit or freshness."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Confirm processed analytics reporting without manufacturing paid evaluations or treating absent rows as zero usage. Review the résumé release against the approved Buildometer membership and evidence rules before adding another observation. Continue the separate Rigby behavior follow-up and select the next presentation pass through owner review, using focused validation and internally marked QA browsers."
+        "Review the local homepage entrance, proof links, writing and compact progress element at desktop and mobile widths. Verify the exhibit while the parent page is partially scrolled, then coordinate any approved child and parent releases before reporting the scroll issue fixed in production. Reconcile the released presentation work through the existing Buildometer evidence workflow without inferring whole-story completion from commits alone."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "2478d4adb81d86a929b70b0ec1875d99ab3fb93f",
-    "generatorCommit": "2478d4adb81d86a929b70b0ec1875d99ab3fb93f",
-    "evidenceSha256": "24b2edac0ac4d3165fa8ff1ef0104f27556899583021997b4bad4004f242227b",
+    "sourceCommit": "2d624c0c92fa9ace66a5abffc5938a5b67e93d6e",
+    "generatorCommit": "2d624c0c92fa9ace66a5abffc5938a5b67e93d6e",
+    "evidenceSha256": "1fdec9f6b538d1ace3b787b77e70da9b2f5140ed4b00fd40c6573484289c872a",
     "method": "ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.",
     "reportingWindow": {
-      "after": "2026-11-06T08:56:58.341-0500",
-      "cutoff": "2026-11-07T08:57:01.881-0500"
+      "after": "2026-11-07T08:57:01.881-0500",
+      "cutoff": "2026-11-08T08:59:00.085-0500"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10392"
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10404"
     ]
   }
 };
