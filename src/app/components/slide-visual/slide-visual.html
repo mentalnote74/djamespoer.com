@@ -1,6 +1,6 @@
 @switch (slide().visual) {
   @case ('shady-white-van') {
-    @defer (on immediate; hydrate when active()) {
+    @defer (on immediate; hydrate on immediate) {
       <app-swv-slide
         slideVisualReady
         (slideVisualReady)="ready.emit()"

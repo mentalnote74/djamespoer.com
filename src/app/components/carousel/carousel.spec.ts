@@ -60,7 +60,12 @@ describe('portfolio runtime deck', () => {
       [slideOrder]="slideOrder()"
     >
       @for (label of labels(); track label) {
-        <ng-template appCarouselSlide [label]="label" [id]="label">
+        <ng-template
+          appCarouselSlide
+          [label]="label"
+          [id]="label"
+          [preload]="preloadLabels().includes(label)"
+        >
           <h3>{{ label }}</h3>
           <button type="button">{{ label }} action</button>
         </ng-template>
@@ -69,6 +74,7 @@ describe('portfolio runtime deck', () => {
   `,
 })
 class CarouselTestHost {
+  readonly preloadLabels = signal<readonly string[]>([]);
   readonly slideOrder = signal<readonly string[]>([]);
   readonly showPreviousNext = signal(true);
   readonly showPausePlay = signal(true);
@@ -125,6 +131,30 @@ describe('Carousel', () => {
 
     return { component, fixture, root: fixture.nativeElement as HTMLElement };
   }
+
+  it('keeps a preloaded slide mounted, sized and inert between repeated turns', () => {
+    const { component, fixture, root } = createCarousel();
+    fixture.componentInstance.preloadLabels.set(['Second']);
+    fixture.detectChanges();
+    const second = root.querySelector('[data-slide-id="Second"]') as HTMLElement;
+    const content = second.querySelector('button');
+    expect(second.hidden).toBe(false);
+    expect(second.classList.contains('carousel__slide--preloading')).toBe(true);
+    expect(second.hasAttribute('inert')).toBe(true);
+    expect(second.getAttribute('aria-hidden')).toBe('true');
+    for (let turn = 0; turn < 3; turn++) {
+      component.showNextSlide();
+      fixture.detectChanges();
+      expect(second.classList.contains('carousel__slide--preloading')).toBe(false);
+      expect(second.hasAttribute('inert')).toBe(false);
+      expect(second.getAttribute('aria-hidden')).toBeNull();
+      expect(second.querySelector('button')).toBe(content);
+      component.showPreviousSlide();
+      fixture.detectChanges();
+      expect(second.classList.contains('carousel__slide--preloading')).toBe(true);
+      expect(second.querySelector('button')).toBe(content);
+    }
+  });
 
   it('plays logical deck order and announces its positions without moving slide DOM', () => {
     const { component, fixture, root } = createCarousel();

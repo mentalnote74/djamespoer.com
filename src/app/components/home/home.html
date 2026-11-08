@@ -10,7 +10,7 @@
   [slideOrder]="deckIds()"
 >
   @for (slide of slides; track slide.id) {
-    <ng-template appCarouselSlide let-active [label]="slide.label" [id]="slide.id">
+    <ng-template appCarouselSlide let-active [label]="slide.label" [id]="slide.id" [preload]="slide.id === 'shady-white-van'">
       <app-slide-visual [slide]="slide" [active]="active" [priority]="$first" />
     </ng-template>
   }

@@ -24,9 +24,11 @@
             slide.label()
           "
           [attr.aria-hidden]="slide === currentSlide() ? null : 'true'"
-          [hidden]="slide !== currentSlide()"
+          [hidden]="slide !== currentSlide() && !slide.preload()"
+          [class.carousel__slide--preloading]="slide !== currentSlide() && slide.preload()"
+          [attr.inert]="slide !== currentSlide() && slide.preload() ? '' : null"
         >
-          @if (!mobileProfile() || index === 0) {
+          @if (!mobileProfile() || index === 0 || slide.preload()) {
             <ng-container
               [ngTemplateOutlet]="slide.template"
               [ngTemplateOutletContext]="{ $implicit: slide === currentSlide() }"

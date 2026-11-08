@@ -32,6 +32,7 @@
   }
 
   &__viewport {
+    position: relative;
     min-block-size: var(--carousel-min-height, 12rem);
     border: 1px solid var(--panel-border);
     border-radius: 0;
@@ -46,6 +47,15 @@
     aspect-ratio: var(--carousel-slide-ratio, auto);
     place-items: center;
     text-align: center;
+
+    // Retain layout dimensions for the child viewport and its IntersectionObserver,
+    // but keep the inactive embed out of painting, hit testing and the tab order.
+    &--preloading {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
 
     &[hidden] {
       display: none;
