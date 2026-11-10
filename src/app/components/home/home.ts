@@ -32,11 +32,13 @@ import { HiddenCookie } from '../../features/cookie-hunt/hidden-cookie';
 })
 export class Home {
   readonly articles = ARTICLES.slice(0, 3);
-  readonly slides = PORTFOLIO_SLIDES;
-  readonly deck = signal(PORTFOLIO_SLIDES);
+  readonly slides = PORTFOLIO_SLIDES.filter(
+    (slide) => !['ips', 'buildometer', 'thingamajob', 'exl'].includes(slide.id),
+  );
+  readonly deck = signal(this.slides);
   readonly deckIds = computed(() => this.deck().map((slide) => slide.id));
   constructor() {
-    afterNextRender(() => this.deck.set(shufflePortfolioDeck(PORTFOLIO_SLIDES)));
+    afterNextRender(() => this.deck.set(shufflePortfolioDeck(this.slides)));
   }
   readonly delivery = inject(MobileDelivery);
 }

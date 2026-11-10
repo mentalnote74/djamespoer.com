@@ -1,3 +1,9 @@
+## Homepage carousel selection - November 10
+
+Owner requested removing IPS, Buildometer, Thingamajob and EXL only from Home's carousel, retaining their respective page heroes. Branch fix/home-carousel-selection from origin/main 2914e4e, existing C:/Dev/djamespoer.com/.worktrees/swv-slide-release checkout. Home filters those four IDs before both initial deck creation and runtime shuffle; shared registry, destination heroes, assets, other homepage sections and SWV persistence/preload remain intact. No rejected homepage rework included.
+
+npm run build passed: 70 prerenders, 486.36 kB initial / 123.48 kB estimated transfer, hard budgets pass; existing CSS/module soft warnings. Built homepage inspected: exactly 13 slide IDs, all four exclusions absent. No additional unit/browser/Lighthouse run for this bounded data-selection change. Generated build churn excluded. Local implementation only; no push/deployment requested for this change. No cleanup or unrelated/protected work touched.
+
 ## SWV slide-only release - November 8
 
 James explicitly authorized fixing and deploying this slide only. Isolated branch fix/swv-slide-lifecycle / checkout .worktrees/swv-slide-release starts at current production a7fe90d; no rejected SCRUM-182 commits/copy/cards/removals are included. Root and rejected review checkouts preserved.
