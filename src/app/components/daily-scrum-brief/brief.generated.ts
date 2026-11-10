@@ -1,46 +1,40 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "sections": [
-    {
-      "heading": "Recently shipped",
-      "paragraphs": [
-        "The homepage’s Shady White Van slide now preloads and retains one live exhibit instead of recreating it as carousel position, scrolling or tab visibility changes. The targeted release keeps the van’s scene and pause state intact across repeated visits to the slide, fills the actual 3:1 exhibit frame, and allows the carousel to pause independently of the van. The rejected broader homepage rework was excluded from this release."
-      ]
-    },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "Production reproduction showed that the previous conditional rendering removed the iframe when it was inactive, creating a new child document on return. The fix mounts it once and uses an inert transparent inactive slot; a hidden-slot alternative was rejected because actual preload testing showed it prevented initialization.",
-        "Live desktop and mobile checks confirmed that the van initialized before reveal and retained the same frame, window and canvas through carousel cycles, scrolling away and back, and tab visibility changes. Parent scroll stayed stable during the tested reveal, theme changes arrived without resetting the scene, and a separate reduced-motion check covered both parent and child. The build and 28 focused carousel tests passed, with zero scoped automated accessibility violations or page errors in the inspected flow.",
-        "A separate child-side limitation remains: the live exhibit still uses an anchor scrollIntoView call during pinning or resize. The tested parent preload and reveal path is stable, but this release does not establish that every later child-resize scroll interaction is resolved. Buildometer also reports pending reconciliation for the newer release; its totals were not changed."
+        "A fresh career-source inventory exposed a material distinction between stored assertions and owner-reviewed canonical claims. The newly documented registry reports that earlier aggregate “canonical facts” counts did not accurately describe review status. This changes the evidence-maintenance task: verify active records, dispositions and supersessions before propagating claims into generated career material. The registry is a read-only finding, not proof that the underlying records have been corrected.",
+        "The November 10 editorial publication failed because no same-day authored Jira payload was available. All 13 publication-adapter checks passed, and the publisher stopped before replacing valid history or inventing content. This late narrative recovers the missing handoff; it does not establish why the morning authoring run failed to produce it."
       ]
     },
     {
       "heading": "Current focus",
       "paragraphs": [
-        "The broader homepage remains an owner-led visual and editorial review. Every slide and card must communicate a distinctive benefit to the visitor or hiring team within roughly 2.5 seconds, while the craft demonstrates senior engineering through speed, efficiency, elegance, beauty, accessibility and usability. Recording that direction is not acceptance of the earlier local redesign."
+        "The career-evidence focus is reconciling the authoritative store’s review states and active versions with prior maintenance reports. An identified discrepancy in an enterprise-modernization claim needs verification against the owner’s established project scope before downstream use. Public résumé release evidence does not by itself establish equivalent canonical review or external synchronization.",
+        "The inspected repository shows no additional product implementation after the persistent Shady White Van exhibit correction. The broader homepage remains subject to owner visual and editorial review, and the child-anchor resize follow-up remains unverified as a public fix."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Review the persistent exhibit in normal browsing and coordinate the remaining child-anchor resize behavior without losing its intentional internal framing. Continue the homepage’s audience-focused hooks and visual composition through owner review before further implementation or release. Reconcile the targeted production change through the existing Buildometer evidence workflow rather than inferring whole-story completion from a single fix."
+        "Resolve the source registry’s active-claim and review-status discrepancies through a bounded, evidence-preserving correction, then verify downstream consumers against the persisted records. Continue homepage review and the exhibit resize follow-up without treating the earlier rejected redesign as accepted. Recover today’s editorial delivery through the existing publisher and inspect the authoring execution record separately from publication mechanics."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "4418add28e12bbcf975420de434c3d023b399b9d",
-    "generatorCommit": "4418add28e12bbcf975420de434c3d023b399b9d",
-    "evidenceSha256": "853d6f5d7f05ed7c16441d9cb4e100134be8d5c71c66efdecd3a3b9cfbe99a32",
+    "sourceCommit": "893a8949a437330d3f9f5b38e0e6bb905c505772",
+    "generatorCommit": "893a8949a437330d3f9f5b38e0e6bb905c505772",
+    "evidenceSha256": "59d0631048991a823d41dfd9f375f6f9840616e9b48d41ed776f17ee919a0afe",
     "method": "ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.",
     "reportingWindow": {
-      "after": "2026-11-08T08:59:00.085-0500",
-      "cutoff": "2026-11-09T09:00:26.679-0500"
+      "after": "2026-11-09T09:00:26.679-0500",
+      "cutoff": "2026-11-10T10:13:29.984-0500"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10409"
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10410"
     ]
   }
 };
