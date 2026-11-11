@@ -35,3 +35,17 @@
   font-display: optional;
   src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2');
 }
+
+.portfolio-card {
+  min-inline-size: 0;
+  padding: var(--surface-padding);
+  border: 1px solid color-mix(in srgb, var(--page-foreground) 22%, transparent);
+  overflow-wrap: anywhere;
+}
+.home-buildometer .teaser {
+  padding: var(--surface-padding);
+  border: 1px solid color-mix(in srgb, var(--page-foreground) 22%, transparent);
+  background-color: var(--surface-card);
+  background-image: var(--surface-highlight);
+  box-shadow: var(--elevation-raised);
+}

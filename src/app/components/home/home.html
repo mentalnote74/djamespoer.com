@@ -18,23 +18,21 @@
 
 <div class="home-editorial layout-container">
   <section
-    class="home-construction surface-feature"
+    class="home-opening surface-card portfolio-card"
     data-rigby-anchor="introduction"
-    aria-labelledby="construction-site-heading"
+    aria-labelledby="home-opening-heading"
   >
-    <h2 id="construction-site-heading">A working portfolio, in motion.</h2>
-    <p>Current Angular engineering, React experiments, accessible interfaces, and the decisions behind them.</p>
-    <p class="home-construction__notice"><strong>You're standing in the middle of a working construction site. On purpose.</strong></p>
-    <p>Finished work lives beside experiments, revisions, and the occasional bad idea replaced by a better one.
-      The environment shows the craft; the projects show how the software works.</p>
+    <h2 id="home-opening-heading">Welcome to djamespoer.com</h2>
+    <p>I'm James — a UX engineer and front-end architect who turns complicated problems into software that's fast, accessible, and easy to use.</p>
+    <p>This site is part portfolio, part working laboratory. Explore the projects, see the engineering behind them, or grab a résumé.</p>
     <nav aria-label="Start exploring">
-      <a publicTrack routerLink="/work/djamespoer">Inside the Angular portfolio</a> ·
-      <a publicTrack routerLink="/about">Who built this and why</a> ·
-      <a publicTrack routerLink="/resume">Choose a résumé</a>
+      <a publicTrack routerLink="/work/djamespoer">Explore My Work</a> ·
+      <a publicTrack routerLink="/about">About James</a> ·
+      <a publicTrack routerLink="/resume">Get My Résumé</a>
     </nav>
     <app-hidden-cookie />
   </section>
-  <section class="home-projects editorial-wide" aria-labelledby="home-projects-heading">
+  <section class="home-projects editorial-wide surface-card portfolio-card" aria-labelledby="home-projects-heading">
     <h2 id="home-projects-heading">What's happening here?</h2>
     <ul class="home-projects__list">
       <li><h3><a publicTrack routerLink="/work/djamespoer">Angular, in production</a></h3>
@@ -43,13 +41,11 @@
         <p>A React and TypeScript playground with a live Three.js showroom, procedural artwork, and performance tradeoffs.</p></li>
       <li><h3><a publicTrack routerLink="/case-studies/creative-town">Creative Town</a></h3>
         <p>An illustrated environment where visual experiments meet the practical work of browser layout and interaction.</p></li>
-      <li><h3><a publicTrack routerLink="/thingamajob">Thingamajob</a></h3>
-        <p>Career evidence, a Library of Truth, and job evaluation: explore the product and the reasoning behind it.</p></li>
       <li><h3><a publicTrack routerLink="/ai">Human-directed, multi-agent development</a></h3>
         <p>Specifications, distinct agent responsibilities, code review, rejected approaches, and human release decisions.</p></li>
     </ul>
   </section>
-  <section class="home-writing editorial-wide" aria-labelledby="home-writing-heading">
+  <section class="home-writing editorial-wide surface-card portfolio-card" aria-labelledby="home-writing-heading">
     <h2 id="home-writing-heading">Recent Blognostisphere writing</h2>
     <ul>
       @for (article of articles; track article.slug) {
@@ -58,32 +54,15 @@
     </ul>
     <a publicTrack routerLink="/blognostisphere">All writing</a>
   </section>
-  <app-aside
-    class="home-thingamajob-entry"
-    id="rigby-start"
-    data-rigby-anchor="thingamajob"
-    label="Thingamajob"
-  >
-    <app-thingamajob />
-    <p>
-      <a
-        publicTrack
-        trackLocation="home-thingamajob"
-        trackSource="homepage"
-        routerLink="/thingamajob"
-        >View Thingamajob Case Study</a
-      >
-    </p>
-  </app-aside>
   @defer (
     on immediate;
     hydrate when !delivery.mobile();
     hydrate on viewport;
     hydrate on interaction
   ) {
-    <app-daily-scrum-brief data-rigby-anchor="journal" />
+    <app-daily-scrum-brief class="surface-card portfolio-card" data-rigby-anchor="journal" />
   }
   @defer (on immediate; hydrate on viewport; hydrate on interaction) {
-    <app-buildometer-overview class="editorial-wide" data-rigby-anchor="telemetry" />
+    <app-buildometer-teaser class="home-buildometer" data-rigby-anchor="telemetry" />
   }
 </div>

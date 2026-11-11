@@ -119,10 +119,18 @@ export const COOKIE_TRAIL: readonly CookieStop[] = [
     flavor: (priorityStops.length + additionalStops.length) % COOKIE_FLAVORS.length,
     clue: 'Even work that is never done deserves a cookie break.',
   },
+  {
+    id: 'resume',
+    path: '/resume',
+    label: 'Resume',
+    flavor: 0,
+    clue: 'Choose your résumé.',
+  },
 ];
 const INLINE_PATHS = new Set([
   '/',
   '/about',
+  '/resume',
   '/engineering',
   '/ux-product',
   '/accessibility',

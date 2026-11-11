@@ -2,11 +2,9 @@ import { ARTICLES } from '../../content/public-pages';
 import { PORTFOLIO_SLIDES, shufflePortfolioDeck } from '../../content/portfolio-slides';
 import { SlideVisual } from '../slide-visual/slide-visual';
 import { MobileDelivery } from '../../services/mobile-delivery';
-import { BuildometerOverview } from '../buildometer-overview/buildometer-overview';
+import { BuildometerTeaser } from '../buildometer/buildometer-teaser';
 import { DailyScrumBrief } from '../daily-scrum-brief/daily-scrum-brief';
 import { PublicTrack } from '../../services/public-track';
-import { Aside } from '../../layout/aside/aside';
-import { Thingamajob } from '../thingamajob/thingamajob';
 import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
@@ -16,12 +14,10 @@ import { HiddenCookie } from '../../features/cookie-hunt/hidden-cookie';
 @Component({
   imports: [
     SlideVisual,
-    BuildometerOverview,
+    BuildometerTeaser,
     DailyScrumBrief,
     PublicTrack,
     RouterLink,
-    Aside,
-    Thingamajob,
     Carousel,
     CarouselSlide,
     HiddenCookie,
