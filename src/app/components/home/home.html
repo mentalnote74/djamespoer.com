@@ -32,20 +32,18 @@
     </nav>
     <app-hidden-cookie />
   </section>
-  <section class="home-projects editorial-wide surface-card portfolio-card" aria-labelledby="home-projects-heading">
+  <section class="home-projects editorial-wide" aria-labelledby="home-projects-heading">
     <h2 id="home-projects-heading">What's happening here?</h2>
-    <ul class="home-projects__list">
-      <li><h3><a publicTrack routerLink="/work/djamespoer">Angular, in production</a></h3>
+    <ul class="home-projects__list portfolio-cards">
+      <li class="surface-card portfolio-card"><h3><a publicTrack routerLink="/work/djamespoer">Angular, in production</a></h3>
         <p>Reusable components, semantic page architecture, accessibility, Living Themes, and a real release pipeline.</p></li>
-      <li><h3><a publicTrack routerLink="/case-studies/shady-white-van">Shady White Van / React</a></h3>
+      <li class="surface-card portfolio-card"><h3><a publicTrack routerLink="/case-studies/shady-white-van">Shady White Van / React</a></h3>
         <p>A React and TypeScript playground with a live Three.js showroom, procedural artwork, and performance tradeoffs.</p></li>
-      <li><h3><a publicTrack routerLink="/case-studies/creative-town">Creative Town</a></h3>
+      <li class="surface-card portfolio-card"><h3><a publicTrack routerLink="/case-studies/creative-town">Creative Town</a></h3>
         <p>An illustrated environment where visual experiments meet the practical work of browser layout and interaction.</p></li>
-      <li><h3><a publicTrack routerLink="/ai">Human-directed, multi-agent development</a></h3>
+      <li class="surface-card portfolio-card"><h3><a publicTrack routerLink="/ai">Human-directed, multi-agent development</a></h3>
         <p>Specifications, distinct agent responsibilities, code review, rejected approaches, and human release decisions.</p></li>
-    </ul>
-  </section>
-  <section class="home-writing editorial-wide surface-card portfolio-card" aria-labelledby="home-writing-heading">
+      <li class="home-writing surface-card portfolio-card">
     <h2 id="home-writing-heading">Recent Blognostisphere writing</h2>
     <ul>
       @for (article of articles; track article.slug) {
@@ -53,6 +51,8 @@
       }
     </ul>
     <a publicTrack routerLink="/blognostisphere">All writing</a>
+      </li>
+    </ul>
   </section>
   @defer (
     on immediate;

@@ -1,8 +1,14 @@
+## Final standalone card correction — November 11
+
+Owner requested layout-only correction. Home has five independent cards in the existing project list (writing is fifth), no enclosing card. Resume retains three independent download/custom cards without outer card. About's unchanged introduction and two existing headed content groups are separate cards, with page heading outside. All use shared existing surfaces and wrapping Flexbox / space-around / 1rem gap, flexible 20rem basis and 28rem cap. Approved welcome/removals/dashboard placement, cookie trail, links, tracking and routes unchanged.
+
+One production build passed (71 prerenders; existing CSS/module warnings). One quick built-artifact Chrome visual pass at 1440/390 on Home/About/Resume passed card counts, flex layout and no horizontal overflow; six screenshots inspected. INTERNAL before startup; external collectors blocked. No full suite/Lighthouse/new tests. Commit and normal main deployment authorized. Prior uncommitted post-release note below preserved.
+
 ## Urgent portfolio cleanup — November 11
 
 Owner-authorized release: exact welcome copy/actions; remove Home construction tape, Thingamajob entry/teaser and deployment grid; reuse Buildometer teaser beside Executive Scrum Brief, stacking on mobile. Home/About/Resume share existing theme card surfaces; resume gains existing hidden-cookie component and appended stable trail ID. Routes, downloads, tracking directives, Thingamajob construction presentation and persistent carousel remain intact. No PDF/dependency changes.
 
-Final production build passed (71 prerenders; existing Footer/Rigby CSS soft warnings). Focused built-artifact Chrome smoke passed Home/About/Resume at 1440/390: overflow, keyboard focus, navigation, removals, dashboard placement, PDF signatures/links and resume cookie component. INTERNAL seeded before startup; external requests blocked. Localhost browser connection unavailable, so built files were served through intercepted responses. No full suite/new tests/Lighthouse. Prior premature build superseded. Deploy through main/Cloudflare authorized; production activation pending.
+Final production build passed (71 prerenders; existing Footer/Rigby CSS soft warnings). Focused built-artifact Chrome smoke passed Home/About/Resume at 1440/390: overflow, keyboard focus, navigation, removals, dashboard placement, PDF signatures/links and resume cookie component. INTERNAL seeded before startup; external requests blocked. Localhost browser connection unavailable, so built files were served through intercepted responses. No full suite/new tests/Lighthouse. Prior premature build superseded. Deployed source 4ece8620a468885d52a21d1859c9579d7eca7e6f via successful Cloudflare build 99bfd098-9164-48e4-b4f3-dd44eab9de6b; public release marker matches. Production welcome verified, About/Resume HTTP 200. Named buildometer:release-check reports pending-reconciliation against older existing release evidence; no BOM values changed. This post-release note is local only to avoid another deployment.
 
 ## Lighthouse Best Practices cookie regression - November 11
 

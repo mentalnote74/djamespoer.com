@@ -49,3 +49,17 @@
   background-image: var(--surface-highlight);
   box-shadow: var(--elevation-raised);
 }
+
+.portfolio-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 1rem;
+}
+.portfolio-cards > :is(.portfolio-card, li) {
+  flex: 1 1 20rem;
+  max-inline-size: 28rem;
+  min-inline-size: 0;
+}
+.about-cards > h1 { flex-basis: 100%; }
+.portfolio-cards .portfolio-card > :first-child { margin-block-start: 0; }
