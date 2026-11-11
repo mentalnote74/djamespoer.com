@@ -1,40 +1,48 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-11-10",
+  "date": "2026-11-11",
   "sections": [
+    {
+      "heading": "Recently shipped",
+      "paragraphs": [
+        "The portfolio and Shady White Van now share a clearer measurement boundary. The embedded exhibit no longer starts its own Google Analytics or Cloudflare beacon. The portfolio records a qualified exposure only when the van slide is active and at least half visible in a foreground page, once per page lifetime. Hidden preloads no longer masquerade as standalone visits, while the persistent exhibit keeps its scene intact.",
+        "Both sites reached production through their existing release paths. A follow-up restored the prior regional exclusion for the manually loaded Cloudflare beacon, while retaining standalone Google Analytics consent behavior. A separate homepage-only release removed four carousel slides; it did not publish the broader homepage rewrite."
+      ]
+    },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "A fresh career-source inventory exposed a material distinction between stored assertions and owner-reviewed canonical claims. The newly documented registry reports that earlier aggregate “canonical facts” counts did not accurately describe review status. This changes the evidence-maintenance task: verify active records, dispositions and supersessions before propagating claims into generated career material. The registry is a read-only finding, not proof that the underlying records have been corrected.",
-        "The November 10 editorial publication failed because no same-day authored Jira payload was available. All 13 publication-adapter checks passed, and the publisher stopped before replacing valid history or inventing content. This late narrative recovers the missing handoff; it does not establish why the morning authoring run failed to produce it."
+        "The cookie warnings behind the portfolio’s Lighthouse Best Practices score of 96 came from Google Analytics running inside the cross-site exhibit. After the correction, Lighthouse 13.5 reported Best Practices 100 with no Inspector Issues. Five production browser profiles confirmed one parent page view, qualified exposure and native session in allowed desktop and mobile cases; internal and denied-consent profiles emitted no Google Analytics events. The iframe retained its document identity and produced no child collectors or GA cookies in those checks.",
+        "The child-site browser matrix passed 27 live scenarios, followed by ten targeted regional checks on the corrected release. The regional gate excludes the documented country set and fails closed when location cannot be read; it uses visitor country rather than proving exact equivalence to the former edge-location rule. Removing embedded loads also changes the meaning of Shady White Van’s traffic totals, so comparisons across the switch need that context.",
+        "A supplemental standalone-beacon check encountered interception and request-attribution errors. A diagnostic observed a real beacon POST, but the final supplemental fixture did not complete successfully. That unfinished check is not evidence of a confirmed product defect or a fully passed end-to-end collector test."
       ]
     },
     {
       "heading": "Current focus",
       "paragraphs": [
-        "The career-evidence focus is reconciling the authoritative store’s review states and active versions with prior maintenance reports. An identified discrepancy in an enterprise-modernization claim needs verification against the owner’s established project scope before downstream use. Public résumé release evidence does not by itself establish equivalent canonical review or external synchronization.",
-        "The inspected repository shows no additional product implementation after the persistent Shady White Van exhibit correction. The broader homepage remains subject to owner visual and editorial review, and the child-anchor resize follow-up remains unverified as a public fix."
+        "The released analytics boundary is verified, while final record reconciliation and owner acceptance remain separate from deployment success. The broader homepage direction now emphasizes enterprise UX engineering, accessible front-end architecture and linked project evidence; it remains subject to local visual approval and is not part of this release.",
+        "Protected career-evidence work still has a documented distinction between stored proposals and owner-reviewed claims. The inspected registry does not establish a new completed correction of active versions or review states. Public résumé publication remains separate evidence from canonical reconciliation."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Resolve the source registry’s active-claim and review-status discrepancies through a bounded, evidence-preserving correction, then verify downstream consumers against the persisted records. Continue homepage review and the exhibit resize follow-up without treating the earlier rejected redesign as accepted. Recover today’s editorial delivery through the existing publisher and inspect the authoring execution record separately from publication mechanics."
+        "Reconcile the final release records and outstanding collector-test limitation before closing the analytics work. Use processed reporting and the corrected exposure definition before judging whether content resonates; collection checks alone do not establish visitor response. Advance the homepage through owner visual review, and verify protected claim dispositions and active versions before propagating further career-source changes."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "893a8949a437330d3f9f5b38e0e6bb905c505772",
-    "generatorCommit": "893a8949a437330d3f9f5b38e0e6bb905c505772",
-    "evidenceSha256": "59d0631048991a823d41dfd9f375f6f9840616e9b48d41ed776f17ee919a0afe",
+    "sourceCommit": "bcdbf267dbe499207a3ce7c71247d58dcb5cecc1",
+    "generatorCommit": "bcdbf267dbe499207a3ce7c71247d58dcb5cecc1",
+    "evidenceSha256": "fdb2a3c0b523b98f3b14c9deefbcf4fbf3c00291f4f01b2e4ded5175e1437efa",
     "method": "ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.",
     "reportingWindow": {
-      "after": "2026-11-09T09:00:26.679-0500",
-      "cutoff": "2026-11-10T10:13:29.984-0500"
+      "after": "2026-11-10T10:13:29.984-0500",
+      "cutoff": "2026-11-11T09:05:51.586-0500"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10410"
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10426"
     ]
   }
 };
