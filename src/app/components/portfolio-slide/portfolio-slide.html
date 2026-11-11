@@ -146,10 +146,16 @@
         layer="conservatory/foreground"
         aria-hidden="true"
       />
-      <div class="chameleon-perch">
+      <div class="chameleon-perch" data-skin="disco">
         <div class="chameleon-shadow"></div>
         <img class="chameleon-body" src="/assets/conservatory-chameleon.webp" width="1000" height="500" alt="" decoding="async" />
-        <div class="chameleon-skin"></div>
+        <div class="chameleon-skin">
+          <div class="skin-pattern skin-neon"></div>
+          <div class="skin-pattern skin-tartan"></div>
+          <div class="skin-pattern skin-disco"></div>
+        </div>
+        <div class="chameleon-detail"></div>
+        <img class="chameleon-eye" src="/assets/conservatory-chameleon.webp" width="1000" height="500" alt="" decoding="async" />
         <svg class="chameleon-strike" viewBox="0 0 1000 500" focusable="false">
           <path class="chameleon-tongue" d="M16 270L-310 180" />
           <ellipse class="chameleon-tongue-tip" cx="-310" cy="180" rx="13" ry="7" />
@@ -160,6 +166,13 @@
           </g>
         </svg>
       </div>
+      <app-slide-image
+        [mobileMax]="2172"
+        class="chameleon-leaf-occluder"
+        sizes="(max-width: 600px) 150vw, (min-width: 1344px) 1280px, 100vw"
+        layer="conservatory/foreground"
+        aria-hidden="true"
+      />
     </div>
   </div>
   <div class="copy slide-surface__copy">

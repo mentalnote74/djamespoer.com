@@ -3,29 +3,68 @@
 }
 .djp-conservatory .water-ripples.is-painted { opacity: 1; }
 .djp-conservatory .chameleon-perch {
-  --chameleon-visibility: 1;
-  --chameleon-color: 0deg;
-  position: absolute; left: 79.8%; top: 67%; width: 16%; aspect-ratio: 2;
-  transform: rotate(-9deg); transform-origin: 50% 90%; isolation: isolate;
+  --crawl-x: 0%; --crawl-y: 0%; --gait: 0deg; --skin-angle: 0deg; --skin-travel: 0px;
+  position: absolute; left: 83.8%; top: 71.5%; width: 16%; aspect-ratio: 2;
+  transform: translate(var(--crawl-x), var(--crawl-y)) rotate(calc(-9deg + var(--gait)));
+  transform-origin: 50% 90%; isolation: isolate;
 }
 .djp-conservatory .chameleon-body,
-.djp-conservatory .chameleon-skin {
+.djp-conservatory .chameleon-skin,
+.djp-conservatory .chameleon-detail,
+.djp-conservatory .chameleon-eye,
+.djp-conservatory .skin-pattern {
   position: absolute; inset: 0; width: 100%; height: 100%;
 }
-.djp-conservatory .chameleon-body {
-  opacity: var(--chameleon-visibility);
-  filter: hue-rotate(var(--chameleon-color)) saturate(.85) brightness(.95);
-}
+.djp-conservatory .chameleon-body { opacity: 1; }
 .djp-conservatory .chameleon-skin {
-  background: linear-gradient(115deg, var(--selected-background, #92818d), #c49c69 32%, #788365 58%, #b4a7bd 76%, #304f48);
-  background-size: 240% 100%; background-position: var(--skin-position, 0%) 50%;
   mask: url('/assets/conservatory-chameleon.webp') center / 100% 100% no-repeat;
-  mix-blend-mode: color; opacity: calc(var(--chameleon-visibility) * .55);
+  background: #d22272;
 }
+.djp-conservatory .skin-pattern { opacity: 0; transition: opacity .65s ease; }
+.djp-conservatory [data-skin='disco'] .skin-disco,
+.djp-conservatory [data-skin='tartan'] .skin-tartan,
+.djp-conservatory [data-skin='neon'] .skin-neon { opacity: 1; }
+.djp-conservatory .skin-disco {
+  background:
+    repeating-conic-gradient(#ffffffe0 0 25%, #100d5550 0 50%) 0 0 / 13px 13px,
+    conic-gradient(from var(--skin-angle) at 48% 48%, #ff147b, #ffc928, #10f9f2, #5636ff, #ff147b);
+  background-blend-mode: soft-light, normal;
+}
+.djp-conservatory .skin-disco::after {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 30%, #fff 0 1px, #fff0 3px) var(--skin-travel) 0 / 31px 27px,
+    linear-gradient(110deg, transparent 20%, #fff9 26%, transparent 32%, transparent 60%, #fff8 65%, transparent 70%);
+  background-size: 31px 27px, 200% 100%;
+  background-position: var(--skin-travel) 0, var(--skin-travel) 0;
+}
+.djp-conservatory .skin-tartan {
+  background:
+    repeating-linear-gradient(45deg, #fff2 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, transparent 0 11px, #ffca25 11px 13px, transparent 13px 27px, #f3eadc 27px 28px, transparent 28px 43px, #061b39c9 43px 57px, transparent 57px 67px, #164431d9 67px 81px, transparent 81px 94px),
+    repeating-linear-gradient(90deg, #be1833 0 11px, #f6c62a 11px 13px, #be1833 13px 27px, #eadbd5 27px 28px, #be1833 28px 43px, #082b4d 43px 57px, #be1833 57px 67px, #174e38 67px 81px, #b0142d 81px 94px);
+  background-position: 0 0, 0 calc(var(--skin-travel) * .18), calc(var(--skin-travel) * .18) 0;
+}
+.djp-conservatory .skin-neon {
+  background:
+    repeating-radial-gradient(ellipse at 35% 80%, transparent 0 12px, #ff43d9 13px, #ffe9ff 14px, #ff43d9 15px, transparent 17px 29px),
+    repeating-linear-gradient(125deg, transparent 0 23px, #00b7ef 24px, #c4ffff 25px, #00f5ff 26px, transparent 29px 55px),
+    #080827;
+  background-position: calc(var(--skin-travel) * .4) 0, calc(var(--skin-travel) * -.3) 0, 0 0;
+}
+.djp-conservatory .skin-neon::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 34px, #f9ff41 35px 37px, transparent 38px 63px);
+  filter: drop-shadow(0 0 3px #ffef00); opacity: .8;
+}
+.djp-conservatory .chameleon-detail {
+  background: url('/assets/conservatory-chameleon.webp') center / 100% 100%;
+  filter: grayscale(1) brightness(1.65) contrast(1.15); mix-blend-mode: multiply;
+}
+.djp-conservatory .chameleon-eye { clip-path: ellipse(4.5% 9% at 15.5% 41.6%); }
 .djp-conservatory .chameleon-shadow {
   position: absolute; left: 12%; top: 84%; width: 80%; height: 13%;
-  border-radius: 50%; background: #11150c; filter: blur(4px);
-  opacity: calc(var(--chameleon-visibility) * .45);
+  border-radius: 50%; background: #11150c; filter: blur(4px); opacity: .55;
 }
 .djp-conservatory .chameleon-strike {
   position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;
@@ -35,7 +74,12 @@
 }
 .djp-conservatory .chameleon-tongue-tip { fill: #d5a3a1; opacity: 0; }
 .djp-conservatory .chameleon-fly { opacity: 0; }
+.djp-conservatory .chameleon-leaf-occluder {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  clip-path: polygon(100.000% 49.724%, 89.779% 49.724%, 88.052% 58.702%, 87.477% 61.464%, 86.901% 63.536%, 86.326% 66.436%, 85.981% 68.785%, 85.773% 71.823%, 85.935% 74.309%, 86.349% 76.105%, 86.901% 78.177%, 87.661% 79.075%, 88.214% 80.594%, 88.766% 81.561%, 89.250% 81.423%, 89.641% 81.699%, 90.170% 82.873%, 90.585% 84.530%, 91.068% 86.533%, 91.690% 87.569%, 92.334% 89.503%, 92.910% 90.608%, 93.623% 91.989%, 94.360% 92.887%, 95.350% 93.715%, 96.225% 91.022%, 97.053% 89.710%, 97.675% 87.017%, 97.836% 84.254%, 97.813% 81.837%, 98.389% 80.318%, 98.987% 79.558%, 100.000% 77.970%);
+}
 @media (prefers-reduced-motion: reduce) {
-  .djp-conservatory .chameleon-body { opacity: 1; filter: none; }
+  .djp-conservatory .chameleon-perch { --crawl-x: -14% !important; --crawl-y: 5% !important; --gait: 0deg !important; }
+  .djp-conservatory .skin-pattern { transition: none; }
   .djp-conservatory .chameleon-strike { display: none; }
 }
