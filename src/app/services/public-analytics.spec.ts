@@ -280,6 +280,38 @@ describe('public route journeys', () => {
     expect(publicPath('/product-journal/2026-10-22')).not.toBe('/other');
     expect(publicPath('/product-journal/2099-01-01')).toBe('/other');
   });
+  it('records genuine outbound SWV actions separately and rejects synthetic/spoofed destinations', () => {
+    const main = document.createElement('main');
+    main.innerHTML = '<a href="https://shadywhitevan.rocks/?private=hidden#secret">Live SWV</a>';
+    const anchor = main.querySelector('a')!;
+    const dispatch = (type: string, button: number, trusted = true) =>
+      handlers.get(type)!({
+        isTrusted: trusted,
+        type,
+        button,
+        target: anchor,
+      } as unknown as MouseEvent);
+    dispatch('click', 0, false);
+    dispatch('auxclick', 0);
+    expect(gtag).not.toHaveBeenCalled();
+    dispatch('click', 0);
+    dispatch('auxclick', 1);
+    expect(gtag.mock.calls.filter((c) => c[1] === 'external_project_click')).toHaveLength(2);
+    expect(gtag.mock.calls[0]).toEqual([
+      'event',
+      'external_project_click',
+      expect.objectContaining({
+        project: 'shady-white-van',
+        cta_location: 'page-content',
+        navigation_method: 'in-page',
+      }),
+    ]);
+    expect(JSON.stringify(gtag.mock.calls)).not.toMatch(/private|secret|https:\/\/shady/);
+    gtag.mockClear();
+    anchor.href = 'https://shadywhitevan.rocks.evil.invalid/';
+    dispatch('click', 0);
+    expect(gtag).not.toHaveBeenCalled();
+  });
   it('distinguishes a header link from a carousel CTA and bounds its slide/context', () => {
     route(1, '/blognostisphere');
     const header = document.createElement('header');

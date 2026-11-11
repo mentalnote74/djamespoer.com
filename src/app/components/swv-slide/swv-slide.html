@@ -1,7 +1,7 @@
-<div class="swv-scene">
+<div class="swv-scene" carouselExposure="shady-white-van" [exposureActive]="active() && !hero()">
   @if (mounted()) {
     <iframe
-      src="https://shadywhitevan.rocks/#swv-embed-stage"
+      [src]="embedUrl()"
       title="Shady White Van: live rotating custom van and changing visual treatments"
       width="1200"
       height="400"

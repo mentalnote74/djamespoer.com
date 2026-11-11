@@ -55,6 +55,8 @@ export interface EventParameters {
   thingamajob_open: Common & { source: Source; destination_path: '/thingamajob' };
   case_study_open: Common & { employer: Employer; source: Source };
   work_open: Common & { employer: Employer; source: Source };
+  carousel_exposure: Common & { slide: 'shady-white-van' };
+  external_project_click: Common & { project: 'shady-white-van' };
   carousel_cta_click: Common & { slide: string; destination: PublicPath };
   navigation_click: Common & { destination_path: PublicPath };
   cookie_settings_open: Common;
@@ -187,6 +189,15 @@ export class PublicAnalytics {
       queueMicrotask(() => {
         this.activeLink = null;
       });
+      // A real outbound activation is distinct from loading the embedded exhibit
+      // or navigating to its DJP case study. Never forward the external URL.
+      if (
+        target.origin === 'https://shadywhitevan.rocks' &&
+        anchor.closest('header, main, footer')
+      ) {
+        this.track('external_project_click', { location, project: 'shady-white-van' });
+        return;
+      }
       if (
         destination === '/other' ||
         destination === context.source_page ||
@@ -262,6 +273,18 @@ export class PublicAnalytics {
       window.localStorage.getItem('portfolio.analytics.internal') !== '1' &&
       analyticsConsent(this.document)
     );
+  }
+  private readonly carouselExposures = new Set<string>();
+  /** Root-service lifetime is the parent document, including SPA return visits. */
+  carouselExposure(slide: 'shady-white-van'): void {
+    if (this.carouselExposures.has(slide)) return;
+    try {
+      if (publicPath(this.document.location?.pathname ?? '') !== '/') return;
+      if (this.track('carousel_exposure', { location: 'carousel', slide }))
+        this.carouselExposures.add(slide);
+    } catch {
+      /* Optional telemetry; failed/suppressed attempts do not consume exposure. */
+    }
   }
   // GA supplies the session identifier; never invent a visitor/session tracking identifier.
   // Persist only session-level denominator flags, not action history or personal data.
@@ -411,14 +434,14 @@ export class PublicAnalytics {
     event: E,
     parameters: EventParameters[E],
     page?: string,
-  ): void {
+  ): boolean {
     // Optional telemetry never blocks a user action, even when browser storage/GA throws.
     try {
       const window = this.document.defaultView as
         (Window & { gtag?: (command: string, name: string, parameters: object) => void }) | null;
-      if (!window || !this.enabled()) return;
+      if (!window || !this.enabled()) return false;
       const filtered = publicEventParameters(event, parameters, publicPath);
-      if (!filtered) return;
+      if (!filtered) return false;
       // Server records submit/complete/fail authoritatively. Browser records result visibility
       // and later intent; do not race the first submit before its D1 attempt exists.
       if (!['evaluation_submitted', 'evaluation_completed', 'evaluation_failed'].includes(event))
@@ -441,12 +464,15 @@ export class PublicAnalytics {
         cta_location: filtered['location'],
       });
       if (
-        event !== 'rigby_encounter' ||
-        !['shown', 'saved_off'].includes(String(filtered['action']))
+        event !== 'carousel_exposure' &&
+        (event !== 'rigby_encounter' ||
+          !['shown', 'saved_off'].includes(String(filtered['action'])))
       )
         window.dispatchEvent?.(new Event('portfolio-analytics-activity'));
+      return typeof window.gtag === 'function';
     } catch {
       /* Non-critical; do not log URLs, values or provider errors. */
+      return false;
     }
   }
 }

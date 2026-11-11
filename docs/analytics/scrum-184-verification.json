@@ -1,0 +1,119 @@
+{
+  "ticket": "SCRUM-184",
+  "verifiedAt": "2026-11-11T04:14:36.577511+00:00",
+  "unit": {
+    "files": 6,
+    "passed": 75,
+    "failed": 0,
+    "log": "tmp/scrum-184/unit-final.log"
+  },
+  "build": {
+    "passed": true,
+    "prerenderedRoutes": 70,
+    "initialKb": 488.52,
+    "estimatedTransferKb": 123.91,
+    "hardBudgetsPassed": true,
+    "log": "tmp/scrum-184/build.log"
+  },
+  "jointBrowser": {
+    "parent": [
+      {
+        "name": "allowed-desktop",
+        "exposures": 1,
+        "pageViews": 3,
+        "outboundClicks": 1,
+        "childGaRequests": 0,
+        "cookieIssues": 0,
+        "stableUrl": "https://shadywhitevan.rocks/?embed_source=djamespoer.com&embed_surface=home-carousel#swv-embed-stage"
+      },
+      {
+        "name": "allowed-mobile",
+        "exposures": 1,
+        "pageViews": 1,
+        "outboundClicks": 0,
+        "childGaRequests": 0,
+        "cookieIssues": 0,
+        "stableUrl": "https://shadywhitevan.rocks/?embed_source=djamespoer.com&embed_surface=home-carousel#swv-embed-stage"
+      },
+      {
+        "name": "saved-denial",
+        "exposures": 1,
+        "pageViews": 0,
+        "outboundClicks": 0,
+        "childGaRequests": 0,
+        "cookieIssues": 0,
+        "stableUrl": "https://shadywhitevan.rocks/?embed_source=djamespoer.com&embed_surface=home-carousel#swv-embed-stage"
+      },
+      {
+        "name": "internal",
+        "exposures": 0,
+        "pageViews": 0,
+        "outboundClicks": 0,
+        "childGaRequests": 0,
+        "cookieIssues": 0,
+        "stableUrl": "https://shadywhitevan.rocks/?embed_source=djamespoer.com&embed_surface=home-carousel#swv-embed-stage"
+      }
+    ],
+    "child": [
+      {
+        "name": "standalone-granted",
+        "gaScriptRequests": 1,
+        "allIntercepted": true
+      },
+      {
+        "name": "standalone-denied",
+        "gaScriptRequests": 0,
+        "allIntercepted": true
+      },
+      {
+        "name": "standalone-embed-labels",
+        "gaScriptRequests": 1,
+        "allIntercepted": true
+      },
+      {
+        "name": "standalone-US-unset",
+        "gaScriptRequests": 1,
+        "allIntercepted": true
+      },
+      {
+        "name": "standalone-GB-unset",
+        "gaScriptRequests": 0,
+        "allIntercepted": true
+      },
+      {
+        "name": "embedded-legacy",
+        "gaScriptRequests": 0,
+        "allIntercepted": true
+      },
+      {
+        "name": "embedded-unrecognized",
+        "gaScriptRequests": 0,
+        "allIntercepted": true
+      },
+      {
+        "name": "embedded-later-consent-grant",
+        "gaScriptRequests": 0,
+        "consentSaved": true
+      }
+    ],
+    "passedScenarios": 12,
+    "collectorTransport": "intercepted; positive DJP events memory-only",
+    "log": "tmp/scrum-184/joint-final.log"
+  },
+  "fixtureNegativeControl": {
+    "expectedExit": 1,
+    "observedExit": 1,
+    "failure": "Inherited about:blank hook re-marks parent INTERNAL: '1' !== null",
+    "log": "tmp/scrum-184/negative-fixture.log"
+  },
+  "childReceipt": {
+    "path": "C:/Dev/shadywhitevan.rocks/docs/handoff/2026-11-10-scrum-184-analytics.md",
+    "sha256": "4e1c53e8a07cb1977f12970d1eab6eaf5cbc18c4fe6bf6658b3f342a405e859c",
+    "reportedBrowserScenarios": 21,
+    "reportedNegativeControl": "untouched child fails as expected",
+    "independentlyRerunByLarry": false
+  },
+  "testedChildBuildIndexSha256": "2662a93c9c36c650964c1ab650f79ef8726797b15d6cf1d0e8e51d8bd028f39b",
+  "productionVerification": "pending; no deploy or Lighthouse claim",
+  "remainingInfrastructureCount": "SWV Cloudflare edge-injected beacon may count hidden preloads; separate optional infrastructure decision, not changed"
+}

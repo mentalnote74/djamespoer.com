@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.spec.json",
+  "include": [
+    "../../src/**/*.d.ts",
+    "../../src/app/services/public-analytics.spec.ts",
+    "../../src/app/services/public-event-parameters.spec.ts",
+    "../../src/app/services/swv-analytics.spec.ts",
+    "../../src/app/services/carousel-exposure.spec.ts",
+    "../../src/app/components/swv-slide/swv-slide.spec.ts",
+    "../../src/app/components/carousel/carousel.spec.ts"
+  ]
+}

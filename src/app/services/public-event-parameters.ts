@@ -37,6 +37,8 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
   thingamajob_open: { source: sources, destination_path: ['/thingamajob'] },
   case_study_open: { employer: employers, source: sources },
   work_open: { employer: employers, source: sources },
+  carousel_exposure: { slide: ['shady-white-van'] },
+  external_project_click: { project: ['shady-white-van'] },
   carousel_cta_click: { slide: PORTFOLIO_SLIDES.map((slide) => slide.id) },
   navigation_click: {},
   cookie_settings_open: {},
