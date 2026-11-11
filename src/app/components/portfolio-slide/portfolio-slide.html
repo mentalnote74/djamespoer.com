@@ -152,8 +152,16 @@
         <canvas class="chameleon-material"></canvas>
         <img class="chameleon-eye" src="/assets/conservatory-chameleon.webp" width="1000" height="500" alt="" decoding="async" />
         <svg class="chameleon-strike" viewBox="0 0 1000 500" focusable="false">
-          <path class="chameleon-tongue" d="M16 270L-310 180" />
-          <ellipse class="chameleon-tongue-tip" cx="-310" cy="180" rx="13" ry="7" />
+          <defs>
+            <linearGradient [attr.id]="sceneId() + '-tongue-skin'" x1="0" y1="0" x2="0" y2="1">
+              <stop stop-color="#9c515b" />
+              <stop offset=".35" stop-color="#e6a79b" />
+              <stop offset=".58" stop-color="#f0bcaa" />
+              <stop offset="1" stop-color="#90434f" />
+            </linearGradient>
+          </defs>
+          <path class="chameleon-tongue" [attr.fill]="'url(#' + sceneId() + '-tongue-skin)'" d="M16 270Z" />
+          <ellipse class="chameleon-tongue-tip" cx="-310" cy="180" rx="19" ry="10" />
           <g class="chameleon-fly">
             <ellipse rx="7" ry="4" fill="#18161a" />
             <ellipse cx="-3" cy="-5" rx="7" ry="3" fill="#e1e9eb" opacity=".8" />

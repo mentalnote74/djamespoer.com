@@ -10,6 +10,10 @@ export class ConservatoryMotion {
   private readonly canvas: HTMLCanvasElement;
   private readonly water: HTMLImageElement;
   private readonly animal: HTMLElement;
+  private readonly strikeSvg: SVGSVGElement;
+  private target = { x: -310, y: 180 };
+  private targetLocked = false;
+  private catchPoint: { x: number; y: number } | null = null;
   private readonly tongue: SVGPathElement;
   private readonly tip: SVGEllipseElement;
   private readonly fly: SVGGElement;
@@ -21,6 +25,7 @@ export class ConservatoryMotion {
     this.water = root.querySelector<HTMLImageElement>('.reflections-material img')!;
     this.animal = root.querySelector<HTMLElement>('.chameleon-perch')!;
     this.skin = new LivingChameleon(this.animal);
+    this.strikeSvg = root.querySelector<SVGSVGElement>('.chameleon-strike')!;
     this.tongue = root.querySelector<SVGPathElement>('.chameleon-tongue')!;
     this.tip = root.querySelector<SVGEllipseElement>('.chameleon-tongue-tip')!;
     this.fly = root.querySelector<SVGGElement>('.chameleon-fly')!;
@@ -44,6 +49,8 @@ export class ConservatoryMotion {
   }
 
   reveal(): void {
+    this.targetLocked = false;
+    this.catchPoint = null;
     this.animal.dataset['skin'] = 'disco';
     this.animal.style.setProperty('--breath', '1');
     this.animal.style.setProperty('--eye-turn', '0px');
@@ -62,23 +69,55 @@ export class ConservatoryMotion {
     this.animal.style.setProperty('--breath', String(1 + Math.sin(t * 1.65) * .003));
     this.animal.style.setProperty('--eye-turn', `${remaining < 1.65 ? -.55 : Math.sin(t * .7) * .32}px`);
     this.skin.render(t);
+    if (remaining > 1.65) {
+      this.targetLocked = false;
+      this.catchPoint = null;
+    } else if (!this.targetLocked) {
+      this.aimTongue();
+      this.targetLocked = true;
+    }
     const strike = .66 - remaining;
-    const extension = strike < 0 || strike >= .13 ? 0 : strike < .055 ? strike / .055 : 1 - (strike - .055) / .075;
-    const targetX = -310 + (strike < .055 ? 8 * Math.sin(t * 8) : 0);
-    const targetY = 180 + (strike < .055 ? 7 * Math.sin(t * 11) : 0);
-    const x = 16 + (targetX - 16) * extension, y = 270 + (targetY - 270) * extension;
-    this.tongue.setAttribute('d', `M16 270L${x} ${y}`);
+    const flyX = this.target.x + 8 * Math.sin(t * 8);
+    const flyY = this.target.y + 7 * Math.sin(t * 11);
+    if (strike >= 0 && !this.catchPoint) this.catchPoint = { x: flyX, y: flyY };
+    const target = this.catchPoint ?? { x: flyX, y: flyY };
+    // Full reach holds for 35ms, making the catch legible without slowing the flick.
+    const extension = strike < 0 || strike >= .165 ? 0
+      : strike < .055 ? 1 - (1 - strike / .055) ** 2
+      : strike < .09 ? 1 : (1 - (strike - .09) / .075) ** 1.35;
+    const x = 16 + (target.x - 16) * extension, y = 270 + (target.y - 270) * extension;
+    const dx = x - 16, dy = y - 270, length = Math.max(1, Math.hypot(dx, dy));
+    const nx = -dy / length, ny = dx / length;
+    const bend = length * .018 * Math.sin(Math.PI * extension) * (strike < .09 ? .6 : 1);
+    const c1x = 16 + dx * .34 + nx * bend, c1y = 270 + dy * .34 + ny * bend;
+    const c2x = 16 + dx * .72 + nx * bend, c2y = 270 + dy * .72 + ny * bend;
+    this.tongue.setAttribute('d',
+      `M${16 + nx * 8} ${270 + ny * 8} C${c1x + nx * 12} ${c1y + ny * 12} ${c2x + nx * 8} ${c2y + ny * 8} ${x + nx * 5} ${y + ny * 5} L${x - nx * 5} ${y - ny * 5} C${c2x - nx * 8} ${c2y - ny * 8} ${c1x - nx * 12} ${c1y - ny * 12} ${16 - nx * 8} ${270 - ny * 8}Z`);
     this.tongue.style.opacity = this.tip.style.opacity = extension > 0 ? '1' : '0';
     this.tip.setAttribute('cx', String(x));
     this.tip.setAttribute('cy', String(y));
-    this.fly.style.opacity = remaining < 1.65 && remaining > .53 ? '1' : '0';
-    this.fly.setAttribute('transform', strike < .055 ? `translate(${targetX} ${targetY})` : `translate(${x} ${y})`);
+    this.tip.setAttribute('transform', `rotate(${Math.atan2(dy, dx) * 180 / Math.PI} ${x} ${y})`);
+    this.fly.style.opacity = remaining < 1.65 && remaining > .2 && strike < .165 ? '1' : '0';
+    this.fly.setAttribute('transform', strike < .055 ? `translate(${target.x} ${target.y})` : `translate(${x} ${y})`);
     if (now - this.painted >= 33) {
       this.drawWater(t);
       this.painted = now;
     }
     this.frame = requestAnimationFrame(this.tick);
   };
+
+  private aimTongue(): void {
+    const matrix = this.strikeSvg.getScreenCTM();
+    if (!matrix) return;
+    const mouth = new DOMPoint(16, 270).matrixTransform(matrix);
+    const button = this.root.querySelector<HTMLElement>('.slide-explore')?.getBoundingClientRect();
+    const scene = this.root.getBoundingClientRect();
+    const buttonX = button?.width ? button.left + button.width / 2 : scene.left + scene.width * .1;
+    const buttonY = button?.height ? button.top + button.height / 2 : scene.top + scene.height * .63;
+    const goal = new DOMPoint(mouth.x + (buttonX - mouth.x) * 2 / 3,
+      mouth.y + (buttonY - mouth.y) * 2 / 3).matrixTransform(matrix.inverse());
+    this.target = { x: goal.x, y: goal.y };
+  }
 
   private drawWater(t: number): void {
     const ctx = this.context;
