@@ -69,6 +69,8 @@ export class Carousel implements AfterContentInit {
   );
   readonly currentPosition = computed(() => (this.slides().length ? this.currentIndex() + 1 : 0));
 
+  readonly transitionAt = signal<number | null>(null);
+
   private readonly rotationEffect = effect((onCleanup) => {
     const slideCount = this.slides().length;
 
@@ -82,10 +84,15 @@ export class Carousel implements AfterContentInit {
       this.prefersReducedMotion() ||
       slideCount < 2
     ) {
+      this.transitionAt.set(null);
       return;
     }
 
-    const timer = window.setInterval(() => this.advance(), this.rotationInterval());
+    this.transitionAt.set(Date.now() + this.rotationInterval());
+    const timer = window.setInterval(() => {
+      this.advance();
+      this.transitionAt.set(Date.now() + this.rotationInterval());
+    }, this.rotationInterval());
     onCleanup(() => window.clearInterval(timer));
   });
 

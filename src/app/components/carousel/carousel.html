@@ -31,7 +31,7 @@
           @if (!mobileProfile() || index === 0 || slide.preload()) {
             <ng-container
               [ngTemplateOutlet]="slide.template"
-              [ngTemplateOutletContext]="{ $implicit: slide === currentSlide() }"
+              [ngTemplateOutletContext]="{ $implicit: slide === currentSlide(), transitionAt: transitionAt() }"
             />
           } @else {
             @defer (
@@ -40,7 +40,7 @@
             ) {
               <ng-container
                 [ngTemplateOutlet]="slide.template"
-                [ngTemplateOutletContext]="{ $implicit: slide === currentSlide() }"
+                [ngTemplateOutletContext]="{ $implicit: slide === currentSlide(), transitionAt: transitionAt() }"
               />
             }
           }

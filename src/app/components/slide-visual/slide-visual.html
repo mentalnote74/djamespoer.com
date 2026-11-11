@@ -135,7 +135,7 @@
   }
   @case ('conservatory') {
     @defer (on immediate; hydrate when active()) {
-      <app-portfolio-slide
+      <app-portfolio-slide [transitionAt]="transitionAt()"
         slideVisualReady
         (slideVisualReady)="ready.emit()"
         [active]="active()"

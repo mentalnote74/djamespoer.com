@@ -41,6 +41,7 @@ export class SlideVisual {
   readonly ready = output<void>();
   readonly slide = input.required<PortfolioSlideDefinition>();
   readonly active = input(true);
+  readonly transitionAt = input<number | null>(null);
   readonly hero = input(false);
   readonly priority = input(false);
 }

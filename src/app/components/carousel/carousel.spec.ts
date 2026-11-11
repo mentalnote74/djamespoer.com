@@ -235,6 +235,21 @@ describe('Carousel', () => {
     expect(root.querySelector('.carousel__status')?.textContent).toContain('9 seconds');
   });
 
+  it('publishes the actual advance deadline and clears it while paused', () => {
+    const { component, fixture } = createCarousel();
+    expect(component.transitionAt()).toBe(Date.now() + CAROUSEL_INTERVAL_MS);
+    vi.advanceTimersByTime(CAROUSEL_INTERVAL_MS);
+    fixture.detectChanges();
+    expect(component.transitionAt()).toBe(Date.now() + CAROUSEL_INTERVAL_MS);
+    component.toggleRotation();
+    fixture.detectChanges();
+    expect(component.transitionAt()).toBeNull();
+    vi.advanceTimersByTime(1700);
+    component.toggleRotation();
+    fixture.detectChanges();
+    expect(component.transitionAt()).toBe(Date.now() + CAROUSEL_INTERVAL_MS);
+  });
+
   it('automatically advances at nine seconds, never earlier', () => {
     const { component, fixture } = createCarousel();
 

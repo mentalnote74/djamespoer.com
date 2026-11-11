@@ -1,8 +1,10 @@
+import { ConservatoryMotion } from './conservatory-motion';
 import { DOCUMENT } from '@angular/common';
 import {
   afterNextRender,
   Component,
   computed,
+  effect,
   DestroyRef,
   ElementRef,
   inject,
@@ -23,11 +25,15 @@ import { PublicTrack } from '../../services/public-track';
     './portfolio-slide.art.scss',
     './portfolio-slide.copy.scss',
     './portfolio-slide.motion.scss',
+    './portfolio-slide.chameleon.scss',
     '../slide-visual/hero-presentation.scss',
   ],
 })
 export class PortfolioSlide {
   readonly active = input(true);
+  readonly transitionAt = input<number | null>(null);
+  private readonly motionReady = signal(false);
+  private motion?: ConservatoryMotion;
   readonly hero = input(false);
   readonly priority = input(false);
   readonly sceneId = input('portfolio-conservatory-v2');
@@ -44,13 +50,23 @@ export class PortfolioSlide {
   private readonly destroy = inject(DestroyRef);
 
   constructor() {
+    effect((onCleanup) => {
+      if (!this.motionReady()) return;
+      if (!this.active()) this.motion?.reset();
+      if (!this.running()) return;
+      this.motion?.start();
+      onCleanup(() => this.motion?.stop());
+    });
     afterNextRender(() => {
       const view = this.document.defaultView;
       if (!view) return;
+      this.motion = new ConservatoryMotion(this.element.nativeElement, () => this.transitionAt(), () => this.hero());
+      this.motionReady.set(true);
       const media = view.matchMedia('(prefers-reduced-motion: reduce)');
       const updateVisibility = () => this.visible.set(!this.document.hidden);
       const updateMotion = () => {
         this.reduced.set(media.matches);
+        if (media.matches) this.motion?.reveal();
       };
       updateVisibility();
       updateMotion();
@@ -64,6 +80,7 @@ export class PortfolioSlide {
         this.document.removeEventListener('visibilitychange', updateVisibility);
         media.removeEventListener('change', updateMotion);
         observer.disconnect();
+        this.motion?.stop();
       });
     });
   }
