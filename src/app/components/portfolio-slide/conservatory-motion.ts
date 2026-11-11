@@ -1,9 +1,12 @@
+import { LivingChameleon } from './living-chameleon';
+
 /** Browser-only scene renderer. Keeps frame updates outside Angular change detection. */
 export class ConservatoryMotion {
   private frame = 0;
   private previous = 0;
   private elapsed = 0;
   private painted = 0;
+  private readonly skin: LivingChameleon;
   private readonly canvas: HTMLCanvasElement;
   private readonly water: HTMLImageElement;
   private readonly animal: HTMLElement;
@@ -17,6 +20,7 @@ export class ConservatoryMotion {
     this.canvas = root.querySelector<HTMLCanvasElement>('.water-ripples')!;
     this.water = root.querySelector<HTMLImageElement>('.reflections-material img')!;
     this.animal = root.querySelector<HTMLElement>('.chameleon-perch')!;
+    this.skin = new LivingChameleon(this.animal);
     this.tongue = root.querySelector<SVGPathElement>('.chameleon-tongue')!;
     this.tip = root.querySelector<SVGEllipseElement>('.chameleon-tongue-tip')!;
     this.fly = root.querySelector<SVGGElement>('.chameleon-fly')!;
@@ -41,9 +45,9 @@ export class ConservatoryMotion {
 
   reveal(): void {
     this.animal.dataset['skin'] = 'disco';
-    this.animal.style.setProperty('--crawl-x', '-14%');
-    this.animal.style.setProperty('--crawl-y', '5%');
-    this.animal.style.setProperty('--gait', '0deg');
+    this.animal.style.setProperty('--breath', '1');
+    this.animal.style.setProperty('--eye-turn', '0px');
+    this.skin.render(0, true);
     this.tongue.style.opacity = this.tip.style.opacity = this.fly.style.opacity = '0';
   }
 
@@ -53,16 +57,11 @@ export class ConservatoryMotion {
     const t = this.elapsed;
     const deadline = this.transitionAt();
     const remaining = deadline === null ? (this.hero() ? 9 - t % 9 : Infinity) : (deadline - Date.now()) / 1000;
-    // Solid patterned skin throughout: disco mirror tiles, woven tartan, neon tubes.
     const skinPhase = t % 9;
     this.animal.dataset['skin'] = skinPhase < 3 ? 'disco' : skinPhase < 6 ? 'tartan' : 'neon';
-    const crawl = Math.min(t / 3.2, 1);
-    const steps = crawl < 1 ? Math.sin(t * 9) : 0;
-    this.animal.style.setProperty('--crawl-x', `${-14 * crawl}%`);
-    this.animal.style.setProperty('--crawl-y', `${5 * crawl - Math.abs(steps) * .8}%`);
-    this.animal.style.setProperty('--gait', `${steps * .7}deg`);
-    this.animal.style.setProperty('--skin-angle', `${t * 75}deg`);
-    this.animal.style.setProperty('--skin-travel', `${t * 17}px`);
+    this.animal.style.setProperty('--breath', String(1 + Math.sin(t * 1.65) * .003));
+    this.animal.style.setProperty('--eye-turn', `${remaining < 1.65 ? -.55 : Math.sin(t * .7) * .32}px`);
+    this.skin.render(t);
     const strike = .66 - remaining;
     const extension = strike < 0 || strike >= .13 ? 0 : strike < .055 ? strike / .055 : 1 - (strike - .055) / .075;
     const targetX = -310 + (strike < .055 ? 8 * Math.sin(t * 8) : 0);
