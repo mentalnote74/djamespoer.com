@@ -33,7 +33,7 @@ export class LivingChameleon {
       if (!src[p + 3]) { dst[p + 3] = 0; continue; }
       const u = map[k], v = map[k + 1], value = map[k + 2], region = map[k + 3];
       // The animal never becomes transparent. Only its pigmentation changes.
-      const strength = region * (.52 + .17 * Math.sin(light + u * 3.4 - v * 2.1));
+      const strength = region * (.64 + .16 * Math.sin(light + u * 3.4 - v * 2.1));
       let red = 0, green = 0, blue = 0;
       if (weights[0] > 0) {
         const facetX = Math.floor(u * 30), facetY = Math.floor(v * 17);
@@ -70,6 +70,11 @@ export class LivingChameleon {
         green += weights[2] * (.30 + cyan * 1.18 + glow * .5);
         blue += weights[2] * (.28 + cyan * .94 + pink * .92 + glow);
       }
+      // Raise pigment chroma without changing the original scale lighting.
+      const pigmentValue = red * .2126 + green * .7152 + blue * .0722;
+      red = Math.max(0, pigmentValue + (red - pigmentValue) * 1.22);
+      green = Math.max(0, pigmentValue + (green - pigmentValue) * 1.22);
+      blue = Math.max(0, pigmentValue + (blue - pigmentValue) * 1.22);
       // Retain the source's scale relief, cast shadows and warm architectural light.
       const shade = .20 + value * 1.42;
       dst[p] = src[p] * (1 - strength) + Math.min(255, red * shade * 255) * strength;
