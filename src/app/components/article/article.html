@@ -3,13 +3,13 @@
     <app-slide-hero
       class="editorial-wide"
       [destination]="destination"
-      [heading]="article().title"
+      [heading]="article().heading ?? article().title"
     />
   }
   <header>
     <p><a routerLink="/blognostisphere">Back to Blognostisphere</a></p>
     @if (!heroDestination()) {
-      <h1>{{ article().title }}</h1>
+      <h1>{{ article().heading ?? article().title }}</h1>
     }
     @if (article().subtitle; as subtitle) {
       <p>{{ subtitle }}</p>
