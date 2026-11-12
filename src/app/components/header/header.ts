@@ -67,6 +67,7 @@ export class Header {
   readonly caseStudies = [
     { path: '/work/djamespoer', label: 'djamespoer.com' },
     { path: '/thingamajob', label: 'Thingamajob' },
+    { path: '/buildometer', label: 'Buildometer' },
     { path: '/case-studies/creative-town', label: 'Creative Town' },
     { path: '/case-studies/shady-white-van', label: 'Shady White Van' },
     ...this.work.map((link) =>

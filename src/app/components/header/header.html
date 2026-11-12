@@ -106,46 +106,6 @@
         </li>
         <li class="site-header__group">
           <button
-            #workButton
-            type="button"
-            [attr.aria-expanded]="openSection() === 'work'"
-            aria-controls="work-navigation"
-            (click)="toggleSection('work', workButton)"
-          >
-            <svg
-              lucideBriefcaseBusiness
-              class="action-icon"
-              aria-hidden="true"
-              focusable="false"
-            ></svg>
-            Work
-            <svg
-              lucideChevronDown
-              class="action-icon site-header__theme-chevron"
-              aria-hidden="true"
-              focusable="false"
-            ></svg>
-          </button>
-          <ul id="work-navigation" class="site-header__submenu" [hidden]="openSection() !== 'work'">
-            @for (link of work; track link.path) {
-              <li>
-                <a
-                  publicTrack
-                  trackLocation="primary-navigation"
-                  trackSource="work"
-                  class="site-header__nav-link"
-                  [routerLink]="link.path"
-                  routerLinkActive="site-header__nav-link--active"
-                  [routerLinkActiveOptions]="{ exact: true }"
-                  ariaCurrentWhenActive="page"
-                  >{{ link.label }}</a
-                >
-              </li>
-            }
-          </ul>
-        </li>
-        <li class="site-header__group">
-          <button
             #caseStudiesButton
             type="button"
             [attr.aria-expanded]="openSection() === 'case-studies'"
@@ -267,6 +227,46 @@
                   routerLinkActive="site-header__nav-link--active"
                   ariaCurrentWhenActive="page"
                   >{{ article.title }}</a
+                >
+              </li>
+            }
+          </ul>
+        </li>
+        <li class="site-header__group">
+          <button
+            #workButton
+            type="button"
+            [attr.aria-expanded]="openSection() === 'work'"
+            aria-controls="work-navigation"
+            (click)="toggleSection('work', workButton)"
+          >
+            <svg
+              lucideBriefcaseBusiness
+              class="action-icon"
+              aria-hidden="true"
+              focusable="false"
+            ></svg>
+            Work History
+            <svg
+              lucideChevronDown
+              class="action-icon site-header__theme-chevron"
+              aria-hidden="true"
+              focusable="false"
+            ></svg>
+          </button>
+          <ul id="work-navigation" class="site-header__submenu" [hidden]="openSection() !== 'work'">
+            @for (link of work; track link.path) {
+              <li>
+                <a
+                  publicTrack
+                  trackLocation="primary-navigation"
+                  trackSource="work"
+                  class="site-header__nav-link"
+                  [routerLink]="link.path"
+                  routerLinkActive="site-header__nav-link--active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  ariaCurrentWhenActive="page"
+                  >{{ link.label }}</a
                 >
               </li>
             }

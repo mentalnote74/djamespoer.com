@@ -28,6 +28,7 @@ describe('Header', () => {
     expect(component.caseStudies.map((link) => link.path)).toEqual([
       '/work/djamespoer',
       '/thingamajob',
+      '/buildometer',
       '/case-studies/creative-town',
       '/case-studies/shady-white-van',
       ...component.work.map((link) => link.path.replace('/work/', '/case-studies/')),
@@ -53,13 +54,13 @@ describe('Header', () => {
       (fixture.nativeElement as HTMLElement).querySelector('[aria-controls="theme-navigation"]'),
     ).toBeNull();
   });
-  it('orders About, Work and Perspectives and preserves About destinations', async () => {
+  it('puts work history last and preserves About destinations', async () => {
     const root = fixture.nativeElement as HTMLElement;
     expect(
       Array.from(root.querySelectorAll('.site-header__nav-list > li > button'), (button) =>
         button.textContent?.trim(),
       ),
-    ).toEqual(['About', 'Work', 'Case Studies', 'Perspectives', 'Blognostisphere']);
+    ).toEqual(['About', 'Case Studies', 'Perspectives', 'Blognostisphere', 'Work History']);
     const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
     const list = root.querySelector<HTMLUListElement>('#about-navigation')!;
     expect(list.hidden).toBe(true);
@@ -111,6 +112,7 @@ describe('Header', () => {
     expect(links.map((link) => link.getAttribute('href'))).toEqual([
       '/work/djamespoer',
       '/thingamajob',
+      '/buildometer',
       '/case-studies/creative-town',
       '/case-studies/shady-white-van',
       '/case-studies/exl',
