@@ -11,13 +11,13 @@
 
 The facade explicitly forwards public members. `_responsive.scss` keeps its `$-breakpoints` map private; callers cannot mutate policy through configuration. `_foundations.scss` supplies compile-time values. Import the facade rather than internal files. Neither module emits CSS.
 
-`base/_elements.scss` owns inherited typography, native paragraph spacing, heading weight, link treatment, control font inheritance and basic table alignment. Contextual component margins, heading sizes, control appearance and table borders/padding remain local. `base/_accessibility.scss` owns ordinary native-control focus geometry and `.visually-hidden`; its important declarations intentionally prevent contextual rules from exposing hidden copy. Skip-link behavior remains in App.
+`base/_elements.scss` owns font-family roles, native paragraph spacing, link treatment, control font inheritance and basic table alignment. `base/_typography.scss` owns the shared responsive H1–H6 scale and editorial lead, pull quote, caption, quotation and divider treatments. Components retain contextual spacing, control appearance and table borders/padding. Container-sized carousel art direction remains local; ordinary page headings use the shared scale. `base/_accessibility.scss` owns ordinary native-control focus geometry and `.visually-hidden`; its important declarations intentionally prevent contextual rules from exposing hidden copy. Skip-link behavior remains in App.
 
-Runtime colors use `--page-background` and `--page-foreground`; existing layout custom properties retain their ownership. Changing page colors does not require rebuilding Sass. This is not a complete theme system.
+Runtime theme maps own semantic colors; existing coast and depth modules own environmental surfaces and light. Typography adds no parallel theme or material system. `--type-h1-size` through `--type-h6-size`, `--type-lead-size`, `--type-prose-leading` and `--type-reading-measure` are inherited runtime roles. Apply `.editorial-lead` to an introduction/deck and `.editorial-pullquote` to an intentional highlight. Inside `.editorial-content`, prose has a 70ch maximum without constraining the figure/workspace grid track. Native `em`/`strong` retain their meaning. No new fonts or dependencies.
 
 Group responsive changes in one mixin call per component transition. Angular styles are compiled separately: the shared API does not merge media rules across component chunks. No utility generation, loops, placeholders or extends are needed. Extends would couple selectors and potentially expand generated selector lists; maps here represent policy, not generators.
 
-Tests: `node --test scripts/styles-foundation.test.mjs` uses the Sass compiler already installed for Angular builds. They cover non-emission, established thresholds, validation, grouped output and private-policy access.
+Tests: `node --test scripts/styles-foundation.test.mjs` uses the Sass compiler already installed for Angular builds. They cover non-emission, established thresholds, validation, grouped output and private-policy access. The editorial-pair assertion predates the current Page-owned rail policy; do not treat that historical assertion as a current layout specification.
 
 ## Chunk 1 output comparison
 

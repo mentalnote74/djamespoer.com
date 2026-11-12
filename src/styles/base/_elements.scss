@@ -23,16 +23,6 @@ p {
   margin-block: 1em;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-display);
-  font-weight: foundation.$heading-weight;
-}
-
 a {
   color: inherit;
   text-underline-offset: 0.2em;

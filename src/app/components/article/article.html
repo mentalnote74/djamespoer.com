@@ -7,7 +7,7 @@
     @if (!heroDestination()) {
       <h1>{{ article().title }}</h1>
     }
-    <p class="blognostisphere-article__dek">{{ article().dek }}</p>
+    <p class="blognostisphere-article__dek editorial-lead">{{ article().dek }}</p>
     <p>
       <a href="#article-author-note">{{ byline }}</a> ·
       <time [attr.datetime]="article().publishedDate">{{ publishedLabel() }}</time>

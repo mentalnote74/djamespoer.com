@@ -2,11 +2,14 @@
   display: block;
 }
 
-.about__opening {
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
+.about__thought {
+  margin-block: 1.5em;
 }
 
-.about__thought {
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  margin-block: 1.5em;
+.about > section {
+  margin-block-start: clamp(2rem, 4vw, 3.5rem);
+
+  > h2 {
+    margin-block-start: 0;
+  }
 }

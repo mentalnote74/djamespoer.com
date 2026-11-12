@@ -4,22 +4,11 @@
 .blognostisphere-index {
   overflow-wrap: anywhere;
 
-  > h1 {
-    font-size: clamp(2rem, 5vw, 3.75rem);
-    line-height: 1.12;
-    letter-spacing: -0.03em;
-  }
-
   > .blognostisphere-index__entry {
     display: block;
     grid-column: content;
     margin-block: 1.5rem;
     line-height: 1.65;
-  }
-
-  :is(h2, h3) {
-    line-height: 1.25;
-    text-wrap: balance;
   }
 
   &__author-note {

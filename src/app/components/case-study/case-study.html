@@ -5,7 +5,7 @@
     <h1 [class.visually-hidden]="titleVisuallyHidden()">{{ study().title }}</h1>
   }
   @if (study().subtitle; as subtitle) {
-    <p>{{ subtitle }}</p>
+    <p class="editorial-lead">{{ subtitle }}</p>
   }
   @if (study().relatedPage; as related) {
     <nav aria-label="Related page before the case study">

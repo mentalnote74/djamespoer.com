@@ -24,15 +24,6 @@
   > section {
     margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
   }
-  h2 {
-    line-height: 1.15;
-    text-wrap: balance;
-  }
-  > h1 {
-    font-size: clamp(2.25rem, 5vw, 4.25rem);
-    line-height: 1.08;
-    letter-spacing: -0.025em;
-  }
   > .case-study__group {
     padding: var(--surface-padding);
     h2 {
@@ -44,9 +35,6 @@
   }
   > .surface-inset {
     inline-size: 100%;
-  }
-  > .surface-feature h2 {
-    font-size: clamp(1.75rem, 3vw, 2.75rem);
   }
   > nav a {
     text-underline-offset: 0.3em;

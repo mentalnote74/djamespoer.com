@@ -18,6 +18,7 @@
   }
   &__home {
     display: inline-flex;
+    min-inline-size: 0;
     --bedlam-inline-size: clamp(10rem, 16vw, 18rem);
     align-items: center;
     min-block-size: foundation.$control-target;
@@ -140,6 +141,7 @@
 
 // Caller-owned sky artwork; BEDLAM itself adds no gradient treatment.
 .site-header app-bedlam {
+  max-inline-size: 100%;
   --bedlam-star-field: radial-gradient(circle at 16px 19px, #fff 0 .7px, transparent 1.5px) 0 0 / 83px 61px,
     radial-gradient(circle at 38px 12px, #d8e6ff 0 1px, transparent 2px) 17px 12px / 137px 73px,
     radial-gradient(circle at 20px 37px, #fff1cd 0 .6px, transparent 1.3px) 40px 0 / 107px 97px;

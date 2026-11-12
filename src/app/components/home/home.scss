@@ -46,6 +46,7 @@ app-carousel {
 }
 
 .home-opening {
+  line-height: 1.6;
   display: grid;
   gap: 0.75rem;
   h2 {
@@ -55,11 +56,6 @@ app-carousel {
   }
   p {
     margin: 0;
-    line-height: 1.6;
-  }
-  > p:first-of-type {
-    font-size: 1.2rem;
-    line-height: 1.5;
   }
   nav {
     display: flex;
