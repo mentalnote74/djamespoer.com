@@ -1,0 +1,29 @@
+name: Unit tests
+
+# Cloudflare Workers Builds already runs the production build on every push and PR.
+# This workflow adds the missing unit-test check so agents don't spend their usage re-running it.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unit-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx ng test --watch=false

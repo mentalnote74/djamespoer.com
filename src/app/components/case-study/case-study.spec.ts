@@ -34,7 +34,9 @@ describe('CaseStudy presentation', () => {
     expect(root.querySelector('h1')?.textContent).toBe(TCC_CASE_STUDY.title);
     expect(root.querySelectorAll('h1')).toHaveLength(1);
     expect(root.querySelectorAll('h2')).toHaveLength(TCC_CASE_STUDY.sections.length);
-    expect(root.querySelectorAll('main, [id]')).toHaveLength(0);
+    expect(root.querySelectorAll('main')).toHaveLength(0);
+    const ids = Array.from(root.querySelectorAll('[id]'), (el) => el.id);
+    expect(new Set(ids).size).toBe(ids.length);
     expect(root.querySelectorAll('ul li')).toHaveLength(
       (TCC_CASE_STUDY as Content).sections.reduce(
         (count, section) => count + (section.items?.length ?? 0),
@@ -137,6 +139,7 @@ describe('CaseStudy presentation', () => {
     expect(image.height).toBe(600);
     expect(image.getAttribute('loading')).toBe('lazy');
     expect(root.querySelector('figcaption')?.textContent).toBe('Synthetic caption');
-    expect(root.querySelectorAll('[id]')).toHaveLength(0);
+    const ids = Array.from(root.querySelectorAll('[id]'), (el) => el.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });

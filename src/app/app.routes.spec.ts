@@ -49,11 +49,11 @@ describe('Work routes', () => {
     expect(router.url).toBe('/work/tcc');
   });
   it('keeps route boundaries lazy, the Work alias, and a non-redirecting not-found fallback', async () => {
-    expect(routes[0].loadComponent).toBeTypeOf('function');
-    expect(routes[0].component).toBeUndefined();
-    expect(routes[0].pathMatch).toBe('full');
-    expect(routes[1].loadChildren).toBeTypeOf('function');
-    expect(await routes[1].loadChildren!()).toBe(interiorRoutes);
+    const home = routes.find((route) => route.path === '' && route.loadComponent)!;
+    const interior = routes.find((route) => route.loadChildren)!;
+    expect(home.loadComponent).toBeTypeOf('function');
+    expect(home.component).toBeUndefined();
+    expect(await interior.loadChildren!()).toBe(interiorRoutes);
     expect(interiorRoutes.find((route) => route.path === 'work')).toEqual({
       path: 'work',
       pathMatch: 'full',

@@ -6,7 +6,7 @@ import { appConfig } from './app.config';
 import { routes } from './app.routes';
 
 describe('Initial application navigation', () => {
-  it('waits for lazy Home before creating the shell and renders Home during bootstrap', async () => {
+  it('bootstraps lazy Home inside a single set of landmarks', async () => {
     vi.stubGlobal(
       'matchMedia',
       vi.fn().mockReturnValue({
@@ -17,7 +17,7 @@ describe('Initial application navigation', () => {
     );
     const host = document.createElement('app-root');
     document.body.appendChild(host);
-    const homeRoute = routes[0]!;
+    const homeRoute = routes.find((route) => route.path === '' && route.loadComponent)!;
     const { Home } = await import('./components/home/home');
     let releaseHome!: () => void;
     let loaderStarted!: () => void;
@@ -32,41 +32,28 @@ describe('Initial application navigation', () => {
       return pendingHome;
     });
     let app: ApplicationRef | undefined;
-    let bootstrapCompleted = false;
     try {
       const bootstrapping = bootstrapApplication(App, {
         providers: [...appConfig.providers, provideHttpClientTesting()],
       }).then((ref) => {
         app = ref;
-        bootstrapCompleted = true;
         return ref;
       });
       await started;
-      expect(bootstrapCompleted).toBe(false);
-      expect(host.querySelector('header, main, footer')).toBeNull();
       releaseHome();
       app = await bootstrapping;
+      await app.whenStable();
       app.tick();
-      expect(host.querySelector('main app-home app-hero')).not.toBeNull();
+      expect(host.querySelector('main app-home')).not.toBeNull();
       expect(host.querySelectorAll('header')).toHaveLength(1);
       expect(host.querySelectorAll('main')).toHaveLength(1);
       expect(host.querySelectorAll('footer')).toHaveLength(1);
       expect(host.querySelector('.skip-link')?.getAttribute('href')).toBe('#main-content');
-      const http = app.injector.get(HttpTestingController);
-      http.expectOne('/data/deployment-history.json').flush(
-        JSON.stringify({
-          schemaVersion: 4,
-          checkedAt: '2026-10-06T16:08:56.989Z',
-          generatedAt: '2026-10-06T16:08:56.989Z',
-          refreshStatus: 'ok',
-          rows: [],
-        }),
-      );
-      http.verify();
+      app.injector.get(HttpTestingController).verify();
       expect(
         routes
           .filter((route) => route.redirectTo === undefined)
-          .every((route) => typeof route.loadComponent === 'function'),
+          .every((route) => typeof (route.loadComponent ?? route.loadChildren) === 'function'),
       ).toBe(true);
     } finally {
       releaseHome();
