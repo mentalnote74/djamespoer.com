@@ -3,6 +3,8 @@ export interface ArticleSummary {
   title: string;
   dek: string;
   description?: string;
+  subtitle?: string;
+  author?: string;
   publishedDate: string;
   modifiedDate: string;
 }
@@ -14,6 +16,15 @@ export function newestArticlesFirst(articles: readonly ArticleSummary[]): Articl
 }
 
 export const ARTICLES: readonly ArticleSummary[] = newestArticlesFirst([
+  {
+    slug: 'please-pass-the-bottleneck',
+    title: 'Please Pass the Bottleneck',
+    subtitle: '99 bottlenecks of code on the wall…',
+    dek: 'We taught machines to write software. Now we need to teach them when to stop.',
+    author: 'D. James Poer',
+    publishedDate: '2026-11-12',
+    modifiedDate: '2026-11-12',
+  },
   {
     slug: 'how-do-i-make-it-to-the-top-of-the-stack',
     title: 'How Do I Make It to the Top of the Stack?',
@@ -279,7 +290,7 @@ export function structuredDataForPage(page: PublicPage): Record<string, unknown>
         url: `${SITE_ORIGIN}/about`,
         jobTitle: PROFESSIONAL_ROLE,
         sameAs: PUBLIC_PROFILES,
-        ...(page.article ? { alternateName: 'Blognosticator' } : {}),
+        ...(page.article && !page.article.author ? { alternateName: 'Blognosticator' } : {}),
       },
       {
         ...website,

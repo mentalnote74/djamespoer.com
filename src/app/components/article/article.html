@@ -1,15 +1,31 @@
 <article class="blognostisphere-article editorial-content">
   @if (heroDestination(); as destination) {
-    <app-slide-hero class="editorial-wide" [destination]="destination" [heading]="article().title" />
+    <app-slide-hero
+      class="editorial-wide"
+      [destination]="destination"
+      [heading]="article().title"
+    />
   }
   <header>
     <p><a routerLink="/blognostisphere">Back to Blognostisphere</a></p>
     @if (!heroDestination()) {
       <h1>{{ article().title }}</h1>
     }
-    <p class="blognostisphere-article__dek editorial-lead">{{ article().dek }}</p>
+    @if (article().subtitle; as subtitle) {
+      <p>{{ subtitle }}</p>
+      <p class="blognostisphere-article__dek editorial-lead">
+        <em>{{ article().dek }}</em>
+      </p>
+    } @else {
+      <p class="blognostisphere-article__dek editorial-lead">{{ article().dek }}</p>
+    }
     <p>
-      <a href="#article-author-note">{{ byline }}</a> ·
+      @if (article().author; as author) {
+        <span>{{ author }}</span>
+      } @else {
+        <a href="#article-author-note">{{ byline }}</a>
+      }
+      ·
       <time [attr.datetime]="article().publishedDate">{{ publishedLabel() }}</time>
     </p>
   </header>
@@ -27,9 +43,11 @@
         </ul>
       </section>
     }
-    <p id="article-author-note" class="blognostisphere-article__author-note" tabindex="-1">
-      *{{ authorNote }}
-    </p>
+    @if (!article().author) {
+      <p id="article-author-note" class="blognostisphere-article__author-note" tabindex="-1">
+        *{{ authorNote }}
+      </p>
+    }
     <nav aria-label="More from Blognostisphere">
       @for (other of related(); track other.slug) {
         <p>
