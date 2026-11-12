@@ -1,0 +1,24 @@
+{
+  "candidateHash": "1c0b209c9f3cf31e1deac7f3028b93e6ba1727d5abc853eb6fa93b4cbce9ddbe",
+  "observedAt": "2026-11-12T19:36:45.693Z",
+  "total": 477,
+  "shipped": 219,
+  "remaining": 258,
+  "percent": 45.9,
+  "added": 32,
+  "newShippedCredit": 35,
+  "members": 98,
+  "priorHistoryBytesPreserved": true,
+  "sourceSha": "8528e9cb849948a0a053f14333951f03bae8f6c3",
+  "localHomeSummary": {
+    "percent": 45.9,
+    "total": 477,
+    "shipped": 219,
+    "remaining": 258,
+    "observedAt": "2026-11-12T19:36:45.693Z",
+    "latestEligibleReleaseAt": "2026-11-12T15:37:47.590604Z"
+  },
+  "apiCalculationPercent": 45.9,
+  "activeOutputsRegenerated": true,
+  "deployed": false
+}

@@ -1,0 +1,37 @@
+{
+  "add": [
+    "SCRUM-161",
+    "SCRUM-162",
+    "SCRUM-174",
+    "SCRUM-179",
+    "SCRUM-180",
+    "SCRUM-181",
+    "SCRUM-185",
+    "SCRUM-186"
+  ],
+  "ship": [
+    "SCRUM-161",
+    "SCRUM-162",
+    "SCRUM-174",
+    "SCRUM-179",
+    "SCRUM-180",
+    "SCRUM-181",
+    "SCRUM-185",
+    "SCRUM-186",
+    "SCRUM-132"
+  ],
+  "remove": [],
+  "reestimate": [],
+  "unship": [],
+  "verifyUnchangedRelease": false,
+  "defer": [
+    {
+      "key": "SCRUM-141",
+      "reason": "Existing five-point shipped credit retained by explicit owner decision10478."
+    },
+    {
+      "key": "SCRUM-134",
+      "reason": "Existing eight-point shipped credit retained after retirement; owner decision10478."
+    }
+  ]
+}

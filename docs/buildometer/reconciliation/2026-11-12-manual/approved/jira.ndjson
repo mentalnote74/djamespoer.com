@@ -1,0 +1,186 @@
+{"key": "SCRUM-1", "title": "[ONBOARDING SAMPLE] Task 1", "type": "Task", "parent": null, "status": "Done", "points": null}
+{"key": "SCRUM-2", "title": "[ONBOARDING SAMPLE] Task 2", "type": "Story", "parent": null, "status": "Done", "points": null}
+{"key": "SCRUM-3", "title": "[ONBOARDING SAMPLE] Task 3", "type": "Task", "parent": null, "status": "Done", "points": null}
+{"key": "SCRUM-4", "title": "[ONBOARDING SAMPLE] Subtask 2.1", "type": "Subtask", "parent": null, "status": "Done", "points": null}
+{"key": "SCRUM-5", "title": "Portfolio foundation and delivery infrastructure", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-6", "title": "Homepage recruiter elevator pitch", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-7", "title": "Proof-of-value destination routes", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-8", "title": "Career Truth Archive and evidence system", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-9", "title": "Accessibility, performance, SEO and quality", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-10", "title": "AI recruiter and application tools", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-11", "title": "Brand, themes and progressive enhancements", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-12", "title": "Establish Angular portfolio repository and application scaffold — DTS", "type": "Story", "parent": "SCRUM-5", "status": "Done", "points": 3}
+{"key": "SCRUM-13", "title": "Register and configure djamespoer.com domain — DTS", "type": "Story", "parent": "SCRUM-5", "status": "Done", "points": 2}
+{"key": "SCRUM-14", "title": "Build semantic routed application shell and shared container", "type": "Story", "parent": "SCRUM-5", "status": "Done", "points": 5}
+{"key": "SCRUM-15", "title": "Establish AI-assisted engineering workflow and handoff documentation", "type": "Story", "parent": "SCRUM-5", "status": "Done", "points": 3}
+{"key": "SCRUM-16", "title": "Protect private Career Truth Archive from source control and client access", "type": "Story", "parent": "SCRUM-8", "status": "Done", "points": 2}
+{"key": "SCRUM-17", "title": "Optimize construction hero production image", "type": "Story", "parent": "SCRUM-9", "status": "Done", "points": 2}
+{"key": "SCRUM-18", "title": "Add build-time last-updated indicator", "type": "Story", "parent": "SCRUM-5", "status": "Done", "points": 2}
+{"key": "SCRUM-19", "title": "Establish initial analytics and metadata baseline", "type": "Story", "parent": "SCRUM-9", "status": "Done", "points": 2}
+{"key": "SCRUM-20", "title": "Build accessible primary navigation", "type": "Story", "parent": "SCRUM-5", "status": "Done", "points": 5}
+{"key": "SCRUM-21", "title": "Scaffold six proof-of-value routes", "type": "Story", "parent": "SCRUM-7", "status": "Done", "points": 5}
+{"key": "SCRUM-22", "title": "Build accessible six-slide carousel shell", "type": "Story", "parent": "SCRUM-6", "status": "Done", "points": 8}
+{"key": "SCRUM-23", "title": "Place existing construction Hero into carousel — DTS", "type": "Story", "parent": "SCRUM-6", "status": "Done", "points": 3}
+{"key": "SCRUM-24", "title": "Recruiter conversion, contact and résumé delivery", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-25", "title": "Authenticate djamespoer.com email domain and validate DNS", "type": "Story", "parent": "SCRUM-5", "status": "To Do", "points": 3}
+{"key": "SCRUM-26", "title": "Add portfolio 404 and route fallback experience", "type": "Story", "parent": "SCRUM-7", "status": "Done", "points": 3}
+{"key": "SCRUM-27", "title": "Publish recruiter-ready résumé download", "type": "Story", "parent": "SCRUM-24", "status": "Done", "points": 3}
+{"key": "SCRUM-28", "title": "Build accessible recruiter contact path", "type": "Story", "parent": "SCRUM-24", "status": "Done", "points": 5}
+{"key": "SCRUM-29", "title": "Run and document accessibility and Lighthouse quality baseline", "type": "Story", "parent": "SCRUM-9", "status": "Done", "points": 5}
+{"key": "SCRUM-30", "title": "Create production favicon and application icon set", "type": "Story", "parent": "SCRUM-11", "status": "To Do", "points": 5}
+{"key": "SCRUM-31", "title": "Inventory and preserve historical career evidence corpus", "type": "Story", "parent": "SCRUM-8", "status": "To Do", "points": 5}
+{"key": "SCRUM-32", "title": "Build canonical Career Truth Cannon with provenance", "type": "Story", "parent": "SCRUM-8", "status": "To Do", "points": 8}
+{"key": "SCRUM-33", "title": "Build evidence-backed JD fit evaluator", "type": "Story", "parent": "SCRUM-10", "status": "To Do", "points": 8}
+{"key": "SCRUM-34", "title": "Add CI/CD quality gates for main", "type": "Story", "parent": "SCRUM-9", "status": "To Do", "points": 5}
+{"key": "SCRUM-35", "title": "Living Theme Engine", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-36", "title": "Easter Eggs & Hidden Experiences", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-37", "title": "Create reusable custom control sprite asset", "type": "Story", "parent": "SCRUM-11", "status": "To Do", "points": 3}
+{"key": "SCRUM-38", "title": "Skin semantic controls with sprite states accessibly", "type": "Story", "parent": "SCRUM-11", "status": "To Do", "points": 3}
+{"key": "SCRUM-39", "title": "Build reusable accessible paginated grid component", "type": "Story", "parent": "SCRUM-5", "status": "Done", "points": 5}
+{"key": "SCRUM-40", "title": "Build deployment history from reusable grid component", "type": "Story", "parent": "SCRUM-5", "status": "Done", "points": 5}
+{"key": "SCRUM-41", "title": "Capture screenshot and Lighthouse evidence after production deployments", "type": "Story", "parent": "SCRUM-5", "status": "To Do", "points": 5}
+{"key": "SCRUM-42", "title": "Design and publish accessible AI-generated music experiences", "type": "Story", "parent": "SCRUM-11", "status": "To Do", "points": 5}
+{"key": "SCRUM-43", "title": "Establish Shady White Van as the AI-assisted music project", "type": "Story", "parent": "SCRUM-11", "status": "To Do", "points": 5}
+{"key": "SCRUM-44", "title": "Produce Zuck Phuckerberg as Shady White Van study track #1", "type": "Story", "parent": "SCRUM-11", "status": "To Do", "points": 5}
+{"key": "SCRUM-45", "title": "Run participatory usability study for accessible music experiences", "type": "Story", "parent": "SCRUM-9", "status": "To Do", "points": 8}
+{"key": "SCRUM-46", "title": "Add live portfolio case-study context — SBS", "type": "Story", "parent": null, "status": "Done", "points": 0}
+{"key": "SCRUM-47", "title": "Add Lighthouse performance self-check — SBS", "type": "Story", "parent": null, "status": "To Do", "points": 1}
+{"key": "SCRUM-48", "title": "Build accessible responsive navigation system — SBS", "type": "Story", "parent": null, "status": "Done", "points": 5}
+{"key": "SCRUM-49", "title": "Build Employment History deep-dive section — SBS", "type": "Story", "parent": null, "status": "Done", "points": 5}
+{"key": "SCRUM-50", "title": "Create milestone screenshot archive — DTS", "type": "Story", "parent": null, "status": "To Do", "points": 8}
+{"key": "SCRUM-51", "title": "Add local date and time clock to site footer — DTS", "type": "Story", "parent": null, "status": "To Do", "points": 2}
+{"key": "SCRUM-52", "title": "Build real-time project progress dashboard (“Sally”)", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-53", "title": "Sally: Build Jira executive project summary — DTS", "type": "Story", "parent": "SCRUM-52", "status": "To Do", "points": 8}
+{"key": "SCRUM-54", "title": "Sally: Build GitHub executive engineering summary — DTS", "type": "Story", "parent": "SCRUM-52", "status": "To Do", "points": 5}
+{"key": "SCRUM-55", "title": "Sally: Present Cloudflare shipping status as executive summary — DTS", "type": "Story", "parent": "SCRUM-52", "status": "To Do", "points": 3}
+{"key": "SCRUM-56", "title": "Sally: Build axe accessibility verification summary — DTS", "type": "Story", "parent": "SCRUM-52", "status": "To Do", "points": 5}
+{"key": "SCRUM-57", "title": "Sally: Compose four perspectives into daily executive summary — DTS", "type": "Story", "parent": "SCRUM-52", "status": "To Do", "points": 5}
+{"key": "SCRUM-58", "title": "[BUG] Smart Grid pipeline history breaks on iPhone viewport — SBS", "type": "Task", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-59", "title": "Rework primary navigation and scaffold Work case-study routes — DTS", "type": "Story", "parent": null, "status": "Done", "points": 5}
+{"key": "SCRUM-60", "title": "Capture and attach Sprint 0 production quality evidence — DTS", "type": "Task", "parent": null, "status": "Done", "points": 2}
+{"key": "SCRUM-61", "title": "[BUG] Hero particles not rendering on Samsung Galaxy S23 Ultra — DTS", "type": "Task", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-62", "title": "Define multi-agent division of labor and Jira handoff protocol", "type": "Story", "parent": null, "status": "Done", "points": 0}
+{"key": "SCRUM-63", "title": "[BUG] Build & Deployment History is stale and omits Oct. 7 Cloudflare attempts — DTS", "type": "Task", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-64", "title": "Create Creative carousel treasure-hunt mural", "type": "Story", "parent": "SCRUM-6", "status": "Done", "points": 8}
+{"key": "SCRUM-65", "title": "Stage Three Crackheads V1 assets for SCRUM-64 comparison", "type": "Story", "parent": null, "status": "To Do", "points": 1}
+{"key": "SCRUM-66", "title": "Automate multi-agent story relay and eliminate James as message bus", "type": "Story", "parent": null, "status": "To Do", "points": 3}
+{"key": "SCRUM-67", "title": "Build bidirectional SBS/DTS ↔ Larry relay and contain unreliable image-generation paths", "type": "Story", "parent": null, "status": "To Do", "points": 13}
+{"key": "SCRUM-68", "title": "Publish EXL LifePRO case-study content", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-69", "title": "djamespoer.com Case Study Evidence Bank", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-70", "title": "Add djamespoer.com as current top Job History case study", "type": "Story", "parent": "SCRUM-69", "status": "Done", "points": 5}
+{"key": "SCRUM-71", "title": "Creative Town — add Operation Pig Lips Easter egg", "type": "Story", "parent": null, "status": "Done", "points": 2}
+{"key": "SCRUM-72", "title": "SBS — Home hero restructure and Building in Public messaging", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-73", "title": "TEAM CANON — LLL universal capture and shared knowledge protocol", "type": "Story", "parent": null, "status": "To Do", "points": 2}
+{"key": "SCRUM-74", "title": "DISTRIBUTE — LLL universal capture protocol", "type": "Story", "parent": null, "status": "To Do", "points": 1}
+{"key": "SCRUM-75", "title": "Operation Pig Lips — Living djamespoer.com identity / permanent shadow", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-76", "title": "CANON — Cocktail theme selector / Designated Driver baseline", "type": "Story", "parent": null, "status": "Done", "points": 2}
+{"key": "SCRUM-77", "title": "Pig Lips — Beach Drink Theme System + Dusk-to-Dusk Living Theme", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-78", "title": "Thingamajob — discovery, live-client prototypes, and product architecture", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-79", "title": "BUG — Dusk-to-Dusk appears visually inactive in live site", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-80", "title": "Thingamajob Phase 1: Establish trusted identity and workspace ownership", "type": "Story", "parent": "SCRUM-78", "status": "To Do", "points": 8}
+{"key": "SCRUM-81", "title": "Thingamajob Phase 1: Establish protected Worker / D1 / R2 foundation", "type": "Story", "parent": "SCRUM-78", "status": "To Do", "points": 8}
+{"key": "SCRUM-82", "title": "Thingamajob Phase 1: Preserve client-owned evidence with provenance", "type": "Story", "parent": "SCRUM-78", "status": "To Do", "points": 5}
+{"key": "SCRUM-83", "title": "Thingamajob Phase 1: Implement owner-only assertion review and truth promotion", "type": "Story", "parent": "SCRUM-78", "status": "To Do", "points": 8}
+{"key": "SCRUM-84", "title": "Thingamajob Phase 1: Implement independent UNKNOWN and explicit resolution", "type": "Story", "parent": "SCRUM-78", "status": "To Do", "points": 5}
+{"key": "SCRUM-85", "title": "Thingamajob Phase 1: Prove protected two-client round trip", "type": "Story", "parent": "SCRUM-78", "status": "To Do", "points": 5}
+{"key": "SCRUM-86", "title": "Thingamajob Phase 1: Connect minimal Angular Thingamajob presentation", "type": "Story", "parent": "SCRUM-78", "status": "Done", "points": 8}
+{"key": "SCRUM-87", "title": "nurseericakortz.com — lean public career site + Thingamajob Client #2 integration", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-88", "title": "Bootstrap nurseericakortz.com production shell", "type": "Story", "parent": "SCRUM-87", "status": "To Do", "points": 5}
+{"key": "SCRUM-89", "title": "Create Erica public identity and career-content sections", "type": "Story", "parent": "SCRUM-87", "status": "To Do", "points": 3}
+{"key": "SCRUM-90", "title": "Mount shared Thingamajob for Erica Client #2", "type": "Story", "parent": "SCRUM-87", "status": "To Do", "points": 5}
+{"key": "SCRUM-91", "title": "Add baseline SEO, social metadata, contact and accessibility acceptance", "type": "Story", "parent": "SCRUM-87", "status": "To Do", "points": 3}
+{"key": "SCRUM-92", "title": "Client #2 MVP — Stand up nurseericakortz.com SEO-first shell", "type": "Story", "parent": null, "status": "In Review", "points": null}
+{"key": "SCRUM-93", "title": "PIG LIPS — Living Theme depth, material, texture & environmental lighting", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-94", "title": "MAINTENANCE — Dependency Closet Cleanup", "type": "Story", "parent": null, "status": "To Do", "points": 3}
+{"key": "SCRUM-95", "title": "Replace randomized Bedlam effects with a native theme-driven generative algorithm", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-96", "title": "Enrich Bedlam with inverse dark-theme mask mode", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-97", "title": "Refine Living Theme with material depth, texture, and global environmental lighting", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-98", "title": "Cloudflare storage architecture and prototype billing guardrail", "type": "Story", "parent": null, "status": "To Do", "points": 3}
+{"key": "SCRUM-99", "title": "Creative Town — living case study and generative town-square system", "type": "Epic", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-100", "title": "Document the Creative Town origin story and production fiasco", "type": "Story", "parent": "SCRUM-99", "status": "To Do", "points": 5}
+{"key": "SCRUM-101", "title": "Build canonical Creative Town character and prop registry", "type": "Story", "parent": "SCRUM-99", "status": "To Do", "points": 5}
+{"key": "SCRUM-102", "title": "Design the repeatable Creative Town square with controlled variation", "type": "Story", "parent": "SCRUM-99", "status": "In Review", "points": 8}
+{"key": "SCRUM-103", "title": "Build reusable Creative Town character asset pipeline", "type": "Story", "parent": "SCRUM-99", "status": "To Do", "points": 8}
+{"key": "SCRUM-104", "title": "Define Creative Town vs Bedlam rivalry canon", "type": "Story", "parent": "SCRUM-99", "status": "To Do", "points": 2}
+{"key": "SCRUM-105", "title": "Capture Creative Town Easter eggs and silent micro-story library", "type": "Story", "parent": "SCRUM-99", "status": "To Do", "points": 8}
+{"key": "SCRUM-106", "title": "Produce Creative Town portfolio case study", "type": "Story", "parent": "SCRUM-99", "status": "To Do", "points": 8}
+{"key": "SCRUM-107", "title": "Define Creative Town population, cameo, and mostly-static scene model", "type": "Story", "parent": "SCRUM-99", "status": "To Do", "points": 3}
+{"key": "SCRUM-108", "title": "Document real-time human–AI development pitfalls, workarounds, and efficiency protocol", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-109", "title": "Enshrine the Python homage and Creative Town Ring of Honor", "type": "Story", "parent": "SCRUM-99", "status": "To Do", "points": 2}
+{"key": "SCRUM-110", "title": "djamespoer.com header logo outer container is not fully clickable to Home", "type": "Task", "parent": null, "status": "To Do", "points": 2}
+{"key": "SCRUM-111", "title": "Thingamajob case-study screenshot archive — capture now, curate later", "type": "Story", "parent": null, "status": "To Do", "points": 2}
+{"key": "SCRUM-112", "title": "DUPLICATE — screenshot archive; use SCRUM-111", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-113", "title": "DUPLICATE — screenshot archive; use SCRUM-111", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-114", "title": "Thingamajob case-study screenshot archive — capture now, curate later", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-115", "title": "Thingamajob case-study screenshot archive — capture now, curate later", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-116", "title": "Thingamajob case-study screenshot archive — capture now, curate later", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-117", "title": "Thingamajob case-study screenshot archive — capture now, curate later", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-118", "title": "Thingamajob case-study screenshot archive — capture now, curate later", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-119", "title": "Rigby's Biscuit Trail — Gamified Portfolio Wayfinding", "type": "Epic", "parent": null, "status": "To Do", "points": 0}
+{"key": "SCRUM-120", "title": "Buildometer — Dynamic Instrument Skin Architecture", "type": "Story", "parent": null, "status": "To Do", "points": 13}
+{"key": "SCRUM-121", "title": "Produce Thingamajob portfolio case study", "type": "Story", "parent": null, "status": "To Do", "points": 8}
+{"key": "SCRUM-122", "title": "Produce Buildometer portfolio case study", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-123", "title": "Rigby initial release: journey and interaction specification", "type": "Story", "parent": "SCRUM-119", "status": "To Do", "points": 3}
+{"key": "SCRUM-124", "title": "Rigby initial release: Production Rigby and biscuit asset package", "type": "Story", "parent": "SCRUM-119", "status": "To Do", "points": 5}
+{"key": "SCRUM-125", "title": "Rigby initial release: Accessible entrance and first biscuit encounter", "type": "Story", "parent": "SCRUM-119", "status": "To Do", "points": 8}
+{"key": "SCRUM-126", "title": "Rigby initial release: Cross-route trail and session recovery", "type": "Story", "parent": "SCRUM-119", "status": "To Do", "points": 13}
+{"key": "SCRUM-127", "title": "Rigby initial release: Complete journey, conversion handoff and measurement", "type": "Story", "parent": "SCRUM-119", "status": "To Do", "points": 5}
+{"key": "SCRUM-128", "title": "Publish UX Perspective / Field Notes platform", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-129", "title": "Build accessible account identity and authentication foundation", "type": "Story", "parent": null, "status": "To Do", "points": 13}
+{"key": "SCRUM-130", "title": "Build accessible payment and transaction experience", "type": "Story", "parent": null, "status": "To Do", "points": 13}
+{"key": "SCRUM-131", "title": "Research employment compatibility / matchmaking model for Thingamajob", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-132", "title": "Restore deployment grid beside Buildometer on home page", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-133", "title": "LLL — Operation Pig Lips design canon", "type": "Story", "parent": null, "status": "In Progress", "points": null}
+{"key": "SCRUM-134", "title": "Create Thingamajob carousel gateway slide V1", "type": "Story", "parent": "SCRUM-6", "status": "Done", "points": 8}
+{"key": "SCRUM-135", "title": "Create TCC Software Solutions carousel gateway slide V1", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-136", "title": "Create IPS / PowerSchool carousel gateway slide V1", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-137", "title": "Create Dreyer & Reinbold carousel gateway slide V1", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-138", "title": "Create djamespoer.com carousel gateway slide V1", "type": "Story", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-139", "title": "djamespoer.com — Old-school + modern SEO / discoverability pass", "type": "Story", "parent": null, "status": "To Do", "points": 8}
+{"key": "SCRUM-140", "title": "Bug: /work/djamespoer destination hero renders oversized and pushes content far below fold", "type": "Story", "parent": null, "status": "Done", "points": 2}
+{"key": "SCRUM-141", "title": "Thingamajob — capture public evaluation telemetry and conversion outcomes", "type": "Story", "parent": null, "status": "In Review", "points": 5}
+{"key": "SCRUM-142", "title": "Replace site download résumé with updated Spray & Pray master", "type": "Task", "parent": null, "status": "Done", "points": 2}
+{"key": "SCRUM-143", "title": "Article idea — The Difference Between Good, and Good Enough", "type": "Task", "parent": null, "status": "Done", "points": null}
+{"key": "SCRUM-144", "title": "Blognostisphere — add Blognostifications heading above article list", "type": "Task", "parent": null, "status": "Done", "points": 1}
+{"key": "SCRUM-145", "title": "Big Dumb Bass — implement prepared layered slide with delayed bass reveal", "type": "Task", "parent": null, "status": "Done", "points": 8}
+{"key": "SCRUM-146", "title": "LLL — Wonderdoodles parked concept and project boundary", "type": "Story", "parent": null, "status": "To Do", "points": 0}
+{"key": "SCRUM-147", "title": "[BUG] Navigation stops responding in retained tabs — investigate idle, stale state and mobile resume", "type": "Task", "parent": null, "status": "In Review", "points": 5}
+{"key": "SCRUM-148", "title": "Rigby: 13 flavor-specific cookie dances and isolated local auditions", "type": "Story", "parent": null, "status": "Done", "points": 13}
+{"key": "SCRUM-149", "title": "Write and implement Shady White Van case study from project evidence", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-150", "title": "Propagate SWV evidence-backed skills through James LoT and career surfaces", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-151", "title": "Update djamespoer.com professional skills and SEO from SWV evidence", "type": "Story", "parent": null, "status": "To Do", "points": 3}
+{"key": "SCRUM-152", "title": "Update master résumé and LinkedIn with SWV-backed technical evidence", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-153", "title": "Update Thingamajob and Job Dredge matching with SWV-backed skills", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-154", "title": "Measure current SWV 3D mobile performance before claiming performance results", "type": "Story", "parent": null, "status": "To Do", "points": 3}
+{"key": "SCRUM-155", "title": "Track remaining skill-expansion gaps after SWV", "type": "Story", "parent": null, "status": "To Do", "points": 2}
+{"key": "SCRUM-156", "title": "Establish djamespoer.com security baseline and threat model", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-157", "title": "Define secure authentication and account architecture before implementing login", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-158", "title": "Define PCI-safe payment architecture before implementing purchases", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-159", "title": "Harden GitHub, Cloudflare and production deployment supply chain", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-160", "title": "Create security verification gate for account and commerce releases", "type": "Story", "parent": null, "status": "To Do", "points": 5}
+{"key": "SCRUM-161", "title": "Add three-choice résumé selector; custom links directly to Thingamajob", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-162", "title": "Catalog and maintain authoritative long-form master résumé", "type": "Story", "parent": null, "status": "Done", "points": 5}
+{"key": "SCRUM-163", "title": "Catalog, audit and maintain canonical Thingamajob Library of Truth", "type": "Story", "parent": null, "status": "In Review", "points": 8}
+{"key": "SCRUM-164", "title": "Publish article: Software Development Is Never Done — Just Done Enough for Now", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-165", "title": "Add BEDLAM-masked social profile icons (LinkedIn, X, Facebook, Bluesky) to footer and nav", "type": "Story", "parent": null, "status": "In Review", "points": 5}
+{"key": "SCRUM-166", "title": "Set up D. James Poer's Bluesky profile and first post", "type": "Story", "parent": null, "status": "To Do", "points": 2}
+{"key": "SCRUM-167", "title": "Version every production build and stamp the commit into it", "type": "Story", "parent": null, "status": "To Do", "points": 3}
+{"key": "SCRUM-168", "title": "Multi-agent workspace and OneDrive housekeeping — durable operating policy", "type": "Story", "parent": null, "status": "In Progress", "points": 8}
+{"key": "SCRUM-169", "title": "Rigby analytics — measure play, cookies and doghouse dismissal", "type": "Story", "parent": "SCRUM-119", "status": "In Review", "points": 5}
+{"key": "SCRUM-170", "title": "Rigby follow-up: pause/off/bring-back behavior after a second hidden cookie", "type": "Task", "parent": null, "status": "To Do", "points": 3}
+{"key": "SCRUM-171", "title": "Buildometer — reconcile shipped scope and append a current progress observation", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-172", "title": "Buildometer — make progress reconciliation a repeatable release step", "type": "Story", "parent": null, "status": "In Progress", "points": 13}
+{"key": "SCRUM-173", "title": "Buildometer — show progress observation date and stale-data status", "type": "Story", "parent": null, "status": "In Progress", "points": 5}
+{"key": "SCRUM-174", "title": "URGENT: Fix BOTH résumé timelines — caregiving career pause Apr 2023–Oct 2026 and current projects first", "type": "Story", "parent": null, "status": "Done", "points": 5}
+{"key": "SCRUM-175", "title": "Claude — acknowledge and apply the lean-validation directive on return", "type": "Task", "parent": null, "status": "Done", "points": null}
+{"key": "SCRUM-176", "title": "All agents — sign and follow SCRUM-168 lean-validation directive", "type": "Task", "parent": null, "status": "Done", "points": null}
+{"key": "SCRUM-177", "title": "Thingamajob — remove construction tape and present the working evaluator", "type": "Task", "parent": null, "status": "To Do", "points": 2}
+{"key": "SCRUM-178", "title": "Blog idea (backlog): How do you know when it is time to stop polishing a turd?", "type": "Story", "parent": null, "status": "To Do", "points": null}
+{"key": "SCRUM-179", "title": "Footer waterfront — lean implementation pass", "type": "Story", "parent": null, "status": "Done", "points": 5}
+{"key": "SCRUM-180", "title": "Home vs About — lean content/route pass", "type": "Story", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-181", "title": "Living sky — lean atmospheric tuning pass", "type": "Story", "parent": null, "status": "Done", "points": 5}
+{"key": "SCRUM-182", "title": "Rewrite entire homepage as senior UX engineer hiring narrative", "type": "Story", "parent": null, "status": "In Progress", "points": null}
+{"key": "SCRUM-183", "title": "LoT registry: where James's Library of Truth lives (verified 2026-11-09)", "type": "Task", "parent": null, "status": "In Review", "points": null}
+{"key": "SCRUM-184", "title": "Coordinate DJP carousel/SWV attribution and suppress duplicate SWV analytics", "type": "Task", "parent": null, "status": "In Review", "points": 5}
+{"key": "SCRUM-185", "title": "PL2.0 corrective pass — balance introduction, fix five-card grid, stay under CSS budget", "type": "Task", "parent": null, "status": "Done", "points": 3}
+{"key": "SCRUM-186", "title": "Blognostisphere: Please Pass the Bottleneck", "type": "Story", "parent": null, "status": "Done", "points": 3}

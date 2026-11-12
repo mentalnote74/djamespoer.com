@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "classification": "projection-only",
+  "eligibleFeatureRelease": false,
+  "reason": "Publish one owner-approved manual observation after verified feature releases; do not recursively create an observation for this data publication.",
+  "approvalRef": "SCRUM-172 comments10478/10479 and owner chat deploy the manual calc",
+  "observedAt": "2026-11-12T19:36:45.693Z",
+  "total": 477,
+  "shipped": 219,
+  "remaining": 258,
+  "percent": 45.9,
+  "deploymentAuthorized": true,
+  "automationReady": false,
+  "automationGaps": [
+    "Existing Worker daily report at10:00 Eastern does not recalculate ledger first.",
+    "Existing brief workflow lacks shared daily/release reconciliation invocation.",
+    "No approved all-program baseline; existing approved98-member DJP scope must remain explicit."
+  ],
+  "preparedInputs": [
+    "Current Jira point updates verified in SCRUM-187 comment10476",
+    "Full reviewed inventory and item-to-release mappings in approved directory",
+    "Owner-approved98-member canonical ledger and matching public/Home/server projections",
+    "Unknown scope/estimate items remain explicit in candidate unresolved queue"
+  ]
+}

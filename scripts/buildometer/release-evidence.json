@@ -1,21 +1,85 @@
 {
   "schemaVersion": 1,
-  "verifiedAt": "2026-11-07T01:27:43.085Z",
+  "verifiedAt": "2026-11-12T16:04:45.478Z",
   "release": {
-    "id": "5ea0604b-7db6-4445-bbac-2e5a5a900bdd",
-    "sha": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
-    "deployedAt": "2026-11-07T01:27:14.533016Z",
+    "id": "15995cff-a69b-4b6e-8093-a6c35a4ea0e4",
+    "sha": "8528e9cb849948a0a053f14333951f03bae8f6c3",
+    "deployedAt": "2026-11-12T15:37:47.590604Z",
     "environment": "production",
     "status": "succeeded",
     "stage": "deployed",
-    "evidenceUrl": "https://github.com/mentalnote74/djamespoer.com/runs/128255411418"
+    "evidenceUrl": "https://dash.cloudflare.com/503bf2f231b16579eda88a11d9d54d13/workers/services/view/djamespoer-com/production/builds/4af7aa73-ddb4-43e8-87c2-d12d2037578a"
   },
   "items": [
+    {
+      "key": "SCRUM-161",
+      "commit": "e129a84896af5347242083c9d940489d7006b7d3",
+      "evidencePath": "docs/resume",
+      "deployedAt": "2026-11-06T17:43:39Z",
+      "releaseId": "b41891bd-3291-4c7e-9eff-c96012218969",
+      "acceptanceNote": "Verified delivered work; exact estimate and membership approved in owner chat and SCRUM-172 comment10478. SCRUM-161/10357"
+    },
+    {
+      "key": "SCRUM-162",
+      "commit": "e129a84896af5347242083c9d940489d7006b7d3",
+      "evidencePath": "docs/resume",
+      "deployedAt": "2026-11-06T17:43:39Z",
+      "releaseId": "b41891bd-3291-4c7e-9eff-c96012218969",
+      "acceptanceNote": "Verified delivered work; exact estimate and membership approved in owner chat and SCRUM-172 comment10478. SCRUM-162/10358; SCRUM-174/10388"
+    },
     {
       "key": "SCRUM-174",
       "commit": "be025d216f1e95b9eed0ac3c3a7c50039d777432",
       "evidencePath": "docs/resume/scrum-174-2026-11-06.json",
-      "acceptanceNote": "Owner-directed public resume correction verified live: exact selector, both final PDF hashes; protected TEST canonical addition remains pending explicit authorization. Not whole-story completion or point credit."
+      "deployedAt": "2026-11-07T01:27:14.533016Z",
+      "releaseId": "5ea0604b-7db6-4445-bbac-2e5a5a900bdd",
+      "acceptanceNote": "Verified delivered work; exact estimate and membership approved in owner chat and SCRUM-172 comment10478. SCRUM-174/10387/10388"
+    },
+    {
+      "key": "SCRUM-179",
+      "commit": "2478d4adb81d86a929b70b0ec1875d99ab3fb93f",
+      "evidencePath": "src/app/components/footer",
+      "releaseId": "25e56dbd-378a-428c-9d57-c60c2d1fb72a",
+      "acceptanceNote": "Verified delivered work; exact estimate and membership approved in owner chat and SCRUM-172 comment10478. SCRUM-179/10396; minute precision only",
+      "deploymentTimeReported": "2026-11-07 10:03 AM EST (minute precision)"
+    },
+    {
+      "key": "SCRUM-180",
+      "commit": "2478d4adb81d86a929b70b0ec1875d99ab3fb93f",
+      "evidencePath": "src/app/components/home",
+      "releaseId": "25e56dbd-378a-428c-9d57-c60c2d1fb72a",
+      "acceptanceNote": "Verified delivered work; exact estimate and membership approved in owner chat and SCRUM-172 comment10478. SCRUM-180/10398; minute precision only",
+      "deploymentTimeReported": "2026-11-07 10:03 AM EST (minute precision)"
+    },
+    {
+      "key": "SCRUM-181",
+      "commit": "2478d4adb81d86a929b70b0ec1875d99ab3fb93f",
+      "evidencePath": "src/styles/themes/_living-sky.scss",
+      "releaseId": "25e56dbd-378a-428c-9d57-c60c2d1fb72a",
+      "acceptanceNote": "Verified delivered work; exact estimate and membership approved in owner chat and SCRUM-172 comment10478. SCRUM-181/10397; minute precision only",
+      "deploymentTimeReported": "2026-11-07 10:03 AM EST (minute precision)"
+    },
+    {
+      "key": "SCRUM-185",
+      "commit": "24244ac28fab322305490170e81831f49aef5c40",
+      "evidencePath": "src/app/components/home/home.scss",
+      "deployedAt": "2026-11-12T00:12:13.388Z",
+      "releaseId": "Cloudflare build f17440ca-6bda-4d87-b272-ff4920ba8067",
+      "acceptanceNote": "Verified delivered work; exact estimate and membership approved in owner chat and SCRUM-172 comment10478. SCRUM-185/10428 and 10438; activation from retained deployment history"
+    },
+    {
+      "key": "SCRUM-186",
+      "commit": "ff01772c56332758854ac1eeabe1440049533861",
+      "evidencePath": "src/app/components/article/bottleneck.content.ts",
+      "deployedAt": "2026-11-12T15:37:47.590604Z",
+      "releaseId": "15995cff-a69b-4b6e-8093-a6c35a4ea0e4",
+      "acceptanceNote": "Verified delivered work; exact estimate and membership approved in owner chat and SCRUM-172 comment10478. SCRUM-186/10434"
+    },
+    {
+      "key": "SCRUM-132",
+      "commit": "4906b90d2c9706707f8c053cb0e29a3cbfb27f6e",
+      "evidencePath": "src/app/components/buildometer-overview",
+      "acceptanceNote": "Production 1440px: TAMJ and BOM both 416px, grid 832px alongside. At 390px all 358px and stacked; no overflow. Lazy-loaded deployment grid verified present. Owner explicitly approves historical delivered credit despite subsequent intentional removal; SCRUM-172 comment10478."
     }
   ]
 }
