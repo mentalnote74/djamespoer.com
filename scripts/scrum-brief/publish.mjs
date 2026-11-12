@@ -2,12 +2,14 @@ import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { generate } from './generate.mjs';
+import { runBeforeBrief, reconciliationPath } from './daily-reconciliation.mjs';
 const run = (command, args, extra = {}) =>
   execFileSync(command, args, { stdio: 'inherit', ...extra });
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 const files = [
   'src/app/components/daily-scrum-brief/brief.generated.ts',
   'public/data/product-journal.json',
+  reconciliationPath,
 ];
 try {
   if (
@@ -34,7 +36,9 @@ try {
     throw Error(
       'Earlier journal candidate was not confirmed live; resolve its Workers Builds failure before advancing history.',
     );
-  const brief = await generate({ publishedJournal: live });
+  const brief = await runBeforeBrief((reconciliation) =>
+    generate({ publishedJournal: live, reconciliation }),
+  );
   run('npm', ['run', 'build']);
   run('git', ['restore', '--', 'src/app/generated/build-info.ts']);
   const changed = git('diff', '--name-only', '--', ...files);

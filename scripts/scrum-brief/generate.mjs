@@ -159,7 +159,7 @@ export async function savePublication(
 }
 // One read-only handoff from SCRUM-57, using the existing brief section shape.
 // ChatGPT authors the text; this adapter only validates and carries it unchanged.
-function jiraReader({ config = process.env, fetcher = fetch } = {}) {
+export function jiraReader({ config = process.env, fetcher = fetch } = {}) {
   const site = 'https://djamespoer.atlassian.net';
   if (
     (config.JIRA_BASE_URL && config.JIRA_BASE_URL !== site) ||
@@ -185,10 +185,14 @@ function jiraReader({ config = process.env, fetcher = fetch } = {}) {
       });
     } catch {
       // Never include provider bodies, request headers or credential-bearing errors.
-      throw Error('Jira handoff read failed at ' + path.split('?')[0] + ': network, redirect or timeout');
+      throw Error(
+        'Jira handoff read failed at ' + path.split('?')[0] + ': network, redirect or timeout',
+      );
     }
     if (!response.ok)
-      throw Error('Jira handoff read failed at ' + path.split('?')[0] + ': HTTP ' + response.status);
+      throw Error(
+        'Jira handoff read failed at ' + path.split('?')[0] + ': HTTP ' + response.status,
+      );
     try {
       return await response.json();
     } catch {
@@ -229,11 +233,7 @@ export async function preflightJiraAccess(options = {}) {
     commentsRead: comments.length,
   };
 }
-export async function readJiraBrief({
-  date,
-  now = new Date(),
-  ...options
-} = {}) {
+export async function readJiraBrief({ date, now = new Date(), ...options } = {}) {
   if (!isoDate(date) || date !== easternDate(now))
     throw Error("Jira handoff requires today's Eastern date");
   const site = 'https://djamespoer.atlassian.net';
@@ -324,6 +324,7 @@ export async function generate({
   journalPath = journalDestination,
   publishedJournal,
   jira = {},
+  reconciliation,
 } = {}) {
   const day = date ?? easternDate(now);
   if (!isoDate(day) || day !== easternDate(now))
@@ -345,17 +346,34 @@ export async function generate({
     throw Error('Jira authoring cutoff does not follow the previous published brief');
   const brief = {
     date: day,
-    sections: authored.sections,
+    sections: reconciliation
+      ? [
+          {
+            heading: 'Buildometer reconciliation (system receipt)',
+            paragraphs: [
+              `${reconciliation.scope}: ${reconciliation.shipped} shipped / ${reconciliation.total} total; ${reconciliation.remaining} remaining (${reconciliation.percent}%).`,
+              `Progress observed at ${reconciliation.observedAt}. Last checked ${reconciliation.checkedAt}. Status: ${reconciliation.status}. ${reconciliation.reason}`,
+            ],
+          },
+          ...authored.sections,
+        ]
+      : authored.sections,
     provenance: {
       sourceCommit: head,
       generatorCommit: head,
       evidenceSha256: createHash('sha256')
-        .update(JSON.stringify({ date: day, sections: authored.sections }))
+        .update(
+          JSON.stringify({
+            date: day,
+            sections: authored.sections,
+            ...(reconciliation ? { reconciliation } : {}),
+          }),
+        )
         .digest('hex'),
       method:
-        'ChatGPT-authored Jira publication payload; section text copied without rewriting or regeneration.',
+        'ChatGPT-authored Jira publication payload copied unchanged; optional canonical reconciliation system receipt precedes authored sections.',
       reportingWindow: { after: previous.cutoff, cutoff: authored.authoredAt },
-      sources: [authored.source],
+      sources: [authored.source, ...(reconciliation ? ['https://djamespoer.com/data/buildometer-reconciliation.json'] : [])],
     },
   };
   return savePublication(brief, { snapshotPath: path, journalPath });
