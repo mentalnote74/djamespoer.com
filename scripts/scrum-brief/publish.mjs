@@ -41,7 +41,7 @@ try {
   );
   run('npm', ['run', 'build']);
   run('git', ['restore', '--', 'src/app/generated/build-info.ts']);
-  const changed = git('diff', '--name-only', '--', ...files);
+  const changed = git('status', '--porcelain', '--untracked-files=all', '--', ...files);
   if (changed) {
     run('git', ['config', 'user.name', 'github-actions[bot]']);
     run('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
@@ -55,6 +55,7 @@ try {
   const sha = git('rev-parse', 'HEAD');
   const hash = (data) => createHash('sha256').update(data).digest('hex');
   const expected = hash(await readFile(files[1]));
+  const expectedReceipt = hash(await readFile(reconciliationPath));
   let published = false;
   const deadline = Date.now() + 600_000;
   for (let attempt = 0; attempt < 40 && Date.now() < deadline; attempt++) {
@@ -64,8 +65,14 @@ try {
         { cache: 'no-store', signal: AbortSignal.timeout(15000) },
       );
       if (response.ok && hash(Buffer.from(await response.arrayBuffer())) === expected) {
-        published = true;
-        break;
+        const receipt = await fetch(
+          'https://djamespoer.com/data/buildometer-reconciliation.json?release=' + sha,
+          { cache: 'no-store', signal: AbortSignal.timeout(15000) },
+        );
+        if (receipt.ok && hash(Buffer.from(await receipt.arrayBuffer())) === expectedReceipt) {
+          published = true;
+          break;
+        }
       }
     } catch {
       /* Transient polling errors never change committed journal content. */
