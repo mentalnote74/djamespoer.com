@@ -7,6 +7,8 @@ import { SlideHero } from '../slide-hero/slide-hero';
 import { HiddenCookie } from '../../features/cookie-hunt/hidden-cookie';
 import { ArticleSignature } from '../article-signature/article-signature';
 
+const ARTICLE_FALLBACK_HERO = '/work/djamespoer';
+
 @Component({
   selector: 'app-article',
   imports: [RouterLink, SlideHero, HiddenCookie, ArticleSignature],
@@ -17,9 +19,11 @@ import { ArticleSignature } from '../article-signature/article-signature';
 })
 export class Article {
   readonly article = input.required<ArticleContent>();
+  // Every article gets a live hero: its own slide when one exists, otherwise one
+  // of the djp.com slides, which SlideHero picks at random after hydration.
   readonly heroDestination = computed(() => {
     const destination = '/blognostisphere/' + this.article().slug;
-    return destinationSlides(destination).length ? destination : null;
+    return destinationSlides(destination).length ? destination : ARTICLE_FALLBACK_HERO;
   });
   readonly byline = ARTICLE_BYLINE;
   readonly publishedLabel = computed(() => articleDateLabel(this.article().publishedDate));
