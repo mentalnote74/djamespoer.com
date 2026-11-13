@@ -1,0 +1,122 @@
+// Magazine feature vocabulary (SCRUM-190): a 1970s picture-magazine treatment for
+// long-form reading. Every color is a semantic living-theme role, so each drink
+// theme recolors the spread and inherits its tested contrast pairs. Weight comes
+// from the already-loaded Inter variable axis (400-900): no new font requests.
+// Consumers @use this module from a lazily loaded component stylesheet so the
+// rules ship only with pages that render a feature.
+@use '../abstracts' as foundation;
+
+.magazine-feature {
+  --magazine-ink: var(--page-foreground);
+  --magazine-accent: var(--selected-background);
+  --magazine-on-accent: var(--selected-foreground);
+  --magazine-tint: var(--section-surface);
+  --magazine-rule: var(--control-border);
+
+  :where(h1, h2, h3) {
+    font-family: 'Inter Variable', foundation.$font-stack;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+  }
+}
+
+// Section label and byline: small, tracked caps read as magazine furniture.
+.magazine-kicker,
+.magazine-byline {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.magazine-kicker {
+  margin-block-end: 0;
+
+  > a {
+    display: inline-block;
+    padding: 0.35em 0.75em;
+    background-color: var(--magazine-accent);
+    color: var(--magazine-on-accent);
+    text-decoration: none;
+  }
+}
+.magazine-byline {
+  padding-block-start: 0.75rem;
+  border-block-start: 6px solid var(--magazine-accent);
+  color: var(--secondary-text);
+}
+
+.magazine-body {
+  font-size: 1.125rem;
+
+  > h2 {
+    margin-block: 3.5rem 1rem;
+    padding-block-start: 0.75rem;
+    border-block-start: 4px solid var(--magazine-rule);
+  }
+  > h3 {
+    margin-block: 2.5rem 0.75rem;
+    font-size: var(--type-h4-size);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  // Drop cap: purely presentational, so assistive tech still reads the word whole.
+  // flow-root keeps the float inside a short opening line instead of the next one.
+  > p:first-of-type {
+    display: flow-root;
+  }
+  > p:first-of-type::first-letter {
+    float: inline-start;
+    margin-inline-end: 0.12em;
+    margin-block-start: 0.08em;
+    padding: 0.06em 0.14em;
+    font-family: 'Inter Variable', foundation.$font-stack;
+    font-size: 3.4em;
+    font-weight: 900;
+    line-height: 0.85;
+    background-color: var(--magazine-accent);
+    color: var(--magazine-on-accent);
+  }
+}
+
+// The author's own standalone emphasis, promoted to a scannable re-entry point.
+.magazine-callout {
+  padding-inline-start: 1rem;
+  border-inline-start: 6px solid var(--magazine-accent);
+  font-size: var(--type-lead-size);
+  font-weight: 800;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+// Pull quote band; breaks into the gutters only where the gutters exist.
+.magazine-feature .editorial-pullquote {
+  margin-block: 2.5rem;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--magazine-accent);
+  color: var(--magazine-on-accent);
+  font-weight: 900;
+
+  @media (min-width: 80rem) {
+    margin-inline: -4rem;
+  }
+}
+
+// Inline aside and figure slots for per-article graphics, charts, and sidebars
+// that stay in the single reading column.
+.magazine-aside {
+  margin-block: 2rem;
+  padding: 1rem 1.25rem;
+  border-block-start: 6px solid var(--magazine-accent);
+  background-color: var(--magazine-tint);
+  color: var(--magazine-ink);
+}
+.magazine-figure {
+  margin: 2rem 0;
+
+  > :is(svg, img) {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+  }
+}

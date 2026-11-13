@@ -27,5 +27,10 @@ export class Article {
   readonly byline = ARTICLE_BYLINE;
   readonly authorNote = ARTICLE_AUTHOR_NOTE;
   readonly publishedLabel = computed(() => articleDateLabel(this.article().publishedDate));
-  readonly related = computed(() => ARTICLES.filter((item) => item.slug !== this.article().slug));
+  // Derived from the authored body (about 230 words per minute), never hand-entered.
+  readonly readMinutes = computed(() => {
+    const words = this.article().body.replace(/<[^>]+>/g, ' ').match(/\S+/g)?.length ?? 0;
+    return Math.max(1, Math.ceil(words / 230));
+  });
+  readonly related =computed(() => ARTICLES.filter((item) => item.slug !== this.article().slug));
 }

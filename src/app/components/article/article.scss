@@ -1,3 +1,5 @@
+@use '../../../styles/components/magazine';
+
 app-article {
   display: block;
 }
@@ -7,12 +9,6 @@ app-article {
 
   > header h1 {
     margin-block: 1rem;
-  }
-
-  &__body {
-    h2 {
-      margin-block: 2.75rem 1rem;
-    }
   }
 
   footer {
