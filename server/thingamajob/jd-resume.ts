@@ -126,7 +126,33 @@ export function validateResume(raw: unknown, truths: EvaluationTruth[]): Tailore
     .filter((r): r is TailoredResume['roles'][number] => !!r && r.bullets.length > 0);
   const headline = line(value.headline, 120);
   if (!roles.length) throw new EvaluationUnavailable('resume_unsupported');
-  return { headline, summary, skills, roles };
+  return { headline, summary, skills, roles: withCareerPause(roles, truths) };
+}
+
+const lastYear = (dates: string) => Number((dates.match(/\d{4}/g) ?? []).pop() ?? NaN);
+
+/** SCRUM-174/194: a documented career pause always appears, in chronological place, verbatim
+ * from its canonical "Career Pause | dates | reason" statement. Never hidden, never invented. */
+export function withCareerPause(
+  roles: TailoredResume['roles'],
+  truths: EvaluationTruth[],
+): TailoredResume['roles'] {
+  const pause = truths
+    .map((t) => /^Career Pause\s*\|\s*([^|]+?)\s*\|\s*(.+)$/i.exec(t.statement.trim()))
+    .find(Boolean);
+  if (!pause || roles.some((r) => /career pause/i.test(r.title + ' ' + r.employer))) return roles;
+  const [, dates, reason] = pause;
+  const entry = {
+    employer: '',
+    title: 'Career Pause',
+    dates,
+    bullets: [reason.replace(/^I was\s+/i, '').replace(/^\w/, (c) => c.toUpperCase())],
+  };
+  const start = Number(dates.match(/\d{4}/)?.[0] ?? NaN);
+  const at = roles.findIndex((r) => !/present/i.test(r.dates) && lastYear(r.dates) <= start);
+  const result = [...roles];
+  result.splice(at === -1 ? result.length : at, 0, entry);
+  return result;
 }
 
 /** One structured call through the existing Responses API pattern. */

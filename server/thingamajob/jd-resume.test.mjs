@@ -96,3 +96,26 @@ test('PDF renders and file name is safe', async () => {
   assert.equal(new TextDecoder().decode(bytes.slice(0, 5)), '%PDF-');
   assert.equal(resumeFileName('Senior UX Engineer / A11y'), 'D-James-Poer-Resume-Senior-UX-Engineer-A11y.pdf');
 });
+
+test('a documented career pause is always shown in chronological place', async () => {
+  const { withCareerPause } = await import('./jd-resume.ts');
+  const pause = {
+    truthId: 'p',
+    statement: 'Career Pause | April 2023–October 2026 | I was caring for sick family members.',
+    state: 'accepted',
+    qualifications: [],
+  };
+  const roles = [
+    { employer: 'Own Site', title: 'Engineer', dates: '2026–Present', bullets: ['x'] },
+    { employer: 'Fictional Co', title: 'Engineer', dates: 'October 2019 to April 2023', bullets: ['y'] },
+  ];
+  const result = withCareerPause(roles, [pause]);
+  assert.deepEqual(
+    result.map((r) => r.title),
+    ['Engineer', 'Career Pause', 'Engineer'],
+  );
+  assert.equal(result[1].dates, 'April 2023–October 2026');
+  assert.deepEqual(result[1].bullets, ['Caring for sick family members.']);
+  assert.equal(withCareerPause(result, [pause]).length, 3, 'never duplicated');
+  assert.equal(withCareerPause(roles, []).length, 2, 'never invented');
+});
