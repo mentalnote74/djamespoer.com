@@ -929,7 +929,14 @@ test('concise presentation separates required/preferred gaps, strengths and genu
   );
   assert.match(preferred, /Ramp-up areas: Enterprise-scale operations/);
   assert(!/James has/.test(preferred), 'The learner pitch is public-only');
-  assert.match(evaluationSummary({ requirements: rows }, true, true), /proven history of learning/);
+  const pitched = evaluationSummary({ requirements: rows }, true, true);
+  assert.match(pitched, /^Yes, James can do this job\. He already meets 1 of 2/);
+  assert.match(pitched, /He will ramp up on: Enterprise-scale operations/);
+  assert.match(pitched, /proven history of learning/);
+  assert.match(
+    evaluationSummary({ requirements: [{ ...rows[0], importance: 'required' }] }, true, true),
+    /^Yes, James can do this job\. He will ramp up on/,
+  );
   assert.equal(rows[0].outcome, 'NOT MET');
 });
 

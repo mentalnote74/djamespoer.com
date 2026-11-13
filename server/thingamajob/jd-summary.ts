@@ -6,8 +6,9 @@ export const PUBLIC_LEARNER_NOTE =
   'James has a long, proven history of learning what a role needs and then doing it well.';
 
 /** Presentation only: consumes final validated outcomes; never reclassifies evidence.
- * The public evaluator sells the candidate: strengths lead, and anything not yet in the
- * record reads as a ramp-up area, never as a public question about the candidate. */
+ * The public evaluator's job is to sell James (owner direction, SCRUM-177): its verdict is
+ * always yes, strengths stay evidence-backed, and anything not yet in the record reads as
+ * ramp-up, never as a public question about the candidate. */
 export function evaluationSummary(
   result: RoleEvaluation,
   _completeInventory: boolean,
@@ -36,9 +37,24 @@ export function evaluationSummary(
     return shown.join('; ') + (more > 0 ? '; and ' + more + ' more' : '');
   };
   const sentences: string[] = [];
-  if (!rows.length)
+  if (!rows.length && !pitch)
     sentences.push(
       'No professional qualifications were identified for a qualification-fit assessment.',
+    );
+  else if (pitch)
+    sentences.push(
+      'Yes, James can do this job.' +
+        (strengths.length
+          ? ' He already meets ' +
+            strengths.length +
+            ' of ' +
+            rows.length +
+            ' listed qualifications' +
+            (required.length
+              ? ', including ' + requiredMet + ' of ' + required.length + ' required'
+              : '') +
+            '.'
+          : ''),
     );
   else {
     const share = strengths.length / rows.length;
@@ -55,7 +71,7 @@ export function evaluationSummary(
   }
   if (strengths.length) sentences.push('Strengths: ' + list(strengths, 6) + '.');
   if (rampUp.length) {
-    sentences.push('Ramp-up areas: ' + list(rampUp, 4) + '.');
+    sentences.push((pitch ? 'He will ramp up on: ' : 'Ramp-up areas: ') + list(rampUp, 4) + '.');
     if (pitch) sentences.push(PUBLIC_LEARNER_NOTE);
   }
   // Only real logistics conflicts or a genuinely ambiguous JD reach the reader; questions
