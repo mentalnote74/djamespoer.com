@@ -100,6 +100,23 @@
   @media (min-width: 80rem) {
     margin-inline: -4rem;
   }
+
+  // The band is the quote's frame; drop the generic blockquote rule inside it.
+  blockquote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  p {
+    margin: 0;
+  }
+  figcaption {
+    font-family: 'Inter Variable', foundation.$font-stack;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
 }
 
 // Inline aside and figure slots for per-article graphics, charts, and sidebars

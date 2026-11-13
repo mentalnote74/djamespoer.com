@@ -14,12 +14,9 @@ class HeroStub {
 }
 
 describe('article shared hero composition', () => {
-  for (const slug of [
-    'like-a-big-dumb-bass',
-    'honey-should-i-add-bot-herder-to-my-resume',
-    'software-development-is-never-done',
-  ]) {
-    it(`preserves one article H1 and only uses registered artwork for ${slug}`, async () => {
+  // SCRUM-189: every article has a hero; a unit test keeps future ones honest.
+  for (const { slug } of ARTICLES) {
+    it(`renders one live hero and one article H1 for ${slug}`, async () => {
       const summary = ARTICLES.find((article) => article.slug === slug);
       expect(summary).toBeDefined();
       TestBed.configureTestingModule({ imports: [Article], providers: [provideRouter([])] });
@@ -38,9 +35,7 @@ describe('article shared hero composition', () => {
       const root: HTMLElement = fixture.nativeElement;
       expect(root.querySelectorAll('h1')).toHaveLength(1);
       expect(root.querySelector('h1')?.textContent).toBe(summary?.title);
-      expect(root.querySelectorAll('app-slide-hero')).toHaveLength(
-        slug === 'like-a-big-dumb-bass' ? 1 : 0,
-      );
+      expect(root.querySelectorAll('app-slide-hero')).toHaveLength(1);
       expect(root.querySelector('.blognostisphere-article__body')?.textContent).toBe(
         'Article body.',
       );
@@ -58,6 +53,8 @@ describe('article shared hero composition', () => {
       expect(content.slug).toBe(summary.slug);
       expect(content.title).toBe(summary.title);
       expect(content.body.length).toBeGreaterThan(100);
+      // SCRUM-189: every article carries at least one pull quote.
+      expect(content.body).toContain('<figure class="editorial-pullquote"><blockquote>');
     }
   });
 });

@@ -1,16 +1,11 @@
 <article class="blognostisphere-article editorial-content magazine-feature">
-  @if (heroDestination(); as destination) {
-    <app-slide-hero
-      class="editorial-wide"
-      [destination]="destination"
-      [heading]="article().heading ?? article().title"
-    />
-  }
+  <app-slide-hero
+    class="editorial-wide"
+    [destination]="heroDestination()"
+    [heading]="article().heading ?? article().title"
+  />
   <header>
     <p class="magazine-kicker"><a routerLink="/blognostisphere">Back to Blognostisphere</a></p>
-    @if (!heroDestination()) {
-      <h1>{{ article().heading ?? article().title }}</h1>
-    }
     @if (article().subtitle; as subtitle) {
       <p>{{ subtitle }}</p>
       <p class="blognostisphere-article__dek editorial-lead">
