@@ -9,10 +9,11 @@ import {
 import type { Article as ArticleContent } from './article.model';
 import { destinationSlides } from '../../content/portfolio-slides';
 import { SlideHero } from '../slide-hero/slide-hero';
+import { HiddenCookie } from '../../features/cookie-hunt/hidden-cookie';
 
 @Component({
   selector: 'app-article',
-  imports: [RouterLink, SlideHero],
+  imports: [RouterLink, SlideHero, HiddenCookie],
   templateUrl: './article.html',
   styleUrl: './article.scss',
   // Authored innerHTML needs descendant styles; every selector is article-prefixed.
