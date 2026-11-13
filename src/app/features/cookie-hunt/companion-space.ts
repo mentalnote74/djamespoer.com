@@ -19,16 +19,13 @@ export function companionSpace(
   while (walker.nextNode()) {
     const node = walker.currentNode,
       parent = node.parentElement;
-    if (
-      !node.textContent?.trim() ||
-      !parent ||
-      parent.closest(excluded) ||
-      !isRendered(parent)
-    )
+    if (!node.textContent?.trim() || !parent || parent.closest(excluded) || !isRendered(parent))
       continue;
     const range = document.createRange();
     range.selectNodeContents(node);
-    blockers.push(...Array.from(range.getClientRects()));
+    // jsdom has no Range.getClientRects; real browsers always do.
+    if (typeof range.getClientRects === 'function')
+      blockers.push(...Array.from(range.getClientRects()));
   }
   for (const element of document.querySelectorAll<HTMLElement>(
     'a,button,input,textarea,select,img,svg,video,canvas,iframe,.carousel__viewport,header',
