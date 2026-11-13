@@ -8,6 +8,7 @@ import { JdEvaluation, JD_EVALUATION_API } from '../../features/thingamajob/jd-e
       useValue: {
         input: '/test/thingamajob/jd-input',
         evaluate: '/test/thingamajob/evaluate',
+        resume: '/test/thingamajob/resume',
         public: true,
       },
     },

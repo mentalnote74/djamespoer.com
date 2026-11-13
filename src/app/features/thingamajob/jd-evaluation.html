@@ -110,5 +110,11 @@
       <h2 id="evaluation-heading" #resultHeading tabindex="-1">Evaluation</h2>
     }
     <p class="evaluation-summary">{{ evaluation.summary }}</p>
+    @if (canTailor()) {
+      <button type="button" (click)="downloadResume()" [disabled]="tailoring()">
+        {{ tailoring() ? 'Building your résumé…' : 'Download a résumé tailored to this job (PDF)' }}
+      </button>
+      <p role="status" [class.error]="resumeFailed()">{{ resumeStatus() }}</p>
+    }
   </section>
 }

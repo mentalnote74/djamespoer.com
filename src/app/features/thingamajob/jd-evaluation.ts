@@ -5,6 +5,7 @@ import {
   InjectionToken,
   input,
   signal,
+  computed,
   viewChild,
   DestroyRef,
 } from '@angular/core';
@@ -32,6 +33,7 @@ export const JD_EVALUATION_API = new InjectionToken<{
   input: string;
   evaluate: string;
   public?: boolean;
+  resume?: string;
 }>('JD_EVALUATION_API', {
   providedIn: 'root',
   factory: () => ({
@@ -65,6 +67,11 @@ export class JdEvaluation {
   readonly status = signal('');
   readonly failed = signal(false);
   readonly resultHeading = viewChild<ElementRef<HTMLElement>>('resultHeading');
+  readonly tailoring = signal(false);
+  readonly resumeStatus = signal('');
+  readonly resumeFailed = signal(false);
+  readonly canTailor = computed(() => !!this.api.resume && !!this.result());
+  private attemptHeaders: Record<string, string> = {};
   private reset() {
     this.stopViewing?.();
     this.prepared.set(null);
@@ -139,6 +146,9 @@ export class JdEvaluation {
     const headers = this.api.public
       ? this.analytics.beginEvaluation(method)
       : { 'Idempotency-Key': crypto.randomUUID() };
+    this.attemptHeaders = headers;
+    this.resumeStatus.set('');
+    this.resumeFailed.set(false);
     let stage: 'input' | 'evaluation' = this.prepared() ? 'evaluation' : 'input';
     try {
       if (!this.prepared()) {
@@ -232,6 +242,37 @@ export class JdEvaluation {
       );
     } finally {
       this.busy.set(false);
+    }
+  }
+  /** SCRUM-194: the server builds the PDF from the completed evaluation; the browser saves it. */
+  async downloadResume() {
+    if (!this.api.resume || this.tailoring()) return;
+    this.tailoring.set(true);
+    this.resumeFailed.set(false);
+    this.resumeStatus.set('Building a résumé for this job from James’s verified experience…');
+    try {
+      const response = await firstValueFrom(
+        this.http.post(
+          this.api.resume,
+          {},
+          { headers: this.attemptHeaders, observe: 'response', responseType: 'blob' },
+        ),
+      );
+      const name =
+        /filename="([^"]+)"/.exec(response.headers.get('Content-Disposition') ?? '')?.[1] ??
+        'D-James-Poer-Resume.pdf';
+      const url = URL.createObjectURL(response.body!);
+      const link = this.document.createElement('a');
+      link.href = url;
+      link.download = name;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+      this.resumeStatus.set('Your tailored résumé has downloaded: ' + name);
+    } catch {
+      this.resumeFailed.set(true);
+      this.resumeStatus.set('The résumé could not be built right now. Please try again in a minute.');
+    } finally {
+      this.tailoring.set(false);
     }
   }
 }
