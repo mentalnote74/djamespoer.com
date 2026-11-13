@@ -1030,7 +1030,7 @@ test('explicit candidate constraints remain actionable logistics, without loweri
   const summary = evaluationSummary(result, false);
   assert.match(summary, /supports the stated required qualifications/);
   assert.match(summary, /Logistical clarification needed/);
-  assert(!/material gaps|qualification gaps|fit remains uncertain/i.test(summary));
+  assert(!/material gaps|qualification gaps|not yet documented/i.test(summary));
 });
 
 test('material professional uncertainty stays honest while logistics cannot become strengths or gaps', () => {
@@ -1074,8 +1074,11 @@ test('material professional uncertainty stays honest while logistics cannot beco
   assert(result.requirements.slice(0, 2).every((r) => r.question));
   assert.equal(result.requirements[2].question, null);
   const summary = evaluationSummary(result, true);
-  assert.match(summary, /required qualifications are unresolved/);
-  assert.match(summary, /Clarification needed/);
+  assert.match(summary, /No required qualification is contradicted/);
+  assert.match(summary, /Not yet documented in the career record: Active professional license/);
+  // The JD-ambiguity question goes to the submitter; the candidate-proficiency one does not.
+  assert.match(summary, /Clarification needed: Which professional platform/);
+  assert(!/license validity\?/i.test(summary));
   assert(!summary.includes('Remote'));
   assert.match(
     evaluationSummary({ requirements: [result.requirements[2]] }, true),

@@ -2,7 +2,7 @@ import type { RoleEvaluation, EvaluatedRequirement } from './jd-contract.ts';
 import { isQualificationRequirement, needsClarification } from './jd-policy.ts';
 
 /** Presentation only: consumes final validated outcomes; never reclassifies evidence. */
-export function evaluationSummary(result: RoleEvaluation, completeInventory: boolean): string {
+export function evaluationSummary(result: RoleEvaluation, _completeInventory: boolean): string {
   const rows = result.requirements.filter(isQualificationRequirement);
   const required = rows.filter((r) => r.importance === 'required');
   const missing = rows.filter((r) => r.outcome === 'NOT MET');
@@ -19,11 +19,12 @@ export function evaluationSummary(result: RoleEvaluation, completeInventory: boo
       .replace(/[.?!]+$/, '');
     return clean.length > 190 ? clean.slice(0, 187).replace(/\s+\S*$/, '') + '…' : clean;
   };
-  const list = (items: EvaluatedRequirement[]) =>
-    ordered(items)
-      .slice(0, 2)
-      .map((r) => brief(r.requirement))
-      .join('; ');
+  const list = (items: EvaluatedRequirement[], limit = 2) => {
+    const sorted = ordered(items);
+    const shown = sorted.slice(0, limit).map((r) => brief(r.requirement));
+    const more = sorted.length - shown.length;
+    return shown.join('; ') + (more > 0 ? '; and ' + more + ' more' : '');
+  };
   const sentences: string[] = [];
   if (!rows.length)
     sentences.push(
@@ -33,7 +34,7 @@ export function evaluationSummary(result: RoleEvaluation, completeInventory: boo
     sentences.push('This role has material gaps against the stated required qualifications.');
   else if (required.some((r) => r.outcome === 'UNKNOWN'))
     sentences.push(
-      'Overall fit remains uncertain because some required qualifications are unresolved.',
+      'No required qualification is contradicted by the career evidence; some are not yet documented.',
     );
   else if (required.length)
     sentences.push('The career evidence supports the stated required qualifications.');
@@ -51,8 +52,26 @@ export function evaluationSummary(result: RoleEvaluation, completeInventory: boo
         : 'Qualification gaps include';
     sentences.push(label + ': ' + list(gaps) + '.');
   }
-  if (strengths.length) sentences.push('Relevant strengths include: ' + list(strengths) + '.');
-  const clarification = ordered(result.requirements).find(needsClarification);
+  if (rows.length)
+    sentences.push(
+      'Meets ' +
+        strengths.length +
+        ' of ' +
+        rows.length +
+        ' listed qualifications' +
+        (required.length
+          ? ' (' + required.filter((r) => r.outcome === 'MET').length + ' of ' + required.length + ' required)'
+          : '') +
+        '.',
+    );
+  if (strengths.length) sentences.push('Relevant strengths include: ' + list(strengths, 6) + '.');
+  if (unresolved.length)
+    sentences.push('Not yet documented in the career record: ' + list(unresolved, 4) + '.');
+  // Public readers are not the candidate: questions about the candidate's own current
+  // proficiency belong to the owner workflow, not the visitor-facing summary.
+  const clarification = ordered(result.requirements).find(
+    (r) => needsClarification(r) && r.basis !== 'historical_current_uncertainty',
+  );
   if (clarification)
     sentences.push(
       clarification.basis === 'conflicting_evidence'
@@ -68,10 +87,6 @@ export function evaluationSummary(result: RoleEvaluation, completeInventory: boo
               clarification.question ?? 'Does your stated constraint still apply to this role?',
             ) +
             '?',
-    );
-  if (!completeInventory && unresolved.some((r) => r.kind === 'professional_qualification'))
-    sentences.push(
-      'Career-record coverage is unconfirmed, so missing evidence is not a known qualification gap.',
     );
   return sentences.join(' ');
 }
