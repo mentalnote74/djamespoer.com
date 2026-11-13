@@ -61,3 +61,28 @@ describe('article shared hero composition', () => {
     }
   });
 });
+
+describe('article signature', () => {
+  for (const article of ARTICLES) {
+    it(`signs ${article.slug} as Blognosticator with one donkey note`, async () => {
+      TestBed.configureTestingModule({ imports: [Article], providers: [provideRouter([])] });
+      TestBed.overrideComponent(Article, {
+        remove: { imports: [SlideHero] },
+        add: { imports: [HeroStub] },
+      });
+      const fixture = TestBed.createComponent(Article);
+      fixture.componentRef.setInput('article', { ...article, body: '<p>Body.</p>', sources: [] });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const root: HTMLElement = fixture.nativeElement;
+      expect(root.querySelector('footer .article-signature__name')?.textContent ?? '').toContain(
+        'Blognosticator',
+      );
+      const notes = root.querySelectorAll('#article-author-note');
+      expect(notes).toHaveLength(1);
+      expect(notes[0].textContent).toContain('emotional-support donkey');
+      // The byline's asterisk lands on the note inside the signature.
+      expect(root.querySelector('header a[href="#article-author-note"]')).not.toBeNull();
+    });
+  }
+});

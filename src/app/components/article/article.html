@@ -20,18 +20,15 @@
       <p class="blognostisphere-article__dek editorial-lead">{{ article().dek }}</p>
     }
     <p class="magazine-byline">
-      @if (article().author; as author) {
-        <span>{{ author }}</span>
-      } @else {
-        <a href="#article-author-note">{{ byline }}</a>
-      }
+      <a href="#article-author-note">{{ byline }}</a>
       ·
       <time [attr.datetime]="article().publishedDate">{{ publishedLabel() }}</time>
       · {{ readMinutes() }} min read
     </p>
   </header>
-  <div class="blognostisphere-article__body magazine-body"[innerHTML]="article().body"></div>
+  <div class="blognostisphere-article__body magazine-body" [innerHTML]="article().body"></div>
   <footer>
+    <app-article-signature />
     <app-hidden-cookie />
     @if (article().sources.length) {
       <section aria-labelledby="article-sources-heading">
@@ -44,11 +41,6 @@
           }
         </ul>
       </section>
-    }
-    @if (!article().author) {
-      <p id="article-author-note" class="blognostisphere-article__author-note" tabindex="-1">
-        *{{ authorNote }}
-      </p>
     }
     <nav aria-label="More from Blognostisphere">
       @for (other of related(); track other.slug) {

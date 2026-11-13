@@ -1,0 +1,38 @@
+@use '../../../styles/abstracts' as foundation;
+
+// Sign-off in the magazine voice: a heavy rule, the pen name, and the fine print.
+// Colors are living-theme roles, so every drink theme recolors it.
+:host {
+  display: block;
+  margin-block: 3rem 2rem;
+}
+
+.article-signature {
+  padding-block-start: 0.75rem;
+  border-block-start: 6px solid var(--selected-background);
+}
+
+.article-signature__name {
+  margin: 0;
+  font-family: 'Inter Variable', foundation.$font-stack;
+  font-size: var(--type-h3-size);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.article-signature__mark {
+  margin-inline-start: 0.05em;
+  color: inherit;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+.article-signature__note {
+  margin-block: 0.75rem 0;
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+}

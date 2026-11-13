@@ -12,11 +12,7 @@
       </h3>
       <p>{{ article.dek }}</p>
       <p>
-        @if (article.author; as author) {
-          <span>{{ author }}</span>
-        } @else {
-          <a href="#index-author-note">{{ byline }}</a>
-        }
+        <a href="#index-author-note">{{ byline }}</a>
         ·
         <time [attr.datetime]="article.publishedDate">{{ dateLabel(article.publishedDate) }}</time>
       </p>
