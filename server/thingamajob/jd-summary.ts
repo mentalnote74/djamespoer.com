@@ -3,7 +3,7 @@ import { isQualificationRequirement, needsClarification } from './jd-policy.ts';
 
 /** Owner-stated positioning for the public portfolio evaluator (SCRUM-177). */
 export const PUBLIC_LEARNER_NOTE =
-  'James has over a dozen years of professional experience, and even more outside it. Every job skill he has ever needed, he learned on the job, and he has a long, proven track record of doing just that.';
+  'James has 23+ years of experience working with the web, including 12+ years of professional experience. Every job skill he has ever needed, he learned on the job, and his résumé shows he does it to a professional level, again and again.';
 
 /** Presentation only: consumes final validated outcomes; never reclassifies evidence.
  * The public evaluator's job is to sell James (owner direction, SCRUM-177): its verdict is

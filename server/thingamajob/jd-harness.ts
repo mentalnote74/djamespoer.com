@@ -10,6 +10,7 @@ import type { CompletenessConfiguration } from './jd-policy.ts';
 import { evaluationSummary } from './jd-summary.ts';
 import { composeResume, validateResume, renderResumePdf, resumeFileName, RESUME_POLICY } from './jd-resume.ts';
 import { PUBLIC_PREFIX } from './public-evaluation.ts';
+import { withOwnerPositioning } from './owner-positioning.ts';
 import type { OriginalBucket } from './original-storage.ts';
 import {
   attemptIdentity,
@@ -350,7 +351,7 @@ export async function jdHarness(
     await updateAttempt(env, identity.id, 'evaluating', stage, metadata);
     const raw = await (
       reasoner ?? openAiReasoner(env.OPENAI_API_KEY!, env.JD_EVALUATION_MODEL!)
-    ).evaluate(jd, truths, context, async (usage, body) => {
+    ).evaluate(jd, withOwnerPositioning(truths), context, async (usage, body) => {
       metadata = { ...metadata, ...safeDetails(usage) };
       let failed = false;
       try {
@@ -370,7 +371,7 @@ export async function jdHarness(
     stage = 'validation';
     await updateAttempt(env, identity.id, 'evaluating', stage, safeDetails(metadata));
     await retainPublicContent(env, identity.id, 'unvalidated', raw);
-    const result = validateEvaluation(raw, jd, truths, context);
+    const result = validateEvaluation(raw, jd, withOwnerPositioning(truths), context);
     stage = 'canonical_recheck';
     if (JSON.stringify(await snapshot(env)) !== JSON.stringify(truths))
       return await rejected(
@@ -390,7 +391,7 @@ export async function jdHarness(
         ...r,
         evidence: r.evidence.map((e) => ({
           ...e,
-          ...truths.find((t) => t.truthId === e.truthId)!,
+          ...withOwnerPositioning(truths).find((t) => t.truthId === e.truthId)!,
         })),
       })),
     };
@@ -478,7 +479,7 @@ async function tailoredResume(
     const evaluated = await read('evaluated');
     if (typeof evaluated?.jobDescription !== 'string')
       return reply(409, { error: 'Evaluate a job description first.' });
-    const truths = await snapshot(env);
+    const truths = withOwnerPositioning(await snapshot(env));
     const raw = await composeResume(
       env.OPENAI_API_KEY,
       env.JD_EVALUATION_MODEL,

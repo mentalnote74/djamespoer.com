@@ -49,7 +49,8 @@ async function fixture(reason) {
         { model: 'fixture-model', requestId: 'req_fixture', inputTokens: 200, outputTokens: 40 },
         { output: 'Private fake response' },
       );
-      return reason(jd, truths, ids, f);
+      // The public harness appends owner positioning statements; fixtures assert canonical rows only.
+      return reason(jd, truths.filter((t) => !t.truthId.startsWith('owner-')), ids, f);
     },
   };
   const f = evidenceFixture(reasoner);
@@ -932,7 +933,7 @@ test('concise presentation separates required/preferred gaps, strengths and genu
   const pitched = evaluationSummary({ requirements: rows }, true, true);
   assert.match(pitched, /^Yes, James can do this job\. He already meets 1 of 2/);
   assert.match(pitched, /He will ramp up on: Enterprise-scale operations/);
-  assert.match(pitched, /over a dozen years of professional experience.*learned on the job/);
+  assert.match(pitched, /23\+ years of experience working with the web, including 12\+ years of professional experience.*learned on the job/);
   assert.match(
     evaluationSummary({ requirements: [{ ...rows[0], importance: 'required' }] }, true, true),
     /^Yes, James can do this job\. He will ramp up on/,

@@ -59,6 +59,7 @@ export const resumeSchema = {
 };
 
 export const resumeInstructions = `You write a one-to-two page résumé for James that sells him for the supplied job description. Its purpose is to get James the interview.
+Present James as a senior practitioner, never as a junior or a slouch. Lead with his judgment across the whole development process (problem, people, architecture, implementation, delivery, maintenance); treat specific frameworks and tools as supporting evidence, not his identity. Where the job names technology he has not used, the summary may draw on his documented record of learning new technology to a professional level.
 Use ONLY the supplied canonical truths about James. Every fact must come from them. You may select, order, combine and reword truths in strong, concise résumé language that mirrors the job description's vocabulary where the truths support it.
 Never invent employers, titles, dates, durations, metrics, numbers, technologies, credentials or outcomes. Copy employer names, job titles and date ranges exactly as written in the truths you cite in headingRefs. Any number in a bullet or summary must appear in a cited truth.
 Order roles reverse-chronologically with current work first. Keep any documented career pause as its own dated entry exactly as the truths state it; never hide or invent gaps.
