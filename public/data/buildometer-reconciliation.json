@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-11-12T20:58:25.382Z",
+  "checkedAt": "2026-11-13T15:01:12.843Z",
   "scope": "Approved djamespoer.com ledger only",
   "observedAt": "2026-11-12T19:36:45.693Z",
   "shipped": 219,
@@ -10,7 +10,7 @@
   "status": "pending",
   "reason": "Pending approval/release reconciliation; last approved numbers retained. No new shipped credit inferred from Jira Done.",
   "pendingKeys": [],
-  "productionSha": "27150be54fe0627243fa00b61fd5825f8a688d9f",
+  "productionSha": "a9274c63957f29afd1191d266f5aecfe85587eec",
   "newerRecordedRelease": false,
   "unreviewedRelease": true
 }
