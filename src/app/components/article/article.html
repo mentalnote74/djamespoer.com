@@ -1,4 +1,4 @@
-<article class="blognostisphere-article editorial-content">
+<article class="blognostisphere-article editorial-content magazine-feature">
   @if (heroDestination(); as destination) {
     <app-slide-hero
       class="editorial-wide"
@@ -7,7 +7,7 @@
     />
   }
   <header>
-    <p><a routerLink="/blognostisphere">Back to Blognostisphere</a></p>
+    <p class="magazine-kicker"><a routerLink="/blognostisphere">Back to Blognostisphere</a></p>
     @if (!heroDestination()) {
       <h1>{{ article().heading ?? article().title }}</h1>
     }
@@ -19,7 +19,7 @@
     } @else {
       <p class="blognostisphere-article__dek editorial-lead">{{ article().dek }}</p>
     }
-    <p>
+    <p class="magazine-byline">
       @if (article().author; as author) {
         <span>{{ author }}</span>
       } @else {
@@ -27,9 +27,10 @@
       }
       ·
       <time [attr.datetime]="article().publishedDate">{{ publishedLabel() }}</time>
+      · {{ readMinutes() }} min read
     </p>
   </header>
-  <div class="blognostisphere-article__body" [innerHTML]="article().body"></div>
+  <div class="blognostisphere-article__body magazine-body"[innerHTML]="article().body"></div>
   <footer>
     @if (article().sources.length) {
       <section aria-labelledby="article-sources-heading">
