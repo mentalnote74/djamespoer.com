@@ -1,14 +1,24 @@
 import type { RoleEvaluation, EvaluatedRequirement } from './jd-contract.ts';
 import { isQualificationRequirement, needsClarification } from './jd-policy.ts';
 
-/** Presentation only: consumes final validated outcomes; never reclassifies evidence. */
-export function evaluationSummary(result: RoleEvaluation, _completeInventory: boolean): string {
+/** Owner-stated positioning for the public portfolio evaluator (SCRUM-177). */
+export const PUBLIC_LEARNER_NOTE =
+  'James has a long, proven history of learning what a role needs and then doing it well.';
+
+/** Presentation only: consumes final validated outcomes; never reclassifies evidence.
+ * The public evaluator sells the candidate: strengths lead, and anything not yet in the
+ * record reads as a ramp-up area, never as a public question about the candidate. */
+export function evaluationSummary(
+  result: RoleEvaluation,
+  _completeInventory: boolean,
+  pitch = false,
+): string {
   const rows = result.requirements.filter(isQualificationRequirement);
   const required = rows.filter((r) => r.importance === 'required');
-  const missing = rows.filter((r) => r.outcome === 'NOT MET');
-  const requiredGaps = required.filter((r) => r.outcome === 'NOT MET');
   const strengths = rows.filter((r) => r.outcome === 'MET');
-  const unresolved = rows.filter((r) => r.outcome === 'UNKNOWN');
+  const rampUp = rows.filter((r) => r.outcome !== 'MET');
+  const requiredGaps = required.filter((r) => r.outcome === 'NOT MET');
+  const requiredMet = required.filter((r) => r.outcome === 'MET').length;
   const rank = (r: EvaluatedRequirement) =>
     r.importance === 'required' ? 0 : r.importance === 'unspecified' ? 1 : 2;
   const ordered = (items: EvaluatedRequirement[]) => [...items].sort((a, b) => rank(a) - rank(b));
@@ -19,7 +29,7 @@ export function evaluationSummary(result: RoleEvaluation, _completeInventory: bo
       .replace(/[.?!]+$/, '');
     return clean.length > 190 ? clean.slice(0, 187).replace(/\s+\S*$/, '') + '…' : clean;
   };
-  const list = (items: EvaluatedRequirement[], limit = 2) => {
+  const list = (items: EvaluatedRequirement[], limit: number) => {
     const sorted = ordered(items);
     const shown = sorted.slice(0, limit).map((r) => brief(r.requirement));
     const more = sorted.length - shown.length;
@@ -30,45 +40,26 @@ export function evaluationSummary(result: RoleEvaluation, _completeInventory: bo
     sentences.push(
       'No professional qualifications were identified for a qualification-fit assessment.',
     );
-  else if (requiredGaps.length)
-    sentences.push('This role has material gaps against the stated required qualifications.');
-  else if (required.some((r) => r.outcome === 'UNKNOWN'))
+  else {
+    const share = strengths.length / rows.length;
     sentences.push(
-      'No required qualification is contradicted by the career evidence; some are not yet documented.',
-    );
-  else if (required.length)
-    sentences.push('The career evidence supports the stated required qualifications.');
-  else if (missing.length)
-    sentences.push('This role is a partial fit against the stated qualifications.');
-  else if (unresolved.length)
-    sentences.push('Overall fit remains uncertain on the available evidence.');
-  else sentences.push('The career evidence supports the stated qualifications.');
-  if (missing.length) {
-    const gaps = requiredGaps.length ? requiredGaps : missing;
-    const label = requiredGaps.length
-      ? 'Decisive required gaps include'
-      : missing.every((r) => r.importance === 'preferred')
-        ? 'Preferred gaps include'
-        : 'Qualification gaps include';
-    sentences.push(label + ': ' + list(gaps) + '.');
-  }
-  if (rows.length)
-    sentences.push(
-      'Meets ' +
+      (requiredGaps.length || share < 0.5 ? 'Good fit' : 'Strong fit') +
+        ': meets ' +
         strengths.length +
         ' of ' +
         rows.length +
         ' listed qualifications' +
-        (required.length
-          ? ' (' + required.filter((r) => r.outcome === 'MET').length + ' of ' + required.length + ' required)'
-          : '') +
+        (required.length ? ', including ' + requiredMet + ' of ' + required.length + ' required' : '') +
         '.',
     );
-  if (strengths.length) sentences.push('Relevant strengths include: ' + list(strengths, 6) + '.');
-  if (unresolved.length)
-    sentences.push('Not yet documented in the career record: ' + list(unresolved, 4) + '.');
-  // Public readers are not the candidate: questions about the candidate's own current
-  // proficiency belong to the owner workflow, not the visitor-facing summary.
+  }
+  if (strengths.length) sentences.push('Strengths: ' + list(strengths, 6) + '.');
+  if (rampUp.length) {
+    sentences.push('Ramp-up areas: ' + list(rampUp, 4) + '.');
+    if (pitch) sentences.push(PUBLIC_LEARNER_NOTE);
+  }
+  // Only real logistics conflicts or a genuinely ambiguous JD reach the reader; questions
+  // about the candidate's own proficiency never do.
   const clarification = ordered(result.requirements).find(
     (r) => needsClarification(r) && r.basis !== 'historical_current_uncertainty',
   );

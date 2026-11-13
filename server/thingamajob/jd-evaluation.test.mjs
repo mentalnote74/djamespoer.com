@@ -919,17 +919,17 @@ test('concise presentation separates required/preferred gaps, strengths and genu
     },
   ];
   const summary = evaluationSummary({ requirements: rows }, true);
-  assert.match(summary, /material gaps/);
-  assert.match(summary, /Decisive required gaps include: Enterprise-scale operations/);
-  assert.match(summary, /Relevant strengths include: Generic CI\/CD implementation/);
+  assert.match(summary, /^Good fit: meets 1 of 2/);
+  assert.match(summary, /Ramp-up areas: Enterprise-scale operations/);
+  assert.match(summary, /Strengths: Generic CI\/CD implementation/);
   assert.match(summary, /Can you work onsite in Seattle/);
   const preferred = evaluationSummary(
     { requirements: [{ ...rows[0], importance: 'preferred' }, rows[1]] },
     true,
   );
-  assert.match(preferred, /supports the stated required qualifications/);
-  assert.match(preferred, /Preferred gaps/);
-  assert(!preferred.includes('Decisive required gaps'));
+  assert.match(preferred, /Ramp-up areas: Enterprise-scale operations/);
+  assert(!/James has/.test(preferred), 'The learner pitch is public-only');
+  assert.match(evaluationSummary({ requirements: rows }, true, true), /proven history of learning/);
   assert.equal(rows[0].outcome, 'NOT MET');
 });
 
@@ -980,9 +980,9 @@ test('Fullsteam-shaped retained regression separates routine logistics from actu
     result.requirements.slice(-2).every((r) => r.question === null && r.materialGaps.length === 0),
   );
   const summary = evaluationSummary(result, true);
-  assert.match(summary, /partial fit/);
-  assert.match(summary, /Qualification gaps include: Test automation development/);
-  assert.match(summary, /Relevant strengths/);
+  assert.match(summary, /^Strong fit: meets 3 of 4/);
+  assert.match(summary, /Ramp-up areas: Test automation development/);
+  assert.match(summary, /Strengths: /);
   assert(!/uncertain|full.time|remote|clarification/i.test(summary));
   // Routine UNKNOWNs alone must not lower an otherwise supported skill assessment.
   const qualified = evaluationSummary(
@@ -993,8 +993,8 @@ test('Fullsteam-shaped retained regression separates routine logistics from actu
     },
     true,
   );
-  assert.match(qualified, /supports the stated required qualifications/);
-  assert(!/uncertain|gap|clarification/i.test(qualified));
+  assert.match(qualified, /^Strong fit: meets 3 of 3 listed qualifications, including 3 of 3 required/);
+  assert(!/uncertain|ramp-up|clarification/i.test(qualified));
 });
 
 test('explicit candidate constraints remain actionable logistics, without lowering qualifications', () => {
@@ -1028,9 +1028,9 @@ test('explicit candidate constraints remain actionable logistics, without loweri
   assert.equal(result.requirements[1].outcome, 'NOT MET');
   assert.match(result.requirements[1].question, /stated constraint/);
   const summary = evaluationSummary(result, false);
-  assert.match(summary, /supports the stated required qualifications/);
+  assert.match(summary, /^Strong fit: meets 1 of 1/);
   assert.match(summary, /Logistical clarification needed/);
-  assert(!/material gaps|qualification gaps|not yet documented/i.test(summary));
+  assert(!/ramp-up/i.test(summary));
 });
 
 test('material professional uncertainty stays honest while logistics cannot become strengths or gaps', () => {
@@ -1074,8 +1074,8 @@ test('material professional uncertainty stays honest while logistics cannot beco
   assert(result.requirements.slice(0, 2).every((r) => r.question));
   assert.equal(result.requirements[2].question, null);
   const summary = evaluationSummary(result, true);
-  assert.match(summary, /No required qualification is contradicted/);
-  assert.match(summary, /Not yet documented in the career record: Active professional license/);
+  assert.match(summary, /^Good fit: meets 0 of 2/);
+  assert.match(summary, /Ramp-up areas: Active professional license/);
   // The JD-ambiguity question goes to the submitter; the candidate-proficiency one does not.
   assert.match(summary, /Clarification needed: Which professional platform/);
   assert(!/license validity\?/i.test(summary));

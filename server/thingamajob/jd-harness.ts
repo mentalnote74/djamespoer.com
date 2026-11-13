@@ -386,7 +386,7 @@ export async function jdHarness(
         })),
       })),
     };
-    const summary = evaluationSummary(result, context.professionalInventory === 'complete');
+    const summary = evaluationSummary(result, context.professionalInventory === 'complete', true);
     stage = 'persistence';
     await retainPublicContent(env, identity.id, 'result', {
       ...detail,
