@@ -32,6 +32,7 @@
   </header>
   <div class="blognostisphere-article__body magazine-body"[innerHTML]="article().body"></div>
   <footer>
+    <app-hidden-cookie />
     @if (article().sources.length) {
       <section aria-labelledby="article-sources-heading">
         <h2 id="article-sources-heading">Sources and research</h2>

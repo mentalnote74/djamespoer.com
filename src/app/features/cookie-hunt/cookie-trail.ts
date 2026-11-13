@@ -1,4 +1,5 @@
 import { PORTFOLIO_SLIDES } from '../../content/portfolio-slides';
+import { ARTICLES } from '../../content/public-pages';
 
 // Add placements here; the jar total follows this list, with no ten-cookie cap.
 export const COOKIE_FLAVORS = [
@@ -109,7 +110,7 @@ for (const slide of PORTFOLIO_SLIDES) {
   });
 }
 // Existing IDs remain stable, so expanding the trail preserves saved jars.
-export const COOKIE_TRAIL: readonly CookieStop[] = [
+const curatedStops: readonly CookieStop[] = [
   ...priorityStops,
   ...additionalStops,
   {
@@ -127,6 +128,20 @@ export const COOKIE_TRAIL: readonly CookieStop[] = [
     clue: 'Choose your résumé.',
   },
 ];
+// Every Blognostisphere article carries a cookie; publishing an article adds its stop.
+const articleStops: CookieStop[] = [];
+for (const article of ARTICLES) {
+  const path = '/blognostisphere/' + article.slug;
+  if (curatedStops.some((stop) => stop.path === path)) continue;
+  articleStops.push({
+    id: 'article-' + article.slug,
+    path,
+    label: article.title,
+    flavor: (curatedStops.length + articleStops.length) % COOKIE_FLAVORS.length,
+    clue: 'Read “' + article.title + '” to the end.',
+  });
+}
+export const COOKIE_TRAIL: readonly CookieStop[] = [...curatedStops, ...articleStops];
 const INLINE_PATHS = new Set([
   '/',
   '/about',
@@ -143,5 +158,5 @@ const INLINE_PATHS = new Set([
   '/case-studies/ips',
 ]);
 export function cookiePlacement(path: string): 'inline' | 'page-end' {
-  return INLINE_PATHS.has(path) ? 'inline' : 'page-end';
+  return INLINE_PATHS.has(path) || path.startsWith('/blognostisphere/') ? 'inline' : 'page-end';
 }

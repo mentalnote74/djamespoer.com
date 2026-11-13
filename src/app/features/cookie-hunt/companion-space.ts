@@ -1,3 +1,7 @@
+// checkVisibility is missing before Safari 17.4 (and in jsdom); treat unknown as visible.
+const isRendered = (element: Element) =>
+  typeof element.checkVisibility === 'function' ? element.checkVisibility() : true;
+
 // Find room in the rendered page without changing its layout or covering its ink.
 export function companionSpace(
   document: Document,
@@ -15,21 +19,18 @@ export function companionSpace(
   while (walker.nextNode()) {
     const node = walker.currentNode,
       parent = node.parentElement;
-    if (
-      !node.textContent?.trim() ||
-      !parent ||
-      parent.closest(excluded) ||
-      !parent.checkVisibility()
-    )
+    if (!node.textContent?.trim() || !parent || parent.closest(excluded) || !isRendered(parent))
       continue;
     const range = document.createRange();
     range.selectNodeContents(node);
-    blockers.push(...Array.from(range.getClientRects()));
+    // jsdom has no Range.getClientRects; real browsers always do.
+    if (typeof range.getClientRects === 'function')
+      blockers.push(...Array.from(range.getClientRects()));
   }
   for (const element of document.querySelectorAll<HTMLElement>(
     'a,button,input,textarea,select,img,svg,video,canvas,iframe,.carousel__viewport,header',
   )) {
-    if (!element.closest(excluded) && element.checkVisibility())
+    if (!element.closest(excluded) && isRendered(element))
       blockers.push(element.getBoundingClientRect());
   }
   const visible = blockers.filter(

@@ -1,9 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { CookieHuntService, decodeJar } from './cookie-hunt.service';
 import { PORTFOLIO_SLIDES } from '../../content/portfolio-slides';
-import { COOKIE_TRAIL } from './cookie-trail';
+import { COOKIE_TRAIL, cookiePlacement } from './cookie-trail';
+import { ARTICLES } from '../../content/public-pages';
 
 describe('Rigby cookie hunt', () => {
+  it('hides one cookie inside every Blognostisphere article', () => {
+    for (const article of ARTICLES) {
+      const path = '/blognostisphere/' + article.slug;
+      expect(COOKIE_TRAIL.filter((stop) => stop.path === path)).toHaveLength(1);
+      expect(cookiePlacement(path)).toBe('inline');
+    }
+  });
   beforeEach(() => localStorage.clear());
   afterEach(() => {
     localStorage.clear();
