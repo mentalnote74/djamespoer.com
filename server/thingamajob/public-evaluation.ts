@@ -96,6 +96,7 @@ const events: Record<string, readonly string[]> = {
   evidence_view: ['engineering', 'ux-product', 'accessibility', 'ai', 'impact', 'buildometer'],
   resume_download: ['public-current'],
   contact_click: ['email'],
+  resume_generated: ['pdf'],
   external_profile_click: ['linkedin', 'github'],
 };
 export async function publicEvent(
@@ -132,7 +133,7 @@ export async function expirePublicEvaluations(env: PublicEvaluationEnvironment) 
     for (const id of ids) {
       if (!uuid(id)) throw new Error('Invalid public retention identity');
       await env.PRIVATE_ORIGINALS.delete(
-        ['input', 'submitted', 'evaluated', 'provider', 'result', 'unvalidated'].map(
+        ['input', 'submitted', 'evaluated', 'provider', 'result', 'unvalidated', 'resume', 'resume-provider'].map(
           (part) => PUBLIC_PREFIX + id + '/' + part + '.json',
         ),
       );

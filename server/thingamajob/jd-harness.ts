@@ -8,6 +8,8 @@ import type { EvaluationTruth } from './jd-contract.ts';
 import { evaluationContext, canonicalInventoryDigest } from './jd-policy.ts';
 import type { CompletenessConfiguration } from './jd-policy.ts';
 import { evaluationSummary } from './jd-summary.ts';
+import { composeResume, validateResume, renderResumePdf, resumeFileName, RESUME_POLICY } from './jd-resume.ts';
+import { PUBLIC_PREFIX } from './public-evaluation.ts';
 import type { OriginalBucket } from './original-storage.ts';
 import {
   attemptIdentity,
@@ -208,7 +210,12 @@ export async function jdHarness(
     );
     return new Response(response.body, { status: response.status, headers });
   }
-  if (path !== root + '/evaluate' && path !== root + '/jd-input' && path !== root + '/events')
+  if (
+    path !== root + '/evaluate' &&
+    path !== root + '/jd-input' &&
+    path !== root + '/events' &&
+    path !== root + '/resume'
+  )
     return reply(404, { error: 'Not found' });
   if (request.method !== 'POST') return reply(405, { error: 'Use POST.' });
   if (
@@ -254,6 +261,7 @@ export async function jdHarness(
         return reply(400, { error: 'Invalid event.' });
       return reply(200, { accepted: true });
     }
+    if (path === root + '/resume') return await tailoredResume(env, identity);
     const state = await beginAttempt(env, identity);
     if (!['preparing', 'prepared'].includes(state))
       return reply(409, {
@@ -432,4 +440,69 @@ export async function jdHarness(
     if (error instanceof JdIntakeError) return reply(error.status, { error: error.message });
     return failure(env, reference, stage, error, { ...metadata, elapsedMs: Date.now() - started });
   }
+}
+
+/** SCRUM-194: tailored résumé PDF for a completed evaluation in the same session. */
+async function tailoredResume(
+  env: JdHarnessEnvironment,
+  identity: ReturnType<typeof attemptIdentity>,
+): Promise<Response> {
+  if (!uuid(identity.id) || !identity.session)
+    return reply(400, { error: 'Evaluate a job description first.' });
+  const row = await env.IDENTITY_DB.prepare(
+    `SELECT status FROM thingamajob_public_attempts
+     WHERE attempt_id=? AND session_id=? AND expires_at>unixepoch()`,
+  )
+    .bind(identity.id, identity.session)
+    .first<{ status: string }>();
+  if (row?.status !== 'complete') return reply(409, { error: 'Evaluate a job description first.' });
+  const bucket = env.PRIVATE_ORIGINALS;
+  if (!bucket?.get || !bucket.put) throw new EvaluationUnavailable('configuration');
+  const read = async (part: string) => {
+    const object = await bucket.get!(PUBLIC_PREFIX + identity.id + '/' + part + '.json');
+    return object ? JSON.parse(new TextDecoder().decode(await object.arrayBuffer())) : null;
+  };
+  const store = async (part: string, value: unknown) => {
+    await bucket.put!(
+      PUBLIC_PREFIX + identity.id + '/' + part + '.json',
+      new TextEncoder().encode(JSON.stringify(value)),
+      { onlyIf: { etagDoesNotMatch: '*' } },
+    );
+  };
+  let resume = await read('resume');
+  if (!resume) {
+    if (!env.OPENAI_API_KEY || !env.JD_EVALUATION_MODEL || !env.JD_HARNESS_LIMIT)
+      throw new EvaluationUnavailable('configuration');
+    if (!(await env.JD_HARNESS_LIMIT.limit({ key: 'temporary-jd-harness' })).success)
+      return reply(429, { error: 'The résumé builder is busy. Wait a minute and try again.' });
+    const evaluated = await read('evaluated');
+    if (typeof evaluated?.jobDescription !== 'string')
+      return reply(409, { error: 'Evaluate a job description first.' });
+    const truths = await snapshot(env);
+    const raw = await composeResume(
+      env.OPENAI_API_KEY,
+      env.JD_EVALUATION_MODEL,
+      evaluated.jobDescription,
+      truths,
+      async (metadata, body) => {
+        await updateAttempt(env, identity.id, 'complete', 'resume_provider', {
+          resume: safeDetails(metadata),
+        });
+        await store('resume-provider', { metadata, response: body });
+      },
+    );
+    resume = { policy: RESUME_POLICY, ...validateResume(raw, truths) };
+    await store('resume', resume);
+  }
+  await publicEvent(env, identity, 'resume_generated', 'pdf');
+  const pdf = await renderResumePdf(resume);
+  return new Response(new Blob([pdf as Uint8Array<ArrayBuffer>], { type: 'application/pdf' }), {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'attachment; filename="' + resumeFileName(resume.headline) + '"',
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  });
 }
