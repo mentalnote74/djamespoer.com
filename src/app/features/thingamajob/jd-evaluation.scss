@@ -9,20 +9,8 @@ fieldset {
   padding: 0;
   border: 0;
 }
-legend {
-  font-weight: 700;
-}
-.methods {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-  margin-block: 0.75rem;
-}
-.methods label {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-block-size: 2.75rem;
+.lede {
+  font-size: 1.125rem;
 }
 label {
   display: block;
@@ -37,7 +25,7 @@ textarea {
   inline-size: 100%;
   min-inline-size: 0;
   max-inline-size: 100%;
-  margin-block: 0.75rem;
+  margin-block: 0.5rem 0.25rem;
   font: inherit;
 }
 input[type='url'],
@@ -49,29 +37,157 @@ textarea {
   border-radius: 0.25rem;
 }
 textarea {
-  min-block-size: 12rem;
+  min-block-size: 10rem;
   resize: vertical;
 }
-:is(input, textarea, button, a):focus-visible {
-  outline: 3px solid var(--focus-outer, Highlight);
-  outline-offset: 3px;
+// Drop target feedback uses the border style, not colour alone.
+textarea.dropping {
+  border-width: 2px;
+  border-style: dashed;
 }
-:is(h2, h3):focus {
-  outline: 3px solid var(--focus-outer, Highlight);
-  outline-offset: 3px;
+.hint {
+  margin-block: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+}
+.alternatives {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25rem;
+  margin-block: 0 1rem;
+}
+// Secondary choices read as links but keep native button semantics.
+button.link-button {
+  min-inline-size: 0;
+  padding-inline: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  &:is(:hover, :active):not(:disabled) {
+    background: transparent;
+    color: inherit;
+    text-decoration-thickness: 2px;
+  }
+}
+// One primary action per state: inverted control colours keep each theme's own contrast.
+button.primary {
+  padding: 0.75rem 1.4rem;
+  font-size: 1.05rem;
+  color: var(--control-background, Canvas);
+  background: var(--control-foreground, CanvasText);
+  border-color: var(--control-foreground, CanvasText);
+  &:hover:not(:disabled) {
+    color: var(--control-background, Canvas);
+    background: var(--control-foreground, CanvasText);
+    border-color: var(--control-border, ButtonBorder);
+    text-decoration: underline;
+  }
 }
 .data-notice {
+  margin-block-start: 0.5rem;
   font-size: 0.9rem;
+  summary {
+    cursor: pointer;
+    min-block-size: 2.75rem;
+    display: flex;
+    align-items: center;
+    text-decoration: underline;
+  }
+}
+.status:empty {
+  display: none;
 }
 .error {
   font-weight: 700;
 }
+.answer {
+  margin-block-start: 1.5rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 2px solid var(--control-border, CanvasText);
+  border-radius: 0.5rem;
+}
+.verdict {
+  margin-block: 0 0.5rem;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  line-height: 1.2;
+}
+.score {
+  margin-block: 0 1rem;
+  font-size: 1.1rem;
+}
+.download {
+  margin-block: 1rem 1.5rem;
+  p:empty {
+    display: none;
+  }
+}
+.list-title {
+  margin-block: 1.25rem 0.5rem;
+  font-weight: 700;
+  font-family: var(--font-ui, inherit);
+}
+.strengths,
+.ramp-up {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    position: relative;
+    padding-inline-start: 1.6rem;
+    margin-block: 0.35rem;
+    line-height: 1.5;
+  }
+  li::before {
+    position: absolute;
+    inset-inline-start: 0;
+    font-weight: 700;
+  }
+}
+// The glyphs are decoration; the list headings carry the meaning for assistive tech.
+.strengths li::before {
+  content: '✓' / '';
+}
+.ramp-up li::before {
+  content: '→' / '';
+}
+.learner-note {
+  margin-block: 0.75rem 0;
+  line-height: 1.6;
+}
+.clarification {
+  font-style: italic;
+}
 .evaluation-summary {
   line-height: 1.65;
 }
+.next-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  margin-block: 1.5rem 0;
+}
+.contact {
+  font-weight: 700;
+}
+:is(input, textarea, button, a, summary):focus-visible {
+  outline: 3px solid var(--focus-outer, Highlight);
+  outline-offset: 3px;
+}
+:is(h1, h2, h3):focus {
+  outline: 3px solid var(--focus-outer, Highlight);
+  outline-offset: 3px;
+}
 @media (forced-colors: active) {
   textarea,
-  input[type='url'] {
+  input[type='url'],
+  .answer {
     border-color: CanvasText;
+  }
+  button.primary {
+    forced-color-adjust: auto;
   }
 }

@@ -20,7 +20,6 @@ describe('Thingamajob case study integration', () => {
     expect(root.querySelector('app-thingamajob-slide a')).toBeNull();
     expect(root.querySelector('app-thingamajob app-jd-evaluation')).not.toBeNull();
     expect(root.querySelector('app-thingamajob-workflow')).toBeNull();
-    expect(root.textContent).toContain('Working prototype');
     expect(root.querySelector('.case-study')?.textContent).toContain('The Library of Truth');
     expect(root.querySelector('.case-study')?.textContent).toContain('retaining detailed');
     expect(root.querySelector('iframe')).toBeNull();

@@ -13,16 +13,15 @@ describe('public unfinished Thingamajob', () => {
     const fixture = TestBed.createComponent(Thingamajob);
     fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
-    expect(root.textContent?.replace(/\s+/g, ' ')).toContain(
-      'Working prototype — actively under development. Evaluations may be incomplete or incorrect. Review the findings before acting on them.',
-    );
+    expect(root.textContent).not.toContain('Working prototype');
     expect(root.querySelector('app-jd-evaluation')).not.toBeNull();
     expect(root.querySelector('app-thingamajob-workflow')).toBeNull();
     expect(root.querySelector('h1')).toBeNull();
-    expect(root.querySelector('h2')?.textContent).toBe('Thingamajob');
-    expect(root.querySelectorAll('input[type=radio]')).toHaveLength(3);
+    expect(root.querySelector('h2')?.textContent).toBe('Is James right for your role?');
+    expect(root.querySelectorAll('input[type=radio]')).toHaveLength(0);
+    expect(root.querySelector('textarea')).not.toBeNull();
     expect(root.querySelectorAll('button[type=submit]')).toHaveLength(1);
-    expect(root.querySelector('button[type=submit]')?.textContent).toBe('Evaluate');
+    expect(root.querySelector('button[type=submit]')?.textContent?.trim()).toBe('See how James fits');
     TestBed.inject(HttpTestingController).expectNone(() => true);
   });
 });
