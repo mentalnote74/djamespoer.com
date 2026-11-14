@@ -8,7 +8,7 @@ export const OWNER_POSITIONING: EvaluationTruth[] = [
   {
     truthId: 'owner-experience',
     statement:
-      'James has 23+ years of experience working with the web, including 12+ years of professional experience. The rest was combined with full-time non-professional work, a work history going back to 1991, that shaped his perspective and work ethic.',
+      'James has 23+ years of experience working with the web, including 15+ years of professional experience. The rest was combined with full-time non-professional work, a work history going back to 1991, that shaped his perspective and work ethic.',
     state: 'accepted',
     qualifications: ['Owner statement, 2026-11-13. Do not present the 23+ years as professional employment.'],
   },

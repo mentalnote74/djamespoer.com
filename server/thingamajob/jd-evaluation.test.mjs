@@ -933,7 +933,7 @@ test('concise presentation separates required/preferred gaps, strengths and genu
   const pitched = evaluationSummary({ requirements: rows }, true, true);
   assert.match(pitched, /^Yes, James can do this job\. He already meets 1 of 2/);
   assert.match(pitched, /He will ramp up on: Enterprise-scale operations/);
-  assert.match(pitched, /23\+ years of experience working with the web, including 12\+ years of professional experience.*learned on the job/);
+  assert.match(pitched, /23\+ years of experience working with the web, including 15\+ years of professional experience.*learned on the job/);
   assert.match(
     evaluationSummary({ requirements: [{ ...rows[0], importance: 'required' }] }, true, true),
     /^Yes, James can do this job\. He will ramp up on/,
