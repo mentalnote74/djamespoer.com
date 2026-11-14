@@ -5,6 +5,68 @@ import { isQualificationRequirement, needsClarification } from './jd-policy.ts';
 export const PUBLIC_LEARNER_NOTE =
   'James has 23+ years of experience working with the web, including 15+ years of professional experience. Every job skill he has ever needed, he learned on the job, and his résumé shows he does it to a professional level, again and again.';
 
+const rank = (r: EvaluatedRequirement) =>
+  r.importance === 'required' ? 0 : r.importance === 'unspecified' ? 1 : 2;
+const ordered = (items: EvaluatedRequirement[]) => [...items].sort((a, b) => rank(a) - rank(b));
+const brief = (text: string) => {
+  const clean = text
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[.?!]+$/, '');
+  return clean.length > 190 ? clean.slice(0, 187).replace(/\s+\S*$/, '') + '…' : clean;
+};
+
+/** Structured public pitch (SCRUM-195) so the widget renders real lists, never parsed prose. */
+export interface EvaluationCard {
+  verdict: string;
+  met: number;
+  total: number;
+  requiredMet: number;
+  requiredTotal: number;
+  strengths: string[];
+  rampUp: string[];
+  learnerNote: string;
+  clarification?: string;
+}
+
+export function evaluationCard(result: RoleEvaluation): EvaluationCard {
+  const rows = result.requirements.filter(isQualificationRequirement);
+  const required = rows.filter((r) => r.importance === 'required');
+  const rampUp = ordered(rows.filter((r) => r.outcome !== 'MET')).map((r) => brief(r.requirement));
+  const clarification = publicClarification(result);
+  return {
+    verdict: 'Yes, James can do this job.',
+    met: rows.filter((r) => r.outcome === 'MET').length,
+    total: rows.length,
+    requiredMet: required.filter((r) => r.outcome === 'MET').length,
+    requiredTotal: required.length,
+    strengths: ordered(rows.filter((r) => r.outcome === 'MET')).map((r) => brief(r.requirement)),
+    rampUp,
+    learnerNote: rampUp.length ? PUBLIC_LEARNER_NOTE : '',
+    ...(clarification ? { clarification } : {}),
+  };
+}
+
+// Only real logistics conflicts or a genuinely ambiguous JD reach the reader; questions
+// about the candidate's own proficiency never do.
+function publicClarification(result: RoleEvaluation): string | undefined {
+  const clarification = ordered(result.requirements).find(
+    (r) => needsClarification(r) && r.basis !== 'historical_current_uncertainty',
+  );
+  if (!clarification) return undefined;
+  return clarification.basis === 'conflicting_evidence'
+    ? 'Conflicting ' +
+        (isQualificationRequirement(clarification) ? 'career' : 'logistical') +
+        ' evidence needs clarification for: ' +
+        brief(clarification.requirement) +
+        '.'
+    : (isQualificationRequirement(clarification)
+        ? 'Clarification needed: '
+        : 'Logistical clarification needed: ') +
+        brief(clarification.question ?? 'Does your stated constraint still apply to this role?') +
+        '?';
+}
+
 /** Presentation only: consumes final validated outcomes; never reclassifies evidence.
  * The public evaluator's job is to sell James (owner direction, SCRUM-177): its verdict is
  * always yes, strengths stay evidence-backed, and anything not yet in the record reads as
@@ -20,16 +82,6 @@ export function evaluationSummary(
   const rampUp = rows.filter((r) => r.outcome !== 'MET');
   const requiredGaps = required.filter((r) => r.outcome === 'NOT MET');
   const requiredMet = required.filter((r) => r.outcome === 'MET').length;
-  const rank = (r: EvaluatedRequirement) =>
-    r.importance === 'required' ? 0 : r.importance === 'unspecified' ? 1 : 2;
-  const ordered = (items: EvaluatedRequirement[]) => [...items].sort((a, b) => rank(a) - rank(b));
-  const brief = (text: string) => {
-    const clean = text
-      .replace(/\s+/g, ' ')
-      .trim()
-      .replace(/[.?!]+$/, '');
-    return clean.length > 190 ? clean.slice(0, 187).replace(/\s+\S*$/, '') + '…' : clean;
-  };
   const list = (items: EvaluatedRequirement[], limit: number) => {
     const sorted = ordered(items);
     const shown = sorted.slice(0, limit).map((r) => brief(r.requirement));
@@ -74,26 +126,7 @@ export function evaluationSummary(
     sentences.push((pitch ? 'He will ramp up on: ' : 'Ramp-up areas: ') + list(rampUp, 4) + '.');
     if (pitch) sentences.push(PUBLIC_LEARNER_NOTE);
   }
-  // Only real logistics conflicts or a genuinely ambiguous JD reach the reader; questions
-  // about the candidate's own proficiency never do.
-  const clarification = ordered(result.requirements).find(
-    (r) => needsClarification(r) && r.basis !== 'historical_current_uncertainty',
-  );
-  if (clarification)
-    sentences.push(
-      clarification.basis === 'conflicting_evidence'
-        ? 'Conflicting ' +
-            (isQualificationRequirement(clarification) ? 'career' : 'logistical') +
-            ' evidence needs clarification for: ' +
-            brief(clarification.requirement) +
-            '.'
-        : (isQualificationRequirement(clarification)
-            ? 'Clarification needed: '
-            : 'Logistical clarification needed: ') +
-            brief(
-              clarification.question ?? 'Does your stated constraint still apply to this role?',
-            ) +
-            '?',
-    );
+  const clarification = publicClarification(result);
+  if (clarification) sentences.push(clarification);
   return sentences.join(' ');
 }

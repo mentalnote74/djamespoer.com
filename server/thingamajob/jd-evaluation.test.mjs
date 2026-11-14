@@ -5,7 +5,7 @@ import { evidenceFixture, signedEvidenceRequest, uploadForm } from './evidence-f
 import { validateEvaluation, EvaluationUnavailable } from './jd-contract.ts';
 import { openAiReasoner } from './jd-provider.ts';
 import { canonicalInventoryDigest, evaluationContext } from './jd-policy.ts';
-import { evaluationSummary } from './jd-summary.ts';
+import { evaluationCard, evaluationSummary } from './jd-summary.ts';
 const endpoint = '/api/thingamajob/test/evaluations';
 const description =
   'Required: Angular application development. Preferred: current PHP proficiency. Required: Rust expertise. Official product Angular 10 experience.';
@@ -938,6 +938,13 @@ test('concise presentation separates required/preferred gaps, strengths and genu
     evaluationSummary({ requirements: [{ ...rows[0], importance: 'required' }] }, true, true),
     /^Yes, James can do this job\. He will ramp up on/,
   );
+  const card = evaluationCard({ requirements: rows });
+  assert.equal(card.verdict, 'Yes, James can do this job.');
+  assert.deepEqual([card.met, card.total], [1, 2]);
+  assert.deepEqual(card.strengths, ['Generic CI/CD implementation']);
+  assert.deepEqual(card.rampUp, ['Enterprise-scale operations']);
+  assert.match(card.learnerNote, /15\+ years of professional/);
+  assert.match(card.clarification, /Can you work onsite in Seattle/);
   assert.equal(rows[0].outcome, 'NOT MET');
 });
 

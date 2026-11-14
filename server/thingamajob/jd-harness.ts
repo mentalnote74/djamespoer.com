@@ -7,7 +7,7 @@ import { validateEvaluation, EvaluationUnavailable, JD_POLICY } from './jd-contr
 import type { EvaluationTruth } from './jd-contract.ts';
 import { evaluationContext, canonicalInventoryDigest } from './jd-policy.ts';
 import type { CompletenessConfiguration } from './jd-policy.ts';
-import { evaluationSummary } from './jd-summary.ts';
+import { evaluationCard, evaluationSummary } from './jd-summary.ts';
 import { composeResume, validateResume, renderResumePdf, resumeFileName, RESUME_POLICY } from './jd-resume.ts';
 import { PUBLIC_PREFIX } from './public-evaluation.ts';
 import { withOwnerPositioning } from './owner-positioning.ts';
@@ -413,6 +413,7 @@ export async function jdHarness(
       state: 'complete',
       policyVersion: JD_POLICY,
       summary,
+      card: evaluationCard(result),
     });
   } catch (error) {
     if (path === root + '/events') return reply(503, { error: 'Telemetry unavailable.' });
