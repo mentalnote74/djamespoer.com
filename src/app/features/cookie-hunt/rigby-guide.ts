@@ -18,7 +18,6 @@ import { CookieStop } from './cookie-trail';
 import { RigbyPreferences } from '../cookie-preferences/rigby-preferences';
 import { CookiePreferencesService } from '../cookie-preferences/cookie-preferences.service';
 import { distanceToTarget, facingTarget, warmthAtDistance } from './rigby-scent';
-import { RigbyArrival } from './rigby-arrival';
 import { RigbyGreeting } from './rigby-greeting';
 import { companionSpace } from './companion-space';
 import { RigbyDance as RigbyDanceComponent } from './rigby-dance';
@@ -137,7 +136,6 @@ export class RigbyGuide {
       });
     });
     this.destroy.onDestroy(() => this.document.defaultView?.clearTimeout(this.settleTimer));
-    inject(RigbyArrival);
     this.hunt.collections.pipe(takeUntilDestroyed()).subscribe((stop) => {
       this.playDance(stop.flavor);
       if (this.dance() && this.placement()) this.hunt.fedCookie(stop.id);
