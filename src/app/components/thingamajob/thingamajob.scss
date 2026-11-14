@@ -13,7 +13,15 @@ h2 {
   margin-block-start: 0;
   font-size: clamp(1.25rem, 2vw, 1.75rem);
 }
-.prototype-notice {
-  line-height: 1.6;
-  margin-block: 1rem 1.5rem;
+.eyebrow {
+  margin-block: 0 0.25rem;
+  font-family: var(--font-ui, inherit);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+.lede {
+  margin-block: 0 1.25rem;
+  font-size: 1.125rem;
 }

@@ -1,120 +1,165 @@
 @if (showBackLink()) {
   <a routerLink="/">Back to Thingamajob</a>
 }
-@if (headingLevel() === 3) {
-  <h3>Evaluate a job description</h3>
-} @else {
-  <h1>Evaluate a job description</h1>
+@if (headingLevel() === 1) {
+  <h1>Is James right for your role?</h1>
+  <p class="lede">Paste a job description. Get an answer and a résumé tailored to it.</p>
 }
-<p>Compare a job with {{ clientLabel() }} canonical career evidence.</p>
-<form (submit)="evaluate($event)" [attr.aria-busy]="busy()">
+<form class="ask" (submit)="evaluate($event)" [attr.aria-busy]="busy()">
   <fieldset [disabled]="busy()">
-    <legend>Provide a job description</legend>
-    <div class="methods">
-      <label
-        ><input
-          type="radio"
-          name="method"
-          [checked]="mode() === 'text'"
-          (change)="choose('text')"
-        />Text</label
-      >
-      <label
-        ><input
-          type="radio"
-          name="method"
-          [checked]="mode() === 'url'"
-          (change)="choose('url')"
-        />URL</label
-      >
-      <label
-        ><input
-          type="radio"
-          name="method"
-          [checked]="mode() === 'file'"
-          (change)="choose('file')"
-        />File</label
-      >
-    </div>
     @switch (mode()) {
       @case ('text') {
         <label for="job-description">Job description</label>
-        <p id="jd-help">
-          Paste the posting, including required and preferred qualifications. Obvious webpage noise
-          is removed automatically.
-        </p>
         <textarea
           id="job-description"
           name="jobDescription"
           required
           minlength="20"
           maxlength="100000"
+          placeholder="Paste the full posting here: the role, responsibilities and qualifications."
           [value]="jd()"
+          [class.dropping]="dropping()"
           (input)="edit($event)"
+          (dragover)="dragOver($event)"
+          (dragleave)="dropping.set(false)"
+          (drop)="drop($event)"
           aria-describedby="jd-help"
         ></textarea>
+        <p id="jd-help" class="hint">You can also drop a document onto the box.</p>
       }
       @case ('url') {
-        <label for="job-url">Public job-posting URL</label>
-        <p id="url-help">
-          Use one specific posting. If the page blocks retrieval or requires sign-in, paste its text
-          instead.
-        </p>
+        <label for="job-url">Link to the job posting</label>
         <input
           id="job-url"
           name="url"
           type="url"
           required
           maxlength="2000"
+          placeholder="https://"
           [value]="url()"
           (input)="editUrl($event)"
           aria-describedby="url-help"
         />
+        <p id="url-help" class="hint">
+          Use one specific posting. If the site needs a sign-in, paste the text instead.
+        </p>
       }
       @case ('file') {
-        <label for="jd-file">Job-description document</label>
-        <p id="file-help">
-          TXT, Markdown, HTML or DOCX, up to 1 MB. For PDF or legacy DOC, paste the text or export a
-          supported format.
-        </p>
+        <label for="jd-file">Job description document</label>
         <input
           id="jd-file"
           name="file"
           type="file"
           accept=".txt,.md,.markdown,.html,.htm,.docx"
-          required
+          [required]="!fileName()"
           (change)="selectFile($event)"
           aria-describedby="file-help"
         />
+        <p id="file-help" class="hint">
+          @if (fileName(); as name) {
+            Ready: <strong>{{ name }}</strong>.
+          }
+          Word (DOCX), text, Markdown or HTML, up to 1 MB. For a PDF, paste the text instead.
+        </p>
       }
     }
-    <p class="data-notice">
-      Evaluate sends the job text and canonical career facts to OpenAI. Private career-source
-      documents and private-only history are excluded.
-      Public submissions, responses and usage records are retained privately for 90 days for
-      troubleshooting and improvement. A random 30-minute session links evaluation and follow-up
-      actions; job text, filenames and results are never sent to Google Analytics.
+    <p class="alternatives">
+      @if (mode() !== 'text') {
+        <button type="button" class="link-button" (click)="choose('text')">Paste the text</button>
+      }
+      @if (mode() !== 'url') {
+        <button type="button" class="link-button" (click)="choose('url')">
+          Paste a link instead
+        </button>
+      }
+      @if (mode() !== 'file') {
+        <button type="button" class="link-button" (click)="choose('file')">Upload a file</button>
+      }
     </p>
-    <button type="submit">{{ busy() ? 'Evaluating…' : 'Evaluate' }}</button>
+    <button type="submit" class="primary">
+      {{ busy() ? 'Working on it…' : 'See how James fits' }}
+    </button>
+    <p class="hint">
+      Your job text is sent to OpenAI to write the answer. It never goes to Google Analytics.
+    </p>
+    <details class="data-notice">
+      <summary>How your data is handled</summary>
+      <p>
+        Thingamajob sends the job text and James's public career facts to OpenAI. Private career
+        documents are never included. Submissions, answers and usage records are kept privately for
+        90 days for troubleshooting and improvement. A random 30-minute session links your answer
+        and résumé download. Job text, file names and answers are never sent to Google Analytics.
+      </p>
+    </details>
   </fieldset>
 </form>
-<p role="status" [class.error]="failed()">{{ status() }}</p>
+<p role="status" class="status" [class.error]="failed()">{{ status() }}</p>
 @if (failed() && mode() !== 'text') {
-  <button type="button" (click)="useText()">Use pasted text instead</button>
+  <button type="button" class="link-button" (click)="useText()">Use pasted text instead</button>
 }
 @if (result(); as evaluation) {
-  <section aria-labelledby="evaluation-heading">
+  <section class="answer" aria-labelledby="evaluation-heading">
     @if (headingLevel() === 3) {
-      <h3 id="evaluation-heading" #resultHeading tabindex="-1">Evaluation</h3>
+      <h3 id="evaluation-heading" class="verdict" #resultHeading tabindex="-1">
+        {{ evaluation.card?.verdict ?? 'Here’s how James fits this job.' }}
+      </h3>
     } @else {
-      <h2 id="evaluation-heading" #resultHeading tabindex="-1">Evaluation</h2>
+      <h2 id="evaluation-heading" class="verdict" #resultHeading tabindex="-1">
+        {{ evaluation.card?.verdict ?? 'Here’s how James fits this job.' }}
+      </h2>
     }
-    <p class="evaluation-summary">{{ evaluation.summary }}</p>
+    @if (evaluation.card; as card) {
+      @if (card.total) {
+        <p class="score">
+          Meets <strong>{{ card.met }} of {{ card.total }}</strong> listed qualifications{{
+            card.requiredTotal
+              ? ', including ' + card.requiredMet + ' of ' + card.requiredTotal + ' required'
+              : ''
+          }}.
+        </p>
+      }
+    } @else {
+      <p class="evaluation-summary">{{ evaluation.summary }}</p>
+    }
     @if (canTailor()) {
-      <button type="button" (click)="downloadResume()" [disabled]="tailoring()">
-        {{ tailoring() ? 'Building your résumé…' : 'Download a résumé tailored to this job (PDF)' }}
-      </button>
-      <p role="status" [class.error]="resumeFailed()">{{ resumeStatus() }}</p>
+      <div class="download">
+        <button type="button" class="primary" (click)="downloadResume()" [disabled]="tailoring()">
+          {{ tailoring() ? 'Building the résumé…' : 'Download James’s résumé for this job (PDF)' }}
+        </button>
+        <p role="status" [class.error]="resumeFailed()">{{ resumeStatus() }}</p>
+      </div>
     }
+    @if (evaluation.card; as card) {
+      @if (card.strengths.length) {
+        <p class="list-title" role="heading" [attr.aria-level]="headingLevel() + 1">Strengths</p>
+        <ul class="strengths">
+          @for (item of card.strengths; track $index) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      }
+      @if (card.rampUp.length) {
+        <p class="list-title" role="heading" [attr.aria-level]="headingLevel() + 1">
+          He’ll ramp up on
+        </p>
+        <ul class="ramp-up">
+          @for (item of card.rampUp; track $index) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+        <p class="learner-note">{{ card.learnerNote }}</p>
+      }
+      @if (card.clarification) {
+        <p class="clarification">{{ card.clarification }}</p>
+      }
+    }
+    <p class="next-steps">
+      <a
+        class="contact"
+        href="mailto:djamespoer@djamespoer.com?subject=Your%20role%20and%20James%20Poer"
+        >Contact James</a
+      >
+      <button type="button" class="link-button" (click)="startOver()">Try another job</button>
+    </p>
   </section>
 }

@@ -20,7 +20,32 @@ export interface JdResult {
   state: 'complete';
   evaluatedAt: string;
   summary: string;
+  /** SCRUM-195: structured pitch; absent from older Workers, so the summary stays the fallback. */
+  card?: JdCard;
 }
+export interface JdCard {
+  verdict: string;
+  met: number;
+  total: number;
+  requiredMet: number;
+  requiredTotal: number;
+  strengths: string[];
+  rampUp: string[];
+  learnerNote: string;
+  clarification?: string;
+}
+const isCard = (value: unknown): value is JdCard => {
+  const card = value as Partial<JdCard> | null;
+  return (
+    !!card &&
+    typeof card.verdict === 'string' &&
+    [card.met, card.total, card.requiredMet, card.requiredTotal].every(Number.isInteger) &&
+    [card.strengths, card.rampUp].every(
+      (list) => Array.isArray(list) && list.every((item) => typeof item === 'string'),
+    ) &&
+    typeof card.learnerNote === 'string'
+  );
+};
 export interface PreparedJd {
   method: 'text' | 'url' | 'file';
   sourceLabel: string;
@@ -56,12 +81,13 @@ export class JdEvaluation {
   private stopViewing: (() => void) | undefined;
   readonly showBackLink = input(true);
   readonly headingLevel = input(1);
-  readonly clientLabel = input('your');
   readonly jd = signal('');
   readonly mode = signal<'text' | 'url' | 'file'>('text');
   readonly url = signal('');
   readonly prepared = signal<PreparedJd | null>(null);
   private file: File | null = null;
+  readonly fileName = signal('');
+  readonly dropping = signal(false);
   readonly busy = signal(false);
   readonly result = signal<JdResult | null>(null);
   readonly status = signal('');
@@ -94,8 +120,37 @@ export class JdEvaluation {
     this.reset();
   }
   selectFile(event: Event) {
-    this.file = (event.target as HTMLInputElement).files?.[0] ?? null;
+    this.useFile((event.target as HTMLInputElement).files?.[0] ?? null);
+  }
+  dragOver(event: DragEvent) {
+    if (!event.dataTransfer?.types.includes('Files')) return;
+    event.preventDefault();
+    this.dropping.set(true);
+  }
+  /** Progressive enhancement: dropping a document on the paste box switches to file input. */
+  drop(event: DragEvent) {
+    const file = event.dataTransfer?.files[0];
+    this.dropping.set(false);
+    if (!file) return;
+    event.preventDefault();
+    this.choose('file');
+    this.useFile(file);
+  }
+  /** Clear the answer and return focus to the paste box for the next job. */
+  startOver() {
     this.reset();
+    this.jd.set('');
+    this.url.set('');
+    this.useFile(null, false);
+    this.resumeStatus.set('');
+    this.mode.set('text');
+    setTimeout(() => this.document.getElementById('job-description')?.focus());
+  }
+  private useFile(file: File | null, track = true) {
+    this.file = file;
+    this.fileName.set(file?.name ?? '');
+    this.reset();
+    if (!track) return;
     if (
       this.api.public &&
       this.file &&
@@ -119,11 +174,10 @@ export class JdEvaluation {
   private failure(error: unknown, fallback: string) {
     if (error instanceof HttpErrorResponse && error.status === 403) {
       if (this.api.public)
-        return 'The request was not accepted. Your input is retained. Reload the page before trying again.';
+        return 'That request was not accepted. Your job description is still here. Reload the page, then try again.';
       this.jd.set('');
       this.url.set('');
-      this.file = null;
-      this.prepared.set(null);
+      this.useFile(null, false);
       return 'Your session no longer has access. Sign in again.';
     }
     if (error instanceof HttpErrorResponse && typeof error.error?.error === 'string')
@@ -152,7 +206,7 @@ export class JdEvaluation {
     let stage: 'input' | 'evaluation' = this.prepared() ? 'evaluation' : 'input';
     try {
       if (!this.prepared()) {
-        this.status.set('Reading the job description…');
+        this.status.set('Reading the job…');
         let body: object;
         if (this.mode() === 'file') {
           if (!this.file) throw new Error('Choose a file.');
@@ -174,7 +228,7 @@ export class JdEvaluation {
           input_method: method,
         });
       stage = 'evaluation';
-      this.status.set('Evaluating the job against canonical career evidence…');
+      this.status.set('Matching it to James’s record. This can take up to a minute…');
       const result = await firstValueFrom(
         this.http.post<JdResult>(
           this.api.evaluate,
@@ -188,13 +242,14 @@ export class JdEvaluation {
         !result.summary.trim()
       )
         throw new Error('Incomplete result');
+      if (!isCard(result.card)) delete result.card;
       this.result.set(result);
       if (this.api.public)
         this.analytics.track('evaluation_completed', {
           location: 'page-content',
           input_method: method,
         });
-      this.status.set('Evaluation complete. The Library of Truth was not changed.');
+      this.status.set('Your answer is ready.');
       setTimeout(() => {
         if (this.destroyRef.destroyed || this.result() !== result) return;
         const heading = this.resultHeading()?.nativeElement;
@@ -237,7 +292,7 @@ export class JdEvaluation {
       this.status.set(
         this.failure(
           error,
-          'Evaluation is temporarily unavailable. Your input is retained. Please try again later; no automatic retry was made. The Library of Truth was not changed.',
+          'Thingamajob is busy right now. Your job description is still here. Please try again in a minute.',
         ),
       );
     } finally {
