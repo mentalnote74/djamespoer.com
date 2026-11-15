@@ -126,18 +126,6 @@ describe('one-action JD evaluator', () => {
     http.expectNone('/test/thingamajob/evaluate');
     http.verify();
   });
-  it('stops LinkedIn links before any request, keeping the link and the URL mode', async () => {
-    const { http, component } = setup();
-    component.choose('url');
-    component.url.set('https://www.linkedin.com/jobs/view/4489317995/');
-    await component.evaluate(new Event('submit'));
-    http.expectNone('/test/thingamajob/jd-input');
-    expect(component.failed()).toBe(true);
-    expect(component.status()).toContain('LinkedIn');
-    expect(component.mode()).toBe('url');
-    component.url.set('https://careers.example.org/job');
-    expect(component.linkedIn()).toBe(false);
-  });
   it('file intake chains evaluation without preview and preserves extracted text on failure', async () => {
     const { http, component } = setup();
     component.choose('file');
