@@ -50,6 +50,8 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
   evaluation_completed: { input_method: methods },
   evaluation_failed: { input_method: methods },
   evaluation_result_viewed: { input_method: methods },
+  evaluation_job_details: {},
+  evaluation_job_text: {},
   evidence_view: {
     evidence: [
       'engineering',
@@ -63,6 +65,24 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
   },
   case_study_view: { employer: employers },
 };
+
+/** SCRUM-197: GA must never receive personal data (James's rule and Google's policy). Job text
+ * loses contact lines, email addresses, links and phone numbers before it leaves the browser. */
+export function withoutPersonalData(text: string): string {
+  return text
+    .split(/\r?\n/)
+    .map((line) =>
+      /\b(recruiter|recruiting contact|hiring manager|contact|reach out|questions\?|apply to|send (your )?(resume|cv))\b/i.test(
+        line,
+      )
+        ? '[contact line removed]'
+        : line,
+    )
+    .join('\n')
+    .replace(/[^\s@<>()]+@[^\s@<>()]+\.[a-z]{2,}/gi, '[email]')
+    .replace(/\b(?:https?:\/\/|www\.)\S+/gi, '[link]')
+    .replace(/(?:\+?\d{1,3}[\s.-]?)?(?:\(\d{3}\)|\d{3})[\s.-]?\d{3}[\s.-]?\d{4}\b/g, '[phone]');
+}
 
 /** Runtime boundary: copy only finite known fields, never spread caller data into GA. */
 export function publicEventParameters(
@@ -92,6 +112,27 @@ export function publicEventParameters(
   if (event === 'evaluation_failed' && input['failure_stage'] !== undefined) {
     if (!['input', 'evaluation'].includes(String(input['failure_stage']))) return null;
     output['failure_stage'] = String(input['failure_stage']);
+  }
+  if (event === 'evaluation_job_details' || event === 'evaluation_job_text') {
+    const id = input['evaluation_id'];
+    if (typeof id !== 'string' || !/^[A-Za-z0-9_-]{1,64}$/.test(id)) return null;
+    output['evaluation_id'] = id;
+    const texts = event === 'evaluation_job_text' ? ['job_text'] : ['job_title', 'company'];
+    const counts =
+      event === 'evaluation_job_text'
+        ? ['chunk_index', 'chunk_count']
+        : ['met', 'total', 'required_met', 'required_total'];
+    for (const key of texts) {
+      const text = input[key];
+      // GA rejects parameter values over 100 characters.
+      if (typeof text !== 'string' || text.length > 100) return null;
+      output[key] = text;
+    }
+    for (const key of counts) {
+      const count = input[key];
+      if (!Number.isInteger(count) || (count as number) < 0) return null;
+      output[key] = count as number;
+    }
   }
   const destination =
     event === 'carousel_cta_click'

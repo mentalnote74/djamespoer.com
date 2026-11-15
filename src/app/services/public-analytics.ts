@@ -73,6 +73,23 @@ export interface EventParameters {
     failure_stage?: 'input' | 'evaluation';
   };
   evaluation_result_viewed: Common & { input_method: 'text' | 'url' | 'file' };
+  /** SCRUM-197 (James's direction): the posting's identity and James's fit score. */
+  evaluation_job_details: Common & {
+    evaluation_id: string;
+    job_title: string;
+    company: string;
+    met: number;
+    total: number;
+    required_met: number;
+    required_total: number;
+  };
+  /** SCRUM-197: the raw job text, in order, at GA's 100-character parameter limit. */
+  evaluation_job_text: Common & {
+    evaluation_id: string;
+    chunk_index: number;
+    chunk_count: number;
+    job_text: string;
+  };
   evidence_view: Common & {
     evidence:
       'engineering' | 'ux-product' | 'accessibility' | 'ai' | 'impact' | 'buildometer' | 'creative';
@@ -465,6 +482,8 @@ export class PublicAnalytics {
       });
       if (
         event !== 'carousel_exposure' &&
+        event !== 'evaluation_job_details' &&
+        event !== 'evaluation_job_text' &&
         (event !== 'rigby_encounter' ||
           !['shown', 'saved_off'].includes(String(filtered['action'])))
       )
