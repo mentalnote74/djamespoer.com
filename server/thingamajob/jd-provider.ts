@@ -171,3 +171,62 @@ export function openAiReasoner(
     },
   };
 }
+
+const screenshotInstructions =
+  'Transcribe the job posting shown in these screenshots, in reading order, exactly as written: ' +
+  'title, company, location, pay, description, responsibilities and qualifications. ' +
+  'The screenshots may overlap; include repeated text only once. Leave out app and site chrome ' +
+  '(navigation, buttons, ads, other job listings) and any person’s name, photo, profile or contact ' +
+  'details. Do not summarize, explain or add anything. If no job posting is visible, reply exactly NO_JOB_POSTING.';
+function base64(bytes: Uint8Array) {
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 0x8000)
+    binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(binary);
+}
+/** Reads job text out of screenshots for visitors who cannot copy it (for example LinkedIn on mobile). */
+export function openAiScreenshotReader(key: string, model: string, transport: typeof fetch = fetch) {
+  return async (images: { type: string; bytes: Uint8Array }[]): Promise<string> => {
+    const response = await transport('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(90000),
+      body: JSON.stringify({
+        model,
+        instructions: screenshotInstructions,
+        input: [
+          {
+            role: 'user',
+            content: images.map((image) => ({
+              type: 'input_image',
+              image_url: 'data:' + image.type + ';base64,' + base64(image.bytes),
+              detail: 'high',
+            })),
+          },
+        ],
+        store: false,
+        reasoning: { effort: 'low' },
+        max_output_tokens: 8000,
+      }),
+    });
+    if (!response.ok) {
+      const failure = (await response.json().catch(() => null)) as {
+        error?: { code?: unknown };
+      } | null;
+      const code = failure?.error?.code;
+      throw new EvaluationUnavailable('provider_http', {
+        httpStatus: response.status,
+        providerCode: typeof code === 'string' && /^[a-z0-9_-]{1,80}$/i.test(code) ? code : null,
+        model,
+      });
+    }
+    const body = JSON.parse(
+      new TextDecoder().decode(await boundedBytes(response.body, 2_000_000)),
+    ) as { output?: { type: string; content?: { type: string; text?: string }[] }[] };
+    return (body.output ?? [])
+      .flatMap((item) => (item.type === 'message' ? (item.content ?? []) : []))
+      .filter((part) => part.type === 'output_text')
+      .map((part) => part.text ?? '')
+      .join('\n');
+  };
+}

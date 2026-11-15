@@ -89,7 +89,7 @@ export class JdEvaluation {
   readonly mode = signal<'text' | 'url' | 'file'>('text');
   readonly url = signal('');
   readonly prepared = signal<PreparedJd | null>(null);
-  private file: File | null = null;
+  private files: File[] = [];
   readonly fileName = signal('');
   readonly dropping = signal(false);
   readonly busy = signal(false);
@@ -124,7 +124,7 @@ export class JdEvaluation {
     this.reset();
   }
   selectFile(event: Event) {
-    this.useFile((event.target as HTMLInputElement).files?.[0] ?? null);
+    this.useFiles([...((event.target as HTMLInputElement).files ?? [])]);
   }
   dragOver(event: DragEvent) {
     if (!event.dataTransfer?.types.includes('Files')) return;
@@ -133,33 +133,38 @@ export class JdEvaluation {
   }
   /** Progressive enhancement: dropping a document on the paste box switches to file input. */
   drop(event: DragEvent) {
-    const file = event.dataTransfer?.files[0];
+    const files = [...(event.dataTransfer?.files ?? [])];
     this.dropping.set(false);
-    if (!file) return;
+    if (!files.length) return;
     event.preventDefault();
     this.choose('file');
-    this.useFile(file);
+    this.useFiles(files);
   }
   /** Clear the answer and return focus to the paste box for the next job. */
   startOver() {
     this.reset();
     this.jd.set('');
     this.url.set('');
-    this.useFile(null, false);
+    this.useFiles([], false);
     this.resumeStatus.set('');
     this.mode.set('text');
     setTimeout(() => this.document.getElementById('job-description')?.focus());
   }
-  private useFile(file: File | null, track = true) {
-    this.file = file;
-    this.fileName.set(file?.name ?? '');
+  /** One document, or up to four screenshots of a posting whose text can't be copied (LinkedIn on mobile). */
+  private useFiles(files: File[], track = true) {
+    this.files = files;
+    this.fileName.set(files.length > 1 ? files.length + ' screenshots' : (files[0]?.name ?? ''));
     this.reset();
     if (!track) return;
+    const screenshots = files.every((file) => /\.(png|jpe?g|webp)$/i.test(file.name));
     if (
       this.api.public &&
-      this.file &&
-      this.file.size <= 1000000 &&
-      /\.(txt|md|markdown|html|htm|docx)$/i.test(this.file.name)
+      files.length &&
+      (screenshots
+        ? files.length <= 4
+        : files.length === 1 &&
+          files[0].size <= 1000000 &&
+          /\.(txt|md|markdown|html|htm|docx)$/i.test(files[0].name))
     )
       this.analytics.track('evaluation_file_selected', {
         location: 'page-content',
@@ -207,7 +212,7 @@ export class JdEvaluation {
         return 'That request was not accepted. Your job description is still here. Reload the page, then try again.';
       this.jd.set('');
       this.url.set('');
-      this.useFile(null, false);
+      this.useFiles([], false);
       return 'Your session no longer has access. Sign in again.';
     }
     if (error instanceof HttpErrorResponse && typeof error.error?.error === 'string')
@@ -239,9 +244,9 @@ export class JdEvaluation {
         this.status.set('Reading the job…');
         let body: object;
         if (this.mode() === 'file') {
-          if (!this.file) throw new Error('Choose a file.');
+          if (!this.files.length) throw new Error('Choose a file.');
           const form = new FormData();
-          form.set('file', this.file);
+          for (const file of this.files) form.append('file', file);
           body = form;
         } else
           body =

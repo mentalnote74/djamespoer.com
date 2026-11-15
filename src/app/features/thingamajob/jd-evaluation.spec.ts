@@ -145,4 +145,14 @@ describe('one-action JD evaluator', () => {
     expect(component.jd()).toBe('Fictional extracted job description.');
     http.verify();
   });
+  it('uploads several screenshots of one posting together', () => {
+    const { http, component } = setup();
+    component.choose('file');
+    const shots = [new File(['a'], 'IMG_1.PNG'), new File(['b'], 'IMG_2.PNG')];
+    component.selectFile({ target: { files: shots } } as unknown as Event);
+    expect(component.fileName()).toBe('2 screenshots');
+    void component.evaluate(new Event('submit'));
+    const upload = http.expectOne('/test/thingamajob/jd-input');
+    expect((upload.request.body as FormData).getAll('file')).toEqual(shots);
+  });
 });
