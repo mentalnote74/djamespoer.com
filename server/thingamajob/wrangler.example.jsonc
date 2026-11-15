@@ -1,0 +1,69 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  // Copy to ignored wrangler.private.jsonc; replace every REPLACE value privately.
+  "main": "worker.ts",
+  "compatibility_date": "2026-10-13",
+  "workers_dev": false,
+  "preview_urls": false,
+  "env": {
+    "test": {
+      "name": "thingamajob-api-test",
+      "version_metadata": { "binding": "CF_VERSION_METADATA" },
+      // SCRUM-141: delete only expired new public-evaluation records, daily 04:17 UTC.
+      "triggers": { "crons": ["17 4 * * *"] },
+      "ratelimits": [
+        {
+          "name": "JD_HARNESS_LIMIT",
+          "namespace_id": "120192026",
+          "simple": { "limit": 2, "period": 60 },
+        },
+        {
+          "name": "JD_TELEMETRY_LIMIT",
+          "namespace_id": "120192027",
+          "simple": { "limit": 60, "period": 60 },
+        },
+      ],
+      // OPENAI_API_KEY is a TEST runtime secret, never a build/browser variable.
+      "vars": { "JD_EVALUATION_MODEL": "gpt-5.6-sol" },
+      "assets": {
+        "binding": "TEST_UI",
+        "directory": "../../dist/thingamajob-test/browser",
+        "run_worker_first": true,
+        "html_handling": "none",
+      },
+      // SCRUM-85 isolated fictional verifier; never bind James's D1/R2 to that Worker.
+      "services": [
+        {
+          "binding": "TEST_VERIFICATION",
+          "service": "thingamajob-scrum85-verification-test",
+        },
+      ],
+      "r2_buckets": [
+        { "binding": "PRIVATE_ORIGINALS", "bucket_name": "REPLACE_WITH_PRIVATE_TEST_R2_NAME" },
+      ],
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [{ "pattern": "REPLACE_WITH_TEST_API_HOSTNAME", "custom_domain": true }],
+      "d1_databases": [
+        {
+          "binding": "IDENTITY_DB",
+          "database_name": "REPLACE_WITH_TEST_D1_NAME",
+          "database_id": "REPLACE_WITH_TEST_D1_ID",
+        },
+      ],
+    },
+    "live": {
+      "name": "thingamajob-api-live",
+      "workers_dev": false,
+      "preview_urls": false,
+      "routes": [{ "pattern": "REPLACE_WITH_LIVE_API_HOSTNAME", "custom_domain": true }],
+      "d1_databases": [
+        {
+          "binding": "IDENTITY_DB",
+          "database_name": "REPLACE_WITH_LIVE_D1_NAME",
+          "database_id": "REPLACE_WITH_LIVE_D1_ID",
+        },
+      ],
+    },
+  },
+}

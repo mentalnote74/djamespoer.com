@@ -29,7 +29,9 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss"
+            ],
             "server": "src/main.server.ts",
             "outputMode": "static"
           },
@@ -54,6 +56,75 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "thingamajob-test": {
+              "browser": "src/thingamajob-main.ts",
+              "index": {
+                "input": "src/thingamajob-index.html",
+                "output": "index.html"
+              },
+              "styles": [
+                "src/thingamajob-styles.scss"
+              ],
+              "assets": [],
+              "outputPath": "dist/thingamajob-test",
+              "baseHref": "/api/thingamajob/test/app/",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "server": false,
+              "ssr": false,
+              "prerender": false
+            },
+            "thingamajob-sandbox": {
+              "browser": "src/thingamajob-sandbox-main.ts",
+              "index": {
+                "input": "src/thingamajob-sandbox-index.html",
+                "output": "index.html"
+              },
+              "styles": [
+                "src/thingamajob-styles.scss"
+              ],
+              "assets": [],
+              "outputPath": "dist/thingamajob-sandbox",
+              "baseHref": "/test/thingamajob/",
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": false
+              },
+              "outputHashing": "all",
+              "sourceMap": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "server": false,
+              "ssr": false,
+              "prerender": false
             }
           },
           "defaultConfiguration": "production"

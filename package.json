@@ -21,7 +21,10 @@
     "assets:slides": "node scripts/slide-assets/generate.mjs",
     "check:slides": "node scripts/slide-assets/validate.mjs",
     "buildometer:reconcile": "node scripts/buildometer/reconcile.mjs",
-    "buildometer:release-check": "node scripts/buildometer/reconcile.mjs release-check"
+    "buildometer:release-check": "node scripts/buildometer/reconcile.mjs release-check",
+    "build:thingamajob-test": "ng build --configuration thingamajob-test",
+    "build:thingamajob-sandbox": "ng build --configuration thingamajob-sandbox",
+    "build:thingamajob-runtime": "npm run build:thingamajob-test && npm run build:thingamajob-sandbox && node scripts/thingamajob/prepare-runtime-assets.mjs"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
@@ -37,6 +40,7 @@
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/manrope": "^5.3.0",
     "@lucide/angular": "^1.59.0",
+    "pdf-lib": "1.17.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

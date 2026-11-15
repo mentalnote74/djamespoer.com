@@ -1,0 +1,61 @@
+import { activeBaseline, baselineAvailable } from './baseline-service.ts';
+import { AccessDenied } from './access-identity.ts';
+import { recheckWorkspace } from './workspace-access.ts';
+import type { IdentityDatabase, WorkspaceAccess } from './workspace-access.ts';
+import { canonicalUsageAvailable } from './canonical-truth.ts';
+
+/** One bounded D1 read snapshot. No onboarding, inference, or mutations. */
+export async function workflowSnapshot(database: IdentityDatabase, scope: WorkspaceAccess) {
+  await recheckWorkspace(scope);
+  const canonical = !!(await database
+    .prepare(
+      "SELECT name FROM sqlite_master WHERE type='view' AND name='thingamajob_canonical_active_claims'",
+    )
+    .first());
+  const claimView = canonical ? 'thingamajob_canonical_active_claims' : 'thingamajob_active_claims';
+  const safeUsage = await canonicalUsageAvailable(database);
+  const unknownView = safeUsage ? 'thingamajob_career_unknowns' : 'thingamajob_unknowns';
+  const row = await database
+    .prepare(
+      `SELECT w.workspace_id,
+    (SELECT json_group_array(json_object('sourceId',source_id,'filename',filename,'attribution',attribution,'sourceLocator',source_locator))
+      FROM (SELECT * FROM thingamajob_evidence WHERE workspace_id=w.workspace_id ORDER BY acquired_at DESC,source_id LIMIT 100)) evidence,
+    (SELECT json_group_array(json_object('proposalId',p.proposal_id,'statement',${safeUsage ? '(SELECT statement FROM thingamajob_canonical_truth t WHERE t.workspace_id=p.workspace_id AND t.proposal_id=p.proposal_id)' : 'p.statement'},'version',p.current_version,'reviewDisposition',p.disposition,
+      'claim',json((SELECT json_object('claimId',c.claim_id,'statement',c.statement,'reviewDisposition',c.disposition) FROM ${claimView} c WHERE c.workspace_id=p.workspace_id AND c.proposal_id=p.proposal_id))))
+      FROM (SELECT * FROM thingamajob_proposals p WHERE workspace_id=w.workspace_id ${safeUsage ? 'AND EXISTS(SELECT 1 FROM thingamajob_canonical_truth t WHERE t.workspace_id=p.workspace_id AND t.proposal_id=p.proposal_id)' : ''} ORDER BY proposed_at DESC,proposal_id LIMIT 100) p) proposals,
+    (SELECT json_group_array(json_object('unknownId',unknown_id,'question',question,'state',state,'version',version))
+      FROM (SELECT * FROM ${unknownView} WHERE workspace_id=w.workspace_id ORDER BY unknown_id LIMIT 100)) unknowns
+    FROM thingamajob_workspaces w WHERE w.workspace_id=?`,
+    )
+    .bind(scope.workspaceId)
+    .first<{ workspace_id: string; evidence: string; proposals: string; unknowns: string }>();
+  if (!row) throw new AccessDenied();
+  await recheckWorkspace(scope);
+  const extended = await baselineAvailable(database);
+  const details = extended
+    ? await database
+        .prepare(
+          `SELECT
+    (SELECT json_group_array(json_object('runId',run_id,'createdAt',created_at)) FROM thingamajob_extraction_runs WHERE workspace_id=?) runs,
+    (SELECT json_group_array(json_object('claimId',claim_id,'proposalId',proposal_id,'statement',statement,'reviewDisposition',disposition)) FROM ${claimView} WHERE workspace_id=?) claims`,
+        )
+        .bind(scope.workspaceId, scope.workspaceId)
+        .first<{ runs: string; claims: string }>()
+    : null;
+  const baselineClaims = extended ? await activeBaseline(database, scope) : [];
+  await recheckWorkspace(scope);
+  return {
+    workspaceId: row.workspace_id,
+    evidence: JSON.parse(row.evidence) as unknown,
+    proposals: JSON.parse(row.proposals) as unknown,
+    unknowns: JSON.parse(row.unknowns) as unknown,
+    limit: 100,
+    ...(extended
+      ? {
+          baselineClaims,
+          reviewedClaims: JSON.parse(details?.claims ?? '[]') as unknown,
+          extractionRuns: JSON.parse(details?.runs ?? '[]') as unknown,
+        }
+      : {}),
+  };
+}
