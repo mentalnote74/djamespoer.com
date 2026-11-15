@@ -318,6 +318,49 @@ test('LinkedIn job links read the public guest posting, and refusals say so plai
   }
   await assert.rejects(
     () => fromJobUrl('https://www.linkedin.com/jobs/view/4489317995/', async () => new Response('', { status: 429 })),
-    /LinkedIn didn’t let us read this posting right now \(HTTP 429\)/,
+    /LinkedIn doesn’t let other servers read its postings \(HTTP 429\)/,
   );
+});
+test('screenshots of a posting are transcribed into job text; other images and missing readers are refused', async () => {
+  const { openAiScreenshotReader } = await import('./jd-provider.ts');
+  const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 1, 2, 3]);
+  const upload = (...files) => {
+    const form = new FormData();
+    for (const file of files) form.append('file', file);
+    return new Request('https://example.test/jd-input', { method: 'POST', body: form });
+  };
+  const shot = (name = 'IMG_0001.PNG', bytes = png) => new File([bytes], name, { type: 'image/png' });
+  let seen;
+  const reader = async (images) => {
+    seen = images;
+    return 'Senior UX Engineer\nRequired qualifications\nBuild accessible Angular applications.';
+  };
+  const result = await readInput(upload(shot(), shot('IMG_0002.PNG')), undefined, publicDns, undefined, reader);
+  assert.equal(seen.length, 2);
+  assert.equal(seen[0].type, 'image/png');
+  assert.equal(result.sourceLabel, '2 screenshots');
+  assert.match(result.jobDescription, /Build accessible Angular applications/);
+  await assert.rejects(() => readInput(upload(shot()), undefined, publicDns), /Screenshots can’t be read here/);
+  await assert.rejects(
+    () => readInput(upload(shot('fake.png', new Uint8Array([1, 2, 3]))), undefined, publicDns, undefined, reader),
+    /PNG, JPEG or WebP/,
+  );
+  await assert.rejects(
+    () => readInput(upload(shot()), undefined, publicDns, undefined, async () => 'NO_JOB_POSTING'),
+    /No job posting could be read/,
+  );
+  await assert.rejects(
+    () => readInput(upload(shot(), shot(), shot(), shot(), shot()), undefined, publicDns, undefined, reader),
+    /up to 4 screenshots/,
+  );
+  let request;
+  const text = await openAiScreenshotReader('k', 'm', async (url, init) => {
+    request = JSON.parse(init.body);
+    return Response.json({
+      output: [{ type: 'message', content: [{ type: 'output_text', text: 'Job text' }] }],
+    });
+  })([{ type: 'image/png', bytes: png }]);
+  assert.equal(text, 'Job text');
+  assert.equal(request.store, false);
+  assert.match(request.input[0].content[0].image_url, /^data:image\/png;base64,iVBORw0KGgo/);
 });

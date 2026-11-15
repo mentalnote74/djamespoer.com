@@ -341,9 +341,9 @@ export async function fromJobUrl(
         throw new JdIntakeError(
           response.status === 404
             ? 'LinkedIn says this job is no longer available. Check that the posting is still open, or paste its text.'
-            : 'LinkedIn didn’t let us read this posting right now (HTTP ' +
+            : 'LinkedIn doesn’t let other servers read its postings (HTTP ' +
                 response.status +
-                '). Wait a minute and try again, or use the company’s own posting link.',
+                '). Upload screenshots of the job instead, or use the company’s own posting link.',
         );
       if (!response.ok)
         throw new JdIntakeError(
@@ -432,23 +432,65 @@ export async function fromJdFile(file: File, audit?: IntakeAudit): Promise<Prepa
   await audit?.({ method: 'file', text });
   return { method: 'file', sourceLabel: file.name.slice(0, 200), ...normalizeJd(text) };
 }
+/** Screenshot transcription is injected so intake stays provider-free and testable. */
+export type ScreenshotReader = (images: { type: string; bytes: Uint8Array }[]) => Promise<string>;
+const MAX_SCREENSHOTS = 4;
+const MAX_SCREENSHOT_BYTES = 6_000_000;
+function imageType(bytes: Uint8Array): string | null {
+  const ascii = (from: number, to: number) => String.fromCharCode(...bytes.subarray(from, to));
+  if (bytes[0] === 0x89 && ascii(1, 4) === 'PNG') return 'image/png';
+  if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return 'image/jpeg';
+  if (ascii(0, 4) === 'RIFF' && ascii(8, 12) === 'WEBP') return 'image/webp';
+  return null;
+}
+async function fromScreenshots(files: File[], read: ScreenshotReader | undefined, audit?: IntakeAudit) {
+  if (!read)
+    throw new JdIntakeError('Screenshots can’t be read here. Paste the job text instead.');
+  if (files.length > MAX_SCREENSHOTS)
+    throw new JdIntakeError('Upload up to ' + MAX_SCREENSHOTS + ' screenshots of one job posting.');
+  const images = [];
+  for (const file of files) {
+    if (!file.size || file.size > MAX_SCREENSHOT_BYTES)
+      throw new JdIntakeError('Each screenshot must be under 6 MB.');
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const type = imageType(bytes);
+    if (!type) throw new JdIntakeError('Use PNG, JPEG or WebP screenshots.');
+    images.push({ type, bytes });
+  }
+  const text = (await read(images)).trim();
+  if (!text || /^NO_JOB_POSTING$/i.test(text))
+    throw new JdIntakeError(
+      'No job posting could be read in those screenshots. Capture the posting’s description and requirements, or paste the text.',
+    );
+  await audit?.({ method: 'file', text });
+  return {
+    method: 'file' as const,
+    sourceLabel: files.length === 1 ? 'Screenshot' : files.length + ' screenshots',
+    ...normalizeJd(text),
+  };
+}
 export async function intakeJd(
   request: Request,
   transport: typeof fetch = fetch,
   resolve: PublicHostResolver = resolvePublicHost,
   audit?: IntakeAudit,
+  readScreenshots?: ScreenshotReader,
 ): Promise<PreparedJd> {
+  const type = request.headers.get('Content-Type') ?? '';
+  const multipart = type.startsWith('multipart/form-data');
   let bytes: Uint8Array;
   try {
-    bytes = await boundedBytes(request.body, 1_100_000);
+    bytes = await boundedBytes(
+      request.body,
+      multipart ? MAX_SCREENSHOTS * MAX_SCREENSHOT_BYTES + 100_000 : 1_100_000,
+    );
   } catch {
     throw new JdIntakeError(
-      'The input is too large. Upload one document up to 1 MB or paste the intended job text.',
+      'The input is too large. Upload one document up to 1 MB, up to 4 screenshots, or paste the job text.',
       413,
     );
   }
-  const type = request.headers.get('Content-Type') ?? '';
-  if (type.startsWith('multipart/form-data')) {
+  if (multipart) {
     let form: FormData;
     try {
       form = await new Response(Uint8Array.from(bytes).buffer, {
@@ -458,9 +500,13 @@ export async function intakeJd(
       throw new JdIntakeError('The upload could not be read. Choose the file again or paste text.');
     }
     const entries = [...form.entries()];
-    if (entries.length !== 1 || entries[0][0] !== 'file' || !(entries[0][1] instanceof File))
+    const files = entries.map(([, value]) => value).filter((value) => value instanceof File);
+    if (!entries.length || files.length !== entries.length || entries.some(([key]) => key !== 'file'))
       throw new JdIntakeError('Choose one supported JD file.');
-    return fromJdFile(entries[0][1], audit);
+    if (files.every((file) => /\.(png|jpe?g|webp)$/i.test(file.name) || /^image\//i.test(file.type)))
+      return fromScreenshots(files, readScreenshots, audit);
+    if (files.length !== 1) throw new JdIntakeError('Choose one supported JD file.');
+    return fromJdFile(files[0], audit);
   }
   let body: Record<string, unknown>;
   try {

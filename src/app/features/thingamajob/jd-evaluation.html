@@ -45,12 +45,13 @@
         </p>
       }
       @case ('file') {
-        <label for="jd-file">Job description document</label>
+        <label for="jd-file">Job description document or screenshots</label>
         <input
           id="jd-file"
           name="file"
           type="file"
-          accept=".txt,.md,.markdown,.html,.htm,.docx"
+          multiple
+          accept=".txt,.md,.markdown,.html,.htm,.docx,.png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
           [required]="!fileName()"
           (change)="selectFile($event)"
           aria-describedby="file-help"
@@ -60,7 +61,8 @@
             Ready: <strong>{{ name }}</strong
             >.
           }
-          Word (DOCX), text, Markdown or HTML, up to 1 MB. For a PDF, paste the text instead.
+          Word (DOCX), text, Markdown or HTML up to 1 MB, or up to 4 screenshots of the posting.
+          Can’t copy the text, as on LinkedIn? Screenshot the job and upload the pictures.
         </p>
       }
     }
@@ -74,7 +76,9 @@
         </button>
       }
       @if (mode() !== 'file') {
-        <button type="button" class="link-button" (click)="choose('file')">Upload a file</button>
+        <button type="button" class="link-button" (click)="choose('file')">
+          Upload a file or screenshots
+        </button>
       }
     </p>
     <button type="submit" class="primary">
@@ -88,7 +92,8 @@
       <summary>How your data is handled</summary>
       <p>
         Thingamajob sends the job text and James's public career facts to OpenAI. Private career
-        documents are never included. Submissions, answers and usage records are kept privately for
+        documents are never included. Screenshots are sent to OpenAI only to read the job text;
+        the pictures themselves are not kept. Submissions, answers and usage records are kept privately for
         90 days for troubleshooting and improvement. A random 30-minute session links your answer
         and résumé download. Unless you have turned analytics off in the Cookie Jar, the full job
         text, the job title, the company and James's fit score are also sent to Google Analytics,

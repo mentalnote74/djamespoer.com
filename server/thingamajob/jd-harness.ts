@@ -1,7 +1,7 @@
 import type { IdentityDatabase } from './workspace-access.ts';
 import { boundedBytes } from './evidence-validation.ts';
 import { intakeJd, normalizeJd, JdIntakeError } from './jd-intake.ts';
-import { openAiReasoner, providerMetadata } from './jd-provider.ts';
+import { openAiReasoner, openAiScreenshotReader, providerMetadata } from './jd-provider.ts';
 import type { JdReasoner } from './jd-provider.ts';
 import { validateEvaluation, EvaluationUnavailable, JD_POLICY } from './jd-contract.ts';
 import type { EvaluationTruth } from './jd-contract.ts';
@@ -285,8 +285,22 @@ export async function jdHarness(
       throw new EvaluationUnavailable('configuration');
     stage = 'input';
     if (path === root + '/jd-input') {
-      const prepared = await intakeJd(request, undefined, undefined, (source) =>
-        retainPublicContent(env, identity.id, 'submitted', source),
+      const prepared = await intakeJd(
+        request,
+        undefined,
+        undefined,
+        (source) => retainPublicContent(env, identity.id, 'submitted', source),
+        // Screenshots spend provider tokens, so they get their own share of the harness limit.
+        env.OPENAI_API_KEY && env.JD_EVALUATION_MODEL
+          ? async (images) => {
+              if (!(await env.JD_HARNESS_LIMIT!.limit({ key: 'temporary-jd-screenshots' })).success)
+                throw new JdIntakeError(
+                  'Screenshot reading is busy. Wait a minute and try again, or paste the text.',
+                  429,
+                );
+              return openAiScreenshotReader(env.OPENAI_API_KEY!, env.JD_EVALUATION_MODEL!)(images);
+            }
+          : undefined,
       );
       await retainPublicContent(env, identity.id, 'input', {
         jobDescription: prepared.jobDescription,
