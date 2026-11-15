@@ -57,7 +57,8 @@
         />
         <p id="file-help" class="hint">
           @if (fileName(); as name) {
-            Ready: <strong>{{ name }}</strong>.
+            Ready: <strong>{{ name }}</strong
+            >.
           }
           Word (DOCX), text, Markdown or HTML, up to 1 MB. For a PDF, paste the text instead.
         </p>
@@ -80,7 +81,8 @@
       {{ busy() ? 'Working on it…' : 'See how James fits' }}
     </button>
     <p class="hint">
-      Your job text is sent to OpenAI to write the answer. It never goes to Google Analytics.
+      Your job text is sent to OpenAI to write the answer. Google Analytics gets it with contact
+      details removed.
     </p>
     <details class="data-notice">
       <summary>How your data is handled</summary>
@@ -88,7 +90,10 @@
         Thingamajob sends the job text and James's public career facts to OpenAI. Private career
         documents are never included. Submissions, answers and usage records are kept privately for
         90 days for troubleshooting and improvement. A random 30-minute session links your answer
-        and résumé download. Job text, file names and answers are never sent to Google Analytics.
+        and résumé download. Unless you have turned analytics off in the Cookie Jar, the full job
+        text, the job title, the company and James's fit score are also sent to Google Analytics,
+        with contact lines, email addresses, phone numbers and links removed first. File names are
+        never sent.
       </p>
     </details>
   </fieldset>

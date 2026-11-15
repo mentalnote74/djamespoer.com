@@ -50,7 +50,12 @@ async function fixture(reason) {
         { output: 'Private fake response' },
       );
       // The public harness appends owner positioning statements; fixtures assert canonical rows only.
-      return reason(jd, truths.filter((t) => !t.truthId.startsWith('owner-')), ids, f);
+      return reason(
+        jd,
+        truths.filter((t) => !t.truthId.startsWith('owner-')),
+        ids,
+        f,
+      );
     },
   };
   const f = evidenceFixture(reasoner);
@@ -502,6 +507,16 @@ test('semantic combination and independent frontend support do not inherit unrel
     result.requirements.map((r) => r.outcome),
     ['MET', 'MET'],
   );
+  // SCRUM-197: posting title/company survive only when the JD states them verbatim.
+  const quotedTitle = jd.split(' ').slice(0, 2).join(' ');
+  const named = validateEvaluation(
+    { requirements: [a, b], jobTitle: quotedTitle, company: 'Invented Corp' },
+    jd,
+    truths,
+  );
+  assert.equal(named.jobTitle, quotedTitle);
+  assert.equal(named.company, '');
+  assert.equal(evaluationCard(named).jobTitle, quotedTitle);
   assert(result.requirements.every((r) => r.question === null));
   assert(result.requirements.every((r) => r.materialGaps.length === 0));
 });
@@ -933,7 +948,10 @@ test('concise presentation separates required/preferred gaps, strengths and genu
   const pitched = evaluationSummary({ requirements: rows }, true, true);
   assert.match(pitched, /^Yes, James can do this job\. He already meets 1 of 2/);
   assert.match(pitched, /He will ramp up on: Enterprise-scale operations/);
-  assert.match(pitched, /23\+ years of experience working with the web, including 15\+ years of professional experience.*learned on the job/);
+  assert.match(
+    pitched,
+    /23\+ years of experience working with the web, including 15\+ years of professional experience.*learned on the job/,
+  );
   assert.match(
     evaluationSummary({ requirements: [{ ...rows[0], importance: 'required' }] }, true, true),
     /^Yes, James can do this job\. He will ramp up on/,
@@ -1008,7 +1026,10 @@ test('Fullsteam-shaped retained regression separates routine logistics from actu
     },
     true,
   );
-  assert.match(qualified, /^Strong fit: meets 3 of 3 listed qualifications, including 3 of 3 required/);
+  assert.match(
+    qualified,
+    /^Strong fit: meets 3 of 3 listed qualifications, including 3 of 3 required/,
+  );
   assert(!/uncertain|ramp-up|clarification/i.test(qualified));
 });
 

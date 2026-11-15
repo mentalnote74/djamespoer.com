@@ -27,6 +27,8 @@ export interface EvaluationCard {
   rampUp: string[];
   learnerNote: string;
   clarification?: string;
+  jobTitle: string;
+  company: string;
 }
 
 export function evaluationCard(result: RoleEvaluation): EvaluationCard {
@@ -43,6 +45,8 @@ export function evaluationCard(result: RoleEvaluation): EvaluationCard {
     strengths: ordered(rows.filter((r) => r.outcome === 'MET')).map((r) => brief(r.requirement)),
     rampUp,
     learnerNote: rampUp.length ? PUBLIC_LEARNER_NOTE : '',
+    jobTitle: result.jobTitle ?? '',
+    company: result.company ?? '',
     ...(clarification ? { clarification } : {}),
   };
 }

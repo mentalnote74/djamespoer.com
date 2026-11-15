@@ -13,6 +13,7 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { withoutPersonalData } from '../../services/public-event-parameters';
 import { PublicAnalytics } from '../../services/public-analytics';
 
 export interface JdResult {
@@ -33,6 +34,9 @@ export interface JdCard {
   rampUp: string[];
   learnerNote: string;
   clarification?: string;
+  /** SCRUM-197: quoted verbatim from the posting; absent from older Workers. */
+  jobTitle?: string;
+  company?: string;
 }
 const isCard = (value: unknown): value is JdCard => {
   const card = value as Partial<JdCard> | null;
@@ -171,6 +175,32 @@ export class JdEvaluation {
     if (extracted) this.jd.set(extracted);
     this.choose('text');
   }
+  /** SCRUM-197 (James's direction): GA gets the posting's identity, the score and the full
+   * job text (personal data removed), split at GA's 100-character value limit and joined by evaluation id. */
+  private sendJob(result: JdResult, jobDescription: string) {
+    const card = result.card;
+    const evaluation_id = result.evaluationId;
+    this.analytics.track('evaluation_job_details', {
+      location: 'page-content',
+      evaluation_id,
+      job_title: withoutPersonalData(card?.jobTitle ?? '').slice(0, 100),
+      company: withoutPersonalData(card?.company ?? '').slice(0, 100),
+      met: card?.met ?? 0,
+      total: card?.total ?? 0,
+      required_met: card?.requiredMet ?? 0,
+      required_total: card?.requiredTotal ?? 0,
+    });
+    const characters = Array.from(withoutPersonalData(jobDescription));
+    const chunk_count = Math.ceil(characters.length / 100);
+    for (let chunk_index = 0; chunk_index < chunk_count; chunk_index++)
+      this.analytics.track('evaluation_job_text', {
+        location: 'page-content',
+        evaluation_id,
+        chunk_index,
+        chunk_count,
+        job_text: characters.slice(chunk_index * 100, chunk_index * 100 + 100).join(''),
+      });
+  }
   private failure(error: unknown, fallback: string) {
     if (error instanceof HttpErrorResponse && error.status === 403) {
       if (this.api.public)
@@ -244,11 +274,13 @@ export class JdEvaluation {
         throw new Error('Incomplete result');
       if (!isCard(result.card)) delete result.card;
       this.result.set(result);
-      if (this.api.public)
+      if (this.api.public) {
         this.analytics.track('evaluation_completed', {
           location: 'page-content',
           input_method: method,
         });
+        this.sendJob(result, this.prepared()!.jobDescription);
+      }
       this.status.set('Your answer is ready.');
       setTimeout(() => {
         if (this.destroyRef.destroyed || this.result() !== result) return;
@@ -325,7 +357,9 @@ export class JdEvaluation {
       this.resumeStatus.set('Your tailored résumé has downloaded: ' + name);
     } catch {
       this.resumeFailed.set(true);
-      this.resumeStatus.set('The résumé could not be built right now. Please try again in a minute.');
+      this.resumeStatus.set(
+        'The résumé could not be built right now. Please try again in a minute.',
+      );
     } finally {
       this.tailoring.set(false);
     }
