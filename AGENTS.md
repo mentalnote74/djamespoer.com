@@ -51,7 +51,14 @@ Several AI agents work on this repository. Roles stay fixed; agents can be swapp
 - **No yak shaving.** A side problem that doesn't block your baton becomes a new Jira ticket labeled `parked`. Mention it and keep going. If it does block you, stop and report to James.
 - **Done means James accepted it.** An agent reports what it verified and what it did not; it never declares its own work done.
 - **Spend usage on the work, not the overhead.** GitHub Actions runs unit tests and Cloudflare Workers Builds runs the production build on every push and PR, so read those results instead of re-running them without a reason. Work one baton per session. In `AI_HANDOFF.md`, read only the newest entries unless the task needs history.
-- **No stale checkouts.** Start from current `origin/main`. Use one short-lived branch or worktree per baton and delete it once the work merges. Alternates live outside this repository.
+- **No stale checkouts.** Stale branches, worktrees and copies clog the pipeline and lead to plans and deploys built on old state.
+  - Fetch and check `origin/main` before you plan, build or deploy. Never work from a checkout that is behind it.
+  - The primary checkout stays on `main`. Do baton work on one short-lived `SCRUM-<n>` branch or worktree cut from current `origin/main`.
+  - When the work merges, remove its worktree and delete its branch locally and on GitHub in the same session. Don't leave it for later.
+  - Don't debate how far behind a branch is. Merge it or drop it. To keep unmerged work, push an `archive/<name>` tag first, then delete the branch.
+  - Remove worktrees with `git worktree remove` from the clone that owns them, then run `git worktree prune`. Never leave abandoned worktrees under `tmp/` or anywhere else in the dev path.
+  - Alternates and experiments live outside this repository, on GitHub or in an archive. Never put them in the working checkout.
+  - Git-ignored private files, such as `server/thingamajob/wrangler.private.jsonc`, have one canonical copy in the primary checkout. Copy that file into a worktree when you need it, and never deploy from a copy in another clone. Before any Worker deploy, confirm in the dry-run that every expected binding is present.
 
 Keep changes focused and reviewable. `main` is the canonical production branch. Jira is the intended project-management source of truth and GitHub is the engineering source of truth. When Jira issue keys become available, use them in relevant engineering work and commit messages as directed.
 
