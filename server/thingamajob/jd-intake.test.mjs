@@ -290,3 +290,34 @@ test('intake is same-origin, TEST-only, own-owner scoped, and never writes evide
     f.db.close();
   }
 });
+test('LinkedIn job links read the public guest posting, and refusals say so plainly', async () => {
+  const guest = 'https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/4489317995';
+  for (const link of [
+    'https://www.linkedin.com/jobs/view/4489317995/',
+    'https://www.linkedin.com/jobs/view/senior-ux-engineer-at-acme-4489317995?trk=share',
+    'https://www.linkedin.com/jobs/search/?currentJobId=4489317995&keywords=ux',
+    'https://www.linkedin.com/jobs/collections/recommended/?currentJobId=4489317995',
+  ]) {
+    const seen = [];
+    const result = await fromJobUrl(link, async (url) => {
+      seen.push(url);
+      return new Response(
+        '<section><h2 class="top-card-layout__title topcard__title">Senior UX Engineer</h2>' +
+          '<a class="topcard__org-name-link" href="#">Acme</a>' +
+          '<span class="topcard__flavor topcard__flavor--bullet">Remote</span>' +
+          '<div class="description__text"><div class="show-more-less-html__markup">' +
+          '<p>Build accessible Angular applications.</p><ul><li>Design systems experience</li></ul>' +
+          '</div></div><ul class="description__job-criteria-list"><li>Seniority level</li></ul></section>',
+        { headers: { 'Content-Type': 'text/html; charset=utf-8' } },
+      );
+    });
+    assert.deepEqual(seen, [guest]);
+    assert.match(result.jobDescription, /^Senior UX Engineer\nCompany: Acme\nLocation: Remote\n/);
+    assert.match(result.jobDescription, /Design systems experience/);
+    assert.doesNotMatch(result.jobDescription, /Seniority level/);
+  }
+  await assert.rejects(
+    () => fromJobUrl('https://www.linkedin.com/jobs/view/4489317995/', async () => new Response('', { status: 429 })),
+    /LinkedIn didn’t let us read this posting right now \(HTTP 429\)/,
+  );
+});

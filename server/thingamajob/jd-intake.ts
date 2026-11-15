@@ -282,6 +282,32 @@ function generalJobText(html: string, url: URL) {
   const text = htmlText(selected);
   return visibleHeading && !text.includes(visibleHeading) ? visibleHeading + '\n' + text : text;
 }
+/** LinkedIn job links (desktop, app share, search-panel `currentJobId`) map to the
+ * public guest posting LinkedIn serves to signed-out visitors; the signed-in page refuses servers. */
+export function linkedInGuestUrl(url: URL): URL | null {
+  if (!/(?:^|\.)linkedin\.com$/i.test(url.hostname)) return null;
+  if (url.pathname.startsWith('/jobs-guest/jobs/api/jobPosting/')) return null;
+  const id =
+    /^\/(?:comm\/)?jobs\/view\/(?:[^/]*?-)?(\d{6,})\/?$/i.exec(url.pathname)?.[1] ??
+    url.searchParams.get('currentJobId')?.match(/^\d{6,}$/)?.[0];
+  return id ? new URL('https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/' + id) : null;
+}
+function linkedInJobText(html: string): string | null {
+  const description = contentElement(html, (_tag, attrs) =>
+    /\bclass\s*=\s*["'][^"']*show-more-less-html__markup/i.test(attrs),
+  );
+  if (!description) return null;
+  const field = (pattern: RegExp) => {
+    const value = contentElement(html, (_tag, attrs) => pattern.test(attrs));
+    return value ? htmlText(value) : '';
+  };
+  const title = field(/\bclass\s*=\s*["'][^"']*top-card-layout__title/i);
+  const company = field(/\bclass\s*=\s*["'][^"']*topcard__org-name-link/i);
+  const place = field(/\bclass\s*=\s*["'][^"']*topcard__flavor--bullet/i);
+  return [title, company && 'Company: ' + company, place && 'Location: ' + place, htmlText(description)]
+    .filter(Boolean)
+    .join('\n');
+}
 export async function fromJobUrl(
   value: string,
   transport: typeof fetch = fetch,
@@ -292,6 +318,8 @@ export async function fromJobUrl(
   try {
     let url = publicPageUrl(value);
     for (let n = 0; n < 4; n++) {
+      url = linkedInGuestUrl(url) ?? url;
+      const linkedIn = /(?:^|\.)linkedin\.com$/i.test(url.hostname);
       await checkPublicHost(url, resolve);
       const response = await transport(url.toString(), {
         redirect: 'manual',
@@ -309,6 +337,14 @@ export async function fromJobUrl(
         url = publicPageUrl(new URL(next, url).toString());
         continue;
       }
+      if (!response.ok && linkedIn)
+        throw new JdIntakeError(
+          response.status === 404
+            ? 'LinkedIn says this job is no longer available. Check that the posting is still open, or paste its text.'
+            : 'LinkedIn didn’t let us read this posting right now (HTTP ' +
+                response.status +
+                '). Wait a minute and try again, or use the company’s own posting link.',
+        );
       if (!response.ok)
         throw new JdIntakeError(
           (searchUrl(url) ? searchRecovery + ' ' : '') +
@@ -331,7 +367,9 @@ export async function fromJobUrl(
           'The page response exceeded 2 MB or could not be decoded as UTF-8. Paste the job text or upload a document.',
         );
       }
-      const structured = /text\/html/i.test(type) ? jsonJob(body) : null;
+      const structured = /text\/html/i.test(type)
+        ? (linkedIn ? linkedInJobText(body) : null) ?? jsonJob(body)
+        : null;
       const text = structured ?? (/text\/html/i.test(type) ? generalJobText(body, url) : body);
       if (text.length > 100000)
         throw new JdIntakeError(

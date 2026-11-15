@@ -38,8 +38,6 @@ export interface JdCard {
   jobTitle?: string;
   company?: string;
 }
-const LINKEDIN_BLOCKED =
-  'LinkedIn doesn’t let other sites read its job pages. Use a link from the company’s own careers page, or paste the job text.';
 const isCard = (value: unknown): value is JdCard => {
   const card = value as Partial<JdCard> | null;
   return (
@@ -90,14 +88,6 @@ export class JdEvaluation {
   readonly jd = signal('');
   readonly mode = signal<'text' | 'url' | 'file'>('text');
   readonly url = signal('');
-  /** LinkedIn refuses server-side reads of its job pages (HTTP 429), so its links are stopped here. */
-  readonly linkedIn = computed(() => {
-    try {
-      return /(^|\.)(linkedin\.com|lnkd\.in)$/i.test(new URL(this.url().trim()).hostname);
-    } catch {
-      return false;
-    }
-  });
   readonly prepared = signal<PreparedJd | null>(null);
   private file: File | null = null;
   readonly fileName = signal('');
@@ -232,11 +222,6 @@ export class JdEvaluation {
   async evaluate(event: Event) {
     event.preventDefault();
     if (this.busy()) return;
-    if (this.mode() === 'url' && this.linkedIn()) {
-      this.failed.set(true);
-      this.status.set(LINKEDIN_BLOCKED);
-      return;
-    }
     this.busy.set(true);
     this.failed.set(false);
     this.result.set(null);
