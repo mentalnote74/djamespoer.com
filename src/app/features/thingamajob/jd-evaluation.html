@@ -38,10 +38,15 @@
           placeholder="https://"
           [value]="url()"
           (input)="editUrl($event)"
+          [attr.aria-invalid]="linkedIn() || null"
           aria-describedby="url-help"
         />
-        <p id="url-help" class="hint">
-          Use one specific posting. If the site needs a sign-in, paste the text instead.
+        <p id="url-help" class="hint" [class.error]="linkedIn()">
+          @if (linkedIn()) {
+            LinkedIn links can’t be read. Use the company’s own posting link, or paste the text.
+          } @else {
+            Use one specific posting. If the site needs a sign-in, paste the text instead.
+          }
         </p>
       }
       @case ('file') {
