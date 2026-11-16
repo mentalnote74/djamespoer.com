@@ -1,0 +1,27 @@
+name: Release tag
+
+# Every push to main is a production deploy through Cloudflare Workers Builds.
+# Tag it with the same date-based version the build stamps into /version.json.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-tag
+  cancel-in-progress: false
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/release/tag.mjs

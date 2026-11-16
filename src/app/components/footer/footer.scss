@@ -100,6 +100,12 @@
   font-weight: 700;
   color: #fff;
 }
+.site-footer__build {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
 @media (min-width: 70rem) {
   .site-footer__content {
     display: grid;
