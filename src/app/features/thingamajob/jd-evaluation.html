@@ -5,6 +5,10 @@
   <h1>Is James right for your role?</h1>
   <p class="lede">Paste a job description. Get an answer and a résumé tailored to it.</p>
 }
+<p class="hint">
+  Thingamajob is still being finished, so not every part works yet. You can help James test it:
+  upload or paste a real job description and see what it says.
+</p>
 <form class="ask" (submit)="evaluate($event)" [attr.aria-busy]="busy()">
   <fieldset [disabled]="busy()">
     @switch (mode()) {
