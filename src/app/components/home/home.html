@@ -10,8 +10,20 @@
   [slideOrder]="deckIds()"
 >
   @for (slide of slides; track slide.id) {
-    <ng-template appCarouselSlide let-active let-transitionAt="transitionAt" [label]="slide.label" [id]="slide.id" [preload]="slide.id === 'shady-white-van'">
-      <app-slide-visual [slide]="slide" [active]="active" [transitionAt]="transitionAt" [priority]="$first" />
+    <ng-template
+      appCarouselSlide
+      let-active
+      let-transitionAt="transitionAt"
+      [label]="slide.label"
+      [id]="slide.id"
+      [preload]="slide.id === 'shady-white-van'"
+    >
+      <app-slide-visual
+        [slide]="slide"
+        [active]="active"
+        [transitionAt]="transitionAt"
+        [priority]="$first"
+      />
     </ng-template>
   }
 </app-carousel>
@@ -23,8 +35,14 @@
     aria-labelledby="home-opening-heading"
   >
     <h2 id="home-opening-heading">Welcome to djamespoer.com</h2>
-    <p class="editorial-lead">I'm James — a UX engineer and front-end architect who turns complicated problems into software that's fast, accessible, and easy to use.</p>
-    <p>This site is part portfolio, part working laboratory. Explore the projects, see the engineering behind them, or grab a résumé.</p>
+    <p class="editorial-lead">
+      I'm James — a UX engineer and front-end architect who turns complicated problems into software
+      that's fast, accessible, and easy to use.
+    </p>
+    <p>
+      This site is part portfolio, part working laboratory. Explore the projects, see the
+      engineering behind them, or grab a résumé.
+    </p>
     <nav aria-label="Start exploring">
       <a publicTrack routerLink="/work/djamespoer">Explore My Work</a>
       <a publicTrack routerLink="/about">About James</a>
@@ -32,28 +50,7 @@
     </nav>
     <app-hidden-cookie />
   </section>
-  <section class="home-projects editorial-wide" aria-labelledby="home-projects-heading">
-    <h2 id="home-projects-heading">What's happening here?</h2>
-    <ul class="home-projects__list">
-      <li class="surface-card portfolio-card"><h3><a publicTrack routerLink="/work/djamespoer">Angular, in production</a></h3>
-        <p>Reusable components, semantic page architecture, accessibility, Living Themes, and a real release pipeline.</p></li>
-      <li class="surface-card portfolio-card"><h3><a publicTrack routerLink="/case-studies/shady-white-van">Shady White Van / React</a></h3>
-        <p>A React and TypeScript playground with a live Three.js showroom, procedural artwork, and performance tradeoffs.</p></li>
-      <li class="surface-card portfolio-card"><h3><a publicTrack routerLink="/case-studies/creative-town">Creative Town</a></h3>
-        <p>An illustrated environment where visual experiments meet the practical work of browser layout and interaction.</p></li>
-      <li class="surface-card portfolio-card"><h3><a publicTrack routerLink="/ai">Human-directed, multi-agent development</a></h3>
-        <p>Specifications, distinct agent responsibilities, code review, rejected approaches, and human release decisions.</p></li>
-      <li class="home-writing surface-card portfolio-card">
-    <h2 id="home-writing-heading">Recent Blognostisphere writing</h2>
-    <ul>
-      @for (article of articles; track article.slug) {
-        <li><a publicTrack [routerLink]="['/blognostisphere', article.slug]">{{ article.title }}</a></li>
-      }
-    </ul>
-    <a publicTrack routerLink="/blognostisphere">All writing</a>
-      </li>
-    </ul>
-  </section>
+  <app-project-gallery class="editorial-wide" />
   @defer (
     on immediate;
     hydrate when !delivery.mobile();
