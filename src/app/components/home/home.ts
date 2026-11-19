@@ -1,4 +1,3 @@
-import { ARTICLES } from '../../content/public-pages';
 import { PORTFOLIO_SLIDES, shufflePortfolioDeck } from '../../content/portfolio-slides';
 import { SlideVisual } from '../slide-visual/slide-visual';
 import { MobileDelivery } from '../../services/mobile-delivery';
@@ -10,6 +9,7 @@ import { RouterLink } from '@angular/router';
 import { Carousel } from '../carousel/carousel';
 import { CarouselSlide } from '../carousel/carousel-slide';
 import { HiddenCookie } from '../../features/cookie-hunt/hidden-cookie';
+import { ProjectGallery } from '../project-gallery/project-gallery';
 
 @Component({
   imports: [
@@ -21,13 +21,13 @@ import { HiddenCookie } from '../../features/cookie-hunt/hidden-cookie';
     Carousel,
     CarouselSlide,
     HiddenCookie,
+    ProjectGallery,
   ],
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class Home {
-  readonly articles = ARTICLES.slice(0, 3);
   readonly slides = PORTFOLIO_SLIDES.filter(
     (slide) => !['ips', 'buildometer', 'thingamajob', 'exl'].includes(slide.id),
   );
