@@ -12,7 +12,8 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: var(--coast-environment-background);
+    // One ground plane; the extended sky supplies the only vertical fade.
+    background: var(--coast-ground);
   }
 }
 
@@ -21,6 +22,7 @@ app-carousel {
   position: relative;
   z-index: 2;
   --carousel-padding-start: 0;
+  --carousel-surface: transparent;
   --carousel-padding-end: clamp(0.75rem, 2vw, 1.5rem);
   --carousel-content-gap: 0.5rem;
   --carousel-slide-padding: 0;
