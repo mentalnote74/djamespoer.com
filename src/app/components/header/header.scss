@@ -123,6 +123,7 @@
 
 // The navbar owns the fade. BEDLAM itself always supplies an unfaded field.
 .site-header::before {
+  display: var(--header-sky-cover-display, block);
   content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(to right, transparent 0% 78%, color-mix(in srgb, var(--navigation-surface) 25%, transparent) 100%);
 }

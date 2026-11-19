@@ -12,6 +12,7 @@
   --header-isolation: auto;
   --header-layer: auto;
   --header-navigation-layer: 3;
+  --header-sky-cover-display: none;
   --home-sky-extension: calc(
     min(calc(100vw - var(--layout-gutter-inline) * 2), var(--layout-shell-max-inline-size)) / 6
   );
