@@ -1,3 +1,9 @@
+## Thingamajob LinkedIn guidance — November 18, 2026 (local, uncommitted)
+
+Owner approved desktop copy/paste and mobile screenshot guidance for LinkedIn restrictions, and requested Text / URL / File above the input. Updated the existing jd-evaluation template and styles: all three native mode buttons remain visible above the active input, expose aria-pressed and an emphasized selected state, and retain existing choose()/tracking/input preservation. URL help explains LinkedIn restricts automatic access and directs desktop users to Text and mobile users to File screenshots including requirements/qualifications. Existing screenshot intake reused; no backend/provider changes or paid evaluations.
+
+Validation: five existing focused jd-evaluation tests passed; npm run build passed with 79 prerendered routes. Nonfatal module-type and existing footer/Rigby stylesheet warnings remain. git diff --check passed. Generated build/sitemap/journal churn restored to its clean pre-build state. No browser/axe verification, commit, push or deployment performed. Current source is the OneDrive Desktop checkout at 2ae402a; Git needed --work-tree=. for status/diff (ordinary status reports not a work tree). Do not confuse stale C:/Dev checkout with current source. Preserve existing untracked private/scratch files.
+
 ## Editorial HTML adoption and local demo — November 11, 2026 (local, uncommitted)
 
 Owner requested the next HTML pass and a demo. About now uses a single article/editorial-content root, one H1 and two labelled sections instead of three card wrappers; nine paragraphs, links, tracking and hidden-cookie interaction are preserved. Case-study subtitle, writing-index intro, resume intro and homepage intro now opt into editorial-lead; removed the competing homepage lead override and obsolete About flex-card rule. Shared Page remains the sole main owner. Existing materials and carousel behavior are preserved.

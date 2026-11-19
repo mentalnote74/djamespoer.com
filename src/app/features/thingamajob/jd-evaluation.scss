@@ -57,6 +57,7 @@ textarea.dropping {
 }
 // Secondary choices read as links but keep native button semantics.
 button.link-button {
+  min-block-size: 2.75rem;
   min-inline-size: 0;
   padding-inline: 0;
   border: 0;
@@ -71,6 +72,10 @@ button.link-button {
     color: inherit;
     text-decoration-thickness: 2px;
   }
+}
+.alternatives button[aria-pressed='true'] {
+  font-weight: 800;
+  text-decoration-thickness: 3px;
 }
 // One primary action per state: inverted control colours keep each theme's own contrast.
 button.primary {

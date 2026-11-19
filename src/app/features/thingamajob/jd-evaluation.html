@@ -11,6 +11,32 @@
 </p>
 <form class="ask" (submit)="evaluate($event)" [attr.aria-busy]="busy()">
   <fieldset [disabled]="busy()">
+    <div class="alternatives" role="group" aria-label="Job description input method">
+      <button
+        type="button"
+        class="link-button"
+        [attr.aria-pressed]="mode() === 'text'"
+        (click)="choose('text')"
+      >
+        Text
+      </button>
+      <button
+        type="button"
+        class="link-button"
+        [attr.aria-pressed]="mode() === 'url'"
+        (click)="choose('url')"
+      >
+        URL
+      </button>
+      <button
+        type="button"
+        class="link-button"
+        [attr.aria-pressed]="mode() === 'file'"
+        (click)="choose('file')"
+      >
+        File
+      </button>
+    </div>
     @switch (mode()) {
       @case ('text') {
         <label for="job-description">Job description</label>
@@ -45,7 +71,10 @@
           aria-describedby="url-help"
         />
         <p id="url-help" class="hint">
-          Use one specific posting. If the site needs a sign-in, paste the text instead.
+          Use one specific posting. LinkedIn restricts automatic access to its postings. On a
+          desktop, open the posting in LinkedIn and copy the full job description into
+          <strong>Text</strong>. On mobile, if copying isn’t available, choose <strong>File</strong>
+          and upload screenshots of the description, including the requirements and qualifications.
         </p>
       }
       @case ('file') {
@@ -70,21 +99,6 @@
         </p>
       }
     }
-    <p class="alternatives">
-      @if (mode() !== 'text') {
-        <button type="button" class="link-button" (click)="choose('text')">Paste the text</button>
-      }
-      @if (mode() !== 'url') {
-        <button type="button" class="link-button" (click)="choose('url')">
-          Paste a link instead
-        </button>
-      }
-      @if (mode() !== 'file') {
-        <button type="button" class="link-button" (click)="choose('file')">
-          Upload a file or screenshots
-        </button>
-      }
-    </p>
     <button type="submit" class="primary">
       {{ busy() ? 'Working on it…' : 'See how James fits' }}
     </button>
@@ -96,13 +110,13 @@
       <summary>How your data is handled</summary>
       <p>
         Thingamajob sends the job text and James's public career facts to OpenAI. Private career
-        documents are never included. Screenshots are sent to OpenAI only to read the job text;
-        the pictures themselves are not kept. Submissions, answers and usage records are kept privately for
-        90 days for troubleshooting and improvement. A random 30-minute session links your answer
-        and résumé download. Unless you have turned analytics off in the Cookie Jar, the full job
-        text, the job title, the company and James's fit score are also sent to Google Analytics,
-        with contact lines, email addresses, phone numbers and links removed first. File names are
-        never sent.
+        documents are never included. Screenshots are sent to OpenAI only to read the job text; the
+        pictures themselves are not kept. Submissions, answers and usage records are kept privately
+        for 90 days for troubleshooting and improvement. A random 30-minute session links your
+        answer and résumé download. Unless you have turned analytics off in the Cookie Jar, the full
+        job text, the job title, the company and James's fit score are also sent to Google
+        Analytics, with contact lines, email addresses, phone numbers and links removed first. File
+        names are never sent.
       </p>
     </details>
   </fieldset>
