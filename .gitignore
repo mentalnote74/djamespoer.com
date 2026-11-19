@@ -48,6 +48,7 @@ career-source/
 
 # Built release identity; generated from the actual release checkout during prebuild.
 /public/data/buildometer-release.json
+/public/version.json
 
 # Private Career Truth Archive
 career-source/

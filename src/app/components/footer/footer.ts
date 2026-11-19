@@ -12,6 +12,7 @@ import { afterNextRender, Component, ElementRef, Injector, model, signal, viewCh
 import { ThemeState, type ThemeSelection } from '../../services/theme-state';
 import { SOCIAL_PROFILES } from '../../content/social-profiles';
 import { PublicTrack } from '../../services/public-track';
+import { BUILD_CHANNEL, BUILD_COMMIT, BUILD_VERSION } from '../../generated/build-info';
 
 @Component({
   imports: [LucideAccessibility, LucideCookie, LucidePalette, LucideChevronDown, PublicTrack],
@@ -58,6 +59,10 @@ export class Footer {
   readonly identityPaused = model(false);
   readonly toggleIdentity = (paused: boolean): boolean => !paused;
   readonly currentYear = new Date().getFullYear();
+  /** Which release is live, matching git tag v<version> and /version.json. */
+  readonly buildLabel = BUILD_VERSION
+    ? `Release ${BUILD_VERSION} · ${BUILD_COMMIT}`
+    : `${BUILD_CHANNEL === 'preview' ? 'Preview' : 'Local'} build · ${BUILD_COMMIT}`;
 
   readonly accessibilityStatementOpen = signal(false);
   private readonly injector = inject(Injector);
