@@ -37,7 +37,7 @@
 
   // Broad, static lighting: no illustration, particle field, backdrop filter or
   // new animation. The endpoints meet the existing header/footer environment.
-  background:
+  --coast-environment-background:
     radial-gradient(
       ellipse at 8% 12%,
       color-mix(in srgb, var(--section-surface) 65%, transparent),
@@ -51,8 +51,10 @@
       var(--coast-recess) 76%,
       var(--page-background)
     );
+  background: var(--coast-environment-background);
 
   @media (forced-colors: active) {
+    --coast-environment-background: Canvas;
     background: Canvas;
     --coast-card: Canvas;
     --coast-recess: Canvas;

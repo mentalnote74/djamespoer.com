@@ -21,6 +21,10 @@
   }
 }
 :host(.sky-preview) {
+  .bedlam__scene {
+    block-size: calc(100% + var(--bedlam-sky-extension, 0px));
+    mask-image: var(--bedlam-scene-mask, none);
+  }
   .bedlam__layer { opacity: 1; transform: none; }
   .bedlam__layer:not(:first-of-type) { display: none; }
   .bedlam__layer.bedlam__night-effects { display: block; z-index: 2; }

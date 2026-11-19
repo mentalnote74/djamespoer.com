@@ -2,9 +2,9 @@
 
 .site-header {
   position: relative;
-  isolation: isolate;
+  isolation: var(--header-isolation, isolate);
   // Header context sits above page content; Bedlam/nav keep their local 0/1/2 layers.
-  z-index: 1;
+  z-index: var(--header-layer, 1);
   padding-block: 1rem;
   &__content {
     display: flex;
@@ -25,7 +25,7 @@
   }
   &__nav {
     position: relative;
-    z-index: 2;
+    z-index: var(--header-navigation-layer, 2);
     margin-inline-start: auto;
     margin-inline-end: 0;
   }
@@ -141,6 +141,8 @@
 
 // Caller-owned sky artwork; BEDLAM itself adds no gradient treatment.
 .site-header app-bedlam {
+  --bedlam-sky-extension: var(--home-sky-extension, 0px);
+  --bedlam-scene-mask: var(--home-sky-mask, none);
   max-inline-size: 100%;
   --bedlam-star-field: radial-gradient(circle at 16px 19px, #fff 0 .7px, transparent 1.5px) 0 0 / 83px 61px,
     radial-gradient(circle at 38px 12px, #d8e6ff 0 1px, transparent 2px) 17px 12px / 137px 73px,

@@ -5,6 +5,23 @@
   min-block-size: 100svh;
 }
 
+// Continue the existing header sky behind the first half of the home carousel.
+// Match its 3:1 slide and shared container width without moving header content.
+:host:has(app-home) {
+  isolation: isolate;
+  --header-isolation: auto;
+  --header-layer: auto;
+  --header-navigation-layer: 3;
+  --home-sky-extension: calc(
+    min(calc(100vw - var(--layout-gutter-inline) * 2), var(--layout-shell-max-inline-size)) / 6
+  );
+  --home-sky-mask: linear-gradient(
+    to bottom,
+    #000 0 calc(100% - var(--home-sky-extension)),
+    transparent 100%
+  );
+}
+
 .skip-link {
   position: absolute;
   width: 1px;
