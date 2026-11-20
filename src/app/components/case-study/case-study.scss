@@ -1,66 +1,124 @@
-// Case studies read as chapters: a title band, a skimmable contents list,
-// numbered sections with the heading held beside the text on wide layouts,
-// and authored quoted lines lifted into pull quotes. Bands and accents come
-// from the shared feature-band tokens, so the page follows the Living Theme.
+// Sky above, ocean below: case-study content is the sand between them. It uses
+// the site's own paper surfaces (surface-card / -feature / -inset) and a single
+// accent turned from the Living Theme colour, so nothing competes with the
+// header sky, the slideshow scene or the footer.
 :host {
   display: block;
   container: case-study / inline-size;
 }
 
 .case-study {
-  --cs-quiet: color-mix(in srgb, currentColor 78%, transparent);
+  --cs-accent: light-dark(
+    oklch(from var(--selected-background) 0.45 0.14 calc(h + 30)),
+    oklch(from var(--selected-background) 0.82 0.12 calc(h + 30))
+  );
+  --cs-quiet: color-mix(in srgb, currentColor 76%, transparent);
   counter-reset: chapter;
 
   p,
   li,
+  dd,
   figcaption {
     overflow-wrap: anywhere;
   }
 }
 
-// ---- Title band -----------------------------------------------------------
 .case-study__kicker {
   margin: 0;
-  color: var(--band-spark);
+  color: var(--cs-accent);
   font: 700 0.8125rem / 1.4 var(--font-ui);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.case-study__band {
-  h1 {
-    max-inline-size: 18ch;
-    margin: 1rem 0 0;
-    font: 800 clamp(2.5rem, 1.2rem + 4.4vw, 4.75rem) / 1.02 var(--font-display);
-    letter-spacing: -0.04em;
-    text-wrap: balance;
-  }
+// ---- Title (pages without a slideshow scene) ------------------------------
+.case-study .case-study__title {
+  max-inline-size: 20ch;
+  margin-block-start: 0.5rem;
+  font-size: clamp(2.5rem, 1.4rem + 3.8vw, 4.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
 }
 
 .case-study .case-study__deck {
   max-inline-size: 52ch;
-  margin: 1.25rem 0 0;
-  color: color-mix(in srgb, var(--band-ink) 84%, transparent);
-  font-size: var(--type-lead-size);
-  line-height: 1.5;
 }
 
 .case-study__related {
-  margin-block-start: 1.75rem;
+  margin-block-start: 1.25rem;
 
   a {
     display: inline-flex;
     align-items: center;
     min-block-size: 2.75rem;
-    padding: 0.5rem 1.25rem;
+    padding: 0.5rem 1.2rem;
     border: 2px solid currentColor;
     border-radius: 999px;
     font: 700 0.9375rem / 1.2 var(--font-ui);
     text-decoration: none;
 
     &:hover {
-      background: color-mix(in srgb, currentColor 12%, transparent);
+      background: color-mix(in srgb, currentColor 10%, transparent);
     }
+  }
+}
+
+// ---- At a glance ----------------------------------------------------------
+.case-study .case-study__facts {
+  display: grid;
+  gap: 1.25rem 2rem;
+  margin-block-start: clamp(2rem, 5vw, 3rem);
+  padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.25rem, 3vw, 2rem);
+
+  @container case-study (width > 34rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @container case-study (width > 60rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  dt {
+    color: var(--cs-quiet);
+    font: 700 0.75rem / 1.3 var(--font-ui);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0.35rem 0 0;
+    font: 700 1rem / 1.4 var(--font-display);
+  }
+}
+
+.case-study .case-study__summary {
+  display: grid;
+  gap: 1.25rem;
+  margin-block-start: 1.25rem;
+
+  @container case-study (width > 52rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.case-study__beat {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+
+  p {
+    margin: 0;
+  }
+
+  .case-study__beat-heading {
+    margin-block-start: 0.6rem;
+    font: 700 1.3125rem / 1.25 var(--font-display);
+    letter-spacing: -0.015em;
+  }
+
+  p:last-child {
+    margin-block-start: 0.6rem;
+    color: var(--cs-quiet);
+    font-size: 0.9375rem;
+    line-height: 1.55;
   }
 }
 
@@ -70,19 +128,19 @@
 }
 
 .case-study .case-study__lead {
-  margin-block-start: clamp(2.5rem, 6vw, 4.5rem);
-  font: 500 clamp(1.25rem, 1rem + 1.2vw, 1.75rem) / 1.45 var(--font-display);
+  margin-block-start: clamp(2.5rem, 6vw, 4rem);
+  font: 500 clamp(1.25rem, 1rem + 1.1vw, 1.625rem) / 1.45 var(--font-display);
   letter-spacing: -0.012em;
 }
 
 .case-study__contents {
-  margin-block-start: clamp(2rem, 5vw, 3.5rem);
+  margin-block-start: clamp(2rem, 5vw, 3rem);
   padding-block: 1.25rem;
   border-block: 1px solid var(--border-separator, currentColor);
 
   ol {
     display: grid;
-    gap: 0.35rem 2rem;
+    gap: 0.25rem 2rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -107,7 +165,7 @@
     &::before {
       content: counter(contents, decimal-leading-zero) / '';
       flex: 0 0 1.6rem;
-      color: var(--editorial-accent);
+      color: var(--cs-accent);
       font-variant-numeric: tabular-nums;
       font-weight: 800;
     }
@@ -120,7 +178,7 @@
 
 // ---- Chapters --------------------------------------------------------------
 .case-study .case-study__chapter {
-  margin-block-start: clamp(3.5rem, 7vw, 6rem);
+  margin-block-start: clamp(3.5rem, 7vw, 5.5rem);
   counter-increment: chapter;
   scroll-margin-block-start: 1.5rem;
 
@@ -132,7 +190,7 @@
       content: counter(chapter, decimal-leading-zero) / '';
       display: block;
       margin-block-end: 0.5rem;
-      color: var(--editorial-accent);
+      color: var(--cs-accent);
       font: 800 0.875rem / 1 var(--font-ui);
       letter-spacing: 0.14em;
     }
@@ -176,23 +234,26 @@
   }
 }
 
+// Surfaced chapters are the site's paper panels.
+.case-study .case-study__group {
+  display: block;
+  padding: var(--surface-padding);
+}
+
 .case-study .case-study__quote {
   margin-block: 1em;
-  color: var(--editorial-accent);
-  font: 800 clamp(1.4rem, 1rem + 1.6vw, 2.125rem) / 1.15 var(--font-display);
+  color: var(--cs-accent);
+  font: 800 clamp(1.4rem, 1rem + 1.5vw, 2rem) / 1.15 var(--font-display);
   letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
-// Number-led lines become figures: the number at display size, its unit below.
+// Number-led lines become figures.
 .case-study .case-study__stat {
   margin-block: 0.75em;
-  font: 800 clamp(1.75rem, 1.1rem + 2.6vw, 3rem) / 1.05 var(--font-display);
+  color: var(--cs-accent);
+  font: 800 clamp(1.75rem, 1.1rem + 2.4vw, 2.75rem) / 1.05 var(--font-display);
   letter-spacing: -0.04em;
-}
-
-.case-study .case-study__feature .case-study__stat {
-  color: var(--band-spark);
 }
 
 .case-study__list {
@@ -216,7 +277,7 @@
       inline-size: 0.9rem;
       block-size: 3px;
       border-radius: 2px;
-      background: var(--editorial-accent);
+      background: var(--cs-accent);
     }
   }
 }
@@ -227,11 +288,10 @@ ol.case-study__list li::before {
   inline-size: auto;
   block-size: auto;
   background: none;
-  color: var(--editorial-accent);
+  color: var(--cs-accent);
   font-weight: 800;
 }
 
-// Evidence reads as a destination, not an inline aside.
 .case-study .case-study__evidence {
   margin-block-start: 1.25rem;
 
@@ -263,7 +323,7 @@ ol.case-study__list li::before {
     display: block;
     max-inline-size: 100%;
     block-size: auto;
-    border-radius: 0.75rem;
+    border-radius: var(--surface-radius);
     box-shadow: var(--elevation-raised);
   }
 
@@ -272,42 +332,17 @@ ol.case-study__list li::before {
   }
 }
 
-// ---- Surfaced chapters ----------------------------------------------------
-.case-study .case-study__group {
-  display: block;
-  padding: var(--surface-padding);
-}
-
-.case-study .case-study__feature {
-  .case-study__quote,
-  > h2::before {
-    color: var(--band-spark);
-  }
-}
-
-.case-study .case-study__inset {
-  border-inline-start: 4px solid var(--editorial-accent);
-  border-radius: 0.9rem;
-  background: color-mix(in srgb, var(--editorial-accent) 8%, transparent);
-}
-
-// ---- Closing band ---------------------------------------------------------
+// ---- Closing --------------------------------------------------------------
 .case-study .case-study__next {
-  margin-block-start: clamp(4rem, 8vw, 7rem);
+  margin-block-start: clamp(4rem, 8vw, 6rem);
+  padding: var(--surface-padding);
 
   a {
     display: inline-block;
-    margin-block-start: 0.75rem;
-    font: 800 clamp(1.75rem, 1rem + 3vw, 3.25rem) / 1.08 var(--font-display);
-    letter-spacing: -0.035em;
+    margin-block-start: 0.5rem;
+    font: 800 clamp(1.5rem, 1rem + 2.4vw, 2.75rem) / 1.1 var(--font-display);
+    letter-spacing: -0.03em;
     text-decoration-thickness: 0.06em;
     text-underline-offset: 0.18em;
-  }
-}
-
-@media (forced-colors: active) {
-  .case-study .case-study__inset {
-    border: 1px solid CanvasText;
-    background: Canvas;
   }
 }

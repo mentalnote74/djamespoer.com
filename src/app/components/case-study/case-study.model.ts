@@ -8,7 +8,22 @@ export interface CaseStudy {
     readonly label: string;
     readonly kind: 'work' | 'case-study';
   };
+  /** At-a-glance facts (role, dates, product, focus) shown beside the title. */
+  readonly facts?: readonly CaseStudyFact[];
+  /** The short version before the long story: typically problem, approach, result. */
+  readonly summary?: readonly CaseStudyBeat[];
   readonly sections: readonly CaseStudySection[];
+}
+
+export interface CaseStudyFact {
+  readonly label: string;
+  readonly value: string;
+}
+
+export interface CaseStudyBeat {
+  readonly label: string;
+  readonly heading: string;
+  readonly text: string;
 }
 
 /** Section headings/order belong to the content, not an imposed employer narrative. */

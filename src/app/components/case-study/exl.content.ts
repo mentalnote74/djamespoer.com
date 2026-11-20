@@ -12,6 +12,29 @@ export const EXL_CASE_STUDY = {
     'My job was ostensibly UX.',
     "It didn't stay inside that boundary for very long.",
   ],
+  facts: [
+    { label: 'Role', value: 'Senior Web Designer' },
+    { label: 'When', value: 'October 2019 – April 2023' },
+    { label: 'Product', value: 'LifePRO enterprise life-insurance software' },
+    { label: 'Contribution', value: 'About 40% of LifePRO v20 and v21 screens and workflows' },
+  ],
+  summary: [
+    {
+      label: 'Problem',
+      heading: '1.5 million lines on the table',
+      text: 'One remediation direction would have required touching approximately 1.5 million lines of generated HTML.',
+    },
+    {
+      label: 'Approach',
+      heading: 'Move upstream',
+      text: 'I traced the repeated behavior back through the presentation architecture to where the solution belonged.',
+    },
+    {
+      label: 'Result',
+      heading: 'About 150 lines of Sass',
+      text: 'The behavior was addressed systematically in shared Sass, avoiding an enormous generated-markup remediation.',
+    },
+  ],
   sections: [
     {
       heading: 'The Airplane Was Already Flying',

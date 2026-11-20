@@ -2,34 +2,45 @@
   @if (heroDestination(); as destination) {
     <app-slide-hero class="editorial-wide" [destination]="destination" [heading]="study().title" />
   } @else if (titleBand()) {
-    <div class="case-study__band feature-band editorial-wide">
+    <div class="case-study__heading">
       @if (kicker(); as label) {
         <p class="case-study__kicker">{{ label }}</p>
       }
-      <h1>{{ study().title }}</h1>
-      @if (study().subtitle; as subtitle) {
-        <p class="case-study__deck">{{ subtitle }}</p>
-      }
-      @if (study().relatedPage; as related) {
-        <nav class="case-study__related" aria-label="Related page before the case study">
-          <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
-        </nav>
-      }
+      <h1 class="case-study__title">{{ study().title }}</h1>
     </div>
   } @else if (showTitle()) {
     <h1 class="visually-hidden">{{ study().title }}</h1>
   }
-  @if (!titleBand()) {
-    @if (study().subtitle; as subtitle) {
-      <p class="editorial-lead">{{ subtitle }}</p>
-    }
-    @if (study().relatedPage; as related) {
-      <nav class="case-study__related" aria-label="Related page before the case study">
-        <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
-      </nav>
-    }
+  @if (study().subtitle; as subtitle) {
+    <p class="editorial-lead case-study__deck">{{ subtitle }}</p>
+  }
+  @if (study().relatedPage; as related) {
+    <nav class="case-study__related" aria-label="Related page before the case study">
+      <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
+    </nav>
   }
   <ng-content />
+  @if (study().facts?.length) {
+    <dl class="case-study__facts surface-card">
+      @for (fact of study().facts; track fact.label) {
+        <div>
+          <dt>{{ fact.label }}</dt>
+          <dd>{{ fact.value }}</dd>
+        </div>
+      }
+    </dl>
+  }
+  @if (study().summary?.length) {
+    <div class="case-study__summary">
+      @for (beat of study().summary; track beat.label) {
+        <div class="case-study__beat surface-card">
+          <p class="case-study__kicker">{{ beat.label }}</p>
+          <p class="case-study__beat-heading">{{ beat.heading }}</p>
+          <p>{{ beat.text }}</p>
+        </div>
+      }
+    </div>
+  }
   @if (introductionParagraphs().length) {
     @for (paragraph of introductionParagraphs(); track $index) {
       <p class="case-study__intro" [class.case-study__lead]="$first">{{ paragraph }}</p>
@@ -51,9 +62,8 @@
       class="case-study__chapter"
       [id]="chapter.id"
       [class.surface-card]="chapter.section.surface === 'card'"
-      [class.case-study__feature]="chapter.section.surface === 'feature'"
-      [class.feature-band]="chapter.section.surface === 'feature'"
-      [class.case-study__inset]="chapter.section.surface === 'inset'"
+      [class.surface-feature]="chapter.section.surface === 'feature'"
+      [class.surface-inset]="chapter.section.surface === 'inset'"
       [class.case-study__group]="!!chapter.section.surface"
     >
       <h2>{{ chapter.section.heading }}</h2>
@@ -108,10 +118,7 @@
     </section>
   }
   @if (study().relatedPage; as related) {
-    <nav
-      class="case-study__next feature-band editorial-wide"
-      aria-label="Related page after the case study"
-    >
+    <nav class="case-study__next surface-feature" aria-label="Related page after the case study">
       <p class="case-study__kicker">Keep going</p>
       <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
     </nav>

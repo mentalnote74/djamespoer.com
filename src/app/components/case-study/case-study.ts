@@ -43,7 +43,7 @@ export class CaseStudy {
     return kind === 'work' ? 'Case study' : kind === 'case-study' ? 'Work history' : null;
   });
 
-  /** A title band only when no artwork hero or composition already carries the title. */
+  /** A visible title block only when no artwork hero or composition already carries the title. */
   readonly titleBand = computed(
     () => !this.heroDestination() && this.showTitle() && !this.titleVisuallyHidden(),
   );
