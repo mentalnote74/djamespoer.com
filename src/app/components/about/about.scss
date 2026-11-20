@@ -2,14 +2,276 @@
   display: block;
 }
 
-.about__thought {
-  margin-block: 1.5em;
+// Supporting text sits back from the ink without dropping below AA contrast.
+.about {
+  --about-quiet: color-mix(in srgb, currentColor 78%, transparent);
 }
 
 .about > section {
-  margin-block-start: clamp(2rem, 4vw, 3.5rem);
+  margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
 
   > h2 {
     margin-block-start: 0;
   }
+}
+
+// Hero: who, what, and the next step first; current work alongside.
+// Intrinsic wrap: the hero lives in a rail narrower than the viewport, so the
+// card drops below the introduction whenever the two can't sit side by side.
+.about-hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: flex-end;
+  padding-block-end: clamp(2rem, 4vw, 3rem);
+  border-block-end: 1px solid var(--border-separator, currentColor);
+}
+
+.about-hero__intro {
+  flex: 1.6 1 24rem;
+  min-inline-size: 0;
+}
+
+.about-now {
+  flex: 1 1 15rem;
+}
+
+.about-hero h1 {
+  margin: 0;
+}
+
+.about-hero__statement {
+  max-inline-size: 26ch;
+  font: 700 var(--type-h3-size) / 1.3 var(--font-display);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.about-hero__role {
+  color: var(--about-quiet);
+}
+
+.about-now {
+  padding: 1.25rem 1.5rem;
+
+  h2 {
+    margin: 0 0 0.75rem;
+    font: 700 0.75rem / 1.4 var(--font-ui);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  a {
+    font-weight: 700;
+  }
+
+  span {
+    color: var(--about-quiet);
+  }
+}
+
+// Shared action styling: links that read as buttons, with one inverted primary.
+.about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.about-action {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding: 0.55rem 1.1rem;
+  border: 2px solid var(--button-border-rest, currentColor);
+  border-radius: 0.35rem;
+  background: var(--control-background);
+  color: var(--control-foreground);
+  font: 700 1rem / 1.2 var(--font-ui);
+  text-decoration: none;
+  box-shadow: var(--elevation-raised);
+
+  &:hover {
+    border-color: var(--button-border-hover, currentColor);
+    background: var(--control-hover-background);
+    color: var(--control-hover-foreground);
+  }
+}
+
+.about-action--primary {
+  border-color: var(--control-foreground);
+  background: var(--control-foreground);
+  color: var(--control-background);
+
+  &:hover {
+    background: color-mix(in srgb, var(--control-foreground) 85%, var(--control-background));
+    color: var(--control-background);
+  }
+}
+
+// Receipts: a measurable figure, the claim, and where it happened.
+.about-receipts {
+  container-type: inline-size;
+}
+
+.receipts {
+  display: grid;
+  gap: 1.25rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  @container (width > 38rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.receipt {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+
+  h3 {
+    margin: 0.5rem 0 0;
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  // Whole-card target; the heading link stays the single accessible name.
+  h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  h3 a:focus-visible {
+    outline: none;
+  }
+
+  h3 a:focus-visible::after {
+    outline: 3px solid var(--focus-outer);
+    outline-offset: 4px;
+  }
+
+  &:hover h3 a {
+    text-decoration: underline;
+  }
+
+  p {
+    margin: 0.5rem 0 0;
+  }
+}
+
+.receipt__figure {
+  order: -1;
+  font: 800 clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem) / 1.1 var(--font-display);
+  letter-spacing: -0.03em;
+
+  span {
+    font-size: 0.5em;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+}
+
+.about .receipt__source {
+  margin-block-start: auto;
+  padding-block-start: 1rem;
+  color: var(--about-quiet);
+  font: 700 0.75rem / 1.4 var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.about__thought {
+  margin-block: 1.5em;
+}
+
+// Timeline: each row is one link to that role's work history.
+.about-timeline {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    border-block-start: 1px solid var(--border-separator, currentColor);
+
+    &:last-child {
+      border-block-end: 1px solid var(--border-separator, currentColor);
+    }
+  }
+
+  a {
+    display: grid;
+    gap: 0.15rem 1.5rem;
+    padding-block: 0.9rem;
+    text-decoration: none;
+
+    @media (width > 40rem) {
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+    }
+
+    &:hover .about-timeline__where {
+      text-decoration: underline;
+    }
+  }
+}
+
+.about-timeline__when {
+  color: var(--about-quiet);
+  font: 700 0.875rem / 1.6 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+
+  @media (width > 40rem) {
+    grid-row: span 2;
+  }
+}
+
+.about-timeline__where {
+  font: 700 1.0625rem / 1.4 var(--font-display);
+}
+
+.about-timeline__what {
+  color: var(--about-quiet);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.about-next {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+
+  .about-actions {
+    margin-block-start: 1.25rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .about-action,
+  .about-action--primary {
+    border-color: ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+}
+
+// Break before the name, never inside it.
+.about-name {
+  white-space: nowrap;
 }
