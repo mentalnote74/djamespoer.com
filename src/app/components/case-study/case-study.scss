@@ -1,51 +1,313 @@
+// Case studies read as chapters: a title band, a skimmable contents list,
+// numbered sections with the heading held beside the text on wide layouts,
+// and authored quoted lines lifted into pull quotes. Bands and accents come
+// from the shared feature-band tokens, so the page follows the Living Theme.
 :host {
   display: block;
+  container: case-study / inline-size;
 }
+
 .case-study {
-  section {
-    margin-block-start: 2rem;
-  }
+  --cs-quiet: color-mix(in srgb, currentColor 78%, transparent);
+  counter-reset: chapter;
+
   p,
   li,
   figcaption {
     overflow-wrap: anywhere;
   }
-  figure {
-    margin-inline: 0;
+}
+
+// ---- Title band -----------------------------------------------------------
+.case-study__kicker {
+  margin: 0;
+  color: var(--band-spark);
+  font: 700 0.8125rem / 1.4 var(--font-ui);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.case-study__band {
+  h1 {
+    max-inline-size: 18ch;
+    margin: 1rem 0 0;
+    font: 800 clamp(2.5rem, 1.2rem + 4.4vw, 4.75rem) / 1.02 var(--font-display);
+    letter-spacing: -0.04em;
+    text-wrap: balance;
   }
+}
+
+.case-study .case-study__deck {
+  max-inline-size: 52ch;
+  margin: 1.25rem 0 0;
+  color: color-mix(in srgb, var(--band-ink) 84%, transparent);
+  font-size: var(--type-lead-size);
+  line-height: 1.5;
+}
+
+.case-study__related {
+  margin-block-start: 1.75rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    padding: 0.5rem 1.25rem;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    font: 700 0.9375rem / 1.2 var(--font-ui);
+    text-decoration: none;
+
+    &:hover {
+      background: color-mix(in srgb, currentColor 12%, transparent);
+    }
+  }
+}
+
+// ---- Introduction and contents --------------------------------------------
+.case-study .case-study__intro {
+  max-inline-size: 62ch;
+}
+
+.case-study .case-study__lead {
+  margin-block-start: clamp(2.5rem, 6vw, 4.5rem);
+  font: 500 clamp(1.25rem, 1rem + 1.2vw, 1.75rem) / 1.45 var(--font-display);
+  letter-spacing: -0.012em;
+}
+
+.case-study__contents {
+  margin-block-start: clamp(2rem, 5vw, 3.5rem);
+  padding-block: 1.25rem;
+  border-block: 1px solid var(--border-separator, currentColor);
+
+  ol {
+    display: grid;
+    gap: 0.35rem 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: contents;
+
+    @container case-study (width > 44rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  li {
+    counter-increment: contents;
+  }
+
+  a {
+    display: flex;
+    gap: 0.75rem;
+    padding-block: 0.3rem;
+    font: 600 0.9375rem / 1.4 var(--font-ui);
+    text-decoration: none;
+
+    &::before {
+      content: counter(contents, decimal-leading-zero) / '';
+      flex: 0 0 1.6rem;
+      color: var(--editorial-accent);
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ---- Chapters --------------------------------------------------------------
+.case-study .case-study__chapter {
+  margin-block-start: clamp(3.5rem, 7vw, 6rem);
+  counter-increment: chapter;
+  scroll-margin-block-start: 1.5rem;
+
+  > h2 {
+    margin-block-start: 0;
+
+    // The number is decoration; the heading text stays the accessible name.
+    &::before {
+      content: counter(chapter, decimal-leading-zero) / '';
+      display: block;
+      margin-block-end: 0.5rem;
+      color: var(--editorial-accent);
+      font: 800 0.875rem / 1 var(--font-ui);
+      letter-spacing: 0.14em;
+    }
+  }
+}
+
+.case-study__body {
+  min-inline-size: 0;
+
+  > :first-child {
+    margin-block-start: 1rem;
+  }
+
+  p {
+    max-inline-size: 62ch;
+    margin-block-start: 0.85em;
+  }
+}
+
+// Plain chapters hold the heading beside the text once there's room for both.
+@container case-study (width > 58rem) {
+  .case-study .case-study__chapter:not(.case-study__group) {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.7fr);
+    column-gap: clamp(2rem, 5vw, 4rem);
+
+    > * {
+      grid-column: 2;
+    }
+
+    > h2 {
+      grid-column: 1;
+      grid-row: 1 / span 3;
+      align-self: start;
+      position: sticky;
+      inset-block-start: 1.5rem;
+    }
+
+    .case-study__body > :first-child {
+      margin-block-start: 0;
+    }
+  }
+}
+
+.case-study .case-study__quote {
+  margin-block: 1em;
+  color: var(--editorial-accent);
+  font: 800 clamp(1.4rem, 1rem + 1.6vw, 2.125rem) / 1.15 var(--font-display);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+// Number-led lines become figures: the number at display size, its unit below.
+.case-study .case-study__stat {
+  margin-block: 0.75em;
+  font: 800 clamp(1.75rem, 1.1rem + 2.6vw, 3rem) / 1.05 var(--font-display);
+  letter-spacing: -0.04em;
+}
+
+.case-study .case-study__feature .case-study__stat {
+  color: var(--band-spark);
+}
+
+.case-study__list {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: item;
+
+  li {
+    position: relative;
+    max-inline-size: 62ch;
+    margin-block-start: 0.6rem;
+    padding-inline-start: 1.75rem;
+    counter-increment: item;
+
+    &::before {
+      content: '' / '';
+      position: absolute;
+      inset-block-start: 0.7em;
+      inset-inline-start: 0;
+      inline-size: 0.9rem;
+      block-size: 3px;
+      border-radius: 2px;
+      background: var(--editorial-accent);
+    }
+  }
+}
+
+ol.case-study__list li::before {
+  content: counter(item) / '';
+  inset-block-start: 0;
+  inline-size: auto;
+  block-size: auto;
+  background: none;
+  color: var(--editorial-accent);
+  font-weight: 800;
+}
+
+// Evidence reads as a destination, not an inline aside.
+.case-study .case-study__evidence {
+  margin-block-start: 1.25rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-block-size: 2.75rem;
+    padding: 0.5rem 1.15rem;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    font: 700 0.9375rem / 1.25 var(--font-ui);
+    text-decoration: none;
+
+    &::after {
+      content: '→' / '';
+    }
+
+    &:hover {
+      background: color-mix(in srgb, currentColor 10%, transparent);
+    }
+  }
+}
+
+.case-study__figure {
+  margin: 1.75rem 0 0;
+
   img {
     display: block;
     max-inline-size: 100%;
     block-size: auto;
+    border-radius: 0.75rem;
+    box-shadow: var(--elevation-raised);
+  }
+
+  figcaption {
+    color: var(--cs-quiet);
   }
 }
 
-.case-study {
-  > section {
-    margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
-  }
-  > .case-study__group {
-    padding: var(--surface-padding);
-    h2 {
-      margin-block-start: 0;
-    }
-    > :last-child {
-      margin-block-end: 0;
-    }
-  }
-  > .surface-inset {
-    inline-size: 100%;
-  }
-  > nav a {
-    text-underline-offset: 0.3em;
-    transition: text-underline-offset 160ms ease;
-  }
-  > nav a:hover {
-    text-underline-offset: 0.45em;
+// ---- Surfaced chapters ----------------------------------------------------
+.case-study .case-study__group {
+  display: block;
+  padding: var(--surface-padding);
+}
+
+.case-study .case-study__feature {
+  .case-study__quote,
+  > h2::before {
+    color: var(--band-spark);
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .case-study > nav a {
-    transition: none;
+
+.case-study .case-study__inset {
+  border-inline-start: 4px solid var(--editorial-accent);
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--editorial-accent) 8%, transparent);
+}
+
+// ---- Closing band ---------------------------------------------------------
+.case-study .case-study__next {
+  margin-block-start: clamp(4rem, 8vw, 7rem);
+
+  a {
+    display: inline-block;
+    margin-block-start: 0.75rem;
+    font: 800 clamp(1.75rem, 1rem + 3vw, 3.25rem) / 1.08 var(--font-display);
+    letter-spacing: -0.035em;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.18em;
+  }
+}
+
+@media (forced-colors: active) {
+  .case-study .case-study__inset {
+    border: 1px solid CanvasText;
+    background: Canvas;
   }
 }
