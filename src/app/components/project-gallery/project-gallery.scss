@@ -12,7 +12,7 @@
   --hue-turn: 0;
   --project-color: oklch(from var(--selected-background) 0.67 0.15 calc(h + var(--hue-turn)));
   --project-paper: light-dark(
-    oklch(from var(--project-color) 0.94 0.04 h),
+    oklch(from var(--project-color) 0.97 0.02 h),
     oklch(from var(--project-color) 0.25 0.045 h)
   );
   --project-ink: light-dark(#282332, #faf4e8);
@@ -24,7 +24,10 @@
   background-image: linear-gradient(
     135deg,
     transparent 50%,
-    color-mix(in srgb, var(--project-color) 14%, transparent)
+    light-dark(
+      color-mix(in srgb, var(--project-color) 6%, transparent),
+      color-mix(in srgb, var(--project-color) 14%, transparent)
+    )
   );
   border: 1px solid var(--border-surface);
   border-block-start: 4px solid var(--project-color);
