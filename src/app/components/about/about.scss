@@ -1,152 +1,173 @@
+@use '../../../styles/abstracts' as foundation;
+
+// Art direction reuses the approved homepage card system: every hue is a turn
+// from the live Living Theme background, so the page recolors with the sky.
 :host {
   display: block;
+  container: about / inline-size;
 }
 
-// Supporting text sits back from the ink without dropping below AA contrast.
 .about {
+  --about-band: oklch(from var(--selected-background) 0.2 0.045 calc(h + 200));
+  --about-band-ink: #faf4e8;
+  --about-glow-a: oklch(from var(--selected-background) 0.68 0.17 calc(h + 30));
+  --about-glow-b: oklch(from var(--selected-background) 0.62 0.15 calc(h + 210));
+  --about-spark: oklch(from var(--selected-background) 0.86 0.13 calc(h + 30));
+  --about-accent: light-dark(
+    oklch(from var(--selected-background) 0.45 0.15 calc(h + 30)),
+    oklch(from var(--selected-background) 0.82 0.13 calc(h + 30))
+  );
   --about-quiet: color-mix(in srgb, currentColor 78%, transparent);
 }
 
 .about > section {
-  margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
+  margin-block-start: clamp(3.5rem, 8vw, 6.5rem);
 
   > h2 {
     margin-block-start: 0;
   }
 }
 
-// Hero: who, what, and the next step first; current work alongside.
-// Intrinsic wrap: the hero lives in a rail narrower than the viewport, so the
-// card drops below the introduction whenever the two can't sit side by side.
+// ---- Hero band ------------------------------------------------------------
+// Dark stage, two theme-derived glows and a faint drafting grid behind the
+// statement: the one confident typographic decision on the page.
 .about-hero {
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(1.5rem, 4vw, 3rem);
-  align-items: flex-end;
-  padding-block-end: clamp(2rem, 4vw, 3rem);
-  border-block-end: 1px solid var(--border-separator, currentColor);
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.25rem, 7vw, 5.5rem) clamp(1.5rem, 6vw, 5rem);
+  border-radius: 1.25rem;
+  color: var(--about-band-ink);
+  background:
+    radial-gradient(
+      60% 80% at 92% 8%,
+      color-mix(in srgb, var(--about-glow-a) 55%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      55% 70% at 0% 100%,
+      color-mix(in srgb, var(--about-glow-b) 45%, transparent),
+      transparent 70%
+    ),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 4rem),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 4rem),
+    var(--about-band);
+
+  h1 {
+    margin: 0;
+    color: var(--about-spark);
+    font: 700 0.8125rem / 1.4 var(--font-ui);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
 }
 
-.about-hero__intro {
-  flex: 1.6 1 24rem;
-  min-inline-size: 0;
-}
-
-.about-now {
-  flex: 1 1 15rem;
-}
-
-.about-hero h1 {
-  margin: 0;
+.about-name {
+  white-space: nowrap;
 }
 
 .about-hero__statement {
-  max-inline-size: 26ch;
-  font: 700 var(--type-h3-size) / 1.3 var(--font-display);
-  letter-spacing: -0.01em;
+  max-inline-size: 15ch;
+  margin: 1.25rem 0 0;
+  font: 800 clamp(2.5rem, 1rem + 5vw, 5.25rem) / 1 var(--font-display);
+  letter-spacing: -0.04em;
   text-wrap: balance;
 }
 
+.about-hero__payoff {
+  color: var(--about-spark);
+}
+
 .about-hero__role {
-  color: var(--about-quiet);
+  max-inline-size: 48ch;
+  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+  color: color-mix(in srgb, var(--about-band-ink) 84%, transparent);
+  font-size: var(--type-lead-size);
+  line-height: 1.5;
 }
 
-.about-now {
-  padding: 1.25rem 1.5rem;
-
-  h2 {
-    margin: 0 0 0.75rem;
-    font: 700 0.75rem / 1.4 var(--font-ui);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  ul {
-    display: grid;
-    gap: 0.75rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  li {
-    display: grid;
-    font-size: 0.9375rem;
-    line-height: 1.45;
-  }
-
-  a {
-    font-weight: 700;
-  }
-
-  span {
-    color: var(--about-quiet);
-  }
-}
-
-// Shared action styling: links that read as buttons, with one inverted primary.
+// ---- Actions --------------------------------------------------------------
 .about-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+  margin: 2rem 0 0;
 }
 
 .about-action {
   display: inline-flex;
   align-items: center;
-  min-block-size: 2.75rem;
-  padding: 0.55rem 1.1rem;
-  border: 2px solid var(--button-border-rest, currentColor);
-  border-radius: 0.35rem;
-  background: var(--control-background);
-  color: var(--control-foreground);
+  min-block-size: 3rem;
+  padding: 0.6rem 1.35rem;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
   font: 700 1rem / 1.2 var(--font-ui);
   text-decoration: none;
-  box-shadow: var(--elevation-raised);
+  transition: background-color 150ms ease;
 
   &:hover {
-    border-color: var(--button-border-hover, currentColor);
-    background: var(--control-hover-background);
-    color: var(--control-hover-foreground);
+    background: color-mix(in srgb, currentColor 12%, transparent);
   }
 }
 
 .about-action--primary {
-  border-color: var(--control-foreground);
-  background: var(--control-foreground);
-  color: var(--control-background);
+  border-color: var(--page-foreground);
+  background: var(--page-foreground);
+  color: var(--page-background);
 
   &:hover {
-    background: color-mix(in srgb, var(--control-foreground) 85%, var(--control-background));
-    color: var(--control-background);
+    background: color-mix(in srgb, var(--page-foreground) 85%, var(--page-background));
   }
 }
 
-// Receipts: a measurable figure, the claim, and where it happened.
-.about-receipts {
-  container-type: inline-size;
+// On the dark bands the primary takes the theme spark.
+:is(.about-hero, .about-next) .about-action--primary {
+  border-color: var(--about-spark);
+  background: var(--about-spark);
+  color: #1d1622;
+
+  &:hover {
+    background: color-mix(in srgb, var(--about-spark) 85%, white);
+  }
 }
 
+// ---- Lead -----------------------------------------------------------------
+.about .about__opening {
+  margin-block-start: clamp(3rem, 7vw, 5.5rem);
+  font: 500 clamp(1.375rem, 1rem + 1.5vw, 2rem) / 1.4 var(--font-display);
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+// ---- Receipts: the approved project-card palette, oversized figures --------
 .receipts {
   display: grid;
   gap: 1.25rem;
-  margin: 1.5rem 0 0;
+  margin: 1.75rem 0 0;
   padding: 0;
   list-style: none;
 
-  @container (width > 38rem) {
+  @container about (width > 44rem) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .receipt {
+  --turn: 0;
+  --tile: oklch(from var(--selected-background) 0.67 0.15 calc(h + var(--turn)));
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-block-start: 4px solid var(--tile);
+  border-radius: 0.9rem;
+  background: light-dark(
+    oklch(from var(--tile) 0.95 0.035 h),
+    oklch(from var(--tile) 0.26 0.045 h)
+  );
 
   h3 {
-    margin: 0.5rem 0 0;
+    margin: 0.75rem 0 0;
   }
 
   h3 a {
@@ -175,42 +196,80 @@
   }
 
   p {
-    margin: 0.5rem 0 0;
+    margin: 0.6rem 0 0;
   }
 }
 
-.receipt__figure {
+.receipt--dr {
+  --turn: 65;
+}
+.receipt--tcc {
+  --turn: 180;
+}
+.receipt--ips {
+  --turn: 270;
+}
+
+.about .receipt__figure {
   order: -1;
-  font: 800 clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem) / 1.1 var(--font-display);
-  letter-spacing: -0.03em;
+  margin: 0;
+  color: light-dark(oklch(from var(--tile) 0.42 0.14 h), oklch(from var(--tile) 0.84 0.12 h));
+  font: 800 clamp(2.5rem, 1.6rem + 3.2vw, 4rem) / 1 var(--font-display);
+  letter-spacing: -0.045em;
 
   span {
-    font-size: 0.5em;
+    font-size: 0.4em;
     font-weight: 700;
-    letter-spacing: 0;
+    letter-spacing: -0.01em;
   }
 }
 
 .about .receipt__source {
   margin-block-start: auto;
-  padding-block-start: 1rem;
+  padding-block-start: 1.25rem;
   color: var(--about-quiet);
   font: 700 0.75rem / 1.4 var(--font-ui);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.about__thought {
-  margin-block: 1.5em;
+// ---- Story: heading in its own column on wide layouts ---------------------
+@container about (width > 58rem) {
+  .about .about-story,
+  .about .about-career {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.65fr);
+    column-gap: clamp(2rem, 5vw, 4rem);
+
+    > * {
+      grid-column: 2;
+    }
+
+    > h2 {
+      grid-column: 1;
+      grid-row: 1 / span 8;
+      align-self: start;
+      position: sticky;
+      inset-block-start: 1.5rem;
+    }
+  }
 }
 
-// Timeline: each row is one link to that role's work history.
+.about .about__thought {
+  margin-block: 0.6em 0;
+  color: var(--about-accent);
+  font: 800 clamp(1.75rem, 1.1rem + 2.6vw, 3rem) / 1.08 var(--font-display);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+// ---- Timeline -------------------------------------------------------------
 .about-timeline {
-  margin: 1.5rem 0 0;
+  margin: 1.75rem 0 0;
   padding: 0;
   list-style: none;
 
   li {
+    max-inline-size: none;
     border-block-start: 1px solid var(--border-separator, currentColor);
 
     &:last-child {
@@ -221,11 +280,11 @@
   a {
     display: grid;
     gap: 0.15rem 1.5rem;
-    padding-block: 0.9rem;
+    padding-block: 1.1rem;
     text-decoration: none;
 
-    @media (width > 40rem) {
-      grid-template-columns: 7.5rem minmax(0, 1fr);
+    @container about (width > 36rem) {
+      grid-template-columns: 8.5rem minmax(0, 1fr);
     }
 
     &:hover .about-timeline__where {
@@ -235,17 +294,18 @@
 }
 
 .about-timeline__when {
-  color: var(--about-quiet);
-  font: 700 0.875rem / 1.6 var(--font-ui);
+  color: var(--about-accent);
+  font: 800 1.125rem / 1.5 var(--font-display);
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 
-  @media (width > 40rem) {
+  @container about (width > 36rem) {
     grid-row: span 2;
   }
 }
 
 .about-timeline__where {
-  font: 700 1.0625rem / 1.4 var(--font-display);
+  font: 700 1.125rem / 1.4 var(--font-display);
 }
 
 .about-timeline__what {
@@ -254,24 +314,110 @@
   line-height: 1.5;
 }
 
-.about-next {
-  padding: clamp(1.5rem, 3vw, 2.25rem);
+// ---- Building now: four color-keyed entries --------------------------------
+.about-now {
+  h2 {
+    font: 700 0.8125rem / 1.4 var(--font-ui);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
 
-  .about-actions {
-    margin-block-start: 1.25rem;
+  ul {
+    display: grid;
+    gap: 1.5rem;
+
+    // Four entries: one, two or four columns, never an orphaned 3 + 1.
+    @container about (width > 34rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @container about (width > 66rem) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    margin: 1.25rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    --turn: calc(var(--i, 0) * 90);
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    padding-block-start: 0.85rem;
+    border-block-start: 3px solid
+      oklch(from var(--selected-background) 0.67 0.15 calc(h + var(--turn)));
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  li:nth-child(2) {
+    --i: 1;
+  }
+  li:nth-child(3) {
+    --i: 2;
+  }
+  li:nth-child(4) {
+    --i: 3;
+  }
+
+  a {
+    font: 700 1.125rem / 1.3 var(--font-display);
+  }
+
+  span {
+    color: var(--about-quiet);
+  }
+}
+
+// ---- Closing band ---------------------------------------------------------
+.about .about-next {
+  display: block;
+  padding: clamp(2.25rem, 6vw, 4.5rem) clamp(1.5rem, 6vw, 5rem);
+  border-radius: 1.25rem;
+  color: var(--about-band-ink);
+  background:
+    radial-gradient(
+      70% 90% at 100% 100%,
+      color-mix(in srgb, var(--about-glow-a) 45%, transparent),
+      transparent 70%
+    ),
+    var(--about-band);
+
+  h2 {
+    max-inline-size: 16ch;
+    margin: 0;
+    font: 800 clamp(2rem, 1rem + 3.6vw, 3.75rem) / 1.02 var(--font-display);
+    letter-spacing: -0.04em;
+  }
+
+  p {
+    color: color-mix(in srgb, var(--about-band-ink) 84%, transparent);
+  }
+}
+
+// Bands span the full track, but their text starts on the same left edge as
+// the content rail (2fr of 12fr from the interior page policy).
+@media (min-width: foundation.breakpoint('navigation-wrap')) {
+  .about-hero,
+  .about .about-next {
+    padding-inline: calc(100% / 6);
   }
 }
 
 @media (forced-colors: active) {
+  .about-hero,
+  .about .about-next,
+  .receipt {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
   .about-action,
-  .about-action--primary {
+  :is(.about-hero, .about-next) .about-action--primary {
     border-color: ButtonText;
     background: ButtonFace;
     color: ButtonText;
   }
-}
-
-// Break before the name, never inside it.
-.about-name {
-  white-space: nowrap;
 }
