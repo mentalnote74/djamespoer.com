@@ -33,7 +33,7 @@
       </nav>
     }
   }
-  <ng-content />
+  <ng-content select=".case-study-hero" />
   @if (study().facts?.length) {
     <dl class="case-study__facts showcase-keyed">
       @for (fact of study().facts; track fact.label) {
@@ -55,6 +55,7 @@
       }
     </ul>
   }
+  <ng-content />
   @for (paragraph of introductionParagraphs(); track $index) {
     <p class="case-study__intro" [class.showcase-opening]="$first">{{ paragraph }}</p>
   }

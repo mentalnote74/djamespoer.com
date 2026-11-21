@@ -37,11 +37,14 @@ describe('CaseStudy presentation', () => {
     expect(root.querySelectorAll('main')).toHaveLength(0);
     const ids = Array.from(root.querySelectorAll('[id]'), (el) => el.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(root.querySelectorAll('ul li')).toHaveLength(
+    expect(root.querySelectorAll('.case-study__chapter ul li')).toHaveLength(
       (TCC_CASE_STUDY as Content).sections.reduce(
         (count, section) => count + (section.items?.length ?? 0),
         0,
       ),
+    );
+    expect(root.querySelectorAll('.case-study__summary > li')).toHaveLength(
+      (TCC_CASE_STUDY as Content).summary?.length ?? 0,
     );
     expect(root.textContent).toContain('my final week at TCC');
     expect(root.textContent).toContain('Angular 8');

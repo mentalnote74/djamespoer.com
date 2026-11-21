@@ -8,6 +8,29 @@ export const DR_CASE_STUDY = {
     "I wasn't hired by Dreyer & Reinbold to redesign a finance process. As Digital Presence Coordinator, I was responsible for an operation that included 11 dealership websites across five automotive brands, vehicle photography, inventory and pricing information, graphics, email campaigns, social media, vendor feeds, and third-party automotive platforms.",
     'That work exposed me to more than the public-facing websites. It also gave me visibility into the systems and processes employees used behind them, including an aging internal intranet. Inside that environment was a month-end finance process that consumed roughly two and a half days every month. Once I understood what people were actually doing during those two and a half days, the problem looked much less like paperwork and much more like software waiting to be written.',
   ],
+  facts: [
+    { label: "Role", value: "Digital Presence Coordinator" },
+    { label: "When", value: "September 2011 – May 2015" },
+    { label: "System", value: "Legacy classic-ASP intranet" },
+    { label: "Result", value: "Month end cut from about 2.5 days to about 15 minutes" },
+  ],
+  summary: [
+    {
+      label: "Problem",
+      heading: "Two and a half days, every month",
+      text: "Finance and F&I staff spent roughly two and a half days evaluating sales against incentive rules and calculating commissions by hand.",
+    },
+    {
+      label: "Approach",
+      heading: "Rules for people, repetition for software",
+      text: "I made the incentive criteria configurable so the application could find qualifying sales and calculate the commissions.",
+    },
+    {
+      label: "Result",
+      heading: "About 15 minutes",
+      text: "Month-end processing dropped to about 15 minutes, and the tool was still in use more than a decade later.",
+    },
+  ],
   sections: [
     {
       heading: 'An Old Application With a Real Job to Do',
