@@ -7,6 +7,7 @@
   );
   display: block;
   min-inline-size: 0;
+  container: metric-chart / inline-size;
 }
 
 figure {
@@ -69,10 +70,25 @@ rect {
   opacity: 0.45;
 }
 
+// The SVG is a fixed 500-unit frame that scales with the chart, so its labels
+// shrink with it. On narrow charts the labels grow inside the frame to stay
+// about 12px on screen (rendered size = units x width / 500).
 text {
   fill: var(--show-quiet, currentColor);
   font: 600 12px var(--font-ui);
   font-variant-numeric: tabular-nums;
+
+  @container metric-chart (width < 500px) {
+    font-size: 16px;
+  }
+
+  @container metric-chart (width < 400px) {
+    font-size: 20px;
+  }
+
+  @container metric-chart (width < 320px) {
+    font-size: 24px;
+  }
 }
 
 .legend {
