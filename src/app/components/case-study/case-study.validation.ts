@@ -41,6 +41,15 @@ export function validateCaseStudy(study: CaseStudy): CaseStudy {
     if (study.relatedPage.kind !== 'work' && study.relatedPage.kind !== 'case-study')
       throw new Error('Invalid related page kind');
   }
+  for (const fact of study.facts ?? []) {
+    requireText(fact.label, 'fact label');
+    requireText(fact.value, 'fact value');
+  }
+  for (const beat of study.summary ?? []) {
+    requireText(beat.label, 'summary label');
+    requireText(beat.heading, 'summary heading');
+    requireText(beat.text, 'summary text');
+  }
   for (const section of study.sections) {
     requireText(section.heading, 'section heading');
     for (const paragraph of section.paragraphs ?? []) requireText(paragraph, 'paragraph');

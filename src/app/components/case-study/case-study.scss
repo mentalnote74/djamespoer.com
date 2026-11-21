@@ -1,51 +1,230 @@
+// Case studies are built from the approved showcase vocabulary (About and the
+// homepage cards, src/styles/components/_showcase.scss). Only the pieces that
+// exist nowhere else live here.
 :host {
   display: block;
+  container: case-study / inline-size;
 }
+
 .case-study {
-  section {
-    margin-block-start: 2rem;
-  }
+  counter-reset: chapter;
+
   p,
   li,
+  dd,
   figcaption {
     overflow-wrap: anywhere;
   }
-  figure {
-    margin-inline: 0;
+}
+
+// ---- Slideshow scene: seated like the homepage carousel ----------------------
+// Flush under the header, across the whole shell width, above the extended sky
+// (app.scss), so the sky bar reads as tall here as it does on the homepage. The
+// negative margin cancels the page's top padding (page.scss).
+.case-study app-slide-hero {
+  position: relative;
+  z-index: 2;
+  max-inline-size: none;
+  margin-block-start: calc(-1 * clamp(0.75rem, 2vw, 1.5rem));
+}
+
+// ---- Opening band for pages without a slideshow scene ---------------------
+.case-study .case-study__title {
+  max-inline-size: 18ch;
+  margin: 1rem 0 0;
+  color: inherit;
+  font: 800 clamp(2.5rem, 1rem + 5vw, 5rem) / 1 var(--font-display);
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.case-study .case-study__deck {
+  max-inline-size: 52ch;
+}
+
+.case-study .case-study__related {
+  margin-block-start: 1.25rem;
+}
+
+// ---- At a glance and the short version ------------------------------------
+.case-study .case-study__facts {
+  margin-block-start: clamp(2.5rem, 6vw, 4rem);
+
+  dt {
+    color: var(--show-quiet);
+    font: 700 0.75rem / 1.3 var(--font-ui);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
+
+  dd {
+    margin: 0;
+    font: 700 1.125rem / 1.35 var(--font-display);
+  }
+}
+
+.case-study .case-study__summary {
+  margin-block-start: clamp(2rem, 5vw, 3rem);
+}
+
+.case-study .case-study__beat-heading {
+  margin-block-start: 0.75rem;
+  font: 800 clamp(1.5rem, 1.1rem + 1.2vw, 2rem) / 1.1 var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+// ---- Chapter list -----------------------------------------------------------
+.case-study__contents {
+  margin-block-start: clamp(2.5rem, 6vw, 4rem);
+
+  ol {
+    display: grid;
+    gap: 0 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: contents;
+
+    @container case-study (width > 44rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  li {
+    border-block-start: 1px solid var(--border-separator, currentColor);
+    counter-increment: contents;
+  }
+
+  a {
+    display: flex;
+    gap: 1rem;
+    padding-block: 0.8rem;
+    font: 700 1.0625rem / 1.35 var(--font-display);
+    text-decoration: none;
+
+    &::before {
+      content: counter(contents, decimal-leading-zero) / '';
+      flex: 0 0 1.75rem;
+      color: var(--show-accent);
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ---- Chapters ---------------------------------------------------------------
+.case-study .case-study__chapter {
+  margin-block-start: clamp(3.5rem, 8vw, 6.5rem);
+  counter-increment: chapter;
+  scroll-margin-block-start: 1.5rem;
+
+  > h2 {
+    margin-block-start: 0;
+
+    // The number is decoration; the heading text stays the accessible name.
+    &::before {
+      content: counter(chapter, decimal-leading-zero) / '';
+      display: block;
+      margin-block-end: 0.5rem;
+      color: var(--show-accent);
+      font: 800 0.875rem / 1 var(--font-ui);
+      letter-spacing: 0.14em;
+    }
+  }
+}
+
+// Tiled chapters are single blocks, not split grids.
+.case-study .case-study__chapter.showcase-tile {
+  display: block;
+}
+
+.case-study__body {
+  min-inline-size: 0;
+
+  > :first-child {
+    margin-block-start: 1rem;
+  }
+
+  p {
+    max-inline-size: 62ch;
+  }
+
+  .showcase-figure {
+    margin-block: 1rem;
+  }
+}
+
+@container case-study (width > 58rem) {
+  .case-study .showcase-split .case-study__body > :first-child {
+    margin-block-start: 0;
+  }
+}
+
+.case-study__list {
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: item;
+
+  li {
+    position: relative;
+    max-inline-size: 62ch;
+    margin-block-start: 0.6rem;
+    padding-inline-start: 1.75rem;
+    counter-increment: item;
+
+    &::before {
+      content: '' / '';
+      position: absolute;
+      inset-block-start: 0.7em;
+      inset-inline-start: 0;
+      inline-size: 0.9rem;
+      block-size: 3px;
+      border-radius: 2px;
+      background: var(--show-accent);
+    }
+  }
+}
+
+ol.case-study__list li::before {
+  content: counter(item) / '';
+  inset-block-start: 0;
+  inline-size: auto;
+  block-size: auto;
+  background: none;
+  color: var(--show-accent);
+  font-weight: 800;
+}
+
+.case-study__figure {
+  margin: 1.75rem 0 0;
+
   img {
     display: block;
     max-inline-size: 100%;
     block-size: auto;
+    border-radius: 0.9rem;
+    box-shadow: var(--elevation-raised);
+  }
+
+  figcaption {
+    color: var(--show-quiet);
   }
 }
 
-.case-study {
-  > section {
-    margin-block-start: clamp(2.5rem, 5vw, 4.5rem);
-  }
-  > .case-study__group {
-    padding: var(--surface-padding);
-    h2 {
-      margin-block-start: 0;
-    }
-    > :last-child {
-      margin-block-end: 0;
-    }
-  }
-  > .surface-inset {
-    inline-size: 100%;
-  }
-  > nav a {
-    text-underline-offset: 0.3em;
-    transition: text-underline-offset 160ms ease;
-  }
-  > nav a:hover {
-    text-underline-offset: 0.45em;
-  }
+// ---- Closing band -------------------------------------------------------------
+.case-study .case-study__next {
+  display: block;
+  margin-block-start: clamp(4rem, 8vw, 6.5rem);
 }
-@media (prefers-reduced-motion: reduce) {
-  .case-study > nav a {
-    transition: none;
-  }
+
+.case-study .case-study__next-title {
+  max-inline-size: 16ch;
+  margin: 0;
+  font: 800 clamp(2rem, 1rem + 3.6vw, 3.75rem) / 1.02 var(--font-display);
+  letter-spacing: -0.04em;
 }
