@@ -17,13 +17,10 @@
   }
 }
 
-// ---- Slideshow scene: seated like the homepage carousel ----------------------
-// Flush under the header, across the whole shell width, above the extended sky
-// (app.scss), so the sky bar reads as tall here as it does on the homepage. The
-// negative margin cancels the page's top padding (page.scss). A study without
-// approved scene art seats its title band in the same slot, at the scene's
-// 3:1 proportion, so every case study opens the same way.
-.case-study app-slide-hero,
+// ---- Scene slot without a scene ---------------------------------------------
+// The slideshow scene seats itself like the homepage carousel (slide-hero.scss).
+// A study without approved scene art seats its title band in the same slot, at
+// the scene's 3:1 proportion, so every case study opens the same way.
 .case-study .case-study__heading {
   position: relative;
   z-index: 2;

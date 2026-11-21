@@ -1,12 +1,16 @@
 :host {
   display: block;
+  position: relative;
+  z-index: 2;
   inline-size: 100%;
-  max-inline-size: 1086px;
   justify-self: center;
-  margin: 0 auto clamp(1rem, 2vw, 1.75rem);
+  // Seated like the homepage carousel: flush under the header, across the whole
+  // shell width, above the extended sky (app.scss). The negative margin cancels
+  // the page's top padding (page.scss).
+  margin: calc(-1 * clamp(0.75rem, 2vw, 1.5rem)) auto clamp(1rem, 2vw, 1.75rem);
 }
-// 2172px native focal art provides a full 2x image at 1086px. The unchanged 3:1
-// stage occupies one grid cell; unusually enlarged text can reflow without clipping.
+// The unchanged 3:1 stage occupies one grid cell; unusually enlarged text can
+// reflow without clipping.
 .slide-hero {
   display: grid;
   position: relative;
