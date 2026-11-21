@@ -1,60 +1,61 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-11-20",
+  "date": "2026-11-21",
   "sections": [
     {
       "heading": "Buildometer reconciliation (system receipt)",
       "paragraphs": [
         "Approved djamespoer.com ledger only: 219 shipped / 477 total; 258 remaining (45.9%).",
-        "Progress observed at 2026-11-12T19:36:45.693Z. Last checked 2026-11-20T15:01:14.324Z. Status: pending. Pending approval/release reconciliation; last approved numbers retained. No new shipped credit inferred from Jira Done."
+        "Progress observed at 2026-11-12T19:36:45.693Z. Last checked 2026-11-21T15:01:27.579Z. Status: pending. Pending approval/release reconciliation; last approved numbers retained. No new shipped credit inferred from Jira Done."
       ]
     },
     {
       "heading": "Recently shipped",
       "paragraphs": [
-        "The homepage now gives each of its five projects a distinct visual identity and a clearer route into the project and related writing. The reusable gallery replaces identical panels with theme-aware colors, decorative project graphics and whole-card links. Follow-up releases extend the sky through the carousel, remove overlapping gradients and soften daytime card surfaces while preserving night colors. Current production matches main at release 2026.11.20-1.",
-        "Yesterday’s Executive Scrum Brief publication completed successfully through the existing pipeline. This establishes a successful delivery after the earlier recovery, but does not close the separate automatic-retry and alerting gap."
+        "The portfolio’s About page and case studies now lead with evidence that a visitor can scan quickly. About pairs the positioning statement with published outcomes, a dated career timeline and a clear résumé action. Shared interior typography fixes doubled spacing that had separated headings from their content.",
+        "Case studies now share the approved visual system, with at-a-glance facts and Problem / Approach / Result summaries across LifePRO, Dreyer & Reinbold, TCC, IPS, Shady White Van and Creative Town. The summaries use existing published evidence; the full scenes, sky navigation and ocean footer are preserved. Current production matches main at release 2026.11.20-5. These releases improve how the work is understood, without claiming new underlying project outcomes."
       ]
     },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "Claude recorded a live browser check showing all five project graphics after the gallery release. Its local verification passed 469 tests across 56 files and the production build; the gallery stylesheet stayed within budget, with existing footer and character-animation warnings remaining. The latest production revision also has successful test, release-tag and Cloudflare build checks. No axe audit was run on the graphics revision, and owner acceptance remains pending.",
-        "No newer protected-product acceptance evidence appeared in the current Jira update window. Thingamajob’s previously recorded successful live evaluation remains the recovery evidence; screenshot transcription, a newly generated corrected résumé and scheduled retention execution are not newly verified by this brief. Deployment success does not establish those end-to-end outcomes."
+        "The first case-study treatment and a separate static mockup were rejected because they fragmented the site’s visual language or altered approved scene elements. The shipped approach instead reuses the approved About and homepage system. That correction made consistency with the real site the design constraint, rather than treating each page as an independent composition.",
+        "The releases passed 469 tests across 56 files and production builds. Claude recorded live checks of About and all five additional case-study pages; the latest revision has successful test, release-tag and Cloudflare build checks. About’s axe check reported zero violations but left gradient contrast incomplete. The shipped case-study revision has no axe receipt. Stylesheet and initial-bundle advisory overruns remain disclosed; passing builds do not establish complete accessibility acceptance.",
+        "Yesterday’s existing editorial publisher completed successfully. No newer Jira evidence establishes the outstanding Thingamajob screenshot-to-answer, corrected-PDF or retention-execution acceptance receipts. Those product checks remain separate from the successful site releases."
       ]
     },
     {
-      "heading": "Reconciliation status — partial portfolio coverage",
+      "heading": "Reconciliation status — partial",
       "paragraphs": [
-        "At 9:01:18 AM Eastern, today’s read-only check recalculated the approved DJP ledger with the canonical projector, then checked all 98 approved members against current Jira. No estimate mismatch or newly Done uncredited member was found. Approved DJP progress remains 219 shipped of 477 known points, 45.9%, with 258 remaining and no credited delta. The progress observation remains November 12 at 2:36:45 PM Eastern.",
-        "The public reconciliation receipt was last checked November 19 at 10:01:29 AM Eastern and remains pending for unreviewed releases. The gallery’s release check did not reconcile it into progress accounting. Today’s calculation did not append an observation or update that public receipt. These figures cover the approved DJP baseline only; approved aggregate scope and current evidence for Creative Town, nurseericakortz.com and related programs remain incomplete. Shady White Van’s live version remains 2026.11.11-2."
+        "At 8:55:47 AM Eastern, today’s authoring check recalculated the approved DJP ledger with the canonical projector, then checked all 98 approved members against current Jira. No estimate mismatch or newly Done uncredited member was found. Approved progress remains 219 shipped of 477 known points, 45.9%, with 258 remaining and no credited delta. The progress observation remains November 12 at 2:36:45 PM Eastern.",
+        "The public reconciliation receipt was checked November 20 at 10:01:14 AM Eastern and remains pending for unreviewed releases. The About and case-study release checks did not reconcile those releases into accounting. Today’s read-only check did not append an observation or update that public receipt. These are approved DJP figures, not aggregate portfolio completion; current evidence and approved scope for the wider programs remain incomplete. Shady White Van’s own live version remains 2026.11.11-2."
       ]
     },
     {
       "heading": "Team accountability / current focus",
       "paragraphs": [
-        "Claude delivered the gallery and documented its browser check and acceptance boundary. Larry’s existing publication path completed yesterday’s handoff. ChatGPT performed today’s baseline check and authored this snapshot; the broader reconciliation and agent-capacity picture remains incomplete. The recorded work centers on clearer project discovery, while release accounting, publication resilience and protected-product acceptance remain open delivery concerns."
+        "Claude delivered the About and case-study work following owner review and shipping approval; final acceptance remains recorded as pending. Larry’s existing publication path completed yesterday’s handoff. ChatGPT checked today’s baseline and authored this snapshot. The active product slice is making career evidence compelling and easy to navigate; broader agent-capacity coverage and release accounting remain incomplete. A portrait for About is still an owner-supplied input."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Obtain owner acceptance of the gallery and verify accessibility on the released graphics. Reconcile subsequent production releases through approved scope before assigning additional progress credit. Close the existing publisher’s bounded-retry and visible-alert decision, and obtain the missing Thingamajob end-to-end and retention receipts before treating those acceptance gaps as complete."
+        "Obtain final acceptance of the released pages and complete accessibility verification on the shipped case-study treatment, including unresolved contrast checks. Reconcile the new releases through approved scope before adding progress credit. The existing publication retry-and-alert decision and the missing Thingamajob end-to-end receipts remain open delivery work."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "bbe95b9b1956c8a1850cf79e7be3f9060a21e06b",
-    "generatorCommit": "bbe95b9b1956c8a1850cf79e7be3f9060a21e06b",
-    "evidenceSha256": "d2ae4d4a9930bd3774999ddfda33c18f4f351f8fc6e84e1ca2029ce955ebf911",
+    "sourceCommit": "c1a5947d6deaa0a2e8a1e0425ca86850742cfb5d",
+    "generatorCommit": "c1a5947d6deaa0a2e8a1e0425ca86850742cfb5d",
+    "evidenceSha256": "4b855d2f7794d40971605faae854cfa61b95b8944e5994f03db1efd158b21ab8",
     "method": "ChatGPT-authored Jira publication payload copied unchanged; optional canonical reconciliation system receipt precedes authored sections.",
     "reportingWindow": {
-      "after": "2026-11-19T09:03:55.573-0500",
-      "cutoff": "2026-11-20T09:02:05.564-0500"
+      "after": "2026-11-20T09:02:05.564-0500",
+      "cutoff": "2026-11-21T08:56:21.114-0500"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10538",
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10546",
       "https://djamespoer.com/data/buildometer-reconciliation.json"
     ]
   }
