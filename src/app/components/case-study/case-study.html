@@ -1,27 +1,41 @@
-<article class="case-study editorial-content">
+<article class="case-study showcase editorial-content">
   @if (heroDestination(); as destination) {
     <app-slide-hero class="editorial-wide" [destination]="destination" [heading]="study().title" />
   } @else if (titleBand()) {
-    <div class="case-study__heading">
+    <div class="case-study__heading showcase-band showcase-band--hero editorial-wide">
       @if (kicker(); as label) {
-        <p class="case-study__kicker">{{ label }}</p>
+        <p class="showcase-kicker">{{ label }}</p>
       }
       <h1 class="case-study__title">{{ study().title }}</h1>
+      @if (study().subtitle; as subtitle) {
+        <p class="showcase-band__lede">{{ subtitle }}</p>
+      }
+      @if (study().relatedPage; as related) {
+        <nav class="showcase-actions" aria-label="Related page before the case study">
+          <a publicTrack class="showcase-action" [trackSource]="related.kind" [href]="related.href">{{
+            related.label
+          }}</a>
+        </nav>
+      }
     </div>
   } @else if (showTitle()) {
     <h1 class="visually-hidden">{{ study().title }}</h1>
   }
-  @if (study().subtitle; as subtitle) {
-    <p class="editorial-lead case-study__deck">{{ subtitle }}</p>
-  }
-  @if (study().relatedPage; as related) {
-    <nav class="case-study__related" aria-label="Related page before the case study">
-      <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
-    </nav>
+  @if (!titleBand()) {
+    @if (study().subtitle; as subtitle) {
+      <p class="editorial-lead case-study__deck">{{ subtitle }}</p>
+    }
+    @if (study().relatedPage; as related) {
+      <nav class="showcase-actions case-study__related" aria-label="Related page before the case study">
+        <a publicTrack class="showcase-action" [trackSource]="related.kind" [href]="related.href">{{
+          related.label
+        }}</a>
+      </nav>
+    }
   }
   <ng-content />
   @if (study().facts?.length) {
-    <dl class="case-study__facts surface-card">
+    <dl class="case-study__facts showcase-keyed">
       @for (fact of study().facts; track fact.label) {
         <div>
           <dt>{{ fact.label }}</dt>
@@ -31,20 +45,18 @@
     </dl>
   }
   @if (study().summary?.length) {
-    <div class="case-study__summary">
+    <ul class="case-study__summary showcase-tiles showcase-tiles--three">
       @for (beat of study().summary; track beat.label) {
-        <div class="case-study__beat surface-card">
-          <p class="case-study__kicker">{{ beat.label }}</p>
+        <li class="showcase-tile">
+          <p class="showcase-kicker">{{ beat.label }}</p>
           <p class="case-study__beat-heading">{{ beat.heading }}</p>
           <p>{{ beat.text }}</p>
-        </div>
+        </li>
       }
-    </div>
+    </ul>
   }
-  @if (introductionParagraphs().length) {
-    @for (paragraph of introductionParagraphs(); track $index) {
-      <p class="case-study__intro" [class.case-study__lead]="$first">{{ paragraph }}</p>
-    }
+  @for (paragraph of introductionParagraphs(); track $index) {
+    <p class="case-study__intro" [class.showcase-opening]="$first">{{ paragraph }}</p>
   }
   @if (showContents()) {
     <nav class="case-study__contents" aria-label="Chapters">
@@ -61,15 +73,13 @@
     <section
       class="case-study__chapter"
       [id]="chapter.id"
-      [class.surface-card]="chapter.section.surface === 'card'"
-      [class.surface-feature]="chapter.section.surface === 'feature'"
-      [class.surface-inset]="chapter.section.surface === 'inset'"
-      [class.case-study__group]="!!chapter.section.surface"
+      [class.showcase-split]="!chapter.section.surface"
+      [class.showcase-tile]="!!chapter.section.surface"
     >
       <h2>{{ chapter.section.heading }}</h2>
       <div class="case-study__body">
         @for (paragraph of chapter.paragraphs; track $index) {
-          <p [class.case-study__quote]="paragraph.quote" [class.case-study__stat]="paragraph.stat">
+          <p [class.showcase-thought]="paragraph.quote" [class.showcase-figure]="paragraph.stat">
             {{ paragraph.text }}
           </p>
         }
@@ -91,8 +101,8 @@
         @for (evidence of chapter.section.evidence ?? []; track $index) {
           @switch (evidence.kind) {
             @case ('link') {
-              <p class="case-study__evidence">
-                <a publicTrack [href]="evidence.href">{{ evidence.label }}</a>
+              <p class="showcase-actions">
+                <a publicTrack class="showcase-action" [href]="evidence.href">{{ evidence.label }}</a>
               </p>
             }
             @case ('image') {
@@ -118,9 +128,21 @@
     </section>
   }
   @if (study().relatedPage; as related) {
-    <nav class="case-study__next surface-feature" aria-label="Related page after the case study">
-      <p class="case-study__kicker">Keep going</p>
-      <a publicTrack [trackSource]="related.kind" [href]="related.href">{{ related.label }}</a>
+    <nav
+      class="case-study__next showcase-band editorial-wide"
+      aria-label="Related page after the case study"
+    >
+      <p class="case-study__next-title">Keep going.</p>
+      <p class="showcase-actions">
+        <a
+          publicTrack
+          class="showcase-action showcase-action--primary"
+          [trackSource]="related.kind"
+          [href]="related.href"
+          >{{ related.label }}</a
+        >
+        <a publicTrack class="showcase-action" href="/resume">Get my résumé</a>
+      </p>
     </nav>
   }
 </article>

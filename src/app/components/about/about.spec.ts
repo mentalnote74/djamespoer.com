@@ -43,8 +43,8 @@ describe('About', () => {
     expect(roles).toEqual(['/work/exl', '/work/ips', '/work/tcc', '/work/dr']);
 
     // One visual primary action per action group, always the résumé.
-    for (const group of Array.from(root.querySelectorAll('.about-actions'))) {
-      const primary = group.querySelectorAll('.about-action--primary');
+    for (const group of Array.from(root.querySelectorAll('.showcase-actions'))) {
+      const primary = group.querySelectorAll('.showcase-action--primary');
       expect(primary).toHaveLength(1);
       expect(primary[0].getAttribute('href')).toBe('/resume');
     }

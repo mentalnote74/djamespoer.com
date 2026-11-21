@@ -1,0 +1,328 @@
+@use '../abstracts' as foundation;
+
+// The approved interior showcase vocabulary (About, SCRUM-209), shared so case
+// studies and later pages reuse one system instead of re-inventing it. Every
+// hue is a turn from the live Living Theme background, like the homepage cards.
+// Hosts are inline-size containers, so the unnamed container queries below
+// respond to the page column, not the viewport.
+.showcase {
+  --show-band: oklch(from var(--selected-background) 0.2 0.045 calc(h + 200));
+  --show-band-ink: #faf4e8;
+  --show-glow-a: oklch(from var(--selected-background) 0.68 0.17 calc(h + 30));
+  --show-glow-b: oklch(from var(--selected-background) 0.62 0.15 calc(h + 210));
+  --show-spark: oklch(from var(--selected-background) 0.86 0.13 calc(h + 30));
+  --show-accent: light-dark(
+    oklch(from var(--selected-background) 0.45 0.15 calc(h + 30)),
+    oklch(from var(--selected-background) 0.82 0.13 calc(h + 30))
+  );
+  --show-quiet: color-mix(in srgb, currentColor 78%, transparent);
+}
+
+// ---- Dark bands: opening statement and closing call --------------------------
+.showcase-band {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.25rem, 6vw, 4.5rem) clamp(1.5rem, 6vw, 5rem);
+  border-radius: 1.25rem;
+  color: var(--show-band-ink);
+  background:
+    radial-gradient(
+      70% 90% at 100% 100%,
+      color-mix(in srgb, var(--show-glow-a) 45%, transparent),
+      transparent 70%
+    ),
+    var(--show-band);
+
+  > :first-child {
+    margin-block-start: 0;
+  }
+}
+
+// The opening band adds a second glow and a faint drafting grid.
+.showcase-band--hero {
+  padding-block: clamp(2.25rem, 7vw, 5.5rem);
+  background:
+    radial-gradient(
+      60% 80% at 92% 8%,
+      color-mix(in srgb, var(--show-glow-a) 55%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      55% 70% at 0% 100%,
+      color-mix(in srgb, var(--show-glow-b) 45%, transparent),
+      transparent 70%
+    ),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 4rem),
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 4rem),
+    var(--show-band);
+}
+
+// Bands span the full track, but their text starts on the content rail's edge
+// (2fr of 12fr from the interior page policy).
+@media (min-width: foundation.breakpoint('navigation-wrap')) {
+  .showcase-band {
+    padding-inline: calc(100% / 6);
+  }
+}
+
+.showcase-band .showcase-kicker {
+  color: var(--show-spark);
+}
+
+.showcase-band__lede {
+  max-inline-size: 48ch;
+  color: color-mix(in srgb, var(--show-band-ink) 84%, transparent);
+  font-size: var(--type-lead-size);
+  line-height: 1.5;
+}
+
+.showcase-kicker {
+  margin: 0;
+  color: var(--show-accent);
+  font: 700 0.8125rem / 1.4 var(--font-ui);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+// ---- Actions --------------------------------------------------------------
+.showcase-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 2rem 0 0;
+}
+
+.showcase-action {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 3rem;
+  padding: 0.6rem 1.35rem;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  font: 700 1rem / 1.2 var(--font-ui);
+  text-decoration: none;
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background: color-mix(in srgb, currentColor 12%, transparent);
+  }
+}
+
+.showcase-action--primary {
+  border-color: var(--page-foreground);
+  background: var(--page-foreground);
+  color: var(--page-background);
+
+  &:hover {
+    background: color-mix(in srgb, var(--page-foreground) 85%, var(--page-background));
+  }
+}
+
+// On the dark bands the primary takes the theme spark.
+.showcase-band .showcase-action--primary {
+  border-color: var(--show-spark);
+  background: var(--show-spark);
+  color: #1d1622;
+
+  &:hover {
+    background: color-mix(in srgb, var(--show-spark) 85%, white);
+  }
+}
+
+// ---- Lead and pull thought -------------------------------------------------
+.editorial-content .showcase-opening {
+  margin-block-start: clamp(3rem, 7vw, 5.5rem);
+  font: 500 clamp(1.375rem, 1rem + 1.5vw, 2rem) / 1.4 var(--font-display);
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+.editorial-content .showcase-thought {
+  margin-block: 0.6em 0;
+  color: var(--show-accent);
+  font: 800 clamp(1.75rem, 1.1rem + 2.6vw, 3rem) / 1.08 var(--font-display);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+// ---- Tiles: the homepage project-card palette, one hue turn per tile --------
+.showcase-tiles {
+  display: grid;
+  gap: 1.25rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  @container (width > 44rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.showcase-tiles--three {
+  @container (width > 52rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.showcase-tile {
+  --turn: 0;
+  --tile: oklch(from var(--selected-background) 0.67 0.15 calc(h + var(--turn)));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-block-start: 4px solid var(--tile);
+  border-radius: 0.9rem;
+  background: light-dark(
+    oklch(from var(--tile) 0.95 0.035 h),
+    oklch(from var(--tile) 0.26 0.045 h)
+  );
+
+  > :first-child {
+    margin-block-start: 0;
+  }
+
+  p {
+    margin: 0.6rem 0 0;
+  }
+}
+
+.showcase-tiles > :nth-child(2) {
+  --turn: 65;
+}
+.showcase-tiles > :nth-child(3) {
+  --turn: 180;
+}
+.showcase-tiles > :nth-child(4) {
+  --turn: 270;
+}
+
+// Whole-tile target; the heading link stays the single accessible name.
+.showcase-tile h3 a {
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:focus-visible::after {
+    outline: 3px solid var(--focus-outer);
+    outline-offset: 4px;
+  }
+}
+
+.showcase-tile:hover h3 a {
+  text-decoration: underline;
+}
+
+.showcase-tile .showcase-figure {
+  color: light-dark(oklch(from var(--tile) 0.42 0.14 h), oklch(from var(--tile) 0.84 0.12 h));
+}
+
+.editorial-content .showcase-figure {
+  margin: 0;
+  color: var(--show-accent);
+  font: 800 clamp(2.5rem, 1.6rem + 3.2vw, 4rem) / 1 var(--font-display);
+  letter-spacing: -0.045em;
+
+  // The unit sits under the number with its own line height.
+  span {
+    display: block;
+    margin-block-start: 0.4rem;
+    font: 700 1rem / 1.3 var(--font-ui);
+    letter-spacing: 0.02em;
+  }
+}
+
+.showcase-tile .showcase-source {
+  margin-block-start: auto;
+  padding-block-start: 1.25rem;
+  color: var(--show-quiet);
+  font: 700 0.75rem / 1.4 var(--font-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+// ---- Split sections: heading held beside the text on wide layouts ----------
+@container (width > 58rem) {
+  .editorial-content > .showcase-split {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.65fr);
+    column-gap: clamp(2rem, 5vw, 4rem);
+
+    > * {
+      grid-column: 2;
+    }
+
+    > h2 {
+      grid-column: 1;
+      grid-row: 1 / span 8;
+      align-self: start;
+      position: sticky;
+      inset-block-start: 1.5rem;
+    }
+  }
+}
+
+// ---- Keyed list: short entries with a colored rule, 1 / 2 / 4 columns -------
+.showcase-keyed {
+  display: grid;
+  gap: 1.5rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  @container (width > 34rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @container (width > 66rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  > * {
+    --turn: 0;
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    margin: 0;
+    padding-block-start: 0.85rem;
+    border-block-start: 3px solid
+      oklch(from var(--selected-background) 0.67 0.15 calc(h + var(--turn)));
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  > :nth-child(2) {
+    --turn: 90;
+  }
+  > :nth-child(3) {
+    --turn: 180;
+  }
+  > :nth-child(4) {
+    --turn: 270;
+  }
+}
+
+@media (forced-colors: active) {
+  .showcase-band,
+  .showcase-tile {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .showcase-action,
+  .showcase-band .showcase-action--primary {
+    border-color: ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+  }
+}

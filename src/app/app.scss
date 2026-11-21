@@ -5,9 +5,9 @@
   min-block-size: 100svh;
 }
 
-// Continue the existing header sky behind the first half of the home carousel.
+// Continue the header sky behind the top of the home carousel and case-study openings.
 // Match its 3:1 slide and shared container width without moving header content.
-:host:has(app-home) {
+:host:has(app-home, app-case-study) {
   isolation: isolate;
   --header-isolation: auto;
   --header-layer: auto;
