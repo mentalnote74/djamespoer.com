@@ -14,6 +14,29 @@ export const IPS_CASE_STUDY = {
     "The problem wasn't choosing or building a new system.",
     'The problem was making the existing system understand district-specific rules that humans already understood implicitly.',
   ],
+  facts: [
+    { label: "Role", value: "UI Developer" },
+    { label: "When", value: "2019" },
+    { label: "Platform", value: "PowerSchool, the district's existing student-information system" },
+    { label: "Built with", value: "JavaScript, jQuery, HTML and CSS" },
+  ],
+  summary: [
+    {
+      label: "Problem",
+      heading: "Policy is not a condition",
+      text: "District rules that people understood implicitly had to become conditions a web form could evaluate.",
+    },
+    {
+      label: "Approach",
+      heading: "Translate, then clarify",
+      text: "I turned requirements into conditional validation and went back to district leadership whenever the translation exposed ambiguity.",
+    },
+    {
+      label: "Result",
+      heading: "Rules the form enforces",
+      text: "PowerSchool reflected IPS-specific requirements without the district abandoning the platform it already used.",
+    },
+  ],
   sections: [
     {
       heading: 'The Platform Was Already Chosen',

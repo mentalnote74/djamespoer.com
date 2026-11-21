@@ -13,6 +13,29 @@ export const TCC_CASE_STUDY = {
     'If the underlying interaction is wrong, a better coat of paint just gives you a more attractive version of the same problem.',
     'The interesting question was what happened if we stopped guessing about the interface and started watching people use it.',
   ],
+  facts: [
+    { label: "Role", value: "UX Developer" },
+    { label: "When", value: "May 2015 – June 2019" },
+    { label: "Research", value: "Roughly 30 moderated sessions with Oregon Department of Education staff" },
+    { label: "Delivery", value: "Findings shaped Ascend; led Vertex Angular work from Angular 5 to 8" },
+  ],
+  summary: [
+    {
+      label: "Problem",
+      heading: "“Lipstick on the pig”",
+      text: "A prettier interface would not fix interactions that were wrong underneath, and design debates ran on opinion.",
+    },
+    {
+      label: "Approach",
+      heading: "Test both, cross the moderators",
+      text: "Annie Rayhill and I ran roughly 30 moderated sessions on two concepts, each of us moderating both.",
+    },
+    {
+      label: "Result",
+      heading: "Evidence for C",
+      text: "A hybrid of what users showed worked fed into Ascend, and Oregon became its first client.",
+    },
+  ],
   sections: [
     {
       heading: "Instead of Another Opinion, Let's Get Evidence",
