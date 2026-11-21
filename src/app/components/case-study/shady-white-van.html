@@ -1,9 +1,8 @@
-<app-case-study [study]="study">
-  <figure class="case-study-hero editorial-wide">
-    <app-swv-slide [hero]="true" />
-    <figcaption>
-      <a href="https://shadywhitevan.rocks/">Open the live Shady White Van experience</a>
-    </figcaption>
-  </figure>
+<app-case-study [study]="study" heroDestination="/case-studies/shady-white-van">
+  <nav class="case-study-hero showcase-actions swv-live" aria-label="Live project">
+    <a class="showcase-action showcase-action--primary" href="https://shadywhitevan.rocks/"
+      >Open the live Shady White Van experience</a
+    >
+  </nav>
   <div class="swv-copy" [innerHTML]="body"></div>
 </app-case-study>
