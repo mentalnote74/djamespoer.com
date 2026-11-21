@@ -1,23 +1,18 @@
 import { progressPresentation, formatProgressTime } from './data/progress';
-import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
-import { InstrumentCluster } from './instrument-cluster';
+import { afterNextRender, Component, computed, inject } from '@angular/core';
 import { MetricChart } from './metric-chart';
+import { ProgressObservation } from './progress-observation';
 import { BuildometerDataStore } from './data/buildometer-data';
-import { SKIN_OPTIONS, type InstrumentSkin } from './skins/skin.model';
 import type { DashboardMetric } from './buildometer.model';
 @Component({
   selector: 'app-buildometer-dashboard',
-  imports: [InstrumentCluster, MetricChart],
+  imports: [MetricChart, ProgressObservation],
   templateUrl: './buildometer-dashboard.html',
   styleUrl: './buildometer-dashboard.scss',
 })
 export class BuildometerDashboard {
   readonly formatTime = formatProgressTime;
   readonly store = inject(BuildometerDataStore);
-  readonly skinOptions = SKIN_OPTIONS;
-  readonly skin = signal<InstrumentSkin | null>(null);
-  readonly skinError = signal(false);
-  private version = 0;
   readonly metrics = computed<readonly DashboardMetric[]>(() => {
     const d = this.store.data();
     const progress = progressPresentation(d?.supportingFacts.project);
@@ -62,24 +57,10 @@ export class BuildometerDashboard {
       };
     });
   });
+  /** The headline instrument leads the page; the rest read as a glance row. */
+  readonly headline = computed(() => this.metrics()[0]);
+  readonly glance = computed(() => this.metrics().slice(1));
   constructor() {
-    afterNextRender(() => {
-      void this.store.load();
-      void this.selectSkin('night-driver');
-    });
-  }
-  changeSkin(e: Event): void {
-    if (e.target instanceof HTMLSelectElement) void this.selectSkin(e.target.value);
-  }
-  async selectSkin(id: string): Promise<void> {
-    const option = this.skinOptions.find((s) => s.id === id);
-    if (!option) return;
-    const v = ++this.version;
-    try {
-      const skin = await option.load();
-      if (v === this.version) this.skin.set(skin);
-    } catch {
-      this.skinError.set(true);
-    }
+    afterNextRender(() => void this.store.load());
   }
 }
