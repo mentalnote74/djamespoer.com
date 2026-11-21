@@ -1,1 +1,183 @@
-:host{display:block}.buildometer{padding-block:1rem 2rem}.masthead{margin-bottom:1rem}h1{font-size:clamp(2rem,5vw,3rem);margin-block:.3rem}.eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em}.interpretation,.bugs,.activity,.source-notes{margin-block:2rem}.bugs,.source-notes{padding:clamp(1rem,3vw,2rem)}.journal-entry{padding-block:1rem;border-bottom:1px solid var(--border-separator)}p,li{max-width:75ch}dt{font-weight:700;margin-top:1rem}dd{margin:.4rem 0 1rem;overflow-wrap:anywhere}summary{cursor:pointer;padding-block:.75rem}a,p,li{overflow-wrap:anywhere}
+// The look comes from the shared showcase vocabulary
+// (src/styles/components/_showcase.scss); only Buildometer's own pieces live here.
+:host {
+  display: block;
+  container: buildometer / inline-size;
+}
+
+.buildometer > section,
+.buildometer > .bm-next {
+  margin-block-start: clamp(3.5rem, 8vw, 6rem);
+
+  > h2 {
+    margin-block-start: 0;
+  }
+}
+
+.buildometer > app-buildometer-dashboard {
+  margin-block-start: clamp(1rem, 3vw, 2rem);
+}
+
+.buildometer a,
+.buildometer p,
+.buildometer li,
+.buildometer dd {
+  overflow-wrap: anywhere;
+}
+
+// ---- Bug lifecycle ----------------------------------------------------------
+.bm-bugs__facts {
+  dt {
+    color: var(--show-quiet);
+    font: 700 0.75rem / 1.4 var(--font-ui);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.bm-bugs__value {
+  display: block;
+  color: var(--show-accent);
+  font: 800 2rem / 1.1 var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+// ---- Daily reports: a dated timeline ----------------------------------------
+.bm-reports__list {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-inline-start: 2px solid color-mix(in srgb, var(--show-accent) 45%, transparent);
+
+  > li {
+    position: relative;
+    max-inline-size: none;
+    padding-inline-start: 1.5rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset-block-start: 1.15rem;
+      inset-inline-start: -0.45rem;
+      inline-size: 0.8rem;
+      block-size: 0.8rem;
+      border-radius: 50%;
+      background: var(--show-accent);
+    }
+  }
+
+  summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+    padding-block: 0.75rem;
+    cursor: pointer;
+  }
+
+  details[open] > summary {
+    border-block-end: 1px solid var(--border-separator);
+  }
+}
+
+.bm-reports__date {
+  font: 700 1rem / 1.3 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-reports__summary strong {
+  color: var(--show-accent);
+}
+
+.bm-reports__body {
+  padding-block: 0.25rem 1.25rem;
+  font-size: 0.9375rem;
+
+  dt {
+    margin-block-start: 1rem;
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0.3rem 0 0;
+  }
+
+  a {
+    display: inline-block;
+    margin-block-start: 1rem;
+  }
+}
+
+.bm-reports__earlier {
+  margin-block-start: 1rem;
+
+  > summary {
+    inline-size: fit-content;
+    padding-block: 0.5rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+}
+
+.bm-reports__empty {
+  padding-block: 0.75rem;
+}
+
+// ---- Journal ----------------------------------------------------------------
+.bm-journal h3 {
+  margin: 0;
+  font: 800 1.375rem / 1.2 var(--font-display);
+}
+
+.bm-journal__heading {
+  font-weight: 700;
+}
+
+.bm-journal__items {
+  margin: 0.6rem 0 0;
+  padding-inline-start: 1.1rem;
+  font-size: 0.9375rem;
+}
+
+// ---- Method -----------------------------------------------------------------
+.bm-method details {
+  margin-block-start: 0.75rem;
+  border-block-end: 1px solid var(--border-separator);
+
+  &:first-of-type {
+    margin-block-start: 0;
+    border-block-start: 1px solid var(--border-separator);
+  }
+
+  > :last-child {
+    margin-block-end: 1.25rem;
+  }
+
+  > a {
+    display: inline-block;
+    margin-block-start: 1rem;
+  }
+}
+
+.bm-method summary {
+  padding-block: 1rem;
+  font: 700 1.0625rem / 1.3 var(--font-display);
+  cursor: pointer;
+}
+
+// ---- Closing band -----------------------------------------------------------
+.bm-next__title {
+  margin: 0;
+  max-inline-size: 20ch;
+  font: 800 clamp(2rem, 1.2rem + 3vw, 3.5rem) / 1.05 var(--font-display);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.buildometer .bm-next {
+  margin-block-end: clamp(2rem, 5vw, 3rem);
+}

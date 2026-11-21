@@ -1,49 +1,343 @@
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-select {
-  font: inherit;
-  min-height: 44px;
-  padding: 0.4rem;
-  color: var(--control-foreground);
-  background: var(--control-background);
-  border: 1px solid var(--control-border);
-}
-.freshness {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  font-size: 0.75rem;
-  overflow-wrap: anywhere;
-}
-.freshness p {
-  flex: 1;
-  min-width: 0;
-}
-.charts {
+// The look comes from the shared showcase vocabulary
+// (src/styles/components/_showcase.scss). The dashboard joins the page's
+// editorial grid as a subgrid, so its bands run full width while text and
+// tiles sit on the content rail.
+:host,
+.bm,
+.bm > section {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  margin-block: 1.5rem;
+  grid-template-columns: subgrid;
+  grid-column: full;
+  min-inline-size: 0;
 }
-.burn {
-  grid-column: 1/-1;
+
+.bm > section > *,
+.bm-progress > * {
+  grid-column: content;
+  min-inline-size: 0;
 }
-@media (max-width: 700px) {
-  .charts {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .freshness {
-    display: block;
+
+.bm > section + section {
+  margin-block-start: clamp(3.5rem, 8vw, 6rem);
+}
+
+h2 {
+  margin: 0;
+}
+
+// ---- 1. Headline progress ---------------------------------------------------
+.bm-progress {
+  grid-column: full;
+  row-gap: 0;
+
+  // The band pads itself to the rail, so its children use the band's full width.
+  > * {
+    grid-column: 1 / -1;
   }
 }
 
-.sample-note {
-  padding: 0.75rem 1rem;
-  border-inline-start: 3px solid currentColor;
-  background: var(--surface-inset);
+.bm-progress__label {
+  margin-block-start: 1.25rem;
+  color: inherit;
+  font: 700 clamp(1.125rem, 1rem + 0.6vw, 1.5rem) / 1.2 var(--font-display);
+}
+
+.bm-progress__figure {
+  margin: 0.25rem 0 0;
+  color: var(--show-spark);
+  font: 800 clamp(4.5rem, 2rem + 10vw, 9rem) / 0.95 var(--font-display);
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-progress__meter {
+  overflow: hidden;
+  block-size: 0.75rem;
+  margin-block-start: 1.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--show-band-ink) 16%, transparent);
+
+  i {
+    display: block;
+    block-size: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--show-glow-b), var(--show-spark));
+    transition: inline-size 600ms ease-out;
+  }
+}
+
+.bm-progress .showcase-band__lede {
+  margin-block-start: 1.25rem;
+}
+
+.bm-progress__as-of {
+  margin-block-start: 0.5rem;
+  color: color-mix(in srgb, var(--show-band-ink) 78%, transparent);
+}
+
+.bm-progress__facts {
+  display: grid;
+  gap: 1.25rem 2rem;
+  margin: 2.25rem 0 0;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--show-band-ink) 22%, transparent);
+
+  @container (width > 44rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @container (width > 72rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  div {
+    min-inline-size: 0;
+  }
+
+  dt {
+    color: var(--show-spark);
+    font: 700 0.75rem / 1.4 var(--font-ui);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0.35rem 0 0;
+    font: 600 1rem / 1.45 var(--font-ui);
+    overflow-wrap: anywhere;
+  }
+}
+
+.bm-progress__caveat,
+.bm-progress__fetched {
+  margin-block-start: 1.25rem;
+  color: color-mix(in srgb, var(--show-band-ink) 72%, transparent);
+  font-size: 0.875rem;
+}
+
+.bm-progress__error {
+  margin-block-start: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--show-band-ink) 10%, transparent);
+
+  p {
+    margin: 0;
+  }
+
+  .showcase-action {
+    margin-block-start: 0.75rem;
+    background: none;
+    cursor: pointer;
+  }
+}
+
+// ---- 2. At a glance ---------------------------------------------------------
+.bm-glance__list {
+  display: grid;
+  gap: 1.25rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  @container (width > 34rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @container (width > 60rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  > li {
+    --turn: 0;
+    --hue: oklch(from var(--selected-background) 0.67 0.15 calc(h + var(--turn)));
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+    padding: 1.25rem 1.25rem 1rem;
+    border-block-start: 4px solid var(--hue);
+    border-radius: 0.75rem;
+    background: light-dark(
+      oklch(from var(--hue) 0.97 0.02 h),
+      oklch(from var(--hue) 0.24 0.035 h)
+    );
+  }
+
+  > :nth-child(2) {
+    --turn: 60;
+  }
+  > :nth-child(3) {
+    --turn: 120;
+  }
+  > :nth-child(4) {
+    --turn: 180;
+  }
+  > :nth-child(5) {
+    --turn: 240;
+  }
+  > :nth-child(6) {
+    --turn: 300;
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--show-quiet);
+    font: 700 0.75rem / 1.4 var(--font-ui);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  p {
+    margin: 0;
+    max-inline-size: none;
+  }
+
+  .bm-glance__value {
+    margin-block-start: 0.5rem;
+  }
+
+  .bm-glance__note {
+    margin-block-start: 0.6rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  .bm-glance__state {
+    margin-block-start: auto;
+  }
+}
+
+.bm-glance__value {
+  color: light-dark(oklch(from var(--hue) 0.42 0.14 h), oklch(from var(--hue) 0.84 0.12 h));
+  font: 800 clamp(2.25rem, 1.6rem + 2vw, 3rem) / 1 var(--font-display);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.bm-glance__value--quiet {
+  color: var(--show-quiet);
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.bm-glance__state {
+  padding-block-start: 1rem;
+  color: var(--show-quiet);
+  font: 700 0.6875rem / 1.4 var(--font-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  [data-state='ready'] > &::before {
+    content: '';
+    display: inline-block;
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    margin-inline-end: 0.4rem;
+    border-radius: 50%;
+    background: var(--hue);
+    vertical-align: 0.05em;
+  }
+}
+
+.editorial-content .bm-glance__caption {
+  margin-block-start: 1rem;
+  color: var(--show-quiet);
+  font-size: 0.875rem;
+}
+
+.bm-sources {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  @container (width > 44rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
+    min-inline-size: 0;
+    max-inline-size: none;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border-separator);
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+
+    > span:not(.bm-sources__status) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  strong {
+    font: 700 1rem / 1.3 var(--font-display);
+  }
+}
+
+.bm-sources__status {
+  justify-self: start;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  font: 700 0.6875rem / 1.6 var(--font-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.bm-sources__date {
+  color: var(--show-quiet);
+  font-variant-numeric: tabular-nums;
+}
+
+// ---- 3. Trends --------------------------------------------------------------
+.editorial-content .bm-trends__note {
+  margin-block-start: 1rem;
+  padding-inline-start: 1rem;
+  border-inline-start: 3px solid var(--show-accent);
+  font-size: 0.9375rem;
+}
+
+.bm-trends__list {
+  margin-block-start: 1.5rem;
+
+  // Six tiles step around the wheel instead of repeating after four.
+  > :nth-child(5) {
+    --turn: 120;
+  }
+  > :nth-child(6) {
+    --turn: 220;
+  }
+  > :nth-child(7) {
+    --turn: 310;
+  }
+  > :nth-child(8) {
+    --turn: 30;
+  }
+}
+
+.bm-trends__wide {
+  grid-column: 1 / -1;
+}
+
+@media (forced-colors: active) {
+  .bm-progress__meter {
+    border: 1px solid CanvasText;
+
+    i {
+      background: Highlight;
+    }
+  }
+
+  .bm-glance__list > li,
+  .bm-sources li {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
 }

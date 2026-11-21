@@ -1,4 +1,4 @@
-<article class="buildometer editorial-content">
+<article class="buildometer showcase editorial-content">
   <app-slide-hero
     class="editorial-wide"
     destination="/buildometer"
@@ -8,8 +8,9 @@
   />
   <app-buildometer-dashboard class="editorial-wide" />
   @if (store.data(); as data) {
-    <section class="interpretation">
-      <h2>Interpretation / what the data says</h2>
+    <section class="bm-reading showcase-split" aria-labelledby="bm-reading-heading">
+      <h2 id="bm-reading-heading">What the numbers mean</h2>
+      <p class="showcase-thought">Shipped means shipped. Jira status alone doesn't count.</p>
       <p>
         Project Complete estimates shipped story points divided by total story points in the known
         djamespoer.com backlog. A story earns full shipped credit only when its deliverable ships.
@@ -31,8 +32,9 @@
         }}.
       </p>
     </section>
-    <section class="bugs surface-card">
-      <h2>Bug lifecycle / detail</h2>
+
+    <section class="bm-bugs showcase-split" aria-labelledby="bm-bugs-heading">
+      <h2 id="bm-bugs-heading">Bug lifecycle</h2>
       <p>{{ data.supportingFacts.bugPolicy }}</p>
       @if (data.supportingFacts.eventSummary; as sample) {
         <p>
@@ -50,34 +52,47 @@
           }
         </p>
       }
-      <dl>
-        <dt>New classifications, 7 days</dt>
-        <dd>
-          {{ data.metrics.bugCreated.value ?? 'Unmeasured' }} /
-          {{ data.metrics.bugCreated.reason || data.metrics.bugCreated.unit }}
-        </dd>
-        <dt>Eliminations, 7 days</dt>
-        <dd>
-          {{ data.metrics.bugEliminated.value ?? 'Unmeasured' }} /
-          {{ data.metrics.bugEliminated.reason || data.metrics.bugEliminated.unit }}
-        </dd>
-        <dt>Mean resolved bug cycle</dt>
-        <dd>
-          {{ data.metrics.bugDuration.value ?? 'Unmeasured' }} /
-          {{ data.metrics.bugDuration.reason || data.metrics.bugDuration.unit }}
-        </dd>
-        <dt>Reopen events, 7 days</dt>
-        <dd>
-          {{ data.metrics.reopens.value ?? 'Unmeasured' }} /
-          {{ data.metrics.reopens.reason || data.metrics.reopens.unit }}
-        </dd>
-        <dt>Rework rate</dt>
-        <dd>{{ data.metrics.rework.reason || data.metrics.rework.value }}</dd>
+      <dl class="showcase-keyed bm-bugs__facts">
+        <div>
+          <dt>New classifications, 7 days</dt>
+          <dd>
+            <span class="bm-bugs__value">{{ data.metrics.bugCreated.value ?? 'Unmeasured' }}</span>
+            {{ data.metrics.bugCreated.reason || data.metrics.bugCreated.unit }}
+          </dd>
+        </div>
+        <div>
+          <dt>Eliminations, 7 days</dt>
+          <dd>
+            <span class="bm-bugs__value">{{
+              data.metrics.bugEliminated.value ?? 'Unmeasured'
+            }}</span>
+            {{ data.metrics.bugEliminated.reason || data.metrics.bugEliminated.unit }}
+          </dd>
+        </div>
+        <div>
+          <dt>Mean resolved bug cycle</dt>
+          <dd>
+            <span class="bm-bugs__value">{{ data.metrics.bugDuration.value ?? 'Unmeasured' }}</span>
+            {{ data.metrics.bugDuration.reason || data.metrics.bugDuration.unit }}
+          </dd>
+        </div>
+        <div>
+          <dt>Reopen events, 7 days</dt>
+          <dd>
+            <span class="bm-bugs__value">{{ data.metrics.reopens.value ?? 'Unmeasured' }}</span>
+            {{ data.metrics.reopens.reason || data.metrics.reopens.unit }}
+          </dd>
+        </div>
+        <div>
+          <dt>Rework rate</dt>
+          <dd>{{ data.metrics.rework.reason || data.metrics.rework.value }}</dd>
+        </div>
       </dl>
     </section>
+
     <section
       id="daily-dev-reports"
-      class="source-notes surface-inset"
+      class="bm-reports showcase-split"
       aria-labelledby="daily-report-heading"
     >
       <h2 id="daily-report-heading">Daily Scrum / Dev Reports</h2>
@@ -88,105 +103,200 @@
       @if (data.dailyReportsStatus === 'unavailable') {
         <p role="status">The retained report archive is temporarily unavailable.</p>
       }
-      @for (report of data.dailyReports ?? []; track report.id) {
-        <details [attr.id]="'daily-report-' + report.date">
-          <summary>
-            {{ report.date }} —
-            @if (report.project; as project) {
-              {{ project.completion }}% estimated complete
-            } @else {
-              Project measurement unavailable
-            }
-          </summary>
-          <p>
-            Observed {{ report.observedAt }}. Window starts {{ report.windowStart }}.
-            {{
-              report.previousId
-                ? 'Compared with ' + report.previousId
-                : 'First daily observation; comparison begins at approved T₀.'
-            }}
-          </p>
-          <dl>
-            <dt>Known / shipped / remaining story points</dt>
-            <dd>
-              @if (report.project; as project) {
-                {{ project.total }} / {{ project.shipped }} / {{ project.remaining }}.
-                {{ report.projectStatus }}; approved source observed {{ project.sourceObservedAt }}.
-              } @else {
-                Unavailable
+      <ol class="bm-reports__list">
+        @for (report of recentReports(data); track report.id) {
+          <li>
+            <details [attr.id]="'daily-report-' + report.date">
+              <summary>
+                <span class="bm-reports__date">{{ report.date }}</span>
+                <span class="bm-reports__summary">
+                  @if (report.project; as project) {
+                    <strong>{{ project.completion }}%</strong> estimated complete
+                  } @else {
+                    Project measurement unavailable
+                  }
+                </span>
+              </summary>
+              <div class="bm-reports__body">
+                <p>
+                  Observed {{ report.observedAt }}. Window starts {{ report.windowStart }}.
+                  {{
+                    report.previousId
+                      ? 'Compared with ' + report.previousId
+                      : 'First daily observation; comparison begins at approved T₀.'
+                  }}
+                </p>
+                <dl>
+                  <dt>Known / shipped / remaining story points</dt>
+                  <dd>
+                    @if (report.project; as project) {
+                      {{ project.total }} / {{ project.shipped }} / {{ project.remaining }}.
+                      {{ report.projectStatus }}; approved source observed
+                      {{ project.sourceObservedAt }}.
+                    } @else {
+                      Unavailable
+                    }
+                  </dd>
+                  <dt>Scope change since previous observation</dt>
+                  <dd>
+                    @if (report.scopeChange; as change) {
+                      {{ change.net }} net points; {{ change.added }} added /
+                      {{ change.removed }} removed / {{ change.reestimated }} re-estimated.
+                    } @else {
+                      Unavailable — no complete comparable scope evidence.
+                    }
+                  </dd>
+                  <dt>Jira completion cycles / currently open bug-labelled work</dt>
+                  <dd>
+                    {{ report.jira.completed ?? 'Unavailable' }} /
+                    {{ report.jira.openBugLabelled ?? 'Unavailable' }}. {{ report.jira.status }};
+                    {{ report.jira.fetchedAt ?? 'No current acquisition' }}. {{ report.jira.note }}
+                  </dd>
+                  <dt>Production deployments in observation window</dt>
+                  <dd>
+                    {{ report.deployments.count ?? 'Unavailable' }}.
+                    {{ report.deployments.status }};
+                    {{ report.deployments.fetchedAt ?? 'No current acquisition' }}.
+                    {{ report.deployments.note }}
+                  </dd>
+                  <dt>Production SHA / Worker release</dt>
+                  <dd>
+                    <code>{{ report.release.sha ?? 'Unavailable' }}</code> /
+                    <code>{{ report.release.workerVersion ?? 'Unavailable' }}</code>
+                  </dd>
+                </dl>
+                <a [href]="'/api/buildometer/reports/' + report.date"
+                  >Read {{ report.date }} report evidence</a
+                >
+              </div>
+            </details>
+          </li>
+        } @empty {
+          @if (data.dailyReportsStatus !== 'unavailable') {
+            <li class="bm-reports__empty">No daily report has been recorded yet.</li>
+          }
+        }
+      </ol>
+      @if (earlierReports(data); as earlier) {
+        @if (earlier.length) {
+          <details class="bm-reports__earlier">
+            <summary>Earlier reports ({{ earlier.length }})</summary>
+            <ol class="bm-reports__list">
+              @for (report of earlier; track report.id) {
+          <li>
+            <details [attr.id]="'daily-report-' + report.date">
+              <summary>
+                <span class="bm-reports__date">{{ report.date }}</span>
+                <span class="bm-reports__summary">
+                  @if (report.project; as project) {
+                    <strong>{{ project.completion }}%</strong> estimated complete
+                  } @else {
+                    Project measurement unavailable
+                  }
+                </span>
+              </summary>
+              <div class="bm-reports__body">
+                <p>
+                  Observed {{ report.observedAt }}. Window starts {{ report.windowStart }}.
+                  {{
+                    report.previousId
+                      ? 'Compared with ' + report.previousId
+                      : 'First daily observation; comparison begins at approved T₀.'
+                  }}
+                </p>
+                <dl>
+                  <dt>Known / shipped / remaining story points</dt>
+                  <dd>
+                    @if (report.project; as project) {
+                      {{ project.total }} / {{ project.shipped }} / {{ project.remaining }}.
+                      {{ report.projectStatus }}; approved source observed
+                      {{ project.sourceObservedAt }}.
+                    } @else {
+                      Unavailable
+                    }
+                  </dd>
+                  <dt>Scope change since previous observation</dt>
+                  <dd>
+                    @if (report.scopeChange; as change) {
+                      {{ change.net }} net points; {{ change.added }} added /
+                      {{ change.removed }} removed / {{ change.reestimated }} re-estimated.
+                    } @else {
+                      Unavailable — no complete comparable scope evidence.
+                    }
+                  </dd>
+                  <dt>Jira completion cycles / currently open bug-labelled work</dt>
+                  <dd>
+                    {{ report.jira.completed ?? 'Unavailable' }} /
+                    {{ report.jira.openBugLabelled ?? 'Unavailable' }}. {{ report.jira.status }};
+                    {{ report.jira.fetchedAt ?? 'No current acquisition' }}. {{ report.jira.note }}
+                  </dd>
+                  <dt>Production deployments in observation window</dt>
+                  <dd>
+                    {{ report.deployments.count ?? 'Unavailable' }}.
+                    {{ report.deployments.status }};
+                    {{ report.deployments.fetchedAt ?? 'No current acquisition' }}.
+                    {{ report.deployments.note }}
+                  </dd>
+                  <dt>Production SHA / Worker release</dt>
+                  <dd>
+                    <code>{{ report.release.sha ?? 'Unavailable' }}</code> /
+                    <code>{{ report.release.workerVersion ?? 'Unavailable' }}</code>
+                  </dd>
+                </dl>
+                <a [href]="'/api/buildometer/reports/' + report.date"
+                  >Read {{ report.date }} report evidence</a
+                >
+              </div>
+            </details>
+          </li>
               }
-            </dd>
-            <dt>Scope change since previous observation</dt>
-            <dd>
-              @if (report.scopeChange; as change) {
-                {{ change.net }} net points; {{ change.added }} added / {{ change.removed }} removed
-                / {{ change.reestimated }} re-estimated.
-              } @else {
-                Unavailable — no complete comparable scope evidence.
-              }
-            </dd>
-            <dt>Jira completion cycles / currently open bug-labelled work</dt>
-            <dd>
-              {{ report.jira.completed ?? 'Unavailable' }} /
-              {{ report.jira.openBugLabelled ?? 'Unavailable' }}. {{ report.jira.status }};
-              {{ report.jira.fetchedAt ?? 'No current acquisition' }}. {{ report.jira.note }}
-            </dd>
-            <dt>Production deployments in observation window</dt>
-            <dd>
-              {{ report.deployments.count ?? 'Unavailable' }}. {{ report.deployments.status }};
-              {{ report.deployments.fetchedAt ?? 'No current acquisition' }}.
-              {{ report.deployments.note }}
-            </dd>
-            <dt>Production SHA / Worker release</dt>
-            <dd>
-              <code>{{ report.release.sha ?? 'Unavailable' }}</code> /
-              <code>{{ report.release.workerVersion ?? 'Unavailable' }}</code>
-            </dd>
-          </dl>
-          <a [href]="'/api/buildometer/reports/' + report.date"
-            >Read {{ report.date }} report evidence</a
-          >
-        </details>
-      } @empty {
-        @if (data.dailyReportsStatus !== 'unavailable') {
-          <p>No daily report has been recorded yet.</p>
+            </ol>
+          </details>
         }
       }
-      <p>
+      <p class="bm-reports__more">
         Showing the latest 30 daily reports.
         <a href="/api/buildometer/reports">Read the complete retained archive</a>. No history before
         T₀ or historical velocity is manufactured.
       </p>
     </section>
-    <section class="activity">
-      <h2>Product Journal / receipts</h2>
-      @for (entry of data.journal.slice(0, 3); track entry.date) {
-        <article class="journal-entry">
-          <h3>
-            <a [routerLink]="['/product-journal', entry.date]">{{ entry.date }}</a>
-          </h3>
-          <p>Generated {{ entry.generatedDate }} / published {{ entry.publishedDate }}</p>
-          @for (section of entry.brief.sections.slice(0, 1); track section.heading) {
-            <h4>{{ section.heading }}</h4>
-            @if (section.paragraph) {
-              <p>{{ section.paragraph }}</p>
+
+    <section class="bm-journal" aria-labelledby="bm-journal-heading">
+      <h2 id="bm-journal-heading">Product Journal receipts</h2>
+      <ul class="showcase-tiles showcase-tiles--three">
+        @for (entry of data.journal.slice(0, 3); track entry.date) {
+          <li class="showcase-tile">
+            <h3>
+              <a [routerLink]="['/product-journal', entry.date]">{{ entry.date }}</a>
+            </h3>
+            @for (section of entry.brief.sections.slice(0, 1); track section.heading) {
+              <p class="bm-journal__heading">{{ section.heading }}</p>
+              @if (section.paragraph) {
+                <p>{{ section.paragraph }}</p>
+              }
+              @if (section.items) {
+                <ul class="bm-journal__items">
+                  @for (item of section.items; track $index) {
+                    <li>{{ item }}</li>
+                  }
+                </ul>
+              }
             }
-            @if (section.items) {
-              <ul>
-                @for (item of section.items; track $index) {
-                  <li>{{ item }}</li>
-                }
-              </ul>
-            }
-          }
-        </article>
-      } @empty {
-        <p>Journal receipts are unavailable.</p>
-      }
-      <a routerLink="/product-journal">Browse all journal entries</a>
+            <p class="showcase-source">
+              Generated {{ entry.generatedDate }} / published {{ entry.publishedDate }}
+            </p>
+          </li>
+        } @empty {
+          <li>Journal receipts are unavailable.</li>
+        }
+      </ul>
+      <p class="showcase-actions">
+        <a class="showcase-action" routerLink="/product-journal">Browse all journal entries</a>
+      </p>
     </section>
-    <section class="source-notes surface-inset">
-      <h2>Methodology / evidence boundaries</h2>
+
+    <section class="bm-method showcase-split" aria-labelledby="bm-method-heading">
+      <h2 id="bm-method-heading">Methodology and evidence boundaries</h2>
       <details>
         <summary>Project completion and committed scope</summary>
         <p>{{ data.metrics.completion.reason }}</p>
@@ -227,5 +337,13 @@
       </p>
     </section>
   }
-  <p><a routerLink="/">Back to the portfolio</a></p>
+  <nav class="bm-next showcase-band editorial-wide" aria-label="After the Buildometer">
+    <p class="bm-next__title">Every number here has a receipt.</p>
+    <div class="showcase-actions">
+      <a class="showcase-action showcase-action--primary" routerLink="/product-journal"
+        >Read the Product Journal</a
+      >
+      <a class="showcase-action" routerLink="/">Back to the portfolio</a>
+    </div>
+  </nav>
 </article>

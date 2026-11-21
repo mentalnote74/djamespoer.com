@@ -1,147 +1,219 @@
-<section aria-label="Buildometer project-health dashboard">
-  <div class="controls">
-    <label for="buildometer-skin">Instrument skin</label
-    ><select
-      id="buildometer-skin"
-      [value]="skin()?.id || 'night-driver'"
-      (change)="changeSkin($event)"
-    >
-      @for (option of skinOptions; track option.id) {
-        <option [value]="option.id">{{ option.label }}</option>
+<section class="bm" aria-label="Buildometer project-health dashboard">
+  <!-- 1. The headline: how far along the known project is. -->
+  <section class="bm-progress showcase-band showcase-band--hero" aria-labelledby="metric-completion">
+    <p class="showcase-kicker">Project progress</p>
+    <h2 class="bm-progress__label" id="metric-completion">Estimated project complete</h2>
+    <div class="bm-progress__body bm-metric" data-metric="completion" [attr.data-state]="headline().state">
+      <p class="bm-progress__figure">{{ headline().value }}</p>
+      <div class="bm-progress__meter" aria-hidden="true">
+        <i [style.inline-size.%]="headline().level ?? 0"></i>
+      </div>
+      <p class="showcase-band__lede">{{ headline().note }}</p>
+      @if (headline().progress; as progress) {
+        <app-progress-observation class="bm-progress__as-of" [progress]="progress" />
       }
-    </select>
-    @if (skinError()) {
-      <span role="status">Skin unavailable; values remain readable.</span>
+    </div>
+    @if (store.data()?.supportingFacts?.project; as project) {
+      <dl class="bm-progress__facts">
+        <div>
+          <dt>Known scope</dt>
+          <dd>{{ project.total }} story points</dd>
+        </div>
+        <div>
+          <dt>Shipped / remaining</dt>
+          <dd>{{ project.shipped }} / {{ project.remaining }}</dd>
+        </div>
+        <div>
+          <dt>Scope since T₀</dt>
+          <dd>
+            +{{ project.added }} added / {{ project.removed }} removed /
+            {{ project.reestimated }} re-estimated since
+            <time [attr.datetime]="project.t0">{{ formatTime(project.t0) }}</time>
+          </dd>
+        </div>
+        <div>
+          <dt>Ledger</dt>
+          <dd>
+            {{ project.observationCount }} observation(s), latest
+            <time [attr.datetime]="project.observedAt">{{ formatTime(project.observedAt) }}</time>
+          </dd>
+        </div>
+      </dl>
+      <p class="bm-progress__caveat">Future scope growth may lower estimated completion.</p>
     }
-  </div>
-  @if (store.error()) {
-    <p role="status">
-      Project data could not be loaded. Retained values, if shown, have not been refreshed.
-    </p>
-    <button type="button" (click)="store.load(true)" [disabled]="store.loading()">
-      Retry project data
-    </button>
-  }
-  @if (store.fetchedAt(); as fetchedAt) {
-    <p class="sample-note">
-      Last fetched <time [attr.datetime]="fetchedAt">{{ formatTime(fetchedAt) }}</time
-      >. Fetching does not change the progress observation.
-    </p>
-  }
-  <app-instrument-cluster [metrics]="metrics()" [skin]="skin()" />
-  @if (store.data(); as data) {
-    @if (data.supportingFacts.project; as project) {
-      <p class="sample-note">
-        Known project scope: <strong>{{ project.total }} story points</strong>;
-        {{ project.shipped }} shipped / {{ project.remaining }} remaining. T₀: {{ project.t0 }}.
-        Latest approved-ledger observation: {{ project.observedAt }}.
-        {{ project.observationCount }} ledger observation(s). Scope since T₀: +{{
-          project.added
-        }}
-        added / {{ project.removed }} removed / {{ project.reestimated }} re-estimated points.
-        Future scope growth may lower estimated completion.
+    @if (store.error()) {
+      <div class="bm-progress__error" role="status">
+        <p>Project data could not be loaded. Retained values, if shown, have not been refreshed.</p>
+        <button
+          type="button"
+          class="showcase-action"
+          (click)="store.load(true)"
+          [disabled]="store.loading()"
+        >
+          Retry project data
+        </button>
+      </div>
+    }
+    @if (store.fetchedAt(); as fetchedAt) {
+      <p class="bm-progress__fetched">
+        Last fetched <time [attr.datetime]="fetchedAt">{{ formatTime(fetchedAt) }}</time>.
+        Fetching does not change the progress observation.
       </p>
     }
-    <div class="freshness">
-      @for (source of ['jira', 'deployments']; track source) {
-        <p>
-          {{ source }}:
-          {{ source === 'jira' ? data.sources.jira.status : data.sources.deployments.status }} /
-          {{ source === 'jira' ? data.sources.jira.fetchedAt : data.sources.deployments.fetchedAt
-          }}<br />{{
-            source === 'jira' ? data.sources.jira.message : data.sources.deployments.message
-          }}
+  </section>
+
+  <!-- 2. At a glance: every other instrument, value first. -->
+  <section class="bm-glance" aria-labelledby="bm-glance-heading">
+    <h2 id="bm-glance-heading">At a glance</h2>
+    <ul class="bm-glance__list">
+      @for (metric of glance(); track metric.id) {
+        <li class="bm-metric" [attr.data-metric]="metric.id" [attr.data-state]="metric.state">
+          <h3 [id]="'metric-' + metric.id">{{ metric.label }}</h3>
+          <p class="bm-glance__value" [class.bm-glance__value--quiet]="metric.state !== 'ready'">
+            {{ metric.value }}
+          </p>
+          <p class="bm-glance__note">{{ metric.note }}</p>
+          <p class="bm-glance__state">
+            {{
+              metric.state === 'ready'
+                ? 'Source connected'
+                : metric.state === 'unavailable'
+                  ? 'Not measured'
+                  : metric.state
+            }}
+          </p>
+        </li>
+      }
+    </ul>
+    <p class="bm-glance__caption">No inferred health scores. Unmeasured instruments await evidence.</p>
+    @if (store.data(); as data) {
+      <ul class="bm-sources" aria-label="Source freshness">
+        <li [attr.data-status]="data.sources.jira.status">
+          <strong>Jira</strong>
+          <span class="bm-sources__status">{{ data.sources.jira.status }}</span>
+          <span class="bm-sources__date">{{ data.sources.jira.fetchedAt ?? 'No acquisition date' }}</span>
+          <span>{{ data.sources.jira.message }}</span>
+        </li>
+        <li [attr.data-status]="data.sources.deployments.status">
+          <strong>Deployments</strong>
+          <span class="bm-sources__status">{{ data.sources.deployments.status }}</span>
+          <span class="bm-sources__date">{{
+            data.sources.deployments.fetchedAt ?? 'No acquisition date'
+          }}</span>
+          <span>{{ data.sources.deployments.message }}</span>
+        </li>
+      </ul>
+    } @else if (store.loading()) {
+      <p role="status">Loading normalized project evidence...</p>
+    }
+  </section>
+
+  <!-- 3. Trends: the charts, each on its own tinted tile. -->
+  @if (store.data(); as data) {
+    <section class="bm-trends" aria-labelledby="bm-trends-heading">
+      <h2 id="bm-trends-heading">Trends</h2>
+      @if (data.supportingFacts.eventSummary; as sample) {
+        <p class="bm-trends__note">
+          Bug lifecycle sample:
+          <strong
+            >{{ sample.resolvedCycles ?? 'Unmeasured' }} resolved cycles across
+            {{ sample.resolvedBugItems ?? 'unknown' }} issues</strong
+          >. {{ sample.openCycles ?? 'Unknown' }} open cycles are excluded from the mean.
+          @if (sample.resolvedCycles !== null && sample.resolvedCycles < 5) {
+            <strong>Sparse sample: descriptive only, not a reliable project-health estimate.</strong>
+          }
         </p>
       }
-    </div>
-    @if (data.supportingFacts.eventSummary; as sample) {
-      <p class="sample-note">
-        Bug lifecycle sample:
-        <strong
-          >{{ sample.resolvedCycles ?? 'Unmeasured' }} resolved cycles across
-          {{ sample.resolvedBugItems ?? 'unknown' }} issues</strong
-        >. {{ sample.openCycles ?? 'Unknown' }} open cycles are excluded from the mean.
-        @if (sample.resolvedCycles !== null && sample.resolvedCycles < 5) {
-          <strong>Sparse sample: descriptive only, not a reliable project-health estimate.</strong>
+      <ul class="bm-trends__list showcase-tiles">
+        <li class="showcase-tile bm-trends__wide">
+          <app-metric-chart
+            title="Burndown"
+            kind="line"
+            unit="remaining story points"
+            [points]="data.series.burndown"
+            [description]="data.metrics.burndown.reason || data.supportingFacts.scope"
+          />
+        </li>
+        <li class="showcase-tile">
+          <app-metric-chart
+            title="Jira-recorded throughput"
+            unit="completion cycles"
+            [points]="data.series.throughput"
+            [description]="
+              data.metrics.throughput.reason ||
+              'Historical non-Done to Done events, regardless of current status. A further completion requires an evidenced reopen. Seven-day headline; 14 exact 24-hour buckets ending at source time.'
+            "
+          />
+        </li>
+        <li class="showcase-tile">
+          <app-metric-chart
+            title="Production shipping"
+            unit="activations"
+            [points]="data.series.deployments"
+            [description]="
+              'Daily retained activations ending at ' + data.supportingFacts.shippingCheckedAt
+            "
+          />
+        </li>
+        <li class="showcase-tile">
+          <app-metric-chart
+            title="Bug classification / elimination"
+            unit="new classifications"
+            [points]="data.series.bugCreated"
+            [comparison]="data.series.bugEliminated"
+            compareLabel="completed bug cycles"
+            [description]="
+              data.metrics.bugCreated.reason ||
+              'Ever-classified bug cohort, including removed labels/types. First classification is counted once; later completed cycles require an evidenced reopen. Not real-world detection time.'
+            "
+          />
+        </li>
+        <li class="showcase-tile">
+          <app-metric-chart
+            title="Open historically classified bugs"
+            kind="line"
+            unit="open items"
+            [points]="data.series.bugOpen"
+            [description]="
+              data.metrics.bugCreated.reason ||
+              'After first evidenced bug classification, label/type removal does not erase history or open cycles.'
+            "
+          />
+        </li>
+        <li class="showcase-tile">
+          <app-metric-chart
+            [title]="
+              'Resolved bug cycles (n=' +
+              (data.supportingFacts.eventSummary?.resolvedCycles ?? 'unknown') +
+              ')'
+            "
+            unit="hours"
+            [points]="data.series.bugLifecycle"
+            [description]="data.metrics.bugDuration.reason || data.metrics.bugDuration.unit"
+          />
+        </li>
+        @if (data.series.scope.length) {
+          <li class="showcase-tile">
+            <app-metric-chart
+              title="Known project scope"
+              kind="line"
+              unit="story points"
+              [points]="data.series.scope"
+              [description]="data.supportingFacts.scope"
+            />
+          </li>
         }
-      </p>
-    }
-    <div class="charts">
-      <app-metric-chart
-        class="burn"
-        title="Burndown"
-        kind="line"
-        unit="remaining story points"
-        [points]="data.series.burndown"
-        [description]="data.metrics.burndown.reason || data.supportingFacts.scope"
-      />
-      <app-metric-chart
-        title="Jira-recorded throughput"
-        unit="completion cycles"
-        [points]="data.series.throughput"
-        [description]="
-          data.metrics.throughput.reason ||
-          'Historical non-Done to Done events, regardless of current status. A further completion requires an evidenced reopen. Seven-day headline; 14 exact 24-hour buckets ending at source time.'
-        "
-      />
-      <app-metric-chart
-        title="Production shipping"
-        unit="activations"
-        [points]="data.series.deployments"
-        [description]="
-          'Daily retained activations ending at ' + data.supportingFacts.shippingCheckedAt
-        "
-      />
-      <app-metric-chart
-        title="Bug classification / elimination"
-        unit="new classifications"
-        [points]="data.series.bugCreated"
-        [comparison]="data.series.bugEliminated"
-        compareLabel="completed bug cycles"
-        [description]="
-          data.metrics.bugCreated.reason ||
-          'Ever-classified bug cohort, including removed labels/types. First classification is counted once; later completed cycles require an evidenced reopen. Not real-world detection time.'
-        "
-      />
-      <app-metric-chart
-        title="Open historically classified bugs"
-        kind="line"
-        unit="open items"
-        [points]="data.series.bugOpen"
-        [description]="
-          data.metrics.bugCreated.reason ||
-          'After first evidenced bug classification, label/type removal does not erase history or open cycles.'
-        "
-      />
-      <app-metric-chart
-        [title]="
-          'Resolved bug cycles (n=' +
-          (data.supportingFacts.eventSummary?.resolvedCycles ?? 'unknown') +
-          ')'
-        "
-        unit="hours"
-        [points]="data.series.bugLifecycle"
-        [description]="data.metrics.bugDuration.reason || data.metrics.bugDuration.unit"
-      />
-      @if (data.series.scope.length) {
-        <app-metric-chart
-          title="Known project scope"
-          kind="line"
-          unit="story points"
-          [points]="data.series.scope"
-          [description]="data.supportingFacts.scope"
-        />
-      }
-      @if (data.series.velocity.length) {
-        <app-metric-chart
-          title="Velocity"
-          unit="points"
-          [points]="data.series.velocity"
-          [description]="data.metrics.velocity.unit"
-        />
-      }
-    </div>
-  } @else if (store.loading()) {
-    <p role="status">Loading normalized project evidence...</p>
+        @if (data.series.velocity.length) {
+          <li class="showcase-tile">
+            <app-metric-chart
+              title="Velocity"
+              unit="points"
+              [points]="data.series.velocity"
+              [description]="data.metrics.velocity.unit"
+            />
+          </li>
+        }
+      </ul>
+    </section>
   }
 </section>

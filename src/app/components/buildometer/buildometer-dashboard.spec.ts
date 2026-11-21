@@ -5,7 +5,7 @@ import { BuildometerDashboard } from './buildometer-dashboard';
 import { BuildometerDataStore } from './data/buildometer-data';
 import { InstrumentCluster } from './instrument-cluster';
 describe('portable Buildometer Dashboard', () => {
-  it('mounts without the Buildometer Page or router and shares one data request across skin changes', async () => {
+  it('mounts without the Buildometer Page or router with one data request and every instrument', async () => {
     const load = vi.fn().mockResolvedValue(undefined);
     const store = { fetchedAt: signal(null), data: signal(null), loading: signal(false), error: signal(false), load };
     TestBed.configureTestingModule({
@@ -15,11 +15,10 @@ describe('portable Buildometer Dashboard', () => {
     const f = TestBed.createComponent(BuildometerDashboard);
     f.detectChanges();
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('.instrument').length).toBe(7);
+    expect(f.nativeElement.querySelectorAll('.bm-metric').length).toBe(7);
+    expect(f.nativeElement.querySelector('#metric-completion')).not.toBeNull();
     expect(f.nativeElement.querySelector('#metric-stories')).toBeNull();
-    expect(load).toHaveBeenCalledTimes(1);
-    await f.componentInstance.selectSkin('workshop');
-    f.detectChanges();
+    expect(f.nativeElement.querySelector('select')).toBeNull();
     expect(load).toHaveBeenCalledTimes(1);
     f.destroy();
     TestBed.resetTestingModule();
