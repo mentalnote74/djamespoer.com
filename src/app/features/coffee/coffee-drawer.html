@@ -30,6 +30,15 @@
       }
     </ng-template>
 
+    <!-- One set of three choices, each running immediately. -->
+    <ng-template #choiceButtons>
+      <div class="coffee-choice__options">
+        @for (choice of choices(); track choice.id) {
+          <button type="button" (click)="choose(choice.id)">{{ choice.label }}</button>
+        }
+      </div>
+    </ng-template>
+
     @if (phase() === 'result' && result(); as outcome) {
       <h2 #heading id="coffee-heading" tabindex="-1">{{ verdictHeading() }}</h2>
       @if (outcome.mode === 'challenge') {
@@ -161,25 +170,11 @@
           {{ outcome.mode === 'solo' ? 'Got a site? Challenge me' : 'Try another site' }}
         </button>
       </div>
-      <!-- SCRUM-218: rerun the same scan with a chosen test set. -->
-      <fieldset class="coffee-retest">
-        <legend><strong>Run again</strong></legend>
-        <div class="coffee-retest__options">
-          @for (option of retestOptions; track option.id) {
-            <label>
-              <input
-                type="radio"
-                name="coffee-retest"
-                [value]="option.id"
-                [checked]="retestChoice() === option.id"
-                (change)="retestChoice.set(option.id)"
-              />
-              {{ option.label }}
-            </label>
-          }
-        </div>
-        <button type="button" (click)="runAgain()">Run again</button>
-      </fieldset>
+      <!-- SCRUM-218 v2: Run again is the same three-button prompt, with no default. -->
+      <section class="coffee-choice" aria-labelledby="coffee-retest-heading">
+        <h3 id="coffee-retest-heading">Run again: which test?</h3>
+        <ng-container *ngTemplateOutlet="choiceButtons" />
+      </section>
     } @else {
       <!-- autofocus: the dialog's own focusing steps land on the heading, not the Close button. -->
       <h2 #heading id="coffee-heading" tabindex="-1" autofocus>Let's grab a coffee.</h2>
@@ -211,10 +206,18 @@
             <strong>That doesn't look like a public website address. Try something like yoursite.com.</strong>
           </p>
         }
-        @if (phase() !== 'scanning') {
+        @if (phase() !== 'scanning' && phase() !== 'choose') {
           <button class="coffee-form__submit" type="submit">Who's buying?</button>
         }
       </form>
+      @if (phase() === 'choose') {
+        <!-- Unknown connection: ask instead of guessing. -->
+        <section class="coffee-choice" aria-labelledby="coffee-choice-heading">
+          <h3 #choiceHeading id="coffee-choice-heading" tabindex="-1">Which Lighthouse test?</h3>
+          <p>Your browser doesn't share its connection type, so pick one.</p>
+          <ng-container *ngTemplateOutlet="choiceButtons" />
+        </section>
+      }
       @if (phase() === 'scanning' && !result()) {
         <div class="coffee-brewing">
           <svg class="coffee-brewing__cup" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
@@ -235,7 +238,7 @@
           </p>
           <button type="button" (click)="cancel()">Cancel</button>
         </div>
-      } @else {
+      } @else if (phase() !== 'choose') {
         <div class="coffee-solo">
           <p class="coffee-solo__or">or</p>
           <p><strong>No website? No problem.</strong></p>

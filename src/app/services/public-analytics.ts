@@ -40,6 +40,8 @@ interface LinkContext {
 }
 
 type CoffeeTestSet = 'mobile' | 'desktop' | 'all';
+/** SCRUM-218 v2: chosen from the visitor's connection, or by the visitor in the prompt. */
+type TestSource = 'connection' | 'prompt';
 export type CoffeeScoreParameter = `${'visitor' | 'james'}_${'mobile' | 'desktop'}_${
   'performance' | 'accessibility' | 'best_practices' | 'seo'
 }`;
@@ -102,14 +104,19 @@ export interface EventParameters {
   case_study_view: Common & { employer: Employer };
   /** SCRUM-47 Lighthouse coffee challenge. `site_host` is a hostname only, never a path or query. */
   coffee_open: Common;
-  coffee_submitted: Common & { site_host: string; test_set: CoffeeTestSet };
-  coffee_solo_scan: Common & { trigger: 'button' | 'own_url'; test_set: CoffeeTestSet };
+  coffee_submitted: Common & { site_host: string; test_set: CoffeeTestSet; test_source: TestSource };
+  coffee_solo_scan: Common & {
+    trigger: 'button' | 'own_url';
+    test_set: CoffeeTestSet;
+    test_source: TestSource;
+  };
   /** SCRUM-218: the visitor reran with a chosen test set. */
   coffee_retest: Common & { test_set: CoffeeTestSet };
   /** SCRUM-216: head-to-head tally and every category score per test. Never an average. */
   coffee_result: Common & {
     verdict: 'visitor_buys' | 'james_buys' | 'tie' | 'solo';
     test_set: CoffeeTestSet;
+    test_source: TestSource;
     site_host?: string;
     matchups_won_visitor?: number;
     matchups_won_james?: number;

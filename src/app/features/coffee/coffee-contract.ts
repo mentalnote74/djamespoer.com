@@ -165,3 +165,20 @@ export type ScoreBand = 'Poor' | 'Needs work' | 'Good';
 export function scoreBand(score: number): ScoreBand {
   return score >= 90 ? 'Good' : score >= 50 ? 'Needs work' : 'Poor';
 }
+
+/**
+ * SCRUM-218 v2: pick the first test from the visitor's connection, not their device.
+ * Reads the Network Information API shape. Returns null when the browser doesn't say
+ * (Safari, Firefox, every iPhone), so the caller asks instead of guessing.
+ */
+export function connectionTest(connection: unknown): CoffeeStrategy | null {
+  if (!connection || typeof connection !== 'object') return null;
+  const c = connection as { type?: unknown; effectiveType?: unknown; saveData?: unknown };
+  if (c.saveData === true) return 'mobile';
+  if (c.type === 'cellular') return 'mobile';
+  if (c.type === 'wifi' || c.type === 'ethernet') return 'desktop';
+  if (c.effectiveType === 'slow-2g' || c.effectiveType === '2g' || c.effectiveType === '3g')
+    return 'mobile';
+  if (c.effectiveType === '4g') return 'desktop';
+  return null;
+}

@@ -93,6 +93,7 @@ describe('SCRUM-47/216 coffee challenge analytics boundary', () => {
     site_host: 'acme-widgets.com',
     verdict: 'visitor_buys',
     test_set: 'all',
+    test_source: 'prompt',
     matchups_won_visitor: 0,
     matchups_won_james: 7,
     matchups_tied: 1,
@@ -109,19 +110,25 @@ describe('SCRUM-47/216 coffee challenge analytics boundary', () => {
   it('refuses a full URL, a path, an out-of-range score or tally', () => {
     for (const site_host of ['https://acme.com', 'acme.com/pricing', 'acme.com?q=1', 'acme'])
       expect(
-        publicEventParameters('coffee_submitted', { location: 'coffee-drawer', site_host, test_set: 'mobile' }, publicPath),
+        publicEventParameters('coffee_submitted', { location: 'coffee-drawer', site_host, test_set: 'mobile', test_source: 'connection' }, publicPath),
       ).toBeNull();
     expect(publicEventParameters('coffee_result', { ...result, james_desktop_seo: 101 }, publicPath)).toBeNull();
     expect(publicEventParameters('coffee_result', { ...result, matchups_tied: 9 }, publicPath)).toBeNull();
   });
   it('a solo result carries scores but no host and no tally', () => {
-    const solo = { location: 'coffee-drawer', verdict: 'solo', test_set: 'mobile', james_mobile_performance: 87 };
+    const solo = {
+      location: 'coffee-drawer',
+      verdict: 'solo',
+      test_set: 'mobile',
+      test_source: 'connection',
+      james_mobile_performance: 87,
+    };
     expect(publicEventParameters('coffee_result', solo, publicPath)).toEqual(solo);
     expect(publicEventParameters('coffee_result', { ...solo, matchups_tied: 0 }, publicPath)).toBeNull();
     expect(publicEventParameters('coffee_result', { ...solo, site_host: 'acme.com' }, publicPath)).toBeNull();
     expect(
-      publicEventParameters('coffee_solo_scan', { location: 'coffee-drawer', trigger: 'own_url', test_set: 'desktop' }, publicPath),
-    ).toEqual({ location: 'coffee-drawer', trigger: 'own_url', test_set: 'desktop' });
+      publicEventParameters('coffee_solo_scan', { location: 'coffee-drawer', trigger: 'own_url', test_set: 'desktop', test_source: 'prompt' }, publicPath),
+    ).toEqual({ location: 'coffee-drawer', trigger: 'own_url', test_set: 'desktop', test_source: 'prompt' });
     expect(
       publicEventParameters('coffee_retest', { location: 'coffee-drawer', test_set: 'tablet' }, publicPath),
     ).toBeNull();

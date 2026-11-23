@@ -19,27 +19,26 @@ import {
   COFFEE_STRATEGIES,
   coffeeTally,
   coffeeVerdict,
+  connectionTest,
   isSelfHost,
   normalizeSiteUrl,
   scoreBand,
   testsFor,
   type CoffeeErrorType,
-  type CoffeeStrategy,
   type CoffeeTestSet,
   type CoffeeResponse,
   type CoffeeSite,
   type ScoreBand,
 } from './coffee-contract';
 
-type Phase = 'idle' | 'scanning' | 'result' | 'error';
+type Phase = 'idle' | 'choose' | 'scanning' | 'result' | 'error';
+type TestSource = 'connection' | 'prompt';
 type Side = 'visitor' | 'james';
 /** One table cell: a score with its band and matchup mark, or null when that test failed. */
 type ScoreCell = { value: number; band: ScoreBand; mark: 'won' | 'tie' | null } | null;
 // SCRUM-218: no cutoff; we wait for Google. This only stops a spinner that would never end.
 const CLIENT_SAFETY_MS = 300000;
 const STILL_BREWING_AFTER = 30;
-/** Phones get the mobile test; tablets, laptops and desktops get the desktop test. */
-const PHONE = '(pointer: coarse) and (max-width: 48rem)';
 const ERROR_COPY: Record<Exclude<CoffeeErrorType, 'invalid_url' | 'self_failed'>, string> = {
   unreachable:
     "Lighthouse couldn't load that site. Check the address. Some sites block automated tests.",
@@ -69,6 +68,7 @@ export class CoffeeDrawer {
   private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private readonly heading = viewChild<ElementRef<HTMLElement>>('heading');
   private readonly field = viewChild<ElementRef<HTMLInputElement>>('field');
+  private readonly choiceHeading = viewChild<ElementRef<HTMLElement>>('choiceHeading');
   private readonly errorMessage = viewChild<ElementRef<HTMLElement>>('errorMessage');
 
   /** The tests the shown result ran, in display order. */
@@ -77,12 +77,17 @@ export class CoffeeDrawer {
   );
   readonly elapsed = signal(0);
   readonly scanning = signal<CoffeeTestSet>('desktop');
-  readonly retestChoice = signal<CoffeeTestSet>('all');
-  readonly retestOptions: readonly { id: CoffeeTestSet; label: string }[] = [
-    { id: 'mobile', label: 'Mobile' },
-    { id: 'desktop', label: 'Desktop' },
-    { id: 'all', label: 'All four' },
-  ];
+  readonly source = signal<TestSource>('connection');
+  /** The three choices, with honest PSI-test counts: a challenge tests two sites. */
+  readonly choices = computed(() => {
+    const sites = this.solo() ? 1 : 2;
+    const tests = (n: number) => n + (n === 1 ? ' test' : ' tests');
+    return [
+      { id: 'mobile' as const, label: `Mobile (${tests(sites)})` },
+      { id: 'desktop' as const, label: `Desktop (${tests(sites)})` },
+      { id: 'all' as const, label: `All four (${tests(sites * 2)})` },
+    ];
+  });
   readonly clock = computed(() => {
     const s = this.elapsed();
     return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
@@ -164,6 +169,7 @@ export class CoffeeDrawer {
   );
   private host = '';
   private target: { url: string } | { mode: 'solo' } | null = null;
+  private trigger: 'button' | 'own_url' = 'button';
   private controller: AbortController | null = null;
   private canceled = false;
   private ticker: ReturnType<typeof setInterval> | undefined;
@@ -208,13 +214,8 @@ export class CoffeeDrawer {
     if (isSelfHost(site.host)) return this.scanSolo('own_url');
     this.host = site.host;
     this.solo.set(false);
-    const set = this.deviceTest();
-    this.analytics.track('coffee_submitted', {
-      location: 'coffee-drawer',
-      site_host: this.host,
-      test_set: set,
-    });
-    void this.scan({ url: site.url }, set);
+    this.target = { url: site.url };
+    this.begin();
   }
 
   scanSolo(trigger: 'button' | 'own_url' = 'button'): void {
@@ -222,17 +223,50 @@ export class CoffeeDrawer {
     this.invalid.set(false);
     this.host = '';
     this.solo.set(true);
-    const set = this.deviceTest();
-    this.analytics.track('coffee_solo_scan', { location: 'coffee-drawer', trigger, test_set: set });
-    void this.scan({ mode: 'solo' }, set);
+    this.target = { mode: 'solo' };
+    this.trigger = trigger;
+    this.begin();
   }
 
-  /** SCRUM-218: rerun the same site, or the solo scan, with the chosen tests. */
-  runAgain(): void {
+  /** The visitor picked a test in the prompt: before the first scan, or to run again. */
+  choose(set: CoffeeTestSet): void {
     if (!this.target || this.phase() === 'scanning') return;
-    const set = this.retestChoice();
-    this.analytics.track('coffee_retest', { location: 'coffee-drawer', test_set: set });
-    void this.scan(this.target, set);
+    if (this.phase() === 'result') {
+      this.analytics.track('coffee_retest', { location: 'coffee-drawer', test_set: set });
+      this.source.set('prompt');
+      void this.scan(this.target, set);
+    } else this.start(set, 'prompt');
+  }
+
+  /** SCRUM-218 v2: the connection picks the first test; unknown means ask, never guess. */
+  private begin(): void {
+    const set = connectionTest(
+      (this.document.defaultView?.navigator as { connection?: unknown } | undefined)?.connection,
+    );
+    if (set) return this.start(set, 'connection');
+    this.error.set(null);
+    this.phase.set('choose');
+    this.announcement.set("Your browser doesn't share its connection type. Choose a Lighthouse test.");
+    this.focusAfterRender(() => this.choiceHeading());
+  }
+
+  private start(set: CoffeeTestSet, source: TestSource): void {
+    this.source.set(source);
+    if (this.solo())
+      this.analytics.track('coffee_solo_scan', {
+        location: 'coffee-drawer',
+        trigger: this.trigger,
+        test_set: set,
+        test_source: source,
+      });
+    else
+      this.analytics.track('coffee_submitted', {
+        location: 'coffee-drawer',
+        site_host: this.host,
+        test_set: set,
+        test_source: source,
+      });
+    void this.scan(this.target!, set);
   }
 
   retry(event: Event): void {
@@ -241,10 +275,6 @@ export class CoffeeDrawer {
     else this.submit(event);
   }
 
-  /** Data choice, not presentation: it decides which Lighthouse test to request. */
-  private deviceTest(): CoffeeStrategy {
-    return this.document.defaultView?.matchMedia?.(PHONE).matches ? 'mobile' : 'desktop';
-  }
 
   cancel(): void {
     this.canceled = true;
@@ -316,8 +346,6 @@ export class CoffeeDrawer {
     }
     if (typeof outcome === 'string') return this.fail(outcome);
     this.result.set(outcome);
-    // Offer the test that hasn't run yet; after all four, offer all four again.
-    this.retestChoice.set(set === 'all' ? 'all' : set === 'mobile' ? 'desktop' : 'mobile');
     this.phase.set('result');
     this.report(outcome);
     this.focusAfterRender(() => this.heading());
@@ -341,6 +369,7 @@ export class CoffeeDrawer {
         location: 'coffee-drawer',
         verdict,
         test_set: this.scanning(),
+        test_source: this.source(),
         ...scores,
       });
     } else if (verdict === 'no_verdict') {
@@ -359,6 +388,7 @@ export class CoffeeDrawer {
         location: 'coffee-drawer',
         verdict,
         test_set: this.scanning(),
+        test_source: this.source(),
         site_host: this.host,
         matchups_won_visitor: t.visitor,
         matchups_won_james: t.james,
