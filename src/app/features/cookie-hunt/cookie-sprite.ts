@@ -16,7 +16,7 @@ import { Component, input } from '@angular/core';
       display: block;
       inline-size: 40px;
       block-size: 40px;
-      background-image: url('/assets/rigby/cookies.webp');
+      background-image: url('/assets/rigby/cookies-789adb9600.webp');
       background-size: 160px 160px;
       image-rendering: pixelated;
     }
