@@ -22,20 +22,12 @@ export interface CoffeeEnv {
 }
 export interface CoffeeDeps {
   fetch: typeof fetch;
-  cache: Pick<Cache, 'match' | 'put'> | null;
   timeoutMs: number;
 }
 
 const PSI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
-const VISITOR_TTL = 1800;
-const SELF_TTL = 600;
-// SCRUM-217: PSI's runs of djamespoer.com take 30-125 s and sometimes fail (500 "Something
-// went wrong", 524 gateway timeout). Our own columns must still show real scores, so every
-// success is also kept as a last-good copy, served (with its real test time) when a fresh run
-// fails.
-const SELF_LAST_GOOD_TTL = 7 * 86400;
-// Retry a failed self run once only when it failed fast; a slow failure already used the wait.
-const SELF_RETRY_WITHIN_MS = 70000;
+// [Larry] SCRUM-215: each matchup runs fresh, once per site, with the same PSI settings.
+// No independently aged cache entries, self-only retry or historical fallback in a verdict.
 type ScanError = Exclude<CoffeeErrorType, 'self_failed' | 'invalid_url' | 'rate_limited'>;
 const STATUS: Record<CoffeeErrorType, number> = {
   invalid_url: 400,
@@ -106,7 +98,7 @@ async function runPsi(
   env: CoffeeEnv,
   deps: CoffeeDeps,
 ): Promise<CoffeeTest> {
-  const query = new URLSearchParams({ url, strategy });
+  const query = new URLSearchParams({ url, strategy, locale: 'en-US' });
   for (const category of COFFEE_CATEGORIES) query.append('category', category.psi);
   if (env.PAGESPEED_API_KEY) query.set('key', env.PAGESPEED_API_KEY);
   const started = Date.now();
@@ -147,7 +139,15 @@ async function runPsi(
   const body = await response.json().catch(() => null);
   try {
     const parsed = parsePsi(body, url, strategy);
-    log({ outcome: 'ok', scores: parsed.scores });
+    const result = (body as { lighthouseResult?: Record<string, unknown> }).lighthouseResult;
+    // Preserve diagnostic context in Worker logs, not GA or the public response.
+    log({
+      outcome: 'ok', scores: parsed.scores, fetchedAt: parsed.fetchedAt,
+      lighthouseVersion: result?.['lighthouseVersion'],
+      configSettings: result?.['configSettings'],
+      environment: result?.['environment'],
+      runWarnings: result?.['runWarnings'],
+    });
     return parsed;
   } catch (error) {
     const result = (body as { lighthouseResult?: Record<string, unknown> } | null)
@@ -165,72 +165,15 @@ async function runPsi(
   }
 }
 
-/** Serve one test from the edge cache, or run PSI and keep the result. The key names the test. */
-async function score(
-  url: string,
-  strategy: CoffeeStrategy,
-  ttl: number,
-  env: CoffeeEnv,
-  deps: CoffeeDeps,
-): Promise<CoffeeTest> {
-  const key = new Request(
-    'https://coffee-cache.djamespoer.com/v2/' + strategy + '?u=' + encodeURIComponent(url),
-  );
-  const hit = await deps.cache?.match(key).catch(() => undefined);
-  if (hit) {
-    try {
-      const cached = (await hit.json()) as CoffeeTest;
-      logPsi({ url, strategy, outcome: 'cache_hit', fetchedAt: cached.fetchedAt });
-      return cached;
-    } catch {
-      /* A damaged entry is replaced by a fresh run. */
-    }
-  }
-  const self = url === COFFEE_SELF_URL;
-  const lastGood = new Request(
-    'https://coffee-cache.djamespoer.com/v2-last-good/' + strategy + '?u=' + encodeURIComponent(url),
-  );
-  let fresh: CoffeeTest;
-  try {
-    const started = Date.now();
-    try {
-      fresh = await runPsi(url, strategy, env, deps);
-    } catch (error) {
-      if (!self || Date.now() - started > SELF_RETRY_WITHIN_MS) throw error;
-      logPsi({ url, strategy, outcome: 'retry' });
-      fresh = await runPsi(url, strategy, env, deps);
-    }
-  } catch (error) {
-    if (self) {
-      const kept = await deps.cache?.match(lastGood).catch(() => undefined);
-      if (kept) {
-        const test = (await kept.json().catch(() => null)) as CoffeeTest | null;
-        if (test) {
-          logPsi({ url, strategy, outcome: 'last_good', fetchedAt: test.fetchedAt });
-          return test;
-        }
-      }
-    }
-    throw error;
-  }
-  const store = (request: Request, maxAge: number) =>
-    deps.cache
-      ?.put(request, Response.json(fresh, { headers: { 'Cache-Control': 'public, max-age=' + maxAge } }))
-      .catch(() => {});
-  await Promise.all([store(key, ttl), self ? store(lastGood, SELF_LAST_GOOD_TTL) : undefined]);
-  return fresh;
-}
-
 /** The requested tests in parallel. A failed or unrequested test is null; all failing throws. */
 async function scanSite(
   url: string,
   host: string,
-  ttl: number,
   tests: CoffeeStrategy[],
   env: CoffeeEnv,
   deps: CoffeeDeps,
 ): Promise<CoffeeSite> {
-  const runs = await Promise.allSettled(tests.map((test) => score(url, test, ttl, env, deps)));
+  const runs = await Promise.allSettled(tests.map((test) => runPsi(url, test, env, deps)));
   const result = (test: CoffeeStrategy): CoffeeTest | null => {
     const run = runs[tests.indexOf(test)];
     return run?.status === 'fulfilled' ? run.value : null;
@@ -252,7 +195,6 @@ export async function handleCoffee(
   env: CoffeeEnv,
   deps: CoffeeDeps = {
     fetch: (input, init) => fetch(input, init),
-    cache: typeof caches === 'undefined' ? null : (caches as unknown as { default: Cache }).default,
     // SCRUM-218: wait for Google. PSI's own API ceiling is 120 s; this only guards a hung socket.
     timeoutMs: 130000,
   },
@@ -291,7 +233,7 @@ export async function handleCoffee(
     }));
     if (!success) return failure('rate_limited', mode, tests);
   }
-  const self = scanSite(COFFEE_SELF_URL, 'djamespoer.com', SELF_TTL, tests, env, deps);
+  const self = scanSite(COFFEE_SELF_URL, 'djamespoer.com', tests, env, deps);
   if (solo) {
     try {
       return reply({ mode, tests, visitor: null, james: await self });
@@ -301,7 +243,7 @@ export async function handleCoffee(
   }
   const target = site as { ok: true; url: string; host: string };
   const [visitor, james] = await Promise.allSettled([
-    scanSite(target.url, target.host, VISITOR_TTL, tests, env, deps),
+    scanSite(target.url, target.host, tests, env, deps),
     self,
   ]);
   if (visitor.status === 'rejected')
