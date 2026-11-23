@@ -1,61 +1,62 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-11-22",
+  "date": "2026-11-23",
   "sections": [
     {
       "heading": "Buildometer reconciliation (system receipt)",
       "paragraphs": [
-        "Approved djamespoer.com ledger only: 219 shipped / 477 total; 258 remaining (45.9%).",
-        "Progress observed at 2026-11-12T19:36:45.693Z. Last checked 2026-11-22T15:01:17.518Z. Status: pending. Pending approval/release reconciliation; last approved numbers retained. No new shipped credit inferred from Jira Done."
+        "djamespoer.com known scope (Jira SCRUM): 463 shipped / 759 total; 296 remaining (61%).",
+        "Progress observed at 2026-11-23T01:42:04.436Z. Last checked 2026-11-23T15:01:16.612Z. Status: checked. Recalculated from Jira; no change since the last observation."
       ]
     },
     {
-      "heading": "Recently shipped",
+      "heading": "Material change — daily progress accounting",
       "paragraphs": [
-        "The Buildometer dashboard now presents progress first, followed by summary metrics, trends and supporting evidence. The redesign replaces the cockpit and skin picker while retaining measured values, charts, tables, source freshness, reports, journal receipts and methodology. A follow-up makes all seven chart labels readable on phones: a recorded live check at 375px found approximately 14px labels without clipping. Production matches main at release 2026.11.21-5.",
-        "A cross-site defect that pulled the Shady White Van case study down the page on load was fixed in the embedded van site. Its scene had scrolled ancestor pages while positioning itself; the correction confines scrolling to its own document. The live case study was verified to remain at the top with the van framed, and the van site now reports release 2026.11.21-1.",
-        "Shared scene presentation also advanced across case studies, the blog and articles, Buildometer and perspective pages. Shady White Van and Creative Town case studies now open with their homepage scenes; Creative Town’s live embed moved into the story. The work improves continuity between project discovery and the supporting evidence."
+        "Buildometer now recalculates from Jira inside the existing editorial publication path instead of repeatedly retaining the November 12 snapshot. The release expanded recorded scope from 98 to 156 members and was exercised through successful manual publisher runs. Production and main agree at release 2026.11.22-6.",
+        "The live reading is now 463 of 759 points, 61%, with 296 remaining, observed November 22 at 8:42:04 PM Eastern. Compared with the prior 219/477 snapshot, this adds 282 known-scope points and 244 credited points. That is a scope expansion and retrospective status reconciliation, not 244 points of newly delivered product work in one day. Historical observations remain available."
       ]
     },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "Claude recorded 469 passing local tests and successful CI for the dashboard and case-study work. The latest site revision has successful test, release-tag and Cloudflare build checks. Dashboard live checks preserved seven metrics, seven charts and the report history without horizontal overflow. The van deployment separately verified 25 live files, and a cross-origin reproduction demonstrated that the scroll fix eliminated the parent-page jump.",
-        "Verification remains bounded: no axe audit was recorded for these releases, dashboard dark mode was not checked, and the phone-label follow-up was not rechecked on desktop. The Buildometer slide and hero still need the owner-requested rework. Yesterday’s editorial publication succeeded through the existing pipeline; no new protected-product acceptance receipt appeared in the current Jira update window."
+        "Claude recorded estimating the newer backlog and auditing 79 open counted tickets against main and Jira release receipts. Several already deployed capabilities and the recent About, case-study and dashboard releases were moved to Done. The first recalculation produced 347/759; subsequent audits and status changes raised the published value to 463/759.",
+        "The implementation passed 15 brief checks, 38 server/reconciliation checks and 21 dashboard checks, with successful CI on the merged change and a successful current production build. Yesterday’s later publication runs completed through the existing pipeline.",
+        "An accounting limitation remains explicit: the new engine assigns shipped credit from Jira’s Done category and preserves prior credit. That differs from the earlier requirement for independently verified delivery evidence. The audit supports specific closures but does not make Done a universal deployment receipt. Jira closure of the broader reconciliation story also does not establish complete cross-program coverage. No new provider-dependent Thingamajob transaction or accessibility audit is established by those status changes."
       ]
     },
     {
-      "heading": "Reconciliation status — partial portfolio coverage",
+      "heading": "Reconciliation status and coverage",
       "paragraphs": [
-        "At 8:57:11 AM Eastern, today’s read-only check recalculated the approved DJP ledger with the canonical projector, then checked all 98 approved members against current Jira. No estimate mismatch or newly Done uncredited member was found. Approved DJP progress remains 219 shipped of 477 known points, 45.9%, with 258 remaining and no credited delta. Its progress observation remains November 12 at 2:36:45 PM Eastern.",
-        "The public reconciliation receipt was checked November 21 at 10:01:27 AM Eastern and remains pending for unreviewed releases. Successful release-check exits did not reconcile the newly shipped work into accounting. Today’s check did not append an observation or refresh that receipt. Aggregate approved scope, wider-program evidence and agent-capacity coverage remain incomplete; these DJP figures are not portfolio completion."
+        "At 8:57:07 AM Eastern, today’s authoring check independently recalculated the saved ledger and checked all 156 recorded members against current Jira in two complete batches. It found no estimate mismatch or newly Done uncredited member. The saved totals match the public receipt, whose last check is November 22 at 8:42:04 PM Eastern. Today’s read-only check did not append an observation; the existing publisher owns the full Jira intake calculation during publication.",
+        "The 61% value is the published SCRUM-based known-scope reading, not a verified aggregate of every active program. Cross-project completeness, agent capacity and program-specific delivery evidence remain partial. Scope and acceptance rules need to stay distinguishable from a successful calculation."
       ]
     },
     {
       "heading": "Team accountability / current focus",
       "paragraphs": [
-        "Claude delivered the dashboard redesign, mobile chart correction, shared scene changes and cross-site scrolling fix, with owner acceptance still pending in the recorded handoffs. Larry’s existing publisher completed yesterday’s delivery. ChatGPT checked today’s approved baseline and authored this snapshot. Current focus is completing the Buildometer’s presentation and acceptance while preserving evidence integrity; a visual redesign does not resolve outstanding release accounting."
+        "Claude delivered the daily recalculation and recorded the backlog audit. Larry’s existing publication path exercised the calculation and deployed the updated projection. ChatGPT checked today’s saved membership, totals and evidence limits before authoring. The active management issue has shifted from a frozen gauge to maintaining trustworthy estimates, completion dispositions and explicit coverage as the backlog changes.",
+        "Security-hardening and retention-execution follow-ups remain open in Jira. Their recent updates are not evidence of newly deployed fixes. The requested Buildometer hero follow-up likewise has no newer release receipt in today’s evidence window."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Complete the requested Buildometer hero treatment and verify the released dashboard in dark mode and with accessibility tooling. Obtain owner acceptance of the dashboard and van-scroll correction. Reconcile eligible releases against approved scope before assigning progress credit; the existing publication retry-and-alert decision and Thingamajob end-to-end acceptance gaps remain open."
+        "Verify the next scheduled recalculation and its no-change behavior through the existing publisher. Resolve the difference between Done-based credit and evidence-backed acceptance, document wider-program coverage, and review scope additions without presenting accounting changes as new delivery. Continue the outstanding product acceptance and operational follow-ups using their own runtime evidence."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "23ca5b2d1623b403c80fbd31e3e010d7cac6b967",
-    "generatorCommit": "23ca5b2d1623b403c80fbd31e3e010d7cac6b967",
-    "evidenceSha256": "8b3d4c5f37ca66b2d1aabccbff7c7ee5984196c4073cf7ba26a987a30e6c92e6",
+    "sourceCommit": "0692f631767513e252015c87e4a7ad112d67aca8",
+    "generatorCommit": "0692f631767513e252015c87e4a7ad112d67aca8",
+    "evidenceSha256": "89f2f45881af1f2d915b92ad9ba319c77e6fb153cdedd5af6d1fdc8b97be16d6",
     "method": "ChatGPT-authored Jira publication payload copied unchanged; optional canonical reconciliation system receipt precedes authored sections.",
     "reportingWindow": {
-      "after": "2026-11-21T08:56:21.114-0500",
-      "cutoff": "2026-11-22T08:57:44.074-0500"
+      "after": "2026-11-22T08:57:44.074-0500",
+      "cutoff": "2026-11-23T08:57:52.876-0500"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10552",
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10555",
       "https://djamespoer.com/data/buildometer-reconciliation.json"
     ]
   }
