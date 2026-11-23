@@ -24,8 +24,7 @@ const post = (body, headers = {}) =>
     headers: { Origin: 'https://djamespoer.com', 'Content-Type': 'application/json', ...headers },
     body: JSON.stringify(body),
   });
-const deps = (respond, calls = [], cache = null) => ({
-  cache,
+const deps = (respond, calls = []) => ({
   timeoutMs: 1000,
   fetch: async (url) => {
     const u = new URL(url);
@@ -138,25 +137,38 @@ test('solo mode and djamespoer.com as the visitor both scan only my site, twice'
   }
 });
 
-test('cache keys name the test, so a cached mobile result is never served as desktop', async () => {
-  const store = new Map();
-  const cache = {
-    match: async (req) => store.get(req.url)?.clone(),
-    put: async (req, res) => void store.set(req.url, res),
-  };
-  const calls = [];
-  const d = deps(
-    (url, strategy) =>
-      Response.json(psi(strategy === 'mobile' ? [0.5, 0.5, 0.5, 0.5] : [0.9, 0.9, 0.9, 0.9])),
-    calls,
-    cache,
-  );
-  await handleCoffee(post({ mode: 'solo' }), {}, d);
-  const again = await (await handleCoffee(post({ mode: 'solo' }), {}, d)).json();
-  assert.equal(calls.length, 2);
-  assert.equal(again.james.mobile.scores.seo, 50);
-  assert.equal(again.james.desktop.scores.seo, 90);
-  assert.ok([...store.keys()].every((k) => /\/v2(-last-good)?\/(mobile|desktop)\?u=/.test(k)));
+test('SCRUM-215: both sites start together with identical settings except URL, every time', async () => {
+  for (const strategy of ['mobile', 'desktop']) {
+    const calls = [];
+    const releases = [];
+    const d = deps(() => new Promise((resolve) => releases.push(resolve)), calls);
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const result = handleCoffee(post({ url: 'acme.com', tests: [strategy] }),
+        { PAGESPEED_API_KEY: 'test-only' }, d);
+      // No response is resolved until both independent PSI calls have started.
+      await new Promise((resolve) => setImmediate(resolve));
+      assert.equal(calls.length, (attempt + 1) * 2);
+      const pair = calls.slice(-2);
+      assert.deepEqual(pair.map((u) => u.searchParams.get('url')).sort(),
+        ['https://acme.com/', SELF].sort());
+      const settings = pair.map((u) => {
+        const copy = new URL(u);
+        copy.searchParams.delete('url');
+        return copy.href;
+      });
+      assert.equal(settings[0], settings[1]);
+      assert.equal(pair[0].searchParams.get('strategy'), strategy);
+      assert.equal(pair[0].searchParams.get('locale'), 'en-US');
+      assert.deepEqual(pair[0].searchParams.getAll('category'),
+        ['performance', 'accessibility', 'best-practices', 'seo']);
+      for (const release of releases.splice(0)) release(Response.json(psi([0.9, 1, 1, 1])));
+      const response = await result;
+      assert.equal(response.headers.get('Cache-Control'), 'no-store');
+      const body = await response.json();
+      assert.equal(body.james[strategy].scores.performance, 90);
+      assert.equal(body.visitor[strategy].scores.performance, 90);
+    }
+  }
 });
 
 test('one scan is one rate-limit unit; refusals and failures map to plain types', async () => {
@@ -272,28 +284,19 @@ test('SCRUM-220: the tested URL keeps path and query and drops only the fragment
   assert.equal(displayUrl(normalizeSiteUrl('acme.com/p?ref=x#top').url), 'acme.com/p?ref=x');
 });
 
-test('SCRUM-217: our own fast failure retries once; a later failure serves the last real score', async () => {
-  const store = new Map();
-  const cache = {
-    match: async (req) => store.get(req.url)?.clone(),
-    put: async (req, res) => void store.set(req.url, res),
-  };
-  let selfCalls = 0;
-  let failSelf = 1; // first self call fails fast, the retry succeeds
-  const d = deps((url) => {
-    if (url !== SELF) return Response.json(psi([1, 1, 1, 1]));
-    selfCalls++;
-    if (failSelf-- > 0)
-      return Response.json({ error: { message: 'Lighthouse returned error: Something went wrong.' } }, { status: 500 });
-    return Response.json(psi([0.9, 1, 1, 1]));
-  }, [], cache);
-  const first = await (await handleCoffee(post({ mode: 'solo', tests: ['desktop'] }), {}, d)).json();
-  assert.equal(selfCalls, 2);
+test('SCRUM-215: a failed fresh self run is not retried or replaced with earlier scores', async () => {
+  const calls = [];
+  let fail = false;
+  const d = deps((url) => url === SELF && fail
+    ? Response.json({ error: { message: 'Lighthouse returned error: Something went wrong.' } }, { status: 500 })
+    : Response.json(psi([0.9, 1, 1, 1])), calls);
+  const first = await (await handleCoffee(post({ url: 'acme.com', tests: ['desktop'] }), {}, d)).json();
   assert.equal(first.james.desktop.scores.performance, 90);
-  // The fresh entry expires; Google fails twice now. The last good real score is served.
-  for (const k of [...store.keys()]) if (k.includes('/v2/')) store.delete(k);
-  failSelf = 2;
-  const second = await (await handleCoffee(post({ mode: 'solo', tests: ['desktop'] }), {}, d)).json();
-  assert.equal(second.james.desktop.scores.performance, 90);
-  assert.equal(second.error, undefined);
+  fail = true;
+  const second = await (await handleCoffee(post({ url: 'acme.com', tests: ['desktop'] }), {}, d)).json();
+  assert.equal(calls.length, 4);
+  assert.equal(second.james, null);
+  assert.equal(second.error, 'self_failed');
+  assert.equal(second.visitor.desktop.scores.performance, 90);
+  assert.equal(coffeeVerdict(coffeeTally(second.visitor, second.james, second.tests)), 'no_verdict');
 });
