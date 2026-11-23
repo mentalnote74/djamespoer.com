@@ -2700,3 +2700,26 @@ Publishing this observation uses the documented single bounded projection-only f
 SCRUM-168 standing directives 10364/10371 read and adopted: all demos/QA start INTERNAL using the existing localStorage marker, before app/tag execution; production visitors remain default-on. Added nonpublic bootstrap and immediate BOM demo-server injection plus runner seeding; no competing cookie. Versioned/root agent guidance now records this and lean validation: reuse successful evidence, no redundant campaigns, next meaningful integration step is validation. Current BOM production release is dbb5cb0; this demo-policy work stays separate from the completed bounded data publication. Next Thingamajob direction is the construction-tape wording correction, not implemented here.
 
 BOM final production publication verified: `dbb5cb04b19eba5aca08898a1ac18519e436e637`, Workers Builds 128088691774, deployment `e0a174fa-379c-4f9e-8146-c185199d142e`, version `f2bfc744-73b8-4dd7-bc22-8c867a4bbce6`, 100%. Live home/API/dashboard agree on 41.3%, 184/445, 261 remaining, observed 2026-11-06T18:51:56.743Z (1:51 PM EST). This was the single classified data-only follow-up; stop the loop, no new observation for this publication. Final SHA/value/date check reused successful feature responsive/accessibility evidence; INTERNAL QA sent zero Google requests. Current local demo automatically marks INTERNAL before first app script, persists on reload, zero Google requests; focused next-step check only. Policy enforcement commit `6cbbb54` is local/separate, not part of deployed dbb5cb0. Both standing rules recorded in shared/root and versioned instructions; retain unestimated/mixed scope/132 decisions.
+
+## SCRUM-47 Lighthouse coffee challenge (Claude)
+
+James approved the design in SCRUM-47, with the trigger in the header only and the verdict as the average of four categories.
+- **Drawer:** a lazy `@defer` `<dialog>` side sheet in `src/app/features/coffee/`. A header "Coffee?" button (`aria-haspopup="dialog"`) opens it.
+- **Shared rules:** `coffee-contract.ts` holds the URL rules, overall score, verdict and score bands. The browser and the Worker both import it.
+- **Worker:** `server/coffee/coffee.ts` serves `POST /api/coffee`.
+  - It accepts same-origin JSON only and rejects private, IP, port and credential URLs.
+  - It runs PSI on mobile with four categories for both sites in parallel. Google fetches the visitor's site; the Worker never does.
+  - Results are edge-cached for 30 minutes per URL, and for 10 minutes for djamespoer.com.
+  - The binding `COFFEE_LIMITER` allows 5 requests per 60 s per IP.
+  - The response carries scores and the report link only.
+- **Analytics:** five `coffee_*` events go through `PublicAnalytics`. `site_host` is validated as a bare hostname.
+
+**Not verified:** live PSI success, because keyless PSI returns 429 for the daily quota. It needs James to run `npx wrangler secret put PAGESPEED_API_KEY`; until then the drawer shows the PSI-unavailable error.
+
+**Verified:**
+- Results UI with a stubbed `/api/coffee` response.
+- Focus handling, the live region, Esc returning focus to the trigger, and the invalid-URL and PSI-down paths.
+- 320px with no overflow; axe shows zero A/AA issues in the default and Rum Runner themes.
+- Node coffee tests 5/5, the full `ng test` suite, and `ng build`. The initial bundle is 506 kB against a 501 kB baseline that was already over its 500 kB warning.
+
+GA Admin priming (acceptance criterion 18) still has to happen after release.

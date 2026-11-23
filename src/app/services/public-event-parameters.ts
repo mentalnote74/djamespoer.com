@@ -10,6 +10,7 @@ const locations = [
   'footer',
   'carousel',
   'rigby',
+  'coffee-drawer',
 ];
 const sources = [
   'navigation',
@@ -64,7 +65,24 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
     ],
   },
   case_study_view: { employer: employers },
+  coffee_open: {},
+  coffee_submitted: {},
+  coffee_result: { verdict: ['visitor_buys', 'james_buys', 'tie'] },
+  coffee_error: {
+    error_type: ['invalid_url', 'unreachable', 'rate_limited', 'timeout', 'psi_down', 'self_failed'],
+  },
+  coffee_book_click: { verdict: ['visitor_buys', 'james_buys', 'tie', 'no_verdict'] },
 };
+const coffeeScores = [
+  'visitor_score',
+  'james_score',
+  'visitor_performance',
+  'visitor_accessibility',
+  'visitor_best_practices',
+  'visitor_seo',
+];
+// A bare lowercase hostname: no scheme, path, query, fragment, port or credentials can pass.
+const siteHost = /^(?=.{4,253}$)[a-z0-9-]+(?:\.[a-z0-9-]+)+$/;
 
 /** SCRUM-197: GA must never receive personal data (James's rule and Google's policy). Job text
  * loses contact lines, email addresses, links and phone numbers before it leaves the browser. */
@@ -132,6 +150,20 @@ export function publicEventParameters(
       const count = input[key];
       if (!Number.isInteger(count) || (count as number) < 0) return null;
       output[key] = count as number;
+    }
+  }
+  if (event.startsWith('coffee_') && event !== 'coffee_open') {
+    const host = input['site_host'];
+    if (host !== undefined || event !== 'coffee_error') {
+      if (typeof host !== 'string' || !siteHost.test(host)) return null;
+      output['site_host'] = host;
+    }
+  }
+  if (event === 'coffee_result') {
+    for (const key of coffeeScores) {
+      const score = input[key];
+      if (!Number.isInteger(score) || (score as number) < 0 || (score as number) > 100) return null;
+      output[key] = score as number;
     }
   }
   const destination =

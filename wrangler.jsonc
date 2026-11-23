@@ -6,12 +6,14 @@
   "compatibility_flags": ["nodejs_compat"],
   "version_metadata": { "binding": "CF_VERSION_METADATA" },
   "r2_buckets": [{ "binding": "DAILY_REPORTS", "bucket_name": "djamespoer-daily-reports" }],
+  // SCRUM-47: about 5 coffee scans per minute per visitor IP. namespace_id is an account-unique integer.
+  "ratelimits": [{ "name": "COFFEE_LIMITER", "namespace_id": "1047", "simple": { "limit": 5, "period": 60 } }],
   "triggers": { "crons": ["0 * * * *"] },
   "observability": { "enabled": true },
   "assets": {
     "directory": "./dist/djamespoer/browser",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/buildometer", "/api/buildometer/reports", "/api/buildometer/reports/*"],
+    "run_worker_first": ["/api/coffee", "/api/buildometer", "/api/buildometer/reports", "/api/buildometer/reports/*"],
     "not_found_handling": "404-page",
     "html_handling": "drop-trailing-slash",
   },

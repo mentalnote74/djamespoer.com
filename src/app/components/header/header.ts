@@ -8,7 +8,9 @@ import {
   LucideChevronDown,
   LucideDownload,
   LucideMail,
+  LucideCoffee,
 } from '@lucide/angular';
+import { CoffeeDrawerService } from '../../features/coffee/coffee-drawer.service';
 import { PublicTrack } from '../../services/public-track';
 import { Component, DestroyRef, ElementRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -28,6 +30,7 @@ import { SOCIAL_PROFILES } from '../../content/social-profiles';
     LucideChevronDown,
     LucideDownload,
     LucideMail,
+    LucideCoffee,
     PublicTrack,
     RouterLink,
     RouterLinkActive,
@@ -43,6 +46,7 @@ import { SOCIAL_PROFILES } from '../../content/social-profiles';
 })
 export class Header {
   readonly socialProfiles = SOCIAL_PROFILES;
+  readonly coffee = inject(CoffeeDrawerService);
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly identityPaused = input(false);
   readonly mobileOpen = signal(false);

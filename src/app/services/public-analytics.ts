@@ -14,7 +14,8 @@ export type Location =
   | 'page-content'
   | 'footer'
   | 'carousel'
-  | 'rigby';
+  | 'rigby'
+  | 'coffee-drawer';
 export type Source =
   | 'navigation'
   | 'homepage'
@@ -95,6 +96,28 @@ export interface EventParameters {
       'engineering' | 'ux-product' | 'accessibility' | 'ai' | 'impact' | 'buildometer' | 'creative';
   };
   case_study_view: Common & { employer: Employer };
+  /** SCRUM-47 Lighthouse coffee challenge. `site_host` is a hostname only, never a path or query. */
+  coffee_open: Common;
+  coffee_submitted: Common & { site_host: string };
+  coffee_result: Common & {
+    site_host: string;
+    verdict: 'visitor_buys' | 'james_buys' | 'tie';
+    visitor_score: number;
+    james_score: number;
+    visitor_performance: number;
+    visitor_accessibility: number;
+    visitor_best_practices: number;
+    visitor_seo: number;
+  };
+  coffee_error: Common & {
+    error_type:
+      'invalid_url' | 'unreachable' | 'rate_limited' | 'timeout' | 'psi_down' | 'self_failed';
+    site_host?: string;
+  };
+  coffee_book_click: Common & {
+    verdict: 'visitor_buys' | 'james_buys' | 'tie' | 'no_verdict';
+    site_host: string;
+  };
 }
 export function publicPath(path: string): PublicPath | '/other' {
   const page = publicPageForPath(path);

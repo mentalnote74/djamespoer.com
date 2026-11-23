@@ -86,3 +86,32 @@ describe('SCRUM-141/169 runtime analytics privacy boundary', () => {
     ).toBeNull();
   });
 });
+
+describe('SCRUM-47 coffee challenge analytics boundary', () => {
+  const result = {
+    location: 'coffee-drawer',
+    site_host: 'acme-widgets.com',
+    verdict: 'visitor_buys',
+    visitor_score: 87,
+    james_score: 98,
+    visitor_performance: 72,
+    visitor_accessibility: 88,
+    visitor_best_practices: 96,
+    visitor_seo: 91,
+  };
+  it('sends the hostname and integer scores only', () => {
+    expect(publicEventParameters('coffee_result', { ...result, url: 'https://x.com/a?b' }, publicPath))
+      .toEqual(result);
+  });
+  it('refuses a full URL, a path or an out-of-range score', () => {
+    for (const site_host of ['https://acme.com', 'acme.com/pricing', 'acme.com?q=1', 'acme'])
+      expect(publicEventParameters('coffee_submitted', { location: 'coffee-drawer', site_host }, publicPath))
+        .toBeNull();
+    expect(publicEventParameters('coffee_result', { ...result, visitor_seo: 101 }, publicPath)).toBeNull();
+  });
+  it('allows an invalid-URL error without a host', () => {
+    expect(
+      publicEventParameters('coffee_error', { location: 'coffee-drawer', error_type: 'invalid_url' }, publicPath),
+    ).toEqual({ location: 'coffee-drawer', error_type: 'invalid_url' });
+  });
+});

@@ -57,10 +57,14 @@ describe('Header', () => {
   it('puts work history last and preserves About destinations', async () => {
     const root = fixture.nativeElement as HTMLElement;
     expect(
-      Array.from(root.querySelectorAll('.site-header__nav-list > li > button'), (button) =>
+      Array.from(root.querySelectorAll('.site-header__nav-list > li > button[aria-controls]'), (button) =>
         button.textContent?.trim(),
       ),
     ).toEqual(['About', 'Case Studies', 'Perspectives', 'Blognostisphere', 'Work History']);
+    // SCRUM-47: the coffee challenge is an action, not a section menu; it follows the menus.
+    const coffee = root.querySelector('.site-header__nav-list > li:last-child > button')!;
+    expect(coffee.textContent?.trim()).toBe('Coffee?');
+    expect(coffee.getAttribute('aria-haspopup')).toBe('dialog');
     const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
     const list = root.querySelector<HTMLUListElement>('#about-navigation')!;
     expect(list.hidden).toBe(true);
