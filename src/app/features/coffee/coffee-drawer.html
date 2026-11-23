@@ -43,7 +43,7 @@
       <h2 #heading id="coffee-heading" tabindex="-1">{{ verdictHeading() }}</h2>
       @if (outcome.mode === 'challenge') {
         @if (verdict() === 'no_verdict') {
-          <p>My own scans didn't come back, so there's no verdict. Your scores are below.</p>
+          <p>One of the scans didn't finish, so there's no verdict. Available scores are below.</p>
         } @else {
           <p><strong>{{ tallyText() }}</strong></p>
         }

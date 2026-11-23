@@ -175,7 +175,7 @@ export class CoffeeDrawer {
   /** The visitor's exact tested URL, as shown in the table, key and banner. */
   readonly visitorLabel = computed(() => {
     const url = this.result()?.visitor?.url;
-    return url ? displayUrl(url) : '';
+    return url ? displayUrl(url) : this.siteUrl;
   });
   private target: { url: string } | { mode: 'solo' } | null = null;
   private trigger: 'button' | 'own_url' = 'button';
@@ -390,11 +390,11 @@ export class CoffeeDrawer {
       });
     } else if (verdict === 'no_verdict') {
       this.announcement.set(
-        "No verdict this round. Your scores are in, but my own scans didn't come back.",
+        "No verdict this round. One of the scans did not finish. Available scores are in the table.",
       );
       this.analytics.track('coffee_error', {
         location: 'coffee-drawer',
-        error_type: 'self_failed',
+        error_type: outcome.error ?? 'psi_down',
         site_host: this.host,
         site_url: this.siteUrl,
       });

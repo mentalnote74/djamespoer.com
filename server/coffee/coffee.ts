@@ -66,18 +66,27 @@ function reportUrl(url: string, strategy: CoffeeStrategy): string {
   );
 }
 
+/** Distinguish an audit/provider failure from a confirmed document-load failure. */
+function psiFailure(status: number, message: string): ScanError {
+  if ([408, 504, 524].includes(status) || /TIMEOUT|PAGE_HUNG|deadline exceeded|timed out/i.test(message))
+    return 'timeout';
+  if (status !== 429 && /(?:FAILED_|ERRORED_|INSECURE_)?DOCUMENT_REQUEST|DNS_FAILURE|NO_FCP|NOT_HTML|INVALID_URL|unable to (?:reliably )?load/i.test(message))
+    return 'unreachable';
+  return 'psi_down';
+}
+
 /** Keep only the four category scores and when they were measured. */
 export function parsePsi(body: unknown, requested: string, strategy: CoffeeStrategy): CoffeeTest {
   const result = (body as { lighthouseResult?: Record<string, unknown> } | null)?.lighthouseResult;
   if (!result) throw new CoffeeError('psi_down');
-  if ((result['runtimeError'] as { code?: string } | undefined)?.code)
-    throw new CoffeeError('unreachable');
+  const runtime = result['runtimeError'] as { code?: string; message?: string } | undefined;
+  if (runtime?.code) throw new CoffeeError(psiFailure(0, runtime.code + ' ' + (runtime.message ?? '')));
   const categories = (result['categories'] ?? {}) as Record<string, { score?: unknown }>;
   const scores = {} as Record<CoffeeCategory, number>;
   for (const category of COFFEE_CATEGORIES) {
     const score = categories[category.psi]?.score;
     // A null category score means Lighthouse could not audit the page.
-    if (typeof score !== 'number' || !Number.isFinite(score)) throw new CoffeeError('unreachable');
+    if (typeof score !== 'number' || !Number.isFinite(score)) throw new CoffeeError('psi_down');
     scores[category.id] = Math.max(0, Math.min(100, Math.round(score * 100)));
   }
   const fetchedAt =
@@ -128,13 +137,7 @@ async function runPsi(
       psiStatus: body?.error?.status,
       message: message.slice(0, 300),
     });
-    const lighthouse =
-      /Lighthouse returned error|DOCUMENT_REQUEST|DNS_FAILURE|NO_FCP|NOT_HTML|INVALID_URL|unable to (?:reliably )?load/i;
-    throw new CoffeeError(
-      response.status !== 429 && (response.status === 400 || lighthouse.test(message))
-        ? 'unreachable'
-        : 'psi_down',
-    );
+    throw new CoffeeError(psiFailure(response.status, message));
   }
   const body = await response.json().catch(() => null);
   try {
@@ -246,12 +249,13 @@ export async function handleCoffee(
     scanSite(target.url, target.host, tests, env, deps),
     self,
   ]);
-  if (visitor.status === 'rejected')
-    return failure(
-      visitor.reason instanceof CoffeeError ? visitor.reason.type : 'psi_down',
-      mode,
-      tests,
-    );
+  if (visitor.status === 'rejected') {
+    const error = visitor.reason instanceof CoffeeError ? visitor.reason.type : 'psi_down';
+    // A failed visitor scan must not discard the independent successful DJP run.
+    if (james.status === 'fulfilled')
+      return reply({ mode, tests, visitor: null, james: james.value, error });
+    return failure(error, mode, tests);
+  }
   if (james.status === 'rejected')
     return reply({ mode, tests, visitor: visitor.value, james: null, error: 'self_failed' });
   return reply({ mode, tests, visitor: visitor.value, james: james.value });

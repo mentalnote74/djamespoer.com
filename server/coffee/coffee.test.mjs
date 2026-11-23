@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handleCoffee } from './coffee.ts';
+import { handleCoffee, parsePsi } from './coffee.ts';
 import {
   normalizeSiteUrl,
   coffeeTally,
@@ -299,4 +299,31 @@ test('SCRUM-215: a failed fresh self run is not retried or replaced with earlier
   assert.equal(second.error, 'self_failed');
   assert.equal(second.visitor.desktop.scores.performance, 90);
   assert.equal(coffeeVerdict(coffeeTally(second.visitor, second.james, second.tests)), 'no_verdict');
+});
+
+test('SCRUM-215: provider failures are not blamed on an unreachable visitor and keep DJP scores', async () => {
+  for (const [status, message, error] of [
+    [524, '', 'timeout'],
+    [500, 'Lighthouse returned error: Something went wrong.', 'psi_down'],
+    [500, 'Lighthouse returned error: PROTOCOL_TIMEOUT', 'timeout'],
+    [500, 'Lighthouse returned error: DNS_FAILURE', 'unreachable'],
+    [400, 'API key not valid', 'psi_down'],
+  ]) {
+    const calls = [];
+    const body = await (await handleCoffee(post({ url: 'www.tomjohn.design', tests: ['desktop'] }), {},
+      deps((url) => url === SELF ? Response.json(psi([0.96, 1, 1, 1]))
+        : Response.json({ error: { message } }, { status }), calls))).json();
+    assert.equal(calls.length, 2);
+    assert.equal(body.error, error, message);
+    assert.equal(body.visitor, null);
+    assert.equal(body.james.desktop.scores.performance, 96);
+    assert.equal(coffeeVerdict(coffeeTally(body.visitor, body.james, body.tests)), 'no_verdict');
+  }
+});
+
+test('SCRUM-215: Lighthouse runtime failures retain their actual failure class', () => {
+  for (const [code, type] of [['PROTOCOL_TIMEOUT', 'timeout'], ['PAGE_HUNG', 'timeout'],
+    ['DNS_FAILURE', 'unreachable'], ['TARGET_CRASHED', 'psi_down']])
+    assert.throws(() => parsePsi({ lighthouseResult: { runtimeError: { code } } }, SELF, 'desktop'),
+      (error) => error.type === type);
 });
