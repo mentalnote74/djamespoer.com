@@ -219,7 +219,7 @@ export function applyProject(data: BuildometerData, input: unknown): void {
     reestimated: observations.reduce((s, o) => s + o.reestimated, 0),
   };
   data.supportingFacts.scope =
-    'Owner-approved known djamespoer.com scope. Whole-story shipped credit; no fractional completion. Observations begin at T0; no reconstructed history or ideal line. Git-versioned evidence, not live Jira status.';
+    'Known djamespoer.com scope, recalculated from Jira with each daily brief. Whole-story shipped credit; no fractional completion. Observations begin at T0; no reconstructed history or ideal line. Git-versioned daily observations.';
 }
 
 /** Only evidence-changing snapshots advance observation freshness. */

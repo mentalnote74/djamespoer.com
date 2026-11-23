@@ -26,8 +26,8 @@ Archive failures are logged in Workers observability; later hourly triggers retr
 
 - Project points use the approved Git ledger projection and applyProject, unchanged:
   shipped points / known total, one decimal. Initial T₀ remains 395/152/243/38.5%.
-  Daily capture observes the latest approved snapshot; it does not adjudicate new shipment
-  or automatically promote Jira Done to shipped. Keep the source observation timestamp.
+  Since SCRUM-213 the editorial brief recalculates the ledger from Jira each morning
+  (Done = shipped); daily capture observes that latest snapshot. Keep the source observation timestamp.
 - Full daily totals, shipped, remaining, completion and scope deltas are retained.
   Point histories merge actual daily captures with approved ledger observations.
   Invalid project acquisition retains earlier values as stale and leaves delta unavailable;

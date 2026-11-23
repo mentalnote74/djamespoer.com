@@ -61,7 +61,7 @@ export function progressPresentation(input: unknown, now = Date.now()): Progress
         ? 'Newer production release awaits reconciliation.'
         : state === 'unverified'
           ? 'Release freshness not verified.'
-          : 'Reconciled through the latest recorded eligible release.',
+          : 'Recalculated from Jira with each daily brief.',
     shipped: Number(shipped),
     total: Number(total),
   };

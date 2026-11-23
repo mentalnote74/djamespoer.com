@@ -1,25 +1,110 @@
-import { readFile, writeFile, appendFile } from 'node:fs/promises';
+import { readFile, writeFile, appendFile, mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { projectMeasurement, applyProject } from '../../server/buildometer/project.ts';
+import {
+  projectMeasurement,
+  applyProject,
+  sameSnapshot,
+} from '../../server/buildometer/project.ts';
 import { emptyData } from '../../server/buildometer/derive.ts';
-import { verifiedRelease } from '../buildometer/reconcile.mjs';
 import { jiraReader } from './generate.mjs';
 
 export const reconciliationPath = 'public/data/buildometer-reconciliation.json';
+export const ledgerPath = 'scripts/buildometer/project-ledger.json';
+/** Files the daily recalculation may change; the publisher commits them with the journal. */
+export const observationFiles = [
+  ledgerPath,
+  'public/data/buildometer-project.json',
+  'server/buildometer/project-members.generated.ts',
+  'src/app/generated/buildometer-summary.ts',
+];
+const ESTIMATE = 'customfield_10016';
+const POINTS = [0, 1, 2, 3, 5, 8, 13];
+const VOID = /won'?t|duplicate|cannot|declined|obsolete/i;
 const json = async (path) => JSON.parse(await readFile(path, 'utf8'));
-const projectionOnly = (path) =>
-  /^(docs\/|AI_HANDOFF\.md$)/.test(path) ||
-  [
-    'scripts/buildometer/project-ledger.json',
-    'scripts/buildometer/release-evidence.json',
-    'public/data/buildometer-project.json',
-    'public/data/buildometer-release.json',
-    'public/data/buildometer-reconciliation.json',
-    'server/buildometer/project-members.generated.ts',
-    'src/app/generated/buildometer-summary.ts',
-  ].includes(path);
 
-/** Ordering boundary: failures retain approved values, never become fresh observations. */
+/**
+ * SCRUM-213: today's known scope and shipped credit, recalculated from Jira.
+ * Scope: estimated non-epic, non-subtask issues that are not parked or explicitly excluded.
+ * Points: the Jira estimate (an existing member keeps its last estimate if Jira has none).
+ * Shipped: the Done status category. Earlier shipped credit is never revoked.
+ */
+export function recalculateMembers(previous, issues, exclusions = {}) {
+  const excluded = new Set(Object.values(exclusions).filter(Array.isArray).flat());
+  const members = new Map(previous.map((m) => [m.key, { ...m }]));
+  for (const issue of issues) {
+    const f = issue.fields ?? {};
+    const points = POINTS.includes(f[ESTIMATE]) ? f[ESTIMATE] : null;
+    const done = f.status?.statusCategory?.key === 'done' && !VOID.test(f.resolution?.name ?? '');
+    const current = members.get(issue.key);
+    if (current) {
+      if (points !== null) current.points = points;
+      if (done && !current.shipped)
+        Object.assign(current, { shipped: true, disposition: 'shipped' });
+      continue;
+    }
+    const type = f.issuetype ?? {};
+    if (
+      excluded.has(issue.key) ||
+      type.subtask ||
+      type.name === 'Epic' ||
+      (f.labels ?? []).includes('parked') ||
+      points === null ||
+      !String(f.summary ?? '').trim() ||
+      (f.status?.statusCategory?.key === 'done' && !done)
+    )
+      continue;
+    members.set(issue.key, {
+      key: issue.key,
+      title: String(f.summary).trim(),
+      points,
+      shipped: done,
+      disposition: done ? 'shipped' : 'open',
+    });
+  }
+  return [...members.values()].sort(
+    (a, b) => Number(a.key.split('-')[1]) - Number(b.key.split('-')[1]),
+  );
+}
+
+const summarize = (ledger) => {
+  const p = projectMeasurement(ledger),
+    current = p.observations.at(-1);
+  const data = emptyData(p.observedAt);
+  applyProject(data, p);
+  return {
+    observedAt: p.observedAt,
+    shipped: current.shipped,
+    total: current.total,
+    remaining: current.remaining,
+    percent: data.metrics.completion.value,
+  };
+};
+
+async function readAllIssues(read) {
+  const issues = [];
+  let token;
+  do {
+    const page = await read(
+      '/search/jql?' +
+        new URLSearchParams({
+          jql: 'project = SCRUM ORDER BY key ASC',
+          fields: `summary,status,issuetype,labels,resolution,${ESTIMATE}`,
+          maxResults: '100',
+          ...(token ? { nextPageToken: token } : {}),
+        }),
+    );
+    if (!Array.isArray(page.issues)) throw Error('Invalid Jira inventory page');
+    issues.push(...page.issues);
+    token = page.isLast === false ? page.nextPageToken : undefined;
+    if (page.isLast === false && !token) throw Error('Incomplete Jira inventory');
+  } while (token);
+  if (!issues.length) throw Error('Empty Jira inventory');
+  return issues;
+}
+
+/** Ordering boundary: failures retain the last observation, never become fresh ones. */
 export async function reconciliationBeforeBrief({
   readApproved,
   reconcile,
@@ -31,11 +116,12 @@ export async function reconciliationBeforeBrief({
   let result;
   try {
     result = await reconcile(approved);
-    if (!['checked', 'pending'].includes(result?.status)) throw Error('Invalid check result');
+    if (!['observed', 'checked', 'pending'].includes(result?.status))
+      throw Error('Invalid check result');
   } catch {
     result = {
       status: 'failed',
-      reason: 'Canonical reconciliation check failed; last approved numbers retained.',
+      reason: 'Daily Jira recalculation failed; last recorded numbers retained.',
     };
   }
   const receipt = { schemaVersion: 1, checkedAt: now().toISOString(), ...approved, ...result };
@@ -47,94 +133,54 @@ export async function runBeforeBrief(compose) {
   let ledger;
   return reconciliationBeforeBrief({
     readApproved: async () => {
-      ledger = await json('scripts/buildometer/project-ledger.json');
-      const p = projectMeasurement(ledger),
-        current = p.observations.at(-1);
-      const data = emptyData(p.observedAt);
-      applyProject(data, p);
-      return {
-        scope: 'Approved djamespoer.com ledger only',
-        observedAt: p.observedAt,
-        shipped: current.shipped,
-        total: current.total,
-        remaining: current.remaining,
-        percent: data.metrics.completion.value,
-      };
+      ledger = await json(ledgerPath);
+      return { scope: 'djamespoer.com known scope (Jira SCRUM)', ...summarize(ledger) };
     },
-    reconcile: async () => {
-      const evidence = await json('scripts/buildometer/release-evidence.json');
-      const release = verifiedRelease(evidence);
-      const members = ledger.observations.at(-1).members;
-      const read = jiraReader();
-      const jql = 'key in (' + members.map((m) => m.key).join(',') + ')';
-      const page = await read(
-        '/search/jql?' +
-          new URLSearchParams({ jql, fields: 'status,customfield_10016', maxResults: '100' }),
-      );
-      if (
-        !Array.isArray(page.issues) ||
-        page.isLast === false ||
-        page.issues.length !== members.length
-      )
-        throw Error('Incomplete approved-scope inventory');
-      const rows = new Map(page.issues.map((i) => [i.key, i]));
-      if (rows.size !== members.length) throw Error('Duplicate inventory');
-      const pending = members
-        .filter(
-          (m) =>
-            !rows.has(m.key) ||
-            rows.get(m.key).fields.customfield_10016 !== m.points ||
-            (!m.shipped && rows.get(m.key).fields.status.name === 'Done'),
-        )
-        .map((m) => m.key);
-      // Reuse the canonical projector: no new calculator, append or approval bypass.
-      execFileSync(process.execPath, ['scripts/buildometer/project.mjs'], { stdio: 'inherit' });
-      let newerRecordedRelease = false;
+    reconcile: async (before) => {
+      const issues = await readAllIssues(jiraReader());
+      const previous = ledger.observations.at(-1).members;
+      const members = recalculateMembers(previous, issues, ledger.exclusions);
+      if (sameSnapshot(previous, members))
+        return {
+          status: 'checked',
+          reason: 'Recalculated from Jira; no change since the last observation.',
+        };
+      const dir = await mkdtemp(join(tmpdir(), 'bom-'));
       try {
+        const file = join(dir, 'members.json');
+        await writeFile(file, JSON.stringify(members));
+        const after = summarize({
+          ...ledger,
+          observations: [
+            ...ledger.observations,
+            { id: 'preview', observedAt: new Date().toISOString(), reason: 'preview', members },
+          ],
+        });
+        const reason = `SCRUM-213 daily Jira recalculation: ${after.shipped}/${after.total} points (shipped ${after.shipped - before.shipped >= 0 ? '+' : ''}${after.shipped - before.shipped}, scope ${after.total - before.total >= 0 ? '+' : ''}${after.total - before.total}).`;
+        // The canonical projector appends, validates and regenerates every derived file.
         execFileSync(
           process.execPath,
-          ['scripts/buildometer/reconcile.mjs', 'release-check', '--strict', 'true'],
-          { stdio: 'inherit' },
+          ['scripts/buildometer/project.mjs', 'observe', file, reason],
+          {
+            stdio: 'inherit',
+          },
         );
-      } catch (error) {
-        if (error.status !== 2) throw error;
-        newerRecordedRelease = true;
+      } finally {
+        await rm(dir, { recursive: true, force: true });
       }
-      const response = await fetch('https://djamespoer.com/data/buildometer-release.json', {
-        cache: 'no-store',
-        signal: AbortSignal.timeout(15000),
-        redirect: 'error',
-      });
-      if (!response.ok) throw Error('Production receipt unavailable');
-      const live = await response.json();
-      if (!/^[a-f0-9]{40}$/.test(live.sha)) throw Error('Invalid production receipt');
-      execFileSync('git', ['merge-base', '--is-ancestor', live.sha, 'HEAD']);
-      const paths = execFileSync('git', ['diff', '--name-only', release.sha, live.sha], {
-        encoding: 'utf8',
-      })
-        .trim()
-        .split('\n')
-        .filter(Boolean);
-      const unreviewedRelease = paths.some((path) => !projectionOnly(path));
       return {
-        status: pending.length || newerRecordedRelease || unreviewedRelease ? 'pending' : 'checked',
-        reason:
-          pending.length || newerRecordedRelease || unreviewedRelease
-            ? 'Pending approval/release reconciliation; last approved numbers retained. No new shipped credit inferred from Jira Done.'
-            : 'Approved scope recalculated and checked; no new observation required.',
-        pendingKeys: pending,
-        productionSha: live.sha,
-        newerRecordedRelease,
-        unreviewedRelease,
+        status: 'observed',
+        reason: 'Recalculated from Jira and recorded a new observation.',
+        ...summarize(await json(ledgerPath)),
       };
     },
     save: async (receipt) => {
       await writeFile(reconciliationPath, JSON.stringify(receipt, null, 2) + '\n');
-      console.log('Daily reconciliation: ' + receipt.status + '; observed ' + receipt.observedAt);
+      console.log('Daily Buildometer: ' + receipt.status + '; observed ' + receipt.observedAt);
       if (process.env.GITHUB_STEP_SUMMARY)
         await appendFile(
           process.env.GITHUB_STEP_SUMMARY,
-          `Buildometer check: **${receipt.status}**, checked ${receipt.checkedAt}; approved ${receipt.shipped}/${receipt.total} (${receipt.percent}%), observed ${receipt.observedAt}. ${receipt.reason}\n`,
+          `Buildometer: **${receipt.status}**, checked ${receipt.checkedAt}; ${receipt.shipped}/${receipt.total} (${receipt.percent}%), observed ${receipt.observedAt}. ${receipt.reason}\n`,
         );
     },
     compose,
