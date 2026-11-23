@@ -156,6 +156,21 @@ export class CoffeeDrawer {
       return { id: category.id, label: category.label, cells };
     });
   });
+  /** SCRUM-217: a "Me" score older than a fresh run is a last-good score; say when it was tested. */
+  readonly staleNotes = computed(() => {
+    const james = this.result()?.james;
+    return this.tests().flatMap((test) => {
+      const run = james?.[test.id];
+      if (!run || Date.now() - Date.parse(run.fetchedAt) < 15 * 60000) return [];
+      const when = new Date(run.fetchedAt).toLocaleString([], {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+      });
+      return [`My ${test.id} scores were tested ${when}. Google's fresh run didn't finish, so this is my last real result.`];
+    });
+  });
   readonly errorCopy = computed(() => {
     const error = this.error();
     return error && error !== 'invalid_url' && error !== 'self_failed' ? ERROR_COPY[error] : '';

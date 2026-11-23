@@ -29,6 +29,13 @@ export interface CoffeeDeps {
 const PSI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
 const VISITOR_TTL = 1800;
 const SELF_TTL = 600;
+// SCRUM-217: PSI's runs of djamespoer.com take 30-125 s and sometimes fail (500 "Something
+// went wrong", 524 gateway timeout). Our own columns must still show real scores, so every
+// success is also kept as a last-good copy, served (with its real test time) when a fresh run
+// fails.
+const SELF_LAST_GOOD_TTL = 7 * 86400;
+// Retry a failed self run once only when it failed fast; a slow failure already used the wait.
+const SELF_RETRY_WITHIN_MS = 70000;
 type ScanError = Exclude<CoffeeErrorType, 'self_failed' | 'invalid_url' | 'rate_limited'>;
 const STATUS: Record<CoffeeErrorType, number> = {
   invalid_url: 400,
@@ -179,10 +186,38 @@ async function score(
       /* A damaged entry is replaced by a fresh run. */
     }
   }
-  const fresh = await runPsi(url, strategy, env, deps);
-  await deps.cache
-    ?.put(key, Response.json(fresh, { headers: { 'Cache-Control': 'public, max-age=' + ttl } }))
-    .catch(() => {});
+  const self = url === COFFEE_SELF_URL;
+  const lastGood = new Request(
+    'https://coffee-cache.djamespoer.com/v2-last-good/' + strategy + '?u=' + encodeURIComponent(url),
+  );
+  let fresh: CoffeeTest;
+  try {
+    const started = Date.now();
+    try {
+      fresh = await runPsi(url, strategy, env, deps);
+    } catch (error) {
+      if (!self || Date.now() - started > SELF_RETRY_WITHIN_MS) throw error;
+      logPsi({ url, strategy, outcome: 'retry' });
+      fresh = await runPsi(url, strategy, env, deps);
+    }
+  } catch (error) {
+    if (self) {
+      const kept = await deps.cache?.match(lastGood).catch(() => undefined);
+      if (kept) {
+        const test = (await kept.json().catch(() => null)) as CoffeeTest | null;
+        if (test) {
+          logPsi({ url, strategy, outcome: 'last_good', fetchedAt: test.fetchedAt });
+          return test;
+        }
+      }
+    }
+    throw error;
+  }
+  const store = (request: Request, maxAge: number) =>
+    deps.cache
+      ?.put(request, Response.json(fresh, { headers: { 'Cache-Control': 'public, max-age=' + maxAge } }))
+      .catch(() => {});
+  await Promise.all([store(key, ttl), self ? store(lastGood, SELF_LAST_GOOD_TTL) : undefined]);
   return fresh;
 }
 

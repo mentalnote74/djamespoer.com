@@ -156,7 +156,7 @@ test('cache keys name the test, so a cached mobile result is never served as des
   assert.equal(calls.length, 2);
   assert.equal(again.james.mobile.scores.seo, 50);
   assert.equal(again.james.desktop.scores.seo, 90);
-  assert.ok([...store.keys()].every((k) => /\/v2\/(mobile|desktop)\?u=/.test(k)));
+  assert.ok([...store.keys()].every((k) => /\/v2(-last-good)?\/(mobile|desktop)\?u=/.test(k)));
 });
 
 test('one scan is one rate-limit unit; refusals and failures map to plain types', async () => {
@@ -270,4 +270,30 @@ test('SCRUM-220: the tested URL keeps path and query and drops only the fragment
   assert.equal(displayUrl('https://acme.com/p?ref=x'), 'acme.com/p?ref=x');
   // normalizeSiteUrl already drops the #fragment before the scan.
   assert.equal(displayUrl(normalizeSiteUrl('acme.com/p?ref=x#top').url), 'acme.com/p?ref=x');
+});
+
+test('SCRUM-217: our own fast failure retries once; a later failure serves the last real score', async () => {
+  const store = new Map();
+  const cache = {
+    match: async (req) => store.get(req.url)?.clone(),
+    put: async (req, res) => void store.set(req.url, res),
+  };
+  let selfCalls = 0;
+  let failSelf = 1; // first self call fails fast, the retry succeeds
+  const d = deps((url) => {
+    if (url !== SELF) return Response.json(psi([1, 1, 1, 1]));
+    selfCalls++;
+    if (failSelf-- > 0)
+      return Response.json({ error: { message: 'Lighthouse returned error: Something went wrong.' } }, { status: 500 });
+    return Response.json(psi([0.9, 1, 1, 1]));
+  }, [], cache);
+  const first = await (await handleCoffee(post({ mode: 'solo', tests: ['desktop'] }), {}, d)).json();
+  assert.equal(selfCalls, 2);
+  assert.equal(first.james.desktop.scores.performance, 90);
+  // The fresh entry expires; Google fails twice now. The last good real score is served.
+  for (const k of [...store.keys()]) if (k.includes('/v2/')) store.delete(k);
+  failSelf = 2;
+  const second = await (await handleCoffee(post({ mode: 'solo', tests: ['desktop'] }), {}, d)).json();
+  assert.equal(second.james.desktop.scores.performance, 90);
+  assert.equal(second.error, undefined);
 });
