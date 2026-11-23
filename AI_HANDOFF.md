@@ -2723,3 +2723,21 @@ James approved the design in SCRUM-47, with the trigger in the header only and t
 - Node coffee tests 5/5, the full `ng test` suite, and `ng build`. The initial bundle is 506 kB against a 501 kB baseline that was already over its 500 kB warning.
 
 GA Admin priming (acceptance criterion 18) still has to happen after release.
+
+## SCRUM-216 coffee drawer: mobile + desktop, solo scan, matchup verdict (Claude)
+
+This follows SCRUM-47.
+- **Scans:** every scan now runs PageSpeed Insights mobile and desktop in parallel. A challenge makes 4 calls and a solo scan makes 2.
+- **Solo path:** "Just scan djamespoer.com" needs no URL. Entering djamespoer.com or www.djamespoer.com also runs the solo scan.
+- **No averages:** the verdict is a head-to-head tally of 8 matchups (4 categories × 2 tests), counting only the matchups where both sides scored. The banner reads "Head-to-head: I won X of 8 · you won Y · Z tied", and the cells carry ▲ or = with a visually hidden "won" or "tie".
+- **Layouts:** a wide table shows four scores per row under grouped site headers, using sibling `colgroup`s. Below a results container width of 26rem, it switches to two captioned 3-column tables, one per test, via `@container`.
+- **Worker and cache:** a failed test is null in the Worker response, never a zero. Cache keys are `v2/<strategy>`, so old mobile-only entries are never read. A scan counts once against the rate limit.
+- **GA:** `coffee_result` now carries the tally and per-test scores (`visitor|james_mobile|desktop_<category>`); `visitor_score`/`james_score` are gone. SCRUM-214 has to register the new metrics.
+
+**Verified:**
+- Node coffee tests pass 7/7, the full `ng test` suite passes (473), and `ng build` passes with the drawer SCSS within budget.
+- Local `wrangler dev`, with `/api/coffee` stubbed:
+  - wide challenge layout;
+  - 320px stacked layout with a failed mobile test;
+  - solo path.
+- Focus and the live region behaved correctly in each case, and axe found zero A/AA violations.

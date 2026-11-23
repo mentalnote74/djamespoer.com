@@ -87,27 +87,40 @@ describe('SCRUM-141/169 runtime analytics privacy boundary', () => {
   });
 });
 
-describe('SCRUM-47 coffee challenge analytics boundary', () => {
+describe('SCRUM-47/216 coffee challenge analytics boundary', () => {
   const result = {
     location: 'coffee-drawer',
     site_host: 'acme-widgets.com',
     verdict: 'visitor_buys',
-    visitor_score: 87,
-    james_score: 98,
-    visitor_performance: 72,
-    visitor_accessibility: 88,
-    visitor_best_practices: 96,
-    visitor_seo: 91,
+    matchups_won_visitor: 0,
+    matchups_won_james: 7,
+    matchups_tied: 1,
+    visitor_mobile_performance: 58,
+    visitor_desktop_performance: 81,
+    james_mobile_performance: 87,
+    james_desktop_seo: 100,
   };
-  it('sends the hostname and integer scores only', () => {
-    expect(publicEventParameters('coffee_result', { ...result, url: 'https://x.com/a?b' }, publicPath))
-      .toEqual(result);
+  it('sends the hostname, the matchup tally and integer scores per test only', () => {
+    expect(
+      publicEventParameters('coffee_result', { ...result, url: 'https://x.com/a?b', overall: 90 }, publicPath),
+    ).toEqual(result);
   });
-  it('refuses a full URL, a path or an out-of-range score', () => {
+  it('refuses a full URL, a path, an out-of-range score or tally', () => {
     for (const site_host of ['https://acme.com', 'acme.com/pricing', 'acme.com?q=1', 'acme'])
-      expect(publicEventParameters('coffee_submitted', { location: 'coffee-drawer', site_host }, publicPath))
-        .toBeNull();
-    expect(publicEventParameters('coffee_result', { ...result, visitor_seo: 101 }, publicPath)).toBeNull();
+      expect(
+        publicEventParameters('coffee_submitted', { location: 'coffee-drawer', site_host }, publicPath),
+      ).toBeNull();
+    expect(publicEventParameters('coffee_result', { ...result, james_desktop_seo: 101 }, publicPath)).toBeNull();
+    expect(publicEventParameters('coffee_result', { ...result, matchups_tied: 9 }, publicPath)).toBeNull();
+  });
+  it('a solo result carries scores but no host and no tally', () => {
+    const solo = { location: 'coffee-drawer', verdict: 'solo', james_mobile_performance: 87 };
+    expect(publicEventParameters('coffee_result', solo, publicPath)).toEqual(solo);
+    expect(publicEventParameters('coffee_result', { ...solo, matchups_tied: 0 }, publicPath)).toBeNull();
+    expect(publicEventParameters('coffee_result', { ...solo, site_host: 'acme.com' }, publicPath)).toBeNull();
+    expect(
+      publicEventParameters('coffee_solo_scan', { location: 'coffee-drawer', trigger: 'own_url' }, publicPath),
+    ).toEqual({ location: 'coffee-drawer', trigger: 'own_url' });
   });
   it('allows an invalid-URL error without a host', () => {
     expect(

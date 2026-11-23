@@ -1,4 +1,4 @@
-// SCRUM-47: shared by the browser and the Worker, so the URL rules and verdict stay identical.
+// SCRUM-47/216: shared by the browser and the Worker, so the URL rules and verdict stay identical.
 // Dependency-free on purpose: the Worker imports this file directly.
 
 export const COFFEE_SELF_URL = 'https://djamespoer.com/';
@@ -12,13 +12,28 @@ export const COFFEE_CATEGORIES: readonly { id: CoffeeCategory; label: string; ps
   { id: 'seo', label: 'SEO', psi: 'seo' },
 ];
 
-export interface CoffeeSiteScore {
-  url: string;
-  host: string;
+export type CoffeeStrategy = 'mobile' | 'desktop';
+export const COFFEE_STRATEGIES: readonly {
+  id: CoffeeStrategy;
+  label: string;
+  caption: string;
+}[] = [
+  { id: 'mobile', label: 'Mobile', caption: 'Mobile test (simulated slow 4G)' },
+  { id: 'desktop', label: 'Desktop', caption: 'Desktop test' },
+];
+
+/** One Lighthouse run: the four category scores for one site on one test. */
+export interface CoffeeTest {
   fetchedAt: string;
   reportUrl: string;
   scores: Record<CoffeeCategory, number>;
-  overall: number;
+}
+/** A site's mobile and desktop runs; a failed test is null, never a zero. */
+export interface CoffeeSite {
+  url: string;
+  host: string;
+  mobile: CoffeeTest | null;
+  desktop: CoffeeTest | null;
 }
 export type CoffeeErrorType =
   | 'invalid_url'
@@ -29,9 +44,51 @@ export type CoffeeErrorType =
   | 'self_failed';
 export type CoffeeVerdict = 'visitor_buys' | 'james_buys' | 'tie' | 'no_verdict';
 export interface CoffeeResponse {
-  visitor: CoffeeSiteScore | null;
-  james: CoffeeSiteScore | null;
+  mode: 'challenge' | 'solo';
+  visitor: CoffeeSite | null;
+  james: CoffeeSite | null;
   error?: CoffeeErrorType;
+}
+
+/** djamespoer.com entered as the visitor's site runs the solo scan instead of a self-match. */
+export function isSelfHost(host: string): boolean {
+  return host === 'djamespoer.com' || host === 'www.djamespoer.com';
+}
+
+export interface CoffeeTally {
+  visitor: number;
+  james: number;
+  tied: number;
+  scored: number;
+  total: number;
+}
+/** Head-to-head: same category, same test. Only matchups with both scores count. No averages. */
+export function coffeeTally(visitor: CoffeeSite | null, james: CoffeeSite | null): CoffeeTally {
+  const tally = {
+    visitor: 0,
+    james: 0,
+    tied: 0,
+    scored: 0,
+    total: COFFEE_STRATEGIES.length * COFFEE_CATEGORIES.length,
+  };
+  for (const test of COFFEE_STRATEGIES)
+    for (const category of COFFEE_CATEGORIES) {
+      const mine = james?.[test.id]?.scores[category.id];
+      const theirs = visitor?.[test.id]?.scores[category.id];
+      if (mine === undefined || theirs === undefined) continue;
+      tally.scored++;
+      if (mine === theirs) tally.tied++;
+      else if (mine > theirs) tally.james++;
+      else tally.visitor++;
+    }
+  return tally;
+}
+
+/** Whoever wins fewer matchups buys; equal wins is a tie. */
+export function coffeeVerdict(tally: CoffeeTally): CoffeeVerdict {
+  if (!tally.scored) return 'no_verdict';
+  if (tally.visitor === tally.james) return 'tie';
+  return tally.visitor < tally.james ? 'visitor_buys' : 'james_buys';
 }
 
 // Names that only resolve on private networks, or are reserved and never resolve publicly.
@@ -85,22 +142,6 @@ export function normalizeSiteUrl(input: unknown): SiteUrlResult {
   const href = url.href;
   if (href.length > COFFEE_URL_MAX) return { ok: false };
   return { ok: true, url: href, host };
-}
-
-/** Overall is the rounded mean of the four Lighthouse categories. */
-export function coffeeOverall(scores: Record<CoffeeCategory, number>): number {
-  return Math.round(
-    COFFEE_CATEGORIES.reduce((sum, category) => sum + scores[category.id], 0) /
-      COFFEE_CATEGORIES.length,
-  );
-}
-
-/** The lower overall score buys. */
-export function coffeeVerdict(response: Pick<CoffeeResponse, 'visitor' | 'james'>): CoffeeVerdict {
-  const { visitor, james } = response;
-  if (!visitor || !james) return 'no_verdict';
-  if (visitor.overall === james.overall) return 'tie';
-  return visitor.overall < james.overall ? 'visitor_buys' : 'james_buys';
 }
 
 export type ScoreBand = 'Poor' | 'Needs work' | 'Good';
