@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-11-23T01:34:19.307Z",
+  "checkedAt": "2026-11-23T01:42:04.463Z",
   "scope": "djamespoer.com known scope (Jira SCRUM)",
-  "observedAt": "2026-11-23T01:34:19.280Z",
-  "shipped": 450,
+  "observedAt": "2026-11-23T01:42:04.436Z",
+  "shipped": 463,
   "total": 759,
-  "remaining": 309,
-  "percent": 59.3,
+  "remaining": 296,
+  "percent": 61,
   "status": "observed",
   "reason": "Recalculated from Jira and recorded a new observation."
 }
