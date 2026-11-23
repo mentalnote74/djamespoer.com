@@ -1,11 +1,11 @@
-// SCRUM-47/216 Lighthouse coffee challenge: a narrow proxy to Google PageSpeed Insights.
+// SCRUM-47/216/218 Lighthouse coffee challenge: a narrow proxy to Google PageSpeed Insights.
 // Google fetches the visitor's site; this Worker never does, so it is not an SSRF primitive.
 import {
   COFFEE_CATEGORIES,
   COFFEE_SELF_URL,
-  COFFEE_STRATEGIES,
   isSelfHost,
   normalizeSiteUrl,
+  parseTests,
   type CoffeeCategory,
   type CoffeeErrorType,
   type CoffeeResponse,
@@ -53,8 +53,12 @@ function reply(body: CoffeeResponse, status = 200): Response {
     headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
   });
 }
-function failure(type: CoffeeErrorType, mode: CoffeeResponse['mode'] = 'challenge'): Response {
-  return reply({ mode, visitor: null, james: null, error: type }, STATUS[type]);
+function failure(
+  type: CoffeeErrorType,
+  mode: CoffeeResponse['mode'] = 'challenge',
+  tests: CoffeeStrategy[] = [],
+): Response {
+  return reply({ mode, tests, visitor: null, james: null, error: type }, STATUS[type]);
 }
 
 function reportUrl(url: string, strategy: CoffeeStrategy): string {
@@ -148,18 +152,22 @@ async function score(
   return fresh;
 }
 
-/** Mobile and desktop in parallel. A failed test is null; both failing throws the likeliest cause. */
+/** The requested tests in parallel. A failed or unrequested test is null; all failing throws. */
 async function scanSite(
   url: string,
   host: string,
   ttl: number,
+  tests: CoffeeStrategy[],
   env: CoffeeEnv,
   deps: CoffeeDeps,
 ): Promise<CoffeeSite> {
-  const runs = await Promise.allSettled(
-    COFFEE_STRATEGIES.map((test) => score(url, test.id, ttl, env, deps)),
-  );
-  const [mobile, desktop] = runs.map((run) => (run.status === 'fulfilled' ? run.value : null));
+  const runs = await Promise.allSettled(tests.map((test) => score(url, test, ttl, env, deps)));
+  const result = (test: CoffeeStrategy): CoffeeTest | null => {
+    const run = runs[tests.indexOf(test)];
+    return run?.status === 'fulfilled' ? run.value : null;
+  };
+  const mobile = result('mobile');
+  const desktop = result('desktop');
   if (!mobile && !desktop) {
     const types = runs.map((run) =>
       run.status === 'rejected' && run.reason instanceof CoffeeError ? run.reason.type : 'psi_down',
@@ -176,7 +184,8 @@ export async function handleCoffee(
   deps: CoffeeDeps = {
     fetch: (input, init) => fetch(input, init),
     cache: typeof caches === 'undefined' ? null : (caches as unknown as { default: Cache }).default,
-    timeoutMs: 75000,
+    // SCRUM-218: wait for Google. PSI's own API ceiling is 120 s; this only guards a hung socket.
+    timeoutMs: 130000,
   },
 ): Promise<Response> {
   const origin = new URL(request.url).origin;
@@ -188,9 +197,9 @@ export async function handleCoffee(
     return new Response('Unsupported media type', { status: 415 });
   const raw = await request.text();
   if (raw.length > 4096) return failure('invalid_url');
-  let body: { url?: unknown; mode?: unknown } | null;
+  let body: { url?: unknown; mode?: unknown; tests?: unknown } | null;
   try {
-    body = JSON.parse(raw) as { url?: unknown; mode?: unknown } | null;
+    body = JSON.parse(raw) as { url?: unknown; mode?: unknown; tests?: unknown } | null;
   } catch {
     return failure('invalid_url');
   }
@@ -202,30 +211,37 @@ export async function handleCoffee(
   // djamespoer.com against itself is the solo scan, not a self-match.
   const solo = !site || (site.ok && isSelfHost(site.host));
   const mode = solo ? 'solo' : 'challenge';
+  // SCRUM-218: the browser asks for its device's test, or both. Older clients get both.
+  const requested = parseTests(body?.tests);
+  const tests: CoffeeStrategy[] = requested.length ? requested : ['mobile', 'desktop'];
   if (env.COFFEE_LIMITER) {
     // One scan is one unit, however many PSI calls it makes.
     const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
     const { success } = await env.COFFEE_LIMITER.limit({ key: 'coffee:' + ip }).catch(() => ({
       success: true,
     }));
-    if (!success) return failure('rate_limited', mode);
+    if (!success) return failure('rate_limited', mode, tests);
   }
-  const self = scanSite(COFFEE_SELF_URL, 'djamespoer.com', SELF_TTL, env, deps);
+  const self = scanSite(COFFEE_SELF_URL, 'djamespoer.com', SELF_TTL, tests, env, deps);
   if (solo) {
     try {
-      return reply({ mode, visitor: null, james: await self });
+      return reply({ mode, tests, visitor: null, james: await self });
     } catch (error) {
-      return failure(error instanceof CoffeeError ? error.type : 'psi_down', mode);
+      return failure(error instanceof CoffeeError ? error.type : 'psi_down', mode, tests);
     }
   }
   const target = site as { ok: true; url: string; host: string };
   const [visitor, james] = await Promise.allSettled([
-    scanSite(target.url, target.host, VISITOR_TTL, env, deps),
+    scanSite(target.url, target.host, VISITOR_TTL, tests, env, deps),
     self,
   ]);
   if (visitor.status === 'rejected')
-    return failure(visitor.reason instanceof CoffeeError ? visitor.reason.type : 'psi_down');
+    return failure(
+      visitor.reason instanceof CoffeeError ? visitor.reason.type : 'psi_down',
+      mode,
+      tests,
+    );
   if (james.status === 'rejected')
-    return reply({ mode, visitor: visitor.value, james: null, error: 'self_failed' });
-  return reply({ mode, visitor: visitor.value, james: james.value });
+    return reply({ mode, tests, visitor: visitor.value, james: null, error: 'self_failed' });
+  return reply({ mode, tests, visitor: visitor.value, james: james.value });
 }

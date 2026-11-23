@@ -2741,3 +2741,28 @@ This follows SCRUM-47.
   - 320px stacked layout with a failed mobile test;
   - solo path.
 - Focus and the live region behaved correctly in each case, and axe found zero A/AA violations.
+
+## SCRUM-218 coffee drawer: device-matched scan, wait for Google, Run again (Claude)
+
+James's direction replaces SCRUM-216's "always run all four" behavior.
+- **First scan:** it runs only the device's test. `matchMedia('(pointer: coarse) and (max-width: 48rem)')` selects mobile, and anything else gets desktop. The solo scan follows the same rule.
+- **API:** `POST /api/coffee` takes `tests`. Tests that weren't requested come back null and are listed in `response.tests`. Older clients that send no tests get both.
+- **No cutoff:** the Worker's PSI cap rose from 75 s to 130 s, just above PSI's own 120 s ceiling. Workers have no wall-clock limit while the client is connected. The browser has only a 5-minute safety net, plus Cancel.
+- **While waiting:** a timer counts up. From 30 s the copy changes to "Still brewing… Google's taking its time (m:ss)", and the live region announces once at 30 s.
+- **Results:** one test shows a three-column table and "<Test> test head-to-head: I won X of 4". All four shows the SCRUM-216 layout with "of 8".
+- **Run again:** a native radio fieldset (Mobile, Desktop, All four), defaulting to the test that hasn't run yet.
+- **Analytics:** `test_set` is added to submit, solo and result events, plus a new `coffee_retest` event.
+
+**SCRUM-217 root cause** (evidence is in Jira):
+- Not the page: 6 local Lighthouse runs against production, 3 mobile and 3 desktop, each finished in 12–16 s with no runtime errors or warnings.
+- The failures were our own 75 s abort on PSI calls whose run time varies a lot. Three back-to-back live challenges took 18, 51 and 53 s, and earlier failures ended at exactly 75.2 s.
+- djamespoer.com's PSI Performance also swings widely between runs: mobile 97 → 62, desktop 99 → 60.
+
+**Verified:**
+- Node coffee tests 9/9, `ng test` 473, and `ng build` with the drawer SCSS within budget.
+- Local `wrangler dev`, with `/api/coffee` stubbed:
+  - a desktop device sent `tests: ["desktop"]`;
+  - the timer switched to "Still brewing" at 30 s;
+  - the result was a one-test table with Run again defaulting to Mobile;
+  - Run again → All four showed the wide 7-of-8 table;
+  - a phone (mobile preset) ran the solo mobile test, with no overflow and zero axe violations.

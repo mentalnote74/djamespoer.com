@@ -212,3 +212,38 @@ test('one failed test still returns the other, marked null rather than zero', as
   assert.equal(body.visitor.desktop.scores.performance, 80);
   assert.equal(coffeeTally(body.visitor, body.james).scored, 4);
 });
+
+test('SCRUM-218: a scan runs only the requested test; matchups count only that test', async () => {
+  for (const test of ['mobile', 'desktop']) {
+    const calls = [];
+    const body = await (
+      await handleCoffee(
+        post({ url: 'acme.com', tests: [test] }),
+        {},
+        deps((url) => Response.json(psi(url === SELF ? [0.9, 1, 1, 1] : [0.5, 1, 0.9, 1])), calls),
+      )
+    ).json();
+    assert.deepEqual(body.tests, [test]);
+    assert.equal(calls.length, 2);
+    assert.ok(calls.every((c) => c.searchParams.get('strategy') === test));
+    const other = test === 'mobile' ? 'desktop' : 'mobile';
+    assert.equal(body.visitor[other], null);
+    const tally = coffeeTally(body.visitor, body.james, body.tests);
+    assert.deepEqual(tally, { visitor: 0, james: 2, tied: 2, scored: 4, total: 4 });
+  }
+  const solo = await (
+    await handleCoffee(post({ mode: 'solo', tests: ['desktop'] }), {}, deps(() => Response.json(psi([1, 1, 1, 1]))))
+  ).json();
+  assert.deepEqual(solo.tests, ['desktop']);
+  assert.equal(solo.james.mobile, null);
+  assert.equal(solo.james.desktop.scores.seo, 100);
+});
+
+test('SCRUM-218: unknown tests are ignored; no tests means both (older clients)', async () => {
+  const calls = [];
+  const body = await (
+    await handleCoffee(post({ url: 'acme.com', tests: ['tablet', 42] }), {}, deps(() => Response.json(psi([1, 1, 1, 1])), calls))
+  ).json();
+  assert.deepEqual(body.tests, ['mobile', 'desktop']);
+  assert.equal(calls.length, 4);
+});
