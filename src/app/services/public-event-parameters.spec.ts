@@ -141,15 +141,14 @@ describe('SCRUM-47/216 coffee challenge analytics boundary', () => {
   });
 });
 
-describe('SCRUM-220 site_url: host and path, never a query', () => {
+describe('SCRUM-220 site_url: the full tested URL', () => {
   const base = { location: 'coffee-drawer', site_host: 'acme.com', test_set: 'desktop', test_source: 'prompt' };
-  it('accepts host plus path up to 100 characters', () => {
-    expect(publicEventParameters('coffee_submitted', { ...base, site_url: 'acme.com/indianapolis-carmel/' }, publicPath))
-      .toEqual({ ...base, site_url: 'acme.com/indianapolis-carmel/' });
-  });
-  it('refuses a query string, a fragment, a scheme or more than 100 characters', () => {
-    for (const site_url of ['acme.com/a?email=x@y.com', 'acme.com/#top', 'https://acme.com/', 'acme.com/' + 'a'.repeat(100)])
-      expect(publicEventParameters('coffee_submitted', { ...base, site_url }, publicPath)).toBeNull();
+  it('sends the full URL, query string and long values included', () => {
+    for (const site_url of ['acme.com/indianapolis-carmel/', 'acme.com/p?ref=coffee', 'acme.com/' + 'a'.repeat(150)])
+      expect(publicEventParameters('coffee_submitted', { ...base, site_url }, publicPath)).toEqual({
+        ...base,
+        site_url,
+      });
   });
   it('requires site_url on a submitted challenge and allows it on a retest', () => {
     expect(publicEventParameters('coffee_submitted', base, publicPath)).toBeNull();

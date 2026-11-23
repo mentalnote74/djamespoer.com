@@ -21,7 +21,6 @@ import {
   coffeeVerdict,
   connectionTest,
   displayUrl,
-  gaSiteUrl,
   isSelfHost,
   normalizeSiteUrl,
   scoreBand,
@@ -171,7 +170,7 @@ export class CoffeeDrawer {
       ),
   );
   private host = '';
-  /** SCRUM-220: the tested URL for GA (host and path, no query). Empty for solo scans. */
+  /** SCRUM-220: the full tested URL for GA (James's decision). Empty for solo scans. */
   private siteUrl = '';
   /** The visitor's exact tested URL, as shown in the table, key and banner. */
   readonly visitorLabel = computed(() => {
@@ -223,7 +222,7 @@ export class CoffeeDrawer {
     // djamespoer.com against itself is simply the solo scan.
     if (isSelfHost(site.host)) return this.scanSolo('own_url');
     this.host = site.host;
-    this.siteUrl = gaSiteUrl(site.url);
+    this.siteUrl = displayUrl(site.url);
     this.solo.set(false);
     this.target = { url: site.url };
     this.begin();
