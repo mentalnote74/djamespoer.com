@@ -87,8 +87,6 @@ const coffeeScores = ['visitor', 'james'].flatMap((side) =>
   ),
 );
 const coffeeMatchups = ['matchups_won_visitor', 'matchups_won_james', 'matchups_tied'];
-// SCRUM-220: host and path, at most 100 characters (GA's limit). No query or fragment ever.
-const siteUrl = /^(?=.{4,100}$)[a-z0-9-]+(?:\.[a-z0-9-]+)+(?:\/[^\s?#]*)?$/i;
 // A bare lowercase hostname: no scheme, path, query, fragment, port or credentials can pass.
 const siteHost = /^(?=.{4,253}$)[a-z0-9-]+(?:\.[a-z0-9-]+)+$/;
 
@@ -169,10 +167,11 @@ export function publicEventParameters(
       return null;
     if (host !== undefined) output['site_host'] = host as string;
   }
-  // site_url travels with site_host; a solo scan sends neither.
+  // SCRUM-220: the full tested URL the visitor entered (James's decision). GA applies its own
+  // value-length limit. A solo scan has no visitor URL.
   if (event.startsWith('coffee_') && input['site_url'] !== undefined) {
     const url = input['site_url'];
-    if (typeof url !== 'string' || !siteUrl.test(url) || input['verdict'] === 'solo') return null;
+    if (typeof url !== 'string' || !url || input['verdict'] === 'solo') return null;
     output['site_url'] = url;
   }
   if (event === 'coffee_submitted' && output['site_url'] === undefined) return null;

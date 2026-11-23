@@ -2792,3 +2792,5 @@ James's answers replace v1's device rule and radio buttons.
 - **Display:** the visitor's site now shows as the exact tested URL (`displayUrl`: host + path + query, no scheme). It appears in the wide table header, the "You = …" key and the banner ("…head-to-head, officepride.com/indianapolis-carmel/ vs djamespoer.com: …").
 - **GA:** a new `site_url` parameter (`gaSiteUrl`: host + path, no query, at most 100 characters) goes on `coffee_submitted` (required), `coffee_result`, `coffee_error`, `coffee_retest` and `coffee_book_click`. `site_host` is kept, and the query string never goes to GA.
 - **Verified:** Node coffee tests 11/11, `ng test` 476, `ng build`.
+
+SCRUM-220 correction (James): `site_url` now sends the full tested URL, query string included. Only the `#fragment` is dropped, and the scan never sees it anyway. GA applies its own 100-character value limit; we no longer cut, filter or reject anything. `gaSiteUrl` is removed, and `displayUrl` serves both the drawer and GA. Verified: Node coffee tests 11/11, `ng test` 475, `ng build`.
