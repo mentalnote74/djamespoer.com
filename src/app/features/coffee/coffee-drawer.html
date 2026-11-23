@@ -1,0 +1,141 @@
+<dialog
+  #dialog
+  aria-labelledby="coffee-heading"
+  class="coffee-drawer surface-raised"
+  (cancel)="close($event)"
+>
+  <div class="coffee-drawer__content">
+    <button class="coffee-drawer__close" type="button" aria-label="Close" (click)="close()">
+      <svg lucideX class="action-icon" aria-hidden="true" focusable="false"></svg>
+    </button>
+    <!-- One polite region announces scan start, the verdict and errors. -->
+    <p class="visually-hidden" aria-live="polite">{{ announcement() }}</p>
+
+    @if (phase() === 'result' && result(); as outcome) {
+      <h2 #heading id="coffee-heading" tabindex="-1">{{ verdictHeading() }}</h2>
+      @if (outcome.visitor && outcome.james) {
+        <p>Overall: your site {{ outcome.visitor.overall }}, mine {{ outcome.james.overall }}.</p>
+      } @else {
+        <p>My own scan didn't come back, so there's no verdict. Your scores are below.</p>
+      }
+      <table class="coffee-scores">
+        <caption>
+          Lighthouse, mobile, just now
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            <th scope="col">
+              You <small>{{ outcome.visitor?.host }}</small>
+            </th>
+            <th scope="col">Me <small>djamespoer.com</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows(); track row.id) {
+            <tr [class.coffee-scores__overall]="row.id === 'overall'">
+              <th scope="row">{{ row.label }}</th>
+              @for (cell of [row.visitor, row.james]; track $index) {
+                <td>
+                  @if (cell) {
+                    <span class="coffee-score">
+                      <span class="coffee-score__value">{{ cell.value }}</span>
+                      @if (cell.higher) {
+                        <span class="coffee-score__higher"
+                          ><span aria-hidden="true">▲</span> higher</span
+                        >
+                      }
+                    </span>
+                    <span
+                      class="coffee-score__bar"
+                      aria-hidden="true"
+                      [attr.data-band]="cell.band"
+                      [style.--score]="cell.value"
+                    ></span>
+                    <span class="coffee-score__band">{{ cell.band }}</span>
+                  } @else {
+                    <span class="coffee-score__band">Not scored</span>
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+      <p class="coffee-drawer__reports">
+        Full reports:
+        <a [href]="outcome.visitor?.reportUrl" target="_blank" rel="noopener noreferrer"
+          >yours<span class="visually-hidden"> (opens PageSpeed Insights in a new tab)</span></a
+        >
+        @if (outcome.james) {
+          ·
+          <a [href]="outcome.james.reportUrl" target="_blank" rel="noopener noreferrer"
+            >mine<span class="visually-hidden"> (opens PageSpeed Insights in a new tab)</span></a
+          >
+        }
+      </p>
+      <div class="coffee-drawer__actions">
+        <a class="coffee-drawer__book" [href]="bookHref()" (click)="booked()">Let's set a time</a>
+        <button type="button" (click)="tryAnother()">Try another site</button>
+      </div>
+    } @else {
+      <!-- autofocus: the dialog's own focusing steps land on the heading, not the Close button. -->
+      <h2 #heading id="coffee-heading" tabindex="-1" autofocus>Let's grab a coffee.</h2>
+      <p>
+        One catch: we both run Lighthouse, and the lower score buys. Drop in your site and let's
+        settle it.
+      </p>
+      <form class="coffee-form" novalidate (submit)="submit($event)">
+        <label for="coffee-url">Your website</label>
+        <p id="coffee-url-hint" class="coffee-form__hint">yoursite.com works fine</p>
+        <input
+          #field
+          id="coffee-url"
+          name="url"
+          type="text"
+          inputmode="url"
+          autocomplete="url"
+          autocapitalize="off"
+          spellcheck="false"
+          maxlength="2048"
+          [value]="draft()"
+          (input)="draft.set($any($event.target).value)"
+          [readOnly]="phase() === 'scanning'"
+          [attr.aria-invalid]="invalid() || null"
+          [attr.aria-describedby]="invalid() ? 'coffee-url-hint coffee-url-error' : 'coffee-url-hint'"
+        />
+        @if (invalid()) {
+          <p id="coffee-url-error" class="coffee-form__error">
+            That doesn't look like a public website address. Try something like yoursite.com.
+          </p>
+        }
+        @if (phase() === 'scanning') {
+          <div class="coffee-brewing">
+            <svg class="coffee-brewing__cup" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+              <path class="coffee-brewing__steam" d="M17 14c-2-3 2-5 0-8" />
+              <path class="coffee-brewing__steam" style="animation-delay: 0.6s" d="M24 14c-2-3 2-5 0-8" />
+              <path class="coffee-brewing__steam" style="animation-delay: 1.2s" d="M31 14c-2-3 2-5 0-8" />
+              <path d="M9 20h28v10a10 10 0 0 1-10 10h-8A10 10 0 0 1 9 30Z" />
+              <path d="M37 23h3a4 4 0 0 1 0 8h-3" />
+            </svg>
+            <p>
+              <strong>Brewing…</strong> Lighthouse is testing both sites. Usually 15–40 seconds.
+            </p>
+            <button type="button" (click)="cancel()">Cancel</button>
+          </div>
+        } @else {
+          <button class="coffee-form__submit" type="submit">Who's buying?</button>
+        }
+      </form>
+      @if (errorCopy()) {
+        <div class="coffee-drawer__error">
+          <p #errorMessage tabindex="-1">{{ errorCopy() }}</p>
+          <button type="button" (click)="submit($event)">Try again</button>
+        </div>
+      }
+    }
+    <p class="coffee-drawer__fine-print">
+      Live Google PageSpeed Insights mobile test. Scores vary a little run to run.
+    </p>
+  </div>
+</dialog>

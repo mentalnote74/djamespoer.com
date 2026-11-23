@@ -73,7 +73,8 @@
   &__submenu[hidden] {
     display: none;
   }
-  &__group:last-child > .site-header__submenu {
+  // The last two groups open toward the inline end; the final Coffee? button has no submenu.
+  &__group:nth-last-child(-n + 2) > .site-header__submenu {
     inset-inline-end: 0;
   }
 }

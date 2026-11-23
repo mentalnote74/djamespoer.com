@@ -3,6 +3,8 @@ import { RigbyPreferences } from './features/cookie-preferences/rigby-preference
 import { MobileDelivery } from './services/mobile-delivery';
 import { CookieLoadError } from './features/cookie-preferences/cookie-load-error';
 import { CookiePreferences } from './features/cookie-preferences/cookie-preferences';
+import { CoffeeDrawer } from './features/coffee/coffee-drawer';
+import { CoffeeDrawerService } from './features/coffee/coffee-drawer.service';
 import { Component, ElementRef, inject, signal } from '@angular/core';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
@@ -11,7 +13,7 @@ import { ThemeState } from './services/theme-state';
 import { ModuleRecovery } from './services/module-recovery';
 
 @Component({
-  imports: [Footer, Header, Page, CookiePreferences, CookieLoadError],
+  imports: [Footer, Header, Page, CookiePreferences, CookieLoadError, CoffeeDrawer],
   selector: 'app-root',
   host: { '[class.with-rigby]': 'rigby.enabled()' },
   styleUrl: './app.scss',
@@ -22,6 +24,7 @@ export class App {
   readonly moduleRecovery = inject(ModuleRecovery);
   readonly rigby = inject(RigbyPreferences);
   readonly cookies = inject(CookiePreferencesService);
+  readonly coffee = inject(CoffeeDrawerService);
   readonly delivery = inject(MobileDelivery);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly identityPaused = signal(false);
