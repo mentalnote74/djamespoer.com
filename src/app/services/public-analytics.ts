@@ -104,20 +104,26 @@ export interface EventParameters {
   case_study_view: Common & { employer: Employer };
   /** SCRUM-47 Lighthouse coffee challenge. `site_host` is a hostname only, never a path or query. */
   coffee_open: Common;
-  coffee_submitted: Common & { site_host: string; test_set: CoffeeTestSet; test_source: TestSource };
+  coffee_submitted: Common & {
+    site_host: string;
+    site_url: string;
+    test_set: CoffeeTestSet;
+    test_source: TestSource;
+  };
   coffee_solo_scan: Common & {
     trigger: 'button' | 'own_url';
     test_set: CoffeeTestSet;
     test_source: TestSource;
   };
   /** SCRUM-218: the visitor reran with a chosen test set. */
-  coffee_retest: Common & { test_set: CoffeeTestSet };
+  coffee_retest: Common & { test_set: CoffeeTestSet; site_url?: string };
   /** SCRUM-216: head-to-head tally and every category score per test. Never an average. */
   coffee_result: Common & {
     verdict: 'visitor_buys' | 'james_buys' | 'tie' | 'solo';
     test_set: CoffeeTestSet;
     test_source: TestSource;
     site_host?: string;
+    site_url?: string;
     matchups_won_visitor?: number;
     matchups_won_james?: number;
     matchups_tied?: number;
@@ -126,10 +132,12 @@ export interface EventParameters {
     error_type:
       'invalid_url' | 'unreachable' | 'rate_limited' | 'timeout' | 'psi_down' | 'self_failed';
     site_host?: string;
+    site_url?: string;
   };
   coffee_book_click: Common & {
     verdict: 'visitor_buys' | 'james_buys' | 'tie' | 'no_verdict' | 'solo';
     site_host?: string;
+    site_url?: string;
   };
 }
 export function publicPath(path: string): PublicPath | '/other' {

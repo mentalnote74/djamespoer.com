@@ -67,7 +67,7 @@
               <th scope="col" rowspan="2">Category</th>
               @for (side of sides(); track side) {
                 <th scope="colgroup" colspan="2">
-                  {{ site(side)?.host ?? 'djamespoer.com' }}
+                  {{ side === 'visitor' ? visitorLabel() : 'djamespoer.com' }}
                   @if (outcome.mode === 'challenge') {
                     <small>{{ side === 'visitor' ? 'You' : 'Me' }}</small>
                   }
@@ -137,7 +137,7 @@
           }
           @if (outcome.mode === 'challenge') {
             <p class="coffee-drawer__key">
-              You = {{ outcome.visitor?.host }} · Me = djamespoer.com
+              You = {{ visitorLabel() }} · Me = djamespoer.com
             </p>
           }
         </div>

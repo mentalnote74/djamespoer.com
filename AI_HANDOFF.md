@@ -2786,3 +2786,9 @@ James's answers replace v1's device rule and radio buttons.
     - Run again → All four requested both tests and showed the wide 7-of-8 table;
     - a `cellular` connection went straight to the mobile test with no prompt;
     - axe found zero violations.
+
+## SCRUM-220 coffee drawer: exact tested URL and site_url (Claude)
+
+- **Display:** the visitor's site now shows as the exact tested URL (`displayUrl`: host + path + query, no scheme). It appears in the wide table header, the "You = …" key and the banner ("…head-to-head, officepride.com/indianapolis-carmel/ vs djamespoer.com: …").
+- **GA:** a new `site_url` parameter (`gaSiteUrl`: host + path, no query, at most 100 characters) goes on `coffee_submitted` (required), `coffee_result`, `coffee_error`, `coffee_retest` and `coffee_book_click`. `site_host` is kept, and the query string never goes to GA.
+- **Verified:** Node coffee tests 11/11, `ng test` 476, `ng build`.

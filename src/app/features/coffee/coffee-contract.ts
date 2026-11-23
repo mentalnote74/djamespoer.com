@@ -182,3 +182,18 @@ export function connectionTest(connection: unknown): CoffeeStrategy | null {
   if (c.effectiveType === '4g') return 'desktop';
   return null;
 }
+
+/** SCRUM-220: the exact tested URL as people read it: host, path and query, no scheme. */
+export function displayUrl(url: string): string {
+  const u = new URL(url);
+  return u.host + (u.pathname === '/' ? '' : u.pathname) + u.search;
+}
+/**
+ * SCRUM-220: the tested URL for GA. Host and path only, cut to GA's 100-character parameter
+ * limit. The query string never goes to GA: it can carry tokens or email addresses, and GA's
+ * terms forbid sending personal data.
+ */
+export function gaSiteUrl(url: string): string {
+  const u = new URL(url);
+  return (u.host + (u.pathname === '/' ? '' : u.pathname)).slice(0, 100);
+}

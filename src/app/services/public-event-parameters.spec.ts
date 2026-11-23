@@ -91,6 +91,7 @@ describe('SCRUM-47/216 coffee challenge analytics boundary', () => {
   const result = {
     location: 'coffee-drawer',
     site_host: 'acme-widgets.com',
+    site_url: 'acme-widgets.com/indianapolis-carmel/',
     verdict: 'visitor_buys',
     test_set: 'all',
     test_source: 'prompt',
@@ -110,7 +111,7 @@ describe('SCRUM-47/216 coffee challenge analytics boundary', () => {
   it('refuses a full URL, a path, an out-of-range score or tally', () => {
     for (const site_host of ['https://acme.com', 'acme.com/pricing', 'acme.com?q=1', 'acme'])
       expect(
-        publicEventParameters('coffee_submitted', { location: 'coffee-drawer', site_host, test_set: 'mobile', test_source: 'connection' }, publicPath),
+        publicEventParameters('coffee_submitted', { location: 'coffee-drawer', site_host, site_url: 'acme.com', test_set: 'mobile', test_source: 'connection' }, publicPath),
       ).toBeNull();
     expect(publicEventParameters('coffee_result', { ...result, james_desktop_seo: 101 }, publicPath)).toBeNull();
     expect(publicEventParameters('coffee_result', { ...result, matchups_tied: 9 }, publicPath)).toBeNull();
@@ -137,5 +138,23 @@ describe('SCRUM-47/216 coffee challenge analytics boundary', () => {
     expect(
       publicEventParameters('coffee_error', { location: 'coffee-drawer', error_type: 'invalid_url' }, publicPath),
     ).toEqual({ location: 'coffee-drawer', error_type: 'invalid_url' });
+  });
+});
+
+describe('SCRUM-220 site_url: host and path, never a query', () => {
+  const base = { location: 'coffee-drawer', site_host: 'acme.com', test_set: 'desktop', test_source: 'prompt' };
+  it('accepts host plus path up to 100 characters', () => {
+    expect(publicEventParameters('coffee_submitted', { ...base, site_url: 'acme.com/indianapolis-carmel/' }, publicPath))
+      .toEqual({ ...base, site_url: 'acme.com/indianapolis-carmel/' });
+  });
+  it('refuses a query string, a fragment, a scheme or more than 100 characters', () => {
+    for (const site_url of ['acme.com/a?email=x@y.com', 'acme.com/#top', 'https://acme.com/', 'acme.com/' + 'a'.repeat(100)])
+      expect(publicEventParameters('coffee_submitted', { ...base, site_url }, publicPath)).toBeNull();
+  });
+  it('requires site_url on a submitted challenge and allows it on a retest', () => {
+    expect(publicEventParameters('coffee_submitted', base, publicPath)).toBeNull();
+    expect(
+      publicEventParameters('coffee_retest', { location: 'coffee-drawer', test_set: 'all', site_url: 'acme.com/x' }, publicPath),
+    ).toEqual({ location: 'coffee-drawer', test_set: 'all', site_url: 'acme.com/x' });
   });
 });

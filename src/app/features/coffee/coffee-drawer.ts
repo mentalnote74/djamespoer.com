@@ -20,6 +20,8 @@ import {
   coffeeTally,
   coffeeVerdict,
   connectionTest,
+  displayUrl,
+  gaSiteUrl,
   isSelfHost,
   normalizeSiteUrl,
   scoreBand,
@@ -115,7 +117,8 @@ export class CoffeeDrawer {
     const t = this.tally();
     const counts = `I won ${t.james} · you won ${t.visitor} · ${t.tied} tied`;
     const tests = this.tests();
-    const name = tests.length === 1 ? `${tests[0].label} test head-to-head` : 'Head-to-head';
+    const test = tests.length === 1 ? `${tests[0].label} test head-to-head` : 'Head-to-head';
+    const name = `${test}, ${this.visitorLabel()} vs djamespoer.com`;
     return t.scored === t.total
       ? `${name}: I won ${t.james} of ${t.total} · you won ${t.visitor} · ${t.tied} tied.`
       : `${name}, ${t.scored} of ${t.total} matchups scored: ${counts}.`;
@@ -168,6 +171,13 @@ export class CoffeeDrawer {
       ),
   );
   private host = '';
+  /** SCRUM-220: the tested URL for GA (host and path, no query). Empty for solo scans. */
+  private siteUrl = '';
+  /** The visitor's exact tested URL, as shown in the table, key and banner. */
+  readonly visitorLabel = computed(() => {
+    const url = this.result()?.visitor?.url;
+    return url ? displayUrl(url) : '';
+  });
   private target: { url: string } | { mode: 'solo' } | null = null;
   private trigger: 'button' | 'own_url' = 'button';
   private controller: AbortController | null = null;
@@ -213,6 +223,7 @@ export class CoffeeDrawer {
     // djamespoer.com against itself is simply the solo scan.
     if (isSelfHost(site.host)) return this.scanSolo('own_url');
     this.host = site.host;
+    this.siteUrl = gaSiteUrl(site.url);
     this.solo.set(false);
     this.target = { url: site.url };
     this.begin();
@@ -222,6 +233,7 @@ export class CoffeeDrawer {
     if (this.phase() === 'scanning') return;
     this.invalid.set(false);
     this.host = '';
+    this.siteUrl = '';
     this.solo.set(true);
     this.target = { mode: 'solo' };
     this.trigger = trigger;
@@ -232,7 +244,11 @@ export class CoffeeDrawer {
   choose(set: CoffeeTestSet): void {
     if (!this.target || this.phase() === 'scanning') return;
     if (this.phase() === 'result') {
-      this.analytics.track('coffee_retest', { location: 'coffee-drawer', test_set: set });
+      this.analytics.track('coffee_retest', {
+        location: 'coffee-drawer',
+        test_set: set,
+        ...(this.siteUrl ? { site_url: this.siteUrl } : {}),
+      });
       this.source.set('prompt');
       void this.scan(this.target, set);
     } else this.start(set, 'prompt');
@@ -263,6 +279,7 @@ export class CoffeeDrawer {
       this.analytics.track('coffee_submitted', {
         location: 'coffee-drawer',
         site_host: this.host,
+        site_url: this.siteUrl,
         test_set: set,
         test_source: source,
       });
@@ -293,7 +310,7 @@ export class CoffeeDrawer {
     this.analytics.track('coffee_book_click', {
       location: 'coffee-drawer',
       verdict: this.verdict(),
-      ...(this.host ? { site_host: this.host } : {}),
+      ...(this.host ? { site_host: this.host, site_url: this.siteUrl } : {}),
     });
   }
 
@@ -380,6 +397,7 @@ export class CoffeeDrawer {
         location: 'coffee-drawer',
         error_type: 'self_failed',
         site_host: this.host,
+        site_url: this.siteUrl,
       });
     } else {
       const t = this.tally();
@@ -390,6 +408,7 @@ export class CoffeeDrawer {
         test_set: this.scanning(),
         test_source: this.source(),
         site_host: this.host,
+        site_url: this.siteUrl,
         matchups_won_visitor: t.visitor,
         matchups_won_james: t.james,
         matchups_tied: t.tied,
@@ -406,7 +425,9 @@ export class CoffeeDrawer {
     this.analytics.track('coffee_error', {
       location: 'coffee-drawer',
       error_type: type,
-      ...(this.host && type !== 'invalid_url' ? { site_host: this.host } : {}),
+      ...(this.host && type !== 'invalid_url'
+        ? { site_host: this.host, site_url: this.siteUrl }
+        : {}),
     });
     this.focusAfterRender(() => (type === 'invalid_url' ? this.field() : this.errorMessage()));
   }

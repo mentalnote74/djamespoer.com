@@ -262,3 +262,12 @@ test('SCRUM-218 v2: the connection picks the first test; unknown asks instead of
   assert.equal(connectionTest({}), null);
   assert.equal(connectionTest({ type: 'unknown' }), null);
 });
+
+test('SCRUM-220: display keeps path and query; the GA form drops the query and caps at 100', async () => {
+  const { displayUrl, gaSiteUrl } = await import('../../src/app/features/coffee/coffee-contract.ts');
+  assert.equal(displayUrl('https://officepride.com/indianapolis-carmel/'), 'officepride.com/indianapolis-carmel/');
+  assert.equal(displayUrl('https://example.org/'), 'example.org');
+  assert.equal(displayUrl('https://acme.com/p?ref=x'), 'acme.com/p?ref=x');
+  assert.equal(gaSiteUrl('https://acme.com/p?email=a@b.com'), 'acme.com/p');
+  assert.equal(gaSiteUrl('https://acme.com/' + 'x'.repeat(200)).length, 100);
+});
