@@ -1,4 +1,4 @@
-// SCRUM-47/216: shared by the browser and the Worker, so the URL rules and verdict stay identical.
+// SCRUM-47/216/218: shared by the browser and the Worker, so the URL rules and verdict stay identical.
 // Dependency-free on purpose: the Worker imports this file directly.
 
 export const COFFEE_SELF_URL = 'https://djamespoer.com/';
@@ -18,9 +18,19 @@ export const COFFEE_STRATEGIES: readonly {
   label: string;
   caption: string;
 }[] = [
-  { id: 'mobile', label: 'Mobile', caption: 'Mobile test (simulated slow 4G)' },
-  { id: 'desktop', label: 'Desktop', caption: 'Desktop test' },
+  { id: 'mobile', label: 'Mobile', caption: 'Lighthouse, mobile test (simulated slow 4G), just now' },
+  { id: 'desktop', label: 'Desktop', caption: 'Lighthouse, desktop test, just now' },
 ];
+/** SCRUM-218: which tests a scan runs. `all` is both, the SCRUM-216 four-score view. */
+export type CoffeeTestSet = CoffeeStrategy | 'all';
+export function testsFor(set: CoffeeTestSet): CoffeeStrategy[] {
+  return set === 'all' ? ['mobile', 'desktop'] : [set];
+}
+/** Accept only known tests, deduplicated, in display order; empty or invalid means none. */
+export function parseTests(input: unknown): CoffeeStrategy[] {
+  if (!Array.isArray(input)) return [];
+  return COFFEE_STRATEGIES.map((t) => t.id).filter((id) => input.includes(id));
+}
 
 /** One Lighthouse run: the four category scores for one site on one test. */
 export interface CoffeeTest {
@@ -45,6 +55,8 @@ export type CoffeeErrorType =
 export type CoffeeVerdict = 'visitor_buys' | 'james_buys' | 'tie' | 'no_verdict';
 export interface CoffeeResponse {
   mode: 'challenge' | 'solo';
+  /** The tests this scan ran. A test absent here was not requested, not failed. */
+  tests: CoffeeStrategy[];
   visitor: CoffeeSite | null;
   james: CoffeeSite | null;
   error?: CoffeeErrorType;
@@ -63,18 +75,23 @@ export interface CoffeeTally {
   total: number;
 }
 /** Head-to-head: same category, same test. Only matchups with both scores count. No averages. */
-export function coffeeTally(visitor: CoffeeSite | null, james: CoffeeSite | null): CoffeeTally {
+export function coffeeTally(
+  visitor: CoffeeSite | null,
+  james: CoffeeSite | null,
+  tests: readonly CoffeeStrategy[] = ['mobile', 'desktop'],
+): CoffeeTally {
+  // Matchups exist only for the tests that ran: 4 for one test, 8 for both.
   const tally = {
     visitor: 0,
     james: 0,
     tied: 0,
     scored: 0,
-    total: COFFEE_STRATEGIES.length * COFFEE_CATEGORIES.length,
+    total: tests.length * COFFEE_CATEGORIES.length,
   };
-  for (const test of COFFEE_STRATEGIES)
+  for (const test of tests)
     for (const category of COFFEE_CATEGORIES) {
-      const mine = james?.[test.id]?.scores[category.id];
-      const theirs = visitor?.[test.id]?.scores[category.id];
+      const mine = james?.[test]?.scores[category.id];
+      const theirs = visitor?.[test]?.scores[category.id];
       if (mine === undefined || theirs === undefined) continue;
       tally.scored++;
       if (mine === theirs) tally.tied++;

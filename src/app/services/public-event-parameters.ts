@@ -24,6 +24,7 @@ const sources = [
 ];
 const employers = ['djamespoer', 'exl', 'ips', 'tcc', 'dr'];
 const methods = ['text', 'url', 'file'];
+const testSets = ['mobile', 'desktop', 'all'];
 const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = {
   rigby_encounter: {
     action: ['shown', 'fed', 'dismissed', 'enabled', 'brought_back', 'saved_off'],
@@ -66,9 +67,10 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
   },
   case_study_view: { employer: employers },
   coffee_open: {},
-  coffee_submitted: {},
-  coffee_solo_scan: { trigger: ['button', 'own_url'] },
-  coffee_result: { verdict: ['visitor_buys', 'james_buys', 'tie', 'solo'] },
+  coffee_submitted: { test_set: testSets },
+  coffee_solo_scan: { trigger: ['button', 'own_url'], test_set: testSets },
+  coffee_retest: { test_set: testSets },
+  coffee_result: { verdict: ['visitor_buys', 'james_buys', 'tie', 'solo'], test_set: testSets },
   coffee_error: {
     error_type: ['invalid_url', 'unreachable', 'rate_limited', 'timeout', 'psi_down', 'self_failed'],
   },

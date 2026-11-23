@@ -16,12 +16,12 @@
       @if (cell) {
         <span class="coffee-score__value">{{ cell.value }}</span>
         @if (cell.mark === 'won') {
-          <span class="coffee-score__mark"
-            ><span aria-hidden="true">▲</span><span class="visually-hidden">won</span></span
+          <strong class="coffee-score__mark"
+            ><span aria-hidden="true">▲</span><span class="visually-hidden">won</span></strong
           >
         } @else if (cell.mark === 'tie') {
-          <span class="coffee-score__mark"
-            ><span aria-hidden="true">=</span><span class="visually-hidden">tie</span></span
+          <strong class="coffee-score__mark"
+            ><span aria-hidden="true">=</span><span class="visually-hidden">tie</span></strong
           >
         }
         <span class="coffee-score__band">{{ cell.band }}</span>
@@ -36,13 +36,14 @@
         @if (verdict() === 'no_verdict') {
           <p>My own scans didn't come back, so there's no verdict. Your scores are below.</p>
         } @else {
-          <p class="coffee-drawer__tally">{{ tallyText() }}</p>
+          <p><strong>{{ tallyText() }}</strong></p>
         }
         <p class="coffee-drawer__legend">▲ won the matchup · = tie</p>
       }
 
       <div class="coffee-results">
-        <!-- Wide: one table, four scores per row under grouped site headers. -->
+        @if (tests().length > 1) {
+        <!-- All four, wide: one table, four scores per row under grouped site headers. -->
         <table class="coffee-scores coffee-results__wide">
           <caption>
             Lighthouse, mobile and desktop tests, just now
@@ -66,7 +67,7 @@
             </tr>
             <tr>
               @for (side of sides(); track side) {
-                @for (test of tests; track test.id) {
+                @for (test of tests(); track test.id) {
                   <th scope="col">{{ test.label }}</th>
                 }
               }
@@ -77,7 +78,7 @@
               <tr>
                 <th scope="row">{{ row.label }}</th>
                 @for (side of sides(); track side) {
-                  @for (test of tests; track test.id) {
+                  @for (test of tests(); track test.id) {
                     <td>
                       <ng-container
                         *ngTemplateOutlet="score; context: { $implicit: row.cells[side + '-' + test.id] }"
@@ -89,10 +90,11 @@
             }
           </tbody>
         </table>
+        }
 
-        <!-- Narrow: the same data as one captioned three-column table per test. -->
-        <div class="coffee-results__stacked">
-          @for (test of tests; track test.id) {
+        <!-- One test, or all four when narrow: a captioned three-column table per test. -->
+        <div class="coffee-results__stacked" [class.coffee-results__stacked--only]="tests().length === 1">
+          @for (test of tests(); track test.id) {
             <table class="coffee-scores">
               <caption>
                 {{ test.caption }}
@@ -139,7 +141,7 @@
             ·
           }
           {{ side === 'visitor' ? 'yours' : 'mine' }}
-          @for (test of tests; track test.id) {
+          @for (test of tests(); track test.id) {
             @if (site(side)?.[test.id]; as run) {
               @if (test.id === 'desktop' && site(side)?.mobile) {
                 /
@@ -159,6 +161,25 @@
           {{ outcome.mode === 'solo' ? 'Got a site? Challenge me' : 'Try another site' }}
         </button>
       </div>
+      <!-- SCRUM-218: rerun the same scan with a chosen test set. -->
+      <fieldset class="coffee-retest">
+        <legend><strong>Run again</strong></legend>
+        <div class="coffee-retest__options">
+          @for (option of retestOptions; track option.id) {
+            <label>
+              <input
+                type="radio"
+                name="coffee-retest"
+                [value]="option.id"
+                [checked]="retestChoice() === option.id"
+                (change)="retestChoice.set(option.id)"
+              />
+              {{ option.label }}
+            </label>
+          }
+        </div>
+        <button type="button" (click)="runAgain()">Run again</button>
+      </fieldset>
     } @else {
       <!-- autofocus: the dialog's own focusing steps land on the heading, not the Close button. -->
       <h2 #heading id="coffee-heading" tabindex="-1" autofocus>Let's grab a coffee.</h2>
@@ -167,7 +188,7 @@
         settle it.
       </p>
       <form class="coffee-form" novalidate (submit)="submit($event)">
-        <label for="coffee-url">Your website</label>
+        <label for="coffee-url"><strong>Your website</strong></label>
         <p id="coffee-url-hint" class="coffee-form__hint">yoursite.com works fine</p>
         <input
           #field
@@ -187,14 +208,14 @@
         />
         @if (invalid()) {
           <p id="coffee-url-error" class="coffee-form__error">
-            That doesn't look like a public website address. Try something like yoursite.com.
+            <strong>That doesn't look like a public website address. Try something like yoursite.com.</strong>
           </p>
         }
         @if (phase() !== 'scanning') {
           <button class="coffee-form__submit" type="submit">Who's buying?</button>
         }
       </form>
-      @if (phase() === 'scanning') {
+      @if (phase() === 'scanning' && !result()) {
         <div class="coffee-brewing">
           <svg class="coffee-brewing__cup" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
             <path class="coffee-brewing__steam" d="M17 14c-2-3 2-5 0-8" />
@@ -204,9 +225,13 @@
             <path d="M37 23h3a4 4 0 0 1 0 8h-3" />
           </svg>
           <p>
-            <strong>Brewing…</strong>
-            {{ solo() ? 'Lighthouse is testing djamespoer.com' : 'Lighthouse is testing both sites' }}
-            on mobile and desktop. Usually 15–40 seconds.
+            @if (elapsed() < 30) {
+              <strong>Brewing…</strong> Lighthouse is running {{ brewingTest() }} on
+              {{ solo() ? 'djamespoer.com' : 'both sites' }}
+            } @else {
+              <strong>Still brewing…</strong> Google's taking its time
+            }
+            <span class="coffee-brewing__clock">({{ clock() }})</span>
           </p>
           <button type="button" (click)="cancel()">Cancel</button>
         </div>
@@ -225,7 +250,8 @@
       }
     }
     <p class="coffee-drawer__fine-print">
-      Live Google PageSpeed Insights tests, mobile and desktop. Scores vary a little run to run.
+      Live Google PageSpeed Insights tests. We wait for Google, and scores vary a little run to
+      run.
     </p>
   </div>
 </dialog>
