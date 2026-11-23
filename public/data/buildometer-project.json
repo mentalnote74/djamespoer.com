@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "baselineId": "portfolio-known-scope-t0-v1",
   "t0": "2026-10-19T00:10:06.000Z",
-  "observedAt": "2026-11-12T19:36:45.693Z",
+  "observedAt": "2026-11-23T00:53:32.191Z",
   "observations": [
     {
       "date": "2026-10-19T00:10:06.000Z",
@@ -37,6 +37,15 @@
       "shipped": 219,
       "remaining": 258,
       "added": 32,
+      "removed": 0,
+      "reestimated": 0
+    },
+    {
+      "date": "2026-11-23T00:53:32.191Z",
+      "total": 759,
+      "shipped": 347,
+      "remaining": 412,
+      "added": 282,
       "removed": 0,
       "reestimated": 0
     }

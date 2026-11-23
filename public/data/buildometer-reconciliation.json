@@ -1,16 +1,12 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-11-22T15:01:17.518Z",
-  "scope": "Approved djamespoer.com ledger only",
-  "observedAt": "2026-11-12T19:36:45.693Z",
-  "shipped": 219,
-  "total": 477,
-  "remaining": 258,
-  "percent": 45.9,
-  "status": "pending",
-  "reason": "Pending approval/release reconciliation; last approved numbers retained. No new shipped credit inferred from Jira Done.",
-  "pendingKeys": [],
-  "productionSha": "23ca5b2d1623b403c80fbd31e3e010d7cac6b967",
-  "newerRecordedRelease": false,
-  "unreviewedRelease": true
+  "checkedAt": "2026-11-23T00:53:32.214Z",
+  "scope": "djamespoer.com known scope (Jira SCRUM)",
+  "observedAt": "2026-11-23T00:53:32.191Z",
+  "shipped": 347,
+  "total": 759,
+  "remaining": 412,
+  "percent": 45.7,
+  "status": "observed",
+  "reason": "Recalculated from Jira and recorded a new observation."
 }
