@@ -11,72 +11,153 @@
     <!-- One polite region announces scan start, the verdict and errors. -->
     <p class="visually-hidden" aria-live="polite">{{ announcement() }}</p>
 
+    <!-- One score cell, shared by the wide table and the stacked phone tables. -->
+    <ng-template #score let-cell>
+      @if (cell) {
+        <span class="coffee-score__value">{{ cell.value }}</span>
+        @if (cell.mark === 'won') {
+          <span class="coffee-score__mark"
+            ><span aria-hidden="true">▲</span><span class="visually-hidden">won</span></span
+          >
+        } @else if (cell.mark === 'tie') {
+          <span class="coffee-score__mark"
+            ><span aria-hidden="true">=</span><span class="visually-hidden">tie</span></span
+          >
+        }
+        <span class="coffee-score__band">{{ cell.band }}</span>
+      } @else {
+        <span class="coffee-score__band">couldn't test</span>
+      }
+    </ng-template>
+
     @if (phase() === 'result' && result(); as outcome) {
       <h2 #heading id="coffee-heading" tabindex="-1">{{ verdictHeading() }}</h2>
-      @if (outcome.visitor && outcome.james) {
-        <p>Overall: your site {{ outcome.visitor.overall }}, mine {{ outcome.james.overall }}.</p>
-      } @else {
-        <p>My own scan didn't come back, so there's no verdict. Your scores are below.</p>
+      @if (outcome.mode === 'challenge') {
+        @if (verdict() === 'no_verdict') {
+          <p>My own scans didn't come back, so there's no verdict. Your scores are below.</p>
+        } @else {
+          <p class="coffee-drawer__tally">{{ tallyText() }}</p>
+        }
+        <p class="coffee-drawer__legend">▲ won the matchup · = tie</p>
       }
-      <table class="coffee-scores">
-        <caption>
-          Lighthouse, mobile, just now
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Category</th>
-            <th scope="col">
-              You <small>{{ outcome.visitor?.host }}</small>
-            </th>
-            <th scope="col">Me <small>djamespoer.com</small></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of rows(); track row.id) {
-            <tr [class.coffee-scores__overall]="row.id === 'overall'">
-              <th scope="row">{{ row.label }}</th>
-              @for (cell of [row.visitor, row.james]; track $index) {
-                <td>
-                  @if (cell) {
-                    <span class="coffee-score">
-                      <span class="coffee-score__value">{{ cell.value }}</span>
-                      @if (cell.higher) {
-                        <span class="coffee-score__higher"
-                          ><span aria-hidden="true">▲</span> higher</span
-                        >
-                      }
-                    </span>
-                    <span
-                      class="coffee-score__bar"
-                      aria-hidden="true"
-                      [attr.data-band]="cell.band"
-                      [style.--score]="cell.value"
-                    ></span>
-                    <span class="coffee-score__band">{{ cell.band }}</span>
-                  } @else {
-                    <span class="coffee-score__band">Not scored</span>
+
+      <div class="coffee-results">
+        <!-- Wide: one table, four scores per row under grouped site headers. -->
+        <table class="coffee-scores coffee-results__wide">
+          <caption>
+            Lighthouse, mobile and desktop tests, just now
+          </caption>
+          <!-- Sibling column groups give each site's Mobile/Desktop pair a real colgroup scope. -->
+          <colgroup><col /></colgroup>
+          @for (side of sides(); track side) {
+            <colgroup span="2"></colgroup>
+          }
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">Category</th>
+              @for (side of sides(); track side) {
+                <th scope="colgroup" colspan="2">
+                  {{ site(side)?.host ?? 'djamespoer.com' }}
+                  @if (outcome.mode === 'challenge') {
+                    <small>{{ side === 'visitor' ? 'You' : 'Me' }}</small>
                   }
-                </td>
+                </th>
               }
             </tr>
+            <tr>
+              @for (side of sides(); track side) {
+                @for (test of tests; track test.id) {
+                  <th scope="col">{{ test.label }}</th>
+                }
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of rows(); track row.id) {
+              <tr>
+                <th scope="row">{{ row.label }}</th>
+                @for (side of sides(); track side) {
+                  @for (test of tests; track test.id) {
+                    <td>
+                      <ng-container
+                        *ngTemplateOutlet="score; context: { $implicit: row.cells[side + '-' + test.id] }"
+                      />
+                    </td>
+                  }
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <!-- Narrow: the same data as one captioned three-column table per test. -->
+        <div class="coffee-results__stacked">
+          @for (test of tests; track test.id) {
+            <table class="coffee-scores">
+              <caption>
+                {{ test.caption }}
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Category</th>
+                  @if (outcome.mode === 'challenge') {
+                    <th scope="col">You</th>
+                    <th scope="col">Me</th>
+                  } @else {
+                    <th scope="col">djamespoer.com</th>
+                  }
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of rows(); track row.id) {
+                  <tr>
+                    <th scope="row">{{ row.label }}</th>
+                    @for (side of sides(); track side) {
+                      <td>
+                        <ng-container
+                          *ngTemplateOutlet="score; context: { $implicit: row.cells[side + '-' + test.id] }"
+                        />
+                      </td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
           }
-        </tbody>
-      </table>
+          @if (outcome.mode === 'challenge') {
+            <p class="coffee-drawer__key">
+              You = {{ outcome.visitor?.host }} · Me = djamespoer.com
+            </p>
+          }
+        </div>
+      </div>
+
       <p class="coffee-drawer__reports">
         Full reports:
-        <a [href]="outcome.visitor?.reportUrl" target="_blank" rel="noopener noreferrer"
-          >yours<span class="visually-hidden"> (opens PageSpeed Insights in a new tab)</span></a
-        >
-        @if (outcome.james) {
-          ·
-          <a [href]="outcome.james.reportUrl" target="_blank" rel="noopener noreferrer"
-            >mine<span class="visually-hidden"> (opens PageSpeed Insights in a new tab)</span></a
-          >
+        @for (side of sides(); track side) {
+          @if (!$first) {
+            ·
+          }
+          {{ side === 'visitor' ? 'yours' : 'mine' }}
+          @for (test of tests; track test.id) {
+            @if (site(side)?.[test.id]; as run) {
+              @if (test.id === 'desktop' && site(side)?.mobile) {
+                /
+              }
+              <a [href]="run.reportUrl" target="_blank" rel="noopener noreferrer"
+                >{{ test.id }}<span class="visually-hidden">
+                  (opens PageSpeed Insights in a new tab)</span
+                ></a
+              >
+            }
+          }
         }
       </p>
       <div class="coffee-drawer__actions">
         <a class="coffee-drawer__book" [href]="bookHref()" (click)="booked()">Let's set a time</a>
-        <button type="button" (click)="tryAnother()">Try another site</button>
+        <button type="button" (click)="tryAnother()">
+          {{ outcome.mode === 'solo' ? 'Got a site? Challenge me' : 'Try another site' }}
+        </button>
       </div>
     } @else {
       <!-- autofocus: the dialog's own focusing steps land on the heading, not the Close button. -->
@@ -109,33 +190,42 @@
             That doesn't look like a public website address. Try something like yoursite.com.
           </p>
         }
-        @if (phase() === 'scanning') {
-          <div class="coffee-brewing">
-            <svg class="coffee-brewing__cup" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-              <path class="coffee-brewing__steam" d="M17 14c-2-3 2-5 0-8" />
-              <path class="coffee-brewing__steam" style="animation-delay: 0.6s" d="M24 14c-2-3 2-5 0-8" />
-              <path class="coffee-brewing__steam" style="animation-delay: 1.2s" d="M31 14c-2-3 2-5 0-8" />
-              <path d="M9 20h28v10a10 10 0 0 1-10 10h-8A10 10 0 0 1 9 30Z" />
-              <path d="M37 23h3a4 4 0 0 1 0 8h-3" />
-            </svg>
-            <p>
-              <strong>Brewing…</strong> Lighthouse is testing both sites. Usually 15–40 seconds.
-            </p>
-            <button type="button" (click)="cancel()">Cancel</button>
-          </div>
-        } @else {
+        @if (phase() !== 'scanning') {
           <button class="coffee-form__submit" type="submit">Who's buying?</button>
         }
       </form>
+      @if (phase() === 'scanning') {
+        <div class="coffee-brewing">
+          <svg class="coffee-brewing__cup" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path class="coffee-brewing__steam" d="M17 14c-2-3 2-5 0-8" />
+            <path class="coffee-brewing__steam" style="animation-delay: 0.6s" d="M24 14c-2-3 2-5 0-8" />
+            <path class="coffee-brewing__steam" style="animation-delay: 1.2s" d="M31 14c-2-3 2-5 0-8" />
+            <path d="M9 20h28v10a10 10 0 0 1-10 10h-8A10 10 0 0 1 9 30Z" />
+            <path d="M37 23h3a4 4 0 0 1 0 8h-3" />
+          </svg>
+          <p>
+            <strong>Brewing…</strong>
+            {{ solo() ? 'Lighthouse is testing djamespoer.com' : 'Lighthouse is testing both sites' }}
+            on mobile and desktop. Usually 15–40 seconds.
+          </p>
+          <button type="button" (click)="cancel()">Cancel</button>
+        </div>
+      } @else {
+        <div class="coffee-solo">
+          <p class="coffee-solo__or">or</p>
+          <p><strong>No website? No problem.</strong></p>
+          <button type="button" (click)="scanSolo()">Just scan djamespoer.com</button>
+        </div>
+      }
       @if (errorCopy()) {
         <div class="coffee-drawer__error">
           <p #errorMessage tabindex="-1">{{ errorCopy() }}</p>
-          <button type="button" (click)="submit($event)">Try again</button>
+          <button type="button" (click)="retry($event)">Try again</button>
         </div>
       }
     }
     <p class="coffee-drawer__fine-print">
-      Live Google PageSpeed Insights mobile test. Scores vary a little run to run.
+      Live Google PageSpeed Insights tests, mobile and desktop. Scores vary a little run to run.
     </p>
   </div>
 </dialog>

@@ -67,20 +67,19 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
   case_study_view: { employer: employers },
   coffee_open: {},
   coffee_submitted: {},
-  coffee_result: { verdict: ['visitor_buys', 'james_buys', 'tie'] },
+  coffee_solo_scan: { trigger: ['button', 'own_url'] },
+  coffee_result: { verdict: ['visitor_buys', 'james_buys', 'tie', 'solo'] },
   coffee_error: {
     error_type: ['invalid_url', 'unreachable', 'rate_limited', 'timeout', 'psi_down', 'self_failed'],
   },
-  coffee_book_click: { verdict: ['visitor_buys', 'james_buys', 'tie', 'no_verdict'] },
+  coffee_book_click: { verdict: ['visitor_buys', 'james_buys', 'tie', 'no_verdict', 'solo'] },
 };
-const coffeeScores = [
-  'visitor_score',
-  'james_score',
-  'visitor_performance',
-  'visitor_accessibility',
-  'visitor_best_practices',
-  'visitor_seo',
-];
+const coffeeScores = ['visitor', 'james'].flatMap((side) =>
+  ['mobile', 'desktop'].flatMap((test) =>
+    ['performance', 'accessibility', 'best_practices', 'seo'].map((c) => `${side}_${test}_${c}`),
+  ),
+);
+const coffeeMatchups = ['matchups_won_visitor', 'matchups_won_james', 'matchups_tied'];
 // A bare lowercase hostname: no scheme, path, query, fragment, port or credentials can pass.
 const siteHost = /^(?=.{4,253}$)[a-z0-9-]+(?:\.[a-z0-9-]+)+$/;
 
@@ -152,16 +151,27 @@ export function publicEventParameters(
       output[key] = count as number;
     }
   }
-  if (event.startsWith('coffee_') && event !== 'coffee_open') {
+  // site_host: required for a challenge, absent for a solo scan, optional on errors and bookings.
+  if (['coffee_submitted', 'coffee_result', 'coffee_error', 'coffee_book_click'].includes(event)) {
     const host = input['site_host'];
-    if (host !== undefined || event !== 'coffee_error') {
-      if (typeof host !== 'string' || !siteHost.test(host)) return null;
-      output['site_host'] = host;
-    }
+    const solo = input['verdict'] === 'solo';
+    const required = event === 'coffee_submitted' || (event === 'coffee_result' && !solo);
+    if (host === undefined ? required : solo || typeof host !== 'string' || !siteHost.test(host))
+      return null;
+    if (host !== undefined) output['site_host'] = host as string;
   }
   if (event === 'coffee_result') {
+    const solo = input['verdict'] === 'solo';
+    for (const key of coffeeMatchups) {
+      const count = input[key];
+      if (count === undefined && solo) continue;
+      if (solo || !Number.isInteger(count) || (count as number) < 0 || (count as number) > 8)
+        return null;
+      output[key] = count as number;
+    }
     for (const key of coffeeScores) {
       const score = input[key];
+      if (score === undefined) continue; // a failed test sends no score, never a zero
       if (!Number.isInteger(score) || (score as number) < 0 || (score as number) > 100) return null;
       output[key] = score as number;
     }

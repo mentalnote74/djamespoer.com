@@ -1,14 +1,17 @@
-// SCRUM-47 Lighthouse coffee challenge: a narrow proxy to Google PageSpeed Insights.
+// SCRUM-47/216 Lighthouse coffee challenge: a narrow proxy to Google PageSpeed Insights.
 // Google fetches the visitor's site; this Worker never does, so it is not an SSRF primitive.
 import {
   COFFEE_CATEGORIES,
   COFFEE_SELF_URL,
-  coffeeOverall,
+  COFFEE_STRATEGIES,
+  isSelfHost,
   normalizeSiteUrl,
   type CoffeeCategory,
   type CoffeeErrorType,
   type CoffeeResponse,
-  type CoffeeSiteScore,
+  type CoffeeSite,
+  type CoffeeStrategy,
+  type CoffeeTest,
 } from '../../src/app/features/coffee/coffee-contract.ts';
 
 export interface CoffeeEnv {
@@ -26,6 +29,7 @@ export interface CoffeeDeps {
 const PSI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
 const VISITOR_TTL = 1800;
 const SELF_TTL = 600;
+type ScanError = Exclude<CoffeeErrorType, 'self_failed' | 'invalid_url' | 'rate_limited'>;
 const STATUS: Record<CoffeeErrorType, number> = {
   invalid_url: 400,
   unreachable: 422,
@@ -36,8 +40,8 @@ const STATUS: Record<CoffeeErrorType, number> = {
 };
 
 class CoffeeError extends Error {
-  readonly type: Exclude<CoffeeErrorType, 'self_failed' | 'invalid_url'>;
-  constructor(type: CoffeeError['type']) {
+  readonly type: ScanError;
+  constructor(type: ScanError) {
     super(type);
     this.type = type;
   }
@@ -49,12 +53,18 @@ function reply(body: CoffeeResponse, status = 200): Response {
     headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
   });
 }
-function failure(type: CoffeeErrorType): Response {
-  return reply({ visitor: null, james: null, error: type }, STATUS[type]);
+function failure(type: CoffeeErrorType, mode: CoffeeResponse['mode'] = 'challenge'): Response {
+  return reply({ mode, visitor: null, james: null, error: type }, STATUS[type]);
 }
 
-/** Keep only the four scores and identifying metadata from a PSI result. */
-export function parsePsi(body: unknown, requested: string): CoffeeSiteScore {
+function reportUrl(url: string, strategy: CoffeeStrategy): string {
+  return (
+    'https://pagespeed.web.dev/analysis?url=' + encodeURIComponent(url) + '&form_factor=' + strategy
+  );
+}
+
+/** Keep only the four category scores and when they were measured. */
+export function parsePsi(body: unknown, requested: string, strategy: CoffeeStrategy): CoffeeTest {
   const result = (body as { lighthouseResult?: Record<string, unknown> } | null)?.lighthouseResult;
   if (!result) throw new CoffeeError('psi_down');
   if ((result['runtimeError'] as { code?: string } | undefined)?.code)
@@ -67,25 +77,20 @@ export function parsePsi(body: unknown, requested: string): CoffeeSiteScore {
     if (typeof score !== 'number' || !Number.isFinite(score)) throw new CoffeeError('unreachable');
     scores[category.id] = Math.max(0, Math.min(100, Math.round(score * 100)));
   }
-  const final = normalizeSiteUrl(result['finalDisplayedUrl'] ?? result['finalUrl']);
-  const url = final.ok ? final.url : requested;
   const fetchedAt =
     typeof result['fetchTime'] === 'string' && !Number.isNaN(Date.parse(result['fetchTime']))
       ? new Date(result['fetchTime']).toISOString()
       : new Date().toISOString();
-  return {
-    url,
-    host: new URL(url).hostname,
-    fetchedAt,
-    reportUrl:
-      'https://pagespeed.web.dev/analysis?url=' + encodeURIComponent(requested) + '&form_factor=mobile',
-    scores,
-    overall: coffeeOverall(scores),
-  };
+  return { fetchedAt, reportUrl: reportUrl(requested, strategy), scores };
 }
 
-async function runPsi(url: string, env: CoffeeEnv, deps: CoffeeDeps): Promise<CoffeeSiteScore> {
-  const query = new URLSearchParams({ url, strategy: 'mobile' });
+async function runPsi(
+  url: string,
+  strategy: CoffeeStrategy,
+  env: CoffeeEnv,
+  deps: CoffeeDeps,
+): Promise<CoffeeTest> {
+  const query = new URLSearchParams({ url, strategy });
   for (const category of COFFEE_CATEGORIES) query.append('category', category.psi);
   if (env.PAGESPEED_API_KEY) query.set('key', env.PAGESPEED_API_KEY);
   let response: Response;
@@ -114,33 +119,55 @@ async function runPsi(url: string, env: CoffeeEnv, deps: CoffeeDeps): Promise<Co
         : 'psi_down',
     );
   }
-  return parsePsi(await response.json().catch(() => null), url);
+  return parsePsi(await response.json().catch(() => null), url, strategy);
 }
 
-/** Serve one site's score from the edge cache, or run PSI and keep the result. */
+/** Serve one test from the edge cache, or run PSI and keep the result. The key names the test. */
 async function score(
   url: string,
+  strategy: CoffeeStrategy,
   ttl: number,
   env: CoffeeEnv,
   deps: CoffeeDeps,
-): Promise<CoffeeSiteScore> {
-  const key = new Request('https://coffee-cache.djamespoer.com/v1?u=' + encodeURIComponent(url));
+): Promise<CoffeeTest> {
+  const key = new Request(
+    'https://coffee-cache.djamespoer.com/v2/' + strategy + '?u=' + encodeURIComponent(url),
+  );
   const hit = await deps.cache?.match(key).catch(() => undefined);
   if (hit) {
     try {
-      return (await hit.json()) as CoffeeSiteScore;
+      return (await hit.json()) as CoffeeTest;
     } catch {
       /* A damaged entry is replaced by a fresh run. */
     }
   }
-  const fresh = await runPsi(url, env, deps);
+  const fresh = await runPsi(url, strategy, env, deps);
   await deps.cache
-    ?.put(
-      key,
-      Response.json(fresh, { headers: { 'Cache-Control': 'public, max-age=' + ttl } }),
-    )
+    ?.put(key, Response.json(fresh, { headers: { 'Cache-Control': 'public, max-age=' + ttl } }))
     .catch(() => {});
   return fresh;
+}
+
+/** Mobile and desktop in parallel. A failed test is null; both failing throws the likeliest cause. */
+async function scanSite(
+  url: string,
+  host: string,
+  ttl: number,
+  env: CoffeeEnv,
+  deps: CoffeeDeps,
+): Promise<CoffeeSite> {
+  const runs = await Promise.allSettled(
+    COFFEE_STRATEGIES.map((test) => score(url, test.id, ttl, env, deps)),
+  );
+  const [mobile, desktop] = runs.map((run) => (run.status === 'fulfilled' ? run.value : null));
+  if (!mobile && !desktop) {
+    const types = runs.map((run) =>
+      run.status === 'rejected' && run.reason instanceof CoffeeError ? run.reason.type : 'psi_down',
+    );
+    const order: ScanError[] = ['unreachable', 'timeout', 'psi_down'];
+    throw new CoffeeError(order.find((type) => types.includes(type)) ?? 'psi_down');
+  }
+  return { url, host, mobile, desktop };
 }
 
 export async function handleCoffee(
@@ -161,27 +188,44 @@ export async function handleCoffee(
     return new Response('Unsupported media type', { status: 415 });
   const raw = await request.text();
   if (raw.length > 4096) return failure('invalid_url');
-  let input: unknown;
+  let body: { url?: unknown; mode?: unknown } | null;
   try {
-    input = (JSON.parse(raw) as { url?: unknown } | null)?.url;
+    body = JSON.parse(raw) as { url?: unknown; mode?: unknown } | null;
   } catch {
     return failure('invalid_url');
   }
-  const site = normalizeSiteUrl(input);
-  if (!site.ok) return failure('invalid_url');
+  let site: ReturnType<typeof normalizeSiteUrl> | null = null;
+  if (body?.mode !== 'solo') {
+    site = normalizeSiteUrl(body?.url);
+    if (!site.ok) return failure('invalid_url');
+  }
+  // djamespoer.com against itself is the solo scan, not a self-match.
+  const solo = !site || (site.ok && isSelfHost(site.host));
+  const mode = solo ? 'solo' : 'challenge';
   if (env.COFFEE_LIMITER) {
+    // One scan is one unit, however many PSI calls it makes.
     const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
     const { success } = await env.COFFEE_LIMITER.limit({ key: 'coffee:' + ip }).catch(() => ({
       success: true,
     }));
-    if (!success) return failure('rate_limited');
+    if (!success) return failure('rate_limited', mode);
   }
+  const self = scanSite(COFFEE_SELF_URL, 'djamespoer.com', SELF_TTL, env, deps);
+  if (solo) {
+    try {
+      return reply({ mode, visitor: null, james: await self });
+    } catch (error) {
+      return failure(error instanceof CoffeeError ? error.type : 'psi_down', mode);
+    }
+  }
+  const target = site as { ok: true; url: string; host: string };
   const [visitor, james] = await Promise.allSettled([
-    score(site.url, VISITOR_TTL, env, deps),
-    score(COFFEE_SELF_URL, SELF_TTL, env, deps),
+    scanSite(target.url, target.host, VISITOR_TTL, env, deps),
+    self,
   ]);
   if (visitor.status === 'rejected')
     return failure(visitor.reason instanceof CoffeeError ? visitor.reason.type : 'psi_down');
-  if (james.status === 'rejected') return reply({ visitor: visitor.value, james: null, error: 'self_failed' });
-  return reply({ visitor: visitor.value, james: james.value });
+  if (james.status === 'rejected')
+    return reply({ mode, visitor: visitor.value, james: null, error: 'self_failed' });
+  return reply({ mode, visitor: visitor.value, james: james.value });
 }
