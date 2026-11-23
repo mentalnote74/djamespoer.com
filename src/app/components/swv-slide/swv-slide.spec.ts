@@ -13,14 +13,37 @@ describe('SWV stable explicit embed context', () => {
       ],
     }),
   );
+
+  const render = async (hero: boolean) => {
+    const f = TestBed.createComponent(SwvSlide);
+    f.componentRef.setInput('hero', hero);
+    f.componentRef.setInput('active', false);
+    f.detectChanges();
+    await f.whenStable();
+    f.detectChanges();
+    return f;
+  };
+
+  // SCRUM-219: the homepage carousel no longer loads the third-party scene during first paint.
+  it('keeps the inactive carousel slide unmounted until its turn or a first interaction', async () => {
+    const f = await render(false);
+    expect(f.nativeElement.querySelector('iframe')).toBeNull();
+    window.dispatchEvent(new Event('pointerdown'));
+    f.detectChanges();
+    expect(f.nativeElement.querySelector('iframe')).not.toBeNull();
+  });
+
   for (const hero of [false, true])
     it(`uses finite ${hero ? 'hero' : 'carousel'} context with no UTM and preserves the same iframe`, async () => {
-      const f = TestBed.createComponent(SwvSlide);
-      f.componentRef.setInput('hero', hero);
-      f.componentRef.setInput('active', false);
-      f.detectChanges();
-      await f.whenStable();
-      f.detectChanges();
+      const f = await render(hero);
+      if (!hero) {
+        // The carousel slide mounts when it becomes active.
+        expect(f.nativeElement.querySelector('iframe')).toBeNull();
+        f.componentRef.setInput('active', true);
+        f.detectChanges();
+        await f.whenStable();
+        f.detectChanges();
+      }
       const frame = f.nativeElement.querySelector('iframe') as HTMLIFrameElement;
       expect(frame).not.toBeNull();
       const url = new URL(frame.src);

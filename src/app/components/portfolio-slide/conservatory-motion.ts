@@ -43,6 +43,12 @@ export class ConservatoryMotion {
     this.frame = 0;
   }
 
+  /** Stops the loop and releases the chameleon's shader worker. */
+  destroy(): void {
+    this.stop();
+    this.skin.destroy();
+  }
+
   reset(): void {
     this.elapsed = 0;
     this.reveal();

@@ -2811,3 +2811,27 @@ One of six fresh scans returned no "Me" scores, which is what James saw. example
 I wasn't allowed to create a new KV namespace, so the last-good copy lives in the per-datacenter Cache API rather than global KV.
 
 **Verified:** Node coffee tests 12/12, including retry and last-good; `ng test` 475; `ng build`.
+
+## SCRUM-219 homepage performance: shaders off the main thread (Claude)
+
+**Evidence:** I CPU-profiled a local production build with source maps (mobile, 4x CPU) and mapped self time per source file over 9.5 s:
+- `living-chameleon.ts`: 2,943 ms;
+- `sky-preview.ts`: 696 ms;
+- `conservatory-motion.ts`: 600 ms;
+- Angular core: about 400 ms.
+
+The chameleon pigment and the header-sky clouds are per-pixel CPU shaders, painted 20 times a second on the main thread. Every frame was a long task, so the page never went quiet for Lighthouse. In Lighthouse's network simulation, the homepage also loaded a 183 KB 1000×500 chameleon image, shown at 159 px wide on mobile, and mounted the Shady White Van third-party iframe during first paint.
+
+**Fix, with no design change:**
+- Both shaders moved verbatim into kernel modules (`living-chameleon.kernel.ts`, `sky-preview.kernel.ts`). They run in module Web Workers, with transferred frame buffers, one frame in flight at a time, and the same kernel inline as a fallback.
+- The chameleon image is now a 640×320 encode (183 → 75 KB). The perch never exceeds about 205 CSS px, so this is visually lossless.
+- The homepage SWV slide mounts on the first of: becoming active, the first interaction, or idle 15 s after load. The case-study hero still mounts at once.
+
+**Local Lighthouse 13.5, PSI-equivalent settings, 3 runs each:**
+- desktop: 89–92 → 98/98/98;
+- mobile: 53–60 → 74–79, with TBT 340–570 → 70–300 ms;
+- Accessibility, Best Practices and SEO stay at 100, and CLS ≤ 0.023.
+
+Mobile FCP (about 3 s simulated) is still the limiter.
+
+**Verified:** `ng test` 476; `ng build`. In headless Chrome the chameleon canvas paints and changes frame to frame, and the sky renders.
