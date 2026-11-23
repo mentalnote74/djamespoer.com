@@ -14,7 +14,7 @@ const percent = Math.round((current.shipped / current.total) * 1000) / 10;
 const status =
   Date.parse(projection.latestEligibleReleaseAt) > Date.parse(projection.observedAt)
     ? 'Newer production release awaits reconciliation.'
-    : 'Reconciled through the latest recorded eligible release.';
+    : 'Recalculated from Jira with each daily brief.';
 const result = { checks: [], axe: [], errors: [], externalRequests: 0 };
 try {
   const p = await b.newPage();

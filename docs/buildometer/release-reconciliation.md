@@ -1,5 +1,7 @@
 # Buildometer release reconciliation
 
+> **SCRUM-213 (2026-11-22): superseded for daily progress.** James's direction: Buildometer recalculates every day during the executive brief. `scripts/scrum-brief/daily-reconciliation.mjs` now reads every SCRUM issue from Jira and computes scope (estimated, non-epic, non-subtask, not `parked`, not in the ledger's exclusions), points (Jira estimate) and shipped (Done status category, never revoked). It appends an observation through `project.mjs observe` when anything changed, and the brief commits the ledger and projection. Keeping Jira estimates and Done status current is therefore what moves the number. The manual procedure below remains for scope corrections only.
+
 Owner: James. Operator: Larry or an authorized release operator. This is the named **BOM release reconciliation check** in release completion and AI_HANDOFF. It reuses the approved known-scope ledger and existing observer; it is not live Jira status counting or a new scheduler.
 
 ## Normal release completion

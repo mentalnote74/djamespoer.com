@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { generate } from './generate.mjs';
-import { runBeforeBrief, reconciliationPath } from './daily-reconciliation.mjs';
+import { runBeforeBrief, reconciliationPath, observationFiles } from './daily-reconciliation.mjs';
 const run = (command, args, extra = {}) =>
   execFileSync(command, args, { stdio: 'inherit', ...extra });
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
@@ -10,6 +10,8 @@ const files = [
   'src/app/components/daily-scrum-brief/brief.generated.ts',
   'public/data/product-journal.json',
   reconciliationPath,
+  // SCRUM-213: the day's recalculated Buildometer observation ships with the brief.
+  ...observationFiles,
 ];
 try {
   if (
