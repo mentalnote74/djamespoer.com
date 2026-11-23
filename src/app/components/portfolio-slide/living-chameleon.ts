@@ -1,5 +1,8 @@
 import { paintChameleon, prepareMapping } from './living-chameleon.kernel';
 
+/** The perch box on the 2172x724 stage: left, top, width, height as fractions. */
+const PERCH = [0.792, 0.732, 0.16, 0.24] as const;
+
 /**
  * Pigment changes mapped through the original scales, shading and silhouette.
  * SCRUM-219: the per-pixel shader runs in a Web Worker; the main thread only uploads finished
@@ -24,8 +27,11 @@ export class LivingChameleon {
 
   constructor(private readonly animal: HTMLElement) {
     this.canvas = animal.querySelector<HTMLCanvasElement>('.chameleon-material')!;
-    this.source = animal.querySelector<HTMLImageElement>('.chameleon-body')!;
+    // SCRUM-219: the body is the registered stage layer; sample only the perch box from it.
+    this.source = animal.querySelector<HTMLImageElement>('.chameleon-body img')!;
     this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
+    // The registered layer loads lazily; a still (reduced-motion) reveal may precede it.
+    this.source.addEventListener('load', () => this.render(this.lastTime, true));
     if (typeof Worker !== 'undefined')
       try {
         this.worker = new Worker(new URL('./living-chameleon.worker', import.meta.url), {
@@ -68,7 +74,11 @@ export class LivingChameleon {
     const height = Math.round(width / 2);
     this.canvas.width = width;
     this.canvas.height = height;
-    this.ctx.drawImage(this.source, 0, 0, width, height);
+    // drawImage works in the file's real pixels, but naturalWidth is density-corrected for a
+    // srcset choice. Registered exports are named <layer>-<width>.<ext> and are always 3:1.
+    const w = Number(/-(\d+)\.\w+$/.exec(this.source.currentSrc)?.[1]) || this.source.naturalWidth,
+      h = w / 3;
+    this.ctx.drawImage(this.source, PERCH[0] * w, PERCH[1] * h, PERCH[2] * w, PERCH[3] * h, 0, 0, width, height);
     this.texture = this.ctx.getImageData(0, 0, width, height);
     this.pixels = this.ctx.createImageData(width, height);
     this.sourceUrl = this.source.currentSrc;

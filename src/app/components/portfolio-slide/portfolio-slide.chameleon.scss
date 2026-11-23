@@ -8,16 +8,22 @@
   position: absolute; left: 79.2%; top: 73.2%; width: 16%; aspect-ratio: 2;
   transform: rotate(-9deg) scaleY(var(--breath)); transform-origin: 50% 90%; isolation: isolate;
 }
-.djp-conservatory .chameleon-body,
-.djp-conservatory .chameleon-material,
-.djp-conservatory .chameleon-eye {
+.djp-conservatory .chameleon-material {
   position: absolute; inset: 0; width: 100%; height: 100%;
+}
+// SCRUM-219: the chameleon is a registered stage layer (conservatory/chameleon). Inside the
+// perch it is shown at full stage size, offset so only the perch box (16% x 24% at 79.2%, 73.2%
+// of the stage) shows; the perch's rotation and breathing still apply.
+.djp-conservatory .chameleon-body,
+.djp-conservatory .chameleon-eye {
+  position: absolute; inset: auto; left: -495%; top: -305%; width: 625%; height: 416.667%;
 }
 .djp-conservatory .chameleon-body { opacity: 1; }
 .djp-conservatory .chameleon-material { opacity: 0; }
 .djp-conservatory .chameleon-material.is-painted { opacity: 1; }
 .djp-conservatory .chameleon-eye {
-  clip-path: ellipse(3.3% 6.6% at 15.5% 41.6%);
+  // The original perch-relative ellipse (3.3% 6.6% at 15.5% 41.6%) in stage coordinates.
+  clip-path: ellipse(0.528% 1.584% at 81.68% 83.184%);
   transform: translateX(var(--eye-turn));
 }
 .djp-conservatory .chameleon-shadow {
