@@ -88,6 +88,11 @@ export function parsePsi(body: unknown, requested: string, strategy: CoffeeStrat
   return { fetchedAt, reportUrl: reportUrl(requested, strategy), scores };
 }
 
+/** SCRUM-217: one structured log line per PSI call, readable with `wrangler tail`. Never the key. */
+function logPsi(fields: Record<string, unknown>): void {
+  console.log(JSON.stringify({ event: 'coffee_psi', ...fields }));
+}
+
 async function runPsi(
   url: string,
   strategy: CoffeeStrategy,
@@ -97,6 +102,9 @@ async function runPsi(
   const query = new URLSearchParams({ url, strategy });
   for (const category of COFFEE_CATEGORIES) query.append('category', category.psi);
   if (env.PAGESPEED_API_KEY) query.set('key', env.PAGESPEED_API_KEY);
+  const started = Date.now();
+  const log = (fields: Record<string, unknown>) =>
+    logPsi({ url, strategy, ms: Date.now() - started, ...fields });
   let response: Response;
   try {
     response = await deps.fetch(PSI + '?' + query, {
@@ -104,17 +112,23 @@ async function runPsi(
       signal: AbortSignal.timeout(deps.timeoutMs),
     });
   } catch (error) {
-    throw new CoffeeError(
-      error instanceof Error && error.name === 'TimeoutError' ? 'timeout' : 'psi_down',
-    );
+    const name = error instanceof Error ? error.name : 'Error';
+    log({ outcome: 'fetch_failed', error: name, message: String(error).slice(0, 200) });
+    throw new CoffeeError(name === 'TimeoutError' ? 'timeout' : 'psi_down');
   }
   if (!response.ok) {
     // PSI reports a page Lighthouse could not load as a 400 or 500 whose message names the
     // Lighthouse error. Quota exhaustion (429) and other provider errors mean PSI is unavailable.
-    const message = String(
-      ((await response.json().catch(() => null)) as { error?: { message?: unknown } } | null)
-        ?.error?.message ?? '',
-    );
+    const body = (await response.json().catch(() => null)) as {
+      error?: { message?: unknown; status?: unknown };
+    } | null;
+    const message = String(body?.error?.message ?? '');
+    log({
+      outcome: 'http_error',
+      status: response.status,
+      psiStatus: body?.error?.status,
+      message: message.slice(0, 300),
+    });
     const lighthouse =
       /Lighthouse returned error|DOCUMENT_REQUEST|DNS_FAILURE|NO_FCP|NOT_HTML|INVALID_URL|unable to (?:reliably )?load/i;
     throw new CoffeeError(
@@ -123,7 +137,25 @@ async function runPsi(
         : 'psi_down',
     );
   }
-  return parsePsi(await response.json().catch(() => null), url, strategy);
+  const body = await response.json().catch(() => null);
+  try {
+    const parsed = parsePsi(body, url, strategy);
+    log({ outcome: 'ok', scores: parsed.scores });
+    return parsed;
+  } catch (error) {
+    const result = (body as { lighthouseResult?: Record<string, unknown> } | null)
+      ?.lighthouseResult;
+    const runtime = result?.['runtimeError'] as { code?: unknown; message?: unknown } | undefined;
+    const categories = (result?.['categories'] ?? {}) as Record<string, { score?: unknown }>;
+    log({
+      outcome: 'lighthouse_failed',
+      runtimeError: runtime?.code,
+      message: String(runtime?.message ?? '').slice(0, 300),
+      runWarnings: result?.['runWarnings'],
+      scores: Object.fromEntries(Object.entries(categories).map(([k, v]) => [k, v?.score])),
+    });
+    throw error;
+  }
 }
 
 /** Serve one test from the edge cache, or run PSI and keep the result. The key names the test. */
@@ -140,7 +172,9 @@ async function score(
   const hit = await deps.cache?.match(key).catch(() => undefined);
   if (hit) {
     try {
-      return (await hit.json()) as CoffeeTest;
+      const cached = (await hit.json()) as CoffeeTest;
+      logPsi({ url, strategy, outcome: 'cache_hit', fetchedAt: cached.fetchedAt });
+      return cached;
     } catch {
       /* A damaged entry is replaced by a fresh run. */
     }
