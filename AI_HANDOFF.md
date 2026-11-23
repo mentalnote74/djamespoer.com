@@ -2794,3 +2794,20 @@ James's answers replace v1's device rule and radio buttons.
 - **Verified:** Node coffee tests 11/11, `ng test` 476, `ng build`.
 
 SCRUM-220 correction (James): `site_url` now sends the full tested URL, query string included. Only the `#fragment` is dropped, and the scan never sees it anyway. GA applies its own 100-character value limit; we no longer cut, filter or reject anything. `gaSiteUrl` is removed, and `displayUrl` serves both the drawer and GA. Verified: Node coffee tests 11/11, `ng test` 475, `ng build`.
+
+## SCRUM-217 our own coffee scan: root cause and reliability fix (Claude)
+
+**Evidence:** PR #37 added a `coffee_psi` log line per PSI call. A 30-minute production tail with solo scans every 2 minutes showed that PSI's runs of djamespoer.com take 30–125 s and sometimes fail:
+- desktop: HTTP 500, "Lighthouse returned error: Something went wrong.", after 48 s;
+- mobile: HTTP 524, after 125 s.
+
+One of six fresh scans returned no "Me" scores, which is what James saw. example.org takes about 13 s. Local Lighthouse runs finish in 12–16 s, so the page settles; PSI's runs of it are slow and flaky. The page-weight follow-up is SCRUM-219.
+
+**Fix (Worker):**
+- A self run that fails within 70 s retries once.
+- Every successful self score is also kept as a 7-day last-good copy in the Cache API, under `v2-last-good/<test>`.
+- If a fresh run still fails, the drawer shows the last real PSI score, labelled "My <test> scores were tested <time>…" whenever the score is more than 15 minutes old.
+
+I wasn't allowed to create a new KV namespace, so the last-good copy lives in the per-datacenter Cache API rather than global KV.
+
+**Verified:** Node coffee tests 12/12, including retry and last-good; `ng test` 475; `ng build`.
