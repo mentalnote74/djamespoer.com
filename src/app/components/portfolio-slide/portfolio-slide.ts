@@ -80,7 +80,7 @@ export class PortfolioSlide {
         this.document.removeEventListener('visibilitychange', updateVisibility);
         media.removeEventListener('change', updateMotion);
         observer.disconnect();
-        this.motion?.stop();
+        this.motion?.destroy();
       });
     });
   }

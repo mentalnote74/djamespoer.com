@@ -25,6 +25,9 @@ export const sets = [
       { name: 'foreground', source: 'foreground-master.png', q: 48 },
       { name: 'interior', source: 'approved-master.png', box: [1100, 40, 900, 520], q: 30 },
       { name: 'reflections', source: 'approved-master.png', box: [0, 454, 2172, 270], q: 10 },
+      // SCRUM-219: the 2026-11-11 chameleon cut-out, placed on the stage at its perch box
+      // (348x174 at 1720,530). Its pigment, breathing and eye remain the existing JS/Sass.
+      { name: 'chameleon', source: 'chameleon-master.png', q: 48 },
     ],
   },
   {
