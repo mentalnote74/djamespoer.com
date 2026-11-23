@@ -247,3 +247,18 @@ test('SCRUM-218: unknown tests are ignored; no tests means both (older clients)'
   assert.deepEqual(body.tests, ['mobile', 'desktop']);
   assert.equal(calls.length, 4);
 });
+
+test('SCRUM-218 v2: the connection picks the first test; unknown asks instead of guessing', async () => {
+  const { connectionTest } = await import('../../src/app/features/coffee/coffee-contract.ts');
+  assert.equal(connectionTest({ type: 'cellular', effectiveType: '4g' }), 'mobile');
+  assert.equal(connectionTest({ type: 'wifi' }), 'desktop');
+  assert.equal(connectionTest({ type: 'ethernet' }), 'desktop');
+  assert.equal(connectionTest({ effectiveType: '3g' }), 'mobile');
+  assert.equal(connectionTest({ effectiveType: 'slow-2g' }), 'mobile');
+  assert.equal(connectionTest({ effectiveType: '4g' }), 'desktop');
+  assert.equal(connectionTest({ type: 'wifi', saveData: true }), 'mobile');
+  // Safari, Firefox and every iPhone expose no navigator.connection.
+  assert.equal(connectionTest(undefined), null);
+  assert.equal(connectionTest({}), null);
+  assert.equal(connectionTest({ type: 'unknown' }), null);
+});

@@ -2766,3 +2766,23 @@ James's direction replaces SCRUM-216's "always run all four" behavior.
   - the result was a one-test table with Run again defaulting to Mobile;
   - Run again → All four showed the wide 7-of-8 table;
   - a phone (mobile preset) ran the solo mobile test, with no overflow and zero axe violations.
+
+## SCRUM-218 v2: connection-matched first scan and a test-choice prompt (Claude)
+
+James's answers replace v1's device rule and radio buttons.
+- **First scan:** `connectionTest(navigator.connection)` in `coffee-contract.ts` picks the test:
+  - `saveData` or `cellular` → mobile;
+  - `wifi` or `ethernet` → desktop;
+  - otherwise by `effectiveType`: `slow-2g`, `2g` or `3g` → mobile, `4g` → desktop;
+  - anything else → null.
+- **Unknown connection:** null means the visitor is asked, never guessed for. That's always the case in Safari and Firefox, including every iPhone. The drawer shows "Which Lighthouse test?" with three buttons: Mobile (2 tests), Desktop (2 tests), All four (4 tests). Solo scans show 1/1/2 tests. Each button runs immediately.
+- **Run again:** the same three-button prompt, with no default.
+- **Analytics:** `test_source` (`connection` | `prompt`) is added to submit, solo and result events, next to `test_set`. SCRUM-214 has to register it.
+- **Verified:**
+  - Node coffee tests 10/10, including the connection rule; `ng test` 473; `ng build` within budget.
+  - Local `wrangler dev`, with `/api/coffee` stubbed:
+    - with `navigator.connection` removed, the prompt appeared and nothing was sent;
+    - choosing Mobile requested `["mobile"]`;
+    - Run again → All four requested both tests and showed the wide 7-of-8 table;
+    - a `cellular` connection went straight to the mobile test with no prompt;
+    - axe found zero violations.
