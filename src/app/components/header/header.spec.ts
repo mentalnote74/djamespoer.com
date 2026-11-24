@@ -7,14 +7,19 @@ describe('Header', () => {
   it('renders only confirmed profiles with accessible names and safe relationships', () => {
     const root = fixture.nativeElement as HTMLElement;
     const links = [...root.querySelectorAll<HTMLAnchorElement>('#about-navigation a[rel~="me"]')];
-    expect(links.map(link => link.getAttribute('aria-label'))).toEqual([
-      'D. James Poer on LinkedIn', 'D. James Poer on X', 'D. James Poer on Facebook', 'D. James Poer on Bluesky',
+    expect(links.map((link) => link.getAttribute('aria-label'))).toEqual([
+      'D. James Poer on LinkedIn',
+      'D. James Poer on X',
+      'D. James Poer on Facebook',
+      'D. James Poer on Bluesky',
     ]);
     expect(root.querySelector('a[href="https://www.facebook.com/djamespoer"]')).not.toBeNull();
     for (const link of links) {
       expect(link.target).toBe('_blank');
       expect(link.rel).toBe('me noopener noreferrer');
-      expect(link.querySelector('.site-header__social-icon')?.getAttribute('aria-hidden')).toBe('true');
+      expect(link.querySelector('.site-header__social-icon')?.getAttribute('aria-hidden')).toBe(
+        'true',
+      );
       expect(link.querySelector('app-bedlam')).toBeNull();
     }
   });
@@ -49,6 +54,34 @@ describe('Header', () => {
       ),
     ).toBeNull();
   });
+  it('opens the existing Coffee challenge from About and returns focus to visible menu triggers', async () => {
+    const root = fixture.nativeElement as HTMLElement;
+    const about = root.querySelector<HTMLButtonElement>('[aria-controls="about-navigation"]')!;
+    about.click();
+    fixture.detectChanges();
+    const coffee = root.querySelector<HTMLButtonElement>(
+      '#about-navigation button[aria-haspopup="dialog"]',
+    )!;
+    coffee.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.coffee.opened()).toBe(true);
+    expect(fixture.componentInstance.openSection()).toBeNull();
+    fixture.componentInstance.coffee.close();
+    await Promise.resolve();
+    expect(document.activeElement).toBe(about);
+    const menu = root.querySelector<HTMLButtonElement>('.site-header__menu')!;
+    menu.click();
+    fixture.detectChanges();
+    about.click();
+    fixture.detectChanges();
+    coffee.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.mobileOpen()).toBe(false);
+    fixture.componentInstance.coffee.close();
+    await Promise.resolve();
+    expect(document.activeElement).toBe(menu);
+  });
+
   it('keeps theme selection out of primary navigation', () => {
     expect(
       (fixture.nativeElement as HTMLElement).querySelector('[aria-controls="theme-navigation"]'),
@@ -57,8 +90,9 @@ describe('Header', () => {
   it('puts work history last and preserves About destinations', async () => {
     const root = fixture.nativeElement as HTMLElement;
     expect(
-      Array.from(root.querySelectorAll('.site-header__nav-list > li > button[aria-controls]'), (button) =>
-        button.textContent?.trim(),
+      Array.from(
+        root.querySelectorAll('.site-header__nav-list > li > button[aria-controls]'),
+        (button) => button.textContent?.trim(),
       ),
     ).toEqual(['About', 'Case Studies', 'Perspectives', 'Blognostisphere', 'Work History']);
     // SCRUM-47: the coffee challenge is an action, not a section menu; it follows the menus.

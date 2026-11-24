@@ -100,6 +100,15 @@ export class Header {
       });
   }
 
+  openAboutCoffee(): void {
+    // Return from the dialog to a visible trigger after collapsing the submenu/mobile menu.
+    const trigger = this.mobileOpen() ? this.menuButton : this.sectionButton;
+    this.openSection.set(null);
+    this.mobileOpen.set(false);
+    trigger?.focus();
+    this.coffee.open();
+  }
+
   closeOnFocusLeave(event: FocusEvent): void {
     const navigation = event.currentTarget as HTMLElement;
     // Touch browsers may blur the trigger without focusing the pressed link.
