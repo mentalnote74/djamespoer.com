@@ -1,3 +1,11 @@
+## [Larry] SCRUM-215 replacement ? LOCAL, blocked on execution host
+
+Owner explicitly rejected salvaging PSI. New branch fix/scrum-215-runner replaces production PSI module with a same-origin Worker proxy and portable authenticated Node24/Chrome job service; existing UI/analytics reused. Design and exact host setup: docs/coffee/controlled-comparison.md. No new dependencies, paid resource, account change, push or deployment yet. GitHub Actions adapter was rejected locally before release; no workflow or public artifact created.
+
+Real built-drawer -> service -> actual www.tomjohn.design and DJP passed:97/94/100/100 vs95/100/100/100, same Chrome/Lighthouse settings/versions; displayed event values equal all8 measured scores. QA INTERNAL on target startup, collectors intercepted. Four protocol checks,41 focused analytics checks,84-prerender production build and Worker dry-run passed; existing budget/module warnings remain. Evidence ignored tmp/service-browser-receipt.json. Does not establish production performance or live GA receipt.
+
+BLOCKER: no authenticated suitable Node/Chrome production host. Owner asked for existing hosting access asynchronously. No paid service authorized. Do not merge/deploy this branch without configuring COFFEE_RUNNER_URL + dedicated COFFEE_RUNNER_KEY and verifying the live runner. Current production remains1235981 with unresolved PSI target failure. Service jobs are transient (six-minute TTL), no durable reporting claim; private DNS filtering is not complete rebinding containment. Preserve unrelated work and generated churn.
+
 ## [Larry] SCRUM-215 free-only Lighthouse correction ? November 23, 2026
 
 Owner rejected paid infrastructure; no billing/plan/resource changes. Existing PSI remains the free production runner. Explicit Mobile/Desktop selection replaces connection inference: one fresh concurrent call per site, identical request parameters except URL, four categories. No cache, score adjustment, self-only retry or historical fallback. Actual Lighthouse version, measurement timestamp and stable full configSettings are retained; mismatched/unverified configuration or version blocks a verdict. Both sites' scores remain actual provider output. Local hardware/browser extensions/Lighthouse version and Google runner variance prevent guaranteed numerical equality with manual DevTools.

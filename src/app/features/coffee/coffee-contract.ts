@@ -21,9 +21,9 @@ export const COFFEE_STRATEGIES: readonly {
   {
     id: 'mobile',
     label: 'Mobile',
-    caption: 'Google Lighthouse lab test, mobile (simulated slow 4G)',
+    caption: 'Lighthouse browser test, mobile (simulated slow 4G)',
   },
-  { id: 'desktop', label: 'Desktop', caption: 'Google Lighthouse lab test, desktop' },
+  { id: 'desktop', label: 'Desktop', caption: 'Lighthouse browser test, desktop' },
 ];
 /** SCRUM-218: which tests a scan runs. `all` is both, the SCRUM-216 four-score view. */
 export type CoffeeTestSet = CoffeeStrategy | 'all';
@@ -40,6 +40,8 @@ export function parseTests(input: unknown): CoffeeStrategy[] {
 export interface CoffeeTest {
   fetchedAt: string;
   lighthouseVersion?: string;
+  chromeVersion?: string;
+  metrics?: Record<string, number | null>;
   settingsKey?: string;
   formFactor?: CoffeeStrategy;
   locale?: string;
@@ -58,6 +60,7 @@ export type CoffeeErrorType =
   | 'unreachable'
   | 'rate_limited'
   | 'timeout'
+  | 'runner_unavailable'
   | 'psi_down'
   | 'self_failed'
   | 'test_mismatch';
@@ -195,6 +198,8 @@ export function matchingCoffeeTests(
       b.formFactor !== test ||
       !a.locale ||
       a.locale !== b.locale ||
+      !a.chromeVersion ||
+      a.chromeVersion !== b.chromeVersion ||
       !a.settingsKey ||
       a.settingsKey !== b.settingsKey
     )

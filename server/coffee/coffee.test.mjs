@@ -1,429 +1,160 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handleCoffee, parsePsi } from './coffee.ts';
-import {
-  normalizeSiteUrl,
-  coffeeTally,
-  coffeeVerdict,
-} from '../../src/app/features/coffee/coffee-contract.ts';
-
-const psi = (scores) => ({
-  lighthouseResult: {
-    fetchTime: '2026-11-23T15:00:00.000Z',
-    categories: {
-      performance: { score: scores[0] },
-      accessibility: { score: scores[1] },
-      'best-practices': { score: scores[2] },
-      seo: { score: scores[3] },
-    },
-  },
+import { once } from 'node:events';
+import { coffeeService } from '../../scripts/coffee/service.mjs';
+import { handleCoffeeJob } from './jobs.ts';
+const key = 'fixture-only-32-characters-or-more';
+test('service authenticates, validates, returns real result unchanged, and limits concurrent work', async () => {
+  let finish;
+  const completed = new Promise((r) => (finish = r));
+  const service = coffeeService({ key, run: () => completed });
+  service.listen(0, '127.0.0.1');
+  await once(service, 'listening');
+  const base = 'http://127.0.0.1:' + service.address().port;
+  const call = (path, method = 'GET', body, auth = true) =>
+    fetch(base + path, {
+      method,
+      headers: {
+        ...(auth ? { Authorization: 'Bearer ' + key } : {}),
+        'Content-Type': 'application/json',
+      },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+  try {
+    assert.equal((await call('/api/coffee', 'POST', {}, false)).status, 403);
+    assert.equal(
+      (await call('/api/coffee', 'POST', { url: 'localhost', tests: ['desktop'] })).status,
+      400,
+    );
+    const response = await call('/api/coffee', 'POST', {
+      url: 'www.tomjohn.design',
+      tests: ['desktop'],
+      internal: true,
+    });
+    assert.equal(response.status, 202);
+    const job = await response.json();
+    assert.equal(
+      (await call('/api/coffee', 'POST', { mode: 'solo', tests: ['desktop'] })).status,
+      429,
+    );
+    finish({
+      mode: 'challenge',
+      tests: ['desktop'],
+      visitor: { desktop: { scores: { performance: 97 } } },
+      james: { desktop: { scores: { performance: 98 } } },
+      comparable: true,
+    });
+    await new Promise((r) => setImmediate(r));
+    const result = await (await call('/api/coffee/jobs/' + job.id)).json();
+    assert.equal(result.state, 'complete');
+    assert.equal(result.result.visitor.desktop.scores.performance, 97);
+    assert.equal(result.result.james.desktop.scores.performance, 98);
+  } finally {
+    finish({});
+    service.close();
+    await once(service, 'close');
+  }
 });
-const post = (body, headers = {}) =>
-  new Request('https://djamespoer.com/api/coffee', {
+test('explicit cancellation reaches the runner; failed work is never a zero or stale score', async () => {
+  let aborted = false;
+  const service = coffeeService({
+    key,
+    run: (_, options) =>
+      new Promise((resolve, reject) =>
+        options.signal.addEventListener(
+          'abort',
+          () => {
+            aborted = true;
+            reject(Error('canceled'));
+          },
+          { once: true },
+        ),
+      ),
+  });
+  service.listen(0, '127.0.0.1');
+  await once(service, 'listening');
+  const base = 'http://127.0.0.1:' + service.address().port;
+  const call = (path, method = 'GET', body) =>
+    fetch(base + path, {
+      method,
+      headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    });
+  try {
+    const job = await (
+      await call('/api/coffee', 'POST', { mode: 'solo', tests: ['desktop'] })
+    ).json();
+    await call('/api/coffee/jobs/' + job.id, 'DELETE');
+    assert.equal(aborted, true);
+    const canceled = await (await call('/api/coffee/jobs/' + job.id)).json();
+    assert.equal(canceled.state, 'canceled');
+    assert.equal(canceled.result, undefined);
+  } finally {
+    service.close();
+    await once(service, 'close');
+  }
+});
+test('Worker forwards only coffee routes and selected headers; never client cookies or an arbitrary destination', async () => {
+  const req = new Request('https://djamespoer.com/api/coffee', {
     method: 'POST',
-    headers: { Origin: 'https://djamespoer.com', 'Content-Type': 'application/json', ...headers },
-    body: JSON.stringify(body),
+    headers: {
+      Origin: 'https://djamespoer.com',
+      'Content-Type': 'application/json',
+      Cookie: 'private=1',
+    },
+    body: JSON.stringify({ mode: 'solo', tests: ['desktop'] }),
   });
-const deps = (respond, calls = []) => ({
-  timeoutMs: 1000,
-  fetch: async (url) => {
-    const u = new URL(url);
-    calls.push(u);
-    return respond(u.searchParams.get('url'), u.searchParams.get('strategy'));
-  },
-});
-const SELF = 'https://djamespoer.com/';
-const site = (mobile, desktop) => ({
-  mobile: mobile && { scores: mobile },
-  desktop: desktop && { scores: desktop },
-});
-const s = (p, a, b, o) => ({ performance: p, accessibility: a, bestPractices: b, seo: o });
-
-test('URL rules accept public sites and reject private, IP, port and credential targets', () => {
-  assert.deepEqual(normalizeSiteUrl(' Acme-Widgets.com/pricing?a=1#top '), {
-    ok: true,
-    url: 'https://acme-widgets.com/pricing?a=1',
-    host: 'acme-widgets.com',
-  });
-  for (const bad of [
-    '',
-    'ftp://acme.com',
-    'javascript:alert(1)',
-    'localhost',
-    'printer.local',
-    'https://127.0.0.1',
-    'http://2130706433',
-    'http://[::1]/',
-    'https://user:pw@acme.com',
-    'https://acme.com:8080',
-    'acme.test',
-  ])
-    assert.equal(normalizeSiteUrl(bad).ok, false, bad);
-});
-
-test('verdict is a head-to-head tally of 8 matchups, never an average', () => {
-  const james = site(s(87, 100, 100, 100), s(97, 100, 100, 100));
-  const visitor = site(s(58, 88, 96, 91), s(81, 100, 96, 91));
-  const tally = coffeeTally(visitor, james);
-  assert.deepEqual(tally, { visitor: 0, james: 7, tied: 1, scored: 8, total: 8 });
-  assert.equal(coffeeVerdict(tally), 'visitor_buys');
-  assert.equal(coffeeVerdict(coffeeTally(james, visitor)), 'james_buys');
-  assert.equal(coffeeVerdict(coffeeTally(james, james)), 'tie');
-  assert.equal(coffeeTally(site(null, s(81, 100, 96, 91)), james).scored, 4);
-  assert.equal(coffeeVerdict(coffeeTally(visitor, null)), 'no_verdict');
-});
-
-test('a challenge runs mobile and desktop for both sites in parallel; scores only', async () => {
-  const calls = [];
-  const res = await handleCoffee(
-    post({ url: 'acme.com' }),
-    { PAGESPEED_API_KEY: 'test-only' },
-    deps(
-      (url, strategy) =>
-        Response.json(
-          psi(
-            url === SELF
-              ? [0.9, 1, 1, 1]
-              : strategy === 'mobile'
-                ? [0.58, 0.88, 0.96, 0.91]
-                : [0.81, 1, 0.96, 0.91],
-          ),
-        ),
-      calls,
-    ),
-  );
-  const body = await res.json();
-  assert.equal(res.status, 200);
-  assert.equal(body.mode, 'challenge');
-  assert.equal(calls.length, 4);
-  assert.deepEqual(calls.map((c) => c.searchParams.get('strategy')).sort(), [
-    'desktop',
-    'desktop',
-    'mobile',
-    'mobile',
-  ]);
-  for (const call of calls)
-    assert.deepEqual(call.searchParams.getAll('category'), [
-      'performance',
-      'accessibility',
-      'best-practices',
-      'seo',
-    ]);
-  assert.deepEqual(body.visitor.mobile.scores, s(58, 88, 96, 91));
-  assert.deepEqual(body.visitor.desktop.scores, s(81, 100, 96, 91));
-  assert.match(body.visitor.desktop.reportUrl, /form_factor=desktop$/);
-  assert.equal(body.james.host, 'djamespoer.com');
-  assert.ok(!JSON.stringify(body).includes('test-only'));
-  assert.ok(!JSON.stringify(body).includes('overall'));
-});
-
-test('solo mode and djamespoer.com as the visitor both scan only my site, twice', async () => {
-  for (const input of [
-    { mode: 'solo' },
-    { url: 'www.djamespoer.com' },
-    { url: 'https://djamespoer.com/about' },
-  ]) {
-    const calls = [];
-    const body = await (
-      await handleCoffee(
-        post(input),
-        {},
-        deps(() => Response.json(psi([0.9, 1, 1, 1])), calls),
-      )
-    ).json();
-    assert.equal(body.mode, 'solo', JSON.stringify(input));
-    assert.equal(body.visitor, null);
-    assert.deepEqual(body.james.desktop.scores, s(90, 100, 100, 100));
-    assert.deepEqual(
-      calls.map((c) => c.searchParams.get('url')),
-      [SELF, SELF],
-    );
-  }
-});
-
-test('SCRUM-215: both sites start together with identical settings except URL, every time', async () => {
-  for (const strategy of ['mobile', 'desktop']) {
-    const calls = [];
-    const releases = [];
-    const d = deps(() => new Promise((resolve) => releases.push(resolve)), calls);
-    for (let attempt = 0; attempt < 2; attempt++) {
-      const result = handleCoffee(
-        post({ url: 'acme.com', tests: [strategy] }),
-        { PAGESPEED_API_KEY: 'test-only' },
-        d,
-      );
-      // No response is resolved until both independent PSI calls have started.
-      await new Promise((resolve) => setImmediate(resolve));
-      assert.equal(calls.length, (attempt + 1) * 2);
-      const pair = calls.slice(-2);
-      assert.deepEqual(
-        pair.map((u) => u.searchParams.get('url')).sort(),
-        ['https://acme.com/', SELF].sort(),
-      );
-      const settings = pair.map((u) => {
-        const copy = new URL(u);
-        copy.searchParams.delete('url');
-        return copy.href;
-      });
-      assert.equal(settings[0], settings[1]);
-      assert.equal(pair[0].searchParams.get('strategy'), strategy);
-      assert.equal(pair[0].searchParams.get('locale'), 'en-US');
-      assert.deepEqual(pair[0].searchParams.getAll('category'), [
-        'performance',
-        'accessibility',
-        'best-practices',
-        'seo',
-      ]);
-      for (const release of releases.splice(0)) release(Response.json(psi([0.9, 1, 1, 1])));
-      const response = await result;
-      assert.equal(response.headers.get('Cache-Control'), 'no-store');
-      const body = await response.json();
-      assert.equal(body.james[strategy].scores.performance, 90);
-      assert.equal(body.visitor[strategy].scores.performance, 90);
-    }
-  }
-});
-
-test('one scan is one rate-limit unit; refusals and failures map to plain types', async () => {
-  let units = 0;
-  const limiter = { limit: async () => ({ success: ++units <= 1 }) };
-  const ok = deps(() => Response.json(psi([1, 1, 1, 1])));
-  const first = await handleCoffee(post({ url: 'acme.com' }), { COFFEE_LIMITER: limiter }, ok);
-  assert.equal(first.status, 200);
-  assert.equal(units, 1);
-  const second = await handleCoffee(post({ url: 'acme.com' }), { COFFEE_LIMITER: limiter }, ok);
-  assert.equal((await second.json()).error, 'rate_limited');
-  const foreign = post({ url: 'acme.com' }, { Origin: 'https://evil.example' });
-  assert.equal((await handleCoffee(foreign, {}, ok)).status, 403);
-  const metadata = await handleCoffee(post({ url: 'http://169.254.169.254/' }), {}, ok);
-  assert.equal((await metadata.json()).error, 'invalid_url');
-  const lighthouseError = () =>
-    Response.json(
-      { error: { message: 'Lighthouse returned error: FAILED_DOCUMENT_REQUEST.' } },
-      { status: 500 },
-    );
-  const unreachable = await handleCoffee(
-    post({ url: 'acme.com' }),
-    {},
-    deps((url) => (url === SELF ? Response.json(psi([1, 1, 1, 1])) : lighthouseError())),
-  );
-  assert.equal((await unreachable.json()).error, 'unreachable');
-  const self = await (
-    await handleCoffee(
-      post({ url: 'acme.com' }),
-      {},
-      deps((url) =>
-        url === SELF ? new Response('', { status: 500 }) : Response.json(psi([0.5, 0.5, 0.5, 0.5])),
-      ),
-    )
-  ).json();
-  assert.equal(self.error, 'self_failed');
-  assert.equal(self.visitor.mobile.scores.seo, 50);
-});
-
-test('one failed test still returns the other, marked null rather than zero', async () => {
-  const body = await (
-    await handleCoffee(
-      post({ url: 'acme.com' }),
-      {},
-      deps((url, strategy) =>
-        url !== SELF && strategy === 'mobile'
-          ? new Response('', { status: 503 })
-          : Response.json(psi([0.8, 0.8, 0.8, 0.8])),
-      ),
-    )
-  ).json();
-  assert.equal(body.visitor.mobile, null);
-  assert.equal(body.visitor.desktop.scores.performance, 80);
-  assert.equal(coffeeTally(body.visitor, body.james).scored, 4);
-});
-
-test('SCRUM-218: a scan runs only the requested test; matchups count only that test', async () => {
-  for (const test of ['mobile', 'desktop']) {
-    const calls = [];
-    const body = await (
-      await handleCoffee(
-        post({ url: 'acme.com', tests: [test] }),
-        {},
-        deps((url) => Response.json(psi(url === SELF ? [0.9, 1, 1, 1] : [0.5, 1, 0.9, 1])), calls),
-      )
-    ).json();
-    assert.deepEqual(body.tests, [test]);
-    assert.equal(calls.length, 2);
-    assert.ok(calls.every((c) => c.searchParams.get('strategy') === test));
-    const other = test === 'mobile' ? 'desktop' : 'mobile';
-    assert.equal(body.visitor[other], null);
-    const tally = coffeeTally(body.visitor, body.james, body.tests);
-    assert.deepEqual(tally, { visitor: 0, james: 2, tied: 2, scored: 4, total: 4 });
-  }
-  const solo = await (
-    await handleCoffee(
-      post({ mode: 'solo', tests: ['desktop'] }),
-      {},
-      deps(() => Response.json(psi([1, 1, 1, 1]))),
-    )
-  ).json();
-  assert.deepEqual(solo.tests, ['desktop']);
-  assert.equal(solo.james.mobile, null);
-  assert.equal(solo.james.desktop.scores.seo, 100);
-});
-
-test('SCRUM-218: unknown tests are ignored; no tests means both (older clients)', async () => {
-  const calls = [];
-  const body = await (
-    await handleCoffee(
-      post({ url: 'acme.com', tests: ['tablet', 42] }),
-      {},
-      deps(() => Response.json(psi([1, 1, 1, 1])), calls),
-    )
-  ).json();
-  assert.deepEqual(body.tests, ['mobile', 'desktop']);
-  assert.equal(calls.length, 4);
-});
-
-test('SCRUM-220: the tested URL keeps path and query and drops only the fragment', async () => {
-  const { displayUrl } = await import('../../src/app/features/coffee/coffee-contract.ts');
-  assert.equal(
-    displayUrl('https://officepride.com/indianapolis-carmel/'),
-    'officepride.com/indianapolis-carmel/',
-  );
-  assert.equal(displayUrl('https://example.org/'), 'example.org');
-  assert.equal(displayUrl('https://acme.com/p?ref=x'), 'acme.com/p?ref=x');
-  // normalizeSiteUrl already drops the #fragment before the scan.
-  assert.equal(displayUrl(normalizeSiteUrl('acme.com/p?ref=x#top').url), 'acme.com/p?ref=x');
-});
-
-test('SCRUM-215: a failed fresh self run is not retried or replaced with earlier scores', async () => {
-  const calls = [];
-  let fail = false;
-  const d = deps(
-    (url) =>
-      url === SELF && fail
-        ? Response.json(
-            { error: { message: 'Lighthouse returned error: Something went wrong.' } },
-            { status: 500 },
-          )
-        : Response.json(psi([0.9, 1, 1, 1])),
-    calls,
-  );
-  const first = await (
-    await handleCoffee(post({ url: 'acme.com', tests: ['desktop'] }), {}, d)
-  ).json();
-  assert.equal(first.james.desktop.scores.performance, 90);
-  fail = true;
-  const second = await (
-    await handleCoffee(post({ url: 'acme.com', tests: ['desktop'] }), {}, d)
-  ).json();
-  assert.equal(calls.length, 4);
-  assert.equal(second.james, null);
-  assert.equal(second.error, 'self_failed');
-  assert.equal(second.visitor.desktop.scores.performance, 90);
-  assert.equal(
-    coffeeVerdict(coffeeTally(second.visitor, second.james, second.tests)),
-    'no_verdict',
-  );
-});
-
-test('SCRUM-215: provider failures are not blamed on an unreachable visitor and keep DJP scores', async () => {
-  for (const [status, message, error] of [
-    [524, '', 'timeout'],
-    [500, 'Lighthouse returned error: Something went wrong.', 'psi_down'],
-    [500, 'Lighthouse returned error: PROTOCOL_TIMEOUT', 'timeout'],
-    [500, 'Lighthouse returned error: DNS_FAILURE', 'unreachable'],
-    [400, 'API key not valid', 'psi_down'],
-  ]) {
-    const calls = [];
-    const body = await (
-      await handleCoffee(
-        post({ url: 'www.tomjohn.design', tests: ['desktop'] }),
-        {},
-        deps(
-          (url) =>
-            url === SELF
-              ? Response.json(psi([0.96, 1, 1, 1]))
-              : Response.json({ error: { message } }, { status }),
-          calls,
-        ),
-      )
-    ).json();
-    assert.equal(calls.length, 2);
-    assert.equal(body.error, error, message);
-    assert.equal(body.visitor, null);
-    assert.equal(body.james.desktop.scores.performance, 96);
-    assert.equal(coffeeVerdict(coffeeTally(body.visitor, body.james, body.tests)), 'no_verdict');
-  }
-});
-
-test('SCRUM-215: Lighthouse runtime failures retain their actual failure class', () => {
-  for (const [code, type] of [
-    ['PROTOCOL_TIMEOUT', 'timeout'],
-    ['PAGE_HUNG', 'timeout'],
-    ['DNS_FAILURE', 'unreachable'],
-    ['TARGET_CRASHED', 'psi_down'],
-  ])
-    assert.throws(
-      () => parsePsi({ lighthouseResult: { runtimeError: { code } } }, SELF, 'desktop'),
-      (error) => error.type === type,
-    );
-});
-
-test('free mode: only identical, verified Google metadata permits a comparison', async () => {
-  for (const mismatch of [null, 'version', 'throttling']) {
-    const body = await (
-      await handleCoffee(
-        post({ url: 'example.org', tests: ['desktop'] }),
-        {},
-        deps((url) => {
-          const result = psi([0.95, 1, 1, 1]);
-          result.lighthouseResult.lighthouseVersion =
-            mismatch === 'version' && url === SELF ? '13.5.0' : '13.6.0';
-          result.lighthouseResult.configSettings = {
-            formFactor: 'desktop',
-            locale: 'en-US',
-            throttling: {
-              cpuSlowdownMultiplier: mismatch === 'throttling' && url === SELF ? 4 : 1,
-            },
-          };
-          return Response.json(result);
-        }),
-      )
-    ).json();
-    assert.equal(body.comparable, !mismatch);
-    assert.equal(body.error, mismatch ? 'test_mismatch' : undefined);
-    assert.equal(body.visitor.desktop.scores.performance, 95);
-  }
-});
-
-test('free mode: client cancellation aborts both outgoing provider requests', async () => {
-  const controller = new AbortController();
-  const signals = [];
-  const request = new Request(post({ url: 'example.org', tests: ['desktop'] }), {
-    signal: controller.signal,
-  });
-  const result = handleCoffee(
-    request,
-    {},
-    {
-      timeoutMs: 1000,
-      fetch: async (_, init) =>
-        new Promise((resolve, reject) => {
-          signals.push(init.signal);
-          init.signal.addEventListener('abort', () => reject(init.signal.reason), { once: true });
-        }),
+  let sent;
+  const result = await handleCoffeeJob(
+    req.clone(),
+    { COFFEE_RUNNER_URL: 'https://runner.example/', COFFEE_RUNNER_KEY: key },
+    async (url, init) => {
+      sent = { url: String(url), init };
+      return Response.json({ id: 'fixture', state: 'queued' }, { status: 202 });
     },
   );
-  await new Promise((resolve) => setImmediate(resolve));
-  assert.equal(signals.length, 2);
-  controller.abort();
-  await result;
-  assert.ok(signals.every((signal) => signal.aborted));
+  assert.equal(result.status, 202);
+  assert.equal(sent.url, 'https://runner.example/api/coffee');
+  assert.equal(sent.init.headers.Cookie, undefined);
+  assert.equal(sent.init.headers.Authorization, 'Bearer ' + key);
+  assert.equal(
+    (await handleCoffeeJob(new Request('https://djamespoer.com/api/coffee/jobs/not-a-job'), {}))
+      .status,
+    404,
+  );
+  assert.equal((await handleCoffeeJob(req.clone(), {})).status, 503);
 });
 
-test('free mode: never invent a measurement timestamp', () => {
-  const result = psi([1, 1, 1, 1]);
-  delete result.lighthouseResult.fetchTime;
-  assert.throws(
-    () => parsePsi(result, SELF, 'desktop'),
-    (error) => error.type === 'psi_down',
-  );
+test('failed audits remain a failed job, never a successful empty comparison', async () => {
+  const service = coffeeService({
+    key,
+    run: async () => ({
+      mode: 'solo',
+      tests: ['desktop'],
+      visitor: null,
+      james: null,
+      error: 'runner_unavailable',
+    }),
+  });
+  service.listen(0, '127.0.0.1');
+  await once(service, 'listening');
+  const base = 'http://127.0.0.1:' + service.address().port;
+  const headers = { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' };
+  try {
+    const job = await (
+      await fetch(base + '/api/coffee', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ mode: 'solo', tests: ['desktop'] }),
+      })
+    ).json();
+    await new Promise((r) => setImmediate(r));
+    const result = await (await fetch(base + '/api/coffee/jobs/' + job.id, { headers })).json();
+    assert.equal(result.state, 'failed');
+    assert.equal(result.error, 'runner_unavailable');
+    assert.equal(result.result, undefined);
+  } finally {
+    service.close();
+    await once(service, 'close');
+  }
 });

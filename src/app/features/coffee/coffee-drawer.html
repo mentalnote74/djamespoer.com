@@ -60,7 +60,7 @@
           <!-- All four, wide: one table, four scores per row under grouped site headers. -->
           <table class="coffee-scores coffee-results__wide">
             <caption>
-              Google Lighthouse lab tests, mobile and desktop
+              Lighthouse browser tests, mobile and desktop
             </caption>
             <!-- Sibling column groups give each site's Mobile/Desktop pair a real colgroup scope. -->
             <colgroup>
@@ -164,7 +164,8 @@
           @if (site(side)?.[test.id]; as run) {
             <p class="coffee-drawer__key">
               {{ side === 'visitor' ? visitorLabel() : 'djamespoer.com' }}: {{ test.label }},
-              Lighthouse {{ run.lighthouseVersion || 'version not reported' }}, tested
+              Lighthouse {{ run.lighthouseVersion || 'version not reported' }}, Chrome
+              {{ run.chromeVersion }}, tested
               <time [attr.datetime]="run.fetchedAt">{{ run.fetchedAt }}</time
               >.
             </p>
@@ -172,7 +173,7 @@
         }
       }
       <p class="coffee-drawer__reports">
-        Open PageSpeed Insights:
+        Measured test results (JSON):
         @for (side of sides(); track side) {
           @if (!$first) {
             ·
@@ -185,7 +186,7 @@
               }
               <a [href]="run.reportUrl" target="_blank" rel="noopener noreferrer"
                 >{{ test.id
-                }}<span class="visually-hidden"> (opens PageSpeed Insights in a new tab)</span></a
+                }}<span class="visually-hidden"> (opens measured results in a new tab)</span></a
               >
             }
           }
@@ -269,10 +270,16 @@
           </svg>
           <p>
             @if (elapsed() < 30) {
-              <strong>Brewing…</strong> Lighthouse is running {{ brewingTest() }} on
+              <strong>Brewing…</strong>
+              {{
+                runnerState() === 'queued'
+                  ? 'Waiting for a browser to run'
+                  : 'The browser is running'
+              }}
+              {{ brewingTest() }} on
               {{ solo() ? 'djamespoer.com' : 'both sites' }}
             } @else {
-              <strong>Still brewing…</strong> Google's taking its time
+              <strong>Still brewing…</strong> The browser comparison is still in progress
             }
             <span class="coffee-brewing__clock">({{ clock() }})</span>
           </p>
@@ -293,7 +300,7 @@
       }
     }
     <p class="coffee-drawer__fine-print">
-      Live Google Lighthouse lab tests. Local browser hardware, settings and Lighthouse versions can
+      Live Lighthouse browser tests. Local browser hardware, settings and Lighthouse versions can
       produce different scores. Both sites use the same selected test mode.
     </p>
   </div>
