@@ -9,6 +9,7 @@ import {
   type CoffeeResponse,
 } from '../../src/app/features/coffee/coffee-contract';
 export interface BrowserBinding {
+  limits?(): Promise<{ usedBrowserTimeSeconds: number }>;
   acquire(options: { keepAlive: number }): Promise<{ sessionId: string }>;
   script(
     code: string,
@@ -62,6 +63,16 @@ export async function handleCoffee(request: Request, env: CoffeeEnv): Promise<Re
     ).success
   )
     return failure('rate_limited', 429);
+  // This deployment uses Workers Free: quota failures must reach the manual fallback.
+  // Reading capacity does not acquire Chrome or consume browser time.
+  if (env.BROWSER.limits) {
+    try {
+      if ((await env.BROWSER.limits()).usedBrowserTimeSeconds >= 600)
+        return failure('browser_quota', 429);
+    } catch {
+      /* Let the actual acquire report an unavailable capacity service. */
+    }
+  }
   let id: string | undefined,
     closed = false;
   const close = async () => {
