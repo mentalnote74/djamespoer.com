@@ -1,3 +1,7 @@
+## [Larry] SCRUM-209 — Resume visual parity correction
+
+Shared About's existing headline, accent and lead spacing roles with Resume, including its opening paragraph scale. About computed typography preserved; copy, downloads, tracking and cookie unchanged. Production build passed with existing warnings. INTERNAL/intercepted Chrome checks at 1440/390/320 passed exact role parity, one H1, three cards, no overflow and scoped axe zero. No benchmark scans. James retains visual acceptance.
+
 ## [Larry] SCRUM-209 - About/Resume sky, shared Resume styling, About Coffee action
 
 Owner requested the established tall sky on About pages, current site styling on /resume and Coffee? in the About dropdown. app.scss now includes app-about/app-resume in the existing extended-header-sky policy; no sky renderer/carousel/animation change. Resume reuses approved showcase hero/three-tile vocabulary and container queries, with full-card links/focus inherited from the shared system. Exact existing prose/order, downloads, /thingamajob, publicTrack and hidden cookie preserved; original PDF bytes unchanged. About content untouched.

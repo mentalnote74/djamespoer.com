@@ -16,7 +16,7 @@ describe('About', () => {
 
     expect(root.querySelectorAll('h1')).toHaveLength(1);
     expect(text(root.querySelector('h1'))).toBe('About D. James Poer');
-    expect(text(root.querySelector('.about-hero__statement'))).toBe(
+    expect(text(root.querySelector('.showcase-headline'))).toBe(
       'I design. I build. I break things. I figure out why. Then I make them better.',
     );
     expect(text(root.querySelector('.about__opening'))).toBe(

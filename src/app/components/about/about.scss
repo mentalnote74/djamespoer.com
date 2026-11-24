@@ -26,22 +26,6 @@
   white-space: nowrap;
 }
 
-.about-hero__statement {
-  max-inline-size: 15ch;
-  margin: 1.25rem 0 0;
-  font: 800 clamp(2.5rem, 1rem + 5vw, 5.25rem) / 1 var(--font-display);
-  letter-spacing: -0.04em;
-  text-wrap: balance;
-}
-
-.about-hero__payoff {
-  color: var(--show-spark);
-}
-
-.about .showcase-band__lede {
-  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
-}
-
 // ---- Receipts: figure first, heading second --------------------------------
 .receipt {
   h3 {

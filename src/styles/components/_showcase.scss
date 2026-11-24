@@ -84,6 +84,27 @@
   text-transform: uppercase;
 }
 
+// Shared hero roles: About is the visual reference for interior showcase pages.
+.showcase .showcase-headline {
+  max-inline-size: 15ch;
+  margin: 1.25rem 0 0;
+  font: 800 clamp(2.5rem, 1rem + 5vw, 5.25rem) / 1 var(--font-display);
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.showcase .showcase-payoff {
+  color: var(--show-spark);
+}
+
+.showcase-band--hero .showcase-band__lede {
+  margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+}
+
+.showcase-headline + .showcase-headline {
+  margin-block-start: 0;
+}
+
 // ---- Actions --------------------------------------------------------------
 .showcase-actions {
   display: flex;
