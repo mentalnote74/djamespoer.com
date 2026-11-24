@@ -5,8 +5,8 @@ import { applyProject } from './project.ts';
 import type { BuildometerData } from '../../src/app/components/buildometer/data/contract.ts';
 import { readReports, generateDailyReport, applyDailyHistory, reportDue } from './daily-report.ts';
 import { dispatchScrumBrief, type ScrumDispatchEnv } from './scrum-dispatch.ts';
-import { handleCoffeeJob, type CoffeeJobEnv } from '../coffee/jobs';
-export interface Env extends ScrumDispatchEnv, CoffeeJobEnv {
+import { handleCoffee, type CoffeeEnv } from '../coffee/coffee';
+export interface Env extends ScrumDispatchEnv, CoffeeEnv {
   ASSETS: { fetch(request: Request): Promise<Response> };
 }
 export function createHandler(acquire = acquireJira) {
@@ -121,7 +121,8 @@ const handle = createHandler();
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    if (url.pathname === '/api/coffee' || url.pathname.startsWith('/api/coffee/jobs/')) return handleCoffeeJob(request, env);
+    if (url.pathname === '/api/coffee' || url.pathname.startsWith('/api/coffee/results/'))
+      return handleCoffee(request, env);
     if (url.pathname === '/api/buildometer/reports/dispatch-brief') {
       if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
       if (

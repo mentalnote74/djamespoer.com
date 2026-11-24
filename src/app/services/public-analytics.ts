@@ -133,6 +133,7 @@ export interface EventParameters {
       | 'unreachable'
       | 'rate_limited'
       | 'timeout'
+      | 'browser_quota'
       | 'runner_unavailable'
       | 'psi_down'
       | 'self_failed'

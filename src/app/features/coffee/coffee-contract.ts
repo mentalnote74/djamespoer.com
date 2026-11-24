@@ -41,6 +41,7 @@ export interface CoffeeTest {
   fetchedAt: string;
   lighthouseVersion?: string;
   chromeVersion?: string;
+  failedAudits?: string[];
   metrics?: Record<string, number | null>;
   settingsKey?: string;
   formFactor?: CoffeeStrategy;
@@ -60,6 +61,7 @@ export type CoffeeErrorType =
   | 'unreachable'
   | 'rate_limited'
   | 'timeout'
+  | 'browser_quota'
   | 'runner_unavailable'
   | 'psi_down'
   | 'self_failed'

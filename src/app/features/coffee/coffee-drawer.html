@@ -271,12 +271,7 @@
           <p>
             @if (elapsed() < 30) {
               <strong>Brewing…</strong>
-              {{
-                runnerState() === 'queued'
-                  ? 'Waiting for a browser to run'
-                  : 'The browser is running'
-              }}
-              {{ brewingTest() }} on
+              Lighthouse is running {{ brewingTest() }} on
               {{ solo() ? 'djamespoer.com' : 'both sites' }}
             } @else {
               <strong>Still brewing…</strong> The browser comparison is still in progress

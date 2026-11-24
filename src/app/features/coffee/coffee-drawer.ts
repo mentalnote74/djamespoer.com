@@ -10,7 +10,6 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { runCoffeeJob } from './coffee-job';
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { LucideX } from '@lucide/angular';
 import { PublicAnalytics, type CoffeeScoreParameter } from '../../services/public-analytics';
@@ -38,7 +37,7 @@ type Side = 'visitor' | 'james';
 /** One table cell: a score with its band and matchup mark, or null when that test failed. */
 type ScoreCell = { value: number; band: ScoreBand; mark: 'won' | 'tie' | null } | null;
 // Bound the complete job, including host startup; API requests themselves are short.
-const CLIENT_SAFETY_MS = 420000;
+const CLIENT_SAFETY_MS = 130000;
 const STILL_BREWING_AFTER = 30;
 const ERROR_COPY: Record<Exclude<CoffeeErrorType, 'invalid_url' | 'self_failed'>, string> = {
   unreachable:
@@ -47,6 +46,8 @@ const ERROR_COPY: Record<Exclude<CoffeeErrorType, 'invalid_url' | 'self_failed'>
   timeout: 'That took too long to brew. Lighthouse may still be busy, so try again.',
   psi_down: 'The browser test could not finish. Please try again.',
   runner_unavailable: 'The browser test could not finish. Please try again.',
+  browser_quota:
+    'Today?s free browser-test allowance has been used. Please try again after midnight UTC.',
   test_mismatch: 'Matching Lighthouse versions and settings could not be verified.',
 };
 const VERDICT_COPY = {
@@ -79,7 +80,6 @@ export class CoffeeDrawer {
     COFFEE_STRATEGIES.filter((test) => this.result()?.tests.includes(test.id)),
   );
   readonly elapsed = signal(0);
-  readonly runnerState = signal('queued');
   readonly scanning = signal<CoffeeTestSet>('desktop');
   readonly source = signal<TestSource>('connection');
   /** One shared mode per pair: a challenge tests two sites. */
@@ -327,7 +327,6 @@ export class CoffeeDrawer {
     const where = this.solo() ? 'djamespoer.com' : 'both sites';
     this.announcement.set(`Brewing. Lighthouse is running ${this.brewingTest()} on ${where}.`);
     this.elapsed.set(0);
-    this.runnerState.set('queued');
     clearInterval(this.ticker);
     this.ticker = setInterval(() => {
       this.elapsed.update((s) => s + 1);
@@ -340,16 +339,20 @@ export class CoffeeDrawer {
     const timer = setTimeout(() => controller.abort(), CLIENT_SAFETY_MS);
     let outcome: CoffeeResponse | CoffeeErrorType;
     try {
-      outcome = await runCoffeeJob(
-        {
+      const response = await fetch('/api/coffee', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           ...body,
           tests: testsFor(set),
           internal:
             this.document.defaultView?.localStorage.getItem('portfolio.analytics.internal') === '1',
-        },
-        controller.signal,
-        (state) => this.runnerState.set(state),
-      );
+        }),
+        signal: controller.signal,
+      });
+      const data = (await response.json().catch(() => null)) as CoffeeResponse | null;
+      outcome =
+        data?.mode && (data.visitor || data.james) ? data : (data?.error ?? 'runner_unavailable');
     } catch {
       // A visitor's own cancel is handled below; any other abort is the client timeout.
       outcome = controller.signal.aborted ? 'timeout' : 'psi_down';

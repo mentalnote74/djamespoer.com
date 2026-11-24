@@ -86,6 +86,7 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
       'unreachable',
       'rate_limited',
       'timeout',
+      'browser_quota',
       'runner_unavailable',
       'psi_down',
       'self_failed',
