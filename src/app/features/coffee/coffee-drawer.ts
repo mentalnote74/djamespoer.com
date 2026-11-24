@@ -19,7 +19,6 @@ import {
   COFFEE_STRATEGIES,
   coffeeTally,
   coffeeVerdict,
-  connectionTest,
   displayUrl,
   isSelfHost,
   normalizeSiteUrl,
@@ -46,6 +45,7 @@ const ERROR_COPY: Record<Exclude<CoffeeErrorType, 'invalid_url' | 'self_failed'>
   rate_limited: "That's a lot of coffee. Try again in a minute.",
   timeout: 'That took too long to brew. Lighthouse may still be busy, so try again.',
   psi_down: "Google PageSpeed Insights isn't answering right now. Try again in a little while.",
+  test_mismatch: 'Matching Lighthouse versions and settings could not be verified.',
 };
 const VERDICT_COPY = {
   visitor_buys: "Coffee's on you.",
@@ -79,14 +79,13 @@ export class CoffeeDrawer {
   readonly elapsed = signal(0);
   readonly scanning = signal<CoffeeTestSet>('desktop');
   readonly source = signal<TestSource>('connection');
-  /** The three choices, with honest PSI-test counts: a challenge tests two sites. */
+  /** One shared mode per pair: a challenge tests two sites. */
   readonly choices = computed(() => {
     const sites = this.solo() ? 1 : 2;
     const tests = (n: number) => n + (n === 1 ? ' test' : ' tests');
     return [
       { id: 'mobile' as const, label: `Mobile (${tests(sites)})` },
       { id: 'desktop' as const, label: `Desktop (${tests(sites)})` },
-      { id: 'all' as const, label: `All four (${tests(sites * 2)})` },
     ];
   });
   readonly clock = computed(() => {
@@ -108,7 +107,11 @@ export class CoffeeDrawer {
     return coffeeTally(result?.visitor ?? null, result?.james ?? null, result?.tests ?? []);
   });
   readonly verdict = computed(() =>
-    this.result()?.mode === 'solo' ? 'solo' : coffeeVerdict(this.tally()),
+    this.result()?.mode === 'solo'
+      ? 'solo'
+      : this.result()?.comparable === false
+        ? 'no_verdict'
+        : coffeeVerdict(this.tally()),
   );
   readonly verdictHeading = computed(() => VERDICT_COPY[this.verdict()]);
   /** "I won 7 of 8 · you won 0 · 1 tied", naming how many matchups scored when a test failed. */
@@ -129,7 +132,7 @@ export class CoffeeDrawer {
   readonly rows = computed(() => {
     const result = this.result();
     if (!result) return [];
-    const challenge = result.mode === 'challenge';
+    const challenge = result.mode === 'challenge' && result.comparable !== false;
     return COFFEE_CATEGORIES.map((category) => {
       const cells: Record<string, ScoreCell> = {};
       for (const test of COFFEE_STRATEGIES) {
@@ -175,7 +178,7 @@ export class CoffeeDrawer {
   /** The visitor's exact tested URL, as shown in the table, key and banner. */
   readonly visitorLabel = computed(() => {
     const url = this.result()?.visitor?.url;
-    return url ? displayUrl(url) : '';
+    return url ? displayUrl(url) : this.siteUrl;
   });
   private target: { url: string } | { mode: 'solo' } | null = null;
   private trigger: 'button' | 'own_url' = 'button';
@@ -214,7 +217,10 @@ export class CoffeeDrawer {
       this.invalid.set(true);
       this.error.set('invalid_url');
       this.announcement.set("That doesn't look like a public website address.");
-      this.analytics.track('coffee_error', { location: 'coffee-drawer', error_type: 'invalid_url' });
+      this.analytics.track('coffee_error', {
+        location: 'coffee-drawer',
+        error_type: 'invalid_url',
+      });
       this.field()?.nativeElement.focus();
       return;
     }
@@ -253,15 +259,11 @@ export class CoffeeDrawer {
     } else this.start(set, 'prompt');
   }
 
-  /** SCRUM-218 v2: the connection picks the first test; unknown means ask, never guess. */
+  /** Match a manually selected Lighthouse mode; connection speed does not select the test. */
   private begin(): void {
-    const set = connectionTest(
-      (this.document.defaultView?.navigator as { connection?: unknown } | undefined)?.connection,
-    );
-    if (set) return this.start(set, 'connection');
     this.error.set(null);
     this.phase.set('choose');
-    this.announcement.set("Your browser doesn't share its connection type. Choose a Lighthouse test.");
+    this.announcement.set('Choose the same Lighthouse test you want to compare manually.');
     this.focusAfterRender(() => this.choiceHeading());
   }
 
@@ -290,7 +292,6 @@ export class CoffeeDrawer {
     else if (this.solo()) this.scanSolo('button');
     else this.submit(event);
   }
-
 
   cancel(): void {
     this.canceled = true;
@@ -373,7 +374,8 @@ export class CoffeeDrawer {
       for (const test of COFFEE_STRATEGIES)
         for (const category of COFFEE_CATEGORIES) {
           const value = outcome[side]?.[test.id]?.scores[category.id];
-          const key = `${side}_${test.id}_${category.psi.replace('-', '_')}` as CoffeeScoreParameter;
+          const key =
+            `${side}_${test.id}_${category.psi.replace('-', '_')}` as CoffeeScoreParameter;
           if (value !== undefined) scores[key] = value;
         }
     const verdict = this.verdict();
@@ -390,11 +392,11 @@ export class CoffeeDrawer {
       });
     } else if (verdict === 'no_verdict') {
       this.announcement.set(
-        "No verdict this round. Your scores are in, but my own scans didn't come back.",
+        'No verdict this round. The scans are incomplete or their settings could not be matched. Available scores are in the table.',
       );
       this.analytics.track('coffee_error', {
         location: 'coffee-drawer',
-        error_type: 'self_failed',
+        error_type: outcome.error ?? 'psi_down',
         site_host: this.host,
         site_url: this.siteUrl,
       });

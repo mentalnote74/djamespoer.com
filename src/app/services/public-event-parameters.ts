@@ -69,7 +69,11 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
   case_study_view: { employer: employers },
   coffee_open: {},
   coffee_submitted: { test_set: testSets, test_source: testSources },
-  coffee_solo_scan: { trigger: ['button', 'own_url'], test_set: testSets, test_source: testSources },
+  coffee_solo_scan: {
+    trigger: ['button', 'own_url'],
+    test_set: testSets,
+    test_source: testSources,
+  },
   coffee_retest: { test_set: testSets },
   coffee_result: {
     verdict: ['visitor_buys', 'james_buys', 'tie', 'solo'],
@@ -77,7 +81,15 @@ const rules: Record<keyof EventParameters, Record<string, readonly string[]>> = 
     test_source: testSources,
   },
   coffee_error: {
-    error_type: ['invalid_url', 'unreachable', 'rate_limited', 'timeout', 'psi_down', 'self_failed'],
+    error_type: [
+      'invalid_url',
+      'unreachable',
+      'rate_limited',
+      'timeout',
+      'psi_down',
+      'self_failed',
+      'test_mismatch',
+    ],
   },
   coffee_book_click: { verdict: ['visitor_buys', 'james_buys', 'tie', 'no_verdict', 'solo'] },
 };

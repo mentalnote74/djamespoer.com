@@ -30,7 +30,7 @@
       }
     </ng-template>
 
-    <!-- One set of three choices, each running immediately. -->
+    <!-- Each choice runs the same mode on both sites. -->
     <ng-template #choiceButtons>
       <div class="coffee-choice__options">
         @for (choice of choices(); track choice.id) {
@@ -43,70 +43,85 @@
       <h2 #heading id="coffee-heading" tabindex="-1">{{ verdictHeading() }}</h2>
       @if (outcome.mode === 'challenge') {
         @if (verdict() === 'no_verdict') {
-          <p>My own scans didn't come back, so there's no verdict. Your scores are below.</p>
+          <p>
+            The scans are incomplete or their settings could not be matched, so there's no verdict.
+            Available scores are below.
+          </p>
         } @else {
-          <p><strong>{{ tallyText() }}</strong></p>
+          <p>
+            <strong>{{ tallyText() }}</strong>
+          </p>
         }
         <p class="coffee-drawer__legend">▲ won the matchup · = tie</p>
       }
 
       <div class="coffee-results">
         @if (tests().length > 1) {
-        <!-- All four, wide: one table, four scores per row under grouped site headers. -->
-        <table class="coffee-scores coffee-results__wide">
-          <caption>
-            Lighthouse, mobile and desktop tests, just now
-          </caption>
-          <!-- Sibling column groups give each site's Mobile/Desktop pair a real colgroup scope. -->
-          <colgroup><col /></colgroup>
-          @for (side of sides(); track side) {
-            <colgroup span="2"></colgroup>
-          }
-          <thead>
-            <tr>
-              <th scope="col" rowspan="2">Category</th>
-              @for (side of sides(); track side) {
-                <th scope="colgroup" colspan="2">
-                  {{ side === 'visitor' ? visitorLabel() : 'djamespoer.com' }}
-                  @if (outcome.mode === 'challenge') {
-                    <small>{{ side === 'visitor' ? 'You' : 'Me' }}</small>
-                  }
-                </th>
-              }
-            </tr>
-            <tr>
-              @for (side of sides(); track side) {
-                @for (test of tests(); track test.id) {
-                  <th scope="col">{{ test.label }}</th>
-                }
-              }
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of rows(); track row.id) {
+          <!-- All four, wide: one table, four scores per row under grouped site headers. -->
+          <table class="coffee-scores coffee-results__wide">
+            <caption>
+              Google Lighthouse lab tests, mobile and desktop
+            </caption>
+            <!-- Sibling column groups give each site's Mobile/Desktop pair a real colgroup scope. -->
+            <colgroup>
+              <col />
+            </colgroup>
+            @for (side of sides(); track side) {
+              <colgroup span="2"></colgroup>
+            }
+            <thead>
               <tr>
-                <th scope="row">{{ row.label }}</th>
+                <th scope="col" rowspan="2">Category</th>
+                @for (side of sides(); track side) {
+                  <th scope="colgroup" colspan="2">
+                    {{ side === 'visitor' ? visitorLabel() : 'djamespoer.com' }}
+                    @if (outcome.mode === 'challenge') {
+                      <small>{{ side === 'visitor' ? 'You' : 'Me' }}</small>
+                    }
+                  </th>
+                }
+              </tr>
+              <tr>
                 @for (side of sides(); track side) {
                   @for (test of tests(); track test.id) {
-                    <td>
-                      <ng-container
-                        *ngTemplateOutlet="score; context: { $implicit: row.cells[side + '-' + test.id] }"
-                      />
-                    </td>
+                    <th scope="col">{{ test.label }}</th>
                   }
                 }
               </tr>
-            }
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @for (row of rows(); track row.id) {
+                <tr>
+                  <th scope="row">{{ row.label }}</th>
+                  @for (side of sides(); track side) {
+                    @for (test of tests(); track test.id) {
+                      <td>
+                        <ng-container
+                          *ngTemplateOutlet="
+                            score;
+                            context: { $implicit: row.cells[side + '-' + test.id] }
+                          "
+                        />
+                      </td>
+                    }
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
         }
 
         <!-- One test, or all four when narrow: a captioned three-column table per test. -->
-        <div class="coffee-results__stacked" [class.coffee-results__stacked--only]="tests().length === 1">
+        <div
+          class="coffee-results__stacked"
+          [class.coffee-results__stacked--only]="tests().length === 1"
+        >
           @for (test of tests(); track test.id) {
             <table class="coffee-scores">
               <caption>
-                {{ test.caption }}
+                {{
+                  test.caption
+                }}
               </caption>
               <thead>
                 <tr>
@@ -126,7 +141,10 @@
                     @for (side of sides(); track side) {
                       <td>
                         <ng-container
-                          *ngTemplateOutlet="score; context: { $implicit: row.cells[side + '-' + test.id] }"
+                          *ngTemplateOutlet="
+                            score;
+                            context: { $implicit: row.cells[side + '-' + test.id] }
+                          "
                         />
                       </td>
                     }
@@ -136,15 +154,25 @@
             </table>
           }
           @if (outcome.mode === 'challenge') {
-            <p class="coffee-drawer__key">
-              You = {{ visitorLabel() }} · Me = djamespoer.com
-            </p>
+            <p class="coffee-drawer__key">You = {{ visitorLabel() }} · Me = djamespoer.com</p>
           }
         </div>
       </div>
 
+      @for (side of sides(); track side) {
+        @for (test of tests(); track test.id) {
+          @if (site(side)?.[test.id]; as run) {
+            <p class="coffee-drawer__key">
+              {{ side === 'visitor' ? visitorLabel() : 'djamespoer.com' }}: {{ test.label }},
+              Lighthouse {{ run.lighthouseVersion || 'version not reported' }}, tested
+              <time [attr.datetime]="run.fetchedAt">{{ run.fetchedAt }}</time
+              >.
+            </p>
+          }
+        }
+      }
       <p class="coffee-drawer__reports">
-        Full reports:
+        Open PageSpeed Insights:
         @for (side of sides(); track side) {
           @if (!$first) {
             ·
@@ -156,9 +184,8 @@
                 /
               }
               <a [href]="run.reportUrl" target="_blank" rel="noopener noreferrer"
-                >{{ test.id }}<span class="visually-hidden">
-                  (opens PageSpeed Insights in a new tab)</span
-                ></a
+                >{{ test.id
+                }}<span class="visually-hidden"> (opens PageSpeed Insights in a new tab)</span></a
               >
             }
           }
@@ -170,7 +197,7 @@
           {{ outcome.mode === 'solo' ? 'Got a site? Challenge me' : 'Try another site' }}
         </button>
       </div>
-      <!-- SCRUM-218 v2: Run again is the same three-button prompt, with no default. -->
+      <!-- Run again explicitly chooses the shared mode. -->
       <section class="coffee-choice" aria-labelledby="coffee-retest-heading">
         <h3 id="coffee-retest-heading">Run again: which test?</h3>
         <ng-container *ngTemplateOutlet="choiceButtons" />
@@ -199,11 +226,16 @@
           (input)="draft.set($any($event.target).value)"
           [readOnly]="phase() === 'scanning'"
           [attr.aria-invalid]="invalid() || null"
-          [attr.aria-describedby]="invalid() ? 'coffee-url-hint coffee-url-error' : 'coffee-url-hint'"
+          [attr.aria-describedby]="
+            invalid() ? 'coffee-url-hint coffee-url-error' : 'coffee-url-hint'
+          "
         />
         @if (invalid()) {
           <p id="coffee-url-error" class="coffee-form__error">
-            <strong>That doesn't look like a public website address. Try something like yoursite.com.</strong>
+            <strong
+              >That doesn't look like a public website address. Try something like
+              yoursite.com.</strong
+            >
           </p>
         }
         @if (phase() !== 'scanning' && phase() !== 'choose') {
@@ -211,10 +243,10 @@
         }
       </form>
       @if (phase() === 'choose') {
-        <!-- Unknown connection: ask instead of guessing. -->
+        <!-- Explicit mode selection matches manual Lighthouse setup. -->
         <section class="coffee-choice" aria-labelledby="coffee-choice-heading">
           <h3 #choiceHeading id="coffee-choice-heading" tabindex="-1">Which Lighthouse test?</h3>
-          <p>Your browser doesn't share its connection type, so pick one.</p>
+          <p>Choose the mode to use for both sites.</p>
           <ng-container *ngTemplateOutlet="choiceButtons" />
         </section>
       }
@@ -222,8 +254,16 @@
         <div class="coffee-brewing">
           <svg class="coffee-brewing__cup" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
             <path class="coffee-brewing__steam" d="M17 14c-2-3 2-5 0-8" />
-            <path class="coffee-brewing__steam" style="animation-delay: 0.6s" d="M24 14c-2-3 2-5 0-8" />
-            <path class="coffee-brewing__steam" style="animation-delay: 1.2s" d="M31 14c-2-3 2-5 0-8" />
+            <path
+              class="coffee-brewing__steam"
+              style="animation-delay: 0.6s"
+              d="M24 14c-2-3 2-5 0-8"
+            />
+            <path
+              class="coffee-brewing__steam"
+              style="animation-delay: 1.2s"
+              d="M31 14c-2-3 2-5 0-8"
+            />
             <path d="M9 20h28v10a10 10 0 0 1-10 10h-8A10 10 0 0 1 9 30Z" />
             <path d="M37 23h3a4 4 0 0 1 0 8h-3" />
           </svg>
@@ -253,8 +293,8 @@
       }
     }
     <p class="coffee-drawer__fine-print">
-      Live Google PageSpeed Insights tests. We wait for Google, and scores vary a little run to
-      run.
+      Live Google Lighthouse lab tests. Local browser hardware, settings and Lighthouse versions can
+      produce different scores. Both sites use the same selected test mode.
     </p>
   </div>
 </dialog>

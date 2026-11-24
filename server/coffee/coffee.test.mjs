@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handleCoffee } from './coffee.ts';
+import { handleCoffee, parsePsi } from './coffee.ts';
 import {
   normalizeSiteUrl,
   coffeeTally,
@@ -125,7 +125,11 @@ test('solo mode and djamespoer.com as the visitor both scan only my site, twice'
   ]) {
     const calls = [];
     const body = await (
-      await handleCoffee(post(input), {}, deps(() => Response.json(psi([0.9, 1, 1, 1])), calls))
+      await handleCoffee(
+        post(input),
+        {},
+        deps(() => Response.json(psi([0.9, 1, 1, 1])), calls),
+      )
     ).json();
     assert.equal(body.mode, 'solo', JSON.stringify(input));
     assert.equal(body.visitor, null);
@@ -143,14 +147,19 @@ test('SCRUM-215: both sites start together with identical settings except URL, e
     const releases = [];
     const d = deps(() => new Promise((resolve) => releases.push(resolve)), calls);
     for (let attempt = 0; attempt < 2; attempt++) {
-      const result = handleCoffee(post({ url: 'acme.com', tests: [strategy] }),
-        { PAGESPEED_API_KEY: 'test-only' }, d);
+      const result = handleCoffee(
+        post({ url: 'acme.com', tests: [strategy] }),
+        { PAGESPEED_API_KEY: 'test-only' },
+        d,
+      );
       // No response is resolved until both independent PSI calls have started.
       await new Promise((resolve) => setImmediate(resolve));
       assert.equal(calls.length, (attempt + 1) * 2);
       const pair = calls.slice(-2);
-      assert.deepEqual(pair.map((u) => u.searchParams.get('url')).sort(),
-        ['https://acme.com/', SELF].sort());
+      assert.deepEqual(
+        pair.map((u) => u.searchParams.get('url')).sort(),
+        ['https://acme.com/', SELF].sort(),
+      );
       const settings = pair.map((u) => {
         const copy = new URL(u);
         copy.searchParams.delete('url');
@@ -159,8 +168,12 @@ test('SCRUM-215: both sites start together with identical settings except URL, e
       assert.equal(settings[0], settings[1]);
       assert.equal(pair[0].searchParams.get('strategy'), strategy);
       assert.equal(pair[0].searchParams.get('locale'), 'en-US');
-      assert.deepEqual(pair[0].searchParams.getAll('category'),
-        ['performance', 'accessibility', 'best-practices', 'seo']);
+      assert.deepEqual(pair[0].searchParams.getAll('category'), [
+        'performance',
+        'accessibility',
+        'best-practices',
+        'seo',
+      ]);
       for (const release of releases.splice(0)) release(Response.json(psi([0.9, 1, 1, 1])));
       const response = await result;
       assert.equal(response.headers.get('Cache-Control'), 'no-store');
@@ -244,7 +257,11 @@ test('SCRUM-218: a scan runs only the requested test; matchups count only that t
     assert.deepEqual(tally, { visitor: 0, james: 2, tied: 2, scored: 4, total: 4 });
   }
   const solo = await (
-    await handleCoffee(post({ mode: 'solo', tests: ['desktop'] }), {}, deps(() => Response.json(psi([1, 1, 1, 1]))))
+    await handleCoffee(
+      post({ mode: 'solo', tests: ['desktop'] }),
+      {},
+      deps(() => Response.json(psi([1, 1, 1, 1]))),
+    )
   ).json();
   assert.deepEqual(solo.tests, ['desktop']);
   assert.equal(solo.james.mobile, null);
@@ -254,30 +271,22 @@ test('SCRUM-218: a scan runs only the requested test; matchups count only that t
 test('SCRUM-218: unknown tests are ignored; no tests means both (older clients)', async () => {
   const calls = [];
   const body = await (
-    await handleCoffee(post({ url: 'acme.com', tests: ['tablet', 42] }), {}, deps(() => Response.json(psi([1, 1, 1, 1])), calls))
+    await handleCoffee(
+      post({ url: 'acme.com', tests: ['tablet', 42] }),
+      {},
+      deps(() => Response.json(psi([1, 1, 1, 1])), calls),
+    )
   ).json();
   assert.deepEqual(body.tests, ['mobile', 'desktop']);
   assert.equal(calls.length, 4);
 });
 
-test('SCRUM-218 v2: the connection picks the first test; unknown asks instead of guessing', async () => {
-  const { connectionTest } = await import('../../src/app/features/coffee/coffee-contract.ts');
-  assert.equal(connectionTest({ type: 'cellular', effectiveType: '4g' }), 'mobile');
-  assert.equal(connectionTest({ type: 'wifi' }), 'desktop');
-  assert.equal(connectionTest({ type: 'ethernet' }), 'desktop');
-  assert.equal(connectionTest({ effectiveType: '3g' }), 'mobile');
-  assert.equal(connectionTest({ effectiveType: 'slow-2g' }), 'mobile');
-  assert.equal(connectionTest({ effectiveType: '4g' }), 'desktop');
-  assert.equal(connectionTest({ type: 'wifi', saveData: true }), 'mobile');
-  // Safari, Firefox and every iPhone expose no navigator.connection.
-  assert.equal(connectionTest(undefined), null);
-  assert.equal(connectionTest({}), null);
-  assert.equal(connectionTest({ type: 'unknown' }), null);
-});
-
 test('SCRUM-220: the tested URL keeps path and query and drops only the fragment', async () => {
   const { displayUrl } = await import('../../src/app/features/coffee/coffee-contract.ts');
-  assert.equal(displayUrl('https://officepride.com/indianapolis-carmel/'), 'officepride.com/indianapolis-carmel/');
+  assert.equal(
+    displayUrl('https://officepride.com/indianapolis-carmel/'),
+    'officepride.com/indianapolis-carmel/',
+  );
   assert.equal(displayUrl('https://example.org/'), 'example.org');
   assert.equal(displayUrl('https://acme.com/p?ref=x'), 'acme.com/p?ref=x');
   // normalizeSiteUrl already drops the #fragment before the scan.
@@ -287,16 +296,134 @@ test('SCRUM-220: the tested URL keeps path and query and drops only the fragment
 test('SCRUM-215: a failed fresh self run is not retried or replaced with earlier scores', async () => {
   const calls = [];
   let fail = false;
-  const d = deps((url) => url === SELF && fail
-    ? Response.json({ error: { message: 'Lighthouse returned error: Something went wrong.' } }, { status: 500 })
-    : Response.json(psi([0.9, 1, 1, 1])), calls);
-  const first = await (await handleCoffee(post({ url: 'acme.com', tests: ['desktop'] }), {}, d)).json();
+  const d = deps(
+    (url) =>
+      url === SELF && fail
+        ? Response.json(
+            { error: { message: 'Lighthouse returned error: Something went wrong.' } },
+            { status: 500 },
+          )
+        : Response.json(psi([0.9, 1, 1, 1])),
+    calls,
+  );
+  const first = await (
+    await handleCoffee(post({ url: 'acme.com', tests: ['desktop'] }), {}, d)
+  ).json();
   assert.equal(first.james.desktop.scores.performance, 90);
   fail = true;
-  const second = await (await handleCoffee(post({ url: 'acme.com', tests: ['desktop'] }), {}, d)).json();
+  const second = await (
+    await handleCoffee(post({ url: 'acme.com', tests: ['desktop'] }), {}, d)
+  ).json();
   assert.equal(calls.length, 4);
   assert.equal(second.james, null);
   assert.equal(second.error, 'self_failed');
   assert.equal(second.visitor.desktop.scores.performance, 90);
-  assert.equal(coffeeVerdict(coffeeTally(second.visitor, second.james, second.tests)), 'no_verdict');
+  assert.equal(
+    coffeeVerdict(coffeeTally(second.visitor, second.james, second.tests)),
+    'no_verdict',
+  );
+});
+
+test('SCRUM-215: provider failures are not blamed on an unreachable visitor and keep DJP scores', async () => {
+  for (const [status, message, error] of [
+    [524, '', 'timeout'],
+    [500, 'Lighthouse returned error: Something went wrong.', 'psi_down'],
+    [500, 'Lighthouse returned error: PROTOCOL_TIMEOUT', 'timeout'],
+    [500, 'Lighthouse returned error: DNS_FAILURE', 'unreachable'],
+    [400, 'API key not valid', 'psi_down'],
+  ]) {
+    const calls = [];
+    const body = await (
+      await handleCoffee(
+        post({ url: 'www.tomjohn.design', tests: ['desktop'] }),
+        {},
+        deps(
+          (url) =>
+            url === SELF
+              ? Response.json(psi([0.96, 1, 1, 1]))
+              : Response.json({ error: { message } }, { status }),
+          calls,
+        ),
+      )
+    ).json();
+    assert.equal(calls.length, 2);
+    assert.equal(body.error, error, message);
+    assert.equal(body.visitor, null);
+    assert.equal(body.james.desktop.scores.performance, 96);
+    assert.equal(coffeeVerdict(coffeeTally(body.visitor, body.james, body.tests)), 'no_verdict');
+  }
+});
+
+test('SCRUM-215: Lighthouse runtime failures retain their actual failure class', () => {
+  for (const [code, type] of [
+    ['PROTOCOL_TIMEOUT', 'timeout'],
+    ['PAGE_HUNG', 'timeout'],
+    ['DNS_FAILURE', 'unreachable'],
+    ['TARGET_CRASHED', 'psi_down'],
+  ])
+    assert.throws(
+      () => parsePsi({ lighthouseResult: { runtimeError: { code } } }, SELF, 'desktop'),
+      (error) => error.type === type,
+    );
+});
+
+test('free mode: only identical, verified Google metadata permits a comparison', async () => {
+  for (const mismatch of [null, 'version', 'throttling']) {
+    const body = await (
+      await handleCoffee(
+        post({ url: 'example.org', tests: ['desktop'] }),
+        {},
+        deps((url) => {
+          const result = psi([0.95, 1, 1, 1]);
+          result.lighthouseResult.lighthouseVersion =
+            mismatch === 'version' && url === SELF ? '13.5.0' : '13.6.0';
+          result.lighthouseResult.configSettings = {
+            formFactor: 'desktop',
+            locale: 'en-US',
+            throttling: {
+              cpuSlowdownMultiplier: mismatch === 'throttling' && url === SELF ? 4 : 1,
+            },
+          };
+          return Response.json(result);
+        }),
+      )
+    ).json();
+    assert.equal(body.comparable, !mismatch);
+    assert.equal(body.error, mismatch ? 'test_mismatch' : undefined);
+    assert.equal(body.visitor.desktop.scores.performance, 95);
+  }
+});
+
+test('free mode: client cancellation aborts both outgoing provider requests', async () => {
+  const controller = new AbortController();
+  const signals = [];
+  const request = new Request(post({ url: 'example.org', tests: ['desktop'] }), {
+    signal: controller.signal,
+  });
+  const result = handleCoffee(
+    request,
+    {},
+    {
+      timeoutMs: 1000,
+      fetch: async (_, init) =>
+        new Promise((resolve, reject) => {
+          signals.push(init.signal);
+          init.signal.addEventListener('abort', () => reject(init.signal.reason), { once: true });
+        }),
+    },
+  );
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(signals.length, 2);
+  controller.abort();
+  await result;
+  assert.ok(signals.every((signal) => signal.aborted));
+});
+
+test('free mode: never invent a measurement timestamp', () => {
+  const result = psi([1, 1, 1, 1]);
+  delete result.lighthouseResult.fetchTime;
+  assert.throws(
+    () => parsePsi(result, SELF, 'desktop'),
+    (error) => error.type === 'psi_down',
+  );
 });

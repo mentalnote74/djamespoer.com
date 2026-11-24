@@ -43,8 +43,7 @@ type CoffeeTestSet = 'mobile' | 'desktop' | 'all';
 /** SCRUM-218 v2: chosen from the visitor's connection, or by the visitor in the prompt. */
 type TestSource = 'connection' | 'prompt';
 export type CoffeeScoreParameter = `${'visitor' | 'james'}_${'mobile' | 'desktop'}_${
-  'performance' | 'accessibility' | 'best_practices' | 'seo'
-}`;
+  'performance' | 'accessibility' | 'best_practices' | 'seo'}`;
 type Employer = 'djamespoer' | 'exl' | 'ips' | 'tcc' | 'dr';
 type Common = { location: Location };
 export interface EventParameters {
@@ -130,7 +129,13 @@ export interface EventParameters {
   } & Partial<Record<CoffeeScoreParameter, number>>;
   coffee_error: Common & {
     error_type:
-      'invalid_url' | 'unreachable' | 'rate_limited' | 'timeout' | 'psi_down' | 'self_failed';
+      | 'invalid_url'
+      | 'unreachable'
+      | 'rate_limited'
+      | 'timeout'
+      | 'psi_down'
+      | 'self_failed'
+      | 'test_mismatch';
     site_host?: string;
     site_url?: string;
   };

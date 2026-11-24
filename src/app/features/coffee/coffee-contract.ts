@@ -18,8 +18,12 @@ export const COFFEE_STRATEGIES: readonly {
   label: string;
   caption: string;
 }[] = [
-  { id: 'mobile', label: 'Mobile', caption: 'Lighthouse, mobile test (simulated slow 4G), just now' },
-  { id: 'desktop', label: 'Desktop', caption: 'Lighthouse, desktop test, just now' },
+  {
+    id: 'mobile',
+    label: 'Mobile',
+    caption: 'Google Lighthouse lab test, mobile (simulated slow 4G)',
+  },
+  { id: 'desktop', label: 'Desktop', caption: 'Google Lighthouse lab test, desktop' },
 ];
 /** SCRUM-218: which tests a scan runs. `all` is both, the SCRUM-216 four-score view. */
 export type CoffeeTestSet = CoffeeStrategy | 'all';
@@ -35,6 +39,10 @@ export function parseTests(input: unknown): CoffeeStrategy[] {
 /** One Lighthouse run: the four category scores for one site on one test. */
 export interface CoffeeTest {
   fetchedAt: string;
+  lighthouseVersion?: string;
+  settingsKey?: string;
+  formFactor?: CoffeeStrategy;
+  locale?: string;
   reportUrl: string;
   scores: Record<CoffeeCategory, number>;
 }
@@ -51,7 +59,8 @@ export type CoffeeErrorType =
   | 'rate_limited'
   | 'timeout'
   | 'psi_down'
-  | 'self_failed';
+  | 'self_failed'
+  | 'test_mismatch';
 export type CoffeeVerdict = 'visitor_buys' | 'james_buys' | 'tie' | 'no_verdict';
 export interface CoffeeResponse {
   mode: 'challenge' | 'solo';
@@ -60,6 +69,7 @@ export interface CoffeeResponse {
   visitor: CoffeeSite | null;
   james: CoffeeSite | null;
   error?: CoffeeErrorType;
+  comparable?: boolean;
 }
 
 /** djamespoer.com entered as the visitor's site runs the solo scan instead of a self-match. */
@@ -166,21 +176,31 @@ export function scoreBand(score: number): ScoreBand {
   return score >= 90 ? 'Good' : score >= 50 ? 'Needs work' : 'Poor';
 }
 
-/**
- * SCRUM-218 v2: pick the first test from the visitor's connection, not their device.
- * Reads the Network Information API shape. Returns null when the browser doesn't say
- * (Safari, Firefox, every iPhone), so the caller asks instead of guessing.
- */
-export function connectionTest(connection: unknown): CoffeeStrategy | null {
-  if (!connection || typeof connection !== 'object') return null;
-  const c = connection as { type?: unknown; effectiveType?: unknown; saveData?: unknown };
-  if (c.saveData === true) return 'mobile';
-  if (c.type === 'cellular') return 'mobile';
-  if (c.type === 'wifi' || c.type === 'ethernet') return 'desktop';
-  if (c.effectiveType === 'slow-2g' || c.effectiveType === '2g' || c.effectiveType === '3g')
-    return 'mobile';
-  if (c.effectiveType === '4g') return 'desktop';
-  return null;
+/** A verdict needs at least one pair with verified matching Google test metadata. */
+export function matchingCoffeeTests(
+  visitor: CoffeeSite,
+  james: CoffeeSite,
+  tests: CoffeeStrategy[],
+): boolean {
+  let pairs = 0;
+  for (const test of tests) {
+    const a = visitor[test],
+      b = james[test];
+    if (!a || !b) continue;
+    pairs++;
+    if (
+      !a.lighthouseVersion ||
+      a.lighthouseVersion !== b.lighthouseVersion ||
+      a.formFactor !== test ||
+      b.formFactor !== test ||
+      !a.locale ||
+      a.locale !== b.locale ||
+      !a.settingsKey ||
+      a.settingsKey !== b.settingsKey
+    )
+      return false;
+  }
+  return pairs > 0;
 }
 
 /** SCRUM-220: the exact tested URL, as shown and as sent to GA: host, path and query, no scheme. */
