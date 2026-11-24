@@ -4,6 +4,7 @@
   "main": "server/buildometer/worker.ts",
   "compatibility_date": "2026-10-03",
   "compatibility_flags": ["nodejs_compat", "enable_request_signal"],
+  "browser": { "binding": "BROWSER" },
   "version_metadata": { "binding": "CF_VERSION_METADATA" },
   "r2_buckets": [{ "binding": "DAILY_REPORTS", "bucket_name": "djamespoer-daily-reports" }],
   // SCRUM-47: about 5 coffee scans per minute per visitor IP. namespace_id is an account-unique integer.
@@ -13,7 +14,7 @@
   "assets": {
     "directory": "./dist/djamespoer/browser",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/coffee", "/api/buildometer", "/api/buildometer/reports", "/api/buildometer/reports/*"],
+    "run_worker_first": ["/api/coffee", "/api/coffee/results/*", "/api/buildometer", "/api/buildometer/reports", "/api/buildometer/reports/*"],
     "not_found_handling": "404-page",
     "html_handling": "drop-trailing-slash",
   },

@@ -1,0 +1,113 @@
+async function compareInBrowser({ browser }, input) {
+  const categories = [
+    ["performance", "performance"],
+    ["accessibility", "accessibility"],
+    ["bestPractices", "best-practices"],
+    ["seo", "seo"]
+  ];
+  const config = {
+    extends: "lighthouse:default",
+    settings: {
+      onlyCategories: categories.map((c) => c[1]),
+      locale: "en-US",
+      throttlingMethod: "simulate",
+      disableStorageReset: false,
+      maxWaitForLoad: 35e3,
+      maxWaitForFcp: 2e4,
+      ...input.test === "desktop" ? {
+        formFactor: "desktop",
+        emulatedUserAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+        screenEmulation: {
+          mobile: false,
+          width: 1350,
+          height: 940,
+          deviceScaleFactor: 1,
+          disabled: false
+        },
+        throttling: {
+          rttMs: 40,
+          throughputKbps: 10240,
+          cpuSlowdownMultiplier: 1,
+          requestLatencyMs: 0,
+          downloadThroughputKbps: 0,
+          uploadThroughputKbps: 0
+        }
+      } : {}
+    }
+  };
+  const result = {
+    mode: input.url ? "challenge" : "solo",
+    tests: [input.test],
+    visitor: null,
+    james: null,
+    comparable: false
+  };
+  let chrome;
+  const sides = input.url ? ["visitor", "james"] : ["james"];
+  for (const side of sides) {
+    const context = await browser.createBrowserContext();
+    try {
+      const page = await context.newPage();
+      if (input.internal)
+        await page.evaluateOnNewDocument(() => {
+          try {
+            localStorage.setItem("portfolio.analytics.internal", "1");
+          } catch {
+          }
+        });
+      await page.setRequestInterception(true);
+      page.on(
+        "request",
+        (r) => /https:\/\/[^/]*(?:google-analytics\.com|analytics\.google\.com)\/(?:g\/)?collect\b|\/cdn-cgi\/rum(?:\?|$)/.test(
+          r.url()
+        ) ? r.respond({status:204,body:""}) : r.continue()
+      );
+      const session = await page.createCDPSession();
+      const version = await session.send("Browser.getVersion");
+      await session.detach();
+      if (chrome && chrome !== version.product) throw Error("version_mismatch");
+      chrome = version.product;
+      const url = side === "visitor" ? input.url : "https://djamespoer.com/";
+      const audit = await globalThis.runBundledLighthouse(url, { logLevel: "silent" }, structuredClone(config), page);
+      const lhr = audit?.lhr;
+      if (!lhr || lhr.runtimeError?.code) throw Error(lhr?.runtimeError?.code ?? "audit_failed");
+      const scores = {};
+      for (const [id, key] of categories) {
+        const score = lhr.categories[key]?.score;
+        if (typeof score !== "number") throw Error("missing_score");
+        scores[id] = Math.round(score * 100);
+      }
+      result[side] = {
+        url,
+        host: new URL(url).hostname,
+        mobile: null,
+        desktop: null,
+        [input.test]: {
+          scores,
+          fetchedAt: lhr.fetchTime,
+          lighthouseVersion: lhr.lighthouseVersion,
+          chromeVersion: version.product,
+          formFactor: lhr.configSettings.formFactor,
+          locale: lhr.configSettings.locale,
+          settingsKey: JSON.stringify(lhr.configSettings),
+          reportUrl: "",
+          failedAudits: Object.entries(lhr.audits).filter(([id,audit])=>audit.score!==null && audit.score<1).map(([id])=>id),
+        metrics: Object.fromEntries(
+            [
+              "first-contentful-paint",
+              "largest-contentful-paint",
+              "total-blocking-time",
+              "cumulative-layout-shift",
+              "speed-index"
+            ].map((id) => [id, lhr.audits[id]?.numericValue ?? null])
+          )
+        }
+      };
+    } catch (error) {
+      result.error = "runner_unavailable";
+    } finally {
+      await context.close();
+    }
+  }
+  return result;
+}
