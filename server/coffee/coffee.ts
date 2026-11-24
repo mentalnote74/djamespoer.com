@@ -5,6 +5,7 @@ import {
   COFFEE_SELF_URL,
   isSelfHost,
   normalizeSiteUrl,
+  matchingCoffeeTests,
   parseTests,
   type CoffeeCategory,
   type CoffeeErrorType,
@@ -23,12 +24,16 @@ export interface CoffeeEnv {
 export interface CoffeeDeps {
   fetch: typeof fetch;
   timeoutMs: number;
+  signal?: AbortSignal;
 }
 
 const PSI = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
 // [Larry] SCRUM-215: each matchup runs fresh, once per site, with the same PSI settings.
 // No independently aged cache entries, self-only retry or historical fallback in a verdict.
-type ScanError = Exclude<CoffeeErrorType, 'self_failed' | 'invalid_url' | 'rate_limited'>;
+type ScanError = Exclude<
+  CoffeeErrorType,
+  'self_failed' | 'invalid_url' | 'rate_limited' | 'test_mismatch'
+>;
 const STATUS: Record<CoffeeErrorType, number> = {
   invalid_url: 400,
   unreachable: 422,
@@ -36,6 +41,7 @@ const STATUS: Record<CoffeeErrorType, number> = {
   timeout: 504,
   psi_down: 503,
   self_failed: 200,
+  test_mismatch: 200,
 };
 
 class CoffeeError extends Error {
@@ -66,25 +72,70 @@ function reportUrl(url: string, strategy: CoffeeStrategy): string {
   );
 }
 
-/** Keep only the four category scores and when they were measured. */
+/** Distinguish an audit/provider failure from a confirmed document-load failure. */
+function psiFailure(status: number, message: string): ScanError {
+  if (
+    [408, 504, 524].includes(status) ||
+    /TIMEOUT|PAGE_HUNG|deadline exceeded|timed out/i.test(message)
+  )
+    return 'timeout';
+  if (
+    status !== 429 &&
+    /(?:FAILED_|ERRORED_|INSECURE_)?DOCUMENT_REQUEST|DNS_FAILURE|NO_FCP|NOT_HTML|INVALID_URL|unable to (?:reliably )?load/i.test(
+      message,
+    )
+  )
+    return 'unreachable';
+  return 'psi_down';
+}
+
+/** Stable comparison of Google's actual settings, including nested throttling/emulation. */
+function settingsKey(value: unknown): string {
+  if (Array.isArray(value)) return '[' + value.map(settingsKey).join(',') + ']';
+  if (value && typeof value === 'object')
+    return (
+      '{' +
+      Object.entries(value)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, item]) => JSON.stringify(key) + ':' + settingsKey(item))
+        .join(',') +
+      '}'
+    );
+  return JSON.stringify(value) ?? 'null';
+}
+
+/** Keep actual scores, measurement time and nonpersonal test configuration. */
 export function parsePsi(body: unknown, requested: string, strategy: CoffeeStrategy): CoffeeTest {
   const result = (body as { lighthouseResult?: Record<string, unknown> } | null)?.lighthouseResult;
   if (!result) throw new CoffeeError('psi_down');
-  if ((result['runtimeError'] as { code?: string } | undefined)?.code)
-    throw new CoffeeError('unreachable');
+  const runtime = result['runtimeError'] as { code?: string; message?: string } | undefined;
+  if (runtime?.code)
+    throw new CoffeeError(psiFailure(0, runtime.code + ' ' + (runtime.message ?? '')));
   const categories = (result['categories'] ?? {}) as Record<string, { score?: unknown }>;
   const scores = {} as Record<CoffeeCategory, number>;
   for (const category of COFFEE_CATEGORIES) {
     const score = categories[category.psi]?.score;
     // A null category score means Lighthouse could not audit the page.
-    if (typeof score !== 'number' || !Number.isFinite(score)) throw new CoffeeError('unreachable');
+    if (typeof score !== 'number' || !Number.isFinite(score)) throw new CoffeeError('psi_down');
     scores[category.id] = Math.max(0, Math.min(100, Math.round(score * 100)));
   }
-  const fetchedAt =
-    typeof result['fetchTime'] === 'string' && !Number.isNaN(Date.parse(result['fetchTime']))
-      ? new Date(result['fetchTime']).toISOString()
-      : new Date().toISOString();
-  return { fetchedAt, reportUrl: reportUrl(requested, strategy), scores };
+  if (typeof result['fetchTime'] !== 'string' || Number.isNaN(Date.parse(result['fetchTime'])))
+    throw new CoffeeError('psi_down');
+  const fetchedAt = new Date(result['fetchTime']).toISOString();
+  const config = result['configSettings'] as { formFactor?: string; locale?: string } | undefined;
+  return {
+    fetchedAt,
+    reportUrl: reportUrl(requested, strategy),
+    scores,
+    lighthouseVersion:
+      typeof result['lighthouseVersion'] === 'string' ? result['lighthouseVersion'] : undefined,
+    formFactor:
+      config?.formFactor === 'mobile' || config?.formFactor === 'desktop'
+        ? config.formFactor
+        : undefined,
+    locale: config?.locale,
+    settingsKey: config ? settingsKey(config) : undefined,
+  };
 }
 
 /** SCRUM-217: one structured log line per PSI call, readable with `wrangler tail`. Never the key. */
@@ -104,21 +155,31 @@ async function runPsi(
   const started = Date.now();
   const log = (fields: Record<string, unknown>) =>
     logPsi({ url, strategy, ms: Date.now() - started, ...fields });
+  const signal = AbortSignal.any([
+    AbortSignal.timeout(deps.timeoutMs),
+    ...(deps.signal ? [deps.signal] : []),
+  ]);
   let response: Response;
   try {
     response = await deps.fetch(PSI + '?' + query, {
       headers: { Accept: 'application/json' },
-      signal: AbortSignal.timeout(deps.timeoutMs),
+      signal,
     });
   } catch (error) {
     const name = error instanceof Error ? error.name : 'Error';
     log({ outcome: 'fetch_failed', error: name, message: String(error).slice(0, 200) });
     throw new CoffeeError(name === 'TimeoutError' ? 'timeout' : 'psi_down');
   }
+  const readBody = () =>
+    response.json().catch(() => {
+      if (signal.aborted)
+        throw new CoffeeError(signal.reason?.name === 'TimeoutError' ? 'timeout' : 'psi_down');
+      return null;
+    });
   if (!response.ok) {
     // PSI reports a page Lighthouse could not load as a 400 or 500 whose message names the
     // Lighthouse error. Quota exhaustion (429) and other provider errors mean PSI is unavailable.
-    const body = (await response.json().catch(() => null)) as {
+    const body = (await readBody()) as {
       error?: { message?: unknown; status?: unknown };
     } | null;
     const message = String(body?.error?.message ?? '');
@@ -128,21 +189,17 @@ async function runPsi(
       psiStatus: body?.error?.status,
       message: message.slice(0, 300),
     });
-    const lighthouse =
-      /Lighthouse returned error|DOCUMENT_REQUEST|DNS_FAILURE|NO_FCP|NOT_HTML|INVALID_URL|unable to (?:reliably )?load/i;
-    throw new CoffeeError(
-      response.status !== 429 && (response.status === 400 || lighthouse.test(message))
-        ? 'unreachable'
-        : 'psi_down',
-    );
+    throw new CoffeeError(psiFailure(response.status, message));
   }
-  const body = await response.json().catch(() => null);
+  const body = await readBody();
   try {
     const parsed = parsePsi(body, url, strategy);
     const result = (body as { lighthouseResult?: Record<string, unknown> }).lighthouseResult;
     // Preserve diagnostic context in Worker logs, not GA or the public response.
     log({
-      outcome: 'ok', scores: parsed.scores, fetchedAt: parsed.fetchedAt,
+      outcome: 'ok',
+      scores: parsed.scores,
+      fetchedAt: parsed.fetchedAt,
       lighthouseVersion: result?.['lighthouseVersion'],
       configSettings: result?.['configSettings'],
       environment: result?.['environment'],
@@ -233,7 +290,8 @@ export async function handleCoffee(
     }));
     if (!success) return failure('rate_limited', mode, tests);
   }
-  const self = scanSite(COFFEE_SELF_URL, 'djamespoer.com', tests, env, deps);
+  const runDeps = { ...deps, signal: request.signal };
+  const self = scanSite(COFFEE_SELF_URL, 'djamespoer.com', tests, env, runDeps);
   if (solo) {
     try {
       return reply({ mode, tests, visitor: null, james: await self });
@@ -243,16 +301,32 @@ export async function handleCoffee(
   }
   const target = site as { ok: true; url: string; host: string };
   const [visitor, james] = await Promise.allSettled([
-    scanSite(target.url, target.host, tests, env, deps),
+    scanSite(target.url, target.host, tests, env, runDeps),
     self,
   ]);
-  if (visitor.status === 'rejected')
-    return failure(
-      visitor.reason instanceof CoffeeError ? visitor.reason.type : 'psi_down',
+  if (visitor.status === 'rejected') {
+    const error = visitor.reason instanceof CoffeeError ? visitor.reason.type : 'psi_down';
+    // A failed visitor scan must not discard the independent successful DJP run.
+    if (james.status === 'fulfilled')
+      return reply({ mode, tests, visitor: null, james: james.value, error, comparable: false });
+    return failure(error, mode, tests);
+  }
+  if (james.status === 'rejected')
+    return reply({
       mode,
       tests,
-    );
-  if (james.status === 'rejected')
-    return reply({ mode, tests, visitor: visitor.value, james: null, error: 'self_failed' });
-  return reply({ mode, tests, visitor: visitor.value, james: james.value });
+      visitor: visitor.value,
+      james: null,
+      error: 'self_failed',
+      comparable: false,
+    });
+  const comparable = matchingCoffeeTests(visitor.value, james.value, tests);
+  return reply({
+    mode,
+    tests,
+    visitor: visitor.value,
+    james: james.value,
+    comparable,
+    ...(!comparable ? { error: 'test_mismatch' as const } : {}),
+  });
 }
