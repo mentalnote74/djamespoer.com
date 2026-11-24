@@ -1,12 +1,145 @@
 // [Larry] SCRUM-215: actual Worker handler with the Browser Run boundary controlled.
-import {test} from 'node:test';import assert from 'node:assert/strict';import {build} from 'esbuild';import {mkdir} from 'node:fs/promises';
-await mkdir('tmp/unit',{recursive:true});await build({entryPoints:['server/coffee/coffee.ts'],outfile:'tmp/unit/coffee.mjs',bundle:true,format:'esm',platform:'node',loader:{'.txt':'text'}});
-const {handleCoffee}=await import('../../tmp/unit/coffee.mjs');
-const origin='https://djamespoer.com';
-const post=(body={url:'https://www.tomjohn.design/',tests:['desktop'],internal:true})=>new Request(origin+'/api/coffee',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify(body)});
-function fixture(){let closed=0,runs=0;const run={scores:{performance:97,accessibility:94,bestPractices:100,seo:100},fetchedAt:new Date().toISOString(),lighthouseVersion:'13.6.0',chromeVersion:'Chrome/157',formFactor:'desktop',locale:'en-US',settingsKey:'actual-identical-settings',reportUrl:''};const result={mode:'challenge',tests:['desktop'],visitor:{url:'https://www.tomjohn.design/',host:'www.tomjohn.design',desktop:run,mobile:null},james:{url:origin+'/',host:'djamespoer.com',desktop:structuredClone(run),mobile:null}};return {result,get closed(){return closed;},get runs(){return runs;},env:{BROWSER:{async acquire(){return {sessionId:'fixture'};},async script(code,options){runs++;assert.equal(options.sessionId,'fixture');assert.ok(code.includes('thirdPartyWeb.provideThirdPartyWeb'));assert.ok(code.includes('createBrowserContext'));assert.ok(code.includes('Macintosh; Intel Mac OS X'));assert.ok(code.includes('r.respond({status:204'));return Response.json({success:true,result});},async closeSession(){closed++;}}}};}
-test('one ready browser executes the paired script, keeps measured scores, and always closes',async()=>{const f=fixture();const response=await handleCoffee(post(),f.env);assert.equal(response.status,200);const result=await response.json();assert.equal(result.comparable,true);assert.equal(result.visitor.desktop.scores.performance,97);assert.equal(f.runs,1);assert.equal(f.closed,1);});
-test('different actual versions cannot win; failed script still closes browser',async()=>{const f=fixture();f.result.james.desktop.chromeVersion='Chrome/other';const r=await(await handleCoffee(post(),f.env)).json();assert.equal(r.comparable,false);assert.equal(r.error,'test_mismatch');const broken=fixture();broken.env.BROWSER.script=async()=>new Response('failed',{status:422});assert.equal((await handleCoffee(post(),broken.env)).status,503);assert.equal(broken.closed,1);});
-test('invalid/private URLs and foreign origin never acquire a browser',async()=>{const f=fixture();for(const url of ['localhost','https://127.0.0.1','file:///etc/passwd'])assert.equal((await handleCoffee(post({url,tests:['desktop']}),f.env)).status,400);const req=new Request(post(),{headers:{Origin:'https://other.example','Content-Type':'application/json'}});assert.equal((await handleCoffee(req,f.env)).status,403);assert.equal(f.runs,0);});
-test('cancellation closes an acquired session exactly once',async()=>{const f=fixture(),control=new AbortController();control.abort();const r=await handleCoffee(new Request(post(),{signal:control.signal}),f.env);assert.equal(r.status,408);assert.equal(f.closed,1);assert.equal(f.runs,0);});
-test('free browser budget exhaustion is explicit, with no paid fallback',async()=>{const f=fixture();f.env.BROWSER.acquire=async()=>{throw {status:429,message:'Browser time limit exceeded for today'};};const r=await handleCoffee(post(),f.env);assert.equal(r.status,429);assert.equal((await r.json()).error,'browser_quota');assert.equal(f.runs,0);});
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { build } from 'esbuild';
+import { mkdir } from 'node:fs/promises';
+await mkdir('tmp/unit', { recursive: true });
+await build({
+  entryPoints: ['server/coffee/coffee.ts'],
+  outfile: 'tmp/unit/coffee.mjs',
+  bundle: true,
+  format: 'esm',
+  platform: 'node',
+  loader: { '.txt': 'text' },
+});
+const { handleCoffee } = await import('../../tmp/unit/coffee.mjs');
+const origin = 'https://djamespoer.com';
+const post = (body = { url: 'https://www.tomjohn.design/', tests: ['desktop'], internal: true }) =>
+  new Request(origin + '/api/coffee', {
+    method: 'POST',
+    headers: { Origin: origin, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+function fixture() {
+  let closed = 0,
+    runs = 0;
+  const run = {
+    scores: { performance: 97, accessibility: 94, bestPractices: 100, seo: 100 },
+    fetchedAt: new Date().toISOString(),
+    lighthouseVersion: '13.6.0',
+    chromeVersion: 'Chrome/157',
+    formFactor: 'desktop',
+    locale: 'en-US',
+    settingsKey: 'actual-identical-settings',
+    reportUrl: '',
+  };
+  const result = {
+    mode: 'challenge',
+    tests: ['desktop'],
+    visitor: {
+      url: 'https://www.tomjohn.design/',
+      host: 'www.tomjohn.design',
+      desktop: run,
+      mobile: null,
+    },
+    james: {
+      url: origin + '/',
+      host: 'djamespoer.com',
+      desktop: structuredClone(run),
+      mobile: null,
+    },
+  };
+  return {
+    result,
+    get closed() {
+      return closed;
+    },
+    get runs() {
+      return runs;
+    },
+    env: {
+      BROWSER: {
+        async acquire() {
+          return { sessionId: 'fixture' };
+        },
+        async script(code, options) {
+          runs++;
+          assert.equal(options.sessionId, 'fixture');
+          assert.ok(code.includes('thirdPartyWeb.provideThirdPartyWeb'));
+          assert.ok(code.includes('createBrowserContext'));
+          assert.ok(code.includes('Macintosh; Intel Mac OS X'));
+          assert.ok(code.includes('r.respond({status:204'));
+          return Response.json({ success: true, result });
+        },
+        async closeSession() {
+          closed++;
+        },
+      },
+    },
+  };
+}
+test('one ready browser executes the paired script, keeps measured scores, and always closes', async () => {
+  const f = fixture();
+  const response = await handleCoffee(post(), f.env);
+  assert.equal(response.status, 200);
+  const result = await response.json();
+  assert.equal(result.comparable, true);
+  assert.equal(result.visitor.desktop.scores.performance, 97);
+  assert.equal(f.runs, 1);
+  assert.equal(f.closed, 1);
+});
+test('different actual versions cannot win; failed script still closes browser', async () => {
+  const f = fixture();
+  f.result.james.desktop.chromeVersion = 'Chrome/other';
+  const r = await (await handleCoffee(post(), f.env)).json();
+  assert.equal(r.comparable, false);
+  assert.equal(r.error, 'test_mismatch');
+  const broken = fixture();
+  broken.env.BROWSER.script = async () => new Response('failed', { status: 422 });
+  assert.equal((await handleCoffee(post(), broken.env)).status, 503);
+  assert.equal(broken.closed, 1);
+});
+test('invalid/private URLs and foreign origin never acquire a browser', async () => {
+  const f = fixture();
+  for (const url of ['localhost', 'https://127.0.0.1', 'file:///etc/passwd'])
+    assert.equal((await handleCoffee(post({ url, tests: ['desktop'] }), f.env)).status, 400);
+  const req = new Request(post(), {
+    headers: { Origin: 'https://other.example', 'Content-Type': 'application/json' },
+  });
+  assert.equal((await handleCoffee(req, f.env)).status, 403);
+  assert.equal(f.runs, 0);
+});
+test('cancellation closes an acquired session exactly once', async () => {
+  const f = fixture(),
+    control = new AbortController();
+  control.abort();
+  const r = await handleCoffee(new Request(post(), { signal: control.signal }), f.env);
+  assert.equal(r.status, 408);
+  assert.equal(f.closed, 1);
+  assert.equal(f.runs, 0);
+});
+test('free browser budget exhaustion is explicit, with no paid fallback', async () => {
+  const f = fixture();
+  f.env.BROWSER.acquire = async () => {
+    throw { status: 429, message: 'Browser time limit exceeded for today' };
+  };
+  const r = await handleCoffee(post(), f.env);
+  assert.equal(r.status, 429);
+  assert.equal((await r.json()).error, 'browser_quota');
+  assert.equal(f.runs, 0);
+});
+
+test('exhausted daily capacity returns the manual-fallback error without acquiring Chrome', async () => {
+  const f = fixture();
+  let acquisitions = 0;
+  f.env.BROWSER.limits = async () => ({ usedBrowserTimeSeconds: 649.997 });
+  f.env.BROWSER.acquire = async () => {
+    acquisitions++;
+    throw Error('must not acquire');
+  };
+  const r = await handleCoffee(post(), f.env);
+  assert.equal(r.status, 429);
+  assert.equal((await r.json()).error, 'browser_quota');
+  assert.equal(acquisitions, 0);
+  assert.equal(f.runs, 0);
+});

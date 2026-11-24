@@ -47,7 +47,7 @@ const ERROR_COPY: Record<Exclude<CoffeeErrorType, 'invalid_url' | 'self_failed'>
   psi_down: 'The browser test could not finish. Please try again.',
   runner_unavailable: 'The browser test could not finish. Please try again.',
   browser_quota:
-    'Today?s free browser-test allowance has been used. Please try again after midnight UTC.',
+    'Today?s automated-test allowance has been used. It resets at midnight UTC; reload this page after the reset, or use the manual steps below.',
   test_mismatch: 'Matching Lighthouse versions and settings could not be verified.',
 };
 const VERDICT_COPY = {
@@ -102,6 +102,11 @@ export class CoffeeDrawer {
   readonly solo = signal(false);
   readonly invalid = signal(false);
   readonly error = signal<CoffeeErrorType | null>(null);
+  readonly quotaExhausted = computed(() => this.error() === 'browser_quota');
+  readonly manualSiteUrl = computed(() => {
+    const site = normalizeSiteUrl(this.draft());
+    return site.ok && !isSelfHost(site.host) ? site.url : null;
+  });
   readonly result = signal<CoffeeResponse | null>(null);
   readonly announcement = signal('');
   readonly draft = signal('');
@@ -214,7 +219,7 @@ export class CoffeeDrawer {
 
   submit(event: Event): void {
     event.preventDefault();
-    if (this.phase() === 'scanning') return;
+    if (this.phase() === 'scanning' || this.quotaExhausted()) return;
     const site = normalizeSiteUrl(this.draft());
     if (!site.ok) {
       this.invalid.set(true);
@@ -238,7 +243,7 @@ export class CoffeeDrawer {
   }
 
   scanSolo(trigger: 'button' | 'own_url' = 'button'): void {
-    if (this.phase() === 'scanning') return;
+    if (this.phase() === 'scanning' || this.quotaExhausted()) return;
     this.invalid.set(false);
     this.host = '';
     this.siteUrl = '';
@@ -250,7 +255,7 @@ export class CoffeeDrawer {
 
   /** The visitor picked a test in the prompt: before the first scan, or to run again. */
   choose(set: CoffeeTestSet): void {
-    if (!this.target || this.phase() === 'scanning') return;
+    if (!this.target || this.phase() === 'scanning' || this.quotaExhausted()) return;
     if (this.phase() === 'result') {
       this.analytics.track('coffee_retest', {
         location: 'coffee-drawer',
@@ -291,6 +296,10 @@ export class CoffeeDrawer {
   }
 
   retry(event: Event): void {
+    if (this.quotaExhausted()) {
+      event.preventDefault();
+      return;
+    }
     if (this.target && this.phase() !== 'scanning') void this.scan(this.target, this.scanning());
     else if (this.solo()) this.scanSolo('button');
     else this.submit(event);

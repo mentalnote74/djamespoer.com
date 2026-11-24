@@ -239,7 +239,7 @@
             >
           </p>
         }
-        @if (phase() !== 'scanning' && phase() !== 'choose') {
+        @if (phase() !== 'scanning' && phase() !== 'choose' && !quotaExhausted()) {
           <button class="coffee-form__submit" type="submit">Who's buying?</button>
         }
       </form>
@@ -280,7 +280,7 @@
           </p>
           <button type="button" (click)="cancel()">Cancel</button>
         </div>
-      } @else if (phase() !== 'choose') {
+      } @else if (phase() !== 'choose' && !quotaExhausted()) {
         <div class="coffee-solo">
           <p class="coffee-solo__or">or</p>
           <p><strong>No website? No problem.</strong></p>
@@ -290,7 +290,58 @@
       @if (errorCopy()) {
         <div class="coffee-drawer__error">
           <p #errorMessage tabindex="-1">{{ errorCopy() }}</p>
-          <button type="button" (click)="retry($event)">Try again</button>
+          @if (quotaExhausted()) {
+            <section class="coffee-choice" aria-labelledby="coffee-manual-heading">
+              <h3 id="coffee-manual-heading">Run the challenge manually</h3>
+              <p>You can still compare both sites using Lighthouse in Chrome on a computer.</p>
+              <div class="coffee-choice__options">
+                @if (manualSiteUrl(); as site) {
+                  <a [href]="site" target="_blank" rel="noopener noreferrer"
+                    >Open your site (new tab)</a
+                  >
+                }
+                <a href="https://djamespoer.com/" target="_blank" rel="noopener noreferrer"
+                  >Open djamespoer.com (new tab)</a
+                >
+              </div>
+              <ol>
+                <li>
+                  Use the same Chrome Incognito session for both tests, with extensions off. Keep
+                  the window size and DevTools position the same.
+                </li>
+                <li>
+                  Open the first site and let it finish rendering. Keep the complete URL, including
+                  any page-state parameters added after loading.
+                </li>
+                <li>
+                  Open DevTools: Ctrl + Shift + I on Windows/Linux, or Command + Option + I on Mac.
+                  Select the Lighthouse tab (it may be under the additional-tabs menu).
+                </li>
+                <li>
+                  Choose Navigation mode and {{ scanning() === 'mobile' ? 'Mobile' : 'Desktop' }}.
+                  Select only Performance, Accessibility, Best Practices and SEO. Keep throttling
+                  and Clear storage settings identical for both sites. Click Analyze page load.
+                </li>
+                <li>
+                  Check that the report preview shows the rendered page, not a loading screen or
+                  error. Save the report as JSON and note the four scores. Close that test tab, then
+                  repeat for the other site with exactly the same settings. Run one test at a time.
+                </li>
+              </ol>
+              <p>
+                Compare the four scores side by side. A page that did not render is not a completed
+                comparison.
+              </p>
+              <a
+                href="https://developer.chrome.com/docs/devtools/lighthouse/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Chrome?s Lighthouse instructions (new tab)</a
+              >
+            </section>
+          } @else {
+            <button type="button" (click)="retry($event)">Try again</button>
+          }
         </div>
       }
     }

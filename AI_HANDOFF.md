@@ -1,3 +1,11 @@
+## [Larry] SCRUM-215 ? manual fallback for exhausted automation allowance
+
+Quota errors now show a native-HTML manual Lighthouse guide in the existing Coffee drawer, with validated links to the entered site and DJP. Instructions cover desktop Chrome/Incognito, same window/DevTools layout, loaded page and full state URL, Navigation + selected device, the same four categories/storage/throttling, JSON export and sequential runs. Loading/error previews do not count as completed tests. Automated submit/solo/retry controls are suppressed for the exhausted state, including Enter; reload after the midnight-UTC allowance reset. Existing styles/focus/consent/INTERNAL behavior reused; no new component/dependency/stylesheet.
+
+Backend reads the existing Browser Run usage counter before acquisition. The current Workers Free budget is600 browser seconds/day; exhausted usage maps to browser_quota without acquiring Chrome, including providers' generic rate-limit messages. This does not increase capacity or change plans. A paid-plan change would require revisiting this Free-plan guard.
+
+Validation:6 mocked handler checks pass; production Angular build84 prerenders passes with existing warnings; one intercepted built-Chrome check at1440/390/320 verifies both links, safe href/rel, keyboard focus, no overflow and no resubmit after exhaustion. All QA INTERNAL before startup; zero live browser scans. Evidence ignored tmp/manual-fallback-receipt.json. Scope is quota/manual UI only; rendering-equivalence investigation is parked and no external-site investigation continued. Next: normal PR/main release and read-only/mocked production UI verification.
+
 ## [Larry] SCRUM-215 ? existing Cloudflare execution verified, release pending
 
 Supersedes the standalone Node prototype and incorrect external-host blocker. Existing account Browser Run executes the official pinned browser-compatible Lighthouse13.6 bundle; Worker acquire/script/close lifecycle, sequential fresh contexts in one Chrome, exact desktop/mobile settings, measured JSON summaries in existing R2. No PSI, new npm dependency, host/account/credential, paid plan, fallback score or GitHub production compute. Source/provenance/limits: docs/coffee/controlled-comparison.md and server/coffee/vendor/README.md.
