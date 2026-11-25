@@ -1,61 +1,54 @@
 // Generated snapshot. Do not edit dates independently.
 import type { ScrumBrief } from './brief.model';
 export const DAILY_SCRUM_BRIEF: ScrumBrief = {
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "sections": [
     {
       "heading": "Buildometer reconciliation (system receipt)",
       "paragraphs": [
         "djamespoer.com known scope (Jira SCRUM): 483 shipped / 778 total; 295 remaining (62.1%).",
-        "Progress observed at 2026-11-24T15:01:14.172Z. Last checked 2026-11-24T15:01:14.197Z. Status: observed. Recalculated from Jira and recorded a new observation."
+        "Progress observed at 2026-11-24T15:01:14.172Z. Last checked 2026-11-25T15:01:22.040Z. Status: checked. Recalculated from Jira; no change since the last observation."
       ]
     },
     {
-      "heading": "Recently shipped",
+      "heading": "Material movement",
       "paragraphs": [
-        "The new Coffee drawer turns a website-quality check into a conversation starter: visitors can compare sites or scan this portfolio alone, choose mobile or desktop tests, and see category-by-category matchups rather than an averaged score. The implementation evolved substantially during live testing. Google PageSpeed failures and inconsistent comparisons led to a replacement using direct Lighthouse on the existing Cloudflare Browser Run service, with fresh contexts and matching settings for both sites.",
-        "The production replacement completed a previously failing third-party comparison, verified all eight displayed desktop scores against its response and exposed the measured JSON. A further release handles the shared free daily browser allowance honestly: when exhausted, automated resubmission stops and the drawer offers links and matching manual Chrome Lighthouse instructions. It does not substitute historical scores or silently buy capacity.",
-        "Homepage performance work moved the sky and chameleon shaders off the main thread, returned the chameleon to the established asset pipeline and deferred the van embed. A separate cookie-sprite release reduced its download by about 70% while preserving frame geometry and exact alpha. About and Résumé also gained consistent sky, typography and card treatments; the existing copy, downloads and PDFs were preserved. Current main and production agree at release 2026.11.23-17."
+        "Yesterday’s scheduled publication reconciled the Coffee work that was missing from the saved Buildometer snapshot. The Coffee story’s revised estimate and completion, plus four completed follow-ups, are now reflected in production. Known scope increased by 19 points and credited completion by 20, moving the published reading from 463/759 to 483/778, or 62.1%, with 295 remaining. This is accounting for previously released work, not a new product release.",
+        "The verified source window contains no newer product implementation beyond yesterday’s journal and accounting publication. Main and production agree at release 2026.11.24-1. The portfolio’s latest functional state remains the direct Lighthouse Coffee comparison with its explicit quota/manual fallback, the homepage performance corrections and the About/Résumé presentation improvements."
       ]
     },
     {
       "heading": "Validated / learned",
       "paragraphs": [
-        "Recorded fresh post-release PSI samples put mobile Performance at 94–96 and desktop at 92–97, with Accessibility, Best Practices and SEO at 100 in those samples. Those are measured runs, not a permanent score guarantee. The direct comparison later used a different browser environment; an owner’s lower manual result remains unexplained, and the rendering-equivalence investigation is parked pending the original report. A successful direct run does not resolve that discrepancy.",
-        "The runner release passed 476 CI tests, focused lifecycle and analytics checks, and a production build. Its controlled GA event received HTTP 204, establishing transport acceptance rather than processed-report availability. Seven coffee dimensions and 19 metrics were registered and read back; the booking key event remains open. The latest Résumé correction passed scoped axe and responsive checks with production smoke verification. Owner visual acceptance remains distinct from deployment."
+        "The existing scheduled publisher completed successfully and the resulting Cloudflare production build passed. The new observation is dated November 24 at 10:01:14 AM Eastern; unlike the prior morning’s retained totals, it includes the changed Coffee estimate and four additional members.",
+        "At 8:55:35 AM Eastern, today’s read-only calculation reproduced 483/778 and checked all 160 saved members against current Jira in two complete batches. No estimate mismatch or newly Done uncredited member was found. Today’s check did not append a synthetic observation or refresh the public receipt. The published calculation still uses Done-based credit; agreement with Jira does not independently verify every deployment or acceptance criterion."
       ]
     },
     {
-      "heading": "Reconciliation status — pending changes",
+      "heading": "Current focus and accountability",
       "paragraphs": [
-        "At 8:56:48 AM Eastern, today’s read-only calculation reproduced the saved 463/759 points, 61%, with 296 remaining, observed November 22 at 8:42:04 PM Eastern. The public receipt’s last full check was November 23 at 10:01:16 AM Eastern and recorded no change.",
-        "Current Jira checks covered all 156 saved members and found a real exception: the Coffee story is now 5 points and Done, while the saved ledger still has 1 point and no shipped credit. Newer coffee follow-ups also await the existing publisher’s full scope intake. Therefore these are last published totals, not a freshly reconciled current percentage. No speculative revised total was created. Done-based credit and incomplete cross-program coverage remain accounting limitations; the existing publication run owns the next full recalculation."
-      ]
-    },
-    {
-      "heading": "Team accountability / current focus",
-      "paragraphs": [
-        "Claude delivered the initial Coffee experience and homepage performance changes. Larry delivered the direct runner, quota fallback, cookie compression and About/Résumé corrections, recording production receipts and verification limits. ChatGPT checked today’s saved accounting against Jira before authoring. Focus is now trustworthy comparison provenance and a usable quota boundary, with owner review and the manual-score discrepancy still open."
+        "Larry’s existing publication path completed the numerical handoff yesterday; ChatGPT verified today’s evidence and authored this snapshot. No newer Jira handoff establishes completion of the parked manual-versus-automated Lighthouse discrepancy, the booking key-event follow-up or owner visual acceptance. The meaningful next work remains closing those acceptance and measurement gaps rather than repeating scans or claiming a permanently perfect score.",
+        "Coverage remains partial: the SCRUM-based known-scope reading is not a verified aggregate of every active program, and wider agent-capacity evidence is incomplete. Shady White Van’s own live version remains 2026.11.21-1. No newer protected-product runtime or accessibility receipt appeared in the current Jira update window."
       ]
     },
     {
       "heading": "Next",
       "paragraphs": [
-        "Reconcile the changed Coffee estimate, completion and newer scope through the existing daily publisher. Complete the booking key-event setup when receipt is available, obtain owner acceptance of the released experience, and use the original manual Lighthouse report to investigate rendering differences before more scans or score claims. Preserve the free quota boundary and the visible manual fallback."
+        "Use the original manual Lighthouse report to resolve comparison provenance before further score claims. Complete the Coffee booking key-event follow-up when the required receipt is available, obtain acceptance of the released experience, and keep scope, delivery evidence and cross-program coverage explicit as the existing daily calculation continues."
       ]
     }
   ],
   "provenance": {
-    "sourceCommit": "f578ca835c0c93e585b6aebd7ca8eb4451d47148",
-    "generatorCommit": "f578ca835c0c93e585b6aebd7ca8eb4451d47148",
-    "evidenceSha256": "6e8395b71b9dc27ee97c758748d9355e6aed6d042911884e9ae5ec8f266efaf1",
+    "sourceCommit": "d920578388f4400e73045c77dec3697b6d875126",
+    "generatorCommit": "d920578388f4400e73045c77dec3697b6d875126",
+    "evidenceSha256": "a82a6c18d58dcc453048e27cad30e0129aef00862fa4213e074bdf87085bb9b7",
     "method": "ChatGPT-authored Jira publication payload copied unchanged; optional canonical reconciliation system receipt precedes authored sections.",
     "reportingWindow": {
-      "after": "2026-11-23T08:57:52.876-0500",
-      "cutoff": "2026-11-24T08:57:22.157-0500"
+      "after": "2026-11-24T08:57:22.157-0500",
+      "cutoff": "2026-11-25T08:56:08.130-0500"
     },
     "sources": [
-      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10606",
+      "https://djamespoer.atlassian.net/browse/SCRUM-57?focusedCommentId=10607",
       "https://djamespoer.com/data/buildometer-reconciliation.json"
     ]
   }
