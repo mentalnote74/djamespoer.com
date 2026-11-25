@@ -1,3 +1,7 @@
+## [Larry] SCRUM-209 - Thingamajob shared styling
+
+Owner requested current About/Resume styling on /thingamajob. Reuses showcase hero/headline/lead and section cards, adds inline-size container and existing tall-sky policy. Illustrated hero, all copy, evaluator, analytics and controls preserved; no behavioral/backend changes. Production build passed with existing warnings. INTERNAL/intercepted Chrome at1440/390/320: one H1, nine case-study cards, textarea mounted, no overflow; scoped axe0. Mobile screenshot inspected. Normal pipeline release follows; owner visual acceptance remains pending.
+
 ## [Larry] SCRUM-209 — Resume visual parity correction
 
 Shared About's existing headline, accent and lead spacing roles with Resume, including its opening paragraph scale. About computed typography preserved; copy, downloads, tracking and cookie unchanged. Production build passed with existing warnings. INTERNAL/intercepted Chrome checks at 1440/390/320 passed exact role parity, one H1, three cards, no overflow and scoped axe zero. No benchmark scans. James retains visual acceptance.
