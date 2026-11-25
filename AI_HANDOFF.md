@@ -1,3 +1,7 @@
+## [Larry] SCRUM-209 - Thingamajob hero correction
+
+Removed old1086px destination cap: existing machinery hero now fills the standard page shell and uses shared page-hero top/bottom spacing, retaining3:1 aspect. Removed mistakenly added second text-hero styling. Case-study cards now use shared responsive two-column/single-column grid and existing four theme color turns repeated over nine cards. Copy, hero art and evaluator behavior unchanged. Production build passed; INTERNAL/intercepted Chrome1440/390/320 confirmed hero width equals page width,4 colors,2/1 columns, no overflow, evaluator mounted, one H1 and scoped axe0. Desktop screenshot inspected. Owner visual acceptance pending.
+
 ## [Larry] SCRUM-209 - Thingamajob shared styling
 
 Owner requested current About/Resume styling on /thingamajob. Reuses showcase hero/headline/lead and section cards, adds inline-size container and existing tall-sky policy. Illustrated hero, all copy, evaluator, analytics and controls preserved; no behavioral/backend changes. Production build passed with existing warnings. INTERNAL/intercepted Chrome at1440/390/320: one H1, nine case-study cards, textarea mounted, no overflow; scoped axe0. Mobile screenshot inspected. Normal pipeline release follows; owner visual acceptance remains pending.
