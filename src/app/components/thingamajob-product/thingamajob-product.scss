@@ -1,5 +1,7 @@
 :host {
   display: block;
+  min-inline-size: 0;
+  container: thingamajob / inline-size;
 }
 .product-page {
   min-inline-size: 0;
@@ -15,7 +17,6 @@
 }
 
 .result-heading {
-  font-size: clamp(1.25rem, 2vw, 1.75rem);
   margin-block: 1.5rem 0.5rem;
 }
 .result-key {
