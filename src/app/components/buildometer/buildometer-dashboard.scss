@@ -25,10 +25,14 @@ h2 {
   margin: 0;
 }
 
-// ---- 1. Headline progress ---------------------------------------------------
+// ---- 1. Hero: title beside a live progress gauge -------------------------------
+// Seated like the slideshow scenes it replaces: flush under the header, across
+// the whole shell, square-cornered, above the extended sky (app.scss).
 .bm-progress {
+  z-index: 2;
   grid-column: full;
   row-gap: 0;
+  border-radius: 0;
 
   // The band pads itself to the rail, so its children use the band's full width.
   > * {
@@ -36,42 +40,139 @@ h2 {
   }
 }
 
+.bm-progress__stage {
+  display: grid;
+  grid-template-areas: 'title' 'dial' 'summary';
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: center;
+
+  @container buildometer (width > 60rem) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'title dial' 'summary dial';
+    column-gap: clamp(2rem, 5vw, 4.5rem);
+    row-gap: 1.5rem;
+    align-items: end;
+
+    .bm-progress__summary {
+      align-self: start;
+    }
+  }
+}
+
+// A size container, so the projected page title scales to the column it sits in.
+.bm-progress__title {
+  grid-area: title;
+  min-inline-size: 0;
+  container: bm-title / inline-size;
+}
+
+.bm-progress__summary {
+  grid-area: summary;
+  min-inline-size: 0;
+
+  .showcase-band__lede {
+    margin: 0;
+  }
+}
+
+.bm-progress__dial {
+  grid-area: dial;
+  display: grid;
+  justify-self: center;
+  container-type: inline-size;
+  inline-size: min(100%, 19rem);
+  aspect-ratio: 1;
+
+  @container buildometer (width > 60rem) {
+    inline-size: clamp(15rem, 24cqi, 20rem);
+  }
+
+  > * {
+    grid-area: 1 / 1;
+  }
+
+  svg {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+  }
+}
+
+.bm-dial__stop-a {
+  stop-color: var(--show-glow-b);
+}
+
+.bm-dial__stop-b {
+  stop-color: var(--show-spark);
+}
+
+.bm-dial__ticks,
+.bm-dial__track,
+.bm-dial__value {
+  fill: none;
+}
+
+.bm-dial__ticks {
+  stroke: color-mix(in srgb, var(--show-band-ink) 30%, transparent);
+  stroke-width: 7;
+  stroke-dasharray: 0.35 1.65;
+}
+
+.bm-dial__track {
+  stroke: color-mix(in srgb, var(--show-band-ink) 13%, transparent);
+  stroke-width: 16;
+}
+
+// The arc starts at twelve o'clock and sweeps in when the data arrives.
+.bm-dial__value {
+  stroke: url(#bm-dial-glow);
+  stroke-width: 16;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--show-spark) 50%, transparent));
+  transition: stroke-dasharray 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.bm-progress__readout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 22%;
+  text-align: center;
+}
+
 .bm-progress__label {
-  margin-block-start: 1.25rem;
-  color: inherit;
-  font: 700 clamp(1.125rem, 1rem + 0.6vw, 1.5rem) / 1.2 var(--font-display);
+  margin: 0;
+  color: color-mix(in srgb, var(--show-band-ink) 80%, transparent);
+  font: 700 clamp(0.6875rem, 4.6cqi, 0.875rem) / 1.3 var(--font-ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .bm-progress__figure {
-  margin: 0.25rem 0 0;
+  margin: 0.35rem 0 0;
   color: var(--show-spark);
-  font: 800 clamp(4.5rem, 2rem + 10vw, 9rem) / 0.95 var(--font-display);
+  font: 800 21cqi / 1 var(--font-display);
   letter-spacing: -0.05em;
   font-variant-numeric: tabular-nums;
 }
 
-.bm-progress__meter {
-  overflow: hidden;
-  block-size: 0.75rem;
-  margin-block-start: 1.5rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--show-band-ink) 16%, transparent);
-
-  i {
-    display: block;
-    block-size: 100%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--show-glow-b), var(--show-spark));
-    transition: inline-size 600ms ease-out;
-  }
-}
-
-.bm-progress .showcase-band__lede {
-  margin-block-start: 1.25rem;
+.bm-progress__figure--quiet {
+  font-size: 9cqi;
+  letter-spacing: -0.01em;
 }
 
 .bm-progress__as-of {
-  margin-block-start: 0.5rem;
+  display: block;
+  margin-block-start: 0.75rem;
   color: color-mix(in srgb, var(--show-band-ink) 78%, transparent);
 }
 
@@ -326,12 +427,14 @@ h2 {
 }
 
 @media (forced-colors: active) {
-  .bm-progress__meter {
-    border: 1px solid CanvasText;
+  .bm-dial__ticks,
+  .bm-dial__track {
+    stroke: CanvasText;
+  }
 
-    i {
-      background: Highlight;
-    }
+  .bm-dial__value {
+    stroke: Highlight;
+    filter: none;
   }
 
   .bm-glance__list > li,

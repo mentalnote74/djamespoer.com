@@ -6,9 +6,9 @@
 }
 
 // Continue the header sky behind the top of the home carousel and every page that
-// opens with a slideshow scene (or a case study's scene-slot title band).
+// opens with a slideshow scene (or a scene-slot band: case-study titles, Buildometer).
 // Match its 3:1 slide and shared container width without moving header content.
-:host:has(app-home, app-case-study, app-slide-hero) {
+:host:has(app-home, app-case-study, app-slide-hero, app-buildometer) {
   isolation: isolate;
   --header-isolation: auto;
   --header-layer: auto;

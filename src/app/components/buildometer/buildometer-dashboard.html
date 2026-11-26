@@ -1,17 +1,41 @@
 <section class="bm" aria-label="Buildometer project-health dashboard">
-  <!-- 1. The headline: how far along the known project is. -->
-  <section class="bm-progress showcase-band showcase-band--hero" aria-labelledby="metric-completion">
-    <p class="showcase-kicker">Project progress</p>
-    <h2 class="bm-progress__label" id="metric-completion">Estimated project complete</h2>
-    <div class="bm-progress__body bm-metric" data-metric="completion" [attr.data-state]="headline().state">
-      <p class="bm-progress__figure">{{ headline().value }}</p>
-      <div class="bm-progress__meter" aria-hidden="true">
-        <i [style.inline-size.%]="headline().level ?? 0"></i>
+  <!-- 1. The hero: the page title (projected by the page) beside a live gauge
+       of how far along the known project is. -->
+  <section class="bm-progress showcase-band showcase-band--hero">
+    <div class="bm-progress__stage">
+      <div class="bm-progress__title"><ng-content /></div>
+      <div class="bm-progress__dial bm-metric" data-metric="completion" [attr.data-state]="headline().state">
+        <svg viewBox="0 0 240 240" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="bm-dial-glow" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" class="bm-dial__stop-a" />
+              <stop offset="1" class="bm-dial__stop-b" />
+            </linearGradient>
+          </defs>
+          <circle class="bm-dial__ticks" cx="120" cy="120" r="113" pathLength="100" />
+          <circle class="bm-dial__track" cx="120" cy="120" r="95" pathLength="100" />
+          <circle
+            class="bm-dial__value"
+            cx="120"
+            cy="120"
+            r="95"
+            pathLength="100"
+            [style.stroke-dasharray]="(headline().level ?? 0) + ' 100'"
+          />
+        </svg>
+        <div class="bm-progress__readout">
+          <h2 class="bm-progress__label" id="metric-completion">Estimated project complete</h2>
+          <p class="bm-progress__figure" [class.bm-progress__figure--quiet]="headline().state !== 'ready'">
+            {{ headline().value }}
+          </p>
+        </div>
       </div>
-      <p class="showcase-band__lede">{{ headline().note }}</p>
-      @if (headline().progress; as progress) {
-        <app-progress-observation class="bm-progress__as-of" [progress]="progress" />
-      }
+      <div class="bm-progress__summary">
+        <p class="showcase-band__lede">{{ headline().note }}</p>
+        @if (headline().progress; as progress) {
+          <app-progress-observation class="bm-progress__as-of" [progress]="progress" />
+        }
+      </div>
     </div>
     @if (store.data()?.supportingFacts?.project; as project) {
       <dl class="bm-progress__facts">

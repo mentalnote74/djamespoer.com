@@ -1,12 +1,11 @@
 <article class="buildometer showcase editorial-content">
-  <app-slide-hero
-    class="editorial-wide"
-    destination="/buildometer"
-    heading="Buildometer"
-    eyebrow="djamespoer.com / project evidence"
-    subheading="Completion. Momentum. Shipping. Quality."
-  />
-  <app-buildometer-dashboard class="editorial-wide" />
+  <app-buildometer-dashboard class="editorial-wide">
+    <header class="bm-hero">
+      <p class="showcase-kicker">djamespoer.com / project evidence</p>
+      <h1>Buildometer</h1>
+      <p class="bm-hero__tagline">Completion. Momentum. Shipping. Quality.</p>
+    </header>
+  </app-buildometer-dashboard>
   @if (store.data(); as data) {
     <section class="bm-reading showcase-split" aria-labelledby="bm-reading-heading">
       <h2 id="bm-reading-heading">What the numbers mean</h2>

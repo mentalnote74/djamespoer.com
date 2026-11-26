@@ -14,8 +14,28 @@
   }
 }
 
+// The dashboard's progress band is the page hero, seated flush under the header
+// like a slideshow scene: the negative margin cancels the page's top padding.
 .buildometer > app-buildometer-dashboard {
-  margin-block-start: clamp(1rem, 3vw, 2rem);
+  margin-block-start: calc(-1 * clamp(0.75rem, 2vw, 1.5rem));
+}
+
+// ---- Hero title (projected into the progress band) ---------------------------
+.bm-hero h1 {
+  margin: 0.75rem 0 0;
+  color: var(--show-band-ink);
+  // One word, always one line: "Buildometer" is about 7.8em wide, so 12cqi of
+  // its column keeps it inside at every width.
+  font: 800 clamp(1.5rem, 12cqi, 4.75rem) / 0.95 var(--font-display);
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+}
+
+.bm-hero__tagline {
+  margin: 1rem 0 0;
+  color: color-mix(in srgb, var(--show-band-ink) 82%, transparent);
+  font: 600 clamp(1.0625rem, 0.95rem + 0.6vw, 1.375rem) / 1.35 var(--font-display);
+  text-wrap: balance;
 }
 
 .buildometer a,
